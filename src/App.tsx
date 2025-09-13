@@ -151,7 +151,7 @@ function App() {
                         </div>
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
-                          alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© 2024 Bitcoin Writer\nBuilt on Bitcoin SV blockchain');
+                          alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© @b0ase 2025\nBuilt on Bitcoin SV blockchain');
                           setShowBitcoinMenu(false);
                         }}>
                           <span>ℹ️</span> About Bitcoin Writer
