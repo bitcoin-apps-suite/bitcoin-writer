@@ -57,14 +57,15 @@
     transform: none;
     left: auto;
     margin: 0;
+    padding: 0;
     flex: 1;
     text-align: center;
   }
   
   .title-section h1 {
     font-size: 18px;
-    margin-bottom: 2px;
-    margin-top: 8px;
+    margin-bottom: 0;
+    margin-top: 0;
     white-space: nowrap; /* Keep "Bitcoin Writer" on one line */
   }
   
