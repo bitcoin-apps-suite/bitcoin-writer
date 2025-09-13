@@ -45,7 +45,7 @@
   
   .header-bottom {
     display: flex;
-    margin-top: 2px;
+    margin-top: -8px;
   }
   
   .header-left {
@@ -63,7 +63,7 @@
   
   .title-section h1 {
     font-size: 18px;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     margin-top: 8px;
     white-space: nowrap; /* Keep "Bitcoin Writer" on one line */
   }
