@@ -30,6 +30,14 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
     }
   }, [isAuthenticated, documentService]);
 
+  // Refresh documents when current document changes (new document saved)
+  useEffect(() => {
+    if (isAuthenticated && documentService && currentDocumentId) {
+      // Reload documents to include newly saved document
+      loadDocuments();
+    }
+  }, [currentDocumentId]);
+
   const loadDocuments = async () => {
     if (!documentService) return;
     

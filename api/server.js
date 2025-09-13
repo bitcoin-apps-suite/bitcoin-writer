@@ -18,8 +18,14 @@ app.use(express.json());
 // Import the HandCash profile handler
 const handcashProfileHandler = require('./handcash-profile');
 
+// Import Twitter routes
+const twitterRoutes = require('./routes/twitter');
+
 // Routes
 app.post('/api/handcash-profile', handcashProfileHandler);
+
+// Twitter API routes
+app.use('/api/twitter', twitterRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -238,6 +238,13 @@ function App() {
                         }}>
                           <span>🌍</span> Publish
                         </div>
+                        <div className="menu-item" onClick={() => {
+                          // Dispatch event to open Twitter modal
+                          window.dispatchEvent(new CustomEvent('openTwitterModal'));
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>🐦</span> Post to Twitter
+                        </div>
                       </div>
                     </>
                   )}
@@ -287,8 +294,7 @@ function App() {
                       className="handcash-badge clickable"
                       onClick={() => setShowUserDropdown(!showUserDropdown)}
                     >
-                      <span className="handcash-logo">HandCash</span>
-                      <span className="user-handle">@{currentUser?.handle}</span>
+                      <span className="user-handle">${currentUser?.handle}</span>
                       <span className="dropdown-arrow">▼</span>
                     </div>
                     
@@ -296,7 +302,7 @@ function App() {
                       <div className="user-dropdown">
                         <div className="dropdown-header">
                           <div className="user-info-detailed">
-                            <div className="user-handle-large">@{currentUser?.handle}</div>
+                            <div className="user-handle-large">${currentUser?.handle}</div>
                             <div className="user-paymail">{currentUser?.paymail}</div>
                           </div>
                         </div>
@@ -329,8 +335,7 @@ function App() {
                         className="handcash-badge clickable"
                         onClick={() => setShowUserDropdown(!showUserDropdown)}
                       >
-                        <span className="handcash-logo">HandCash</span>
-                        <span className="user-handle">@{currentUser?.handle}</span>
+                        <span className="user-handle">${currentUser?.handle}</span>
                         <span className="dropdown-arrow">▼</span>
                       </div>
                       
@@ -338,7 +343,7 @@ function App() {
                         <div className="user-dropdown mobile-user-dropdown">
                           <div className="dropdown-header">
                             <div className="user-info-detailed">
-                              <div className="user-handle-large">@{currentUser?.handle}</div>
+                              <div className="user-handle-large">${currentUser?.handle}</div>
                               <div className="user-paymail">{currentUser?.paymail}</div>
                             </div>
                           </div>

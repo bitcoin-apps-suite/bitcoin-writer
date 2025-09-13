@@ -4,6 +4,7 @@ import PricingDisplay from './PricingDisplay';
 import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
 import EnhancedStorageModal, { StorageOptions } from './EnhancedStorageModal';
 import TokenizeModal, { TokenizationOptions } from './TokenizeModal';
+import PostToTwitterModal from './PostToTwitterModal';
 import { StorageOption } from '../utils/pricingCalculator';
 
 interface DocumentEditorProps {
@@ -38,6 +39,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [, setStorageOptions] = useState<StorageOptions | null>(null);
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
+  const [showTwitterModal, setShowTwitterModal] = useState(false);
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -101,6 +103,19 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     
     return () => {
       window.removeEventListener('openTokenizeModal', handleOpenTokenizeModal);
+    };
+  }, []);
+
+  // Listen for Twitter modal event
+  useEffect(() => {
+    const handleOpenTwitterModal = () => {
+      setShowTwitterModal(true);
+    };
+
+    window.addEventListener('openTwitterModal', handleOpenTwitterModal);
+    
+    return () => {
+      window.removeEventListener('openTwitterModal', handleOpenTwitterModal);
     };
   }, []);
 
@@ -185,24 +200,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       return;
     }
 
-    // For authenticated users, create on blockchain
-    if (!documentService) return;
-
-    try {
-      setIsLoading(true);
-      const doc = await documentService.createDocument('Untitled Document', '');
-      setCurrentDocument(doc);
-      if (editorRef.current) {
-        editorRef.current.innerHTML = '<p>Start writing...</p>';
-        editorRef.current.focus();
-      }
-      showNotification('New document created on blockchain');
-    } catch (error) {
-      console.error('Failed to create document:', error);
-      showNotification('Failed to create document', 'error');
-    } finally {
-      setIsLoading(false);
+    // For authenticated users, also just clear the editor
+    // Document will be created on blockchain when user saves
+    setCurrentDocument(null);
+    setEditorContent('');
+    if (editorRef.current) {
+      editorRef.current.innerHTML = '';
+      editorRef.current.focus();
     }
+    localStorage.removeItem('bitcoinWriter_localContent');
+    updateCounts();
+    showNotification('Ready for new document')
   };
 
 
@@ -247,6 +255,24 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       if (!currentDocument) {
         const doc = await documentService.createDocument(title, content, options.method);
         setCurrentDocument(doc);
+        // Notify parent component about the new document
+        if (onDocumentUpdate) {
+          onDocumentUpdate({
+            id: doc.id,
+            title: doc.title,
+            content: doc.content || '',
+            preview: doc.content?.substring(0, 100) || '',
+            created_at: doc.metadata.created_at,
+            updated_at: doc.metadata.updated_at,
+            author: doc.metadata.author,
+            encrypted: doc.metadata.encrypted,
+            word_count: doc.metadata.word_count,
+            character_count: doc.metadata.character_count,
+            storage_method: doc.metadata.storage_method,
+            blockchain_tx: doc.metadata.blockchain_tx,
+            storage_cost: doc.metadata.storage_cost
+          });
+        }
       } else {
         await documentService.updateDocument(currentDocument.id, title, content, options.method);
         setCurrentDocument(prev => prev ? {
@@ -613,6 +639,14 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                 >
                   🌍 Publish Document
                 </button>
+                <button 
+                  onClick={() => setShowTwitterModal(true)}
+                  disabled={isLoading}
+                  title="Share your writing on Twitter"
+                  className="twitter-share-btn"
+                >
+                  🐦 Post to Twitter
+                </button>
               </>
             )}
             <input
@@ -694,6 +728,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         onTokenize={handleTokenize}
         documentTitle={currentDocument?.title || 'Untitled Document'}
         wordCount={wordCount}
+      />
+
+      <PostToTwitterModal
+        isOpen={showTwitterModal}
+        onClose={() => setShowTwitterModal(false)}
+        documentTitle={currentDocument?.title || 'Untitled Document'}
+        documentContent={editorRef.current?.innerHTML || ''}
       />
       
       {isLoading && (
