@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BlockchainDocumentService, DocumentData, DocumentMetadata } from '../services/BlockchainDocumentService';
+import PricingDisplay from './PricingDisplay';
+import { StorageOption } from '../utils/pricingCalculator';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -17,6 +19,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
   const [showDocumentList, setShowDocumentList] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedStorageOption, setSelectedStorageOption] = useState<StorageOption | null>(null);
+  const [editorContent, setEditorContent] = useState('');
 
   const editorRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -75,11 +79,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
     if (!editorRef.current) return;
 
     const text = editorRef.current.textContent || '';
+    const html = editorRef.current.innerHTML || '';
     const isPlaceholder = text.trim() === 'Start writing...';
     
     if (isPlaceholder) {
       setWordCount(0);
       setCharCount(0);
+      setEditorContent('');
       return;
     }
 
@@ -88,6 +94,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
 
     setWordCount(words);
     setCharCount(chars);
+    setEditorContent(html);
   }, []);
 
   const updateCursorPosition = useCallback(() => {
@@ -153,6 +160,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
   };
 
   const openDocument = async (documentId: string) => {
+    if (!documentService) return;
     try {
       setIsLoading(true);
       const doc = await documentService.getDocument(documentId);
@@ -282,6 +290,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
     if (!window.confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
       return;
     }
+
+    if (!documentService) return;
 
     try {
       setIsLoading(true);
@@ -459,6 +469,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
         <div className="toolbar-center">
           <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
           <span>{charCount} character{charCount !== 1 ? 's' : ''}</span>
+          <PricingDisplay 
+            wordCount={wordCount}
+            characterCount={charCount}
+            content={editorContent}
+            isAuthenticated={isAuthenticated}
+            onStorageMethodSelect={setSelectedStorageOption}
+          />
         </div>
         
         <div className="toolbar-right">
