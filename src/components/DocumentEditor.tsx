@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BlockchainDocumentService, DocumentData, DocumentMetadata } from '../services/BlockchainDocumentService';
 
 interface DocumentEditorProps {
-  documentService: BlockchainDocumentService;
+  documentService: BlockchainDocumentService | null;
+  isAuthenticated: boolean;
+  onAuthRequired: () => void;
 }
 
-const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
+const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuthenticated, onAuthRequired }) => {
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
   const [documentList, setDocumentList] = useState<DocumentMetadata[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -20,10 +22,15 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // Load document list on mount
+  // Load document list on mount (only if authenticated)
   useEffect(() => {
-    loadDocumentList();
-  }, [documentService]);
+    if (isAuthenticated && documentService) {
+      loadDocumentList();
+    } else {
+      // Load from localStorage for guest users
+      loadLocalDocument();
+    }
+  }, [documentService, isAuthenticated]);
 
   // Auto-save interval
   useEffect(() => {
@@ -37,12 +44,30 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
   }, [currentDocument]);
 
   const loadDocumentList = async () => {
+    if (!documentService) return;
     try {
       const docs = await documentService.getDocumentList();
       setDocumentList(docs);
     } catch (error) {
       console.error('Failed to load document list:', error);
       showNotification('Failed to load documents', 'error');
+    }
+  };
+
+  const loadLocalDocument = () => {
+    // Load any auto-saved content from localStorage
+    const savedContent = localStorage.getItem('bitcoinWriter_localContent');
+    if (savedContent && editorRef.current) {
+      editorRef.current.innerHTML = savedContent;
+      updateCounts();
+    }
+  };
+
+  const saveToLocalStorage = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.innerHTML;
+      localStorage.setItem('bitcoinWriter_localContent', content);
+      localStorage.setItem('bitcoinWriter_lastSaved', Date.now().toString());
     }
   };
 
@@ -95,6 +120,20 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
       }
     }
 
+    // For guest users, just clear the editor
+    if (!isAuthenticated) {
+      if (editorRef.current) {
+        editorRef.current.innerHTML = '<p>Start writing...</p>';
+        editorRef.current.focus();
+        localStorage.removeItem('bitcoinWriter_localContent');
+        updateCounts();
+      }
+      return;
+    }
+
+    // For authenticated users, create on blockchain
+    if (!documentService) return;
+
     try {
       setIsLoading(true);
       const doc = await documentService.createDocument('Untitled Document', '');
@@ -104,7 +143,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
         editorRef.current.focus();
       }
       await loadDocumentList();
-      showNotification('New document created');
+      showNotification('New document created on blockchain');
     } catch (error) {
       console.error('Failed to create document:', error);
       showNotification('Failed to create document', 'error');
@@ -136,46 +175,84 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
   };
 
   const saveDocument = async () => {
-    if (!currentDocument || !editorRef.current) return;
+    // If not authenticated, prompt to sign in
+    if (!isAuthenticated) {
+      const shouldSignIn = window.confirm(
+        'To save your document on the blockchain, you need to sign in with HandCash.\n\n' +
+        'Your document will be encrypted and permanently stored on Bitcoin SV.\n\n' +
+        'Would you like to sign in now?'
+      );
+      
+      if (shouldSignIn) {
+        // Save to local storage first so content isn't lost
+        saveToLocalStorage();
+        onAuthRequired();
+      } else {
+        // Just save locally
+        saveToLocalStorage();
+        showNotification('Document saved locally (not on blockchain)');
+      }
+      return;
+    }
+
+    if (!documentService || !editorRef.current) return;
 
     try {
       setIsLoading(true);
-      setAutoSaveStatus('💾 Saving...');
+      setAutoSaveStatus('💾 Saving to blockchain...');
       
       const content = editorRef.current.innerHTML;
-      const title = extractTitleFromContent(content) || currentDocument.title;
+      const title = extractTitleFromContent(content) || 'Untitled Document';
       
-      await documentService.updateDocument(currentDocument.id, title, content);
-      
-      // Update current document state
-      setCurrentDocument(prev => prev ? {
-        ...prev,
-        title,
-        content,
-        lastUpdated: Date.now(),
-        wordCount,
-        charCount
-      } : null);
+      // If no current document, create a new one
+      if (!currentDocument) {
+        const doc = await documentService.createDocument(title, content);
+        setCurrentDocument(doc);
+      } else {
+        await documentService.updateDocument(currentDocument.id, title, content);
+        setCurrentDocument(prev => prev ? {
+          ...prev,
+          title,
+          content,
+          lastUpdated: Date.now(),
+          wordCount,
+          charCount
+        } : null);
+      }
       
       await loadDocumentList();
-      setAutoSaveStatus('✅ Saved');
+      setAutoSaveStatus('✅ Saved to blockchain');
       setTimeout(() => setAutoSaveStatus(''), 2000);
-      showNotification('Document saved');
+      showNotification('Document saved to blockchain');
+      
+      // Clear local storage after successful blockchain save
+      localStorage.removeItem('bitcoinWriter_localContent');
     } catch (error) {
       console.error('Failed to save document:', error);
-      setAutoSaveStatus('❌ Save failed');
+      setAutoSaveStatus('❌ Blockchain save failed');
       setTimeout(() => setAutoSaveStatus(''), 3000);
-      showNotification('Failed to save document', 'error');
+      showNotification('Failed to save to blockchain', 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
   const autoSave = async () => {
-    if (!currentDocument || !editorRef.current) return;
+    if (!editorRef.current) return;
+
+    // For guest users, just save to local storage
+    if (!isAuthenticated) {
+      saveToLocalStorage();
+      setAutoSaveStatus('✅ Auto-saved locally');
+      setTimeout(() => setAutoSaveStatus(''), 2000);
+      return;
+    }
+
+    // For authenticated users with a document on blockchain
+    if (!currentDocument || !documentService) return;
 
     try {
-      setAutoSaveStatus('💾 Auto-saving...');
+      setAutoSaveStatus('💾 Auto-saving to blockchain...');
       
       const content = editorRef.current.innerHTML;
       const title = extractTitleFromContent(content) || currentDocument.title;
@@ -192,7 +269,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
       } : null);
       
       await loadDocumentList();
-      setAutoSaveStatus('✅ Auto-saved');
+      setAutoSaveStatus('✅ Auto-saved to blockchain');
       setTimeout(() => setAutoSaveStatus(''), 2000);
     } catch (error) {
       console.error('Auto-save failed:', error);
@@ -354,11 +431,18 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService }) => {
           <button onClick={newDocument} disabled={isLoading} title="New Document">
             New
           </button>
-          <button onClick={() => setShowDocumentList(true)} title="Open Document">
-            Open
-          </button>
-          <button onClick={saveDocument} disabled={isLoading || !currentDocument} title="Save Document">
-            Save
+          {isAuthenticated && (
+            <button onClick={() => setShowDocumentList(true)} title="Open Document">
+              Open
+            </button>
+          )}
+          <button 
+            onClick={saveDocument} 
+            disabled={isLoading} 
+            title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
+            className={!isAuthenticated ? 'save-guest' : ''}
+          >
+            {isAuthenticated ? 'Save to Blockchain' : 'Save'}
           </button>
           <button onClick={insertImage} title="Insert Image">
             📷

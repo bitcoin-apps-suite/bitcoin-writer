@@ -50,15 +50,27 @@
   color: #888;
 }
 
-.logout-btn {
+.logout-btn, .login-btn {
   background-color: #333;
   color: #fff;
   border: 1px solid #555;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   transition: all 0.2s ease;
+  font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border: none;
+  font-weight: 500;
+}
+
+.login-btn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+  transform: translateY(-1px);
 }
 
 .logout-btn:hover {
@@ -339,6 +351,16 @@
 .toolbar button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.toolbar button.save-guest {
+  background: linear-gradient(135deg, #666 0%, #555 100%);
+  border-color: #444;
+}
+
+.toolbar button.save-guest:hover {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border-color: #4CAF50;
 }
 
 .editor-container {

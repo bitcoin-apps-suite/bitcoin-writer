@@ -101,29 +101,41 @@ function App() {
           <div className="App">
             <div className="loading">Loading Bitcoin Writer...</div>
           </div>
-        ) : !isAuthenticated ? (
-          <Login onLogin={handleLogin} />
         ) : (
           <div className="App">
             <header className="App-header">
-              <div className="connection-indicator" />
+              <div className="connection-indicator" style={{ 
+                backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
+              }} />
               <h1>Bitcoin Writer</h1>
               <div className="user-info">
-                <span className="user-handle">@{currentUser?.handle}</span>
-                <button className="logout-btn" onClick={handleLogout}>
-                  Sign Out
-                </button>
+                {isAuthenticated ? (
+                  <>
+                    <span className="user-handle">@{currentUser?.handle}</span>
+                    <button className="logout-btn" onClick={handleLogout}>
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <button className="login-btn" onClick={() => handcashService.login()}>
+                    Sign in with HandCash
+                  </button>
+                )}
               </div>
             </header>
             <div className="disclaimer">
-              <small>Your documents are encrypted and stored on the blockchain. Only you can read them with your HandCash login.</small>
+              <small>
+                {isAuthenticated 
+                  ? "Your documents are encrypted and stored on the blockchain. Only you can read them."
+                  : "Start writing immediately. Sign in with HandCash to save your documents on the blockchain."}
+              </small>
             </div>
             <main>
-              {documentService ? (
-                <DocumentEditor documentService={documentService} />
-              ) : (
-                <div className="loading">Initializing blockchain connection...</div>
-              )}
+              <DocumentEditor 
+                documentService={documentService} 
+                isAuthenticated={isAuthenticated}
+                onAuthRequired={() => handcashService.login()}
+              />
             </main>
           </div>
         )
