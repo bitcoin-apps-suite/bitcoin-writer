@@ -3,6 +3,7 @@ import { BlockchainDocumentService, DocumentData, BlockchainDocument } from '../
 import PricingDisplay from './PricingDisplay';
 import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
 import EnhancedStorageModal, { StorageOptions } from './EnhancedStorageModal';
+import TokenizeModal, { TokenizationOptions } from './TokenizeModal';
 import { StorageOption } from '../utils/pricingCalculator';
 
 interface DocumentEditorProps {
@@ -36,6 +37,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [showStorageModal, setShowStorageModal] = useState(false);
   const [, setStorageOptions] = useState<StorageOptions | null>(null);
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
+  const [showTokenizeModal, setShowTokenizeModal] = useState(false);
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -88,6 +90,19 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
 
     return () => clearInterval(interval);
   }, [currentDocument]);
+
+  // Listen for tokenize modal event
+  useEffect(() => {
+    const handleOpenTokenizeModal = () => {
+      setShowTokenizeModal(true);
+    };
+
+    window.addEventListener('openTokenizeModal', handleOpenTokenizeModal);
+    
+    return () => {
+      window.removeEventListener('openTokenizeModal', handleOpenTokenizeModal);
+    };
+  }, []);
 
 
   const loadLocalDocument = () => {
@@ -263,6 +278,28 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       setAutoSaveStatus('❌ Blockchain save failed');
       setTimeout(() => setAutoSaveStatus(''), 3000);
       showNotification('Failed to save to blockchain', 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTokenize = async (protocol: string, options: TokenizationOptions) => {
+    try {
+      setIsLoading(true);
+      console.log('Tokenizing document with protocol:', protocol, options);
+      
+      // TODO: Implement actual tokenization logic here
+      // This would involve:
+      // 1. Connecting to the selected BSV protocol
+      // 2. Creating the token with specified parameters
+      // 3. Minting the token on-chain
+      // 4. Storing token metadata
+      
+      alert(`Document would be tokenized using ${options.name} on ${protocol.toUpperCase()} protocol.\n\nThis feature is coming soon!`);
+      
+    } catch (error) {
+      console.error('Failed to tokenize document:', error);
+      alert('Failed to tokenize document: ' + (error instanceof Error ? error.message : 'Unknown error'));
     } finally {
       setIsLoading(false);
     }
@@ -649,6 +686,14 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         onSave={handleStorageSave}
         documentTitle={currentDocument?.title || 'Untitled Document'}
         estimatedSize={charCount}
+      />
+
+      <TokenizeModal
+        isOpen={showTokenizeModal}
+        onClose={() => setShowTokenizeModal(false)}
+        onTokenize={handleTokenize}
+        documentTitle={currentDocument?.title || 'Untitled Document'}
+        wordCount={wordCount}
       />
       
       {isLoading && (

@@ -137,9 +137,7 @@ function App() {
                     onClick={() => setShowBitcoinMenu(!showBitcoinMenu)}
                     aria-label="Bitcoin Menu"
                   >
-                    <div className="bitcoin-logo">
-                      <span className="bitcoin-symbol">₿</span>
-                    </div>
+                    <span className="bitcoin-logo">₿</span>
                   </button>
                   {showBitcoinMenu && (
                     <>
@@ -220,8 +218,8 @@ function App() {
                         </div>
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
-                          // TODO: Implement Tokenize
-                          alert('Tokenize functionality coming soon');
+                          // Dispatch event to open tokenize modal
+                          window.dispatchEvent(new CustomEvent('openTokenizeModal'));
                           setShowWriterMenu(false);
                         }}>
                           <span>🎨</span> Tokenize
