@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Writer</title>
+    <link rel="icon" type="image/jpeg" href="screen-writer-icon-02.jpg">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <button id="new-doc" title="New Document">New</button>
+                <button id="open-file" title="Open File">Open</button>
+                <button id="save-file" title="Save File">Save</button>
+                <button id="insert-image" title="Insert Image">📷</button>
+                <input type="file" id="file-input" accept=".txt,.md,.html" style="display: none;">
+                <input type="file" id="image-input" accept="image/*" style="display: none;">
+            </div>
+            <div class="toolbar-center">
+                <a href="bitcoin-writer.html" class="nav-link" title="Bitcoin Writer">₿ Writer</a>
+                <span id="word-count">0 words</span>
+                <span id="char-count">0 characters</span>
+            </div>
+            <div class="toolbar-right">
+                <button id="quit-app" title="Quit Application">✕</button>
+                <button id="fullscreen-toggle" title="Toggle Fullscreen">⛶</button>
+            </div>
+        </div>
+        
+        <div class="editor-container">
+            <div class="editor" id="editor" contenteditable="true" spellcheck="true">
+                <p>Start writing...</p>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <span id="cursor-position">Line 1, Column 1</span>
+            <span id="auto-save-status"></span>
+            <span id="file-name">Untitled</span>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

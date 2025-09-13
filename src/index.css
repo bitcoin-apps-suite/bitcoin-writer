@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Global notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  z-index: 10000;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: opacity 0.3s ease;
+  color: white;
+}
+
+.notification.success {
+  background-color: #44ff44;
+}
+
+.notification.error {
+  background-color: #ff4444;
+}
+
+/* Selection styling */
+::selection {
+  background-color: #0066cc;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: #0066cc;
+  color: #ffffff;
+}

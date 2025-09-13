@@ -1,0 +1,359 @@
+/* Bitcoin Writer - Professional Minimal Design */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure all text elements are white by default */
+h1, h2, h3, h4, h5, h6, p, span, div {
+    color: #ffffff;
+}
+
+/* Override for specific colored elements */
+.bitcoin {
+    background: linear-gradient(135deg, #f7931a 0%, #ff8c00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.writer {
+    color: #ffffff;
+}
+
+.back-link {
+    color: #f7931a;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #f7931a 0%, #ff8c00 100%);
+    color: #ffffff;
+}
+
+.footer-links a:hover {
+    color: #f7931a;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Navigation */
+.top-nav {
+    padding: 20px;
+    text-align: left;
+}
+
+.back-link {
+    color: #f7931a;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-link:hover {
+    background-color: rgba(247, 147, 26, 0.1);
+    border-color: rgba(247, 147, 26, 0.3);
+    color: #ff8c00;
+    transform: translateX(-2px);
+}
+
+/* Hero Section */
+.hero-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.main-title {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    line-height: 1;
+}
+
+.bitcoin {
+    background: linear-gradient(135deg, #f7931a 0%, #ff8c00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-right: 16px;
+}
+
+.writer {
+    color: #ffffff;
+    font-weight: 200;
+}
+
+.subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: #ffffff;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 80px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.feature-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.feature-item h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.feature-item p {
+    font-size: 0.75rem;
+    color: #ffffff;
+    line-height: 1.4;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+/* CTA Section */
+.cta-section {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #f7931a 0%, #ff8c00 100%);
+    color: #ffffff;
+    border: none;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 25px rgba(247, 147, 26, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(247, 147, 26, 0.4);
+    background: linear-gradient(135deg, #ff8c00 0%, #f7931a 100%);
+}
+
+.cta-button:active {
+    transform: translateY(0);
+}
+
+.arrow {
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+}
+
+.cta-button:hover .arrow {
+    transform: translateX(4px);
+}
+
+.coming-soon {
+    font-size: 0.9rem;
+    color: #ffffff;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    opacity: 0.6;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-content p {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 300;
+    opacity: 0.7;
+}
+
+.footer-links {
+    display: flex;
+    gap: 30px;
+}
+
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 300;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #f7931a;
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 20px;
+    }
+
+    .title-section {
+        margin-bottom: 60px;
+    }
+
+    .main-title {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+
+    .feature-item {
+        padding: 30px 20px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-links {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        padding: 16px 32px;
+        font-size: 1.1rem;
+    }
+
+    .feature-item h3 {
+        font-size: 1.3rem;
+    }
+
+    .feature-item p {
+        font-size: 0.95rem;
+    }
+}
+
+/* Smooth scrolling and animations */
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus states for accessibility */
+.cta-button:focus {
+    outline: 2px solid #f7931a;
+    outline-offset: 2px;
+}
+
+.footer-links a:focus {
+    outline: 1px solid #f7931a;
+    outline-offset: 2px;
+}

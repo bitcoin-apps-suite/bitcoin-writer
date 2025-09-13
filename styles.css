@@ -1,0 +1,300 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    background-color: #000000;
+    color: #ffffff;
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #000000;
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+    min-height: 48px;
+}
+
+.toolbar-left, .toolbar-right {
+    display: flex;
+    gap: 8px;
+}
+
+.toolbar-center {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #888;
+    align-items: center;
+}
+
+.nav-link {
+    color: #f7931a;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: rgba(247, 147, 26, 0.1);
+    border-color: rgba(247, 147, 26, 0.3);
+    color: #ff8c00;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: #444;
+    border-color: #666;
+}
+
+button:active {
+    background-color: #222;
+}
+
+/* Quit button styling */
+#quit-app {
+    background-color: #ff4444;
+    color: #ffffff;
+    border: 1px solid #cc3333;
+    font-weight: bold;
+}
+
+#quit-app:hover {
+    background-color: #ff6666;
+    border-color: #ff6666;
+}
+
+#quit-app:active {
+    background-color: #cc3333;
+}
+
+/* Editor Container */
+.editor-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.editor {
+    width: 100%;
+    height: 100%;
+    padding: 24px 32px;
+    outline: none;
+    border: none;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-y: auto;
+    resize: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.editor:focus {
+    outline: none;
+}
+
+.editor p {
+    margin: 0 0 8px 0;
+    min-height: 1.2em;
+}
+
+.editor p:last-child {
+    margin-bottom: 0;
+}
+
+/* Image styling */
+.editor img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 10px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+}
+
+.editor img:hover {
+    transform: scale(1.02);
+}
+
+.editor img.selected {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Drag and drop styling */
+.editor.drag-over {
+    background-color: rgba(0, 102, 204, 0.15);
+    border: 3px dashed #0066cc;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 0 20px rgba(0, 102, 204, 0.2);
+}
+
+.editor.drag-over::before {
+    content: "🖼️ Drop images here";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+    padding: 16px 28px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+    pointer-events: none;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    border: 1px solid #0066cc;
+}
+
+/* Ensure editor is relatively positioned for drag feedback */
+
+/* Status Bar */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 16px;
+    background-color: #1a1a1a;
+    border-top: 1px solid #333;
+    font-size: 12px;
+    color: #888;
+    min-height: 32px;
+}
+
+#auto-save-status {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    transition: all 0.3s ease;
+}
+
+/* Scrollbar Styling */
+.editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+.editor::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.editor::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+.editor::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+/* Fullscreen Mode */
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.fullscreen .toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+}
+
+.fullscreen .editor-container {
+    margin-top: 48px;
+    margin-bottom: 32px;
+}
+
+.fullscreen .status-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+}
+
+/* Selection Styling */
+.editor::selection {
+    background-color: #0066cc;
+    color: #ffffff;
+}
+
+.editor::-moz-selection {
+    background-color: #0066cc;
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .toolbar {
+        padding: 6px 12px;
+        min-height: 40px;
+    }
+    
+    .editor {
+        padding: 16px 20px;
+        font-size: 14px;
+    }
+    
+    .status-bar {
+        padding: 4px 12px;
+        min-height: 28px;
+    }
+    
+    .toolbar-center {
+        font-size: 11px;
+        gap: 12px;
+    }
+}
+
+/* Focus indicator for accessibility */
+.editor:focus {
+    box-shadow: inset 0 0 0 1px #0066cc;
+}
+
+/* Typography improvements */
+.editor {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+} 

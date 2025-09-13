@@ -1,0 +1,21 @@
+{
+  "name": "Screen Writer",
+  "short_name": "ScreenWriter",
+  "description": "A simple, distraction-free writing app",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "screen-writer-icon-02.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    }
+  ]
+} 
