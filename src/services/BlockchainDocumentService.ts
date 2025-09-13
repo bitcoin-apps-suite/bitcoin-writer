@@ -1,6 +1,7 @@
 import { bsv } from 'scrypt-ts';
 import CryptoJS from 'crypto-js';
 import { HandCashService, HandCashUser } from './HandCashService';
+import { StorageMethod } from '../components/EnhancedStorageModal';
 
 export interface DocumentData {
   id: string;
@@ -106,8 +107,21 @@ export class BlockchainDocumentService {
     return text.length;
   }
 
+  // Calculate storage cost based on method and content size
+  private calculateStorageCost(method: StorageMethod, contentSize: number): number {
+    const costs = {
+      'op_pushdata4': contentSize * 0.000001, // Most expensive
+      'op_return': 0.00001, // Fixed cost for metadata
+      'multisig_p2sh': contentSize * 0.0000005, // Creative approach
+      'nft_creation': 0.001, // NFT minting cost
+      'file_shares': 0.002 // Tokenization cost
+    };
+    
+    return costs[method] || costs['op_return'];
+  }
+
   // Create a new document
-  async createDocument(title: string, content: string = '', storageMethod?: string): Promise<DocumentData> {
+  async createDocument(title: string, content: string = '', storageMethod?: StorageMethod): Promise<DocumentData> {
     if (!this.isConnected || !this.currentUser) {
       throw new Error('User not authenticated');
     }
@@ -115,6 +129,8 @@ export class BlockchainDocumentService {
     const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const encryptedContent = this.encryptContent(content);
     const now = new Date().toISOString();
+    const method = storageMethod || 'op_return';
+    const storageCost = this.calculateStorageCost(method, this.countCharacters(content));
     
     const document: DocumentData = {
       id: documentId,
@@ -127,20 +143,14 @@ export class BlockchainDocumentService {
         encrypted: true,
         word_count: this.countWords(content),
         character_count: this.countCharacters(content),
-        storage_method: storageMethod || 'op_return',
+        storage_method: method,
         blockchain_tx: `tx_${documentId}`,
-        storage_cost: 0.000001 * this.countCharacters(content) * 2
+        storage_cost: storageCost
       }
     };
 
-    // In production, this would create an encrypted on-chain record
-    console.log('Creating encrypted document on Bitcoin:', {
-      id: document.id,
-      title: document.title,
-      author: document.metadata.author,
-      contentLength: content.length,
-      storageMethod: document.metadata.storage_method
-    });
+    // Handle different storage methods
+    await this.processStorageMethod(method, document, content);
 
     // Store document metadata locally for quick access
     this.storeDocumentMetadata(document);
@@ -151,14 +161,167 @@ export class BlockchainDocumentService {
     return document;
   }
 
+  // Process different storage methods
+  private async processStorageMethod(method: StorageMethod, document: DocumentData, content: string): Promise<void> {
+    console.log(`Processing ${method} storage for document:`, {
+      id: document.id,
+      title: document.title,
+      author: document.metadata.author,
+      contentLength: content.length,
+      storageMethod: method
+    });
+
+    switch (method) {
+      case 'op_pushdata4':
+        console.log('OP_PUSHDATA4: Storing full document directly on blockchain (up to 4GB)');
+        // In production: Store entire document in blockchain transaction
+        break;
+        
+      case 'op_return':
+        console.log('OP_RETURN: Storing document hash and metadata in 80-byte OP_RETURN');
+        // In production: Store hash and metadata, document stored off-chain
+        break;
+        
+      case 'multisig_p2sh':
+        console.log('Multisig P2SH: Embedding data in multisig script');
+        // In production: Create multisig transaction with embedded data
+        break;
+        
+      case 'nft_creation':
+        console.log('NFT Creation: Minting document as unique NFT');
+        // In production: Mint NFT with document content and metadata
+        await this.createNFT(document, content);
+        break;
+        
+      case 'file_shares':
+        console.log('File Shares: Creating tokenized shares for revenue sharing');
+        // In production: Create tokenized shares for the document
+        await this.createFileShares(document, content);
+        break;
+        
+      default:
+        console.log('Using default OP_RETURN storage method');
+    }
+  }
+
+  // Create NFT for document
+  private async createNFT(document: DocumentData, content: string): Promise<void> {
+    console.log('Minting NFT for document:', document.title);
+    
+    // Create NFT metadata
+    const nftMetadata = {
+      name: document.title,
+      description: `Unique document NFT created by ${document.metadata.author}`,
+      image: this.generateDocumentThumbnail(content),
+      attributes: [
+        {
+          trait_type: "Author",
+          value: document.metadata.author
+        },
+        {
+          trait_type: "Word Count",
+          value: document.metadata.word_count
+        },
+        {
+          trait_type: "Character Count",
+          value: document.metadata.character_count
+        },
+        {
+          trait_type: "Created Date",
+          value: document.metadata.created_at
+        },
+        {
+          trait_type: "Storage Method",
+          value: "NFT Creation"
+        }
+      ],
+      content: content, // Full document content embedded in NFT
+      contentHash: CryptoJS.SHA256(content).toString()
+    };
+    
+    // In production: Create NFT smart contract and mint token
+    console.log('NFT Metadata created:', {
+      tokenId: document.id,
+      metadata: nftMetadata,
+      owner: document.metadata.author
+    });
+    
+    // Store NFT data locally for demo
+    const nftKey = `nft_${document.metadata.author}_${document.id}`;
+    localStorage.setItem(nftKey, JSON.stringify({
+      tokenId: document.id,
+      contractAddress: 'demo_nft_contract_address',
+      metadata: nftMetadata,
+      owner: document.metadata.author,
+      mintDate: new Date().toISOString(),
+      marketplaceUrl: `https://marketplace.example.com/nft/${document.id}`
+    }));
+    
+    console.log(`NFT minted successfully! Token ID: ${document.id}`);
+  }
+
+  // Create file shares for document monetization
+  private async createFileShares(document: DocumentData, content: string): Promise<void> {
+    console.log('Creating file shares for document:', document.title);
+    
+    // Default share configuration (can be customized via modal)
+    const shareConfig = {
+      totalShares: 100,
+      pricePerShare: 0.01,
+      authorRoyalty: 5, // 5% royalty on future revenue
+      shareTokenSymbol: `${document.title.substring(0, 5).toUpperCase()}SHR`
+    };
+    
+    // Create tokenized shares structure
+    const sharesData = {
+      documentId: document.id,
+      documentTitle: document.title,
+      author: document.metadata.author,
+      totalShares: shareConfig.totalShares,
+      availableShares: shareConfig.totalShares,
+      pricePerShare: shareConfig.pricePerShare,
+      totalFundraisingTarget: shareConfig.totalShares * shareConfig.pricePerShare,
+      authorRoyalty: shareConfig.authorRoyalty,
+      tokenSymbol: shareConfig.shareTokenSymbol,
+      shareholders: [],
+      revenueDistributed: 0,
+      createdDate: new Date().toISOString(),
+      smartContractAddress: 'demo_shares_contract_address',
+      contentHash: CryptoJS.SHA256(content).toString(),
+      shareTokens: Array.from({ length: shareConfig.totalShares }, (_, i) => ({
+        shareId: i + 1,
+        owner: null, // Available for purchase
+        purchaseDate: null,
+        purchasePrice: shareConfig.pricePerShare
+      }))
+    };
+    
+    // In production: Deploy smart contract for tokenized shares
+    console.log('File Shares created:', {
+      tokenSymbol: shareConfig.shareTokenSymbol,
+      totalShares: shareConfig.totalShares,
+      fundraisingTarget: `$${shareConfig.totalShares * shareConfig.pricePerShare}`,
+      authorRoyalty: `${shareConfig.authorRoyalty}%`,
+      contractAddress: sharesData.smartContractAddress
+    });
+    
+    // Store shares data locally for demo
+    const sharesKey = `shares_${document.metadata.author}_${document.id}`;
+    localStorage.setItem(sharesKey, JSON.stringify(sharesData));
+    
+    console.log(`File shares issued successfully! ${shareConfig.totalShares} shares available at $${shareConfig.pricePerShare} each`);
+  }
+
   // Update an existing document
-  async updateDocument(documentId: string, title: string, content: string, storageMethod?: string): Promise<void> {
+  async updateDocument(documentId: string, title: string, content: string, storageMethod?: StorageMethod): Promise<void> {
     if (!this.isConnected || !this.currentUser) {
       throw new Error('User not authenticated');
     }
 
     const encryptedContent = this.encryptContent(content);
     const existingDoc = await this.getDocument(documentId);
+    const method = storageMethod || (existingDoc?.metadata.storage_method as StorageMethod) || 'op_return';
+    const storageCost = this.calculateStorageCost(method, this.countCharacters(content));
     
     const updatedDocument: DocumentData = {
       id: documentId,
@@ -171,19 +334,14 @@ export class BlockchainDocumentService {
         encrypted: true,
         word_count: this.countWords(content),
         character_count: this.countCharacters(content),
-        storage_method: storageMethod || existingDoc?.metadata.storage_method || 'op_return',
+        storage_method: method,
         blockchain_tx: existingDoc?.metadata.blockchain_tx || `tx_${documentId}`,
-        storage_cost: existingDoc?.metadata.storage_cost || (0.000001 * this.countCharacters(content) * 2)
+        storage_cost: storageCost
       }
     };
 
-    // In production, this would update the encrypted on-chain record
-    console.log('Updating encrypted document on Bitcoin:', {
-      id: documentId,
-      title,
-      owner: this.currentUser.handle,
-      contentLength: content.length
-    });
+    // Handle different storage methods
+    await this.processStorageMethod(method, updatedDocument, content);
 
     // Update local metadata
     this.storeDocumentMetadata(updatedDocument);
@@ -372,6 +530,47 @@ export class BlockchainDocumentService {
   // Get current user
   getCurrentUser(): HandCashUser | null {
     return this.currentUser;
+  }
+
+  // Generate document thumbnail for NFT
+  private generateDocumentThumbnail(content: string): string {
+    // In production: Generate actual thumbnail image
+    // For demo: Return placeholder image URL
+    return `https://via.placeholder.com/400x600/2563eb/ffffff?text=${encodeURIComponent('Document NFT')}`;
+  }
+  
+  // Get user's NFTs
+  async getUserNFTs(): Promise<any[]> {
+    if (!this.currentUser) return [];
+    
+    const nfts = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith(`nft_${this.currentUser.handle}_`)) {
+        const nftData = localStorage.getItem(key);
+        if (nftData) {
+          nfts.push(JSON.parse(nftData));
+        }
+      }
+    }
+    return nfts;
+  }
+  
+  // Get user's file shares
+  async getUserFileShares(): Promise<any[]> {
+    if (!this.currentUser) return [];
+    
+    const shares = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith(`shares_${this.currentUser.handle}_`)) {
+        const shareData = localStorage.getItem(key);
+        if (shareData) {
+          shares.push(JSON.parse(shareData));
+        }
+      }
+    }
+    return shares;
   }
 
   // Reconnect after authentication

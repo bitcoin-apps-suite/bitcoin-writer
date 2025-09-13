@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BlockchainDocumentService, DocumentData, BlockchainDocument } from '../services/BlockchainDocumentService';
 import PricingDisplay from './PricingDisplay';
 import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
+import EnhancedStorageModal, { StorageOptions } from './EnhancedStorageModal';
 import { StorageOption } from '../utils/pricingCalculator';
 
 interface DocumentEditorProps {
@@ -32,6 +33,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [publishSettings, setPublishSettings] = useState<PublishSettings | null>(null);
   const [isEncrypted, setIsEncrypted] = useState(false);
   const [readPrice, setReadPrice] = useState<number>(0);
+  const [showStorageModal, setShowStorageModal] = useState(false);
+  const [, setStorageOptions] = useState<StorageOptions | null>(null);
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -208,10 +211,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       return;
     }
 
+    // Show enhanced storage modal for blockchain save
+    setShowStorageModal(true);
+  };
+
+  const handleStorageSave = async (options: StorageOptions) => {
     if (!documentService || !editorRef.current) return;
 
     try {
       setIsLoading(true);
+      setShowStorageModal(false);
+      setStorageOptions(options);
       setAutoSaveStatus('💾 Saving to blockchain...');
       
       const content = editorRef.current.innerHTML;
@@ -219,10 +229,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       
       // If no current document, create a new one
       if (!currentDocument) {
-        const doc = await documentService.createDocument(title, content, selectedStorageOption?.id);
+        const doc = await documentService.createDocument(title, content, options.method);
         setCurrentDocument(doc);
       } else {
-        await documentService.updateDocument(currentDocument.id, title, content, selectedStorageOption?.id);
+        await documentService.updateDocument(currentDocument.id, title, content, options.method);
         setCurrentDocument(prev => prev ? {
           ...prev,
           title,
@@ -233,9 +243,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         } : null);
       }
       
+      // Show appropriate success message based on storage method
+      let successMessage = 'Document saved to blockchain';
+      if (options.method === 'nft_creation') {
+        successMessage = 'NFT minted successfully!';
+      } else if (options.method === 'file_shares') {
+        successMessage = 'File shares issued successfully!';
+      }
+      
       setAutoSaveStatus('✅ Saved to blockchain');
       setTimeout(() => setAutoSaveStatus(''), 2000);
-      showNotification('Document saved to blockchain');
+      showNotification(successMessage);
       
       // Clear local storage after successful blockchain save
       localStorage.removeItem('bitcoinWriter_localContent');
@@ -269,7 +287,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       const content = editorRef.current.innerHTML;
       const title = extractTitleFromContent(content) || currentDocument.title;
       
-      await documentService.updateDocument(currentDocument.id, title, content, selectedStorageOption?.id);
+      await documentService.updateDocument(currentDocument.id, title, content, selectedStorageOption?.id as any);
       
       setCurrentDocument(prev => prev ? {
         ...prev,
@@ -523,6 +541,14 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         }}
         currentSettings={publishSettings || undefined}
         documentTitle={currentDocument?.title || 'Untitled'}
+      />
+
+      <EnhancedStorageModal
+        isOpen={showStorageModal}
+        onClose={() => setShowStorageModal(false)}
+        onSave={handleStorageSave}
+        documentTitle={currentDocument?.title || 'Untitled Document'}
+        estimatedSize={charCount}
       />
       
       {isLoading && (
