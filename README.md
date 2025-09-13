@@ -1,4 +1,4 @@
-# Screen Writer - Blockchain Writing App
+# Bitcoin Writer - Blockchain Writing App
 
 A decentralized writing application built on Bitcoin SV blockchain with HandCash authentication. Your documents are encrypted and stored on the blockchain, accessible only with your HandCash login.
 
@@ -24,8 +24,8 @@ A decentralized writing application built on Bitcoin SV blockchain with HandCash
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd screen-writer
+   git clone https://github.com/b0ase/bitcoin-writer.git
+   cd bitcoin-writer
    ```
 
 2. Install dependencies:

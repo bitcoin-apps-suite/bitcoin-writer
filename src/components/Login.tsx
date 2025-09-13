@@ -27,12 +27,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     <div className="login-container">
       <div className="login-box">
         <div className="logo-section">
-          <h1>Screen Writer</h1>
+          <h1>Bitcoin Writer</h1>
           <p className="tagline">Blockchain-powered writing with HandCash</p>
         </div>
         
         <div className="features-section">
-          <h3>Why Screen Writer?</h3>
+          <h3>Why Bitcoin Writer?</h3>
           <ul>
             <li>🔒 Your documents are encrypted and stored on the blockchain</li>
             <li>🔑 Only you can access them with your HandCash login</li>

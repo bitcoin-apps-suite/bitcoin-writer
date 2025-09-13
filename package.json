@@ -1,5 +1,5 @@
 {
-  "name": "screen-writer",
+  "name": "bitcoin-writer",
   "version": "2.0.0",
   "description": "A blockchain-based writing app with HandCash authentication",
   "private": true,

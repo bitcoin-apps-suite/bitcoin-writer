@@ -1,7 +1,7 @@
 {
-  "name": "Screen Writer",
-  "short_name": "ScreenWriter",
-  "description": "A simple, distraction-free writing app",
+  "name": "Bitcoin Writer",
+  "short_name": "BitcoinWriter",
+  "description": "Blockchain-powered writing app with HandCash authentication",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",

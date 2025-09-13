@@ -99,7 +99,7 @@ function App() {
       <Route path="/*" element={
         isLoading ? (
           <div className="App">
-            <div className="loading">Loading Screen Writer...</div>
+            <div className="loading">Loading Bitcoin Writer...</div>
           </div>
         ) : !isAuthenticated ? (
           <Login onLogin={handleLogin} />
@@ -107,7 +107,7 @@ function App() {
           <div className="App">
             <header className="App-header">
               <div className="connection-indicator" />
-              <h1>Screen Writer</h1>
+              <h1>Bitcoin Writer</h1>
               <div className="user-info">
                 <span className="user-handle">@{currentUser?.handle}</span>
                 <button className="logout-btn" onClick={handleLogout}>
