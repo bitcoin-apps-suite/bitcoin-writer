@@ -492,7 +492,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                         disabled={isLoading}
                         className="dropdown-item"
                       >
-                        💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
+                        💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
                       </button>
                       <button 
                         onClick={() => {
@@ -563,10 +563,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                 <button 
                   onClick={handleSetPrice}
                   disabled={isLoading}
-                  title="Set price readers must pay to unlock your document"
+                  title="Set price readers must pay to read your document"
                   className="price-btn"
                 >
-                  💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
+                  💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
                 </button>
                 <button 
                   onClick={() => setShowPublishModal(true)}
