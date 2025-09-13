@@ -45,7 +45,7 @@
   
   .header-bottom {
     display: flex;
-    margin-top: 8px;
+    margin-top: 2px;
   }
   
   .header-left {
@@ -71,6 +71,7 @@
   .title-section .subtitle {
     font-size: 10px;
     line-height: 1.2;
+    margin-bottom: 0;
   }
   
   .handcash-badge {
@@ -130,7 +131,7 @@ main {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 4px;
 }
 
 .mobile-auth-section {
