@@ -369,9 +369,7 @@ function App() {
             )}
             <div className="disclaimer">
               <small>
-                {isAuthenticated 
-                  ? "Your documents are encrypted and stored on the blockchain. Only you can read them."
-                  : "Start writing immediately. Sign in with HandCash to save your documents on the blockchain."}
+                Start writing immediately. Sign in with HandCash to save your documents on the blockchain.
               </small>
             </div>
             <div className="app-container">
