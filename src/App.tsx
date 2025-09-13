@@ -191,7 +191,7 @@ function App() {
                         </div>
                         <div className="menu-item" onClick={() => {
                           // TODO: Implement Save
-                          document.querySelector('.save-btn-mobile, [title*="Save"]')?.click();
+                          (document.querySelector('.save-btn-mobile, [title*="Save"]') as HTMLElement)?.click();
                           setShowWriterMenu(false);
                         }}>
                           <span>💾</span> Save
@@ -206,14 +206,14 @@ function App() {
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
                           // TODO: Implement Encrypt
-                          document.querySelector('[title*="Encrypt"]')?.click();
+                          (document.querySelector('[title*="Encrypt"]') as HTMLElement)?.click();
                           setShowWriterMenu(false);
                         }}>
                           <span>🔒</span> Encrypt
                         </div>
                         <div className="menu-item" onClick={() => {
                           // TODO: Implement Decrypt
-                          document.querySelector('[title*="Decrypt"]')?.click();
+                          (document.querySelector('[title*="Decrypt"]') as HTMLElement)?.click();
                           setShowWriterMenu(false);
                         }}>
                           <span>🔓</span> Decrypt
@@ -228,14 +228,14 @@ function App() {
                         </div>
                         <div className="menu-item" onClick={() => {
                           // TODO: Implement Paywall
-                          document.querySelector('[title*="Set price"]')?.click();
+                          (document.querySelector('[title*="Set price"]') as HTMLElement)?.click();
                           setShowWriterMenu(false);
                         }}>
                           <span>💰</span> Paywall
                         </div>
                         <div className="menu-item" onClick={() => {
                           // TODO: Implement Publish
-                          document.querySelector('[title*="Publish"]')?.click();
+                          (document.querySelector('[title*="Publish"]') as HTMLElement)?.click();
                           setShowWriterMenu(false);
                         }}>
                           <span>🌍</span> Publish
