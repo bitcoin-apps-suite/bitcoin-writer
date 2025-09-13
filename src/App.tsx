@@ -142,7 +142,7 @@ function App() {
               </button>
 
               <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
-              <p className="app-subtitle">Blockchain-powered writing platform</p>
+              <p className="app-subtitle">Secure, Encrypted Documents on the Blockchain</p>
               
               {/* Desktop user info (top right) */}
               <div className="user-info desktop-user-info">
