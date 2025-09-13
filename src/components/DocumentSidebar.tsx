@@ -8,6 +8,7 @@ interface DocumentSidebarProps {
   onDocumentSelect: (doc: BlockchainDocument) => void;
   onNewDocument: () => void;
   currentDocumentId?: string;
+  isMobile?: boolean;
 }
 
 const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
@@ -15,7 +16,8 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   isAuthenticated,
   onDocumentSelect,
   onNewDocument,
-  currentDocumentId
+  currentDocumentId,
+  isMobile = false
 }) => {
   const [documents, setDocuments] = useState<BlockchainDocument[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +85,11 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   };
 
   if (!isAuthenticated) {
-    return (
+    return isMobile ? (
+      <div className="mobile-sidebar-empty">
+        <p>Sign in with HandCash to save and access your documents on the blockchain</p>
+      </div>
+    ) : (
       <div className={`document-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           <button 
@@ -100,6 +106,39 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
             <div className="sidebar-empty">
               <p>Sign in with HandCash to save and access your documents on the blockchain</p>
             </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <div className="mobile-sidebar-content">
+        {isLoading ? (
+          <div className="mobile-sidebar-loading">Loading documents...</div>
+        ) : filteredDocuments.length === 0 ? (
+          <div className="mobile-sidebar-empty">
+            {searchQuery ? 'No documents found' : 'No documents yet. Start writing!'}
+          </div>
+        ) : (
+          <div className="mobile-document-list">
+            {filteredDocuments.map(doc => (
+              <button
+                key={doc.id}
+                className={`mobile-document-item ${currentDocumentId === doc.id ? 'active' : ''}`}
+                onClick={() => onDocumentSelect(doc)}
+              >
+                <div className="mobile-doc-header">
+                  <span className="mobile-doc-icon">{getStorageIcon(doc.storage_method)}</span>
+                  <span className="mobile-doc-title">{doc.title}</span>
+                  <span className="mobile-doc-date">{formatDate(doc.updated_at)}</span>
+                </div>
+                {doc.preview && (
+                  <div className="mobile-doc-preview">{doc.preview}</div>
+                )}
+              </button>
+            ))}
           </div>
         )}
       </div>

@@ -35,6 +35,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [readPrice, setReadPrice] = useState<number>(0);
   const [showStorageModal, setShowStorageModal] = useState(false);
   const [, setStorageOptions] = useState<StorageOptions | null>(null);
+  const [showActionsDropdown, setShowActionsDropdown] = useState(false);
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -439,71 +440,168 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   return (
     <div className={`document-editor ${isFullscreen ? 'fullscreen' : ''}`}>
       <div className="toolbar">
-        <div className="toolbar-left">
-          <button 
-            onClick={saveDocument} 
-            disabled={isLoading} 
-            title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
-            className={!isAuthenticated ? 'save-guest' : ''}
-          >
-            {isAuthenticated ? 'Save to Blockchain' : 'Save'}
-          </button>
-          {isAuthenticated && (
-            <>
+        {/* Mobile Layout */}
+        <div className="toolbar-mobile">
+          <div className="mobile-main-actions">
+            <button 
+              onClick={saveDocument} 
+              disabled={isLoading} 
+              title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
+              className={`save-btn-mobile ${!isAuthenticated ? 'save-guest' : ''}`}
+            >
+              💾 {isAuthenticated ? 'Save' : 'Save'}
+            </button>
+            
+            <div className="mobile-dropdown-container">
               <button 
-                onClick={() => setShowPublishModal(true)}
-                disabled={isLoading}
-                title="Publish Settings"
-                className="publish-btn"
+                className="mobile-actions-btn"
+                onClick={() => setShowActionsDropdown(!showActionsDropdown)}
+                title="More actions"
               >
-                🌍 Publish
+                ⚙️ Actions
               </button>
-              <button 
-                onClick={handleEncrypt}
-                disabled={isLoading}
-                title={isEncrypted ? "Decrypt document" : "Encrypt document"}
-                className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
-              >
-                {isEncrypted ? '🔓' : '🔒'} {isEncrypted ? 'Decrypt' : 'Encrypt'}
-              </button>
-              <button 
-                onClick={handleSetPrice}
-                disabled={isLoading}
-                title="Set price to unlock this document"
-                className="price-btn"
-              >
-                💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
-              </button>
-            </>
-          )}
-          <button onClick={insertImage} title="Insert Image">
-            📷
-          </button>
-          <input
-            type="file"
-            ref={imageInputRef}
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleImageSelect}
-          />
+              
+              {showActionsDropdown && (
+                <div className="mobile-dropdown">
+                  {isAuthenticated && (
+                    <>
+                      <button 
+                        onClick={() => {
+                          setShowPublishModal(true);
+                          setShowActionsDropdown(false);
+                        }}
+                        disabled={isLoading}
+                        className="dropdown-item"
+                      >
+                        🌍 Publish
+                      </button>
+                      <button 
+                        onClick={() => {
+                          handleEncrypt();
+                          setShowActionsDropdown(false);
+                        }}
+                        disabled={isLoading}
+                        className={`dropdown-item ${isEncrypted ? 'encrypted' : ''}`}
+                      >
+                        {isEncrypted ? '🔓 Decrypt' : '🔒 Encrypt'}
+                      </button>
+                      <button 
+                        onClick={() => {
+                          handleSetPrice();
+                          setShowActionsDropdown(false);
+                        }}
+                        disabled={isLoading}
+                        className="dropdown-item"
+                      >
+                        💰 Set Price {readPrice > 0 ? `($${readPrice})` : ''}
+                      </button>
+                    </>
+                  )}
+                  <button 
+                    onClick={() => {
+                      insertImage();
+                      setShowActionsDropdown(false);
+                    }}
+                    className="dropdown-item"
+                  >
+                    📷 Insert Image
+                  </button>
+                  <button 
+                    onClick={() => {
+                      toggleFullscreen();
+                      setShowActionsDropdown(false);
+                    }}
+                    className="dropdown-item"
+                  >
+                    ⛶ Fullscreen
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="mobile-stats">
+            <span className="word-count">{wordCount}w</span>
+            <span className="char-count">{charCount}c</span>
+            <PricingDisplay 
+              wordCount={wordCount}
+              characterCount={charCount}
+              content={editorContent}
+              isAuthenticated={isAuthenticated}
+              onStorageMethodSelect={setSelectedStorageOption}
+              isMobile={true}
+            />
+          </div>
         </div>
-        
-        <div className="toolbar-center">
-          <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
-          <span>{charCount} character{charCount !== 1 ? 's' : ''}</span>
-          <PricingDisplay 
-            wordCount={wordCount}
-            characterCount={charCount}
-            content={editorContent}
-            isAuthenticated={isAuthenticated}
-            onStorageMethodSelect={setSelectedStorageOption}
-          />
-        </div>
-        
-        <div className="toolbar-right">
-          <button onClick={toggleFullscreen} title="Toggle Fullscreen">
-            ⛶
-          </button>
+
+        {/* Desktop Layout */}
+        <div className="toolbar-desktop">
+          <div className="toolbar-left">
+            <button 
+              onClick={saveDocument} 
+              disabled={isLoading} 
+              title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
+              className={!isAuthenticated ? 'save-guest' : ''}
+            >
+              {isAuthenticated ? 'Save to Blockchain' : 'Save'}
+            </button>
+            {isAuthenticated && (
+              <>
+                <button 
+                  onClick={() => setShowPublishModal(true)}
+                  disabled={isLoading}
+                  title="Publish Settings"
+                  className="publish-btn"
+                >
+                  🌍 Publish
+                </button>
+                <button 
+                  onClick={handleEncrypt}
+                  disabled={isLoading}
+                  title={isEncrypted ? "Decrypt document" : "Encrypt document"}
+                  className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
+                >
+                  {isEncrypted ? '🔓' : '🔒'} {isEncrypted ? 'Decrypt' : 'Encrypt'}
+                </button>
+                <button 
+                  onClick={handleSetPrice}
+                  disabled={isLoading}
+                  title="Set price to unlock this document"
+                  className="price-btn"
+                >
+                  💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
+                </button>
+              </>
+            )}
+            <button onClick={insertImage} title="Insert Image">
+              📷
+            </button>
+            <input
+              type="file"
+              ref={imageInputRef}
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleImageSelect}
+            />
+          </div>
+          
+          <div className="toolbar-center">
+            <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
+            <span>{charCount} character{charCount !== 1 ? 's' : ''}</span>
+            <PricingDisplay 
+              wordCount={wordCount}
+              characterCount={charCount}
+              content={editorContent}
+              isAuthenticated={isAuthenticated}
+              onStorageMethodSelect={setSelectedStorageOption}
+            />
+          </div>
+          
+          <div className="toolbar-right">
+            <button onClick={toggleFullscreen} title="Toggle Fullscreen">
+              ⛶
+            </button>
+          </div>
         </div>
       </div>
 

@@ -15,6 +15,7 @@ interface PricingDisplayProps {
   content: string;
   isAuthenticated: boolean;
   onStorageMethodSelect?: (method: StorageOption) => void;
+  isMobile?: boolean;
 }
 
 const PricingDisplay: React.FC<PricingDisplayProps> = ({
@@ -22,7 +23,8 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   characterCount,
   content,
   isAuthenticated,
-  onStorageMethodSelect
+  onStorageMethodSelect,
+  isMobile = false
 }) => {
   const [selectedOption, setSelectedOption] = useState<StorageOption>(STORAGE_OPTIONS[0]);
   const [pricing, setPricing] = useState<PricingBreakdown | null>(null);
@@ -41,7 +43,9 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   }, [content, selectedOption, btcPrice]);
 
   if (!pricing || wordCount === 0) {
-    return (
+    return isMobile ? (
+      <span className="mobile-pricing-hint">💰 $0.00</span>
+    ) : (
       <div className="pricing-display">
         <span className="pricing-hint">
           Start writing to see blockchain storage cost
@@ -54,6 +58,27 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
     setSelectedOption(option);
     onStorageMethodSelect?.(option);
   };
+
+  if (isMobile) {
+    return (
+      <>
+        <span 
+          className="mobile-pricing-cost"
+          onClick={() => setShowModal(true)}
+        >
+          💰 {formatUSD(pricing.totalCostUSD)}
+        </span>
+        
+        <StorageOptionsModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onSelect={handleStorageSelect}
+          selectedOption={selectedOption}
+          pricing={pricing}
+        />
+      </>
+    );
+  }
 
   return (
     <>

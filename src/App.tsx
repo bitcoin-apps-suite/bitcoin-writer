@@ -15,6 +15,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState<HandCashUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -125,16 +126,51 @@ function App() {
         ) : (
           <div className="App">
             <header className="App-header">
-              <div className="connection-indicator" style={{ 
-                backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
-              }} />
-              <div className="title-section">
-                <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
-                <p className="subtitle">Secure, Encrypted Documents on the Blockchain</p>
+              <div className="header-top">
+                <div className="header-left">
+                  <div className="connection-indicator" style={{ 
+                    backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
+                  }} />
+                  
+                  <button 
+                    className="mobile-menu-toggle"
+                    onClick={() => setShowMobileMenu(!showMobileMenu)}
+                    aria-label="Toggle menu"
+                  >
+                    <span className="hamburger-line"></span>
+                    <span className="hamburger-line"></span>
+                    <span className="hamburger-line"></span>
+                  </button>
+                </div>
+
+                <div className="title-section">
+                  <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
+                  <p className="subtitle">Secure, Encrypted Documents on the Blockchain</p>
+                </div>
+                
+                <div className="header-right desktop-only">
+                  {isAuthenticated ? (
+                    <>
+                      <div className="handcash-badge">
+                        <span className="handcash-logo">HandCash</span>
+                        <span className="user-handle">@{currentUser?.handle}</span>
+                      </div>
+                      <button className="logout-btn" onClick={handleLogout}>
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <button className="login-btn" onClick={() => handcashService.login()}>
+                      Sign in with HandCash
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="user-info">
+              
+              {/* Mobile auth section below title */}
+              <div className="header-bottom mobile-only">
                 {isAuthenticated ? (
-                  <>
+                  <div className="mobile-auth-section">
                     <div className="handcash-badge">
                       <span className="handcash-logo">HandCash</span>
                       <span className="user-handle">@{currentUser?.handle}</span>
@@ -142,7 +178,7 @@ function App() {
                     <button className="logout-btn" onClick={handleLogout}>
                       Sign Out
                     </button>
-                  </>
+                  </div>
                 ) : (
                   <button className="login-btn" onClick={() => handcashService.login()}>
                     Sign in with HandCash
@@ -150,6 +186,123 @@ function App() {
                 )}
               </div>
             </header>
+
+            {/* Mobile Menu Overlay */}
+            {showMobileMenu && (
+              <div className="mobile-menu-overlay" onClick={() => setShowMobileMenu(false)}>
+                <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+                  <div className="mobile-menu-header">
+                    <h3>Platform Features</h3>
+                    <button 
+                      className="close-mobile-menu"
+                      onClick={() => setShowMobileMenu(false)}
+                      aria-label="Close menu"
+                    >
+                      ×
+                    </button>
+                  </div>
+                  
+                  <div className="mobile-menu-content">
+                    {isAuthenticated && (
+                      <>
+                        <div className="mobile-menu-section">
+                          <h4>My Documents</h4>
+                          <button 
+                            className="mobile-menu-item"
+                            onClick={() => {
+                              setCurrentDocument(null);
+                              setShowMobileMenu(false);
+                            }}
+                          >
+                            📄 New Document
+                          </button>
+                          <DocumentSidebar
+                            documentService={documentService}
+                            isAuthenticated={isAuthenticated}
+                            onDocumentSelect={(doc) => {
+                              setCurrentDocument(doc);
+                              setShowMobileMenu(false);
+                            }}
+                            onNewDocument={() => {
+                              setCurrentDocument(null);
+                              setShowMobileMenu(false);
+                            }}
+                            currentDocumentId={currentDocument?.id}
+                            isMobile={true}
+                          />
+                        </div>
+
+                        <div className="mobile-menu-section">
+                          <h4>Document Actions</h4>
+                          <button className="mobile-menu-item">
+                            💾 Save to Blockchain
+                          </button>
+                          <button className="mobile-menu-item">
+                            🌍 Publish Document
+                          </button>
+                        </div>
+
+                        <div className="mobile-menu-section">
+                          <h4>Security & Monetization</h4>
+                          <button className="mobile-menu-item">
+                            🔒 Encrypt Document
+                          </button>
+                          <button className="mobile-menu-item">
+                            💰 Set Price to Unlock
+                          </button>
+                          <button className="mobile-menu-item">
+                            🎨 Create NFT
+                          </button>
+                          <button className="mobile-menu-item">
+                            📈 Issue File Shares
+                          </button>
+                        </div>
+
+                        <div className="mobile-menu-section">
+                          <h4>Blockchain Storage</h4>
+                          <button className="mobile-menu-item">
+                            ⚡ OP_RETURN (Fast)
+                          </button>
+                          <button className="mobile-menu-item">
+                            🔐 OP_PUSHDATA4 (Secure)
+                          </button>
+                          <button className="mobile-menu-item">
+                            🧩 Multisig P2SH
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    <div className="mobile-menu-section">
+                      <h4>Help & Info</h4>
+                      <button className="mobile-menu-item">
+                        ❓ How It Works
+                      </button>
+                      <button className="mobile-menu-item">
+                        💡 Storage Options Guide
+                      </button>
+                      <button className="mobile-menu-item">
+                        📊 Pricing Calculator
+                      </button>
+                    </div>
+
+                    {!isAuthenticated && (
+                      <div className="mobile-menu-section">
+                        <button 
+                          className="mobile-menu-login"
+                          onClick={() => {
+                            handcashService.login();
+                            setShowMobileMenu(false);
+                          }}
+                        >
+                          🔑 Sign in with HandCash
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="disclaimer">
               <small>
                 {isAuthenticated 
