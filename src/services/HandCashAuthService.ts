@@ -25,8 +25,8 @@ export interface AuthTokens {
 
 export class HandCashAuthService {
   private config: HandCashConfig;
-  private currentUser: HandCashUser | null = null;
-  private tokens: AuthTokens | null = null;
+  public currentUser: HandCashUser | null = null;
+  public tokens: AuthTokens | null = null;
   
   // HandCash API endpoints
   private readonly HANDCASH_AUTH_URL = 'https://app.handcash.io/auth/authorize';
@@ -38,9 +38,20 @@ export class HandCashAuthService {
     this.config = {
       appId: process.env.REACT_APP_HANDCASH_APP_ID || '',
       appSecret: process.env.REACT_APP_HANDCASH_APP_SECRET,
-      redirectUrl: process.env.REACT_APP_HANDCASH_REDIRECT_URL || `${window.location.origin}/auth/handcash/callback`,
+      redirectUrl: process.env.REACT_APP_HANDCASH_REDIRECT_URL || 'http://localhost:3000/',
       environment: process.env.NODE_ENV === 'production' ? 'production' : 'development'
     };
+
+    // Debug log to verify environment variables are loaded (only once)
+    if (!(window as any).handcashConfigLogged) {
+      console.log('=== HandCash Configuration ===');
+      console.log('App ID configured:', this.config.appId ? 'Yes' : 'No');
+      console.log('App ID length:', this.config.appId?.length || 0);
+      console.log('Redirect URL:', this.config.redirectUrl);
+      console.log('Environment:', this.config.environment);
+      console.log('==============================');
+      (window as any).handcashConfigLogged = true;
+    }
 
     // Load existing session if available
     this.loadSession();
@@ -96,7 +107,7 @@ export class HandCashAuthService {
   }
 
   // Save session to localStorage
-  private saveSession(): void {
+  public saveSession(): void {
     if (this.tokens) {
       localStorage.setItem('handcash_tokens', JSON.stringify(this.tokens));
       localStorage.setItem('handcash_tokens_saved_at', Date.now().toString());
@@ -131,6 +142,11 @@ export class HandCashAuthService {
     
     const authUrl = `https://app.handcash.io/#/authorizeApp?appId=${this.config.appId}`;
     
+    console.log('=== Generated Auth URL ===');
+    console.log('URL:', authUrl);
+    console.log('Make sure redirect URL is set in HandCash dashboard to:', this.config.redirectUrl);
+    console.log('=========================');
+    
     // Store state for CSRF protection (even though HandCash doesn't use it in the URL)
     this.generateState();
     
@@ -147,14 +163,24 @@ export class HandCashAuthService {
   // Start OAuth login flow
   public async login(): Promise<void> {
     try {
+      if (!this.config.appId) {
+        console.error('HandCash App ID is not configured!');
+        alert('HandCash App ID is not configured. Please check your .env.local file.');
+        return;
+      }
+      
+      // Clear any existing session first to ensure fresh login
+      this.clearSession();
+      
       const authUrl = this.getAuthorizationUrl();
       console.log('=== HandCash OAuth2 Authentication ===');
       console.log('App ID:', this.config.appId);
-      console.log('Redirect URL:', this.config.redirectUrl);
+      console.log('Redirect URL (configured in HandCash dashboard):', this.config.redirectUrl);
       console.log('Authorization URL:', authUrl);
       console.log('=====================================');
+      console.log('IMPORTANT: Make sure', this.config.redirectUrl, 'is configured in your HandCash app settings!');
       
-      // Redirect to HandCash for authorization
+      // Redirect to HandCash for authorization immediately
       window.location.href = authUrl;
     } catch (error) {
       console.error('Failed to start OAuth flow:', error);
@@ -239,12 +265,101 @@ export class HandCashAuthService {
   }
 
   // Fetch user profile from HandCash
-  private async fetchUserProfile(): Promise<HandCashUser> {
+  public async fetchUserProfile(): Promise<HandCashUser> {
     if (!this.tokens?.accessToken) {
       throw new Error('No access token available');
     }
 
-    // Try to decode the authToken if it's a JWT
+    // Try using HandCash Connect SDK directly
+    try {
+      console.log('Attempting to fetch profile via HandCash SDK...');
+      console.log('Auth token available:', !!this.tokens.accessToken);
+      
+      // @ts-ignore - HandCash Connect SDK types
+      const { HandCashConnect } = await import('@handcash/handcash-connect');
+      console.log('HandCash SDK loaded successfully');
+      
+      const handcashConnect = new HandCashConnect({ 
+        appId: this.config.appId,
+        appSecret: this.config.appSecret || '' // Use app secret if available
+      });
+      console.log('HandCashConnect initialized with appId:', this.config.appId);
+      
+      const account = handcashConnect.getAccountFromAuthToken(this.tokens.accessToken);
+      console.log('Account object created from auth token');
+      
+      const profile = await account.profile.getCurrentProfile();
+      console.log('Profile fetched via SDK:', profile);
+      
+      // Extract the handle from the profile
+      const handle = profile.handle || profile.publicProfile?.handle || 'handcash_user';
+      const paymail = profile.paymail || profile.publicProfile?.paymail || `${handle}@handcash.io`;
+      
+      console.log('Extracted handle:', handle);
+      console.log('Extracted paymail:', paymail);
+      
+      return {
+        handle: handle,
+        paymail: paymail,
+        publicKey: profile.id || profile.publicProfile?.id,
+        avatarUrl: profile.avatarUrl || profile.publicProfile?.avatarUrl,
+        displayName: profile.displayName || profile.publicProfile?.displayName || handle
+      };
+    } catch (sdkError: any) {
+      console.error('SDK profile fetch failed:', sdkError);
+      console.error('Error details:', sdkError.message);
+      console.error('Stack trace:', sdkError.stack);
+    }
+
+    // Try to fetch profile from server-side API first (most reliable)
+    try {
+      // Determine API endpoint based on environment
+      const apiBase = this.config.environment === 'production' 
+        ? ''  // In production, use same origin (Vercel handles /api routes)
+        : 'http://localhost:4000';  // Local API server on port 4000
+      
+      console.log('Fetching user profile from server-side API...');
+      console.log('API Base:', apiBase);
+      console.log('Auth Token (first 20 chars):', this.tokens.accessToken.substring(0, 20) + '...');
+      
+      // Call our API endpoint to fetch the profile server-side
+      const response = await fetch(`${apiBase}/api/handcash-profile`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          authToken: this.tokens.accessToken
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Profile fetched successfully from API:', data.profile);
+        
+        if (data.success && data.profile && data.profile.handle && data.profile.handle !== 'unknown') {
+          console.log('Using API profile data with handle:', data.profile.handle);
+          return {
+            handle: data.profile.handle,
+            paymail: data.profile.paymail || `${data.profile.handle}@handcash.io`,
+            publicKey: data.profile.publicKey,
+            avatarUrl: data.profile.avatarUrl,
+            displayName: data.profile.displayName || data.profile.handle
+          };
+        } else {
+          console.log('API returned invalid profile data, falling back...');
+        }
+      } else {
+        const error = await response.json();
+        console.error('API error fetching profile:', error);
+        console.log('API call failed, falling back to other methods...');
+      }
+    } catch (error) {
+      console.error('Failed to fetch user profile from API:', error);
+      console.log('API call failed, falling back to other methods...');
+    }
+
+    // Fallback: Try to decode the authToken if it's a JWT
     try {
       const tokenParts = this.tokens.accessToken.split('.');
       if (tokenParts.length === 3) {
@@ -265,7 +380,7 @@ export class HandCashAuthService {
       console.log('Token is not a JWT or could not be decoded');
     }
     
-    // Fallback - create a unique identifier from the token
+    // Final fallback - create a unique identifier from the token
     console.warn('Using fallback user data - Enable API endpoint for real profile');
     
     // Generate a consistent username from the token

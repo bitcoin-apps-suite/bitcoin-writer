@@ -6,20 +6,35 @@ export interface DocumentData {
   id: string;
   title: string;
   content: string;
-  owner: string;
-  publicKey?: string;
-  lastUpdated: number;
-  wordCount: number;
-  charCount: number;
-  encrypted: boolean;
+  metadata: DocumentMetadata;
 }
 
 export interface DocumentMetadata {
+  created_at: string;
+  updated_at: string;
+  author: string;
+  encrypted: boolean;
+  word_count: number;
+  character_count: number;
+  storage_method?: string;
+  blockchain_tx?: string;
+  storage_cost?: number;
+}
+
+export interface BlockchainDocument {
   id: string;
   title: string;
-  lastUpdated: number;
-  wordCount: number;
-  charCount: number;
+  content?: string;
+  preview?: string;
+  created_at: string;
+  updated_at: string;
+  author?: string;
+  encrypted?: boolean;
+  word_count?: number;
+  character_count?: number;
+  storage_method?: string;
+  blockchain_tx?: string;
+  storage_cost?: number;
 }
 
 export class BlockchainDocumentService {
@@ -92,32 +107,39 @@ export class BlockchainDocumentService {
   }
 
   // Create a new document
-  async createDocument(title: string, content: string = ''): Promise<DocumentData> {
+  async createDocument(title: string, content: string = '', storageMethod?: string): Promise<DocumentData> {
     if (!this.isConnected || !this.currentUser) {
       throw new Error('User not authenticated');
     }
 
     const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const encryptedContent = this.encryptContent(content);
+    const now = new Date().toISOString();
     
     const document: DocumentData = {
       id: documentId,
       title,
       content: encryptedContent,
-      owner: this.currentUser.handle,
-      publicKey: this.currentUser.publicKey,
-      lastUpdated: Date.now(),
-      wordCount: this.countWords(content),
-      charCount: this.countCharacters(content),
-      encrypted: true
+      metadata: {
+        created_at: now,
+        updated_at: now,
+        author: this.currentUser.handle,
+        encrypted: true,
+        word_count: this.countWords(content),
+        character_count: this.countCharacters(content),
+        storage_method: storageMethod || 'op_return',
+        blockchain_tx: `tx_${documentId}`,
+        storage_cost: 0.000001 * this.countCharacters(content) * 2
+      }
     };
 
     // In production, this would create an encrypted on-chain record
     console.log('Creating encrypted document on Bitcoin:', {
       id: document.id,
       title: document.title,
-      owner: document.owner,
-      contentLength: content.length
+      author: document.metadata.author,
+      contentLength: content.length,
+      storageMethod: document.metadata.storage_method
     });
 
     // Store document metadata locally for quick access
@@ -130,23 +152,29 @@ export class BlockchainDocumentService {
   }
 
   // Update an existing document
-  async updateDocument(documentId: string, title: string, content: string): Promise<void> {
+  async updateDocument(documentId: string, title: string, content: string, storageMethod?: string): Promise<void> {
     if (!this.isConnected || !this.currentUser) {
       throw new Error('User not authenticated');
     }
 
     const encryptedContent = this.encryptContent(content);
+    const existingDoc = await this.getDocument(documentId);
     
     const updatedDocument: DocumentData = {
       id: documentId,
       title,
       content: encryptedContent,
-      owner: this.currentUser.handle,
-      publicKey: this.currentUser.publicKey,
-      lastUpdated: Date.now(),
-      wordCount: this.countWords(content),
-      charCount: this.countCharacters(content),
-      encrypted: true
+      metadata: {
+        created_at: existingDoc?.metadata.created_at || new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        author: this.currentUser.handle,
+        encrypted: true,
+        word_count: this.countWords(content),
+        character_count: this.countCharacters(content),
+        storage_method: storageMethod || existingDoc?.metadata.storage_method || 'op_return',
+        blockchain_tx: existingDoc?.metadata.blockchain_tx || `tx_${documentId}`,
+        storage_cost: existingDoc?.metadata.storage_cost || (0.000001 * this.countCharacters(content) * 2)
+      }
     };
 
     // In production, this would update the encrypted on-chain record
@@ -196,8 +224,8 @@ export class BlockchainDocumentService {
     }
   }
 
-  // Get list of user's documents (metadata only)
-  async getDocumentList(): Promise<DocumentMetadata[]> {
+  // Get list of user's documents
+  async getDocuments(): Promise<BlockchainDocument[]> {
     if (!this.isConnected || !this.currentUser) {
       throw new Error('User not authenticated');
     }
@@ -213,11 +241,28 @@ export class BlockchainDocumentService {
     }
 
     try {
-      return JSON.parse(storedMetadata);
+      const documents: BlockchainDocument[] = JSON.parse(storedMetadata);
+      return documents;
     } catch (error) {
       console.error('Failed to parse document metadata:', error);
       return [];
     }
+  }
+
+  // Get list of user's documents (metadata only) - deprecated, use getDocuments
+  async getDocumentList(): Promise<DocumentMetadata[]> {
+    const documents = await this.getDocuments();
+    return documents.map(doc => ({
+      created_at: doc.created_at,
+      updated_at: doc.updated_at,
+      author: doc.author || '',
+      encrypted: doc.encrypted || false,
+      word_count: doc.word_count || 0,
+      character_count: doc.character_count || 0,
+      storage_method: doc.storage_method,
+      blockchain_tx: doc.blockchain_tx,
+      storage_cost: doc.storage_cost
+    }));
   }
 
   // Store document in localStorage (simulating blockchain storage)
@@ -233,37 +278,57 @@ export class BlockchainDocumentService {
     if (!this.currentUser) return;
     
     const metadataKey = `docs_metadata_${this.currentUser.handle}`;
-    let metadata: DocumentMetadata[] = [];
+    let documents: BlockchainDocument[] = [];
     
     try {
       const existing = localStorage.getItem(metadataKey);
       if (existing) {
-        metadata = JSON.parse(existing);
+        documents = JSON.parse(existing);
       }
     } catch (error) {
       console.error('Failed to parse existing metadata:', error);
     }
     
-    // Update or add document metadata
-    const existingIndex = metadata.findIndex(m => m.id === document.id);
-    const newMetadata: DocumentMetadata = {
+    // Update or add document
+    const existingIndex = documents.findIndex(d => d.id === document.id);
+    
+    // Decrypt content for preview (first 200 chars)
+    let preview = '';
+    try {
+      const decryptedContent = this.decryptContent(document.content);
+      preview = decryptedContent.substring(0, 200).replace(/\n/g, ' ');
+    } catch (error) {
+      console.error('Failed to decrypt for preview:', error);
+      preview = '';
+    }
+    
+    const newDoc: BlockchainDocument = {
       id: document.id,
       title: document.title,
-      lastUpdated: document.lastUpdated,
-      wordCount: document.wordCount,
-      charCount: document.charCount
+      preview,
+      created_at: document.metadata.created_at,
+      updated_at: document.metadata.updated_at,
+      author: document.metadata.author,
+      encrypted: document.metadata.encrypted,
+      word_count: document.metadata.word_count,
+      character_count: document.metadata.character_count,
+      storage_method: document.metadata.storage_method,
+      blockchain_tx: document.metadata.blockchain_tx,
+      storage_cost: document.metadata.storage_cost
     };
     
     if (existingIndex >= 0) {
-      metadata[existingIndex] = newMetadata;
+      documents[existingIndex] = newDoc;
     } else {
-      metadata.push(newMetadata);
+      documents.push(newDoc);
     }
     
     // Sort by last updated (newest first)
-    metadata.sort((a, b) => b.lastUpdated - a.lastUpdated);
+    documents.sort((a, b) => 
+      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
     
-    localStorage.setItem(metadataKey, JSON.stringify(metadata));
+    localStorage.setItem(metadataKey, JSON.stringify(documents));
     
     // Also store the full document
     this.storeDocument(document);
@@ -287,9 +352,9 @@ export class BlockchainDocumentService {
     try {
       const existing = localStorage.getItem(metadataKey);
       if (existing) {
-        let metadata: DocumentMetadata[] = JSON.parse(existing);
-        metadata = metadata.filter(m => m.id !== documentId);
-        localStorage.setItem(metadataKey, JSON.stringify(metadata));
+        let documents: BlockchainDocument[] = JSON.parse(existing);
+        documents = documents.filter(d => d.id !== documentId);
+        localStorage.setItem(metadataKey, JSON.stringify(documents));
       }
     } catch (error) {
       console.error('Failed to update metadata after deletion:', error);

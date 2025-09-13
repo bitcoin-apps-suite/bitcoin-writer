@@ -18,22 +18,24 @@ export class HandCashService {
     return this.authService.login();
   }
 
-  // Handle OAuth callback
+  // Handle OAuth callback - token is passed directly
   async handleCallback(authToken: string): Promise<HandCashUser> {
-    // The new service expects the full callback URL, not just the token
-    // If we're given just a token, construct the URL
-    let callbackUrl: string;
+    console.log('HandCashService.handleCallback called with token:', authToken.substring(0, 20) + '...');
     
-    if (authToken.startsWith('http')) {
-      // It's already a URL
-      callbackUrl = authToken;
-    } else {
-      // It's just a token, construct URL with it
-      // This handles legacy code that might pass just the token
-      callbackUrl = `${window.location.origin}/auth/handcash/callback?code=${authToken}`;
-    }
+    // Store the token directly
+    this.authService.tokens = {
+      accessToken: authToken,
+      tokenType: 'Bearer'
+    };
     
-    return this.authService.handleCallback(callbackUrl);
+    // Fetch user profile
+    const user = await this.authService.fetchUserProfile();
+    this.authService.currentUser = user;
+    
+    // Save session
+    this.authService.saveSession();
+    
+    return user;
   }
 
   // Logout

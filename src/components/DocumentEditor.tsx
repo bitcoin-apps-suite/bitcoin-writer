@@ -1,40 +1,78 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { BlockchainDocumentService, DocumentData, DocumentMetadata } from '../services/BlockchainDocumentService';
+import { BlockchainDocumentService, DocumentData, BlockchainDocument } from '../services/BlockchainDocumentService';
 import PricingDisplay from './PricingDisplay';
+import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
 import { StorageOption } from '../utils/pricingCalculator';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
   isAuthenticated: boolean;
   onAuthRequired: () => void;
+  currentDocument?: BlockchainDocument | null;
+  onDocumentUpdate?: (doc: BlockchainDocument) => void;
 }
 
-const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuthenticated, onAuthRequired }) => {
+const DocumentEditor: React.FC<DocumentEditorProps> = ({ 
+  documentService, 
+  isAuthenticated, 
+  onAuthRequired,
+  currentDocument: propDocument,
+  onDocumentUpdate 
+}) => {
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
-  const [documentList, setDocumentList] = useState<DocumentMetadata[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [cursorPosition, setCursorPosition] = useState('Line 1, Column 1');
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
-  const [showDocumentList, setShowDocumentList] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedStorageOption, setSelectedStorageOption] = useState<StorageOption | null>(null);
   const [editorContent, setEditorContent] = useState('');
+  const [showPublishModal, setShowPublishModal] = useState(false);
+  const [publishSettings, setPublishSettings] = useState<PublishSettings | null>(null);
+  const [isEncrypted, setIsEncrypted] = useState(false);
+  const [readPrice, setReadPrice] = useState<number>(0);
 
   const editorRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // Load document list on mount (only if authenticated)
+  // Load document when propDocument changes
   useEffect(() => {
-    if (isAuthenticated && documentService) {
-      loadDocumentList();
-    } else {
+    if (propDocument) {
+      // Load the selected document
+      setCurrentDocument({
+        id: propDocument.id,
+        title: propDocument.title,
+        content: propDocument.content || '',
+        metadata: {
+          created_at: propDocument.created_at,
+          updated_at: propDocument.updated_at,
+          author: propDocument.author || '',
+          encrypted: propDocument.encrypted || false,
+          word_count: propDocument.word_count || 0,
+          character_count: propDocument.character_count || 0,
+          storage_method: propDocument.storage_method,
+          blockchain_tx: propDocument.blockchain_tx,
+          storage_cost: propDocument.storage_cost
+        }
+      });
+      setEditorContent(propDocument.content || '');
+      if (editorRef.current) {
+        editorRef.current.textContent = propDocument.content || '';
+      }
+    } else if (!isAuthenticated) {
       // Load from localStorage for guest users
       loadLocalDocument();
+    } else {
+      // Clear editor for new document
+      setCurrentDocument(null);
+      setEditorContent('');
+      if (editorRef.current) {
+        editorRef.current.textContent = '';
+      }
     }
-  }, [documentService, isAuthenticated]);
+  }, [propDocument, isAuthenticated]);
+
 
   // Auto-save interval
   useEffect(() => {
@@ -47,16 +85,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
     return () => clearInterval(interval);
   }, [currentDocument]);
 
-  const loadDocumentList = async () => {
-    if (!documentService) return;
-    try {
-      const docs = await documentService.getDocumentList();
-      setDocumentList(docs);
-    } catch (error) {
-      console.error('Failed to load document list:', error);
-      showNotification('Failed to load documents', 'error');
-    }
-  };
 
   const loadLocalDocument = () => {
     // Load any auto-saved content from localStorage
@@ -149,7 +177,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
         editorRef.current.innerHTML = '<p>Start writing...</p>';
         editorRef.current.focus();
       }
-      await loadDocumentList();
       showNotification('New document created on blockchain');
     } catch (error) {
       console.error('Failed to create document:', error);
@@ -159,28 +186,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
     }
   };
 
-  const openDocument = async (documentId: string) => {
-    if (!documentService) return;
-    try {
-      setIsLoading(true);
-      const doc = await documentService.getDocument(documentId);
-      if (doc) {
-        setCurrentDocument(doc);
-        if (editorRef.current) {
-          editorRef.current.innerHTML = doc.content || '<p>Start writing...</p>';
-          editorRef.current.focus();
-        }
-        setShowDocumentList(false);
-        updateCounts();
-        showNotification('Document loaded');
-      }
-    } catch (error) {
-      console.error('Failed to open document:', error);
-      showNotification('Failed to open document', 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const saveDocument = async () => {
     // If not authenticated, prompt to sign in
@@ -214,10 +219,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
       
       // If no current document, create a new one
       if (!currentDocument) {
-        const doc = await documentService.createDocument(title, content);
+        const doc = await documentService.createDocument(title, content, selectedStorageOption?.id);
         setCurrentDocument(doc);
       } else {
-        await documentService.updateDocument(currentDocument.id, title, content);
+        await documentService.updateDocument(currentDocument.id, title, content, selectedStorageOption?.id);
         setCurrentDocument(prev => prev ? {
           ...prev,
           title,
@@ -228,7 +233,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
         } : null);
       }
       
-      await loadDocumentList();
       setAutoSaveStatus('✅ Saved to blockchain');
       setTimeout(() => setAutoSaveStatus(''), 2000);
       showNotification('Document saved to blockchain');
@@ -265,7 +269,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
       const content = editorRef.current.innerHTML;
       const title = extractTitleFromContent(content) || currentDocument.title;
       
-      await documentService.updateDocument(currentDocument.id, title, content);
+      await documentService.updateDocument(currentDocument.id, title, content, selectedStorageOption?.id);
       
       setCurrentDocument(prev => prev ? {
         ...prev,
@@ -276,7 +280,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
         charCount
       } : null);
       
-      await loadDocumentList();
       setAutoSaveStatus('✅ Auto-saved to blockchain');
       setTimeout(() => setAutoSaveStatus(''), 2000);
     } catch (error) {
@@ -286,35 +289,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
     }
   };
 
-  const deleteDocument = async (documentId: string) => {
-    if (!window.confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
-      return;
-    }
-
-    if (!documentService) return;
-
-    try {
-      setIsLoading(true);
-      await documentService.deleteDocument(documentId);
-      await loadDocumentList();
-      
-      // If we're deleting the current document, clear the editor
-      if (currentDocument && currentDocument.id === documentId) {
-        setCurrentDocument(null);
-        if (editorRef.current) {
-          editorRef.current.innerHTML = '<p>Start writing...</p>';
-        }
-        updateCounts();
-      }
-      
-      showNotification('Document deleted');
-    } catch (error) {
-      console.error('Failed to delete document:', error);
-      showNotification('Failed to delete document', 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const extractTitleFromContent = (html: string): string => {
     const tempDiv = document.createElement('div');
@@ -424,28 +398,30 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
     }, 3000);
   };
 
-  const formatDate = (timestamp: number): string => {
-    return new Date(timestamp).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  const handleEncrypt = () => {
+    if (isEncrypted) {
+      // Decrypt
+      setIsEncrypted(false);
+      showNotification('Document decrypted');
+    } else {
+      // Encrypt
+      setIsEncrypted(true);
+      showNotification('Document encrypted');
+    }
+  };
+
+  const handleSetPrice = () => {
+    const price = prompt('Set price to read (in USD):', readPrice.toString());
+    if (price !== null && !isNaN(Number(price))) {
+      setReadPrice(Number(price));
+      showNotification(`Read price set to $${price}`);
+    }
   };
 
   return (
     <div className={`document-editor ${isFullscreen ? 'fullscreen' : ''}`}>
       <div className="toolbar">
         <div className="toolbar-left">
-          <button onClick={newDocument} disabled={isLoading} title="New Document">
-            New
-          </button>
-          {isAuthenticated && (
-            <button onClick={() => setShowDocumentList(true)} title="Open Document">
-              Open
-            </button>
-          )}
           <button 
             onClick={saveDocument} 
             disabled={isLoading} 
@@ -454,6 +430,34 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
           >
             {isAuthenticated ? 'Save to Blockchain' : 'Save'}
           </button>
+          {isAuthenticated && (
+            <>
+              <button 
+                onClick={() => setShowPublishModal(true)}
+                disabled={isLoading}
+                title="Publish Settings"
+                className="publish-btn"
+              >
+                🌍 Publish
+              </button>
+              <button 
+                onClick={handleEncrypt}
+                disabled={isLoading}
+                title={isEncrypted ? "Decrypt document" : "Encrypt document"}
+                className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
+              >
+                {isEncrypted ? '🔓' : '🔒'} {isEncrypted ? 'Decrypt' : 'Encrypt'}
+              </button>
+              <button 
+                onClick={handleSetPrice}
+                disabled={isLoading}
+                title="Set price to unlock this document"
+                className="price-btn"
+              >
+                💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
+              </button>
+            </>
+          )}
           <button onClick={insertImage} title="Insert Image">
             📷
           </button>
@@ -508,53 +512,18 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ documentService, isAuth
         <span>{currentDocument?.title || 'Untitled'}</span>
       </div>
 
-      {/* Document List Modal */}
-      {showDocumentList && (
-        <div className="modal-overlay" onClick={() => setShowDocumentList(false)}>
-          <div className="document-list-modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Your Documents</h3>
-              <button onClick={() => setShowDocumentList(false)}>×</button>
-            </div>
-            <div className="document-list">
-              {documentList.length === 0 ? (
-                <div className="empty-state">
-                  <p>No documents found. Create your first document!</p>
-                  <button onClick={() => {
-                    setShowDocumentList(false);
-                    newDocument();
-                  }}>
-                    Create New Document
-                  </button>
-                </div>
-              ) : (
-                documentList.map(doc => (
-                  <div key={doc.id} className="document-item">
-                    <div className="document-info" onClick={() => openDocument(doc.id)}>
-                      <h4>{doc.title}</h4>
-                      <div className="document-meta">
-                        <span>{doc.wordCount} words</span>
-                        <span>•</span>
-                        <span>{formatDate(doc.lastUpdated)}</span>
-                      </div>
-                    </div>
-                    <button 
-                      className="delete-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteDocument(doc.id);
-                      }}
-                      title="Delete document"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      
+      <PublishSettingsModal
+        isOpen={showPublishModal}
+        onClose={() => setShowPublishModal(false)}
+        onConfirm={(settings) => {
+          setPublishSettings(settings);
+          // TODO: Save publish settings with document
+          console.log('Publish settings:', settings);
+        }}
+        currentSettings={publishSettings || undefined}
+        documentTitle={currentDocument?.title || 'Untitled'}
+      />
       
       {isLoading && (
         <div className="loading-overlay">

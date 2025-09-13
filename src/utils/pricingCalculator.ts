@@ -24,30 +24,30 @@ export interface PricingBreakdown {
 // Storage options available to users
 export const STORAGE_OPTIONS: StorageOption[] = [
   {
-    id: 'op_return',
-    name: 'OP_RETURN',
-    description: 'Simple, cost-effective storage for smaller documents (up to 100KB)',
+    id: 'op_pushdata4',
+    name: 'OP_PUSHDATA4',
+    description: 'Massive data storage - up to 4GB per transaction on Bitcoin SV',
     baseRatePerByte: 0.5, // satoshis per byte
     features: [
+      'Up to 4GB per transaction',
       'Permanent storage',
-      'Low cost',
+      'Low cost per byte',
+      'Best for large documents'
+    ],
+    icon: '📚'
+  },
+  {
+    id: 'op_return',
+    name: 'OP_RETURN',
+    description: 'Standard data storage for documents',
+    baseRatePerByte: 0.5, // satoshis per byte
+    features: [
+      'Unlimited size on BSV',
+      'Permanent storage',
       'Quick confirmation',
       'Best for text documents'
     ],
     icon: '📝'
-  },
-  {
-    id: 'ordinals',
-    name: 'Ordinals Inscription',
-    description: 'Store as an NFT-like token that can be transferred',
-    baseRatePerByte: 1.0, // satoshis per byte (higher due to inscription overhead)
-    features: [
-      'Transferable ownership',
-      'NFT-like properties',
-      'Collectible document',
-      'Includes metadata'
-    ],
-    icon: '🎨'
   },
   {
     id: 'encrypted_data',
@@ -65,7 +65,7 @@ export const STORAGE_OPTIONS: StorageOption[] = [
   {
     id: 'metanet',
     name: 'Metanet Protocol',
-    description: 'Structured data storage with versioning support',
+    description: 'Structured data storage with versioning and linking',
     baseRatePerByte: 0.8, // satoshis per byte
     features: [
       'Version history',
@@ -79,7 +79,7 @@ export const STORAGE_OPTIONS: StorageOption[] = [
 
 // Constants for pricing calculations
 const SATOSHIS_PER_BITCOIN = 100_000_000;
-const CENTS_PER_WORD = 0.001; // $0.00001 per word (1/1000th of a penny)
+const CENTS_PER_CHARACTER = 0.000001; // 1/100,000th of a penny per character = $0.00000001
 const SERVICE_MULTIPLIER = 2; // We charge 2x the base cost
 const BYTES_PER_CHARACTER = 1; // Rough estimate for UTF-8 text
 
@@ -107,17 +107,19 @@ export const calculatePricing = async (
   const characterCount = content.length;
   const byteSize = calculateDocumentSize(content);
   
-  // Calculate base cost in satoshis
-  const baseCostSatoshis = byteSize * storageOption.baseRatePerByte;
+  // Calculate base cost in USD (1/100,000th of a penny per character = $0.00000001)
+  const baseCostUSD = characterCount * CENTS_PER_CHARACTER;
   
   // Apply our service fee (2x markup)
-  const serviceFee = baseCostSatoshis * (SERVICE_MULTIPLIER - 1);
-  const totalCostSatoshis = baseCostSatoshis + serviceFee;
+  const totalCostUSD = baseCostUSD * SERVICE_MULTIPLIER;
+  const serviceFeeUSD = totalCostUSD - baseCostUSD;
   
-  // Get BTC price and calculate USD cost
+  // Convert to satoshis for display
   const btcPrice = btcPriceUSD || await getBitcoinPriceUSD();
-  const totalCostBTC = totalCostSatoshis / SATOSHIS_PER_BITCOIN;
-  const totalCostUSD = totalCostBTC * btcPrice;
+  const totalCostBTC = totalCostUSD / btcPrice;
+  const totalCostSatoshis = totalCostBTC * SATOSHIS_PER_BITCOIN;
+  const baseCostSatoshis = (baseCostUSD / btcPrice) * SATOSHIS_PER_BITCOIN;
+  const serviceFeeSatoshis = (serviceFeeUSD / btcPrice) * SATOSHIS_PER_BITCOIN;
   
   // Calculate cost per word
   const costPerWord = wordCount > 0 ? totalCostUSD / wordCount : 0;
@@ -127,7 +129,7 @@ export const calculatePricing = async (
     characterCount,
     byteSize,
     baseCostSatoshis: Math.round(baseCostSatoshis),
-    serviceFee: Math.round(serviceFee),
+    serviceFee: Math.round(serviceFeeSatoshis),
     totalCostSatoshis: Math.round(totalCostSatoshis),
     totalCostUSD,
     costPerWord
@@ -145,17 +147,15 @@ export const formatSatoshis = (satoshis: number): string => {
   }
 };
 
-// Format USD price
+// Format USD price - always show full dollar amount
 export const formatUSD = (usd: number): string => {
-  if (usd < 0.01) {
-    // Show in fractions of a cent
-    const fractionOfCent = usd * 100;
-    if (fractionOfCent < 0.001) {
-      return `$${(usd * 1000000).toFixed(2)} µ`; // microdollars
-    }
-    return `${fractionOfCent.toFixed(3)}¢`;
+  if (usd === 0) {
+    return '$0.00';
+  } else if (usd < 0.01) {
+    // Show full precision for small amounts
+    return `$${usd.toFixed(8)}`;
   } else if (usd < 1) {
-    return `${(usd * 100).toFixed(2)}¢`;
+    return `$${usd.toFixed(4)}`;
   } else {
     return `$${usd.toFixed(2)}`;
   }
@@ -176,19 +176,25 @@ export const estimateConfirmationTime = (satoshisPerByte: number): string => {
 
 // Get a fun fact about the cost
 export const getCostComparison = (usdCost: number): string => {
-  if (usdCost < 0.001) {
-    return "Less than a grain of rice! 🌾";
+  if (usdCost === 0) {
+    return "Free! Start writing! ✍️";
+  } else if (usdCost < 0.00001) {
+    return "Practically free! 🎁";
+  } else if (usdCost < 0.0001) {
+    return "Less than a dust particle! ✨";
+  } else if (usdCost < 0.001) {
+    return "Cheaper than a grain of sand! 🏖️";
   } else if (usdCost < 0.01) {
-    return "Cheaper than a penny! 🪙";
+    return "Less than a penny! 🪙";
   } else if (usdCost < 0.10) {
-    return "Less than a gumball! 🍬";
+    return "Cheaper than a gumball! 🍬";
   } else if (usdCost < 0.50) {
-    return "Costs less than a postage stamp! 📮";
+    return "Less than a postage stamp! 📮";
   } else if (usdCost < 1.00) {
-    return "Less than a cup of coffee! ☕";
+    return "Less than a coffee! ☕";
   } else if (usdCost < 5.00) {
-    return "About the price of a fancy coffee! ☕";
+    return "About a fancy coffee! ☕";
   } else {
-    return "Worth every satoshi for permanent storage! 💎";
+    return "Worth it for permanent storage! 💎";
   }
 };

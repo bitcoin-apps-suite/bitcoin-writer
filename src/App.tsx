@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import DocumentEditor from './components/DocumentEditor';
+import DocumentSidebar from './components/DocumentSidebar';
 import Login from './components/Login';
 import HandCashCallback from './components/HandCashCallback';
-import { BlockchainDocumentService } from './services/BlockchainDocumentService';
+import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<HandCashUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,23 +32,28 @@ function App() {
                      hashParams.get('access_token') ||
                      hashParams.get('token');
     
-    console.log('App loading - URL:', window.location.href);
+    console.log('=== App Initialization ===');
+    console.log('HandCash App ID:', process.env.REACT_APP_HANDCASH_APP_ID ? 'Configured' : 'NOT CONFIGURED');
+    console.log('Current URL:', window.location.href);
     console.log('URL params:', Array.from(urlParams.entries()));
     console.log('Hash params:', Array.from(hashParams.entries()));
-    console.log('Auth token found:', authToken);
+    console.log('Auth token found:', authToken ? 'Yes' : 'No');
     
     if (authToken) {
       // We have an authToken, handle the callback
       console.log('Found authToken, handling callback...');
       const handcashService = new HandCashService();
       handcashService.handleCallback(authToken).then(user => {
+        console.log('Callback processed, user:', user);
         handleLogin(user);
         // Clean up URL after successful auth
         window.history.replaceState({}, document.title, window.location.pathname);
       }).catch(err => {
         console.error('Failed to handle callback:', err);
+        alert('HandCash authentication failed. Please try again.');
       });
     } else {
+      // Check existing authentication
       checkAuthentication();
     }
   }, []);
@@ -69,12 +76,21 @@ function App() {
   };
 
   const handleLogin = (user: HandCashUser) => {
+    console.log('=== User Successfully Authenticated ===');
+    console.log('User handle:', user.handle);
+    console.log('User paymail:', user.paymail);
+    console.log('=====================================');
     setCurrentUser(user);
     setIsAuthenticated(true);
     initializeDocumentService();
   };
 
   const handleLogout = () => {
+    console.log('=== COMPLETE LOGOUT ===');
+    
+    // Use HandCash service logout
+    handcashService.logout();
+    
     // Clear EVERYTHING
     localStorage.clear();
     sessionStorage.clear();
@@ -88,9 +104,14 @@ function App() {
     setIsAuthenticated(false);
     setCurrentUser(null);
     setDocumentService(null);
+    setCurrentDocument(null);
+    
+    console.log('Logout complete - refreshing page...');
     
     // Force hard reload to clear all memory
-    window.location.replace('/');
+    setTimeout(() => {
+      window.location.replace('/');
+    }, 100);
   };
 
   return (
@@ -107,11 +128,17 @@ function App() {
               <div className="connection-indicator" style={{ 
                 backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
               }} />
-              <h1>Bitcoin Writer</h1>
+              <div className="title-section">
+                <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
+                <p className="subtitle">Secure, Encrypted Documents on the Blockchain</p>
+              </div>
               <div className="user-info">
                 {isAuthenticated ? (
                   <>
-                    <span className="user-handle">@{currentUser?.handle}</span>
+                    <div className="handcash-badge">
+                      <span className="handcash-logo">HandCash</span>
+                      <span className="user-handle">@{currentUser?.handle}</span>
+                    </div>
                     <button className="logout-btn" onClick={handleLogout}>
                       Sign Out
                     </button>
@@ -130,13 +157,24 @@ function App() {
                   : "Start writing immediately. Sign in with HandCash to save your documents on the blockchain."}
               </small>
             </div>
-            <main>
-              <DocumentEditor 
-                documentService={documentService} 
+            <div className="app-container">
+              <DocumentSidebar
+                documentService={documentService}
                 isAuthenticated={isAuthenticated}
-                onAuthRequired={() => handcashService.login()}
+                onDocumentSelect={(doc) => setCurrentDocument(doc)}
+                onNewDocument={() => setCurrentDocument(null)}
+                currentDocumentId={currentDocument?.id}
               />
-            </main>
+              <main>
+                <DocumentEditor 
+                  documentService={documentService} 
+                  isAuthenticated={isAuthenticated}
+                  onAuthRequired={() => handcashService.login()}
+                  currentDocument={currentDocument}
+                  onDocumentUpdate={(doc) => setCurrentDocument(doc)}
+                />
+              </main>
+            </div>
           </div>
         )
       } />
