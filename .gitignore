@@ -47,3 +47,9 @@ Icon?
 Thumbs.db
 *.tmp
 *.temp
+
+# Old Electron build files
+dist/
+build-instructions.md
+bitcoin-writer.*
+BITCOIN_WRITER_README.md

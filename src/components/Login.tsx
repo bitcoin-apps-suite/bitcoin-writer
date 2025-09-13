@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               </span>
             ) : (
               <span>
-                <img src="/handcash-logo.png" alt="HandCash" className="handcash-logo" />
+                <span style={{ marginRight: '8px', fontSize: '18px' }}>💰</span>
                 Sign in with HandCash
               </span>
             )}

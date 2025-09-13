@@ -10,7 +10,9 @@
   background-color: #000000;
   color: #ffffff;
   min-height: 100vh;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App-header {
@@ -99,23 +101,28 @@
 .login-box {
   background-color: #111;
   border: 1px solid #333;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 40px;
-  max-width: 500px;
+  max-width: 480px;
   width: 100%;
   text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .logo-section h1 {
-  font-size: 32px;
+  font-size: 28px;
+  font-weight: 600;
   margin-bottom: 8px;
   color: #ffffff;
+  letter-spacing: -0.5px;
 }
 
 .tagline {
-  color: #888;
-  font-size: 14px;
+  color: #999;
+  font-size: 15px;
+  font-weight: 400;
   margin-bottom: 32px;
+  line-height: 1.4;
 }
 
 .features-section {
@@ -125,9 +132,11 @@
 
 .features-section h3 {
   color: #ffffff;
-  font-size: 16px;
-  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
   text-align: center;
+  letter-spacing: -0.3px;
 }
 
 .features-section ul {
@@ -137,38 +146,44 @@
 
 .features-section li {
   color: #ccc;
-  font-size: 14px;
-  margin-bottom: 8px;
-  line-height: 1.4;
+  font-size: 15px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 .login-section p {
   color: #ccc;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 400;
   margin-bottom: 24px;
+  line-height: 1.4;
 }
 
 .handcash-login-btn {
   background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
+  padding: 14px 24px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  min-height: 48px;
+  min-height: 52px;
+  font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.3px;
 }
 
 .handcash-login-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.25);
+  background: linear-gradient(135deg, #4CAF50 0%, #43a047 100%);
 }
 
 .handcash-login-btn:disabled {
@@ -177,10 +192,6 @@
   transform: none;
 }
 
-.handcash-logo {
-  width: 20px;
-  height: 20px;
-}
 
 .spinner {
   width: 16px;
