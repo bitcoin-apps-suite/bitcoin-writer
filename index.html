@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitcoin Writer</title>
+    <style>
+        .app-title {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .bitcoin-word {
+            background: linear-gradient(135deg, #f7931a 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 8px;
+        }
+
+        .writer-word {
+            color: #ffffff;
+            font-weight: 300;
+        }
+    </style>
     <link rel="icon" type="image/jpeg" href="screen-writer-icon-02.jpg">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
@@ -20,7 +41,10 @@
                 <input type="file" id="image-input" accept="image/*" style="display: none;">
             </div>
             <div class="toolbar-center">
-                <a href="bitcoin-writer.html" class="nav-link" title="Bitcoin Writer">₿ Writer</a>
+                <h1 class="app-title">
+                    <span class="bitcoin-word">Bitcoin</span>
+                    <span class="writer-word">Writer</span>
+                </h1>
                 <span id="word-count">0 words</span>
                 <span id="char-count">0 characters</span>
             </div>

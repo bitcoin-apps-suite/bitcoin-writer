@@ -463,18 +463,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               
               {showActionsDropdown && (
                 <div className="mobile-dropdown">
+                  <button 
+                    onClick={() => {
+                      insertImage();
+                      setShowActionsDropdown(false);
+                    }}
+                    className="dropdown-item"
+                  >
+                    📷 Add Image
+                  </button>
                   {isAuthenticated && (
                     <>
-                      <button 
-                        onClick={() => {
-                          setShowPublishModal(true);
-                          setShowActionsDropdown(false);
-                        }}
-                        disabled={isLoading}
-                        className="dropdown-item"
-                      >
-                        🌍 Publish
-                      </button>
                       <button 
                         onClick={() => {
                           handleEncrypt();
@@ -483,7 +482,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                         disabled={isLoading}
                         className={`dropdown-item ${isEncrypted ? 'encrypted' : ''}`}
                       >
-                        {isEncrypted ? '🔓 Decrypt' : '🔒 Encrypt'}
+                        {isEncrypted ? '🔓 Decrypt' : '🔒 Encrypt Draft'}
                       </button>
                       <button 
                         onClick={() => {
@@ -493,19 +492,20 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                         disabled={isLoading}
                         className="dropdown-item"
                       >
-                        💰 Set Price {readPrice > 0 ? `($${readPrice})` : ''}
+                        💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setShowPublishModal(true);
+                          setShowActionsDropdown(false);
+                        }}
+                        disabled={isLoading}
+                        className="dropdown-item"
+                      >
+                        🌍 Publish Document
                       </button>
                     </>
                   )}
-                  <button 
-                    onClick={() => {
-                      insertImage();
-                      setShowActionsDropdown(false);
-                    }}
-                    className="dropdown-item"
-                  >
-                    📷 Insert Image
-                  </button>
                   <button 
                     onClick={() => {
                       toggleFullscreen();
@@ -540,42 +540,44 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             <button 
               onClick={saveDocument} 
               disabled={isLoading} 
-              title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
+              title={isAuthenticated ? "Save encrypted draft to blockchain" : "Save (Sign in for blockchain)"}
               className={!isAuthenticated ? 'save-guest' : ''}
             >
-              {isAuthenticated ? 'Save to Blockchain' : 'Save'}
+              💾 {isAuthenticated ? 'Save to Blockchain' : 'Save'}
             </button>
+            
+            <button onClick={insertImage} title="Add images to your document (included in blockchain storage cost)">
+              📷 Add Image
+            </button>
+            
             {isAuthenticated && (
               <>
                 <button 
-                  onClick={() => setShowPublishModal(true)}
-                  disabled={isLoading}
-                  title="Publish Settings"
-                  className="publish-btn"
-                >
-                  🌍 Publish
-                </button>
-                <button 
                   onClick={handleEncrypt}
                   disabled={isLoading}
-                  title={isEncrypted ? "Decrypt document" : "Encrypt document"}
+                  title={isEncrypted ? "Make document readable to you only" : "Encrypt draft for privacy"}
                   className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
                 >
-                  {isEncrypted ? '🔓' : '🔒'} {isEncrypted ? 'Decrypt' : 'Encrypt'}
+                  {isEncrypted ? '🔓 Decrypt Draft' : '🔒 Encrypt Draft'}
                 </button>
                 <button 
                   onClick={handleSetPrice}
                   disabled={isLoading}
-                  title="Set price to unlock this document"
+                  title="Set price readers must pay to unlock your document"
                   className="price-btn"
                 >
                   💰 Set Price To Unlock {readPrice > 0 ? `($${readPrice})` : ''}
                 </button>
+                <button 
+                  onClick={() => setShowPublishModal(true)}
+                  disabled={isLoading}
+                  title="Make document publicly accessible (optionally behind paywall)"
+                  className="publish-btn"
+                >
+                  🌍 Publish Document
+                </button>
               </>
             )}
-            <button onClick={insertImage} title="Insert Image">
-              📷
-            </button>
             <input
               type="file"
               ref={imageInputRef}

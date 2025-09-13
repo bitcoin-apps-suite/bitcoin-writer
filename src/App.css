@@ -24,72 +24,74 @@
   width: 100%;
 }
 
-/* Mobile Responsive Layout */
+/* Mobile layout adjustments */
 @media (max-width: 768px) {
-  .mobile-menu-toggle {
-    display: flex;
-  }
-  
-  .App-header {
-    padding: 30px 16px 4px 16px;
-    min-height: auto;
-  }
-  
-  .desktop-only {
+  /* Hide desktop user info on mobile */
+  .desktop-user-info {
     display: none !important;
   }
   
-  .mobile-only {
-    display: flex;
+  /* Show mobile user info */
+  .mobile-user-info {
+    display: flex !important;
   }
   
-  .header-bottom {
-    display: flex;
-    margin-top: -8px;
-  }
-  
-  .header-left {
-    min-width: auto;
-  }
-  
-  .title-section {
-    position: static;
-    transform: none;
-    left: auto;
-    margin: 0;
-    padding: 0;
-    flex: 1;
+  /* Compact mobile header */
+  .App-header {
+    padding: 12px 16px 16px 16px;
     text-align: center;
   }
   
-  .title-section h1 {
-    font-size: 18px;
-    margin-bottom: 0;
-    margin-top: 0;
-    white-space: nowrap; /* Keep "Bitcoin Writer" on one line */
+  .App-header h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
   }
   
-  .title-section .subtitle {
-    font-size: 10px;
-    line-height: 1.2;
+  .app-subtitle {
+    font-size: 0.85rem;
     margin-bottom: 0;
   }
   
-  .handcash-badge {
-    padding: 6px 10px;
-  }
-  
-  .handcash-logo {
-    font-size: 10px;
-  }
-  
-  .user-handle {
-    font-size: 10px;
-  }
-  
-  .logout-btn, .login-btn {
-    font-size: 12px;
+  .mobile-logout-btn {
     padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    min-width: 80px;
+  }
+  
+  /* Compact mobile login */
+  .navbar-login {
+    gap: 8px;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .login-features {
+    display: none; /* Hide feature list to save space */
+  }
+  
+  .navbar-handcash-btn {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+  
+  /* Compact HandCash badge */
+  .mobile-user-info .handcash-badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+  
+  .mobile-user-info .handcash-badge .user-handle {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
   }
   
   .app-container {
@@ -111,57 +113,72 @@ main {
 }
 
 .App-header {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 16px;
-  background-color: #1a1a1a;
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 24px 32px;
   border-bottom: 1px solid #333;
-  min-height: 96px;
   position: relative;
 }
 
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+.App-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }
 
-.header-bottom {
+.app-subtitle {
+  margin: 8px 0 0 0;
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* Desktop user info (top right) */
+.desktop-user-info {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 9999;
+}
+
+/* Mobile user info (below title, hidden by default) */
+.mobile-user-info {
   display: none;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-top: 4px;
+  margin: 12px 16px 8px 16px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
 }
 
 .mobile-auth-section {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  max-width: 320px;
 }
 
-.header-left {
+.mobile-login-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  min-width: 120px;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 120px;
-  justify-content: flex-end;
-}
-
-.desktop-only {
-  display: flex;
-}
-
-.mobile-only {
-  display: none;
+  gap: 8px;
+  width: 100%;
+  max-width: 260px;
 }
 
 /* Mobile Menu Toggle */
@@ -436,6 +453,97 @@ main {
   color: #ffffff;
   font-weight: 500;
   font-size: 14px;
+}
+
+/* User Dropdown Styles */
+.user-dropdown-container {
+  position: relative;
+}
+
+.handcash-badge.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.handcash-badge.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+}
+
+.dropdown-arrow {
+  color: #ffffff;
+  font-size: 10px;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.mobile-user-dropdown {
+  left: 0;
+  right: auto;
+  margin-top: 4px;
+}
+
+.dropdown-header {
+  padding: 16px;
+  background-color: #111;
+  border-bottom: 1px solid #333;
+}
+
+.user-info-detailed {
+  text-align: left;
+}
+
+.user-handle-large {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.user-paymail {
+  color: #888;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #333;
+}
+
+.dropdown-item.logout-item {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-item.logout-item:hover {
+  background-color: #2a2a2a;
+  color: #ff6b6b;
 }
 
 .user-handle {

@@ -16,6 +16,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -126,58 +127,56 @@ function App() {
         ) : (
           <div className="App">
             <header className="App-header">
-              <div className="header-top">
-                <div className="header-left">
-                  <div className="connection-indicator" style={{ 
-                    backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
-                  }} />
-                  
-                  <button 
-                    className="mobile-menu-toggle"
-                    onClick={() => setShowMobileMenu(!showMobileMenu)}
-                    aria-label="Toggle menu"
-                  >
-                    <span className="hamburger-line"></span>
-                    <span className="hamburger-line"></span>
-                    <span className="hamburger-line"></span>
-                  </button>
-                </div>
-
-                <div className="title-section">
-                  <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
-                  <p className="subtitle">Secure, Encrypted Documents on the Blockchain</p>
-                </div>
-                
-                <div className="header-right desktop-only">
-                  {isAuthenticated ? (
-                    <>
-                      <div className="handcash-badge">
-                        <span className="handcash-logo">HandCash</span>
-                        <span className="user-handle">@{currentUser?.handle}</span>
-                      </div>
-                      <button className="logout-btn" onClick={handleLogout}>
-                        Sign Out
-                      </button>
-                    </>
-                  ) : (
-                    <button className="login-btn" onClick={() => handcashService.login()}>
-                      Sign in with HandCash
-                    </button>
-                  )}
-                </div>
-              </div>
+              <div className="connection-indicator" style={{ 
+                backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
+              }} />
               
-              {/* Mobile auth section below title */}
-              <div className="header-bottom mobile-only">
+              <button 
+                className="mobile-menu-toggle"
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                aria-label="Toggle menu"
+              >
+                <span className="hamburger-line"></span>
+                <span className="hamburger-line"></span>
+                <span className="hamburger-line"></span>
+              </button>
+
+              <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
+              <p className="app-subtitle">Secure, Encrypted Documents on the Blockchain</p>
+              
+              {/* Desktop user info (top right) */}
+              <div className="user-info desktop-user-info">
                 {isAuthenticated ? (
-                  <div className="mobile-auth-section">
-                    <div className="handcash-badge">
+                  <div className="user-dropdown-container">
+                    <div 
+                      className="handcash-badge clickable"
+                      onClick={() => setShowUserDropdown(!showUserDropdown)}
+                    >
                       <span className="handcash-logo">HandCash</span>
                       <span className="user-handle">@{currentUser?.handle}</span>
+                      <span className="dropdown-arrow">▼</span>
                     </div>
-                    <button className="logout-btn" onClick={handleLogout}>
-                      Sign Out
-                    </button>
+                    
+                    {showUserDropdown && (
+                      <div className="user-dropdown">
+                        <div className="dropdown-header">
+                          <div className="user-info-detailed">
+                            <div className="user-handle-large">@{currentUser?.handle}</div>
+                            <div className="user-paymail">{currentUser?.paymail}</div>
+                          </div>
+                        </div>
+                        <div className="dropdown-divider"></div>
+                        <button 
+                          className="dropdown-item logout-item" 
+                          onClick={() => {
+                            handleLogout();
+                            setShowUserDropdown(false);
+                          }}
+                        >
+                          🚪 Sign Out
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <button className="login-btn" onClick={() => handcashService.login()}>
@@ -185,11 +184,76 @@ function App() {
                   </button>
                 )}
               </div>
+
+              {/* Mobile user info (below title) */}
+              <div className="mobile-user-info">
+                {isAuthenticated ? (
+                  <div className="mobile-auth-section">
+                    <div className="user-dropdown-container mobile-dropdown-container">
+                      <div 
+                        className="handcash-badge clickable"
+                        onClick={() => setShowUserDropdown(!showUserDropdown)}
+                      >
+                        <span className="handcash-logo">HandCash</span>
+                        <span className="user-handle">@{currentUser?.handle}</span>
+                        <span className="dropdown-arrow">▼</span>
+                      </div>
+                      
+                      {showUserDropdown && (
+                        <div className="user-dropdown mobile-user-dropdown">
+                          <div className="dropdown-header">
+                            <div className="user-info-detailed">
+                              <div className="user-handle-large">@{currentUser?.handle}</div>
+                              <div className="user-paymail">{currentUser?.paymail}</div>
+                            </div>
+                          </div>
+                          <div className="dropdown-divider"></div>
+                          <button 
+                            className="dropdown-item logout-item" 
+                            onClick={() => {
+                              handleLogout();
+                              setShowUserDropdown(false);
+                            }}
+                          >
+                            🚪 Sign Out
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mobile-login-section">
+                    <button className="login-btn" onClick={() => handcashService.login()}>
+                      Sign in with HandCash
+                    </button>
+                  </div>
+                )}
+              </div>
             </header>
+
+            {/* Click overlay to close dropdowns */}
+            {(showUserDropdown || showMobileMenu) && (
+              <div 
+                className="overlay" 
+                onClick={() => {
+                  setShowUserDropdown(false);
+                  setShowMobileMenu(false);
+                }}
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: showMobileMenu ? 999 : 100,
+                  background: showMobileMenu ? 'rgba(0, 0, 0, 0.8)' : 'transparent'
+                }}
+              />
+            )}
 
             {/* Mobile Menu Overlay */}
             {showMobileMenu && (
-              <div className="mobile-menu-overlay" onClick={() => setShowMobileMenu(false)}>
+              <div className="mobile-menu-overlay">
                 <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
                   <div className="mobile-menu-header">
                     <h3>Platform Features</h3>
