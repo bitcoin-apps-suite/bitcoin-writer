@@ -126,6 +126,32 @@ function App() {
           </div>
         ) : (
           <div className="App">
+            {/* macOS-style taskbar */}
+            <div className="taskbar">
+              <div className="taskbar-left">
+                <div className="bitcoin-logo">
+                  <span className="bitcoin-symbol">₿</span>
+                </div>
+                <div className="app-name">Bitcoin Writer</div>
+              </div>
+              <div className="taskbar-center">
+                {/* Window controls area */}
+              </div>
+              <div className="taskbar-right">
+                <a 
+                  href="https://x.com/BitcoinSheets" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="taskbar-link"
+                  aria-label="Follow on X"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
             <header className="App-header">
               <div className="connection-indicator" style={{ 
                 backgroundColor: isAuthenticated ? '#44ff44' : '#888' 

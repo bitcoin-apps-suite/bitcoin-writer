@@ -17,6 +17,77 @@
   flex-direction: column;
 }
 
+/* macOS-style taskbar */
+.taskbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28px;
+  background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 100%);
+  border-bottom: 1px solid #1a1a1a;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #ffffff;
+  position: relative;
+  z-index: 10000;
+}
+
+.taskbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bitcoin-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #ff9500;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.bitcoin-symbol {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.app-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.taskbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.taskbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.taskbar-link {
+  color: #ccc;
+  text-decoration: none;
+  padding: 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.taskbar-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
 .app-container {
   display: flex;
   flex: 1;
@@ -26,6 +97,24 @@
 
 /* Mobile layout adjustments */
 @media (max-width: 768px) {
+  /* Mobile taskbar adjustments */
+  .taskbar {
+    height: 32px;
+    padding: 0 8px;
+  }
+  
+  .bitcoin-logo {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .bitcoin-symbol {
+    font-size: 11px;
+  }
+  
+  .app-name {
+    font-size: 12px;
+  }
   /* Hide desktop user info on mobile */
   .desktop-user-info {
     display: none !important;
