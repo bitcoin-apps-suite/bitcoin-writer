@@ -367,11 +367,6 @@ function App() {
                 </div>
               </div>
             )}
-            <div className="disclaimer">
-              <small>
-                Start writing immediately. Sign in with HandCash to save your documents on the blockchain.
-              </small>
-            </div>
             <div className="app-container">
               <DocumentSidebar
                 documentService={documentService}
