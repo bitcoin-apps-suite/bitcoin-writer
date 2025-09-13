@@ -34,7 +34,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <div className="features-section">
           <h3>Why Bitcoin Writer?</h3>
           <ul>
-            <li>🔒 Your documents are encrypted and stored on the blockchain</li>
             <li>🔑 Only you can access them with your HandCash login</li>
             <li>🌐 Access your work from anywhere, anytime</li>
             <li>💎 Built on Bitcoin SV for permanent storage</li>
