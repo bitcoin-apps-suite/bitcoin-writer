@@ -248,7 +248,7 @@ function App() {
               </div>
               <div className="taskbar-right">
                 <a 
-                  href="https://x.com/BitcoinSheets" 
+                  href="https://x.com/bitcoin_writer" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="taskbar-link"
