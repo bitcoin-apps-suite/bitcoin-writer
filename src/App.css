@@ -1359,17 +1359,52 @@ main {
 .delete-btn {
   background: none;
   border: none;
-  color: #888;
-  font-size: 16px;
+  color: #666;
+  font-size: 14px;
   cursor: pointer;
-  padding: 4px;
+  padding: 4px 6px;
   border-radius: 4px;
   transition: all 0.2s ease;
+  opacity: 0.7;
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 
 .delete-btn:hover {
   background-color: #ff4444;
   color: white;
+  opacity: 1;
+}
+
+/* Mobile delete button */
+.mobile-document-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mobile-document-item {
+  flex: 1;
+}
+
+.mobile-delete-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.mobile-delete-btn:hover {
+  background-color: #ff4444;
+  color: white;
+  opacity: 1;
 }
 
 .empty-state {
@@ -1506,10 +1541,11 @@ main {
 }
 
 .document-item {
+  display: flex;
+  align-items: flex-start;
   padding: 10px;
   background-color: #111;
   border-radius: 6px;
-  cursor: pointer;
   transition: all 0.2s;
   border: 1px solid transparent;
 }
@@ -1522,6 +1558,11 @@ main {
 .document-item.active {
   background-color: #1f1f1f;
   border-color: #444;
+}
+
+.document-content {
+  flex: 1;
+  cursor: pointer;
 }
 
 .document-header {

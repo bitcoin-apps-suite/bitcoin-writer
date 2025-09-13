@@ -46,6 +46,31 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
     }
   };
 
+  const handleDeleteDocument = async (docId: string, docTitle: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent selecting the document
+    
+    if (!documentService) return;
+    
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${docTitle}"? This action cannot be undone.`
+    );
+    
+    if (!confirmed) return;
+    
+    try {
+      await documentService.deleteDocument(docId);
+      setDocuments(prev => prev.filter(doc => doc.id !== docId));
+      
+      // If this was the current document, clear it
+      if (currentDocumentId === docId) {
+        onNewDocument();
+      }
+    } catch (error) {
+      console.error('Failed to delete document:', error);
+      alert('Failed to delete document. Please try again.');
+    }
+  };
+
   const filteredDocuments = documents.filter(doc => 
     doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     doc.preview?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -124,20 +149,28 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
         ) : (
           <div className="mobile-document-list">
             {filteredDocuments.map(doc => (
-              <button
-                key={doc.id}
-                className={`mobile-document-item ${currentDocumentId === doc.id ? 'active' : ''}`}
-                onClick={() => onDocumentSelect(doc)}
-              >
-                <div className="mobile-doc-header">
-                  <span className="mobile-doc-icon">{getStorageIcon(doc.storage_method)}</span>
-                  <span className="mobile-doc-title">{doc.title}</span>
-                  <span className="mobile-doc-date">{formatDate(doc.updated_at)}</span>
-                </div>
-                {doc.preview && (
-                  <div className="mobile-doc-preview">{doc.preview}</div>
-                )}
-              </button>
+              <div key={doc.id} className="mobile-document-wrapper">
+                <button
+                  className={`mobile-document-item ${currentDocumentId === doc.id ? 'active' : ''}`}
+                  onClick={() => onDocumentSelect(doc)}
+                >
+                  <div className="mobile-doc-header">
+                    <span className="mobile-doc-icon">{getStorageIcon(doc.storage_method)}</span>
+                    <span className="mobile-doc-title">{doc.title}</span>
+                    <span className="mobile-doc-date">{formatDate(doc.updated_at)}</span>
+                  </div>
+                  {doc.preview && (
+                    <div className="mobile-doc-preview">{doc.preview}</div>
+                  )}
+                </button>
+                <button
+                  className="mobile-delete-btn"
+                  onClick={(e) => handleDeleteDocument(doc.id, doc.title, e)}
+                  title={`Delete ${doc.title}`}
+                >
+                  🗑️
+                </button>
+              </div>
             ))}
           </div>
         )}
@@ -185,24 +218,35 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                 <div
                   key={doc.id}
                   className={`document-item ${currentDocumentId === doc.id ? 'active' : ''}`}
-                  onClick={() => onDocumentSelect(doc)}
                 >
-                  <div className="document-header">
-                    <span className="document-icon">{getStorageIcon(doc.storage_method)}</span>
-                    <span className="document-title">{doc.title || 'Untitled'}</span>
-                  </div>
-                  {doc.preview && (
-                    <div className="document-preview">{doc.preview}</div>
-                  )}
-                  <div className="document-meta">
-                    <span className="document-date">{formatDate(doc.updated_at)}</span>
-                    {doc.word_count && (
-                      <span className="document-words">{doc.word_count.toLocaleString()} words</span>
+                  <div 
+                    className="document-content"
+                    onClick={() => onDocumentSelect(doc)}
+                  >
+                    <div className="document-header">
+                      <span className="document-icon">{getStorageIcon(doc.storage_method)}</span>
+                      <span className="document-title">{doc.title || 'Untitled'}</span>
+                    </div>
+                    {doc.preview && (
+                      <div className="document-preview">{doc.preview}</div>
                     )}
-                    {doc.storage_cost && (
-                      <span className="document-cost">{formatUSD(doc.storage_cost)}</span>
-                    )}
+                    <div className="document-meta">
+                      <span className="document-date">{formatDate(doc.updated_at)}</span>
+                      {doc.word_count && (
+                        <span className="document-words">{doc.word_count.toLocaleString()} words</span>
+                      )}
+                      {doc.storage_cost && (
+                        <span className="document-cost">{formatUSD(doc.storage_cost)}</span>
+                      )}
+                    </div>
                   </div>
+                  <button
+                    className="delete-btn"
+                    onClick={(e) => handleDeleteDocument(doc.id, doc.title || 'Untitled', e)}
+                    title={`Delete ${doc.title || 'Untitled'}`}
+                  >
+                    🗑️
+                  </button>
                 </div>
               ))}
             </div>
