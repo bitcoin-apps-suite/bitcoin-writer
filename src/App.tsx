@@ -17,6 +17,8 @@ function App() {
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showBitcoinMenu, setShowBitcoinMenu] = useState(false);
+  const [showWriterMenu, setShowWriterMenu] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -129,10 +131,119 @@ function App() {
             {/* macOS-style taskbar */}
             <div className="taskbar">
               <div className="taskbar-left">
-                <div className="bitcoin-logo">
-                  <span className="bitcoin-symbol">₿</span>
+                <div className="bitcoin-menu-container">
+                  <button 
+                    className="bitcoin-logo-button"
+                    onClick={() => setShowBitcoinMenu(!showBitcoinMenu)}
+                    aria-label="Bitcoin Menu"
+                  >
+                    <div className="bitcoin-logo">
+                      <span className="bitcoin-symbol">₿</span>
+                    </div>
+                  </button>
+                  {showBitcoinMenu && (
+                    <>
+                      <div className="menu-overlay" onClick={() => setShowBitcoinMenu(false)} />
+                      <div className="bitcoin-menu">
+                        <div className="menu-header">
+                          <div className="bitcoin-logo-small">₿</div>
+                          <span>Bitcoin Writer</span>
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
+                          alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© 2024 Bitcoin Writer\nBuilt on Bitcoin SV blockchain');
+                          setShowBitcoinMenu(false);
+                        }}>
+                          <span>ℹ️</span> About Bitcoin Writer
+                        </div>
+                        <div className="menu-separator" />
+                        {isAuthenticated && (
+                          <div className="menu-item" onClick={() => {
+                            handleLogout();
+                            setShowBitcoinMenu(false);
+                          }}>
+                            <span>🚪</span> Sign Out
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
-                <div className="app-name">Bitcoin Writer</div>
+                
+                <div className="writer-menu-container">
+                  <button 
+                    className="writer-menu-button"
+                    onClick={() => setShowWriterMenu(!showWriterMenu)}
+                    aria-label="Writer Menu"
+                  >
+                    Bitcoin Writer
+                  </button>
+                  {showWriterMenu && (
+                    <>
+                      <div className="menu-overlay" onClick={() => setShowWriterMenu(false)} />
+                      <div className="writer-menu">
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Open
+                          alert('Open functionality coming soon');
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>📂</span> Open
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Save
+                          document.querySelector('.save-btn-mobile, [title*="Save"]')?.click();
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>💾</span> Save
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Save As
+                          alert('Save As functionality coming soon');
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>📋</span> Save As
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Encrypt
+                          document.querySelector('[title*="Encrypt"]')?.click();
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>🔒</span> Encrypt
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Decrypt
+                          document.querySelector('[title*="Decrypt"]')?.click();
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>🔓</span> Decrypt
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Tokenize
+                          alert('Tokenize functionality coming soon');
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>🎨</span> Tokenize
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Paywall
+                          document.querySelector('[title*="Set price"]')?.click();
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>💰</span> Paywall
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          // TODO: Implement Publish
+                          document.querySelector('[title*="Publish"]')?.click();
+                          setShowWriterMenu(false);
+                        }}>
+                          <span>🌍</span> Publish
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
               <div className="taskbar-center">
                 {/* Window controls area */}
@@ -258,12 +369,14 @@ function App() {
             </header>
 
             {/* Click overlay to close dropdowns */}
-            {(showUserDropdown || showMobileMenu) && (
+            {(showUserDropdown || showMobileMenu || showBitcoinMenu || showWriterMenu) && (
               <div 
                 className="overlay" 
                 onClick={() => {
                   setShowUserDropdown(false);
                   setShowMobileMenu(false);
+                  setShowBitcoinMenu(false);
+                  setShowWriterMenu(false);
                 }}
                 style={{
                   position: 'fixed',
