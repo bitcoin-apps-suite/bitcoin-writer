@@ -8,7 +8,8 @@ import {
   PricingBreakdown 
 } from '../utils/pricingCalculator';
 import StorageOptionsModal from './StorageOptionsModal';
-import BSVStorageService from '../services/BSVStorageService';
+import BSVStorageService, { StorageQuote } from '../services/BSVStorageService';
+import BudgetPrompt from './BudgetPrompt';
 
 interface PricingDisplayProps {
   wordCount: number;
@@ -29,15 +30,25 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
 }) => {
   const [selectedOption, setSelectedOption] = useState<StorageOption>(STORAGE_OPTIONS[0]);
   const [pricing, setPricing] = useState<PricingBreakdown | null>(null);
-  const [btcPrice, setBtcPrice] = useState<number>(30000);
+  const [bsvQuote, setBsvQuote] = useState<StorageQuote | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showBudgetPrompt, setShowBudgetPrompt] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService());
+  const [currentBudget, setCurrentBudget] = useState(BSVStorageService.DEFAULT_BUDGET_USD);
+  const [isEncrypted, setIsEncrypted] = useState(false);
 
   useEffect(() => {
     const updatePricing = async () => {
       if (wordCount > 0) {
-        // Use flat penny pricing from BSV service
-        const quote = bsvService.calculateStorageCost(wordCount);
+        // Calculate actual BSV costs with markup
+        const quote = bsvService.calculateStorageCost(wordCount, isEncrypted, currentBudget);
+        setBsvQuote(quote);
+        
+        // Check if we need to prompt for budget increase
+        if (quote.budget.requiresIncrease && !showBudgetPrompt) {
+          setShowBudgetPrompt(true);
+        }
+        
         const breakdown: PricingBreakdown = {
           wordCount: wordCount,
           characterCount: characterCount,
@@ -45,15 +56,15 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
           baseCostSatoshis: quote.minerFeeSats,
           serviceFee: quote.serviceFeeSats,
           totalCostSatoshis: quote.totalSats,
-          totalCostUSD: quote.totalUSD, // Always $0.01
-          costPerWord: quote.totalUSD / wordCount
+          totalCostUSD: quote.totalUSD,
+          costPerWord: quote.costPerWord
         };
         setPricing(breakdown);
       }
     };
     
     updatePricing();
-  }, [wordCount, bsvService]);
+  }, [wordCount, characterCount, bsvService, currentBudget, isEncrypted, showBudgetPrompt]);
 
   if (!pricing || wordCount === 0) {
     return isMobile ? (
@@ -72,15 +83,36 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
     onStorageMethodSelect?.(option);
   };
 
+  const formatCost = (cost: number) => {
+    if (cost < 0.01) {
+      return `${(cost * 100).toFixed(3)}¢`;
+    }
+    return `${Math.ceil(cost * 100)}¢`;
+  };
+
+  const getBudgetStatus = () => {
+    if (!bsvQuote) return '';
+    if (bsvQuote.budget.requiresIncrease) {
+      return '⚠️ Exceeds budget';
+    }
+    if (bsvQuote.totalUSD > currentBudget * 0.8) {
+      return '⚡ Near budget limit';
+    }
+    return '';
+  };
+
   if (isMobile) {
     return (
       <>
         <span 
           className="mobile-pricing-cost"
           onClick={() => setShowModal(true)}
-          style={{ color: '#00ff00', fontWeight: 'bold' }}
+          style={{ 
+            color: bsvQuote?.budget.requiresIncrease ? '#ff9900' : '#00ff00', 
+            fontWeight: 'bold' 
+          }}
         >
-          💰 1¢
+          💰 {formatCost(pricing.totalCostUSD)}
         </span>
         
         <StorageOptionsModal
@@ -90,6 +122,18 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
           selectedOption={selectedOption}
           pricing={pricing}
         />
+        
+        {bsvQuote && (
+          <BudgetPrompt
+            isOpen={showBudgetPrompt}
+            onClose={() => setShowBudgetPrompt(false)}
+            currentBudget={currentBudget}
+            suggestedBudget={bsvQuote.budget.suggestedLimit || currentBudget * 2}
+            wordCount={wordCount}
+            estimatedCost={bsvQuote.totalUSD}
+            onBudgetUpdate={setCurrentBudget}
+          />
+        )}
       </>
     );
   }
@@ -98,12 +142,26 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
     <>
       <div className="pricing-display">
         <button className="pricing-button" onClick={() => setShowModal(true)}>
-          <span className="pricing-label">Save to BSV:</span>
-          <span className="pricing-amount" style={{ color: '#00ff00', fontWeight: 'bold' }}>1¢</span>
+          <span className="pricing-label">Save as NFT:</span>
+          <span 
+            className="pricing-amount" 
+            style={{ 
+              color: bsvQuote?.budget.requiresIncrease ? '#ff9900' : '#00ff00', 
+              fontWeight: 'bold' 
+            }}
+          >
+            {formatCost(pricing.totalCostUSD)}
+          </span>
           <span className="pricing-comparison">
-            {wordCount.toLocaleString()} words • Forever on-chain
+            {bsvQuote?.description} {getBudgetStatus()}
           </span>
         </button>
+        
+        {isEncrypted && (
+          <span className="encryption-badge" title="Encrypted storage enabled">
+            🔒
+          </span>
+        )}
       </div>
       
       <StorageOptionsModal
@@ -113,6 +171,18 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
         selectedOption={selectedOption}
         pricing={pricing}
       />
+      
+      {bsvQuote && (
+        <BudgetPrompt
+          isOpen={showBudgetPrompt}
+          onClose={() => setShowBudgetPrompt(false)}
+          currentBudget={currentBudget}
+          suggestedBudget={bsvQuote.budget.suggestedLimit || currentBudget * 2}
+          wordCount={wordCount}
+          estimatedCost={bsvQuote.totalUSD}
+          onBudgetUpdate={setCurrentBudget}
+        />
+      )}
     </>
   );
 };

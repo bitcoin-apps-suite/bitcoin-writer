@@ -1,23 +1,22 @@
 import { Transaction, Script, PrivateKey, PublicKey, Hash, P2PKH, ARC } from '@bsv/sdk';
 import CryptoJS from 'crypto-js';
 
-export interface PricingTier {
-  name: string;
-  maxWords: number;
-  priceUSD: number;
-  description: string;
-  features: string[];
+export interface AutoSaveBudget {
+  currentLimit: number;  // Current budget in USD (default 0.01)
+  suggestedLimit?: number; // Suggested new limit when approaching current
+  requiresIncrease: boolean; // True when document exceeds current budget
 }
 
 export interface StorageQuote {
-  tier: PricingTier;
   wordCount: number;
   bytes: number;
   minerFeeSats: number;
   serviceFeeSats: number;
   totalSats: number;
   totalUSD: number;
-  savingsPercent?: number;
+  budget: AutoSaveBudget;
+  costPerWord: number;
+  description: string;
 }
 
 export interface DocumentPackage {
@@ -44,18 +43,17 @@ export class BSVStorageService {
   private static readonly BSV_PRICE_USD = 60; // Current BSV price, should be fetched dynamically
   private static readonly SATS_PER_BSV = 100_000_000;
   private static readonly BYTES_PER_WORD = 5; // Average bytes per word
-  private static readonly MIN_SATS_PER_BYTE = 0.01; // BSV accepts fractional sats/byte
+  private static readonly SATS_PER_BYTE = 0.05; // Actual BSV miner fee rate
+  private static readonly SERVICE_MARKUP = 2.0; // We charge 2x the miner fee
   
-  // Simple flat fee pricing - 1 penny per document
-  public static readonly DOCUMENT_PRICE_USD = 0.01; // 1 penny flat fee
-  public static readonly DOCUMENT_FEATURES = [
-    'Permanent blockchain storage',
-    'Immutable proof of authorship', 
-    'Timestamp verification',
-    'Content hash proof',
-    'Public or encrypted storage',
-    'Instant global access'
-  ];
+  // Auto-save budget limits
+  public static readonly DEFAULT_BUDGET_USD = 0.01; // 1 penny default
+  public static readonly BUDGET_INCREASE_THRESHOLD = 5000; // Words before prompting
+  public static readonly BUDGET_INCREMENTS = [0.01, 0.02, 0.05, 0.10]; // Budget options
+  
+  // Premium features pricing
+  public static readonly ENCRYPTION_MULTIPLIER = 1.5; // 50% extra for encryption
+  public static readonly NFT_CERTIFICATE_FEE = 0.001; // Extra for NFT minting
 
   private privateKey: PrivateKey | null = null;
   private publicKey: PublicKey | null = null;
@@ -81,42 +79,54 @@ export class BSVStorageService {
     }
   }
 
-  // Calculate storage cost - flat 1 penny per document
-  public calculateStorageCost(wordCount: number): StorageQuote {
+  // Calculate storage cost with actual miner fees + 2x markup
+  public calculateStorageCost(
+    wordCount: number, 
+    encrypted: boolean = false,
+    currentBudget: number = BSVStorageService.DEFAULT_BUDGET_USD
+  ): StorageQuote {
     const bytes = wordCount * BSVStorageService.BYTES_PER_WORD;
     
-    // Flat pricing - 1 penny per document regardless of size
-    const tier: PricingTier = {
-      name: 'standard',
-      maxWords: Infinity,
-      priceUSD: BSVStorageService.DOCUMENT_PRICE_USD,
-      description: `${wordCount.toLocaleString()} words`,
-      features: BSVStorageService.DOCUMENT_FEATURES
+    // Calculate actual BSV miner fees
+    const minerFeeSats = Math.ceil(bytes * BSVStorageService.SATS_PER_BYTE);
+    
+    // Apply 2x markup for service fee
+    let totalFeeSats = minerFeeSats * BSVStorageService.SERVICE_MARKUP;
+    
+    // Add encryption cost if enabled (50% extra)
+    if (encrypted) {
+      totalFeeSats = totalFeeSats * BSVStorageService.ENCRYPTION_MULTIPLIER;
+    }
+    
+    const serviceFeeSats = totalFeeSats - minerFeeSats;
+    const totalUSD = this.satsToUsd(totalFeeSats);
+    
+    // Determine if budget increase is needed
+    const budget: AutoSaveBudget = {
+      currentLimit: currentBudget,
+      requiresIncrease: totalUSD > currentBudget
     };
     
-    // Calculate actual BSV miner fees (incredibly low)
-    const minerFeeSats = Math.ceil(bytes * BSVStorageService.MIN_SATS_PER_BYTE);
+    // Suggest budget increase at 5000+ words or if cost exceeds current budget
+    if (wordCount >= BSVStorageService.BUDGET_INCREASE_THRESHOLD || totalUSD > currentBudget) {
+      // Find next budget tier
+      const nextBudget = BSVStorageService.BUDGET_INCREMENTS.find(b => b > totalUSD);
+      budget.suggestedLimit = nextBudget || totalUSD * 2;
+    }
     
-    // Convert penny to sats and calculate service fee
-    const totalSatsForPenny = this.usdToSats(BSVStorageService.DOCUMENT_PRICE_USD);
-    const serviceFeeSats = totalSatsForPenny - minerFeeSats;
-    
-    const totalSats = totalSatsForPenny;
-    const totalUSD = BSVStorageService.DOCUMENT_PRICE_USD;
-    
-    // Show how much of a bargain this is
     const costPerWord = totalUSD / wordCount;
-    const costPerMB = totalUSD / (bytes / 1_000_000);
+    const costPerThousandWords = costPerWord * 1000;
     
     return {
-      tier,
       wordCount,
       bytes,
       minerFeeSats,
       serviceFeeSats,
-      totalSats,
+      totalSats: totalFeeSats,
       totalUSD,
-      savingsPercent: 99 // Always 99% cheaper than traditional storage
+      budget,
+      costPerWord,
+      description: `${costPerThousandWords.toFixed(4)}¢ per 1k words${encrypted ? ' (encrypted)' : ''}`
     };
   }
 
