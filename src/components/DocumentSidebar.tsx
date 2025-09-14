@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
 import { formatUSD } from '../utils/pricingCalculator';
 
@@ -24,11 +24,32 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const loadDocuments = useCallback(async () => {
+    if (!documentService) return;
+
+    setIsLoading(true);
+    try {
+      const docs = await documentService.getDocuments();
+      
+      // Sort documents by updated date
+      const sortedDocs = docs.sort((a, b) => {
+        return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      });
+      
+      setDocuments(sortedDocs);
+    } catch (error) {
+      console.error('Failed to load documents:', error);
+      setDocuments([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [documentService]);
+
   useEffect(() => {
     if (isAuthenticated && documentService) {
       loadDocuments();
     }
-  }, [isAuthenticated, documentService]);
+  }, [isAuthenticated, documentService, loadDocuments]);
 
   // Refresh documents when current document changes (new document saved)
   useEffect(() => {
@@ -36,23 +57,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
       // Reload documents to include newly saved document
       loadDocuments();
     }
-  }, [currentDocumentId]);
-
-  const loadDocuments = async () => {
-    if (!documentService) return;
-    
-    setIsLoading(true);
-    try {
-      const docs = await documentService.getDocuments();
-      setDocuments(docs.sort((a, b) => 
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      ));
-    } catch (error) {
-      console.error('Failed to load documents:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [currentDocumentId, isAuthenticated, documentService, loadDocuments]);
 
   const handleDeleteDocument = async (docId: string, docTitle: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent selecting the document
@@ -113,6 +118,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
       case 'ordinals': return '🎨';
       case 'encrypted_data': return '🔐';
       case 'metanet': return '🌐';
+      case 'pdf': return '📑';
       default: return '📄';
     }
   };

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
-import Login from './components/Login';
 import HandCashCallback from './components/HandCashCallback';
+import BapPage from './pages/BapPage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
 
@@ -19,7 +19,7 @@ function App() {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showBitcoinMenu, setShowBitcoinMenu] = useState(false);
   const [showWriterMenu, setShowWriterMenu] = useState(false);
-  const navigate = useNavigate();
+  const [showDevelopersMenu, setShowDevelopersMenu] = useState(false);
 
   useEffect(() => {
     // Check if we're coming back from HandCash with an authToken
@@ -60,7 +60,7 @@ function App() {
       // Check existing authentication
       checkAuthentication();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const checkAuthentication = () => {
     // Check if user is already logged in
@@ -121,6 +121,7 @@ function App() {
   return (
     <Routes>
       <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
+      <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/*" element={
         isLoading ? (
           <div className="App">
@@ -244,6 +245,65 @@ function App() {
                           setShowWriterMenu(false);
                         }}>
                           <span>🐦</span> Post to Twitter
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                
+                <div className="developers-menu-container">
+                  <button 
+                    className="developers-menu-button"
+                    onClick={() => setShowDevelopersMenu(!showDevelopersMenu)}
+                    aria-label="Developers Menu"
+                  >
+                    Developers
+                  </button>
+                  {showDevelopersMenu && (
+                    <>
+                      <div className="menu-overlay" onClick={() => setShowDevelopersMenu(false)} />
+                      <div className="developers-menu">
+                        <div className="menu-header">
+                          <span>Developer Resources</span>
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
+                          window.open('/bitcoin-writer/bap', '_blank');
+                          setShowDevelopersMenu(false);
+                        }}>
+                          <span>📑</span> BAP Executive Summary
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          window.open('https://github.com/b0ase/bitcoin-writer', '_blank');
+                          setShowDevelopersMenu(false);
+                        }}>
+                          <span>📂</span> GitHub Repository
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          window.open('https://docs.handcash.io', '_blank');
+                          setShowDevelopersMenu(false);
+                        }}>
+                          <span>📚</span> HandCash API Docs
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
+                          window.open('https://github.com/b0ase/blockchain-spreadsheet', '_blank');
+                          setShowDevelopersMenu(false);
+                        }}>
+                          <span>📊</span> Blockchain Spreadsheet
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          window.open('https://github.com/b0ase/bitcoin-drive', '_blank');
+                          setShowDevelopersMenu(false);
+                        }}>
+                          <span>💾</span> Bitcoin Drive
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
+                          alert('Bitcoin Writer API\n\nEndpoints:\n• POST /api/documents - Create document\n• GET /api/documents - List documents\n• GET /api/documents/:id - Get document\n• DELETE /api/documents/:id - Delete document\n\nBuilt on Bitcoin SV blockchain');
+                          setShowDevelopersMenu(false);
+                        }}>
+                          <span>🔌</span> API Documentation
                         </div>
                       </div>
                     </>

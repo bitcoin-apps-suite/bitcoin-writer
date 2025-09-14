@@ -217,15 +217,15 @@ export class TwitterAuthService {
         tweetText += `\n\nRead full article: ${documentUrl}`;
       }
 
-      const response = await fetch(`${this.apiUrl}/api/twitter/post`, {
+      const response: Response = await fetch(`${this.apiUrl}/api/twitter/post`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           text: tweetText,
-          replyToId: previousTweetId 
+          replyToId: previousTweetId
         })
       });
 
@@ -233,7 +233,7 @@ export class TwitterAuthService {
         throw new Error(`Failed to post tweet ${i + 1} of thread`);
       }
 
-      const result = await response.json();
+      const result: { data: { id: string } } = await response.json();
       previousTweetId = result.data.id;
       
       if (i === 0) {

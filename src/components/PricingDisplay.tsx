@@ -8,6 +8,7 @@ import {
   PricingBreakdown 
 } from '../utils/pricingCalculator';
 import StorageOptionsModal from './StorageOptionsModal';
+import BSVStorageService from '../services/BSVStorageService';
 
 interface PricingDisplayProps {
   wordCount: number;
@@ -30,17 +31,29 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   const [pricing, setPricing] = useState<PricingBreakdown | null>(null);
   const [btcPrice, setBtcPrice] = useState<number>(30000);
   const [showModal, setShowModal] = useState(false);
+  const [bsvService] = useState(() => new BSVStorageService());
 
   useEffect(() => {
     const updatePricing = async () => {
-      if (content) {
-        const breakdown = await calculatePricing(content, selectedOption, btcPrice);
+      if (wordCount > 0) {
+        // Use flat penny pricing from BSV service
+        const quote = bsvService.calculateStorageCost(wordCount);
+        const breakdown: PricingBreakdown = {
+          wordCount: wordCount,
+          characterCount: characterCount,
+          byteSize: quote.bytes,
+          baseCostSatoshis: quote.minerFeeSats,
+          serviceFee: quote.serviceFeeSats,
+          totalCostSatoshis: quote.totalSats,
+          totalCostUSD: quote.totalUSD, // Always $0.01
+          costPerWord: quote.totalUSD / wordCount
+        };
         setPricing(breakdown);
       }
     };
     
     updatePricing();
-  }, [content, selectedOption, btcPrice]);
+  }, [wordCount, bsvService]);
 
   if (!pricing || wordCount === 0) {
     return isMobile ? (
@@ -65,8 +78,9 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
         <span 
           className="mobile-pricing-cost"
           onClick={() => setShowModal(true)}
+          style={{ color: '#00ff00', fontWeight: 'bold' }}
         >
-          💰 {formatUSD(pricing.totalCostUSD)}
+          💰 1¢
         </span>
         
         <StorageOptionsModal
@@ -84,9 +98,11 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
     <>
       <div className="pricing-display">
         <button className="pricing-button" onClick={() => setShowModal(true)}>
-          <span className="pricing-label">Save Cost:</span>
-          <span className="pricing-amount">{formatUSD(pricing.totalCostUSD)}</span>
-          <span className="pricing-comparison">{getCostComparison(pricing.totalCostUSD)}</span>
+          <span className="pricing-label">Save to BSV:</span>
+          <span className="pricing-amount" style={{ color: '#00ff00', fontWeight: 'bold' }}>1¢</span>
+          <span className="pricing-comparison">
+            {wordCount.toLocaleString()} words • Forever on-chain
+          </span>
         </button>
       </div>
       

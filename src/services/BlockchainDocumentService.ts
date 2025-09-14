@@ -1,7 +1,7 @@
-import { bsv } from 'scrypt-ts';
 import CryptoJS from 'crypto-js';
 import { HandCashService, HandCashUser } from './HandCashService';
 import { StorageMethod } from '../components/EnhancedStorageModal';
+import BSVStorageService, { StorageResult, StorageQuote } from './BSVStorageService';
 
 export interface DocumentData {
   id: string;
@@ -40,12 +40,14 @@ export interface BlockchainDocument {
 
 export class BlockchainDocumentService {
   private handcashService: HandCashService;
+  private bsvStorage: BSVStorageService;
   private encryptionKey: string | null = null;
   private isConnected: boolean = false;
   private currentUser: HandCashUser | null = null;
 
   constructor(handcashService: HandCashService) {
     this.handcashService = handcashService;
+    this.bsvStorage = new BSVStorageService();
     this.initialize();
   }
 
@@ -107,17 +109,15 @@ export class BlockchainDocumentService {
     return text.length;
   }
 
-  // Calculate storage cost based on method and content size
+  // Calculate storage cost - flat 1 penny per document
   private calculateStorageCost(method: StorageMethod, contentSize: number): number {
-    const costs = {
-      'op_pushdata4': contentSize * 0.000001, // Most expensive
-      'op_return': 0.00001, // Fixed cost for metadata
-      'multisig_p2sh': contentSize * 0.0000005, // Creative approach
-      'nft_creation': 0.001, // NFT minting cost
-      'file_shares': 0.002 // Tokenization cost
-    };
-    
-    return costs[method] || costs['op_return'];
+    // Always 1 penny flat fee regardless of size or method
+    return 0.01;
+  }
+  
+  // Get storage quote from BSV service
+  public getStorageQuote(wordCount: number): StorageQuote {
+    return this.bsvStorage.calculateStorageCost(wordCount);
   }
 
   // Create a new document
@@ -127,38 +127,71 @@ export class BlockchainDocumentService {
     }
 
     const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const encryptedContent = this.encryptContent(content);
     const now = new Date().toISOString();
     const method = storageMethod || 'op_return';
-    const storageCost = this.calculateStorageCost(method, this.countCharacters(content));
+    const wordCount = this.countWords(content);
+    const charCount = this.countCharacters(content);
     
-    const document: DocumentData = {
-      id: documentId,
-      title,
-      content: encryptedContent,
-      metadata: {
-        created_at: now,
-        updated_at: now,
-        author: this.currentUser.handle,
-        encrypted: true,
-        word_count: this.countWords(content),
-        character_count: this.countCharacters(content),
-        storage_method: method,
-        blockchain_tx: `tx_${documentId}`,
-        storage_cost: storageCost
-      }
-    };
+    try {
+      // Store document on BSV blockchain
+      const storageResult = await this.bsvStorage.storeDocument(
+        content,
+        title,
+        this.currentUser.handle,
+        true // Always encrypt for privacy
+      );
+      
+      const document: DocumentData = {
+        id: documentId,
+        title,
+        content: this.encryptContent(content), // Keep encrypted copy locally
+        metadata: {
+          created_at: now,
+          updated_at: now,
+          author: this.currentUser.handle,
+          encrypted: true,
+          word_count: wordCount,
+          character_count: charCount,
+          storage_method: method,
+          blockchain_tx: storageResult.transactionId,
+          storage_cost: storageResult.storageCost.totalUSD
+        }
+      };
 
-    // Handle different storage methods
-    await this.processStorageMethod(method, document, content);
+      // Store document metadata locally for quick access
+      this.storeDocumentMetadata(document);
+      
+      console.log('Document stored on BSV blockchain:', {
+        txid: storageResult.transactionId,
+        explorer: storageResult.explorerUrl,
+        cost: `$${storageResult.storageCost.totalUSD.toFixed(2)}`
+      });
 
-    // Store document metadata locally for quick access
-    this.storeDocumentMetadata(document);
-
-    // Simulate blockchain transaction delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    return document;
+      return document;
+    } catch (error) {
+      console.error('Failed to store document on BSV:', error);
+      
+      // Fallback to local storage for demo
+      const document: DocumentData = {
+        id: documentId,
+        title,
+        content: this.encryptContent(content),
+        metadata: {
+          created_at: now,
+          updated_at: now,
+          author: this.currentUser.handle,
+          encrypted: true,
+          word_count: wordCount,
+          character_count: charCount,
+          storage_method: method,
+          blockchain_tx: `demo_tx_${documentId}`,
+          storage_cost: 0.01
+        }
+      };
+      
+      this.storeDocumentMetadata(document);
+      return document;
+    }
   }
 
   // Process different storage methods

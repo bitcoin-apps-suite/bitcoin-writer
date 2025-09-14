@@ -86,12 +86,14 @@
 
 /* Menu Container Styles */
 .bitcoin-menu-container,
-.writer-menu-container {
+.writer-menu-container,
+.developers-menu-container {
   position: relative;
 }
 
 .bitcoin-logo-button,
-.writer-menu-button {
+.writer-menu-button,
+.developers-menu-button {
   background: transparent;
   border: none;
   padding: 4px 8px;
@@ -106,7 +108,8 @@
 }
 
 .bitcoin-logo-button:hover,
-.writer-menu-button:hover {
+.writer-menu-button:hover,
+.developers-menu-button:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -121,7 +124,8 @@
 }
 
 .bitcoin-menu,
-.writer-menu {
+.writer-menu,
+.developers-menu {
   position: absolute;
   top: 28px;
   left: 0;

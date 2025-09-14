@@ -47,51 +47,26 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   // Load document when propDocument changes
   useEffect(() => {
     if (propDocument) {
-      // Check if it's the PDF document
-      if (propDocument.id === 'bap-executive-summary') {
-        // For PDF, we'll show it in an iframe
-        const pdfDoc = {
-          id: propDocument.id,
-          title: propDocument.title,
-          content: '', // PDF content handled separately
-          metadata: {
-            created_at: propDocument.created_at,
-            updated_at: propDocument.updated_at,
-            author: propDocument.author || '',
-            encrypted: propDocument.encrypted || false,
-            word_count: propDocument.word_count || 0,
-            character_count: propDocument.character_count || 0,
-            storage_method: propDocument.storage_method,
-            blockchain_tx: propDocument.blockchain_tx,
-            storage_cost: propDocument.storage_cost,
-            isPdf: true,
-            pdfUrl: '/documents/bap_executive_summary.pdf'
-          } as any
-        };
-        setCurrentDocument(pdfDoc);
-        setEditorContent('');
-      } else {
-        // Load the selected document
-        setCurrentDocument({
-          id: propDocument.id,
-          title: propDocument.title,
-          content: propDocument.content || '',
-          metadata: {
-            created_at: propDocument.created_at,
-            updated_at: propDocument.updated_at,
-            author: propDocument.author || '',
-            encrypted: propDocument.encrypted || false,
-            word_count: propDocument.word_count || 0,
-            character_count: propDocument.character_count || 0,
-            storage_method: propDocument.storage_method,
-            blockchain_tx: propDocument.blockchain_tx,
-            storage_cost: propDocument.storage_cost
-          }
-        });
-        setEditorContent(propDocument.content || '');
-        if (editorRef.current) {
-          editorRef.current.textContent = propDocument.content || '';
+      // Load the selected document
+      setCurrentDocument({
+        id: propDocument.id,
+        title: propDocument.title,
+        content: propDocument.content || '',
+        metadata: {
+          created_at: propDocument.created_at,
+          updated_at: propDocument.updated_at,
+          author: propDocument.author || '',
+          encrypted: propDocument.encrypted || false,
+          word_count: propDocument.word_count || 0,
+          character_count: propDocument.character_count || 0,
+          storage_method: propDocument.storage_method,
+          blockchain_tx: propDocument.blockchain_tx,
+          storage_cost: propDocument.storage_cost
         }
+      });
+      setEditorContent(propDocument.content || '');
+      if (editorRef.current) {
+        editorRef.current.textContent = propDocument.content || '';
       }
     } else if (!isAuthenticated) {
       // Load from localStorage for guest users
@@ -104,7 +79,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         editorRef.current.textContent = '';
       }
     }
-  }, [propDocument, isAuthenticated]);
 
   // Listen for tokenize modal event
   useEffect(() => {
@@ -133,6 +107,46 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   }, []);
 
 
+  const loadLocalDocument = useCallback(() => {
+    // Load any auto-saved content from localStorage
+    const savedContent = localStorage.getItem('bitcoinWriter_localContent');
+    if (savedContent && editorRef.current) {
+      editorRef.current.innerHTML = savedContent;
+      updateCounts();
+    }
+  }, [updateCounts]);
+
+  // Handle document changes (load local or clear editor)
+  useEffect(() => {
+    if (propDocument) {
+      // Load existing document
+      setCurrentDocument(propDocument);
+      setEditorContent(propDocument.content);
+      if (editorRef.current) {
+        editorRef.current.innerHTML = propDocument.content;
+      }
+      updateCounts();
+    } else if (!isAuthenticated) {
+      // Load from localStorage for guest users
+      loadLocalDocument();
+    } else {
+      // Clear editor for new document
+      setCurrentDocument(null);
+      setEditorContent('');
+      if (editorRef.current) {
+        editorRef.current.textContent = '';
+      }
+    }
+  }, [propDocument, isAuthenticated, loadLocalDocument]);
+
+  const saveToLocalStorage = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.innerHTML;
+      localStorage.setItem('bitcoinWriter_localContent', content);
+      localStorage.setItem('bitcoinWriter_lastSaved', Date.now().toString());
+    }
+  };
+
   const updateCounts = useCallback(() => {
     if (!editorRef.current) return;
 
@@ -154,62 +168,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     setCharCount(chars);
     setEditorContent(html);
   }, []);
-
-  const loadLocalDocument = useCallback(() => {
-    // Load any auto-saved content from localStorage
-    const savedContent = localStorage.getItem('bitcoinWriter_localContent');
-    if (savedContent && editorRef.current) {
-      editorRef.current.innerHTML = savedContent;
-      updateCounts();
-    }
-  }, [updateCounts]);
-
-  // Handle document changes (load local or clear editor)
-  useEffect(() => {
-    if (propDocument) {
-      // Load existing document
-      const docData: DocumentData = {
-        id: propDocument.id,
-        title: propDocument.title,
-        content: propDocument.content || '',
-        metadata: {
-          created_at: propDocument.created_at,
-          updated_at: propDocument.updated_at,
-          author: propDocument.author || '',
-          encrypted: propDocument.encrypted || false,
-          word_count: propDocument.word_count || 0,
-          character_count: propDocument.character_count || 0,
-          storage_method: propDocument.storage_method,
-          blockchain_tx: propDocument.blockchain_tx,
-          storage_cost: propDocument.storage_cost
-        }
-      };
-      setCurrentDocument(docData);
-      setEditorContent(propDocument.content || '');
-      if (editorRef.current) {
-        editorRef.current.innerHTML = propDocument.content || '';
-      }
-      updateCounts();
-    } else if (!isAuthenticated) {
-      // Load from localStorage for guest users
-      loadLocalDocument();
-    } else {
-      // Clear editor for new document
-      setCurrentDocument(null);
-      setEditorContent('');
-      if (editorRef.current) {
-        editorRef.current.textContent = '';
-      }
-    }
-  }, [propDocument, isAuthenticated, loadLocalDocument, updateCounts]);
-
-  const saveToLocalStorage = () => {
-    if (editorRef.current) {
-      const content = editorRef.current.innerHTML;
-      localStorage.setItem('bitcoinWriter_localContent', content);
-      localStorage.setItem('bitcoinWriter_lastSaved', Date.now().toString());
-    }
-  };
 
   const updateCursorPosition = useCallback(() => {
     const selection = window.getSelection();
@@ -741,48 +699,26 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       </div>
 
       <div className="editor-container">
-        {currentDocument?.metadata && (currentDocument.metadata as any).isPdf ? (
-          <iframe
-            src={(currentDocument.metadata as any).pdfUrl}
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
-              backgroundColor: '#fff'
-            }}
-            title={currentDocument.title}
-          />
-        ) : (
-          <div
-            ref={editorRef}
-            className="editor"
-            contentEditable
-            spellCheck
-            onInput={updateCounts}
-            onKeyUp={updateCursorPosition}
-            onClick={updateCursorPosition}
-            onKeyDown={handleKeyDown}
-            onPaste={handlePaste}
-            suppressContentEditableWarning
-          >
-            <p>Start writing...</p>
-          </div>
-        )}
+        <div
+          ref={editorRef}
+          className="editor"
+          contentEditable
+          spellCheck
+          onInput={updateCounts}
+          onKeyUp={updateCursorPosition}
+          onClick={updateCursorPosition}
+          onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
+          suppressContentEditableWarning
+        >
+          <p>Start writing...</p>
+        </div>
       </div>
 
       <div className="status-bar">
-        {currentDocument?.metadata && (currentDocument.metadata as any).isPdf ? (
-          <>
-            <span>📑 PDF Document</span>
-            <span>{currentDocument?.title || 'Untitled'}</span>
-          </>
-        ) : (
-          <>
-            <span>{cursorPosition}</span>
-            <span className="auto-save-status">{autoSaveStatus}</span>
-            <span>{currentDocument?.title || 'Untitled'}</span>
-          </>
-        )}
+        <span>{cursorPosition}</span>
+        <span className="auto-save-status">{autoSaveStatus}</span>
+        <span>{currentDocument?.title || 'Untitled'}</span>
       </div>
 
       

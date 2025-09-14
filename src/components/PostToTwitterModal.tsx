@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TwitterAuthService, TwitterUser } from '../services/TwitterAuthService';
 
 interface PostToTwitterModalProps {
@@ -28,28 +28,28 @@ const PostToTwitterModal: React.FC<PostToTwitterModalProps> = ({
   const [customStartIndex, setCustomStartIndex] = useState(0);
   const [customEndIndex, setCustomEndIndex] = useState(280);
 
-  useEffect(() => {
-    if (isOpen) {
-      checkAuthStatus();
-      initializeTweetText();
-    }
-  }, [isOpen]);
-
-  const checkAuthStatus = async () => {
+  const checkAuthStatus = useCallback(async () => {
     const authenticated = twitterService.isAuthenticated();
     setIsAuthenticated(authenticated);
     if (authenticated) {
       setCurrentUser(twitterService.getCurrentUser());
     }
-  };
+  }, [twitterService]);
 
-  const initializeTweetText = () => {
+  const initializeTweetText = useCallback(() => {
     // Initialize with document title and beginning of content
     const plainText = documentContent.replace(/<[^>]*>/g, '').trim();
     const preview = plainText.substring(0, 200);
     setTweetText(`📝 ${documentTitle}\n\n${preview}...`);
     setCustomEndIndex(Math.min(280, plainText.length));
-  };
+  }, [documentContent, documentTitle]);
+
+  useEffect(() => {
+    if (isOpen) {
+      checkAuthStatus();
+      initializeTweetText();
+    }
+  }, [isOpen, checkAuthStatus, initializeTweetText]);
 
   const handleLogin = async () => {
     try {
@@ -71,9 +71,9 @@ const PostToTwitterModal: React.FC<PostToTwitterModalProps> = ({
     setCurrentUser(null);
   };
 
-  const updateTweetFromSnippet = () => {
+  const updateTweetFromSnippet = useCallback(() => {
     const plainText = documentContent.replace(/<[^>]*>/g, '').trim();
-    
+
     switch (selectedSnippet) {
       case 'beginning':
         setTweetText(`📝 ${documentTitle}\n\n${plainText.substring(0, 200)}...`);
@@ -90,13 +90,13 @@ const PostToTwitterModal: React.FC<PostToTwitterModalProps> = ({
         setTweetText(`📝 ${documentTitle}\n\n${firstSentence}\n[...]\n${lastSentence}`);
         break;
     }
-  };
+  }, [documentContent, documentTitle, selectedSnippet, customStartIndex, customEndIndex]);
 
   useEffect(() => {
     if (isOpen && documentContent) {
       updateTweetFromSnippet();
     }
-  }, [selectedSnippet, customStartIndex, customEndIndex]);
+  }, [selectedSnippet, customStartIndex, customEndIndex, isOpen, documentContent, updateTweetFromSnippet]);
 
   const handlePost = async () => {
     try {
