@@ -337,6 +337,24 @@ main {
   text-align: center;
 }
 
+.app-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.app-logo {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.3));
+}
+
+.title-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 /* Desktop user info (top right) */
 .desktop-user-info {
   position: absolute;
@@ -2741,6 +2759,20 @@ main {
   .editor {
     padding: 16px 20px;
     font-size: 16px; /* Larger font for mobile readability */
+  }
+
+  .app-title-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .title-text {
+    align-items: center;
+  }
+  
+  .app-logo {
+    width: 28px !important;
+    height: 28px !important;
   }
   
   .status-bar {

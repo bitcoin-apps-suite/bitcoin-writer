@@ -1,16 +1,17 @@
 {
   "name": "Bitcoin Writer",
   "short_name": "BitcoinWriter",
-  "description": "Blockchain-powered writing app with HandCash authentication",
+  "description": "Save documents as NFTs on the BSV blockchain for just 1¢",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#1a1a1a",
+  "theme_color": "#FF8C00",
   "icons": [
     {
-      "src": "screen-writer-icon-02.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg"
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
       "src": "favicon.svg",

@@ -1,0 +1,19 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <rect width="200" height="200" rx="40" fill="url(#gradient)"/>
+  
+  <!-- Feather/Quill design -->
+  <path d="M50 150 Q80 40 150 50 Q120 80 100 120 L90 130 Q70 140 50 150 Z" fill="#2D3748" stroke="#2D3748" stroke-width="2"/>
+  
+  <!-- Feather details -->
+  <path d="M70 100 Q90 80 110 90" stroke="#2D3748" stroke-width="1.5" fill="none"/>
+  <path d="M80 120 Q95 105 115 110" stroke="#2D3748" stroke-width="1.5" fill="none"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

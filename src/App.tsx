@@ -343,8 +343,22 @@ function App() {
                 <span className="hamburger-line"></span>
               </button>
 
-              <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
-              <p className="app-subtitle">Secure, Encrypted Documents on the Blockchain</p>
+              <div className="app-title-container">
+                <img 
+                  src="/logo.svg" 
+                  alt="Bitcoin Writer Logo" 
+                  className="app-logo"
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    marginRight: '12px'
+                  }}
+                />
+                <div className="title-text">
+                  <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
+                  <p className="app-subtitle">Save Documents as NFTs for 1¢</p>
+                </div>
+              </div>
               
               {/* Desktop user info (top right) */}
               <div className="user-info desktop-user-info">
