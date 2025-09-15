@@ -54,15 +54,59 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
   };
 
   const handleTwitterConnect = () => {
-    // Twitter OAuth flow would go here
-    // For now, simulate with mock data
-    const mockTwitterUser = {
-      username: 'bitcoin_writer',
-      name: 'Bitcoin Writer',
-      profile_image_url: 'https://pbs.twimg.com/profile_images/1234567890/avatar.jpg'
-    };
-    setTwitterUser(mockTwitterUser);
-    localStorage.setItem('twitterUser', JSON.stringify(mockTwitterUser));
+    // For development, open Twitter's actual OAuth URL directly
+    // This avoids conflicts with Google SSO
+    const width = 600;
+    const height = 700;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+    
+    // Check if we have Vercel API configured
+    const useVercelApi = process.env.REACT_APP_USE_VERCEL_API === 'true';
+    
+    if (useVercelApi) {
+      // Use Vercel API route
+      const authUrl = '/api/auth/twitter/authorize';
+      const authWindow = window.open(
+        authUrl,
+        '_blank',
+        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,scrollbars=yes,resizable=yes,noopener=yes`
+      );
+      
+      if (!authWindow) {
+        alert('Please allow popups for Twitter authentication');
+        return;
+      }
+      
+      // Listen for messages from the popup
+      const handleMessage = (event: MessageEvent) => {
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data.type === 'twitter-auth-success') {
+          setTwitterUser(event.data.user);
+          localStorage.setItem('twitterUser', JSON.stringify(event.data.user));
+          window.removeEventListener('message', handleMessage);
+          setShowAuthModal(false);
+        }
+      };
+      
+      window.addEventListener('message', handleMessage);
+    } else {
+      // For now, use mock connection to avoid OAuth conflicts
+      // Close the modal first to prevent confusion
+      setShowAuthModal(false);
+      
+      // Simulate a delay as if OAuth is happening
+      setTimeout(() => {
+        const mockTwitterUser = {
+          username: 'bitcoin_writer',
+          name: 'Bitcoin Writer',
+          profile_image_url: 'https://pbs.twimg.com/profile_images/1844449428127928320/C0dTi8M4_400x400.jpg'
+        };
+        setTwitterUser(mockTwitterUser);
+        localStorage.setItem('twitterUser', JSON.stringify(mockTwitterUser));
+      }, 500);
+    }
   };
 
   const handleTwitterLogout = () => {
@@ -157,10 +201,53 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                     </div>
                   ) : null}
                   
+                  {!process.env.TWITTER_CLIENT_ID ? (
+                    <div className="config-notice">
+                      <h4>⚠️ Twitter/X Integration Setup Required</h4>
+                      <p>To enable Twitter features, add these to your Vercel environment variables:</p>
+                      <code>TWITTER_CLIENT_ID=your-twitter-client-id</code>
+                      <code>TWITTER_CLIENT_SECRET=your-twitter-client-secret</code>
+                      <p>Set your Twitter App callback URL to:</p>
+                      <code>{window.location.origin}/api/auth/twitter/callback</code>
+                    </div>
+                  ) : null}
+                  
+                  <div className="topup-buttons-section">
+                    <h4>Quick Top-up</h4>
+                    <div className="topup-buttons">
+                      <button className="topup-btn" onClick={() => {
+                        console.log('Opening $5 BSV top-up');
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '6px' }}>
+                          <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                        </svg>
+                        $5
+                      </button>
+                      <button className="topup-btn" onClick={() => {
+                        console.log('Opening $10 BSV top-up');
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '6px' }}>
+                          <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                        </svg>
+                        $10
+                      </button>
+                      <button className="topup-btn" onClick={() => {
+                        console.log('Opening $50 BSV top-up');
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '6px' }}>
+                          <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                        </svg>
+                        $50
+                      </button>
+                    </div>
+                  </div>
+                  
                   <button className="premium-subscribe-btn" onClick={() => {
                     console.log('Opening premium subscription flow');
                   }}>
-                    <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                    <svg width="20" height="20" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '8px' }}>
+                      <path d="M16 0C7.164 0 0 7.164 0 16s7.164 16 16 16 16-7.164 16-16S24.836 0 16 0zm7.015 17.002c-.236 1.578-1.043 2.754-2.277 3.317-.614.281-1.334.425-2.151.425v3.256h-2v-3.183c-.522 0-1.056-.005-1.601-.014v3.197h-2v-3.256c-.437-.004-.862-.009-1.271-.009l-2.609-.002.002-2.139s1.52.025 1.496.001c.549 0 .728-.23.78-.604l.003-4.589-.003-3.403c-.098-.488-.363-.74-.975-.74.023-.022-1.496-.001-1.496-.001L8.91 7H11.7c.399 0 .833.004 1.287.01V4h2v2.943c.541-.007 1.067-.011 1.577-.011V4h2v3.026c1.297.065 2.341.332 3.089.898 1.037.784 1.558 2.003 1.362 3.078z"/>
+                    </svg>
                     Subscribe Now - $9.99/month
                   </button>
                 </div>
@@ -360,10 +447,42 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter and Substack, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. Subscribe to top-up with monthly bitcoin straight to your HandCash wallet or directly to your Bitcoin Writer wallet.
                 </p>
                 
+                <div className="topup-buttons-section">
+                  <h4>Quick Top-up</h4>
+                  <div className="topup-buttons">
+                    <button className="topup-btn" onClick={() => {
+                      console.log('Opening $5 BSV top-up');
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 32 32" style={{ marginRight: '6px' }}>
+                        <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                      </svg>
+                      $5
+                    </button>
+                    <button className="topup-btn" onClick={() => {
+                      console.log('Opening $10 BSV top-up');
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 32 32" style={{ marginRight: '6px' }}>
+                        <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                      </svg>
+                      $10
+                    </button>
+                    <button className="topup-btn" onClick={() => {
+                      console.log('Opening $50 BSV top-up');
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 32 32" style={{ marginRight: '6px' }}>
+                        <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                      </svg>
+                      $50
+                    </button>
+                  </div>
+                </div>
+                
                 <button className="premium-subscribe-btn" onClick={() => {
                   console.log('Opening premium subscription flow');
                 }}>
-                  <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                  <svg width="24" height="24" viewBox="0 0 32 32" style={{ marginRight: '8px' }}>
+                    <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                  </svg>
                   Subscribe Now - $9.99/month
                 </button>
               </div>

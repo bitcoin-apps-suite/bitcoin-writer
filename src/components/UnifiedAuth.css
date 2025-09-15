@@ -195,16 +195,16 @@
 
 .auth-benefits {
   padding: 20px;
-  background: rgba(255, 149, 0, 0.05);
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
-  border: 1px solid rgba(255, 149, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .auth-benefits h3 {
   margin: 0 0 12px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #ff9500;
+  color: #ffffff;
 }
 
 .auth-benefits ul {
@@ -232,8 +232,8 @@
 
 /* Configuration Notice */
 .config-notice {
-  background: rgba(255, 165, 0, 0.1);
-  border: 1px solid rgba(255, 165, 0, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   padding: 16px;
   margin: 16px 0;
@@ -242,7 +242,7 @@
 .config-notice h4 {
   margin: 0 0 8px 0;
   font-size: 14px;
-  color: #ffa500;
+  color: #ffffff;
 }
 
 .config-notice p {
@@ -415,6 +415,48 @@
 .connected-account-card.twitter-connected .connected-avatar {
   background: #000000;
   color: #ffffff;
+}
+
+/* Top-up Buttons Section */
+.topup-buttons-section {
+  margin: 20px 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.topup-buttons-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.topup-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.topup-btn {
+  flex: 1;
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topup-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .connected-info {
