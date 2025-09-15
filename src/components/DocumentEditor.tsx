@@ -10,7 +10,6 @@ import BSVStorageService from '../services/BSVStorageService';
 import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
 import CryptoJS from 'crypto-js';
 import QuillEditor from './QuillEditor';
-import EditorModeToggle from './EditorModeToggle';
 import './QuillEditor.css';
 
 interface DocumentEditorProps {
@@ -35,6 +34,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [charCount, setCharCount] = useState(0);
   const [cursorPosition, setCursorPosition] = useState('Line 1, Column 1');
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
+  const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [lastHashTime, setLastHashTime] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedStorageOption, setSelectedStorageOption] = useState<StorageOption | null>(null);
@@ -48,11 +49,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService());
-  const [editorMode, setEditorMode] = useState<'simple' | 'advanced'>('simple');
+  // Always use Quill editor
   const [quillContent, setQuillContent] = useState('');
   const [currentPrice, setCurrentPrice] = useState<string>('0.000000¢');
 
-  const editorRef = useRef<HTMLDivElement>(null);
+  // Removed editorRef - using Quill editor exclusively
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   // Load or create local document
@@ -87,10 +88,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       }
     });
     
-    if (editorRef.current) {
-      editorRef.current.innerHTML = doc.content || '<p>Start writing...</p>';
-      updateCounts();
-    }
+    setQuillContent(doc.content || '');
+    setEditorContent(doc.content || '');
   }, [isAuthenticated, documentService]);
 
   // Track if this is initial mount
@@ -142,9 +141,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           }
         });
         setEditorContent(propDocument.content || '');
-        if (editorRef.current) {
-          editorRef.current.textContent = propDocument.content || '';
-        }
+        setQuillContent(propDocument.content || '');
       }
     } else if (propDocument === null) {
       // propDocument is explicitly null
@@ -154,11 +151,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       } else {
         // User clicked "New Document" in sidebar
         // Save current document first if it has content
-        if (editorRef.current && localDocumentId) {
-          const content = editorRef.current.innerHTML;
-          if (content && content !== '<p>Start writing...</p>') {
+        if (localDocumentId) {
+          const content = quillContent || editorContent;
+          if (content && content !== '') {
             // Extract title from first line of text
-            const text = editorRef.current.textContent || '';
+            const text = content.replace(/<[^>]*>/g, '');
             const firstLine = text.split('\n')[0]?.trim() || 'Untitled Document';
             const title = firstLine.substring(0, 100);
             LocalDocumentStorage.autoSave(localDocumentId, content, title);
@@ -185,14 +182,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           }
         });
         
-        if (editorRef.current) {
-          editorRef.current.innerHTML = '<p>Start writing...</p>';
-          editorRef.current.focus();
-          // Update word and character counts
-          setWordCount(0);
-          setCharCount(0);
-          setEditorContent('');
-        }
+        // Clear the editor for new document
+        setQuillContent('');
+        setEditorContent('');
+        setWordCount(0);
+        setCharCount(0);
         
         setAutoSaveStatus('New document created');
         setTimeout(() => setAutoSaveStatus(''), 2000);
@@ -249,27 +243,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   }, []);
 
 
-  const updateCounts = useCallback(() => {
-    if (!editorRef.current) return;
-
-    const text = editorRef.current.textContent || '';
-    const html = editorRef.current.innerHTML || '';
-    const isPlaceholder = text.trim() === 'Start writing...';
-    
-    if (isPlaceholder) {
-      setWordCount(0);
-      setCharCount(0);
-      setEditorContent('');
-      return;
-    }
-
-    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-    const chars = text.length;
-
-    setWordCount(words);
-    setCharCount(chars);
-    setEditorContent(html);
-  }, []);
+  // Update counts is now handled by Quill's onTextChange callback
 
   // Removed duplicate loadLocalDocument - already defined above
 
@@ -295,11 +269,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       };
       setCurrentDocument(docData);
       setEditorContent(propDocument.content || '');
-      setQuillContent(propDocument.content || ''); // Also set Quill content
-      if (editorRef.current) {
-        editorRef.current.innerHTML = propDocument.content || '';
-      }
-      updateCounts();
+      setQuillContent(propDocument.content || '');
     } else if (!isAuthenticated) {
       // Load from localStorage for guest users
       loadLocalDocument();
@@ -307,48 +277,31 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       // Clear editor for new document
       setCurrentDocument(null);
       setEditorContent('');
-      if (editorRef.current) {
-        editorRef.current.textContent = '';
-      }
+      setQuillContent('');
     }
-  }, [propDocument, isAuthenticated, loadLocalDocument, updateCounts]);
+  }, [propDocument, isAuthenticated, loadLocalDocument]);
 
   const saveToLocalStorage = useCallback(() => {
-    if (editorRef.current && localDocumentId) {
-      const content = editorRef.current.innerHTML;
+    if (localDocumentId) {
+      const content = quillContent || editorContent;
       const title = extractTitleFromContent(content) || 'Untitled Document';
       LocalDocumentStorage.autoSave(localDocumentId, content, title);
     }
-  }, [localDocumentId]);
+  }, [localDocumentId, quillContent, editorContent]);
 
-  const updateCursorPosition = useCallback(() => {
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const preCaretRange = range.cloneRange();
-      preCaretRange.selectNodeContents(editorRef.current!);
-      preCaretRange.setEnd(range.endContainer, range.endOffset);
-      
-      const text = preCaretRange.toString();
-      const lines = text.split('\n');
-      const line = lines.length;
-      const column = lines[lines.length - 1].length + 1;
-      
-      setCursorPosition(`Line ${line}, Column ${column}`);
-    }
-  }, []);
+  // Cursor position is now handled by Quill editor
 
   const hasUnsavedChanges = useCallback((): boolean => {
-    if (!editorRef.current || !currentDocument) return false;
-    const currentContent = editorRef.current.innerHTML;
+    if (!currentDocument) return false;
+    const currentContent = quillContent || editorContent;
     return currentContent !== currentDocument.content;
-  }, [currentDocument]);
+  }, [currentDocument, quillContent, editorContent]);
 
   const handleNewDocument = useCallback(() => {
     // Save current document first if it has content
-    if (editorRef.current && localDocumentId) {
-      const content = editorRef.current.innerHTML;
-      if (content && content !== '<p>Start writing...</p>') {
+    if (localDocumentId) {
+      const content = quillContent || editorContent;
+      if (content && content !== '') {
         saveToLocalStorage();
       }
     }
@@ -373,11 +326,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       }
     });
     
-    if (editorRef.current) {
-      editorRef.current.innerHTML = '<p>Start writing...</p>';
-      editorRef.current.focus();
-      updateCounts();
-    }
+    setQuillContent('');
+    setEditorContent('');
+    setWordCount(0);
+    setCharCount(0);
     
     setAutoSaveStatus('New document created');
     setTimeout(() => setAutoSaveStatus(''), 2000);
@@ -401,44 +353,23 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
 
 
   const saveDocument = async () => {
-    // If not authenticated, prompt to sign in
-    if (!isAuthenticated) {
-      const shouldSignIn = window.confirm(
-        'To save your document on the blockchain, you need to sign in with HandCash.\n\n' +
-        'Your document will be encrypted and permanently stored on Bitcoin SV.\n\n' +
-        'Would you like to sign in now?'
-      );
-      
-      if (shouldSignIn) {
-        // Save to local storage first so content isn't lost
-        saveToLocalStorage();
-        onAuthRequired();
-      } else {
-        // Just save locally
-        saveToLocalStorage();
-        showNotification('Document saved locally (not on blockchain)');
-      }
-      return;
-    }
-
-    // Show enhanced storage modal for blockchain save
+    // Always show the modal - it will handle authentication internally
     setShowSaveBlockchainModal(true);
   };
 
   const handleBlockchainSave = async (options: BlockchainSaveOptions) => {
-    if (!editorRef.current) return;
-
     try {
       setIsLoading(true);
       setShowSaveBlockchainModal(false);
       setAutoSaveStatus('💾 Saving to blockchain...');
       
-      const content = editorRef.current.textContent || '';
-      const title = extractTitleFromContent(content) || options.metadata.title;
+      const content = quillContent || editorContent;
+      const text = content.replace(/<[^>]*>/g, '');
+      const title = extractTitleFromContent(text) || options.metadata.title;
       
       // Use BSV service directly for blockchain storage
       const result = await bsvService.storeDocumentWithOptions(
-        content,
+        text,
         options,
         documentService?.getCurrentUser()?.handle || 'anonymous'
       );
@@ -460,7 +391,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         const newDoc: DocumentData = {
           id: result.transactionId,
           title,
-          content,
+          content: text,
           metadata: {
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
@@ -522,8 +453,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   };
 
   const autoSave = useCallback(async () => {
-    if (!editorRef.current) return;
-
     // For guest users, just save to local storage
     if (!isAuthenticated) {
       saveToLocalStorage();
@@ -538,15 +467,16 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     try {
       setAutoSaveStatus('💾 Auto-saving to blockchain...');
 
-      const content = editorRef.current.innerHTML;
-      const title = extractTitleFromContent(content) || currentDocument.title;
+      const content = quillContent || editorContent;
+      const text = content.replace(/<[^>]*>/g, '');
+      const title = extractTitleFromContent(text) || currentDocument.title;
 
-      await documentService.updateDocument(currentDocument.id, title, content, selectedStorageOption?.id as any);
+      await documentService.updateDocument(currentDocument.id, title, text, selectedStorageOption?.id as any);
 
       setCurrentDocument(prev => prev ? {
         ...prev,
         title,
-        content,
+        content: text,
         lastUpdated: Date.now(),
         wordCount,
         charCount
@@ -559,36 +489,57 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       setAutoSaveStatus('❌ Auto-save failed');
       setTimeout(() => setAutoSaveStatus(''), 3000);
     }
-  }, [isAuthenticated, currentDocument, documentService, selectedStorageOption, wordCount, charCount]);
+  }, [isAuthenticated, currentDocument, documentService, selectedStorageOption, wordCount, charCount, saveToLocalStorage, quillContent, editorContent]);
 
-  // Auto-save interval and auto-hash for authenticated users
+  // Auto-save every minute
   useEffect(() => {
     const interval = setInterval(() => {
-      // Auto-save to local storage
-      if (editorRef.current && localDocumentId) {
-        saveToLocalStorage();
-      }
-      
-      // Auto-hash for authenticated users every 5 minutes
-      if (isAuthenticated && editorRef.current && localDocumentId) {
-        const now = Date.now();
-        if (now - lastHashTime > 300000) { // 5 minutes
-          hashDocument();
+      // Auto-save to local storage for ALL users
+      if (localDocumentId) {
+        const content = quillContent || editorContent;
+        if (content && content !== '<p>Start writing...</p>') {
+          saveToLocalStorage();
+          
+          // Update status with timestamp
+          const now = new Date();
+          const timeString = now.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          });
+          setAutoSaveStatus(`✓ Auto-saved at ${timeString}`);
+          setLastSaveTime(now);
+          setUnsavedChanges(false);
+          setTimeout(() => setAutoSaveStatus(''), 5000);
         }
       }
-    }, 30000); // Check every 30 seconds
+      
+      // For authenticated users ONLY: also auto-save to blockchain
+      if (isAuthenticated && localDocumentId) {
+        const now = Date.now();
+        if (now - lastHashTime > 60000) { // Every minute
+          hashDocument();
+          const timeString = new Date().toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          });
+          setAutoSaveStatus(`⛓️ Saved to blockchain at ${timeString}`);
+          setTimeout(() => setAutoSaveStatus(''), 5000);
+        }
+      }
+    }, 60000); // Every 60 seconds (1 minute)
 
     return () => clearInterval(interval);
-  }, [saveToLocalStorage, isAuthenticated, localDocumentId, lastHashTime]);
+  }, [saveToLocalStorage, isAuthenticated, localDocumentId, lastHashTime, quillContent]);
   
   // Hash document (ultra-low cost, just store hash)
   const hashDocument = async () => {
-    if (!editorRef.current || !localDocumentId) return;
+    if (!localDocumentId) return;
     
-    const content = editorRef.current.textContent || '';
-    if (!content || content.length < 10) return; // Don't hash empty or very short documents
+    const content = quillContent || editorContent;
+    const text = content.replace(/<[^>]*>/g, '');
+    if (!text || text.length < 10) return; // Don't hash empty or very short documents
     
-    const hash = CryptoJS.SHA256(content).toString();
+    const hash = CryptoJS.SHA256(text).toString();
     const timestamp = new Date().toISOString();
     
     // Store hash locally
@@ -647,28 +598,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   };
 
   const insertImageIntoEditor = (imageSrc: string, fileName: string) => {
-    if (!editorRef.current) return;
-
-    const img = document.createElement('img');
-    img.src = imageSrc;
-    img.alt = fileName;
-    img.style.maxWidth = '100%';
-    img.style.height = 'auto';
-    img.style.margin = '10px 0';
-    img.style.borderRadius = '4px';
-
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      range.insertNode(img);
-      range.setStartAfter(img);
-      range.setEndAfter(img);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-
-    updateCounts();
-    editorRef.current.focus();
+    // Image insertion is now handled by Quill editor toolbar
+    console.log('Image insertion should be done through Quill toolbar');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -849,73 +780,141 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         {/* Desktop Layout */}
         <div className="toolbar-desktop">
           <div className="toolbar-left">
-            <button 
-              onClick={saveDocument} 
-              disabled={isLoading} 
-              title={isAuthenticated ? "Save encrypted draft to blockchain" : "Save (Sign in for blockchain)"}
-              className={!isAuthenticated ? 'save-guest' : ''}
-            >
-              💾 {isAuthenticated ? `Save as NFT (${currentPrice})` : 'Save Locally'}
-            </button>
-            
+            {/* Save button - always saves locally, optionally to blockchain */}
             <button 
               onClick={() => {
-                if (localDocumentId) {
-                  const doc = LocalDocumentStorage.getDocument(localDocumentId);
-                  if (doc) {
-                    const format = prompt('Save as format: txt, html, or md?', 'txt');
-                    if (format && ['txt', 'html', 'md'].includes(format)) {
-                      LocalDocumentStorage.exportDocument(doc, format as 'txt' | 'html' | 'md');
-                      showNotification('Downloaded to your computer');
+                saveToLocalStorage();
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                });
+                setAutoSaveStatus(`✓ Saved at ${timeString}`);
+                setLastSaveTime(now);
+                setUnsavedChanges(false);
+                setTimeout(() => setAutoSaveStatus(''), 5000);
+                
+                // If authenticated, also save to blockchain
+                if (isAuthenticated) {
+                  hashDocument();
+                  setAutoSaveStatus(`⛓️ Saving to blockchain...`);
+                  setTimeout(() => {
+                    setAutoSaveStatus(`✓ Saved to blockchain at ${timeString}`);
+                    setTimeout(() => setAutoSaveStatus(''), 5000);
+                  }, 1000);
+                }
+              }} 
+              disabled={isLoading || !unsavedChanges} 
+              title={unsavedChanges ? "Save changes" : "No changes to save"}
+              className={unsavedChanges ? 'save-btn-active' : 'save-btn-inactive'}
+            >
+              💾 Save {unsavedChanges && '•'}
+            </button>
+            
+            {/* Save As button - for exporting */}
+            <button 
+              onClick={() => {
+                const format = prompt('Export as: txt, html, md, or docx?', 'docx');
+                if (format) {
+                  if (localDocumentId) {
+                    const doc = LocalDocumentStorage.getDocument(localDocumentId);
+                    if (doc) {
+                      if (format === 'docx') {
+                        // Use Quill export for docx
+                        const quillExport = document.querySelector('.export-btn');
+                        if (quillExport) (quillExport as HTMLElement).click();
+                      } else if (['txt', 'html', 'md'].includes(format)) {
+                        LocalDocumentStorage.exportDocument(doc, format as 'txt' | 'html' | 'md');
+                      }
+                      showNotification(`Exported as ${format.toUpperCase()}`);
                     }
                   }
                 }
               }}
-              title="Download document to your computer"
+              title="Export document to file"
             >
-              💻 Save to Computer
+              📥 Export...
+            </button>
+            
+            {/* Save with Options - opens modal for all users */}
+            <button 
+              onClick={() => setShowSaveBlockchainModal(true)}
+              title="Save with advanced options (encryption, pricing, etc.)"
+              className="save-options-btn"
+            >
+              ⚙️ Save Options
+            </button>
+            
+            {/* Blockchain save - available to all, prompts sign-in if needed */}
+            <button 
+              onClick={() => setShowSaveBlockchainModal(true)} 
+              disabled={isLoading} 
+              title="Save permanently to blockchain with advanced options"
+              className="blockchain-save-btn"
+            >
+              ⛓️ Save to Blockchain ({currentPrice})
             </button>
             
             <button onClick={insertImage} title="Add images to your document (included in blockchain storage cost)">
               📷 Add Image
             </button>
             
-            {isAuthenticated && (
-              <>
-                <button 
-                  onClick={handleEncrypt}
-                  disabled={isLoading}
-                  title={isEncrypted ? "Make document readable to you only" : "Encrypt draft for privacy"}
-                  className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
-                >
-                  {isEncrypted ? '🔓 Decrypt Draft' : '🔒 Encrypt Draft'}
-                </button>
-                <button 
-                  onClick={handleSetPrice}
-                  disabled={isLoading}
-                  title="Set price readers must pay to read your document"
-                  className="price-btn"
-                >
-                  💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
-                </button>
-                <button 
-                  onClick={() => setShowPublishModal(true)}
-                  disabled={isLoading}
-                  title="Make document publicly accessible (optionally behind paywall)"
-                  className="publish-btn"
-                >
-                  🌍 Publish Document
-                </button>
-                <button 
-                  onClick={() => setShowTwitterModal(true)}
-                  disabled={isLoading}
-                  title="Share your writing on Twitter"
-                  className="twitter-share-btn"
-                >
-                  🐦 Post to Twitter
-                </button>
-              </>
-            )}
+            <button 
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setShowSaveBlockchainModal(true);
+                } else {
+                  handleEncrypt();
+                }
+              }}
+              disabled={isLoading}
+              title={isEncrypted ? "Make document readable to you only" : "Encrypt draft for privacy"}
+              className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
+            >
+              {isEncrypted ? '🔓 Decrypt Draft' : '🔒 Encrypt Draft'}
+            </button>
+            <button 
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setShowSaveBlockchainModal(true);
+                } else {
+                  handleSetPrice();
+                }
+              }}
+              disabled={isLoading}
+              title="Set price readers must pay to read your document"
+              className="price-btn"
+            >
+              💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
+            </button>
+            <button 
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setShowSaveBlockchainModal(true);
+                } else {
+                  setShowPublishModal(true);
+                }
+              }}
+              disabled={isLoading}
+              title="Make document publicly accessible (optionally behind paywall)"
+              className="publish-btn"
+            >
+              🌍 Publish Document
+            </button>
+            <button 
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setShowSaveBlockchainModal(true);
+                } else {
+                  setShowTwitterModal(true);
+                }
+              }}
+              disabled={isLoading}
+              title="Share your writing on Twitter"
+              className="twitter-share-btn"
+            >
+              🐦 Post to Twitter
+            </button>
             <input
               type="file"
               ref={imageInputRef}
@@ -946,11 +945,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         </div>
       </div>
 
-      <EditorModeToggle 
-        currentMode={editorMode}
-        onModeChange={setEditorMode}
-      />
-
       <div className="editor-container">
         {currentDocument?.metadata && (currentDocument.metadata as any).isPdf ? (
           <iframe
@@ -963,7 +957,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             }}
             title={currentDocument.title}
           />
-        ) : editorMode === 'advanced' ? (
+        ) : (
           <QuillEditor
             content={quillContent || editorContent}
             onChange={(content) => {
@@ -985,21 +979,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             }}
             placeholder="Start writing your document..."
           />
-        ) : (
-          <div
-            ref={editorRef}
-            className="editor"
-            contentEditable
-            spellCheck
-            onInput={updateCounts}
-            onKeyUp={updateCursorPosition}
-            onClick={updateCursorPosition}
-            onKeyDown={handleKeyDown}
-            onPaste={handlePaste}
-            suppressContentEditableWarning
-          >
-            <p>Start writing...</p>
-          </div>
         )}
       </div>
 
@@ -1038,6 +1017,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         documentTitle={currentDocument?.title || 'Untitled Document'}
         wordCount={wordCount}
         estimatedSize={charCount}
+        isAuthenticated={isAuthenticated}
+        onAuthRequired={onAuthRequired}
       />
 
       <TokenizeModal
@@ -1052,7 +1033,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         isOpen={showTwitterModal}
         onClose={() => setShowTwitterModal(false)}
         documentTitle={currentDocument?.title || 'Untitled Document'}
-        documentContent={editorRef.current?.innerHTML || ''}
+        documentContent={quillContent || editorContent}
       />
       
       {isLoading && (

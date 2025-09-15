@@ -39,6 +39,8 @@ interface SaveToBlockchainModalProps {
   documentTitle: string;
   wordCount: number;
   estimatedSize: number;
+  isAuthenticated?: boolean;
+  onAuthRequired?: () => void;
 }
 
 const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
@@ -47,7 +49,9 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   onSave,
   documentTitle,
   wordCount,
-  estimatedSize
+  estimatedSize,
+  isAuthenticated = false,
+  onAuthRequired
 }) => {
   const [activeTab, setActiveTab] = useState<'storage' | 'access' | 'monetization'>('storage');
   const [isLoading, setIsLoading] = useState(false);
@@ -127,6 +131,14 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   };
 
   const handleSave = async () => {
+    // If not authenticated, trigger auth flow
+    if (!isAuthenticated) {
+      if (onAuthRequired) {
+        onAuthRequired();
+      }
+      return;
+    }
+    
     if (!validateForm()) return;
     
     setIsLoading(true);
@@ -593,11 +605,15 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
             Cancel
           </button>
           <button 
-            className="save-btn" 
+            className={`save-btn ${!isAuthenticated ? 'handcash-btn' : ''}`}
             onClick={handleSave}
             disabled={isLoading}
           >
-            {isLoading ? 'Saving...' : 'Save to Blockchain'}
+            {isLoading 
+              ? 'Saving...' 
+              : !isAuthenticated 
+                ? '🤝 Sign in with HandCash to Save' 
+                : 'Save to Blockchain'}
           </button>
         </div>
       </div>

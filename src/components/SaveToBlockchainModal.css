@@ -376,6 +376,16 @@
   box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
 }
 
+.save-btn.handcash-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  font-size: 16px;
+  padding: 12px 28px;
+}
+
+.save-btn.handcash-btn:hover {
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
 .cancel-btn:disabled,
 .save-btn:disabled {
   opacity: 0.5;
