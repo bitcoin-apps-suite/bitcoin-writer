@@ -82,23 +82,14 @@ export class BSVStorageService {
   private address: string | null = null;
 
   constructor() {
-    // Initialize with a demo private key (in production, this would come from user's wallet)
-    this.initializeKeys();
+    // HandCash handles all key management - no need for local keys
+    console.log('BSV Storage Service initialized (using HandCash for transactions)');
   }
 
   private initializeKeys(): void {
-    try {
-      // Demo private key - in production, this would be derived from user's HandCash auth
-      const wif = 'L1PCKrdYNMpYL3QdVbhXqCYeFbN8qKGkFrPxAe6wjVjxYMZQwvKz';
-      this.privateKey = PrivateKey.fromWif(wif);
-      this.publicKey = this.privateKey.toPublicKey();
-      this.address = this.publicKey.toAddress();
-      
-      console.log('BSV Storage Service initialized');
-      console.log('Address:', this.address);
-    } catch (error) {
-      console.error('Failed to initialize BSV keys:', error);
-    }
+    // Keys are managed by HandCash - no local initialization needed
+    // This method is kept for backward compatibility but does nothing
+    console.log('Using HandCash for key management');
   }
 
   // Calculate storage cost with actual miner fees + 2x markup
@@ -158,9 +149,7 @@ export class BSVStorageService {
     options: BlockchainSaveOptions,
     author: string
   ): Promise<StorageResult> {
-    if (!this.privateKey) {
-      throw new Error('BSV service not initialized');
-    }
+    // HandCash handles the transaction - no local key check needed
 
     const wordCount = this.countWords(content);
     const quote = this.calculateStorageCost(wordCount, options.encryption);
@@ -274,9 +263,7 @@ export class BSVStorageService {
     author: string,
     encrypted: boolean = false
   ): Promise<StorageResult> {
-    if (!this.privateKey) {
-      throw new Error('BSV service not initialized');
-    }
+    // HandCash handles the transaction - no local key check needed
 
     const wordCount = this.countWords(content);
     const quote = this.calculateStorageCost(wordCount);
@@ -320,27 +307,10 @@ export class BSVStorageService {
 
   // Build BSV transaction with document data
   private async buildDataTransaction(data: Buffer, quote: StorageQuote): Promise<Transaction> {
-    if (!this.privateKey || !this.address) {
-      throw new Error('Keys not initialized');
-    }
-
-    // Create new transaction
+    // HandCash handles the actual transaction building and signing
+    // We just create a mock transaction for the interface
+    
     const tx = new Transaction();
-    
-    // Create a mock source transaction for demo (in production, fetch real UTXOs)
-    const mockInputSatoshis = 10000;
-    const mockSourceTx = new Transaction();
-    mockSourceTx.addOutput({
-      lockingScript: new P2PKH().lock(this.address),
-      satoshis: mockInputSatoshis
-    });
-    
-    // Add input from mock source transaction
-    tx.addInput({
-      sourceTransaction: mockSourceTx,
-      sourceOutputIndex: 0,
-      unlockingScriptTemplate: new P2PKH().unlock(this.privateKey),
-    });
     
     // Add data output using OP_FALSE OP_RETURN pattern for unlimited size
     const dataScript = Script.fromASM(`OP_FALSE OP_RETURN ${data.toString('hex')}`);
@@ -349,21 +319,7 @@ export class BSVStorageService {
       satoshis: 0 // Data outputs don't need satoshis
     });
     
-    // Add change output (remaining funds back to sender)
-    const changeAmount = mockInputSatoshis - quote.totalSats;
-    if (changeAmount > 546) { // Dust limit
-      tx.addOutput({
-        lockingScript: new P2PKH().lock(this.address),
-        satoshis: changeAmount
-      });
-    }
-    
-    // Sign the transaction
-    await tx.sign();
-    
-    // Verify the transaction
-    await tx.verify();
-    
+    // Return mock transaction - HandCash will handle the real one
     return tx;
   }
 
