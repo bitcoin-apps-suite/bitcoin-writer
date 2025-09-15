@@ -146,6 +146,17 @@ button:active {
     border-color: rgba(100, 181, 246, 0.6);
 }
 
+.schedule-btn {
+    background: rgba(156, 39, 176, 0.15);
+    border-color: rgba(156, 39, 176, 0.4);
+    color: #ba68c8;
+}
+
+.schedule-btn:hover {
+    background: rgba(156, 39, 176, 0.25);
+    border-color: rgba(156, 39, 176, 0.6);
+}
+
 /* Auto-save status indicator */
 .auto-save-status {
     color: #ff9500;

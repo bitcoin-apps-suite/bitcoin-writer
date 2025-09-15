@@ -45,6 +45,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [isEncrypted, setIsEncrypted] = useState(false);
   const [readPrice, setReadPrice] = useState<number>(0);
   const [showSaveBlockchainModal, setShowSaveBlockchainModal] = useState(false);
+  const [preselectedMode, setPreselectedMode] = useState<'encrypt' | 'schedule' | null>(null);
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
@@ -88,8 +89,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       }
     });
     
-    setQuillContent(doc.content || '');
-    setEditorContent(doc.content || '');
+    setQuillContent(doc.content || '<p><br></p>');
+    setEditorContent(doc.content || '<p><br></p>');
   }, [isAuthenticated, documentService]);
 
   // Track if this is initial mount
@@ -183,8 +184,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         });
         
         // Clear the editor for new document
-        setQuillContent('');
-        setEditorContent('');
+        setQuillContent('<p><br></p>');
+        setEditorContent('<p><br></p>');
         setWordCount(0);
         setCharCount(0);
         
@@ -276,8 +277,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     } else {
       // Clear editor for new document
       setCurrentDocument(null);
-      setEditorContent('');
-      setQuillContent('');
+      setEditorContent('<p><br></p>');
+      setQuillContent('<p><br></p>');
     }
   }, [propDocument, isAuthenticated, loadLocalDocument]);
 
@@ -326,8 +327,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       }
     });
     
-    setQuillContent('');
-    setEditorContent('');
+    setQuillContent('<p><br></p>');
+    setEditorContent('<p><br></p>');
     setWordCount(0);
     setCharCount(0);
     
@@ -845,34 +846,52 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               ⚙️ Save Options
             </button>
             
-            {/* Blockchain save - available to all, prompts sign-in if needed */}
+            {/* Encrypt on chain - saves with encryption */}
             <button 
-              onClick={() => setShowSaveBlockchainModal(true)} 
+              onClick={() => {
+                setPreselectedMode('encrypt');
+                setShowSaveBlockchainModal(true);
+              }}
               disabled={isLoading} 
-              title="Save permanently to blockchain with advanced options"
-              className="blockchain-save-btn"
+              title="Encrypt and save privately on blockchain"
+              className="encrypt-btn"
             >
-              ⛓️ Save to Blockchain ({currentPrice})
+              🔒 Encrypt on Chain
+            </button>
+            
+            {/* Publish to chain - saves publicly */}
+            <button 
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setShowSaveBlockchainModal(true);
+                } else {
+                  setShowPublishModal(true);
+                }
+              }}
+              disabled={isLoading}
+              title="Publish document publicly on blockchain"
+              className="publish-btn"
+            >
+              🌍 Publish to Chain
+            </button>
+            
+            {/* Schedule Publication - time-locked encryption */}
+            <button 
+              onClick={() => {
+                setPreselectedMode('schedule');
+                setShowSaveBlockchainModal(true);
+              }}
+              disabled={isLoading}
+              title="Schedule automatic publication at a future date"
+              className="schedule-btn"
+            >
+              📅 Schedule Publication
             </button>
             
             <button onClick={insertImage} title="Add images to your document (included in blockchain storage cost)">
               📷 Add Image
             </button>
             
-            <button 
-              onClick={() => {
-                if (!isAuthenticated) {
-                  setShowSaveBlockchainModal(true);
-                } else {
-                  handleEncrypt();
-                }
-              }}
-              disabled={isLoading}
-              title={isEncrypted ? "Make document readable to you only" : "Encrypt draft for privacy"}
-              className={`encrypt-btn ${isEncrypted ? 'encrypted' : ''}`}
-            >
-              {isEncrypted ? '🔓 Decrypt Draft' : '🔒 Encrypt Draft'}
-            </button>
             <button 
               onClick={() => {
                 if (!isAuthenticated) {
@@ -886,20 +905,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               className="price-btn"
             >
               💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
-            </button>
-            <button 
-              onClick={() => {
-                if (!isAuthenticated) {
-                  setShowSaveBlockchainModal(true);
-                } else {
-                  setShowPublishModal(true);
-                }
-              }}
-              disabled={isLoading}
-              title="Make document publicly accessible (optionally behind paywall)"
-              className="publish-btn"
-            >
-              🌍 Publish Document
             </button>
             <button 
               onClick={() => {
@@ -1012,13 +1017,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
 
       <SaveToBlockchainModal
         isOpen={showSaveBlockchainModal}
-        onClose={() => setShowSaveBlockchainModal(false)}
+        onClose={() => {
+          setShowSaveBlockchainModal(false);
+          setPreselectedMode(null);
+        }}
         onSave={handleBlockchainSave}
         documentTitle={currentDocument?.title || 'Untitled Document'}
         wordCount={wordCount}
         estimatedSize={charCount}
         isAuthenticated={isAuthenticated}
         onAuthRequired={onAuthRequired}
+        preselectedMode={preselectedMode}
       />
 
       <TokenizeModal

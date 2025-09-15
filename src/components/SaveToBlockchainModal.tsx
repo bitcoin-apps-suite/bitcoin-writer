@@ -41,6 +41,7 @@ interface SaveToBlockchainModalProps {
   estimatedSize: number;
   isAuthenticated?: boolean;
   onAuthRequired?: () => void;
+  preselectedMode?: 'encrypt' | 'schedule' | null;
 }
 
 const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
@@ -51,7 +52,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   wordCount,
   estimatedSize,
   isAuthenticated = false,
-  onAuthRequired
+  onAuthRequired,
+  preselectedMode
 }) => {
   const [activeTab, setActiveTab] = useState<'storage' | 'access' | 'monetization'>('storage');
   const [isLoading, setIsLoading] = useState(false);
@@ -82,6 +84,27 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
   const [category, setCategory] = useState('');
+
+  // Handle preselected mode
+  React.useEffect(() => {
+    if (isOpen && preselectedMode) {
+      if (preselectedMode === 'encrypt') {
+        setEncryption(true);
+        setEncryptionMethod('multiparty');
+        setActiveTab('storage');
+      } else if (preselectedMode === 'schedule') {
+        setEncryption(true);
+        setEncryptionMethod('timelock');
+        setUnlockMethod('timed');
+        setActiveTab('access');
+        // Set default time to tomorrow at noon
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(12, 0, 0, 0);
+        setUnlockTime(tomorrow.toISOString().slice(0, 16));
+      }
+    }
+  }, [isOpen, preselectedMode]);
 
   if (!isOpen) return null;
 
@@ -361,16 +384,39 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
               {(unlockMethod === 'timed' || unlockMethod === 'timedAndPriced') && (
                 <div className="timed-options">
+                  <div className="schedule-header">
+                    <span className="schedule-icon">📅</span>
+                    <h4>Schedule Automatic Publication</h4>
+                  </div>
+                  <p className="schedule-description">
+                    Your document will be encrypted until this date, then automatically become publicly readable.
+                  </p>
                   <label>
-                    Unlock Date & Time:
+                    <span className="label-text">Publication Date & Time:</span>
                     <input
                       type="datetime-local"
                       value={unlockTime}
                       onChange={(e) => setUnlockTime(e.target.value)}
                       min={new Date(Date.now() + 60000).toISOString().slice(0, 16)}
                       disabled={isLoading}
+                      className="datetime-input"
                     />
                   </label>
+                  {unlockTime && (
+                    <div className="schedule-preview">
+                      <span className="preview-label">Will publish on:</span>
+                      <span className="preview-date">
+                        {new Date(unlockTime).toLocaleString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
 
