@@ -38,7 +38,8 @@ export class HandCashAuthService {
     this.config = {
       appId: process.env.REACT_APP_HANDCASH_APP_ID || '',
       appSecret: process.env.REACT_APP_HANDCASH_APP_SECRET,
-      redirectUrl: process.env.REACT_APP_HANDCASH_REDIRECT_URL || 'http://localhost:3000/',
+      redirectUrl: process.env.REACT_APP_HANDCASH_REDIRECT_URL || 
+                   (process.env.NODE_ENV === 'production' ? window.location.origin + '/' : 'http://localhost:3000/'),
       environment: process.env.NODE_ENV === 'production' ? 'production' : 'development'
     };
 
