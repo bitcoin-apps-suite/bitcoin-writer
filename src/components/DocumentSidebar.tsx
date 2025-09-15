@@ -88,6 +88,17 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   useEffect(() => {
     // Load documents for both authenticated and guest users
     loadDocuments();
+    
+    // Listen for document creation events
+    const handleDocumentCreated = () => {
+      loadDocuments();
+    };
+    
+    window.addEventListener('documentCreated', handleDocumentCreated);
+    
+    return () => {
+      window.removeEventListener('documentCreated', handleDocumentCreated);
+    };
   }, [loadDocuments]);
 
   // Refresh documents when current document changes or refresh is triggered

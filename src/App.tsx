@@ -507,8 +507,8 @@ function App() {
                             onNewDocument={() => {
                               setCurrentDocument(null);
                               setShowMobileMenu(false);
-                              // Trigger sidebar refresh after a longer delay to allow document creation
-                              setTimeout(() => setSidebarRefresh(prev => prev + 1), 500);
+                              // Trigger immediate sidebar refresh
+                              setSidebarRefresh(prev => prev + 1);
                             }}
                             currentDocumentId={currentDocument?.id}
                             isMobile={true}
@@ -594,8 +594,8 @@ function App() {
                 onDocumentSelect={(doc) => setCurrentDocument(doc)}
                 onNewDocument={() => {
                   setCurrentDocument(null);
-                  // Trigger sidebar refresh after a longer delay to allow document creation
-                  setTimeout(() => setSidebarRefresh(prev => prev + 1), 500);
+                  // Trigger immediate sidebar refresh
+                  setSidebarRefresh(prev => prev + 1);
                 }}
                 currentDocumentId={currentDocument?.id}
                 refreshTrigger={sidebarRefresh}

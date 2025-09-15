@@ -145,8 +145,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       if (isInitialMount.current) {
         // On initial mount with no document, load existing or create new
         loadLocalDocument();
-      } else if (prevPropDocument.current !== null) {
-        // User clicked "New Document" in sidebar (propDocument changed from something to null)
+      } else {
+        // User clicked "New Document" in sidebar
         // Save current document first if it has content
         if (editorRef.current && localDocumentId) {
           const content = editorRef.current.innerHTML;
@@ -206,6 +206,9 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             storage_method: 'local'
           } as BlockchainDocument);
         }
+        
+        // Force a re-render of the sidebar
+        window.dispatchEvent(new CustomEvent('documentCreated'));
       }
     }
     
