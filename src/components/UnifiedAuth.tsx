@@ -25,6 +25,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [twitterUser, setTwitterUser] = useState<any>(null);
+  const [showSubstackModal, setShowSubstackModal] = useState(false);
 
   useEffect(() => {
     // Check for stored Twitter user
@@ -86,24 +87,22 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
             <div className="auth-modal-overlay" onClick={() => setShowAuthModal(false)} />
             <div className="auth-modal">
               <div className="auth-modal-header">
-                <h2>Sign in to Bitcoin Writer</h2>
+                <h2>Connect to Bitcoin Writer</h2>
                 <button className="modal-close" onClick={() => setShowAuthModal(false)}>×</button>
               </div>
               
               <div className="auth-modal-content">
                 <div className="auth-options">
-                  <GoogleAuthButton 
-                    onAuthSuccess={(user) => {
-                      setGoogleUser(user);
-                      setShowAuthModal(false);
-                    }}
-                    onAuthFailure={() => {
-                      console.error('Google auth failed');
-                    }}
-                  />
-                  
-                  <div className="auth-divider">
-                    <span>or</span>
+                  <div className="google-btn-wrapper">
+                    <GoogleAuthButton 
+                      onAuthSuccess={(user) => {
+                        setGoogleUser(user);
+                        setShowAuthModal(false);
+                      }}
+                      onAuthFailure={() => {
+                        console.error('Google auth failed');
+                      }}
+                    />
                   </div>
                   
                   <button 
@@ -113,12 +112,9 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                       setShowAuthModal(false);
                     }}
                   >
-                    💰 Sign in with HandCash
+                    <img src="https://handcash.io/favicon.ico" alt="HandCash" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                    Connect HandCash Wallet
                   </button>
-                  
-                  <div className="auth-divider">
-                    <span>or</span>
-                  </div>
                   
                   <button 
                     className="twitter-login-btn full-width"
@@ -127,22 +123,70 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                       setShowAuthModal(false);
                     }}
                   >
-                    🐦 Connect X (Twitter)
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '8px' }}>
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Connect X (Twitter)
+                  </button>
+                  
+                  
+                  <button 
+                    className="substack-login-btn full-width"
+                    onClick={() => {
+                      setShowSubstackModal(true);
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" style={{ marginRight: '8px' }}>
+                      <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+                    </svg>
+                    Connect Substack
                   </button>
                 </div>
                 
                 <div className="auth-benefits">
-                  <h3>Why sign in?</h3>
-                  <ul>
-                    <li>🔐 Secure blockchain storage</li>
-                    <li>📁 Google Drive integration</li>
-                    <li>📧 Share via Gmail</li>
-                    <li>🐦 Post to X/Twitter</li>
-                    <li>💰 BSV transactions</li>
-                    <li>📅 Schedule publications</li>
-                    <li>💸 Receive payments for your writing</li>
-                    <li>🎯 Monetize premium content</li>
-                  </ul>
+                  <h3>Why connect?</h3>
+                  <p className="simple-explanation">
+                    Bitcoin Writer lets you create documents that are automatically backed up to Google Drive and permanently stored on the Bitcoin blockchain. Schedule posts to X/Twitter using Google Calendar, share documents via Gmail with access controls, and monetize your content by charging readers bitcoin payments that go directly to your HandCash wallet. Connect your accounts to unlock the full writing, publishing, and monetization workflow.
+                  </p>
+                  
+                  <div className="premium-subscribe-section">
+                    <h4>Subscribe for Premium Features</h4>
+                    <p className="subscription-explanation">
+                      Never worry about running out of bitcoin again. Your subscription automatically tops up your HandCash wallet with bitcoin each month, ensuring you can always store documents on the blockchain, receive payments from readers, and maintain your publishing workflow without interruption. Plus get enhanced analytics and priority support.
+                    </p>
+                    <button className="premium-subscribe-btn" onClick={() => {
+                      console.log('Opening premium subscription flow');
+                    }}>
+                      <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                      Subscribe Now - $9.99/month
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        
+        {/* Substack Modal */}
+        {showSubstackModal && (
+          <>
+            <div className="auth-modal-overlay" onClick={() => setShowSubstackModal(false)} />
+            <div className="substack-modal">
+              <div className="substack-modal-header">
+                <h2>😅 Oops!</h2>
+                <button className="modal-close" onClick={() => setShowSubstackModal(false)}>×</button>
+              </div>
+              <div className="substack-modal-content">
+                <div className="substack-message">
+                  <h3>Substack doesn't do OAuth, sucker!</h3>
+                  <p>They keep their API locked up tighter than Fort Knox. 🔒</p>
+                  <p>But hey, you can still copy/paste your articles manually like it's 1999! 📋</p>
+                  <button 
+                    className="substack-ok-btn"
+                    onClick={() => setShowSubstackModal(false)}
+                  >
+                    Thanks for Nothing, Substack
+                  </button>
                 </div>
               </div>
             </div>
@@ -157,7 +201,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
     <div className="unified-auth-container">
       <div 
         className="unified-auth-badge"
-        onClick={() => setShowDropdown(!showDropdown)}
+        onClick={() => setShowAuthModal(true)}
       >
         <div className="auth-avatars">
           {hasGoogle && (
@@ -180,13 +224,13 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
         
         <div className="auth-info">
           <div className="auth-name">
-            {hasGoogle ? googleUser.name : `$${currentHandCashUser?.handle}`}
+            {hasGoogle ? googleUser.name : hasHandCash ? `$${currentHandCashUser?.handle}` : 'User'}
           </div>
           <div className="auth-status">
             {hasFullAuth ? (
               <span className="status-full">✓ Full Access</span>
             ) : hasGoogle ? (
-              <span className="status-partial">⚠️ Add HandCash for BSV</span>
+              <span className="status-partial">⚠️ Add HandCash for bitcoin</span>
             ) : (
               <span className="status-partial">⚠️ Add Google for full features</span>
             )}
@@ -196,217 +240,165 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
         <span className="dropdown-arrow">▼</span>
       </div>
 
-      {showDropdown && (
+      {/* Use the same modal for connected users */}
+      {showAuthModal && (
         <>
-          <div className="dropdown-overlay" onClick={() => setShowDropdown(false)} />
-          <div className="unified-dropdown">
-            {/* User Info Section */}
-            <div className="dropdown-section">
-              <h4>Connected Accounts</h4>
-              
-              {hasGoogle && (
-                <div className="account-item google-account">
-                  <img src={googleUser.picture} alt="" className="account-avatar" />
-                  <div className="account-info">
-                    <div className="account-name">{googleUser.name}</div>
-                    <div className="account-email">{googleUser.email}</div>
-                    <div className="account-features">
-                      ✓ Google Drive • ✓ Gmail • ✓ Calendar • ✓ Stripe
-                    </div>
-                  </div>
-                  <button 
-                    className="account-logout"
-                    onClick={handleGoogleLogout}
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              )}
-              
-              {hasHandCash && (
-                <div className="account-item handcash-account">
-                  <div className="account-avatar">💰</div>
-                  <div className="account-info">
-                    <div className="account-name">${currentHandCashUser?.handle}</div>
-                    <div className="account-email">{currentHandCashUser?.paymail}</div>
-                    <div className="account-features">
-                      ✓ BSV Transactions • ✓ On-chain Storage • ✓ Crypto Payments
-                    </div>
-                  </div>
-                  <button 
-                    className="account-logout"
-                    onClick={handleHandCashLogout}
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              )}
-              
-              {hasTwitter && (
-                <div className="account-item twitter-account">
-                  <div className="account-avatar">🕊️</div>
-                  <div className="account-info">
-                    <div className="account-name">@{twitterUser?.username}</div>
-                    <div className="account-email">{twitterUser?.name}</div>
-                    <div className="account-features">
-                      ✓ Post to Timeline • ✓ Schedule Tweets • ✓ Share Documents
-                    </div>
-                  </div>
-                  <button 
-                    className="account-logout"
-                    onClick={handleTwitterLogout}
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              )}
+          <div className="auth-modal-overlay" onClick={() => setShowAuthModal(false)} />
+          <div className="auth-modal">
+            <div className="auth-modal-header">
+              <h2>Manage Connections</h2>
+              <button className="modal-close" onClick={() => setShowAuthModal(false)}>×</button>
             </div>
-
-            {/* Add missing account section */}
-            {(!hasFullAuth || !hasTwitter) && (
-              <div className="dropdown-section add-account-section">
-                <h4>Add More Connections</h4>
-                {!hasGoogle && (
-                  <div className="add-account-item">
+            
+            <div className="auth-modal-content">
+              <div className="auth-options">
+                <div className="google-btn-wrapper">
+                  {hasGoogle ? (
+                    <div className="connected-account-card google-connected">
+                      <img src={googleUser.picture} alt="" className="connected-avatar" />
+                      <div className="connected-info">
+                        <div className="connected-name">{googleUser.name}</div>
+                        <div className="connected-email">{googleUser.email}</div>
+                      </div>
+                      <button className="disconnect-btn" onClick={handleGoogleLogout}>
+                        Disconnect
+                      </button>
+                    </div>
+                  ) : (
                     <GoogleAuthButton 
                       onAuthSuccess={(user) => {
                         setGoogleUser(user);
-                        setShowDropdown(false);
+                        setShowAuthModal(false);
                       }}
                       onAuthFailure={() => {
                         console.error('Google auth failed');
                       }}
                     />
-                    <span className="add-account-text">
-                      Add Google for Drive, Gmail, Calendar & Stripe payments
-                    </span>
-                  </div>
-                )}
-                {!hasHandCash && (
-                  <div className="add-account-item">
-                    <button 
-                      className="handcash-login-btn compact"
-                      onClick={() => {
-                        onHandCashLogin();
-                        setShowDropdown(false);
-                      }}
-                    >
-                      💰 Connect HandCash
-                    </button>
-                    <span className="add-account-text">
-                      Add HandCash for blockchain storage & BSV transactions
-                    </span>
-                  </div>
-                )}
-                {!hasTwitter && (
-                  <div className="add-account-item">
-                    <button 
-                      className="twitter-login-btn compact"
-                      onClick={() => {
-                        handleTwitterConnect();
-                        setShowDropdown(false);
-                      }}
-                    >
-                      🕊️ Connect X (Twitter)
-                    </button>
-                    <span className="add-account-text">
-                      Add X to post documents and schedule tweets
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* BSV Credits Section */}
-            {hasHandCash && (
-              <div className="dropdown-section bsv-credits-section">
-                <h4>BSV Credits</h4>
-                <div className="credits-info">
-                  <div className="balance-display">
-                    <div className="balance-amount">
-                      <span className="balance-label">Available Balance:</span>
-                      <span className="balance-value">0.00 BSV</span>
-                    </div>
-                    <div className="balance-usd">≈ $0.00 USD</div>
-                  </div>
-                  
-                  <div className="buy-credits-container">
-                    <button className="buy-bsv-btn" onClick={() => {
-                      // This would open Stripe checkout
-                      console.log('Opening BSV purchase flow');
-                    }}>
-                      💳 Buy BSV Credits
-                    </button>
-                    <div className="credit-packages">
-                      <div className="package-item">
-                        <span className="package-amount">$10</span>
-                        <span className="package-desc">~1000 documents</span>
-                      </div>
-                      <div className="package-item">
-                        <span className="package-amount">$25</span>
-                        <span className="package-desc">~2500 documents</span>
-                      </div>
-                      <div className="package-item popular">
-                        <span className="package-amount">$50</span>
-                        <span className="package-desc">~5000 documents</span>
-                        <span className="popular-badge">Most Popular</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="credits-note">
-                    <p>💡 We convert your payment to BSV and add it to your HandCash wallet</p>
-                    <p>📝 Each document costs ~1¢ to store permanently on blockchain</p>
-                  </div>
+                  )}
                 </div>
-              </div>
-            )}
-            
-            {/* Subscription Section - Now optional */}
-            {hasGoogle && !hasHandCash && (
-              <div className="dropdown-section subscription-section">
-                <h4>Get Started</h4>
-                <div className="subscription-info">
-                  <p className="connect-prompt">Connect HandCash to start storing documents on the blockchain!</p>
+                
+                {hasHandCash ? (
+                  <div className="connected-account-card handcash-connected">
+                    <div className="connected-avatar">
+                      {currentHandCashUser?.avatarUrl ? (
+                        <img src={currentHandCashUser.avatarUrl} alt="HandCash Avatar" style={{width: '100%', height: '100%', borderRadius: '50%'}} />
+                      ) : (
+                        <img src="https://handcash.io/favicon.ico" alt="HandCash" style={{width: '20px', height: '20px'}} />
+                      )}
+                    </div>
+                    <div className="connected-info">
+                      <div className="connected-name">${currentHandCashUser?.handle}</div>
+                      <div className="connected-email">{currentHandCashUser?.paymail}</div>
+                    </div>
+                    <button className="disconnect-btn" onClick={handleHandCashLogout}>
+                      Disconnect
+                    </button>
+                  </div>
+                ) : (
                   <button 
                     className="handcash-login-btn full-width"
                     onClick={() => {
                       onHandCashLogin();
-                      setShowDropdown(false);
+                      setShowAuthModal(false);
                     }}
                   >
-                    💰 Connect HandCash Wallet
+                    <img src="https://handcash.io/favicon.ico" alt="HandCash" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                    Connect HandCash Wallet
+                  </button>
+                )}
+                
+                {hasTwitter ? (
+                  <div className="connected-account-card twitter-connected">
+                    <div className="connected-avatar">
+                      {twitterUser?.profile_image_url ? (
+                        <img src={twitterUser.profile_image_url} alt="Twitter Avatar" style={{width: '100%', height: '100%', borderRadius: '50%'}} />
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                      )}
+                    </div>
+                    <div className="connected-info">
+                      <div className="connected-name">@{twitterUser?.username}</div>
+                      <div className="connected-email">{twitterUser?.name}</div>
+                    </div>
+                    <button className="disconnect-btn" onClick={handleTwitterLogout}>
+                      Disconnect
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                    className="twitter-login-btn full-width"
+                    onClick={() => {
+                      handleTwitterConnect();
+                      setShowAuthModal(false);
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '8px' }}>
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Connect X (Twitter)
+                  </button>
+                )}
+                
+                <button 
+                  className="substack-login-btn full-width"
+                  onClick={() => {
+                    setShowSubstackModal(true);
+                  }}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" style={{ marginRight: '8px' }}>
+                    <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+                  </svg>
+                  Connect Substack
+                </button>
+              </div>
+              
+              <div className="auth-benefits">
+                <h3>Why connect?</h3>
+                <p className="simple-explanation">
+                  Bitcoin Writer lets you create documents that are automatically backed up to Google Drive and permanently stored on the Bitcoin blockchain. Schedule posts to X/Twitter using Google Calendar, share documents via Gmail with access controls, and monetize your content by charging readers bitcoin payments that go directly to your HandCash wallet. Connect your accounts to unlock the full writing, publishing, and monetization workflow.
+                </p>
+                
+                <div className="premium-subscribe-section">
+                  <h4>Subscribe for Premium Features</h4>
+                  <p className="subscription-explanation">
+                    Never worry about running out of bitcoin again. Your subscription automatically tops up your HandCash wallet with bitcoin each month, ensuring you can always store documents on the blockchain, receive payments from readers, and maintain your publishing workflow without interruption. Plus get enhanced analytics and priority support.
+                  </p>
+                  <button className="premium-subscribe-btn" onClick={() => {
+                    console.log('Opening premium subscription flow');
+                  }}>
+                    <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                    Subscribe Now - $5/month
                   </button>
                 </div>
               </div>
-            )}
-
-            {/* Quick Actions */}
-            <div className="dropdown-section actions-section">
-              <button className="action-item" onClick={() => {
-                setShowDropdown(false);
-                // Open settings
-              }}>
-                ⚙️ Account Settings
-              </button>
-              {hasGoogle && (
-                <button className="action-item" onClick={() => {
-                  setShowDropdown(false);
-                  // Open Google Drive
-                  window.open('https://drive.google.com', '_blank');
-                }}>
-                  📁 Open Google Drive
+            </div>
+          </div>
+        </>
+      )}
+      
+      {/* Substack Modal */}
+      {showSubstackModal && (
+        <>
+          <div className="auth-modal-overlay" onClick={() => setShowSubstackModal(false)} />
+          <div className="substack-modal">
+            <div className="substack-modal-header">
+              <h2>No dice, kid!</h2>
+              <button className="modal-close" onClick={() => setShowSubstackModal(false)}>×</button>
+            </div>
+            <div className="substack-modal-content">
+              <div className="substack-message">
+                <h3>Substack doesn't do OAuth, sucker!</h3>
+                <p>They keep their API locked up tighter than Fort Knox. 🔒</p>
+                <p>But hey, you can still copy/paste your articles manually like it's 1999! 📋</p>
+                <button 
+                  className="substack-ok-btn"
+                  onClick={() => setShowSubstackModal(false)}
+                >
+                  Thanks for Nothing, Substack
                 </button>
-              )}
-              {hasHandCash && (
-                <button className="action-item" onClick={() => {
-                  setShowDropdown(false);
-                  // Open HandCash wallet
-                  window.open('https://app.handcash.io', '_blank');
-                }}>
-                  💳 Open HandCash Wallet
-                </button>
-              )}
+              </div>
             </div>
           </div>
         </>

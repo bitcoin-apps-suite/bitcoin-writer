@@ -119,21 +119,23 @@ const GoogleAuthButton: React.FC<GoogleAuthProps> = ({
   }
 
   return (
-    <GoogleLogin
-      onSuccess={handleSuccess}
-      onError={() => {
-        console.error('Google Login Failed');
-        if (onAuthFailure) {
-          onAuthFailure();
-        }
-      }}
-      useOneTap
-      theme="outline"
-      size="large"
-      text="signin_with"
-      shape="rectangular"
-      width="280"
-    />
+    <div style={{ width: '100%' }}>
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={() => {
+          console.error('Google Login Failed');
+          if (onAuthFailure) {
+            onAuthFailure();
+          }
+        }}
+        useOneTap
+        theme="outline"
+        size="large"
+        text="continue_with"
+        shape="rectangular"
+        width="100%"
+      />
+    </div>
   );
 };
 

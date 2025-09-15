@@ -316,8 +316,9 @@ main {
   border-bottom: 1px solid #333;
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  min-height: 80px;
 }
 
 .App-header h1 {
@@ -345,6 +346,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 12px;
+  flex-direction: row;
 }
 
 .app-logo {
@@ -620,7 +622,8 @@ main {
   text-align: center;
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .App-header h1 {
@@ -647,9 +650,11 @@ main {
 }
 
 .header-right {
-  flex: 1;
+  position: relative;
+  z-index: 10;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
 }
 
 .app-title-container {

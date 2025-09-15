@@ -347,8 +347,25 @@ function App() {
             
             <header className="App-header">
               
-              {/* Auth on the left */}
-              <div className="header-left">
+              {/* Logo and title in center */}
+              <div className="title-section">
+                <div className="app-title-container">
+                  <img 
+                    src="/logo.svg" 
+                    alt="Bitcoin Writer Logo" 
+                    className="app-logo"
+                    style={{
+                      width: '32px',
+                      height: '32px'
+                    }}
+                  />
+                  <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
+                </div>
+                <p className="app-subtitle">Encrypt and store your documents on the Bitcoin Blockchain, charge for access, set conditions like multisig and timelock to unlock</p>
+              </div>
+              
+              {/* Auth and mobile menu on the right */}
+              <div className="header-right">
                 <UnifiedAuth
                   googleUser={googleUser}
                   setGoogleUser={setGoogleUser}
@@ -358,28 +375,6 @@ function App() {
                   onHandCashLogin={() => handcashService.login()}
                   onHandCashLogout={handleLogout}
                 />
-              </div>
-
-              {/* Logo and title in center */}
-              <div className="app-title-container">
-                <img 
-                  src="/logo.svg" 
-                  alt="Bitcoin Writer Logo" 
-                  className="app-logo"
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    marginRight: '12px'
-                  }}
-                />
-                <div className="title-text">
-                  <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
-                  <p className="app-subtitle">Encrypt and store your documents permanently on the Blockchain for 1¢ each</p>
-                </div>
-              </div>
-              
-              {/* Mobile menu button on the right */}
-              <div className="header-right">
                 <button 
                   className="mobile-menu-toggle"
                   onClick={() => setShowMobileMenu(!showMobileMenu)}

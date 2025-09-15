@@ -41,14 +41,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 480px;
+  width: 95%;
+  max-width: 720px;
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
   z-index: 9999;
   animation: modalSlide 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 @keyframes modalSlide {
@@ -103,10 +105,59 @@
 }
 
 .auth-options {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 24px;
+}
+
+.auth-options .subscribe-btn {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+
+/* Mobile responsiveness for auth options */
+@media (max-width: 600px) {
+  .auth-options {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .auth-options .subscribe-btn {
+    grid-column: 1;
+  }
+}
+
+.google-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.google-btn-wrapper > div {
+  width: 100% !important;
+}
+
+.google-btn-wrapper > div > div {
+  width: 100% !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+.google-btn-wrapper iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Custom styling for Google button content */
+.google-btn-wrapper [role="button"] {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+.google-btn-wrapper [role="button"] > div {
+  justify-content: flex-start !important;
 }
 
 .auth-divider {
@@ -167,6 +218,223 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Simple Explanation */
+.simple-explanation {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 16px 0 20px 0;
+  text-align: left;
+}
+
+/* Integration Workflow */
+.integration-workflow {
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.integration-workflow > div {
+  background: rgba(255, 149, 0, 0.03);
+  border: 1px solid rgba(255, 149, 0, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.integration-workflow h4 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff9500;
+}
+
+.integration-workflow ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.integration-workflow li {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.integration-workflow li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #ff9500;
+  font-weight: bold;
+}
+
+/* Mobile responsiveness for workflow */
+@media (max-width: 800px) {
+  .integration-workflow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Premium Subscribe Section */
+.premium-subscribe-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 149, 0, 0.3);
+}
+
+.premium-subscribe-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff9500;
+}
+
+.premium-subscribe-section p {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.premium-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.premium-features li {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  padding-left: 16px;
+  position: relative;
+}
+
+.premium-features li:before {
+  content: "⭐";
+  position: absolute;
+  left: 0;
+  color: #ff9500;
+  font-size: 10px;
+}
+
+/* Subscription Explanation */
+.subscription-explanation {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  text-align: left;
+}
+
+/* Connected Account Cards */
+.connected-account-card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  gap: 12px;
+}
+
+.connected-account-card.google-connected {
+  border-color: rgba(66, 133, 244, 0.3);
+  background: rgba(66, 133, 244, 0.05);
+}
+
+.connected-account-card.handcash-connected {
+  border-color: rgba(76, 175, 80, 0.3);
+  background: rgba(76, 175, 80, 0.05);
+}
+
+.connected-account-card.twitter-connected {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.connected-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.connected-account-card.handcash-connected .connected-avatar {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.connected-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.connected-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.connected-email {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.disconnect-btn {
+  padding: 6px 12px;
+  background: rgba(255, 68, 68, 0.15);
+  border: 1px solid rgba(255, 68, 68, 0.4);
+  color: #ff4444;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.disconnect-btn:hover {
+  background: rgba(255, 68, 68, 0.25);
+  border-color: rgba(255, 68, 68, 0.6);
+}
+
+.premium-subscribe-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.premium-subscribe-btn:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -188,6 +456,11 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .handcash-login-btn.full-width {
@@ -208,14 +481,19 @@
 
 .twitter-login-btn {
   padding: 8px 16px;
-  background: linear-gradient(135deg, #1DA1F2, #0e71c8);
+  background: linear-gradient(135deg, #000000, #1a1a1a);
   color: white;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .twitter-login-btn.full-width {
@@ -224,9 +502,10 @@
 }
 
 .twitter-login-btn:hover {
-  background: linear-gradient(135deg, #0e71c8, #1DA1F2);
+  background: linear-gradient(135deg, #1a1a1a, #000000);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(29, 161, 242, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .twitter-login-btn.compact {
@@ -235,8 +514,131 @@
 }
 
 .twitter-account .account-avatar {
-  background: linear-gradient(135deg, #1DA1F2, #0e71c8);
+  background: linear-gradient(135deg, #000000, #1a1a1a);
   font-size: 20px;
+}
+
+.subscribe-btn {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.subscribe-btn:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.subscribe-btn.full-width {
+  width: 100%;
+}
+
+/* Substack Button */
+.substack-login-btn {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #FF6719, #FF8C4B);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.substack-login-btn:hover {
+  background: linear-gradient(135deg, #FF8C4B, #FF6719);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 103, 25, 0.3);
+}
+
+.substack-login-btn.full-width {
+  width: 100%;
+}
+
+/* Substack Modal */
+.substack-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 420px;
+  background: #1a1a1a;
+  border: 2px solid #FF6719;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(255, 103, 25, 0.3);
+  z-index: 9999;
+  animation: modalSlide 0.3s ease;
+}
+
+.substack-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid rgba(255, 103, 25, 0.3);
+}
+
+.substack-modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #FF6719;
+  text-align: center;
+}
+
+.substack-modal-content {
+  padding: 24px;
+  text-align: center;
+}
+
+.substack-message h3 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  color: #fff;
+}
+
+.substack-message p {
+  margin: 12px 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+.substack-ok-btn {
+  margin-top: 24px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #FF6719, #FF8C4B);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.substack-ok-btn:hover {
+  background: linear-gradient(135deg, #FF8C4B, #FF6719);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 103, 25, 0.4);
 }
 
 /* Unified Auth Badge */
@@ -331,8 +733,9 @@
 .unified-dropdown {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  right: 0;
   width: 380px;
+  max-width: 90vw;
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
