@@ -14,17 +14,21 @@ export default function handler(req, res) {
   // Store state in a cookie for verification later
   res.setHeader('Set-Cookie', `twitter_oauth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`);
 
+  // Build redirect URI - VERCEL_URL doesn't include protocol
+  const baseUrl = process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}` 
+    : 'http://localhost:3000';
+  const redirectUri = `${baseUrl}/api/auth/twitter/callback`;
+
   // Build the Twitter OAuth 2.0 authorization URL
   const params = new URLSearchParams({
     response_type: 'code',
     client_id: clientId,
-    redirect_uri: `${process.env.VERCEL_URL || 'http://localhost:3000'}/api/auth/twitter/callback`,
+    redirect_uri: redirectUri,
     scope: 'tweet.read tweet.write users.read offline.access',
     state: state,
     code_challenge: 'challenge',
-    code_challenge_method: 'plain',
-    // Force re-authentication to prevent SSO auto-login
-    prompt: 'consent'
+    code_challenge_method: 'plain'
   });
 
   const authUrl = `https://twitter.com/i/oauth2/authorize?${params}`;

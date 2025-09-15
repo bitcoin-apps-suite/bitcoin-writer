@@ -16,6 +16,12 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Build redirect URI - VERCEL_URL doesn't include protocol
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : 'http://localhost:3000';
+    const redirectUri = `${baseUrl}/api/auth/twitter/callback`;
+
     // Exchange authorization code for access token
     const tokenResponse = await fetch('https://api.twitter.com/2/oauth2/token', {
       method: 'POST',
@@ -26,7 +32,7 @@ export default async function handler(req, res) {
       body: new URLSearchParams({
         code,
         grant_type: 'authorization_code',
-        redirect_uri: `${process.env.VERCEL_URL || 'http://localhost:3000'}/api/auth/twitter/callback`,
+        redirect_uri: redirectUri,
         code_verifier: 'challenge'
       })
     });
@@ -96,7 +102,7 @@ export default async function handler(req, res) {
               window.opener.postMessage({
                 type: 'twitter-auth-success',
                 user: ${JSON.stringify(twitterUser)}
-              }, '${process.env.VERCEL_URL || 'http://localhost:3000'}');
+              }, '${baseUrl}');
             }
             // Store in localStorage as backup
             localStorage.setItem('twitterUser', JSON.stringify(${JSON.stringify(twitterUser)}));
