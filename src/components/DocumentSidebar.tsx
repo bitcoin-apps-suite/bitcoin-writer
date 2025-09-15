@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
 import { formatUSD } from '../utils/pricingCalculator';
+import { LocalDocumentStorage } from '../utils/documentStorage';
 
 interface DocumentSidebarProps {
   documentService: BlockchainDocumentService | null;
@@ -9,6 +10,7 @@ interface DocumentSidebarProps {
   onNewDocument: () => void;
   currentDocumentId?: string;
   isMobile?: boolean;
+  refreshTrigger?: number;
 }
 
 const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
@@ -17,22 +19,60 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   onDocumentSelect,
   onNewDocument,
   currentDocumentId,
-  isMobile = false
+  isMobile = false,
+  refreshTrigger
 }) => {
   const [documents, setDocuments] = useState<BlockchainDocument[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [sidebarWidth, setSidebarWidth] = useState(280);
+  const [isResizing, setIsResizing] = useState(false);
 
   const loadDocuments = useCallback(async () => {
-    if (!documentService) return;
-
     setIsLoading(true);
     try {
-      const docs = await documentService.getDocuments();
+      let allDocs: BlockchainDocument[] = [];
       
-      // Sort documents by updated date
-      const sortedDocs = docs.sort((a, b) => {
+      // Load local documents (for both authenticated and guest users)
+      const localDocs = LocalDocumentStorage.getAllDocuments();
+      const localDocsAsBlockchain: BlockchainDocument[] = localDocs.map(doc => ({
+        id: doc.id,
+        title: doc.title,
+        content: doc.content,
+        preview: doc.content ? 
+          (typeof doc.content === 'string' ? 
+            doc.content.replace(/<[^>]*>/g, '').substring(0, 100) : 
+            '') + '...' : '',
+        created_at: doc.created_at,
+        updated_at: doc.updated_at,
+        author: 'Local',
+        word_count: doc.word_count,
+        character_count: doc.character_count,
+        encrypted: false,
+        storage_method: doc.is_hashed ? 'hashed' : 'local',
+        blockchain_tx: doc.hash_tx
+      }));
+      
+      allDocs = [...localDocsAsBlockchain];
+      
+      // If authenticated, also load blockchain documents
+      if (documentService && isAuthenticated) {
+        try {
+          const blockchainDocs = await documentService.getDocuments();
+          // Filter out any blockchain docs that might duplicate local docs
+          const uniqueBlockchainDocs = blockchainDocs.filter(
+            bDoc => !localDocs.some(lDoc => lDoc.id === bDoc.id)
+          );
+          allDocs = [...allDocs, ...uniqueBlockchainDocs];
+        } catch (error) {
+          console.error('Failed to load blockchain documents:', error);
+        }
+      }
+      
+      // Sort all documents by updated date
+      const sortedDocs = allDocs.sort((a, b) => {
         return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
       });
       
@@ -43,35 +83,47 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [documentService]);
+  }, [documentService, isAuthenticated]);
 
   useEffect(() => {
-    if (isAuthenticated && documentService) {
-      loadDocuments();
-    }
-  }, [isAuthenticated, documentService, loadDocuments]);
+    // Load documents for both authenticated and guest users
+    loadDocuments();
+  }, [loadDocuments]);
 
-  // Refresh documents when current document changes (new document saved)
+  // Refresh documents when current document changes or refresh is triggered
   useEffect(() => {
-    if (isAuthenticated && documentService && currentDocumentId) {
-      // Reload documents to include newly saved document
+    if (currentDocumentId || refreshTrigger) {
       loadDocuments();
     }
-  }, [currentDocumentId, isAuthenticated, documentService, loadDocuments]);
+  }, [currentDocumentId, refreshTrigger, loadDocuments]);
 
   const handleDeleteDocument = async (docId: string, docTitle: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent selecting the document
     
-    if (!documentService) return;
+    // First click - show confirmation state
+    if (deleteConfirmId !== docId) {
+      setDeleteConfirmId(docId);
+      // Reset confirmation after 3 seconds
+      setTimeout(() => {
+        setDeleteConfirmId(null);
+      }, 3000);
+      return;
+    }
     
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${docTitle}"? This action cannot be undone.`
-    );
-    
-    if (!confirmed) return;
+    // Second click - perform deletion
+    setDeleteConfirmId(null);
     
     try {
-      await documentService.deleteDocument(docId);
+      // Check if it's a local document or blockchain document
+      const doc = documents.find(d => d.id === docId);
+      if (doc?.storage_method === 'local' || doc?.storage_method === 'hashed') {
+        // Delete from local storage
+        LocalDocumentStorage.deleteDocument(docId);
+      } else if (documentService) {
+        // Delete from blockchain
+        await documentService.deleteDocument(docId);
+      }
+      
       setDocuments(prev => prev.filter(doc => doc.id !== docId));
       
       // If this was the current document, clear it
@@ -80,7 +132,6 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
       }
     } catch (error) {
       console.error('Failed to delete document:', error);
-      alert('Failed to delete document. Please try again.');
     }
   };
 
@@ -123,33 +174,40 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
     }
   };
 
-  if (!isAuthenticated) {
-    return isMobile ? (
-      <div className="mobile-sidebar-empty">
-        <p>Sign in with HandCash to save and access your documents on the blockchain</p>
-      </div>
-    ) : (
-      <div className={`document-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
-        <div className="sidebar-header">
-          <button 
-            className="collapse-btn"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            {isCollapsed ? '→' : '←'}
-          </button>
-          {!isCollapsed && <h3>My Documents</h3>}
-        </div>
-        {!isCollapsed && (
-          <div className="sidebar-content">
-            <div className="sidebar-empty">
-              <p>Sign in with HandCash to save and access your documents on the blockchain</p>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
+  // Handle resize
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+      
+      const newWidth = e.clientX;
+      if (newWidth >= 200 && newWidth <= 500) {
+        setSidebarWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+  }, [isResizing]);
 
   if (isMobile) {
     return (
@@ -178,11 +236,11 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                   )}
                 </button>
                 <button
-                  className="mobile-delete-btn"
+                  className={`mobile-delete-btn ${deleteConfirmId === doc.id ? 'confirm-delete' : ''}`}
                   onClick={(e) => handleDeleteDocument(doc.id, doc.title, e)}
-                  title={`Delete ${doc.title}`}
+                  title={deleteConfirmId === doc.id ? 'Click again to delete' : `Delete ${doc.title}`}
                 >
-                  🗑️
+                  {deleteConfirmId === doc.id ? '⚠️' : '🗑️'}
                 </button>
               </div>
             ))}
@@ -193,7 +251,10 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   }
 
   return (
-    <div className={`document-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+    <div 
+      className={`document-sidebar ${isCollapsed ? 'collapsed' : ''}`}
+      style={{ width: isCollapsed ? '50px' : `${sidebarWidth}px` }}
+    >
       <div className="sidebar-header">
         <button 
           className="collapse-btn"
@@ -255,17 +316,24 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                     </div>
                   </div>
                   <button
-                    className="delete-btn"
+                    className={`delete-btn ${deleteConfirmId === doc.id ? 'confirm-delete' : ''}`}
                     onClick={(e) => handleDeleteDocument(doc.id, doc.title || 'Untitled', e)}
-                    title={`Delete ${doc.title || 'Untitled'}`}
+                    title={deleteConfirmId === doc.id ? 'Click again to delete' : `Delete ${doc.title || 'Untitled'}`}
                   >
-                    🗑️
+                    {deleteConfirmId === doc.id ? '⚠️' : '🗑️'}
                   </button>
                 </div>
               ))}
             </div>
           )}
         </div>
+      )}
+      {!isCollapsed && (
+        <div 
+          className="sidebar-resize-handle"
+          onMouseDown={handleMouseDown}
+          style={{ cursor: 'col-resize' }}
+        />
       )}
     </div>
   );

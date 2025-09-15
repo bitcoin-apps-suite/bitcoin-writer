@@ -20,6 +20,7 @@ function App() {
   const [showBitcoinMenu, setShowBitcoinMenu] = useState(false);
   const [showWriterMenu, setShowWriterMenu] = useState(false);
   const [showDevelopersMenu, setShowDevelopersMenu] = useState(false);
+  const [sidebarRefresh, setSidebarRefresh] = useState(0);
 
   useEffect(() => {
     // Check if we're coming back from HandCash with an authToken
@@ -506,9 +507,12 @@ function App() {
                             onNewDocument={() => {
                               setCurrentDocument(null);
                               setShowMobileMenu(false);
+                              // Trigger sidebar refresh after a short delay to allow document creation
+                              setTimeout(() => setSidebarRefresh(prev => prev + 1), 100);
                             }}
                             currentDocumentId={currentDocument?.id}
                             isMobile={true}
+                            refreshTrigger={sidebarRefresh}
                           />
                         </div>
 
@@ -588,8 +592,13 @@ function App() {
                 documentService={documentService}
                 isAuthenticated={isAuthenticated}
                 onDocumentSelect={(doc) => setCurrentDocument(doc)}
-                onNewDocument={() => setCurrentDocument(null)}
+                onNewDocument={() => {
+                  setCurrentDocument(null);
+                  // Trigger sidebar refresh after a short delay to allow document creation
+                  setTimeout(() => setSidebarRefresh(prev => prev + 1), 100);
+                }}
                 currentDocumentId={currentDocument?.id}
+                refreshTrigger={sidebarRefresh}
               />
               <main>
                 <DocumentEditor 
@@ -597,7 +606,11 @@ function App() {
                   isAuthenticated={isAuthenticated}
                   onAuthRequired={() => handcashService.login()}
                   currentDocument={currentDocument}
-                  onDocumentUpdate={(doc) => setCurrentDocument(doc)}
+                  onDocumentUpdate={(doc) => {
+                    setCurrentDocument(doc);
+                    // Trigger sidebar refresh when document is updated
+                    setSidebarRefresh(prev => prev + 1);
+                  }}
                 />
               </main>
             </div>

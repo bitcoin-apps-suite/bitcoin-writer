@@ -1,5 +1,7 @@
-import { Transaction, Script, PrivateKey, PublicKey, Hash, P2PKH, ARC } from '@bsv/sdk';
+import { Transaction, Script, PrivateKey, PublicKey, P2PKH } from '@bsv/sdk';
 import CryptoJS from 'crypto-js';
+import { EncryptionService } from '../utils/encryptionUtils';
+import { UnlockConditions, BlockchainSaveOptions } from '../components/SaveToBlockchainModal';
 
 export interface AutoSaveBudget {
   currentLimit: number;  // Current budget in USD (default 0.01)
@@ -27,8 +29,26 @@ export interface DocumentPackage {
   content: string;
   contentHash: string;
   encrypted: boolean;
+  encryptionData?: {
+    method: 'password' | 'timelock' | 'multiparty';
+    salt?: string;
+    iv?: string;
+    unlockConditions?: any;
+  };
   wordCount: number;
   characterCount: number;
+  unlockConditions?: UnlockConditions;
+  metadata?: {
+    description?: string;
+    tags?: string[];
+    category?: string;
+  };
+  monetization?: {
+    nft?: boolean;
+    royaltyPercentage?: number;
+    initialPrice?: number;
+    maxSupply?: number;
+  };
 }
 
 export interface StorageResult {
@@ -37,6 +57,8 @@ export interface StorageResult {
   storageCost: StorageQuote;
   timestamp: number;
   explorerUrl: string;
+  unlockLink?: string;
+  paymentAddress?: string;
 }
 
 export class BSVStorageService {
@@ -130,7 +152,122 @@ export class BSVStorageService {
     };
   }
 
-  // Store document directly on BSV blockchain
+  // Store document directly on BSV blockchain with advanced options
+  public async storeDocumentWithOptions(
+    content: string,
+    options: BlockchainSaveOptions,
+    author: string
+  ): Promise<StorageResult> {
+    if (!this.privateKey) {
+      throw new Error('BSV service not initialized');
+    }
+
+    const wordCount = this.countWords(content);
+    const quote = this.calculateStorageCost(wordCount, options.encryption);
+    
+    // Handle encryption based on method
+    let encryptedContent = content;
+    let encryptionData: any = undefined;
+    
+    if (options.encryption && options.encryptionMethod) {
+      switch (options.encryptionMethod) {
+        case 'password':
+          if (!options.encryptionPassword) throw new Error('Password required');
+          const passwordResult = EncryptionService.encryptWithPassword(content, options.encryptionPassword);
+          encryptedContent = passwordResult.encryptedData;
+          encryptionData = {
+            method: 'password',
+            salt: passwordResult.salt,
+            iv: passwordResult.iv
+          };
+          break;
+          
+        case 'timelock':
+          if (!options.unlockConditions.unlockTime) throw new Error('Unlock time required');
+          const timelockResult = EncryptionService.encryptWithTimelock(content, options.unlockConditions.unlockTime);
+          encryptedContent = timelockResult.encryptedData;
+          encryptionData = {
+            method: 'timelock',
+            unlockConditions: timelockResult.unlockConditions
+          };
+          break;
+          
+        case 'multiparty':
+          const multipartyResult = EncryptionService.encryptMultiparty(content, 2);
+          encryptedContent = multipartyResult.encryptedData;
+          encryptionData = {
+            method: 'multiparty',
+            unlockConditions: multipartyResult.unlockConditions
+          };
+          break;
+      }
+    }
+    
+    // Create document package with all metadata
+    const documentPackage: DocumentPackage = {
+      version: '2.0',
+      timestamp: Date.now(),
+      author,
+      title: options.metadata.title,
+      content: encryptedContent,
+      contentHash: this.hashContent(content),
+      encrypted: options.encryption,
+      encryptionData,
+      wordCount,
+      characterCount: content.length,
+      unlockConditions: options.unlockConditions,
+      metadata: {
+        description: options.metadata.description,
+        tags: options.metadata.tags,
+        category: options.metadata.category
+      },
+      monetization: options.monetization.enableNFT ? {
+        nft: true,
+        royaltyPercentage: options.monetization.royaltyPercentage,
+        initialPrice: options.monetization.initialPrice,
+        maxSupply: options.monetization.maxSupply
+      } : undefined
+    };
+    
+    // Convert to buffer for storage
+    const documentData = Buffer.from(JSON.stringify(documentPackage));
+    
+    try {
+      // Build transaction with OP_FALSE OP_RETURN for unlimited data
+      const tx = await this.buildDataTransaction(documentData, quote);
+      
+      // In production, broadcast to BSV network
+      // For now, simulate the transaction
+      const txid = await this.simulateBroadcast(tx);
+      
+      // Generate unlock link if needed
+      let unlockLink: string | undefined;
+      if (options.unlockConditions.method !== 'immediate') {
+        unlockLink = EncryptionService.createUnlockLink(txid, options.encryptionPassword);
+      }
+      
+      // Generate payment address for priced content
+      let paymentAddress: string | undefined;
+      if (options.unlockConditions.method === 'priced' || options.unlockConditions.method === 'timedAndPriced') {
+        paymentAddress = this.address || undefined;
+      }
+      
+      return {
+        transactionId: txid,
+        documentHash: documentPackage.contentHash,
+        storageCost: quote,
+        timestamp: documentPackage.timestamp,
+        explorerUrl: `https://whatsonchain.com/tx/${txid}`,
+        unlockLink,
+        paymentAddress
+      };
+    } catch (error) {
+      console.error('Failed to store document on BSV:', error);
+      throw new Error('Failed to store document on blockchain');
+    }
+  }
+  
+  // Legacy method for backward compatibility
   public async storeDocument(
     content: string,
     title: string,

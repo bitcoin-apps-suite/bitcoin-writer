@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import { HandCashService, HandCashUser } from './HandCashService';
 import { StorageMethod } from '../components/EnhancedStorageModal';
-import BSVStorageService, { StorageResult, StorageQuote } from './BSVStorageService';
+import BSVStorageService, { StorageQuote } from './BSVStorageService';
 
 export interface DocumentData {
   id: string;

@@ -81,7 +81,7 @@ export const STORAGE_OPTIONS: StorageOption[] = [
 const SATOSHIS_PER_BITCOIN = 100_000_000;
 const CENTS_PER_CHARACTER = 0.000001; // 1/100,000th of a penny per character = $0.00000001
 const SERVICE_MULTIPLIER = 2; // We charge 2x the base cost
-const BYTES_PER_CHARACTER = 1; // Rough estimate for UTF-8 text
+// const BYTES_PER_CHARACTER = 1; // Rough estimate for UTF-8 text - unused
 
 // Get current Bitcoin price (mock - in production, fetch from API)
 export const getBitcoinPriceUSD = async (): Promise<number> => {

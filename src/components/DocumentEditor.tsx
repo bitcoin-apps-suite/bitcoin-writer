@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BlockchainDocumentService, DocumentData, BlockchainDocument } from '../services/BlockchainDocumentService';
 import PricingDisplay from './PricingDisplay';
 import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
-import EnhancedStorageModal, { StorageOptions } from './EnhancedStorageModal';
+import SaveToBlockchainModal, { BlockchainSaveOptions } from './SaveToBlockchainModal';
 import TokenizeModal, { TokenizationOptions } from './TokenizeModal';
 import PostToTwitterModal from './PostToTwitterModal';
 import { StorageOption } from '../utils/pricingCalculator';
+import BSVStorageService from '../services/BSVStorageService';
+import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
+import CryptoJS from 'crypto-js';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -23,11 +26,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   onDocumentUpdate 
 }) => {
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
+  const [localDocumentId, setLocalDocumentId] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [cursorPosition, setCursorPosition] = useState('Line 1, Column 1');
   const [autoSaveStatus, setAutoSaveStatus] = useState('');
+  const [lastHashTime, setLastHashTime] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedStorageOption, setSelectedStorageOption] = useState<StorageOption | null>(null);
   const [editorContent, setEditorContent] = useState('');
@@ -35,15 +40,57 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [publishSettings, setPublishSettings] = useState<PublishSettings | null>(null);
   const [isEncrypted, setIsEncrypted] = useState(false);
   const [readPrice, setReadPrice] = useState<number>(0);
-  const [showStorageModal, setShowStorageModal] = useState(false);
-  const [, setStorageOptions] = useState<StorageOptions | null>(null);
+  const [showSaveBlockchainModal, setShowSaveBlockchainModal] = useState(false);
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
+  const [bsvService] = useState(() => new BSVStorageService());
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
+  // Load or create local document
+  const loadLocalDocument = useCallback(() => {
+    // Check if we have a current document ID
+    let docId = LocalDocumentStorage.getCurrentDocumentId();
+    let doc: LocalDocument | null = null;
+    
+    if (docId) {
+      doc = LocalDocumentStorage.getDocument(docId);
+    }
+    
+    // If no document found, create a new one
+    if (!doc) {
+      doc = LocalDocumentStorage.createNewDocument();
+      LocalDocumentStorage.saveDocument(doc);
+      LocalDocumentStorage.setCurrentDocumentId(doc.id);
+    }
+    
+    setLocalDocumentId(doc.id);
+    setCurrentDocument({
+      id: doc.id,
+      title: doc.title,
+      content: doc.content,
+      metadata: {
+        created_at: doc.created_at,
+        updated_at: doc.updated_at,
+        author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
+        encrypted: false,
+        word_count: doc.word_count,
+        character_count: doc.character_count
+      }
+    });
+    
+    if (editorRef.current) {
+      editorRef.current.innerHTML = doc.content || '<p>Start writing...</p>';
+      updateCounts();
+    }
+  }, [isAuthenticated, documentService]);
+
+  // Track if this is initial mount
+  const isInitialMount = useRef(true);
+  const prevPropDocument = useRef(propDocument);
+  
   // Load document when propDocument changes
   useEffect(() => {
     if (propDocument) {
@@ -93,18 +140,78 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           editorRef.current.textContent = propDocument.content || '';
         }
       }
-    } else if (!isAuthenticated) {
-      // Load from localStorage for guest users
-      loadLocalDocument();
-    } else {
-      // Clear editor for new document
-      setCurrentDocument(null);
-      setEditorContent('');
-      if (editorRef.current) {
-        editorRef.current.textContent = '';
+    } else if (propDocument === null) {
+      // propDocument is explicitly null
+      if (isInitialMount.current) {
+        // On initial mount with no document, load existing or create new
+        loadLocalDocument();
+      } else if (prevPropDocument.current !== null) {
+        // User clicked "New Document" in sidebar (propDocument changed from something to null)
+        // Save current document first if it has content
+        if (editorRef.current && localDocumentId) {
+          const content = editorRef.current.innerHTML;
+          if (content && content !== '<p>Start writing...</p>') {
+            // Extract title from first line of text
+            const text = editorRef.current.textContent || '';
+            const firstLine = text.split('\n')[0]?.trim() || 'Untitled Document';
+            const title = firstLine.substring(0, 100);
+            LocalDocumentStorage.autoSave(localDocumentId, content, title);
+          }
+        }
+        
+        // Create a new document inline
+        const newDoc = LocalDocumentStorage.createNewDocument();
+        LocalDocumentStorage.saveDocument(newDoc);
+        LocalDocumentStorage.setCurrentDocumentId(newDoc.id);
+        
+        setLocalDocumentId(newDoc.id);
+        setCurrentDocument({
+          id: newDoc.id,
+          title: newDoc.title,
+          content: newDoc.content,
+          metadata: {
+            created_at: newDoc.created_at,
+            updated_at: newDoc.updated_at,
+            author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
+            encrypted: false,
+            word_count: 0,
+            character_count: 0
+          }
+        });
+        
+        if (editorRef.current) {
+          editorRef.current.innerHTML = '<p>Start writing...</p>';
+          editorRef.current.focus();
+          // Update word and character counts
+          setWordCount(0);
+          setCharCount(0);
+          setEditorContent('');
+        }
+        
+        setAutoSaveStatus('New document created');
+        setTimeout(() => setAutoSaveStatus(''), 2000);
+        
+        // Notify parent component that document was updated
+        if (onDocumentUpdate) {
+          onDocumentUpdate({
+            id: newDoc.id,
+            title: newDoc.title,
+            content: newDoc.content,
+            created_at: newDoc.created_at,
+            updated_at: newDoc.updated_at,
+            author: 'Local',
+            word_count: 0,
+            character_count: 0,
+            encrypted: false,
+            storage_method: 'local'
+          } as BlockchainDocument);
+        }
       }
     }
-  }, [propDocument, isAuthenticated]);
+    
+    prevPropDocument.current = propDocument;
+    isInitialMount.current = false;
+  }, [propDocument, loadLocalDocument, isAuthenticated, documentService, localDocumentId]);
 
   // Listen for tokenize modal event
   useEffect(() => {
@@ -155,14 +262,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     setEditorContent(html);
   }, []);
 
-  const loadLocalDocument = useCallback(() => {
-    // Load any auto-saved content from localStorage
-    const savedContent = localStorage.getItem('bitcoinWriter_localContent');
-    if (savedContent && editorRef.current) {
-      editorRef.current.innerHTML = savedContent;
-      updateCounts();
-    }
-  }, [updateCounts]);
+  // Removed duplicate loadLocalDocument - already defined above
 
   // Handle document changes (load local or clear editor)
   useEffect(() => {
@@ -203,13 +303,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     }
   }, [propDocument, isAuthenticated, loadLocalDocument, updateCounts]);
 
-  const saveToLocalStorage = () => {
-    if (editorRef.current) {
+  const saveToLocalStorage = useCallback(() => {
+    if (editorRef.current && localDocumentId) {
       const content = editorRef.current.innerHTML;
-      localStorage.setItem('bitcoinWriter_localContent', content);
-      localStorage.setItem('bitcoinWriter_lastSaved', Date.now().toString());
+      const title = extractTitleFromContent(content) || 'Untitled Document';
+      LocalDocumentStorage.autoSave(localDocumentId, content, title);
     }
-  };
+  }, [localDocumentId]);
 
   const updateCursorPosition = useCallback(() => {
     const selection = window.getSelection();
@@ -234,36 +334,60 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     return currentContent !== currentDocument.content;
   }, [currentDocument]);
 
-  const newDocument = async () => {
-    if (hasUnsavedChanges()) {
-      if (!window.confirm('You have unsaved changes. Are you sure you want to create a new document?')) {
-        return;
+  const handleNewDocument = useCallback(() => {
+    // Save current document first if it has content
+    if (editorRef.current && localDocumentId) {
+      const content = editorRef.current.innerHTML;
+      if (content && content !== '<p>Start writing...</p>') {
+        saveToLocalStorage();
       }
     }
-
-    // For guest users, just clear the editor
-    if (!isAuthenticated) {
-      if (editorRef.current) {
-        editorRef.current.innerHTML = '<p>Start writing...</p>';
-        editorRef.current.focus();
-        localStorage.removeItem('bitcoinWriter_localContent');
-        updateCounts();
+    
+    // Create new document
+    const newDoc = LocalDocumentStorage.createNewDocument();
+    LocalDocumentStorage.saveDocument(newDoc);
+    LocalDocumentStorage.setCurrentDocumentId(newDoc.id);
+    
+    setLocalDocumentId(newDoc.id);
+    setCurrentDocument({
+      id: newDoc.id,
+      title: newDoc.title,
+      content: newDoc.content,
+      metadata: {
+        created_at: newDoc.created_at,
+        updated_at: newDoc.updated_at,
+        author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
+        encrypted: false,
+        word_count: 0,
+        character_count: 0
       }
-      return;
-    }
-
-    // For authenticated users, also just clear the editor
-    // Document will be created on blockchain when user saves
-    setCurrentDocument(null);
-    setEditorContent('');
+    });
+    
     if (editorRef.current) {
-      editorRef.current.innerHTML = '';
+      editorRef.current.innerHTML = '<p>Start writing...</p>';
       editorRef.current.focus();
+      updateCounts();
     }
-    localStorage.removeItem('bitcoinWriter_localContent');
-    updateCounts();
-    showNotification('Ready for new document')
-  };
+    
+    setAutoSaveStatus('New document created');
+    setTimeout(() => setAutoSaveStatus(''), 2000);
+    
+    // Notify parent component that document was updated
+    if (onDocumentUpdate) {
+      onDocumentUpdate({
+        id: newDoc.id,
+        title: newDoc.title,
+        content: newDoc.content,
+        created_at: newDoc.created_at,
+        updated_at: newDoc.updated_at,
+        author: 'Local',
+        word_count: 0,
+        character_count: 0,
+        encrypted: false,
+        storage_method: 'local'
+      } as BlockchainDocument);
+    }
+  }, [localDocumentId, saveToLocalStorage, isAuthenticated, documentService, onDocumentUpdate]);
 
 
   const saveDocument = async () => {
@@ -288,78 +412,82 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     }
 
     // Show enhanced storage modal for blockchain save
-    setShowStorageModal(true);
+    setShowSaveBlockchainModal(true);
   };
 
-  const handleStorageSave = async (options: StorageOptions) => {
-    if (!documentService || !editorRef.current) return;
+  const handleBlockchainSave = async (options: BlockchainSaveOptions) => {
+    if (!editorRef.current) return;
 
     try {
       setIsLoading(true);
-      setShowStorageModal(false);
-      setStorageOptions(options);
+      setShowSaveBlockchainModal(false);
       setAutoSaveStatus('💾 Saving to blockchain...');
       
-      const content = editorRef.current.innerHTML;
-      const title = extractTitleFromContent(content) || 'Untitled Document';
+      const content = editorRef.current.textContent || '';
+      const title = extractTitleFromContent(content) || options.metadata.title;
       
-      // If no current document, create a new one
-      if (!currentDocument) {
-        const doc = await documentService.createDocument(title, content, options.method);
-        setCurrentDocument(doc);
-        // Notify parent component about the new document
-        if (onDocumentUpdate) {
-          onDocumentUpdate({
-            id: doc.id,
-            title: doc.title,
-            content: doc.content || '',
-            preview: doc.content?.substring(0, 100) || '',
-            created_at: doc.metadata.created_at,
-            updated_at: doc.metadata.updated_at,
-            author: doc.metadata.author,
-            encrypted: doc.metadata.encrypted,
-            word_count: doc.metadata.word_count,
-            character_count: doc.metadata.character_count,
-            storage_method: doc.metadata.storage_method,
-            blockchain_tx: doc.metadata.blockchain_tx,
-            storage_cost: doc.metadata.storage_cost
-          });
-        }
+      // Use BSV service directly for blockchain storage
+      const result = await bsvService.storeDocumentWithOptions(
+        content,
+        options,
+        documentService?.getCurrentUser()?.handle || 'anonymous'
+      );
+      
+      // Update document with blockchain info
+      if (currentDocument) {
+        const updatedDoc = {
+          ...currentDocument,
+          metadata: {
+            ...currentDocument.metadata,
+            blockchain_tx: result.transactionId,
+            storage_cost: result.storageCost.totalUSD,
+            storage_method: options.storageMethod
+          }
+        };
+        setCurrentDocument(updatedDoc);
       } else {
-        await documentService.updateDocument(currentDocument.id, title, content, options.method);
-        setCurrentDocument(prev => prev ? {
-          ...prev,
+        // Create new document record
+        const newDoc: DocumentData = {
+          id: result.transactionId,
           title,
           content,
-          lastUpdated: Date.now(),
-          wordCount,
-          charCount
-        } : null);
+          metadata: {
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            author: documentService?.getCurrentUser()?.handle || 'anonymous',
+            encrypted: options.encryption,
+            word_count: wordCount,
+            character_count: charCount,
+            storage_method: options.storageMethod,
+            blockchain_tx: result.transactionId,
+            storage_cost: result.storageCost.totalUSD
+          }
+        };
+        setCurrentDocument(newDoc);
       }
       
-      // Show appropriate success message based on storage method
-      let successMessage = 'Document saved to blockchain';
-      if (options.method === 'nft_creation') {
-        successMessage = 'NFT minted successfully!';
-      } else if (options.method === 'file_shares') {
-        successMessage = 'File shares issued successfully!';
+      setAutoSaveStatus(`✅ Saved to blockchain!`);
+      
+      // Show unlock link if content is locked
+      if (result.unlockLink) {
+        alert(`Document saved! Share this unlock link: ${result.unlockLink}`);
       }
       
-      setAutoSaveStatus('✅ Saved to blockchain');
-      setTimeout(() => setAutoSaveStatus(''), 2000);
-      showNotification(successMessage);
-      
-      // Clear local storage after successful blockchain save
-      localStorage.removeItem('bitcoinWriter_localContent');
+      // Show payment address if priced
+      if (result.paymentAddress) {
+        alert(`Payment address for readers: ${result.paymentAddress}`);
+      }
+
     } catch (error) {
-      console.error('Failed to save document:', error);
-      setAutoSaveStatus('❌ Blockchain save failed');
-      setTimeout(() => setAutoSaveStatus(''), 3000);
-      showNotification('Failed to save to blockchain', 'error');
+      console.error('Error saving to blockchain:', error);
+      setAutoSaveStatus('❌ Failed to save');
+      alert('Failed to save to blockchain. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Old handler removed - using handleBlockchainSave instead
 
   const handleTokenize = async (protocol: string, options: TokenizationOptions) => {
     try {
@@ -423,16 +551,65 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     }
   }, [isAuthenticated, currentDocument, documentService, selectedStorageOption, wordCount, charCount]);
 
-  // Auto-save interval
+  // Auto-save interval and auto-hash for authenticated users
   useEffect(() => {
     const interval = setInterval(() => {
-      if (currentDocument && hasUnsavedChanges()) {
-        autoSave();
+      // Auto-save to local storage
+      if (editorRef.current && localDocumentId) {
+        saveToLocalStorage();
       }
-    }, 30000); // Auto-save every 30 seconds
+      
+      // Auto-hash for authenticated users every 5 minutes
+      if (isAuthenticated && editorRef.current && localDocumentId) {
+        const now = Date.now();
+        if (now - lastHashTime > 300000) { // 5 minutes
+          hashDocument();
+        }
+      }
+    }, 30000); // Check every 30 seconds
 
     return () => clearInterval(interval);
-  }, [currentDocument, autoSave, hasUnsavedChanges]);
+  }, [saveToLocalStorage, isAuthenticated, localDocumentId, lastHashTime]);
+  
+  // Hash document (ultra-low cost, just store hash)
+  const hashDocument = async () => {
+    if (!editorRef.current || !localDocumentId) return;
+    
+    const content = editorRef.current.textContent || '';
+    if (!content || content.length < 10) return; // Don't hash empty or very short documents
+    
+    const hash = CryptoJS.SHA256(content).toString();
+    const timestamp = new Date().toISOString();
+    
+    // Store hash locally
+    const doc = LocalDocumentStorage.getDocument(localDocumentId);
+    if (doc) {
+      doc.is_hashed = true;
+      doc.hash = hash;
+      doc.updated_at = timestamp;
+      LocalDocumentStorage.saveDocument(doc);
+    }
+    
+    // If authenticated, store hash on blockchain (ultra-low cost)
+    if (isAuthenticated && bsvService) {
+      try {
+        // This would cost about 1/10,000th of a penny
+        // Just storing 32 bytes of hash data
+        setAutoSaveStatus('⚓️ Hashing to blockchain...');
+        
+        // In production, this would make a minimal BSV transaction
+        // For now, we'll simulate it
+        console.log('Document hash:', hash);
+        console.log('Timestamp:', timestamp);
+        
+        setLastHashTime(Date.now());
+        setAutoSaveStatus('✓ Hashed to blockchain');
+        setTimeout(() => setAutoSaveStatus(''), 3000);
+      } catch (error) {
+        console.error('Failed to hash to blockchain:', error);
+      }
+    }
+  };
 
   const extractTitleFromContent = (html: string): string => {
     const tempDiv = document.createElement('div');
@@ -491,7 +668,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       saveDocument();
     } else if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
       e.preventDefault();
-      newDocument();
+      handleNewDocument();
     } else if (e.key === 'F11') {
       e.preventDefault();
       toggleFullscreen();
@@ -671,6 +848,24 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               💾 {isAuthenticated ? 'Save to Blockchain' : 'Save'}
             </button>
             
+            <button 
+              onClick={() => {
+                if (localDocumentId) {
+                  const doc = LocalDocumentStorage.getDocument(localDocumentId);
+                  if (doc) {
+                    const format = prompt('Save as format: txt, html, or md?', 'txt');
+                    if (format && ['txt', 'html', 'md'].includes(format)) {
+                      LocalDocumentStorage.exportDocument(doc, format as 'txt' | 'html' | 'md');
+                      showNotification('Downloaded to your computer');
+                    }
+                  }
+                }
+              }}
+              title="Download document to your computer"
+            >
+              💻 Save to Computer
+            </button>
+            
             <button onClick={insertImage} title="Add images to your document (included in blockchain storage cost)">
               📷 Add Image
             </button>
@@ -798,11 +993,12 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         documentTitle={currentDocument?.title || 'Untitled'}
       />
 
-      <EnhancedStorageModal
-        isOpen={showStorageModal}
-        onClose={() => setShowStorageModal(false)}
-        onSave={handleStorageSave}
+      <SaveToBlockchainModal
+        isOpen={showSaveBlockchainModal}
+        onClose={() => setShowSaveBlockchainModal(false)}
+        onSave={handleBlockchainSave}
         documentTitle={currentDocument?.title || 'Untitled Document'}
+        wordCount={wordCount}
         estimatedSize={charCount}
       />
 

@@ -57,12 +57,16 @@
     "@craco/craco": "^7.1.0",
     "assert": "^2.1.0",
     "buffer": "^6.0.3",
+    "concurrently": "^9.2.1",
     "crypto-browserify": "^3.12.1",
+    "electron": "^38.1.0",
+    "electron-builder": "^26.0.12",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
     "stream-browserify": "^3.0.0",
-    "vm-browserify": "^1.1.2"
+    "vm-browserify": "^1.1.2",
+    "wait-on": "^8.0.5"
   }
 }

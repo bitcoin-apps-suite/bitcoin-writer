@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  calculatePricing, 
-  formatUSD, 
-  getCostComparison,
   STORAGE_OPTIONS,
   StorageOption,
   PricingBreakdown 
@@ -35,7 +32,7 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   const [showBudgetPrompt, setShowBudgetPrompt] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService());
   const [currentBudget, setCurrentBudget] = useState(BSVStorageService.DEFAULT_BUDGET_USD);
-  const [isEncrypted, setIsEncrypted] = useState(false);
+  const [isEncrypted] = useState(false);
 
   useEffect(() => {
     const updatePricing = async () => {
