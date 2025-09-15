@@ -312,9 +312,12 @@ main {
 .App-header {
   background: #1a1a1a;
   color: #ffffff;
-  padding: 24px 32px;
+  padding: 16px 24px;
   border-bottom: 1px solid #333;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .App-header h1 {
@@ -637,12 +640,23 @@ main {
   opacity: 0.8;
 }
 
-.connection-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #44ff44;
-  margin-right: 8px;
+.header-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.app-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
 }
 
 

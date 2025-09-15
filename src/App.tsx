@@ -7,12 +7,15 @@ import HandCashCallback from './components/HandCashCallback';
 import BapPage from './pages/BapPage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
+import { GoogleAuthProvider } from './components/GoogleAuth';
+import UnifiedAuth from './components/UnifiedAuth';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
   const [handcashService] = useState<HandCashService>(new HandCashService());
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<HandCashUser | null>(null);
+  const [googleUser, setGoogleUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -23,6 +26,18 @@ function App() {
   const [sidebarRefresh, setSidebarRefresh] = useState(0);
 
   useEffect(() => {
+    // Check for Google user first
+    const storedGoogleUser = localStorage.getItem('googleUser');
+    if (storedGoogleUser) {
+      try {
+        const user = JSON.parse(storedGoogleUser);
+        setGoogleUser(user);
+        console.log('Google user restored:', user);
+      } catch (error) {
+        console.error('Failed to parse Google user:', error);
+      }
+    }
+
     // Check if we're coming back from HandCash with an authToken
     const urlParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(window.location.hash.replace('#', ''));
@@ -120,7 +135,8 @@ function App() {
   };
 
   return (
-    <Routes>
+    <GoogleAuthProvider>
+      <Routes>
       <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/*" element={
@@ -330,20 +346,21 @@ function App() {
             </div>
             
             <header className="App-header">
-              <div className="connection-indicator" style={{ 
-                backgroundColor: isAuthenticated ? '#44ff44' : '#888' 
-              }} />
               
-              <button 
-                className="mobile-menu-toggle"
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                aria-label="Toggle menu"
-              >
-                <span className="hamburger-line"></span>
-                <span className="hamburger-line"></span>
-                <span className="hamburger-line"></span>
-              </button>
+              {/* Auth on the left */}
+              <div className="header-left">
+                <UnifiedAuth
+                  googleUser={googleUser}
+                  setGoogleUser={setGoogleUser}
+                  isHandCashAuthenticated={isAuthenticated}
+                  currentHandCashUser={currentUser}
+                  handcashService={handcashService}
+                  onHandCashLogin={() => handcashService.login()}
+                  onHandCashLogout={handleLogout}
+                />
+              </div>
 
+              {/* Logo and title in center */}
               <div className="app-title-container">
                 <img 
                   src="/logo.svg" 
@@ -357,93 +374,23 @@ function App() {
                 />
                 <div className="title-text">
                   <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
-                  <p className="app-subtitle">Save Documents as NFTs for 1¢</p>
+                  <p className="app-subtitle">Encrypt and store your documents permanently on the Blockchain for 1¢ each</p>
                 </div>
               </div>
               
-              {/* Desktop user info (top right) */}
-              <div className="user-info desktop-user-info">
-                {isAuthenticated ? (
-                  <div className="user-dropdown-container">
-                    <div 
-                      className="handcash-badge clickable"
-                      onClick={() => setShowUserDropdown(!showUserDropdown)}
-                    >
-                      <span className="user-handle">${currentUser?.handle}</span>
-                      <span className="dropdown-arrow">▼</span>
-                    </div>
-                    
-                    {showUserDropdown && (
-                      <div className="user-dropdown">
-                        <div className="dropdown-header">
-                          <div className="user-info-detailed">
-                            <div className="user-handle-large">${currentUser?.handle}</div>
-                            <div className="user-paymail">{currentUser?.paymail}</div>
-                          </div>
-                        </div>
-                        <div className="dropdown-divider"></div>
-                        <button 
-                          className="dropdown-item logout-item" 
-                          onClick={() => {
-                            handleLogout();
-                            setShowUserDropdown(false);
-                          }}
-                        >
-                          🚪 Sign Out
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <button className="login-btn" onClick={() => handcashService.login()}>
-                    Sign in with HandCash
-                  </button>
-                )}
+              {/* Mobile menu button on the right */}
+              <div className="header-right">
+                <button 
+                  className="mobile-menu-toggle"
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  aria-label="Toggle menu"
+                >
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                </button>
               </div>
 
-              {/* Mobile user info (below title) */}
-              <div className="mobile-user-info">
-                {isAuthenticated ? (
-                  <div className="mobile-auth-section">
-                    <div className="user-dropdown-container mobile-dropdown-container">
-                      <div 
-                        className="handcash-badge clickable"
-                        onClick={() => setShowUserDropdown(!showUserDropdown)}
-                      >
-                        <span className="user-handle">${currentUser?.handle}</span>
-                        <span className="dropdown-arrow">▼</span>
-                      </div>
-                      
-                      {showUserDropdown && (
-                        <div className="user-dropdown mobile-user-dropdown">
-                          <div className="dropdown-header">
-                            <div className="user-info-detailed">
-                              <div className="user-handle-large">${currentUser?.handle}</div>
-                              <div className="user-paymail">{currentUser?.paymail}</div>
-                            </div>
-                          </div>
-                          <div className="dropdown-divider"></div>
-                          <button 
-                            className="dropdown-item logout-item" 
-                            onClick={() => {
-                              handleLogout();
-                              setShowUserDropdown(false);
-                            }}
-                          >
-                            🚪 Sign Out
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mobile-login-section">
-                    <button className="login-btn" onClick={() => handcashService.login()}>
-                      Sign in with HandCash
-                    </button>
-                  </div>
-                )}
-              </div>
             </header>
 
             {/* Click overlay to close dropdowns */}
@@ -617,7 +564,8 @@ function App() {
           </div>
         )
       } />
-    </Routes>
+      </Routes>
+    </GoogleAuthProvider>
   );
 }
 
