@@ -11,6 +11,7 @@ import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
 import CryptoJS from 'crypto-js';
 import QuillEditor from './QuillEditor';
 import './QuillEditor.css';
+import DragDropZone from './DragDropZone';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -624,6 +625,71 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     setIsFullscreen(!isFullscreen);
   };
 
+  const handleFileDrop = async (files: FileList) => {
+    // Handle different file types
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      
+      if (file.type.startsWith('image/')) {
+        // Handle images - add to document
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target?.result) {
+            insertImageIntoEditor(event.target.result as string, file.name);
+            showNotification(`Added image: ${file.name}`);
+          }
+        };
+        reader.readAsDataURL(file);
+      } else if (file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
+        // Handle Word documents - import content
+        showNotification('Importing Word document...');
+        // Trigger Quill's import functionality
+        const importBtn = document.querySelector('.import-btn') as HTMLElement;
+        if (importBtn) {
+          // Create a temporary file input with the file
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          const fileInput = document.getElementById('docx-import') as HTMLInputElement;
+          if (fileInput) {
+            fileInput.files = dataTransfer.files;
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+          }
+        }
+      } else {
+        // For other files, save directly to blockchain
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          const content = event.target?.result as string;
+          
+          // Open save modal with file info
+          setCurrentDocument({
+            id: '',
+            title: file.name,
+            content: content,
+            metadata: {
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              author: documentService?.getCurrentUser()?.handle || 'User',
+              encrypted: false,
+              word_count: 0,
+              character_count: content.length,
+            }
+          });
+          
+          setShowSaveBlockchainModal(true);
+          showNotification(`Ready to upload: ${file.name}`);
+        };
+        
+        if (file.type.startsWith('text/') || file.type === 'application/json') {
+          reader.readAsText(file);
+        } else {
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  };
+
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
     const text = e.clipboardData.getData('text/plain');
@@ -1050,6 +1116,12 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           <div className="spinner"></div>
         </div>
       )}
+      
+      <DragDropZone
+        onFileDrop={handleFileDrop}
+        isAuthenticated={isAuthenticated}
+        onAuthRequired={onAuthRequired}
+      />
     </div>
   );
 };

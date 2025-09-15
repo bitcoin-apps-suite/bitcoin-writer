@@ -1,0 +1,193 @@
+/* Full screen drop detector */
+.drop-detector {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* Drop zone overlay when dragging */
+.drop-zone-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.drop-zone-content {
+  text-align: center;
+  padding: 60px;
+  border: 3px dashed #ff9500;
+  border-radius: 20px;
+  background: rgba(255, 149, 0, 0.05);
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    border-color: #ff9500;
+  }
+  50% {
+    transform: scale(1.02);
+    border-color: #ffb347;
+  }
+}
+
+.drop-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.drop-zone-content h2 {
+  color: #ff9500;
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.drop-zone-content p {
+  color: #ccc;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.drop-features {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.drop-features span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 149, 0, 0.1);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  border-radius: 20px;
+  color: #ff9500;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Floating drop pad */
+.floating-drop-pad {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.9), rgba(255, 111, 0, 0.9));
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+  z-index: 1000;
+  animation: floatIn 0.5s ease;
+}
+
+@keyframes floatIn {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.floating-drop-pad:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(255, 149, 0, 0.4);
+}
+
+.floating-drop-pad.drag-over {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, rgba(255, 149, 0, 1), rgba(255, 111, 0, 1));
+  animation: wiggle 0.5s ease infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-3deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(3deg) scale(1.1);
+  }
+}
+
+.drop-pad-icon {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.drop-pad-text {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .floating-drop-pad {
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .drop-pad-icon {
+    font-size: 28px;
+  }
+  
+  .drop-pad-text {
+    font-size: 10px;
+  }
+  
+  .drop-zone-content {
+    padding: 40px 20px;
+  }
+  
+  .drop-zone-content h2 {
+    font-size: 24px;
+  }
+}

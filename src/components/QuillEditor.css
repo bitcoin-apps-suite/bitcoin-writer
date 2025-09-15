@@ -50,14 +50,26 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
   border: none;
+  background: #ffffff;
 }
 
 .quill-editor .ql-editor {
-  padding: 40px 60px;
-  max-width: 850px;
-  margin: 0 auto;
+  padding: 20px 40px;
   width: 100%;
-  min-height: 100%;
+  min-height: calc(100vh - 300px);
+  background: #ffffff;
+  color: #000000;
+  caret-color: #000000;
+  text-align: left;
+}
+
+.quill-editor .ql-editor * {
+  color: #000000;
+}
+
+.quill-editor .ql-editor.ql-blank::before {
+  color: #999999;
+  font-style: italic;
 }
 
 /* Dark theme adjustments */
