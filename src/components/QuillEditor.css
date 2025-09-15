@@ -1,0 +1,124 @@
+/* Quill Editor Styles */
+.quill-editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.quill-toolbar-extra {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.quill-toolbar-extra button {
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.quill-toolbar-extra button:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Quill Editor Customization */
+.quill-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.quill-editor .ql-toolbar {
+  background: #f8f9fa;
+  border: none;
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px;
+}
+
+.quill-editor .ql-container {
+  flex: 1;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  border: none;
+}
+
+.quill-editor .ql-editor {
+  padding: 40px 60px;
+  max-width: 850px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Dark theme adjustments */
+.dark-mode .quill-editor-container {
+  background: #1a1a1a;
+}
+
+.dark-mode .quill-toolbar-extra {
+  background: #2a2a2a;
+  border-bottom-color: #444;
+}
+
+.dark-mode .quill-toolbar-extra button {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+.dark-mode .quill-toolbar-extra button:hover {
+  background: #444;
+  border-color: #555;
+}
+
+.dark-mode .quill-editor .ql-toolbar {
+  background: #2a2a2a;
+  border-bottom-color: #444;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-stroke {
+  stroke: #ccc;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-fill {
+  fill: #ccc;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-label {
+  color: #ccc;
+}
+
+.dark-mode .quill-editor .ql-container {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.dark-mode .quill-editor .ql-editor {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.dark-mode .quill-editor .ql-editor.ql-blank::before {
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .quill-editor .ql-editor {
+    padding: 20px;
+  }
+  
+  .quill-toolbar-extra {
+    flex-wrap: wrap;
+  }
+}

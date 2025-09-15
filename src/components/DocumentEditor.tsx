@@ -9,6 +9,9 @@ import { StorageOption } from '../utils/pricingCalculator';
 import BSVStorageService from '../services/BSVStorageService';
 import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
 import CryptoJS from 'crypto-js';
+import QuillEditor from './QuillEditor';
+import EditorModeToggle from './EditorModeToggle';
+import './QuillEditor.css';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -45,6 +48,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService());
+  const [editorMode, setEditorMode] = useState<'simple' | 'advanced'>('simple');
+  const [quillContent, setQuillContent] = useState('');
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -289,6 +294,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       };
       setCurrentDocument(docData);
       setEditorContent(propDocument.content || '');
+      setQuillContent(propDocument.content || ''); // Also set Quill content
       if (editorRef.current) {
         editorRef.current.innerHTML = propDocument.content || '';
       }
@@ -938,6 +944,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         </div>
       </div>
 
+      <EditorModeToggle 
+        currentMode={editorMode}
+        onModeChange={setEditorMode}
+      />
+
       <div className="editor-container">
         {currentDocument?.metadata && (currentDocument.metadata as any).isPdf ? (
           <iframe
@@ -949,6 +960,28 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               backgroundColor: '#fff'
             }}
             title={currentDocument.title}
+          />
+        ) : editorMode === 'advanced' ? (
+          <QuillEditor
+            content={quillContent || editorContent}
+            onChange={(content) => {
+              setQuillContent(content);
+              setEditorContent(content);
+              // Auto-save for Quill
+              if (localDocumentId) {
+                const text = content.replace(/<[^>]*>/g, '');
+                const firstLine = text.split('\n')[0]?.trim() || 'Untitled Document';
+                const title = firstLine.substring(0, 100);
+                LocalDocumentStorage.autoSave(localDocumentId, content, title);
+              }
+            }}
+            onTextChange={(text) => {
+              const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+              const chars = text.length;
+              setWordCount(words);
+              setCharCount(chars);
+            }}
+            placeholder="Start writing your document..."
           />
         ) : (
           <div
