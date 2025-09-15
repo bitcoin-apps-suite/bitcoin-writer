@@ -142,10 +142,17 @@ const GoogleAuthButton: React.FC<GoogleAuthProps> = ({
 export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || '';
 
+  // Debug logging for production
+  if (process.env.NODE_ENV === 'production') {
+    console.log('Production environment detected');
+    console.log('REACT_APP_GOOGLE_CLIENT_ID exists:', !!process.env.REACT_APP_GOOGLE_CLIENT_ID);
+    console.log('Client ID length:', clientId.length);
+  }
+
   if (!clientId || clientId === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
     console.error('⚠️ Google Client ID not configured properly!');
-    console.error('Please add your actual Google Client ID to the .env file');
-    console.error('It should look like: 123456789012-abcdefg.apps.googleusercontent.com');
+    console.error('Current value:', clientId || 'empty');
+    console.error('Please ensure REACT_APP_GOOGLE_CLIENT_ID is set in Vercel environment variables');
     return <>{children}</>;
   }
 
