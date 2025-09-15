@@ -412,6 +412,11 @@
   background: linear-gradient(135deg, #4CAF50, #45a049);
 }
 
+.connected-account-card.twitter-connected .connected-avatar {
+  background: #000000;
+  color: #ffffff;
+}
+
 .connected-info {
   flex: 1;
   min-width: 0;
