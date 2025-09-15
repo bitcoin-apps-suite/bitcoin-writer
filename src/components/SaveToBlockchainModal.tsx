@@ -55,7 +55,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   // Storage options
   const [storageMethod, setStorageMethod] = useState<'direct' | 'ipfs' | 'hybrid'>('direct');
   const [encryption, setEncryption] = useState(true);
-  const [encryptionMethod, setEncryptionMethod] = useState<'password' | 'multiparty' | 'timelock'>('password');
+  const [encryptionMethod, setEncryptionMethod] = useState<'password' | 'multiparty' | 'timelock'>('multiparty');
   const [encryptionPassword, setEncryptionPassword] = useState('');
   
   // Access control
@@ -97,10 +97,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   };
 
   const validateForm = (): boolean => {
-    if (encryption && encryptionMethod === 'password' && !encryptionPassword) {
-      alert('Please enter an encryption password');
-      return false;
-    }
+    // Encryption is automatic with HandCash - no password validation needed
     
     if (unlockMethod === 'timed' || unlockMethod === 'timedAndPriced') {
       if (!unlockTime) {
@@ -278,80 +275,10 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
               </div>
 
               <h3>Encryption</h3>
-              <label className="checkbox-option">
-                <input
-                  type="checkbox"
-                  checked={encryption}
-                  onChange={(e) => setEncryption(e.target.checked)}
-                  disabled={isLoading}
-                />
-                <span>Encrypt document before storing</span>
-              </label>
-
-              {encryption && (
-                <div className="encryption-options">
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      name="encryption"
-                      value="password"
-                      checked={encryptionMethod === 'password'}
-                      onChange={(e) => setEncryptionMethod(e.target.value as any)}
-                      disabled={isLoading}
-                    />
-                    <div className="option-content">
-                      <strong>Password</strong>
-                      <p>Simple password-based encryption</p>
-                    </div>
-                  </label>
-                  
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      name="encryption"
-                      value="timelock"
-                      checked={encryptionMethod === 'timelock'}
-                      onChange={(e) => setEncryptionMethod(e.target.value as any)}
-                      disabled={isLoading}
-                    />
-                    <div className="option-content">
-                      <strong>Time-lock</strong>
-                      <p>Automatically decrypts at specified time</p>
-                    </div>
-                  </label>
-                  
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      name="encryption"
-                      value="multiparty"
-                      checked={encryptionMethod === 'multiparty'}
-                      onChange={(e) => setEncryptionMethod(e.target.value as any)}
-                      disabled={isLoading}
-                    />
-                    <div className="option-content">
-                      <strong>Multi-party</strong>
-                      <p>Requires multiple keys to decrypt</p>
-                    </div>
-                  </label>
-
-                  {encryptionMethod === 'password' && (
-                    <div className="password-input">
-                      <label>
-                        Encryption Password:
-                        <input
-                          type="password"
-                          value={encryptionPassword}
-                          onChange={(e) => setEncryptionPassword(e.target.value)}
-                          placeholder="Enter a strong password"
-                          disabled={isLoading}
-                        />
-                      </label>
-                      <small>Remember this password - it cannot be recovered!</small>
-                    </div>
-                  )}
-                </div>
-              )}
+              <div className="encryption-notice">
+                <strong>✅ Automatic Encryption Enabled</strong>
+                <p>Your document will be automatically encrypted using your HandCash identity. Only you can decrypt it.</p>
+              </div>
             </div>
           )}
 
