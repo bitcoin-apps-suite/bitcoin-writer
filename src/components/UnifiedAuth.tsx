@@ -146,21 +146,23 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                 <div className="auth-benefits">
                   <h3>Why connect?</h3>
                   <p className="simple-explanation">
-                    Bitcoin Writer lets you create documents that are automatically backed up to Google Drive and permanently stored on the Bitcoin blockchain. Schedule posts to X/Twitter using Google Calendar, share documents via Gmail with access controls, and monetize your content by charging readers bitcoin payments that go directly to your HandCash wallet. Connect your accounts to unlock the full writing, publishing, and monetization workflow.
+                    Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter and Substack, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. Subscribe to top-up with monthly bitcoin straight to your HandCash wallet or directly to your Bitcoin Writer wallet.
                   </p>
                   
-                  <div className="premium-subscribe-section">
-                    <h4>Subscribe for Premium Features</h4>
-                    <p className="subscription-explanation">
-                      Never worry about running out of bitcoin again. Your subscription automatically tops up your HandCash wallet with bitcoin each month, ensuring you can always store documents on the blockchain, receive payments from readers, and maintain your publishing workflow without interruption. Plus get enhanced analytics and priority support.
-                    </p>
-                    <button className="premium-subscribe-btn" onClick={() => {
-                      console.log('Opening premium subscription flow');
-                    }}>
-                      <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
-                      Subscribe Now - $9.99/month
-                    </button>
-                  </div>
+                  {!process.env.REACT_APP_GOOGLE_CLIENT_ID || process.env.REACT_APP_GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE' ? (
+                    <div className="config-notice">
+                      <h4>⚠️ Google Integration Setup Required</h4>
+                      <p>To enable Google features, add your Google Client ID to the .env file:</p>
+                      <code>REACT_APP_GOOGLE_CLIENT_ID=your-actual-client-id.apps.googleusercontent.com</code>
+                    </div>
+                  ) : null}
+                  
+                  <button className="premium-subscribe-btn" onClick={() => {
+                    console.log('Opening premium subscription flow');
+                  }}>
+                    <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                    Subscribe Now - $9.99/month
+                  </button>
                 </div>
               </div>
             </div>
@@ -196,11 +198,11 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
     );
   }
 
-  // If we have at least one auth, show unified interface
+  // If we have at least one auth, show unified interface with orange button style
   return (
     <div className="unified-auth-container">
-      <div 
-        className="unified-auth-badge"
+      <button 
+        className="sign-in-btn"
         onClick={() => setShowAuthModal(true)}
       >
         <div className="auth-avatars">
@@ -210,35 +212,33 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
               alt={googleUser.name}
               className="auth-avatar google-avatar"
               title={`Google: ${googleUser.name}`}
+              style={{width: '20px', height: '20px', borderRadius: '50%'}}
             />
           )}
           {hasHandCash && (
             <div 
               className="auth-avatar handcash-avatar"
               title={`HandCash: $${currentHandCashUser?.handle}`}
+              style={{width: '20px', height: '20px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px'}}
             >
               💰
             </div>
           )}
+          {hasTwitter && (
+            <div 
+              className="auth-avatar twitter-avatar"
+              title={`Twitter: @${twitterUser?.username}`}
+              style={{width: '20px', height: '20px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px'}}
+            >
+              🕊️
+            </div>
+          )}
         </div>
-        
-        <div className="auth-info">
-          <div className="auth-name">
-            {hasGoogle ? googleUser.name : hasHandCash ? `$${currentHandCashUser?.handle}` : 'User'}
-          </div>
-          <div className="auth-status">
-            {hasFullAuth ? (
-              <span className="status-full">✓ Full Access</span>
-            ) : hasGoogle ? (
-              <span className="status-partial">⚠️ Add HandCash for bitcoin</span>
-            ) : (
-              <span className="status-partial">⚠️ Add Google for full features</span>
-            )}
-          </div>
-        </div>
-        
-        <span className="dropdown-arrow">▼</span>
-      </div>
+        <span>
+          {hasFullAuth ? 'Manage Connections' : 
+           hasGoogle || hasHandCash || hasTwitter ? 'Add More' : 'Sign In'}
+        </span>
+      </button>
 
       {/* Use the same modal for connected users */}
       {showAuthModal && (
@@ -357,21 +357,15 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
               <div className="auth-benefits">
                 <h3>Why connect?</h3>
                 <p className="simple-explanation">
-                  Bitcoin Writer lets you create documents that are automatically backed up to Google Drive and permanently stored on the Bitcoin blockchain. Schedule posts to X/Twitter using Google Calendar, share documents via Gmail with access controls, and monetize your content by charging readers bitcoin payments that go directly to your HandCash wallet. Connect your accounts to unlock the full writing, publishing, and monetization workflow.
+                  Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter and Substack, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. Subscribe to top-up with monthly bitcoin straight to your HandCash wallet or directly to your Bitcoin Writer wallet.
                 </p>
                 
-                <div className="premium-subscribe-section">
-                  <h4>Subscribe for Premium Features</h4>
-                  <p className="subscription-explanation">
-                    Never worry about running out of bitcoin again. Your subscription automatically tops up your HandCash wallet with bitcoin each month, ensuring you can always store documents on the blockchain, receive payments from readers, and maintain your publishing workflow without interruption. Plus get enhanced analytics and priority support.
-                  </p>
-                  <button className="premium-subscribe-btn" onClick={() => {
-                    console.log('Opening premium subscription flow');
-                  }}>
-                    <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
-                    Subscribe Now - $5/month
-                  </button>
-                </div>
+                <button className="premium-subscribe-btn" onClick={() => {
+                  console.log('Opening premium subscription flow');
+                }}>
+                  <img src="/logo.svg" alt="Bitcoin Writer" style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                  Subscribe Now - $9.99/month
+                </button>
               </div>
             </div>
           </div>
@@ -384,7 +378,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
           <div className="auth-modal-overlay" onClick={() => setShowSubstackModal(false)} />
           <div className="substack-modal">
             <div className="substack-modal-header">
-              <h2>No dice, kid!</h2>
+              <h2>😅 Oops!</h2>
               <button className="modal-close" onClick={() => setShowSubstackModal(false)}>×</button>
             </div>
             <div className="substack-modal-content">
