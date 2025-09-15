@@ -14,6 +14,7 @@ interface PricingDisplayProps {
   content: string;
   isAuthenticated: boolean;
   onStorageMethodSelect?: (method: StorageOption) => void;
+  onPriceUpdate?: (price: string) => void;
   isMobile?: boolean;
 }
 
@@ -23,6 +24,7 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   content,
   isAuthenticated,
   onStorageMethodSelect,
+  onPriceUpdate,
   isMobile = false
 }) => {
   const [selectedOption, setSelectedOption] = useState<StorageOption>(STORAGE_OPTIONS[0]);
@@ -57,15 +59,37 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
           costPerWord: quote.costPerWord
         };
         setPricing(breakdown);
+        
+        // Notify parent of price update
+        if (onPriceUpdate) {
+          // Format cost for display
+          const cost = quote.totalUSD;
+          let formattedPrice;
+          if (cost < 0.000001) {
+            formattedPrice = `${(cost * 100).toFixed(8)}¢`;
+          } else if (cost < 0.0001) {
+            formattedPrice = `${(cost * 100).toFixed(6)}¢`;
+          } else if (cost < 0.01) {
+            formattedPrice = `${(cost * 100).toFixed(4)}¢`;
+          } else {
+            formattedPrice = `${(cost * 100).toFixed(2)}¢`;
+          }
+          onPriceUpdate(formattedPrice);
+        }
       }
     };
     
     updatePricing();
-  }, [wordCount, characterCount, bsvService, currentBudget, isEncrypted, showBudgetPrompt]);
+  }, [wordCount, characterCount, bsvService, currentBudget, isEncrypted, showBudgetPrompt, onPriceUpdate]);
 
   if (!pricing || wordCount === 0) {
+    // Notify parent of zero price
+    if (onPriceUpdate) {
+      onPriceUpdate('0.000000¢');
+    }
+    
     return isMobile ? (
-      <span className="mobile-pricing-hint">💰 $0.00</span>
+      <span className="mobile-pricing-hint">💰 0.000000¢</span>
     ) : (
       <div className="pricing-display">
         <span className="pricing-hint">
@@ -81,10 +105,15 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   };
 
   const formatCost = (cost: number) => {
-    if (cost < 0.01) {
-      return `${(cost * 100).toFixed(3)}¢`;
+    // Always show at least 6 decimal places for small amounts
+    if (cost < 0.000001) {
+      return `${(cost * 100).toFixed(8)}¢`;
+    } else if (cost < 0.0001) {
+      return `${(cost * 100).toFixed(6)}¢`;
+    } else if (cost < 0.01) {
+      return `${(cost * 100).toFixed(4)}¢`;
     }
-    return `${Math.ceil(cost * 100)}¢`;
+    return `${(cost * 100).toFixed(2)}¢`;
   };
 
   const getBudgetStatus = () => {
@@ -138,21 +167,23 @@ const PricingDisplay: React.FC<PricingDisplayProps> = ({
   return (
     <>
       <div className="pricing-display">
-        <button className="pricing-button" onClick={() => setShowModal(true)}>
-          <span className="pricing-label">Save as NFT:</span>
-          <span 
-            className="pricing-amount" 
-            style={{ 
-              color: bsvQuote?.budget.requiresIncrease ? '#ff9900' : '#00ff00', 
-              fontWeight: 'bold' 
-            }}
-          >
-            {formatCost(pricing.totalCostUSD)}
+        <span 
+          className="pricing-amount" 
+          style={{ 
+            color: bsvQuote?.budget.requiresIncrease ? '#ff9900' : '#00ff00', 
+            fontWeight: 'bold',
+            cursor: 'pointer' 
+          }}
+          onClick={() => setShowModal(true)}
+          title="Click to see storage options"
+        >
+          {formatCost(pricing.totalCostUSD)}
+        </span>
+        {getBudgetStatus() && (
+          <span className="budget-status">
+            {getBudgetStatus()}
           </span>
-          <span className="pricing-comparison">
-            {bsvQuote?.description} {getBudgetStatus()}
-          </span>
-        </button>
+        )}
         
         {isEncrypted && (
           <span className="encryption-badge" title="Encrypted storage enabled">

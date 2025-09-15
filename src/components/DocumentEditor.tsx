@@ -50,6 +50,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [bsvService] = useState(() => new BSVStorageService());
   const [editorMode, setEditorMode] = useState<'simple' | 'advanced'>('simple');
   const [quillContent, setQuillContent] = useState('');
+  const [currentPrice, setCurrentPrice] = useState<string>('0.000000¢');
 
   const editorRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -760,7 +761,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
               className={`save-btn-mobile ${!isAuthenticated ? 'save-guest' : ''}`}
             >
-              💾 {isAuthenticated ? 'Save' : 'Save'}
+              💾 {isAuthenticated ? `Save (${currentPrice})` : 'Save'}
             </button>
             
             <div className="mobile-dropdown-container">
@@ -854,7 +855,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title={isAuthenticated ? "Save encrypted draft to blockchain" : "Save (Sign in for blockchain)"}
               className={!isAuthenticated ? 'save-guest' : ''}
             >
-              💾 {isAuthenticated ? 'Save to Blockchain' : 'Save'}
+              💾 {isAuthenticated ? `Save as NFT (${currentPrice})` : 'Save Locally'}
             </button>
             
             <button 
@@ -933,6 +934,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               content={editorContent}
               isAuthenticated={isAuthenticated}
               onStorageMethodSelect={setSelectedStorageOption}
+              onPriceUpdate={(price: string) => setCurrentPrice(price)}
             />
           </div>
           
