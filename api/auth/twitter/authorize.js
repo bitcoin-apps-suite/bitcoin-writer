@@ -22,7 +22,9 @@ export default function handler(req, res) {
     scope: 'tweet.read tweet.write users.read offline.access',
     state: state,
     code_challenge: 'challenge',
-    code_challenge_method: 'plain'
+    code_challenge_method: 'plain',
+    // Force re-authentication to prevent SSO auto-login
+    prompt: 'consent'
   });
 
   const authUrl = `https://twitter.com/i/oauth2/authorize?${params}`;

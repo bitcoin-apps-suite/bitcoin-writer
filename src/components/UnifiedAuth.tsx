@@ -65,13 +65,27 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
     const useVercelApi = process.env.REACT_APP_USE_VERCEL_API === 'true';
     
     if (useVercelApi) {
-      // Use Vercel API route
+      // Use Vercel API route - open in new window with noopener to prevent SSO sharing
       const authUrl = '/api/auth/twitter/authorize';
+      
+      // Create a form to POST to the auth URL in a new window
+      // This helps break the SSO connection
+      const form = document.createElement('form');
+      form.method = 'GET';
+      form.action = authUrl;
+      form.target = 'TwitterAuthWindow' + Date.now(); // Unique window name
+      
       const authWindow = window.open(
-        authUrl,
-        '_blank',
-        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,scrollbars=yes,resizable=yes,noopener=yes`
+        '',
+        form.target,
+        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,scrollbars=yes,resizable=yes,noreferrer=yes,noopener=yes`
       );
+      
+      if (authWindow) {
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+      }
       
       if (!authWindow) {
         alert('Please allow popups for Twitter authentication');
