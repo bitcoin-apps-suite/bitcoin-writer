@@ -356,7 +356,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     // Don't create a new document yet - just clear the editor
     // Document will be created when user starts typing
     setLocalDocumentId(null);
-    LocalDocumentStorage.setCurrentDocumentId(null);
+    LocalDocumentStorage.setCurrentDocumentId('');
     setCurrentDocument(null);
     
     setQuillContent('<p><br></p>');
@@ -365,24 +365,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     setCharCount(0);
     setIsFirstSave(true); // Reset first save flag for new document
     
-    setAutoSaveStatus('New document created');
+    setAutoSaveStatus('New document ready');
     setTimeout(() => setAutoSaveStatus(''), 2000);
-    
-    // Notify parent component that document was updated
-    if (onDocumentUpdate) {
-      onDocumentUpdate({
-        id: newDoc.id,
-        title: newDoc.title,
-        content: newDoc.content,
-        created_at: newDoc.created_at,
-        updated_at: newDoc.updated_at,
-        author: 'Local',
-        word_count: 0,
-        character_count: 0,
-        encrypted: false,
-        storage_method: 'local'
-      } as BlockchainDocument);
-    }
   }, [localDocumentId, saveToLocalStorage, isAuthenticated, documentService, onDocumentUpdate]);
 
 
