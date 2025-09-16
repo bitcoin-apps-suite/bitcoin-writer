@@ -882,7 +882,29 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
           {activeTab === 'monetization' && (
             <div className="tab-content monetization-tab">
-              <h3>NFT Options</h3>
+              <h3>🎨 HandCash NFT Marketplace</h3>
+              
+              <div style={{ 
+                marginBottom: '20px', 
+                padding: '15px', 
+                backgroundColor: 'rgba(247, 147, 26, 0.1)', 
+                border: '1px solid rgba(247, 147, 26, 0.3)', 
+                borderRadius: '8px' 
+              }}>
+                <h4 style={{ margin: '0 0 10px 0', color: '#f7931a' }}>
+                  🤝 HandCash Items Protocol
+                </h4>
+                <p style={{ margin: '0 0 10px 0', fontSize: '13px', lineHeight: '1.6', color: '#ccc' }}>
+                  Mint your document as a tradeable NFT on HandCash Market:
+                </p>
+                <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '12px', color: '#aaa' }}>
+                  <li>Appears in HandCash Market instantly</li>
+                  <li>Built-in secondary market trading</li>
+                  <li>Automatic royalty collection</li>
+                  <li>No external marketplace needed</li>
+                </ul>
+              </div>
+
               <label className="checkbox-option">
                 <input
                   type="checkbox"
@@ -890,47 +912,128 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                   onChange={(e) => setEnableNFT(e.target.checked)}
                   disabled={isLoading}
                 />
-                <span>Mint as NFT</span>
+                <span><strong>Mint as HandCash NFT</strong> - List on HandCash Market</span>
               </label>
 
               {enableNFT && (
                 <div className="nft-options">
-                  <label>
-                    Initial NFT Price (USD):
-                    <input
-                      type="number"
-                      value={nftPrice}
-                      onChange={(e) => setNftPrice(Number(e.target.value))}
-                      min="0"
-                      step="0.1"
-                      disabled={isLoading}
-                    />
-                  </label>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: '1fr 1fr', 
+                    gap: '15px',
+                    marginTop: '20px'
+                  }}>
+                    <div>
+                      <label>
+                        <span style={{ display: 'block', marginBottom: '5px', fontSize: '13px', fontWeight: 'bold' }}>
+                          💰 Initial Sale Price
+                        </span>
+                        <input
+                          type="number"
+                          value={nftPrice}
+                          onChange={(e) => setNftPrice(Number(e.target.value))}
+                          min="0.10"
+                          step="0.10"
+                          disabled={isLoading}
+                          style={{ width: '100%' }}
+                          placeholder="1.00"
+                        />
+                        <small style={{ display: 'block', marginTop: '3px', color: '#888' }}>
+                          USD via HandCash
+                        </small>
+                      </label>
+                    </div>
+                    
+                    <div>
+                      <label>
+                        <span style={{ display: 'block', marginBottom: '5px', fontSize: '13px', fontWeight: 'bold' }}>
+                          🎯 Edition Size
+                        </span>
+                        <select
+                          value={maxSupply}
+                          onChange={(e) => setMaxSupply(Number(e.target.value))}
+                          disabled={isLoading}
+                          style={{ width: '100%', padding: '8px' }}
+                        >
+                          <option value="1">1/1 (Unique)</option>
+                          <option value="10">Limited (10 copies)</option>
+                          <option value="100">Standard (100 copies)</option>
+                          <option value="1000">Open Edition (1000)</option>
+                          <option value="10000">Unlimited (10,000)</option>
+                        </select>
+                        <small style={{ display: 'block', marginTop: '3px', color: '#888' }}>
+                          {maxSupply === 1 ? 'One-of-a-kind' : `${maxSupply} editions available`}
+                        </small>
+                      </label>
+                    </div>
+                  </div>
                   
-                  <label>
-                    Max Supply:
-                    <input
-                      type="number"
-                      value={maxSupply}
-                      onChange={(e) => setMaxSupply(Number(e.target.value))}
-                      min="1"
-                      max="10000"
-                      disabled={isLoading}
-                    />
+                  <label style={{ display: 'block', marginTop: '20px' }}>
+                    <span style={{ display: 'block', marginBottom: '5px', fontSize: '13px', fontWeight: 'bold' }}>
+                      💎 Creator Royalty
+                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <input
+                        type="range"
+                        value={royaltyPercentage}
+                        onChange={(e) => setRoyaltyPercentage(Number(e.target.value))}
+                        min="0"
+                        max="25"
+                        step="1"
+                        disabled={isLoading}
+                        style={{ flex: 1 }}
+                      />
+                      <span style={{ 
+                        minWidth: '50px', 
+                        textAlign: 'center', 
+                        padding: '5px 10px',
+                        background: 'rgba(247, 147, 26, 0.2)',
+                        borderRadius: '4px',
+                        fontWeight: 'bold'
+                      }}>
+                        {royaltyPercentage}%
+                      </span>
+                    </div>
+                    <small style={{ display: 'block', marginTop: '5px', color: '#888' }}>
+                      You earn {royaltyPercentage}% on every resale forever
+                    </small>
                   </label>
-                  
-                  <label>
-                    Royalty Percentage:
-                    <input
-                      type="number"
-                      value={royaltyPercentage}
-                      onChange={(e) => setRoyaltyPercentage(Number(e.target.value))}
-                      min="0"
-                      max="50"
-                      disabled={isLoading}
-                    />
-                    <small>You earn {royaltyPercentage}% on all secondary sales</small>
-                  </label>
+
+                  <div style={{ 
+                    marginTop: '20px',
+                    padding: '12px',
+                    background: 'rgba(34, 197, 94, 0.1)',
+                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                    borderRadius: '6px'
+                  }}>
+                    <strong style={{ display: 'block', marginBottom: '5px', color: '#22c55e' }}>
+                      📈 Estimated Earnings
+                    </strong>
+                    <div style={{ fontSize: '12px', color: '#aaa' }}>
+                      <div>First sale: ${nftPrice.toFixed(2)}</div>
+                      {maxSupply > 1 && (
+                        <div>If all {maxSupply} sell: ${(nftPrice * maxSupply).toFixed(2)}</div>
+                      )}
+                      <div>Plus {royaltyPercentage}% royalties on all future sales</div>
+                    </div>
+                  </div>
+
+                  <div style={{ 
+                    marginTop: '15px',
+                    padding: '10px',
+                    background: 'rgba(59, 130, 246, 0.1)',
+                    border: '1px solid rgba(59, 130, 246, 0.3)',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    color: '#93c5fd'
+                  }}>
+                    <strong>🛍️ After minting:</strong> Your document NFT will appear in:
+                    <ul style={{ margin: '5px 0 0 20px', padding: 0 }}>
+                      <li>HandCash Market (in-app marketplace)</li>
+                      <li>Your HandCash profile</li>
+                      <li>Buyer's NFT collection</li>
+                    </ul>
+                  </div>
                 </div>
               )}
 
