@@ -9,6 +9,7 @@ import { BlockchainDocumentService, BlockchainDocument } from './services/Blockc
 import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
+import Taskbar from './components/Taskbar';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -146,8 +147,26 @@ function App() {
           </div>
         ) : (
           <div className="App">
-            {/* macOS-style taskbar */}
-            <div className="taskbar">
+            {/* New enhanced taskbar component */}
+            <Taskbar
+              isAuthenticated={isAuthenticated}
+              currentUser={currentUser}
+              onLogout={handleLogout}
+              onNewDocument={() => setCurrentDocument(null)}
+              onSaveDocument={() => {
+                const saveBtn = document.querySelector('.save-btn-mobile, [title*="Save"]') as HTMLElement;
+                saveBtn?.click();
+              }}
+              onOpenTokenizeModal={() => {
+                window.dispatchEvent(new CustomEvent('openTokenizeModal'));
+              }}
+              onOpenTwitterModal={() => {
+                window.dispatchEvent(new CustomEvent('openTwitterModal'));
+              }}
+            />
+            
+            {/* Old macOS-style taskbar (kept for reference, can be removed later) */}
+            <div className="taskbar" style={{display: 'none'}}>
               <div className="taskbar-left">
                 <div className="bitcoin-menu-container">
                   <button 

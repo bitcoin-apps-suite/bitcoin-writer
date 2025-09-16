@@ -1,0 +1,222 @@
+/* Bitcoin Writer Taskbar - Professional macOS Style */
+.bitcoin-writer-taskbar {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  background: rgba(22, 22, 22, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  user-select: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+}
+
+.taskbar-logo {
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.bitcoin-symbol {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ff9500;
+  opacity: 0.9;
+}
+
+.taskbar-menus {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.menu-container {
+  position: relative;
+  height: 100%;
+}
+
+.menu-button {
+  padding: 0 8px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 400;
+  cursor: default;
+  font-family: inherit;
+  transition: background 0.05s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.menu-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.menu-button.active {
+  background: #0058d1;
+  color: #ffffff;
+}
+
+/* TIGHT PROFESSIONAL DROPDOWN */
+.dropdown-menu {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  min-width: 200px;
+  background: rgba(36, 36, 36, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  padding: 3px 0;
+}
+
+/* CLEAN MENU ITEMS WITH SMALL FONT */
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 19px;
+  padding: 0 12px;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  line-height: 19px;
+  font-weight: 400;
+  cursor: default;
+  font-family: inherit;
+  text-align: left;
+  transition: none;
+  text-decoration: none;
+  position: relative;
+}
+
+.menu-item:hover {
+  background: #0058d1;
+  color: #ffffff;
+}
+
+/* CONTENT CONTAINER */
+.menu-item-content {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+/* HIDE ALL ICONS */
+.menu-icon {
+  display: none;
+}
+
+/* LEFT-ALIGNED LABEL */
+.menu-label {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+}
+
+/* RIGHT-ALIGNED SHORTCUTS */
+.menu-shortcut {
+  margin-left: auto;
+  padding-left: 20px;
+  opacity: 0.5;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.menu-item:hover .menu-shortcut {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* THIN DIVIDER */
+.menu-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 3px 0;
+}
+
+/* RIGHT SIDE STATUS */
+.taskbar-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  height: 100%;
+}
+
+.status-text {
+  font-weight: 400;
+}
+
+.status-indicator {
+  font-size: 6px;
+}
+
+.status-indicator.connected {
+  color: #30d158;
+}
+
+.status-indicator.disconnected {
+  color: #ff3b30;
+  opacity: 0.6;
+}
+
+.twitter-link {
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.1s ease;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.twitter-link:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Remove focus outlines */
+.menu-item:focus,
+.menu-button:focus {
+  outline: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .bitcoin-writer-taskbar {
+    display: none;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .dropdown-menu {
+    border-width: 0.5px;
+  }
+}
+
+/* Ensure crisp text */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
