@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './DocumentExchangeView.css';
+import { HandCashItemsService } from '../services/HandCashItemsService';
+import { HandCashService } from '../services/HandCashService';
+import NFTDocumentReader from './modals/NFTDocumentReader';
 
 // Use the same interfaces from DocumentExchange
 interface WritingListing {
@@ -27,6 +30,11 @@ interface WritingListing {
   tags: string[];
   txId: string;
   trending?: boolean;
+  isNft?: boolean;
+  nftId?: string;
+  nftOrigin?: string;
+  marketUrl?: string;
+  royaltyPercentage?: number;
 }
 
 interface WriterListing {
@@ -69,10 +77,58 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   const [selectedWriter, setSelectedWriter] = useState<WriterListing | null>(null);
   const [writings, setWritings] = useState<WritingListing[]>([]);
   const [writers, setWriters] = useState<WriterListing[]>([]);
+  const [nftDocuments, setNftDocuments] = useState<any[]>([]);
+  const [nftReaderOpen, setNftReaderOpen] = useState(false);
+  const [selectedNftDocument, setSelectedNftDocument] = useState<any>(null);
+  const [isLoadingNfts, setIsLoadingNfts] = useState(false);
 
   const bookCategories = ['All', 'Fiction', 'Non-Fiction', 'Business', 'Tech', 'Health', 'Self-Help', 'History', 'Science'];
   const articleCategories = ['All', 'Tech', 'Business', 'Finance', 'Health', 'Politics', 'Culture', 'Opinion'];
   const blogCategories = ['All', 'Personal', 'Professional', 'Travel', 'Food', 'Lifestyle', 'Tech', 'Crypto'];
+
+  // Fetch NFT documents from marketplace
+  const fetchNftDocuments = async () => {
+    setIsLoadingNfts(true);
+    try {
+      const response = await fetch(`${process.env.NODE_ENV === 'production' ? '' : 'http://localhost:4000'}/api/marketplace`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'getNftDocuments',
+          authorType: authorType
+        })
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        setNftDocuments(result.documents || []);
+      }
+    } catch (error) {
+      console.error('Error fetching NFT documents:', error);
+    } finally {
+      setIsLoadingNfts(false);
+    }
+  };
+
+  // Handle NFT document click
+  const handleNftDocumentClick = (nftDoc: any) => {
+    setSelectedNftDocument(nftDoc);
+    setNftReaderOpen(true);
+  };
+
+  // Handle NFT purchase
+  const handleNftPurchase = (nftDoc: any) => {
+    if (nftDoc.marketUrl) {
+      window.open(nftDoc.marketUrl, '_blank');
+    }
+  };
+
+  // Fetch NFT documents when component mounts or authorType changes
+  useEffect(() => {
+    fetchNftDocuments();
+  }, [authorType]);
 
   // Combine user documents with mock marketplace data
   useEffect(() => {
@@ -503,8 +559,39 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         trending: true,
         txId: "sci1a2b3c4..."
       },
+      // NFT Book Example
       {
         rank: userListings.length + 17,
+        title: "The Metaverse Manifesto",
+        description: "Exclusive NFT book on building virtual worlds and digital economies",
+        author: "Maya Virtual",
+        authorHandle: "$mayavirtual",
+        authorType: "human",
+        publishDate: "2025-01-18",
+        wordCount: 95000,
+        views: 280000,
+        purchases: 1200,
+        sharesAvailable: 800,
+        totalShares: 1000,
+        revenue: 480000.00,
+        dividendPerShare: 48.00,
+        volume24h: 420000,
+        currentPrice: 400.00,
+        priceChange24h: 85.6,
+        marketCap: 400000,
+        contentType: "book",
+        category: "Tech",
+        tags: ["metaverse", "NFT", "virtual reality"],
+        trending: true,
+        txId: "nft1a2b3c4...",
+        isNft: true,
+        nftId: "nft_meta_manifesto_001",
+        nftOrigin: "HandCash Items",
+        marketUrl: "https://market.handcash.io/items/nft_meta_manifesto_001",
+        royaltyPercentage: 10
+      },
+      {
+        rank: userListings.length + 18,
         title: "The Climate Solution",
         description: "Innovative technologies and strategies to reverse climate change by 2050",
         author: "Dr. Mark Green",
@@ -855,8 +942,39 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         trending: true,
         txId: "art1op..."
       },
+      // NFT Article Example
       {
         rank: 14,
+        title: "The Secret History of Bitcoin's First Decade",
+        description: "Exclusive insider revelations from Satoshi's inner circle - NFT only",
+        author: "Anonymous Core Dev",
+        authorHandle: "$satoshiinsider",
+        authorType: "human",
+        publishDate: "2025-01-15",
+        wordCount: 12000,
+        views: 89000,
+        purchases: 450,
+        sharesAvailable: 550,
+        totalShares: 1000,
+        revenue: 225000.00,
+        dividendPerShare: 22.50,
+        volume24h: 380000,
+        currentPrice: 500.00,
+        priceChange24h: 125.4,
+        marketCap: 500000,
+        contentType: "article",
+        category: "Tech",
+        tags: ["bitcoin", "satoshi", "exclusive"],
+        trending: true,
+        txId: "nft2a2b3c4...",
+        isNft: true,
+        nftId: "nft_bitcoin_history_001",
+        nftOrigin: "HandCash Items",
+        marketUrl: "https://market.handcash.io/items/nft_bitcoin_history_001",
+        royaltyPercentage: 15
+      },
+      {
+        rank: 15,
         title: "The Case Against Social Media",
         description: "Why deleting your accounts might be the best decision of 2025",
         author: "James Wilson",
@@ -1208,8 +1326,39 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         trending: true,
         txId: "blog1crypto..."
       },
+      // NFT Blog Example
       {
         rank: 14,
+        title: "My Private Trading Journal: $10M to $100M",
+        description: "Real-time trades and thought process from a whale trader - NFT exclusive",
+        author: "Whale Trader",
+        authorHandle: "$whaletrader",
+        authorType: "human",
+        publishDate: "2025-01-16",
+        wordCount: 8500,
+        views: 45000,
+        purchases: 200,
+        sharesAvailable: 800,
+        totalShares: 1000,
+        revenue: 100000.00,
+        dividendPerShare: 10.00,
+        volume24h: 150000,
+        currentPrice: 500.00,
+        priceChange24h: 200.5,
+        marketCap: 500000,
+        contentType: "blog",
+        category: "Crypto",
+        tags: ["trading", "whale", "exclusive"],
+        trending: true,
+        txId: "nft3a2b3c4...",
+        isNft: true,
+        nftId: "nft_trading_journal_001",
+        nftOrigin: "HandCash Items",
+        marketUrl: "https://market.handcash.io/items/nft_trading_journal_001",
+        royaltyPercentage: 20
+      },
+      {
+        rank: 15,
         title: "NFT Flipping: Month 6 Results",
         description: "How I turned $5k into $250k flipping digital art",
         author: "NFTNinja",
@@ -1525,11 +1674,42 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         contentData = contentData.filter(item => item.category === activeMarket);
       }
       
-      // Combine user listings with mock data
-      const combinedListings = [...userListings, ...contentData].filter(w => w.authorType === authorType);
+      // Combine user listings with mock data and NFT documents
+      const nftListings = nftDocuments.map((nft, index) => ({
+        rank: index + 1000, // High rank numbers for NFTs
+        title: nft.title,
+        description: nft.description,
+        author: nft.author,
+        authorHandle: nft.authorHandle,
+        authorType: nft.authorType || authorType,
+        publishDate: nft.publishDate,
+        wordCount: nft.wordCount || 0,
+        views: nft.views || 0,
+        purchases: nft.purchases || 0,
+        sharesAvailable: nft.sharesAvailable || 0,
+        totalShares: nft.totalShares || 1,
+        revenue: nft.revenue || 0,
+        dividendPerShare: nft.dividendPerShare || 0,
+        volume24h: nft.volume24h || 0,
+        currentPrice: nft.currentPrice || 0,
+        priceChange24h: nft.priceChange24h || 0,
+        marketCap: nft.marketCap || 0,
+        contentType: nft.contentType || 'article',
+        category: nft.category || 'All',
+        tags: nft.tags || [],
+        txId: nft.nftId,
+        trending: nft.trending,
+        isNft: true,
+        nftId: nft.nftId,
+        nftOrigin: nft.nftOrigin,
+        marketUrl: nft.marketUrl,
+        royaltyPercentage: nft.royaltyPercentage
+      }));
+      
+      const combinedListings = [...userListings, ...contentData, ...nftListings].filter(w => w.authorType === authorType);
       setWritings(combinedListings);
     }
-  }, [activeView, authorType, activeMarket, userDocuments]);
+  }, [activeView, authorType, activeMarket, userDocuments, nftDocuments]);
 
   const filteredWritings = writings
     .filter(writing => 
@@ -1692,6 +1872,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
                       <div className="doc-title">
                         {writing.title}
                         {writing.trending && <span className="trending-badge">🔥</span>}
+                        {writing.isNft && <span className="nft-badge">NFT</span>}
                       </div>
                     </div>
                   </td>
@@ -1734,8 +1915,36 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
                   </td>
                   <td className="col-actions">
                     <div className="action-buttons">
-                      <button className="btn-buy">Buy</button>
-                      <button className="btn-read">Read</button>
+                      {writing.isNft ? (
+                        <>
+                          <button 
+                            className="btn-buy nft-buy"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNftPurchase(writing);
+                            }}
+                          >
+                            Buy NFT
+                          </button>
+                          <button 
+                            className="btn-read"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNftDocumentClick(writing);
+                            }}
+                          >
+                            Read
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button className="btn-buy">Buy</button>
+                          <button className="btn-read">Read</button>
+                        </>
+                      )}
+                      {writing.isNft && writing.royaltyPercentage && (
+                        <span className="royalty-info">{writing.royaltyPercentage}% royalty</span>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -1808,6 +2017,18 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
           </table>
         )}
       </div>
+
+      {/* NFT Document Reader Modal */}
+      <NFTDocumentReader
+        isOpen={nftReaderOpen}
+        onClose={() => setNftReaderOpen(false)}
+        nftId={selectedNftDocument?.nftId || ''}
+        nftOrigin={selectedNftDocument?.nftOrigin || ''}
+        title={selectedNftDocument?.title || ''}
+        author={selectedNftDocument?.author || ''}
+        authorHandle={selectedNftDocument?.authorHandle || ''}
+        marketUrl={selectedNftDocument?.marketUrl || ''}
+      />
     </div>
   );
 };

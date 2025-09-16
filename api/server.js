@@ -24,9 +24,13 @@ const handcashItemsHandler = require('./handcash-items');
 // Import Twitter routes
 const twitterRoutes = require('./routes/twitter');
 
+// Import Marketplace handler
+const marketplaceHandler = require('./marketplace');
+
 // Routes
 app.post('/api/handcash-profile', handcashProfileHandler);
 app.post('/api/handcash-items', handcashItemsHandler);
+app.post('/api/marketplace', marketplaceHandler);
 
 // Twitter API routes
 app.use('/api/twitter', twitterRoutes);

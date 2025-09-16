@@ -20,7 +20,8 @@
   margin: 0;
   color: #ff9500;
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 300;
+  letter-spacing: 0.5px;
   flex: 1;
 }
 
@@ -59,7 +60,8 @@
   background: #1a1a1a;
   border: none;
   color: #888;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
@@ -94,13 +96,13 @@
   background: none;
   border: none;
   color: #888;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .view-tab:hover {
@@ -135,11 +137,12 @@
   background: none;
   border: none;
   color: #888;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
+  letter-spacing: 0.3px;
 }
 
 .market-tab:hover {
@@ -176,7 +179,8 @@
   border: 1px solid #444;
   border-radius: 6px;
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 300;
   width: 300px;
 }
 
@@ -223,10 +227,10 @@
   padding: 12px 10px;
   text-align: left;
   color: #888;
-  font-weight: 600;
+  font-weight: 300;
   text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.5px;
+  font-size: 10px;
+  letter-spacing: 1px;
   border-bottom: 2px solid #333;
 }
 
@@ -247,8 +251,10 @@
 
 .exchange-table td {
   padding: 12px 10px;
-  color: #ccc;
+  color: #bbb;
   vertical-align: middle;
+  font-weight: 300;
+  font-size: 13px;
 }
 
 /* Column styles */
@@ -266,8 +272,8 @@
   background: #ff9500;
   color: #000;
   border-radius: 50%;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 300;
+  font-size: 13px;
 }
 
 .col-title {
@@ -282,11 +288,12 @@
 
 .doc-title {
   color: #fff;
-  font-weight: 600;
+  font-weight: 300;
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: 0.3px;
 }
 
 .trending-badge {
@@ -301,6 +308,7 @@
 .description-cell {
   color: #999;
   font-size: 12px;
+  font-weight: 300;
   line-height: 1.4;
 }
 
@@ -316,7 +324,7 @@
 
 .author-name {
   color: #fff;
-  font-weight: 500;
+  font-weight: 300;
 }
 
 .author-handle {
@@ -378,7 +386,7 @@
 
 .price-current {
   color: #fff;
-  font-weight: bold;
+  font-weight: 300;
   font-size: 14px;
 }
 
@@ -401,8 +409,8 @@
 .col-market {
   width: 100px;
   text-align: right;
-  color: #ccc;
-  font-weight: 500;
+  color: #bbb;
+  font-weight: 300;
 }
 
 .col-actions {
@@ -419,10 +427,11 @@
   padding: 6px 12px;
   border: none;
   border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 300;
   cursor: pointer;
   transition: all 0.2s;
+  letter-spacing: 0.5px;
 }
 
 .btn-buy {
@@ -456,11 +465,12 @@
 
 .writer-name {
   color: #fff;
-  font-weight: 600;
+  font-weight: 300;
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: 0.3px;
 }
 
 .verified-badge {
@@ -477,11 +487,54 @@
   width: 100px;
   text-align: center;
   color: #22c55e;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 .col-rating {
   width: 100px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 300;
+}
+/* NFT Badge and Button Styles */
+.nft-badge {
+  background: linear-gradient(45deg, #f7931a, #ffb347);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  margin-left: 8px;
+  font-weight: 300;
+  display: inline-block;
+  animation: shimmer 2s infinite;
+  letter-spacing: 0.5px;
+}
+
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+.btn-buy.nft-buy {
+  background: linear-gradient(45deg, #f7931a, #ffb347);
+  color: white;
+  border: none;
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.btn-buy.nft-buy:hover {
+  background: linear-gradient(45deg, #e5821a, #ff9933);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(247, 147, 26, 0.3);
+}
+
+.royalty-info {
+  font-size: 10px;
+  color: #888;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background: rgba(247, 147, 26, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(247, 147, 26, 0.2);
 }
