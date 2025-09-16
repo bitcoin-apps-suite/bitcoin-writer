@@ -30,8 +30,32 @@ export class LocalDocumentStorage {
       if (!stored) return [];
       
       const docs = JSON.parse(stored);
+      
+      // Filter out empty documents
+      const nonEmptyDocs = docs.filter((doc: LocalDocument) => {
+        // Skip if no content or empty content
+        if (!doc.content || doc.content.trim() === '') return false;
+        
+        // Skip if only contains empty paragraph tags
+        if (doc.content === '<p><br></p>' || doc.content === '<p></p>') return false;
+        
+        // Skip if it's "Start writing..." placeholder
+        if (doc.content === '<p>Start writing...</p>') return false;
+        
+        // Extract actual text content
+        const textContent = this.stripHtml(doc.content).trim();
+        
+        // Skip if no actual text content
+        if (!textContent || textContent === '') return false;
+        
+        // Skip untitled documents with minimal content
+        if (doc.title === 'Untitled Document' && textContent.length < 10) return false;
+        
+        return true;
+      });
+      
       // Sort by updated_at descending
-      return docs.sort((a: LocalDocument, b: LocalDocument) => 
+      return nonEmptyDocs.sort((a: LocalDocument, b: LocalDocument) => 
         new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
       );
     } catch (error) {
