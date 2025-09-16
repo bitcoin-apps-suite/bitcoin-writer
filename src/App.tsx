@@ -9,7 +9,7 @@ import { BlockchainDocumentService, BlockchainDocument } from './services/Blockc
 import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
-import Taskbar from './components/Taskbar';
+import CleanTaskbar from './components/CleanTaskbar';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -147,8 +147,8 @@ function App() {
           </div>
         ) : (
           <div className="App">
-            {/* New enhanced taskbar component */}
-            <Taskbar
+            {/* Clean taskbar with proper spacing */}
+            <CleanTaskbar
               isAuthenticated={isAuthenticated}
               currentUser={currentUser}
               onLogout={handleLogout}
@@ -163,6 +163,7 @@ function App() {
               onOpenTwitterModal={() => {
                 window.dispatchEvent(new CustomEvent('openTwitterModal'));
               }}
+              documentService={documentService}
             />
             
             {/* Old macOS-style taskbar (kept for reference, can be removed later) */}
