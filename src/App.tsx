@@ -12,6 +12,9 @@ import UnifiedAuth from './components/UnifiedAuth';
 import CleanTaskbar from './components/CleanTaskbar';
 import DocumentExchangeView from './components/DocumentExchangeView';
 import BitcoinAppsView from './components/BitcoinAppsView';
+import BitcoinAppOverviews from './components/BitcoinAppOverviews';
+import { BitcoinAppEvents } from './utils/appEvents';
+import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -29,6 +32,7 @@ function App() {
   const [sidebarRefresh, setSidebarRefresh] = useState(0);
   const [showExchange, setShowExchange] = useState(false);
   const [showBitcoinApps, setShowBitcoinApps] = useState(false);
+  const [activeAppOverview, setActiveAppOverview] = useState<string | null>(null);
   const [publishedDocuments, setPublishedDocuments] = useState<BlockchainDocument[]>([]);
 
   // Listen for Document Exchange open event
@@ -43,6 +47,39 @@ function App() {
     const handleOpenBitcoinApps = () => setShowBitcoinApps(true);
     window.addEventListener('loadBitcoinApps', handleOpenBitcoinApps);
     return () => window.removeEventListener('loadBitcoinApps', handleOpenBitcoinApps);
+  }, []);
+
+  // Listen for individual app events
+  useEffect(() => {
+    const appEventHandlers: { [key: string]: EventListener } = {};
+    
+    // Create handlers for each app except Exchange (which already has its own handler)
+    Object.values(BitcoinAppEvents).forEach(eventName => {
+      if (eventName !== BitcoinAppEvents.EXCHANGE && eventName !== BitcoinAppEvents.APPS) {
+        appEventHandlers[eventName] = () => {
+          setActiveAppOverview(eventName);
+          setShowBitcoinApps(false);
+          setShowExchange(false);
+        };
+        window.addEventListener(eventName, appEventHandlers[eventName]);
+      }
+    });
+
+    return () => {
+      Object.entries(appEventHandlers).forEach(([eventName, handler]) => {
+        window.removeEventListener(eventName, handler);
+      });
+    };
+  }, []);
+
+  // Clean up empty/test documents on startup
+  useEffect(() => {
+    const deletedCount = cleanupEmptyDocuments();
+    if (deletedCount > 0) {
+      console.log(`Cleaned up ${deletedCount} empty/test documents`);
+      // Refresh the sidebar to reflect the cleanup
+      setSidebarRefresh(prev => prev + 1);
+    }
   }, []);
 
   useEffect(() => {
@@ -620,6 +657,11 @@ function App() {
                   <BitcoinAppsView 
                     isOpen={showBitcoinApps}
                     onClose={() => setShowBitcoinApps(false)}
+                  />
+                ) : activeAppOverview ? (
+                  <BitcoinAppOverviews
+                    activeApp={activeAppOverview}
+                    onClose={() => setActiveAppOverview(null)}
                   />
                 ) : (
                   <DocumentEditor 

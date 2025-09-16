@@ -188,25 +188,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           }
         }
         
-        // Create a new document inline
-        const newDoc = LocalDocumentStorage.createNewDocument();
-        LocalDocumentStorage.saveDocument(newDoc);
-        LocalDocumentStorage.setCurrentDocumentId(newDoc.id);
-        
-        setLocalDocumentId(newDoc.id);
-        setCurrentDocument({
-          id: newDoc.id,
-          title: newDoc.title,
-          content: newDoc.content,
-          metadata: {
-            created_at: newDoc.created_at,
-            updated_at: newDoc.updated_at,
-            author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
-            encrypted: false,
-            word_count: 0,
-            character_count: 0
-          }
-        });
+        // Don't create a new document yet - just clear the editor
+        // A new document will be created when the user starts typing
+        setLocalDocumentId(null);
+        setCurrentDocument(null);
         
         // Clear the editor for new document
         setQuillContent('<p><br></p>');
@@ -265,6 +250,18 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     
     return () => {
       window.removeEventListener('openTwitterModal', handleOpenTwitterModal);
+    };
+  }, []);
+
+  // Listen for Save to Blockchain event from menu
+  useEffect(() => {
+    const handleOpenSaveToBlockchain = () => {
+      setShowSaveBlockchainModal(true);
+    };
+    window.addEventListener('openSaveToBlockchain', handleOpenSaveToBlockchain);
+    
+    return () => {
+      window.removeEventListener('openSaveToBlockchain', handleOpenSaveToBlockchain);
     };
   }, []);
 
@@ -366,30 +363,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     // Save current document first if it has content
     if (localDocumentId) {
       const content = quillContent || editorContent;
-      if (content && content !== '') {
+      const text = content.replace(/<[^>]*>/g, '').trim();
+      if (text && text !== '' && text !== 'Start writing...') {
         saveToLocalStorage();
       }
     }
     
-    // Create new document
-    const newDoc = LocalDocumentStorage.createNewDocument();
-    LocalDocumentStorage.saveDocument(newDoc);
-    LocalDocumentStorage.setCurrentDocumentId(newDoc.id);
-    
-    setLocalDocumentId(newDoc.id);
-    setCurrentDocument({
-      id: newDoc.id,
-      title: newDoc.title,
-      content: newDoc.content,
-      metadata: {
-        created_at: newDoc.created_at,
-        updated_at: newDoc.updated_at,
-        author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
-        encrypted: false,
-        word_count: 0,
-        character_count: 0
-      }
-    });
+    // Don't create a new document yet - just clear the editor
+    // Document will be created when user starts typing
+    setLocalDocumentId(null);
+    LocalDocumentStorage.setCurrentDocumentId(null);
+    setCurrentDocument(null);
     
     setQuillContent('<p><br></p>');
     setEditorContent('<p><br></p>');

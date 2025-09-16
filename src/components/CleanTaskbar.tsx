@@ -76,7 +76,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Close', shortcut: '⌘W', action: () => console.log('Close') },
         { label: 'Save', shortcut: '⌘S', action: onSaveDocument || (() => console.log('Save')) },
         { label: 'Save As...', shortcut: '⇧⌘S', action: () => console.log('Save As') },
-        { label: 'Save to Blockchain', shortcut: '⌘B', action: () => console.log('Save to blockchain') },
+        { label: 'Save to Blockchain', shortcut: '⌘B', action: () => {
+          const event = new CustomEvent('openSaveToBlockchain');
+          window.dispatchEvent(event);
+        }},
         { divider: true },
         { label: 'Import from Word', action: () => console.log('Import Word') },
         { label: 'Export to PDF', action: () => console.log('Export PDF') },
