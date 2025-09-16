@@ -13,57 +13,40 @@ const BitcoinAppsView: React.FC<BitcoinAppsViewProps> = ({ isOpen, onClose }) =>
     {
       name: 'Bitcoin Drive',
       description: 'Decentralized cloud storage with blockchain security. Store, sync, and share files on the Bitcoin network.',
-      url: 'https://drive.bitcoin.com',
+      url: 'https://bitcoin-drive.vercel.app',
       color: '#22c55e',
       icon: '💾'
     },
     {
-      name: 'Bitcoin Email',
-      description: 'Encrypted email service with Bitcoin-powered features. Send, receive, and secure communications on-chain.',
-      url: 'https://mail.bitcoin.com',
-      color: '#06b6d4',
-      icon: '📧'
-    },
-    {
       name: 'Bitcoin Spreadsheets',
       description: 'Blockchain-based spreadsheet application. Create, calculate, and collaborate with data integrity guarantees.',
-      url: 'https://sheets.bitcoin.com',
+      url: 'https://bitcoin-sheets.vercel.app',
       color: '#3b82f6',
       icon: '📊'
     },
     {
-      name: 'Bitcoin Exchange',
-      description: 'Decentralized document marketplace. Trade, buy, and sell digital content with transparent pricing.',
-      url: 'https://exchange.bitcoin.com',
-      color: '#8b5cf6',
-      icon: '📈'
-    },
-    {
-      name: 'Bitcoin Wallet',
-      description: 'Secure Bitcoin SV wallet with advanced features. Manage your coins, NFTs, and digital assets seamlessly.',
-      url: 'https://wallet.bitcoin.com',
-      color: '#f59e0b',
-      icon: '👛'
-    },
-    {
-      name: 'Bitcoin Auth',
-      description: 'Decentralized authentication system. Secure identity management powered by blockchain technology.',
-      url: 'https://auth.bitcoin.com',
-      color: '#ef4444',
-      icon: '🔐'
+      name: 'Bitcoin Writer',
+      description: 'Write, encrypt, and store documents on Bitcoin. Set paywalls, multisig conditions, and timelock access.',
+      url: 'https://bitcoin-writer.vercel.app',
+      color: '#ff9500',
+      icon: '✍️'
     }
   ];
 
   const comingSoonApps = [
+    { name: 'Bitcoin Auth', description: 'Decentralized authentication system', icon: '🔐' },
     { name: 'Bitcoin Chat', description: 'Decentralized messaging platform', icon: '💬' },
     { name: 'Bitcoin Domains', description: 'Blockchain domain name system', icon: '🌐' },
     { name: 'Bitcoin Draw', description: 'Vector graphics and design tools', icon: '✏️' },
+    { name: 'Bitcoin Email', description: 'Encrypted email service with Bitcoin-powered features', icon: '📧' },
+    { name: 'Bitcoin Exchange', description: 'Decentralized document marketplace', icon: '📈' },
     { name: 'Bitcoin Music', description: 'Decentralized music streaming', icon: '🎵' },
     { name: 'Bitcoin Paint', description: 'Digital art creation platform', icon: '🎨' },
     { name: 'Bitcoin Pics', description: 'Image storage and sharing', icon: '📸' },
     { name: 'Bitcoin Registry', description: 'Decentralized asset registry', icon: '📋' },
     { name: 'Bitcoin Shares', description: 'Digital equity platform', icon: '📜' },
-    { name: 'Bitcoin Video', description: 'Video streaming and storage', icon: '🎬' }
+    { name: 'Bitcoin Video', description: 'Video streaming and storage', icon: '🎬' },
+    { name: 'Bitcoin Wallet', description: 'Secure Bitcoin SV wallet', icon: '👛' }
   ];
 
   return (
@@ -135,14 +118,14 @@ const BitcoinAppsView: React.FC<BitcoinAppsViewProps> = ({ isOpen, onClose }) =>
               without limits. Experience true peer-to-peer electronic cash with unlimited potential.
             </p>
             <div className="footer-links">
-              <a href="https://bitcoinsv.com" target="_blank" rel="noopener noreferrer">
-                Learn about Bitcoin SV
+              <a href="https://bitcoin-drive.vercel.app" target="_blank" rel="noopener noreferrer">
+                Bitcoin Drive
               </a>
-              <a href="https://handcash.io" target="_blank" rel="noopener noreferrer">
-                HandCash Wallet
+              <a href="https://bitcoin-sheets.vercel.app" target="_blank" rel="noopener noreferrer">
+                Bitcoin Sheets
               </a>
-              <a href="https://docs.bsvblockchain.org" target="_blank" rel="noopener noreferrer">
-                Developer Docs
+              <a href="https://bitcoin-writer.vercel.app" target="_blank" rel="noopener noreferrer">
+                Bitcoin Writer
               </a>
             </div>
             <p className="built-with">

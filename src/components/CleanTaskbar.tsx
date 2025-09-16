@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { BitcoinAppEvents, openBitcoinApp } from '../utils/appEvents';
 import PreferencesModal from './modals/PreferencesModal';
 import EncryptionSettingsModal from './modals/EncryptionSettingsModal';
 import StorageCalculatorModal from './modals/StorageCalculatorModal';
@@ -408,16 +409,20 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
               Bitcoin Apps
             </button>
             
-            <a
-              href="https://auth.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.AUTH);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -427,18 +432,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#ef4444', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Auth
-            </a>
+            </button>
 
-            <a
-              href="https://chat.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.CHAT);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -448,18 +457,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#ff6500', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Chat
-            </a>
+            </button>
 
-            <a
-              href="https://domains.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.DOMAINS);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -469,18 +482,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#eab308', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Domains
-            </a>
+            </button>
 
-            <a
-              href="https://draw.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.DRAW);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -490,10 +507,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#10b981', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Draw
-            </a>
+            </button>
 
             <a
-              href="https://drive.bitcoin.com"
+              href="https://bitcoin-drive.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -513,16 +530,20 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
               Bitcoin Drive
             </a>
 
-            <a
-              href="https://mail.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.EMAIL);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -532,18 +553,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#06b6d4', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Email
-            </a>
+            </button>
 
-            <a
-              href="https://exchange.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.EXCHANGE);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -553,18 +578,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#3b82f6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Exchange
-            </a>
+            </button>
 
-            <a
-              href="https://music.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.MUSIC);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -574,18 +603,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#8b5cf6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Music
-            </a>
+            </button>
 
-            <a
-              href="https://paint.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.PAINT);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -595,18 +628,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#a855f7', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Paint
-            </a>
+            </button>
 
-            <a
-              href="https://pics.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.PICS);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -616,18 +653,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#ec4899', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Pics
-            </a>
+            </button>
 
-            <a
-              href="https://registry.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.REGISTRY);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -637,18 +678,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#f43f5e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Registry
-            </a>
+            </button>
 
-            <a
-              href="https://shares.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.SHARES);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -658,10 +703,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#f43f5e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Shares
-            </a>
+            </button>
 
             <a
-              href="https://sheets.bitcoin.com"
+              href="https://bitcoin-sheets.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -682,16 +727,20 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             </a>
 
 
-            <a
-              href="https://video.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.VIDEO);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -701,18 +750,22 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#65a30d', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Video
-            </a>
+            </button>
 
-            <a
-              href="https://wallet.bitcoin.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                openBitcoinApp(BitcoinAppEvents.WALLET);
+                setShowBitcoinSuite(false);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                textDecoration: 'none',
+                background: 'transparent',
+                border: 'none',
+                width: '100%',
+                textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
@@ -722,7 +775,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             >
               <span style={{ color: '#f59e0b', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Wallet
-            </a>
+            </button>
           </div>
         )}
       </div>
