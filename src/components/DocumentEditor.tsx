@@ -387,6 +387,9 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       const text = content.replace(/<[^>]*>/g, '');
       const title = extractTitleFromContent(text) || options.metadata.title;
       
+      // Store the result from either NFT minting or regular storage
+      let result: any = null;
+      
       // Check if NFT minting is enabled
       if (options.monetization?.enableNFT) {
         setAutoSaveStatus('🎨 Minting NFT on HandCash...');
@@ -441,7 +444,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           // Still store document data on-chain for permanence
           if (options.storageMethod !== 'cloud') {
             setAutoSaveStatus('📝 Storing document on-chain...');
-            await bsvService.storeDocumentWithOptions(
+            result = await bsvService.storeDocumentWithOptions(
               text,
               options,
               documentService?.getCurrentUser()?.handle || 'anonymous'
@@ -452,15 +455,15 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         }
       } else {
         // Regular blockchain storage without NFT
-        const result = await bsvService.storeDocumentWithOptions(
+        result = await bsvService.storeDocumentWithOptions(
           text,
           options,
           documentService?.getCurrentUser()?.handle || 'anonymous'
         );
       }
       
-      // Update document with blockchain info
-      if (currentDocument) {
+      // Update document with blockchain info (only if we have a blockchain result)
+      if (result && currentDocument) {
         const updatedDoc = {
           ...currentDocument,
           metadata: {
@@ -471,8 +474,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           }
         };
         setCurrentDocument(updatedDoc);
-      } else {
-        // Create new document record
+      } else if (result) {
+        // Create new document record (only if we have a blockchain result)
         const newDoc: DocumentData = {
           id: result.transactionId,
           title,
@@ -495,12 +498,12 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       setAutoSaveStatus(`✅ Saved to blockchain!`);
       
       // Show unlock link if content is locked
-      if (result.unlockLink) {
+      if (result && result.unlockLink) {
         alert(`Document saved! Share this unlock link: ${result.unlockLink}`);
       }
       
       // Show payment address if priced
-      if (result.paymentAddress) {
+      if (result && result.paymentAddress) {
         alert(`Payment address for readers: ${result.paymentAddress}`);
       }
 
