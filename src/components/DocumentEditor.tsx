@@ -50,10 +50,12 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
-  const [bsvService] = useState(() => new BSVStorageService());
+  const [bsvService] = useState(() => new BSVStorageService(documentService?.handcashService || undefined));
   // Always use Quill editor
   const [quillContent, setQuillContent] = useState('');
-  const [currentPrice, setCurrentPrice] = useState<string>('0.000000¢');
+  const [currentPrice, setCurrentPrice] = useState<string>('$0.00000000');
+  const [estimatedCost, setEstimatedCost] = useState<number>(0);
+  const [isFirstSave, setIsFirstSave] = useState(true);
 
   // Removed editorRef - using Quill editor exclusively
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -144,6 +146,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         });
         setEditorContent(propDocument.content || '');
         setQuillContent(propDocument.content || '');
+        // If loading existing document with content, it's not a first save
+        setIsFirstSave(!propDocument.content || propDocument.content === '<p><br></p>');
       }
     } else if (propDocument === null) {
       // propDocument is explicitly null
@@ -272,6 +276,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       setCurrentDocument(docData);
       setEditorContent(propDocument.content || '');
       setQuillContent(propDocument.content || '');
+      // If loading existing document with content, it's not a first save
+      setIsFirstSave(!propDocument.content || propDocument.content === '<p><br></p>');
     } else if (!isAuthenticated) {
       // Load from localStorage for guest users
       loadLocalDocument();
@@ -332,6 +338,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     setEditorContent('<p><br></p>');
     setWordCount(0);
     setCharCount(0);
+    setIsFirstSave(true); // Reset first save flag for new document
     
     setAutoSaveStatus('New document created');
     setTimeout(() => setAutoSaveStatus(''), 2000);
@@ -759,7 +766,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
               className={`save-btn-mobile ${!isAuthenticated ? 'save-guest' : ''}`}
             >
-              💾 {isAuthenticated ? `Save (${currentPrice})` : 'Save'}
+              💾 Save {wordCount > 0 && `(${currentPrice})`}
             </button>
             
             <div className="mobile-dropdown-container">
@@ -850,6 +857,14 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             {/* Save button - always saves locally, optionally to blockchain */}
             <button 
               onClick={() => {
+                // On first save for a document, show the Save to Blockchain modal
+                if (isFirstSave && wordCount > 0) {
+                  setShowSaveBlockchainModal(true);
+                  setIsFirstSave(false);
+                  return;
+                }
+                
+                // Otherwise do normal save
                 saveToLocalStorage();
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('en-US', { 
@@ -871,11 +886,25 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   }, 1000);
                 }
               }} 
-              disabled={isLoading || !unsavedChanges} 
-              title={unsavedChanges ? "Save changes" : "No changes to save"}
-              className={unsavedChanges ? 'save-btn-active' : 'save-btn-inactive'}
+              disabled={isLoading || wordCount === 0} 
+              title={wordCount === 0 ? "Start typing to save" : isFirstSave ? "Save to blockchain" : "Save changes"}
+              className={wordCount > 0 ? 'save-btn-active' : 'save-btn-inactive'}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', marginRight: '20px' }}
             >
-              💾 Save {unsavedChanges && '•'}
+              💾 Save
+              {wordCount > 0 && (
+                <span style={{ 
+                  fontSize: '11px', 
+                  color: estimatedCost > 0.01 ? '#ff9900' : '#00ff00',
+                  fontWeight: 'normal',
+                  opacity: 0.9,
+                  minWidth: '85px',
+                  textAlign: 'right'
+                }}>
+                  {currentPrice}
+                </span>
+              )}
+              {unsavedChanges && <span style={{ color: '#ff9900' }}>•</span>}
             </button>
             
             {/* Save As button - for exporting */}
@@ -906,10 +935,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             {/* Save with Options - opens modal for all users */}
             <button 
               onClick={() => setShowSaveBlockchainModal(true)}
+              disabled={wordCount === 0}
               title="Save with advanced options (encryption, pricing, etc.)"
               className="save-options-btn"
             >
-              ⚙️ Save Options
+              ⚙️ Save to Blockchain
             </button>
             
             {/* Encrypt on chain - saves with encryption */}
@@ -998,14 +1028,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           <div className="toolbar-center">
             <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
             <span>{charCount} character{charCount !== 1 ? 's' : ''}</span>
-            <PricingDisplay 
-              wordCount={wordCount}
-              characterCount={charCount}
-              content={editorContent}
-              isAuthenticated={isAuthenticated}
-              onStorageMethodSelect={setSelectedStorageOption}
-              onPriceUpdate={(price: string) => setCurrentPrice(price)}
-            />
           </div>
           
           <div className="toolbar-right">
@@ -1047,6 +1069,28 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               const chars = text.length;
               setWordCount(words);
               setCharCount(chars);
+              
+              // Update price display based on character count for real-time updates
+              if (chars > 0) {
+                // Use character count for more granular pricing
+                // Approximate 1 byte per character for real-time display
+                const bytes = chars;
+                const satsPerByte = 0.05; // From BSVStorageService
+                const minerFeeSats = bytes * satsPerByte;
+                const totalFeeSats = minerFeeSats * 2; // 2x markup
+                const bsvPriceUsd = 60; // From BSVStorageService
+                const satsPerBsv = 100_000_000;
+                const totalUSD = (totalFeeSats / satsPerBsv) * bsvPriceUsd;
+                
+                setEstimatedCost(totalUSD);
+                
+                // Format cost for display in dollars - show 8 decimal places
+                const formattedPrice = `$${totalUSD.toFixed(8)}`;
+                setCurrentPrice(formattedPrice);
+              } else {
+                setCurrentPrice('$0.00000000');
+                setEstimatedCost(0);
+              }
             }}
             placeholder="Start writing your document..."
           />

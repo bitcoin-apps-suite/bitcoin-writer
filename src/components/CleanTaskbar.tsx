@@ -1,4 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PreferencesModal from './modals/PreferencesModal';
+import EncryptionSettingsModal from './modals/EncryptionSettingsModal';
+import StorageCalculatorModal from './modals/StorageCalculatorModal';
+import KeyboardShortcutsModal from './modals/KeyboardShortcutsModal';
+import APIDocumentationModal from './modals/APIDocumentationModal';
 
 interface MenuItem {
   label?: string;
@@ -36,6 +41,13 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  
+  // Modal states
+  const [showPreferences, setShowPreferences] = useState(false);
+  const [showEncryption, setShowEncryption] = useState(false);
+  const [showStorageCalc, setShowStorageCalc] = useState(false);
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
+  const [showAPIDoc, setShowAPIDoc] = useState(false);
 
   const menus: MenuData[] = [
     {
@@ -43,8 +55,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       items: [
         { label: 'About Bitcoin Writer', action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© @b0ase 2025\nBuilt with HandCash integration') },
         { divider: true },
-        { label: 'Preferences...', shortcut: '⌘,', action: () => console.log('Preferences') },
-        { label: 'Encryption Settings...', action: () => console.log('Encryption Settings') },
+        { label: 'Preferences...', shortcut: '⌘,', action: () => setShowPreferences(true) },
+        { label: 'Encryption Settings...', action: () => setShowEncryption(true) },
         { divider: true },
         { label: 'Hide Bitcoin Writer', shortcut: '⌘H', action: () => console.log('Hide') },
         { label: 'Hide Others', shortcut: '⌥⌘H', action: () => console.log('Hide Others') },
@@ -121,7 +133,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'OP_PUSHDATA4 (Full)', action: () => console.log('OP_PUSHDATA4 storage') },
         { label: 'Multisig P2SH', action: () => console.log('Multisig storage') },
         { divider: true },
-        { label: 'Storage Calculator', action: () => console.log('Calculate storage cost') },
+        { label: 'Storage Calculator', action: () => setShowStorageCalc(true) },
         { label: 'Storage Settings', action: () => console.log('Storage settings') }
       ]
     },
@@ -146,7 +158,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'HandCash SDK Docs', href: 'https://docs.handcash.io' },
         { divider: true },
         { label: 'GitHub Repository', href: 'https://github.com/b0ase/bitcoin-writer' },
-        { label: 'API Documentation', action: () => alert('API Endpoints:\n• POST /api/documents\n• GET /api/documents\n• DELETE /api/documents/:id') },
+        { label: 'API Documentation', action: () => setShowAPIDoc(true) },
         { divider: true },
         { label: 'Bitcoin Spreadsheet', href: 'https://github.com/b0ase/bitcoin-spreadsheet' },
         { label: 'Bitcoin Drive', href: 'https://github.com/b0ase/bitcoin-drive' }
@@ -178,7 +190,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       label: 'Help',
       items: [
         { label: 'Bitcoin Writer Help', shortcut: '⌘?', action: () => alert('Bitcoin Writer v2.0\n\nWrite, encrypt, and store documents on the Bitcoin blockchain') },
-        { label: 'Keyboard Shortcuts', action: () => alert('Keyboard Shortcuts:\n\n⌘N - New Document\n⌘S - Save\n⌘B - Save to Blockchain\n⌘L - Encrypt\n⌘F - Find\n⌃⌘F - Full Screen') },
+        { label: 'Keyboard Shortcuts', action: () => setShowKeyboardShortcuts(true) },
         { divider: true },
         { label: 'Release Notes', href: '/releases' },
         { label: 'What\'s New', action: () => alert('What\'s New in v2.0:\n\n• Multi-provider authentication\n• NFT tokenization\n• File shares\n• Twitter integration\n• Enhanced encryption') },
@@ -203,6 +215,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   }, []);
 
   return (
+    <>
     <div 
       ref={menuRef}
       style={{
@@ -377,6 +390,14 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         )}
       </div>
     </div>
+    
+    {/* Modals */}
+    <PreferencesModal isOpen={showPreferences} onClose={() => setShowPreferences(false)} />
+    <EncryptionSettingsModal isOpen={showEncryption} onClose={() => setShowEncryption(false)} />
+    <StorageCalculatorModal isOpen={showStorageCalc} onClose={() => setShowStorageCalc(false)} />
+    <KeyboardShortcutsModal isOpen={showKeyboardShortcuts} onClose={() => setShowKeyboardShortcuts(false)} />
+    <APIDocumentationModal isOpen={showAPIDoc} onClose={() => setShowAPIDoc(false)} />
+    </>
   );
 };
 

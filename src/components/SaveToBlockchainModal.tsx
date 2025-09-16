@@ -158,6 +158,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
     if (!isAuthenticated) {
       if (onAuthRequired) {
         onAuthRequired();
+        // Close the modal so user can see the auth flow
+        onClose();
       }
       return;
     }
@@ -311,8 +313,11 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
               <h3>Encryption</h3>
               <div className="encryption-notice">
-                <strong>✅ Automatic Encryption Enabled</strong>
-                <p>Your document will be automatically encrypted using your HandCash identity. Only you can decrypt it.</p>
+                <strong>✅ Automatic HandCash Encryption</strong>
+                <p>Your document will be automatically encrypted using your unique HandCash identity. Only you can decrypt it with your HandCash account.</p>
+                <p style={{fontSize: '12px', marginTop: '8px', color: '#888'}}>
+                  🔐 This ensures complete privacy - even we cannot read your encrypted documents.
+                </p>
               </div>
             </div>
           )}
@@ -620,6 +625,14 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
         <div className="cost-summary">
           <div className="cost-breakdown">
             <div className="cost-item">
+              <span>Words:</span>
+              <span>{wordCount.toLocaleString()}</span>
+            </div>
+            <div className="cost-item">
+              <span>Size:</span>
+              <span>{(estimatedSize / 1024).toFixed(2)} KB</span>
+            </div>
+            <div className="cost-item">
               <span>Base Storage:</span>
               <span>$0.01</span>
             </div>
@@ -639,6 +652,12 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
               <span>Total Cost:</span>
               <span>${calculateStorageCost().toFixed(3)}</span>
             </div>
+          </div>
+          <div className="pricing-info" style={{ marginTop: '10px', fontSize: '12px', color: '#888' }}>
+            <p>
+              💡 <strong>How it works:</strong> You pay directly to the Bitcoin network. 
+              We charge 2x the base network fee to cover processing and infrastructure.
+            </p>
           </div>
         </div>
 

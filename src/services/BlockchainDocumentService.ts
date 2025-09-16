@@ -39,7 +39,7 @@ export interface BlockchainDocument {
 }
 
 export class BlockchainDocumentService {
-  private handcashService: HandCashService;
+  public handcashService: HandCashService; // Made public for access from components
   private bsvStorage: BSVStorageService;
   private encryptionKey: string | null = null;
   private isConnected: boolean = false;
@@ -47,7 +47,7 @@ export class BlockchainDocumentService {
 
   constructor(handcashService: HandCashService) {
     this.handcashService = handcashService;
-    this.bsvStorage = new BSVStorageService();
+    this.bsvStorage = new BSVStorageService(handcashService);
     this.initialize();
   }
 

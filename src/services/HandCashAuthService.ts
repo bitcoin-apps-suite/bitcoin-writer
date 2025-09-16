@@ -403,12 +403,28 @@ export class HandCashAuthService {
       throw new Error('Not authenticated');
     }
 
-    const response = await fetch(endpoint, {
+    // Determine the full URL based on the endpoint
+    let url: string;
+    if (endpoint.startsWith('http')) {
+      url = endpoint;
+    } else if (endpoint.startsWith('/v1/connect/')) {
+      // HandCash Connect API endpoints
+      url = `${this.HANDCASH_CONNECT_BASE}${endpoint}`;
+    } else if (endpoint.startsWith('/v3/')) {
+      // HandCash Connect V3 API
+      url = `${this.HANDCASH_CONNECT_BASE}${endpoint.substring(3)}`;
+    } else {
+      // Default to Connect API
+      url = `${this.HANDCASH_CONNECT_BASE}${endpoint}`;
+    }
+
+    const response = await fetch(url, {
       ...options,
       headers: {
         ...options.headers,
         'Authorization': `${this.tokens.tokenType || 'Bearer'} ${this.tokens.accessToken}`,
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
     });
 
@@ -418,7 +434,19 @@ export class HandCashAuthService {
         this.clearSession();
         throw new Error('Authentication expired, please login again');
       }
-      throw new Error(`API request failed: ${response.statusText}`);
+      
+      // Try to get error details from response
+      let errorMessage = `API request failed: ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        if (errorData.message) {
+          errorMessage = errorData.message;
+        }
+      } catch (e) {
+        // Ignore JSON parsing errors
+      }
+      
+      throw new Error(errorMessage);
     }
 
     return response.json();

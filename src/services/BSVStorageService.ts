@@ -2,6 +2,7 @@ import { Transaction, Script, PrivateKey, PublicKey, P2PKH } from '@bsv/sdk';
 import CryptoJS from 'crypto-js';
 import { EncryptionService } from '../utils/encryptionUtils';
 import { UnlockConditions, BlockchainSaveOptions } from '../components/SaveToBlockchainModal';
+import { HandCashService } from './HandCashService';
 
 export interface AutoSaveBudget {
   currentLimit: number;  // Current budget in USD (default 0.01)
@@ -80,9 +81,11 @@ export class BSVStorageService {
   private privateKey: PrivateKey | null = null;
   private publicKey: PublicKey | null = null;
   private address: string | null = null;
+  private handcashService: HandCashService | null = null;
 
-  constructor() {
+  constructor(handcashService?: HandCashService) {
     // HandCash handles all key management - no need for local keys
+    this.handcashService = handcashService || null;
     console.log('BSV Storage Service initialized (using HandCash for transactions)');
   }
 
@@ -149,7 +152,10 @@ export class BSVStorageService {
     options: BlockchainSaveOptions,
     author: string
   ): Promise<StorageResult> {
-    // HandCash handles the transaction - no local key check needed
+    // Check if we have HandCash service
+    if (!this.handcashService || !this.handcashService.isAuthenticated()) {
+      throw new Error('HandCash authentication required for blockchain storage');
+    }
 
     const wordCount = this.countWords(content);
     const quote = this.calculateStorageCost(wordCount, options.encryption);
@@ -182,6 +188,26 @@ export class BSVStorageService {
           break;
           
         case 'multiparty':
+          // Use HandCash identity for encryption
+          if (this.handcashService) {
+            const user = this.handcashService.getCurrentUser();
+            const token = this.handcashService.getAccessToken();
+            if (user && token) {
+              // Create a deterministic encryption key from user's HandCash identity
+              const identityKey = CryptoJS.SHA256(`${user.handle}_${user.paymail}_${token.substring(0, 32)}`).toString();
+              
+              // Encrypt with HandCash identity
+              const encrypted = CryptoJS.AES.encrypt(content, identityKey).toString();
+              encryptedContent = encrypted;
+              encryptionData = {
+                method: 'multiparty',
+                handcashIdentity: user.handle,
+                description: 'Encrypted with your HandCash identity'
+              };
+              break;
+            }
+          }
+          // Fallback to default multiparty if no HandCash available
           const multipartyResult = EncryptionService.encryptMultiparty(content, 2);
           encryptedContent = multipartyResult.encryptedData;
           encryptionData = {
@@ -222,12 +248,8 @@ export class BSVStorageService {
     const documentData = Buffer.from(JSON.stringify(documentPackage));
     
     try {
-      // Build transaction with OP_FALSE OP_RETURN for unlimited data
-      const tx = await this.buildDataTransaction(documentData, quote);
-      
-      // In production, broadcast to BSV network
-      // For now, simulate the transaction
-      const txid = await this.simulateBroadcast(tx);
+      // Send data to blockchain via HandCash
+      const txid = await this.broadcastViaHandCash(documentData, quote);
       
       // Generate unlock link if needed
       let unlockLink: string | undefined;
@@ -238,7 +260,9 @@ export class BSVStorageService {
       // Generate payment address for priced content
       let paymentAddress: string | undefined;
       if (options.unlockConditions.method === 'priced' || options.unlockConditions.method === 'timedAndPriced') {
-        paymentAddress = this.address || undefined;
+        // Use HandCash paymail for payments
+        const user = this.handcashService.getCurrentUser();
+        paymentAddress = user?.paymail || undefined;
       }
       
       return {
@@ -263,7 +287,10 @@ export class BSVStorageService {
     author: string,
     encrypted: boolean = false
   ): Promise<StorageResult> {
-    // HandCash handles the transaction - no local key check needed
+    // Check if we have HandCash service
+    if (!this.handcashService || !this.handcashService.isAuthenticated()) {
+      throw new Error('HandCash authentication required for blockchain storage');
+    }
 
     const wordCount = this.countWords(content);
     const quote = this.calculateStorageCost(wordCount);
@@ -285,12 +312,8 @@ export class BSVStorageService {
     const documentData = Buffer.from(JSON.stringify(documentPackage));
     
     try {
-      // Build transaction with OP_FALSE OP_RETURN for unlimited data
-      const tx = await this.buildDataTransaction(documentData, quote);
-      
-      // In production, broadcast to BSV network
-      // For now, simulate the transaction
-      const txid = await this.simulateBroadcast(tx);
+      // Send data to blockchain via HandCash
+      const txid = await this.broadcastViaHandCash(documentData, quote);
       
       return {
         transactionId: txid,
@@ -305,22 +328,61 @@ export class BSVStorageService {
     }
   }
 
-  // Build BSV transaction with document data
-  private async buildDataTransaction(data: Buffer, quote: StorageQuote): Promise<Transaction> {
-    // HandCash handles the actual transaction building and signing
-    // We just create a mock transaction for the interface
-    
-    const tx = new Transaction();
-    
-    // Add data output using OP_FALSE OP_RETURN pattern for unlimited size
-    const dataScript = Script.fromASM(`OP_FALSE OP_RETURN ${data.toString('hex')}`);
-    tx.addOutput({
-      lockingScript: dataScript,
-      satoshis: 0 // Data outputs don't need satoshis
-    });
-    
-    // Return mock transaction - HandCash will handle the real one
-    return tx;
+  // Broadcast transaction via HandCash API
+  private async broadcastViaHandCash(data: Buffer, quote: StorageQuote): Promise<string> {
+    if (!this.handcashService) {
+      throw new Error('HandCash service not available');
+    }
+
+    try {
+      // Create data transaction payload for HandCash
+      // HandCash Connect API expects specific format for data transactions
+      const dataPayload = {
+        description: 'Bitcoin Writer Document Storage',
+        data: [
+          {
+            value: data.toString('hex'),
+            encoding: 'hex'
+          }
+        ],
+        payments: [], // No payments for data-only transaction
+        attachment: {
+          format: 'json',
+          value: {
+            app: 'BitcoinWriter',
+            type: 'document',
+            timestamp: Date.now()
+          }
+        }
+      };
+
+      // Make authenticated request to HandCash data endpoint
+      const response = await this.handcashService.makeAuthenticatedRequest(
+        '/v1/connect/data',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataPayload)
+        }
+      );
+
+      if (response.transactionId) {
+        console.log('Document stored on blockchain:', response.transactionId);
+        return response.transactionId;
+      } else {
+        throw new Error('No transaction ID returned from HandCash');
+      }
+    } catch (error) {
+      console.error('HandCash broadcast error:', error);
+      // Fallback to simulation for development
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Falling back to simulated broadcast in development mode');
+        return this.simulateBroadcast(data, quote);
+      }
+      throw error;
+    }
   }
 
   // Retrieve document from BSV blockchain
@@ -347,18 +409,19 @@ export class BSVStorageService {
     }
   }
 
-  // Simulate broadcast (in production, use ARC or other BSV node API)
-  private async simulateBroadcast(tx: Transaction): Promise<string> {
-    const txid = tx.id('hex');
+  // Simulate broadcast for development
+  private async simulateBroadcast(data: Buffer, quote: StorageQuote): Promise<string> {
+    // Generate a fake but realistic looking txid
+    const randomBytes = CryptoJS.lib.WordArray.random(32);
+    const txid = CryptoJS.enc.Hex.stringify(randomBytes);
     
     // Store in localStorage for demo
-    const txData = tx.toHex();
-    localStorage.setItem(`bsv_tx_${txid}`, txData);
+    localStorage.setItem(`bsv_tx_${txid}`, data.toString('hex'));
     
     console.log('Transaction "broadcast" (simulated):', {
       txid,
-      size: txData.length / 2,
-      fee: tx.getFee()
+      size: data.length,
+      cost: quote.totalUSD
     });
     
     // Simulate network delay
