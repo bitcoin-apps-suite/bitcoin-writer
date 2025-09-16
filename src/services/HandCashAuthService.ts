@@ -271,46 +271,8 @@ export class HandCashAuthService {
       throw new Error('No access token available');
     }
 
-    // Try using HandCash Connect SDK directly
-    try {
-      console.log('Attempting to fetch profile via HandCash SDK...');
-      console.log('Auth token available:', !!this.tokens.accessToken);
-      
-      // @ts-ignore - HandCash Connect SDK types
-      const { HandCashConnect } = await import('@handcash/handcash-connect');
-      console.log('HandCash SDK loaded successfully');
-      
-      const handcashConnect = new HandCashConnect({ 
-        appId: this.config.appId,
-        appSecret: this.config.appSecret || '' // Use app secret if available
-      });
-      console.log('HandCashConnect initialized with appId:', this.config.appId);
-      
-      const account = handcashConnect.getAccountFromAuthToken(this.tokens.accessToken);
-      console.log('Account object created from auth token');
-      
-      const profile = await account.profile.getCurrentProfile();
-      console.log('Profile fetched via SDK:', profile);
-      
-      // Extract the handle from the profile
-      const handle = profile.handle || profile.publicProfile?.handle || 'handcash_user';
-      const paymail = profile.paymail || profile.publicProfile?.paymail || `${handle}@handcash.io`;
-      
-      console.log('Extracted handle:', handle);
-      console.log('Extracted paymail:', paymail);
-      
-      return {
-        handle: handle,
-        paymail: paymail,
-        publicKey: profile.id || profile.publicProfile?.id,
-        avatarUrl: profile.avatarUrl || profile.publicProfile?.avatarUrl,
-        displayName: profile.displayName || profile.publicProfile?.displayName || handle
-      };
-    } catch (sdkError: any) {
-      console.error('SDK profile fetch failed:', sdkError);
-      console.error('Error details:', sdkError.message);
-      console.error('Stack trace:', sdkError.stack);
-    }
+    // Skip client-side SDK attempt - HandCash Connect SDK v0.8+ requires Node.js crypto
+    // and cannot be used in browser environment
 
     // Try to fetch profile from server-side API first (most reliable)
     try {

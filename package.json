@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@bsv/sdk": "^1.7.6",
-    "@handcash/handcash-connect": "^0.2.6",
+    "@handcash/handcash-connect": "^0.8.11",
     "@handcash/handcash-sdk": "^0.0.4",
     "@react-oauth/google": "^0.12.2",
     "@testing-library/jest-dom": "^5.17.0",
