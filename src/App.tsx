@@ -10,7 +10,8 @@ import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
 import CleanTaskbar from './components/CleanTaskbar';
-import DocumentExchange from './components/DocumentExchange';
+import DocumentExchangeView from './components/DocumentExchangeView';
+import BitcoinAppsView from './components/BitcoinAppsView';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -27,12 +28,21 @@ function App() {
   const [showDevelopersMenu, setShowDevelopersMenu] = useState(false);
   const [sidebarRefresh, setSidebarRefresh] = useState(0);
   const [showExchange, setShowExchange] = useState(false);
+  const [showBitcoinApps, setShowBitcoinApps] = useState(false);
+  const [publishedDocuments, setPublishedDocuments] = useState<BlockchainDocument[]>([]);
 
   // Listen for Document Exchange open event
   useEffect(() => {
     const handleOpenExchange = () => setShowExchange(true);
     window.addEventListener('openDocumentExchange', handleOpenExchange);
     return () => window.removeEventListener('openDocumentExchange', handleOpenExchange);
+  }, []);
+
+  // Listen for Bitcoin Apps open event
+  useEffect(() => {
+    const handleOpenBitcoinApps = () => setShowBitcoinApps(true);
+    window.addEventListener('loadBitcoinApps', handleOpenBitcoinApps);
+    return () => window.removeEventListener('loadBitcoinApps', handleOpenBitcoinApps);
   }, []);
 
   useEffect(() => {
@@ -390,7 +400,7 @@ function App() {
                   />
                   <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
                 </div>
-                <p className="app-subtitle">Encrypt and store your documents on the Bitcoin Blockchain, charge for access, set conditions like multisig and timelock to unlock</p>
+                <p className="app-subtitle">Write, encrypt, and store on Bitcoin</p>
               </div>
               
               {/* Auth and mobile menu on the right */}
@@ -481,6 +491,19 @@ function App() {
                               // Trigger immediate sidebar refresh
                               setSidebarRefresh(prev => prev + 1);
                             }}
+                            onPublishDocument={(doc) => {
+                              // Add document to published list for the exchange
+                              setPublishedDocuments(prev => {
+                                // Check if already published
+                                if (prev.some(d => d.id === doc.id)) {
+                                  console.log('Document already published');
+                                  return prev;
+                                }
+                                console.log('Publishing document to exchange:', doc);
+                                return [...prev, doc];
+                              });
+                              setShowMobileMenu(false);
+                            }}
                             currentDocumentId={currentDocument?.id}
                             isMobile={true}
                             refreshTrigger={sidebarRefresh}
@@ -568,37 +591,54 @@ function App() {
                   // Trigger immediate sidebar refresh
                   setSidebarRefresh(prev => prev + 1);
                 }}
+                onPublishDocument={(doc) => {
+                  // Add document to published list for the exchange
+                  setPublishedDocuments(prev => {
+                    // Check if already published
+                    if (prev.some(d => d.id === doc.id)) {
+                      console.log('Document already published');
+                      return prev;
+                    }
+                    console.log('Publishing document to exchange:', doc);
+                    return [...prev, doc];
+                  });
+                }}
                 currentDocumentId={currentDocument?.id}
                 refreshTrigger={sidebarRefresh}
               />
               <main>
-                <DocumentEditor 
-                  documentService={documentService} 
-                  isAuthenticated={isAuthenticated}
-                  onAuthRequired={() => handcashService.login()}
-                  currentDocument={currentDocument}
-                  onDocumentUpdate={(doc) => {
-                    setCurrentDocument(doc);
-                    // Trigger sidebar refresh when document is updated
-                    setSidebarRefresh(prev => prev + 1);
-                  }}
-                />
+                {showExchange ? (
+                  <DocumentExchangeView 
+                    onSelectDocument={(doc) => {
+                      console.log('Selected document from exchange:', doc);
+                      // Could open the document in an editor modal or side panel
+                    }}
+                    userDocuments={publishedDocuments} // Documents published from sidebar
+                    onClose={() => setShowExchange(false)} // Return to editor view
+                  />
+                ) : showBitcoinApps ? (
+                  <BitcoinAppsView 
+                    isOpen={showBitcoinApps}
+                    onClose={() => setShowBitcoinApps(false)}
+                  />
+                ) : (
+                  <DocumentEditor 
+                    documentService={documentService}
+                    isAuthenticated={isAuthenticated}
+                    currentDocument={currentDocument}
+                    onDocumentUpdate={setCurrentDocument}
+                    onDocumentSaved={() => {
+                      // Trigger sidebar refresh after document is saved
+                      setSidebarRefresh(prev => prev + 1);
+                    }}
+                  />
+                )}
               </main>
             </div>
           </div>
         )
       } />
       </Routes>
-      
-      {/* Document Exchange Modal */}
-      <DocumentExchange 
-        isOpen={showExchange}
-        onClose={() => setShowExchange(false)}
-        onSelectWriter={(writer) => {
-          console.log('Selected writer:', writer);
-          // Could open the writer's portfolio or buy shares
-        }}
-      />
     </GoogleAuthProvider>
   );
 }

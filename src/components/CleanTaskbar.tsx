@@ -40,6 +40,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   documentService
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   
   // Modal states
@@ -311,6 +312,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setActiveMenu(null);
+        setShowBitcoinSuite(false);
       }
     };
 
@@ -340,16 +342,389 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       }}
     >
       {/* Bitcoin Logo */}
-      <div style={{
-        padding: '0 12px',
-        fontSize: '18px',
-        fontWeight: 'bold',
-        color: '#ff9500',
-        display: 'flex',
-        alignItems: 'center',
-        height: '100%'
-      }}>
-        ₿
+      <div style={{ position: 'relative' }}>
+        <button
+          onClick={() => {
+            setShowBitcoinSuite(!showBitcoinSuite);
+            setActiveMenu(null); // Close other menus
+          }}
+          style={{
+            padding: '0 12px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#ff9500',
+            display: 'flex',
+            alignItems: 'center',
+            height: '28px',
+            background: showBitcoinSuite ? 'rgba(255, 149, 0, 0.1)' : 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background 0.15s ease'
+          }}
+          title="Bitcoin Suite Apps"
+        >
+          ₿
+        </button>
+
+        {/* Bitcoin Suite Dropdown */}
+        {showBitcoinSuite && (
+          <div style={{
+            position: 'absolute',
+            top: '28px',
+            left: 0,
+            minWidth: '220px',
+            background: '#1a1a1a',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: '8px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8)',
+            padding: '8px 0',
+            zIndex: 1000
+          }}>
+            <button
+              onClick={() => {
+                // Trigger event to load Bitcoin Apps content in document editor
+                const event = new CustomEvent('loadBitcoinApps');
+                window.dispatchEvent(event);
+                setShowBitcoinSuite(false);
+              }}
+              style={{
+                width: '100%',
+                padding: '8px 16px',
+                fontSize: '12px',
+                color: '#ff9500',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                marginBottom: '4px',
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontWeight: '600',
+                transition: 'background 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 149, 0, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              Bitcoin Apps
+            </button>
+            
+            <a
+              href="https://auth.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#ef4444', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Auth
+            </a>
+
+            <a
+              href="https://chat.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#ff6500', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Chat
+            </a>
+
+            <a
+              href="https://domains.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#eab308', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Domains
+            </a>
+
+            <a
+              href="https://draw.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#10b981', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Draw
+            </a>
+
+            <a
+              href="https://drive.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#22c55e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Drive
+            </a>
+
+            <a
+              href="https://mail.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#06b6d4', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Email
+            </a>
+
+            <a
+              href="https://exchange.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#3b82f6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Exchange
+            </a>
+
+            <a
+              href="https://music.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#8b5cf6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Music
+            </a>
+
+            <a
+              href="https://paint.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#a855f7', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Paint
+            </a>
+
+            <a
+              href="https://pics.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#ec4899', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Pics
+            </a>
+
+            <a
+              href="https://registry.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#f43f5e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Registry
+            </a>
+
+            <a
+              href="https://shares.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#f43f5e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Shares
+            </a>
+
+            <a
+              href="https://sheets.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#3b82f6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Spreadsheets
+            </a>
+
+
+            <a
+              href="https://video.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#65a30d', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Video
+            </a>
+
+            <a
+              href="https://wallet.bitcoin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '6px 16px',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'background 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: '#f59e0b', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Wallet
+            </a>
+          </div>
+        )}
       </div>
 
       {/* Menu Items */}

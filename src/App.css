@@ -1591,6 +1591,14 @@ main {
   font-size: 12px;
 }
 
+.document-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.publish-btn,
 .delete-btn {
   background: none;
   border: none;
@@ -1601,8 +1609,13 @@ main {
   border-radius: 4px;
   transition: all 0.2s ease;
   opacity: 0.7;
-  margin-left: 8px;
   flex-shrink: 0;
+}
+
+.publish-btn:hover {
+  background-color: #ff9500;
+  color: white;
+  opacity: 1;
 }
 
 .delete-btn:hover {

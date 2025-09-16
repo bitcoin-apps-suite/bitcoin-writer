@@ -8,6 +8,7 @@ interface DocumentSidebarProps {
   isAuthenticated: boolean;
   onDocumentSelect: (doc: BlockchainDocument) => void;
   onNewDocument: () => void;
+  onPublishDocument?: (doc: BlockchainDocument) => void;
   currentDocumentId?: string;
   isMobile?: boolean;
   refreshTrigger?: number;
@@ -18,6 +19,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   isAuthenticated,
   onDocumentSelect,
   onNewDocument,
+  onPublishDocument,
   currentDocumentId,
   isMobile = false,
   refreshTrigger
@@ -326,13 +328,27 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                       )}
                     </div>
                   </div>
-                  <button
-                    className={`delete-btn ${deleteConfirmId === doc.id ? 'confirm-delete' : ''}`}
-                    onClick={(e) => handleDeleteDocument(doc.id, doc.title || 'Untitled', e)}
-                    title={deleteConfirmId === doc.id ? 'Click again to delete' : `Delete ${doc.title || 'Untitled'}`}
-                  >
-                    {deleteConfirmId === doc.id ? '⚠️' : '🗑️'}
-                  </button>
+                  <div className="document-actions">
+                    {onPublishDocument && (
+                      <button
+                        className="publish-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onPublishDocument(doc);
+                        }}
+                        title={`Publish ${doc.title || 'Untitled'} to exchange`}
+                      >
+                        📤
+                      </button>
+                    )}
+                    <button
+                      className={`delete-btn ${deleteConfirmId === doc.id ? 'confirm-delete' : ''}`}
+                      onClick={(e) => handleDeleteDocument(doc.id, doc.title || 'Untitled', e)}
+                      title={deleteConfirmId === doc.id ? 'Click again to delete' : `Delete ${doc.title || 'Untitled'}`}
+                    >
+                      {deleteConfirmId === doc.id ? '⚠️' : '🗑️'}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

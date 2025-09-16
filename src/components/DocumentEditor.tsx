@@ -16,9 +16,10 @@ import DragDropZone from './DragDropZone';
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
   isAuthenticated: boolean;
-  onAuthRequired: () => void;
+  onAuthRequired?: () => void;
   currentDocument?: BlockchainDocument | null;
   onDocumentUpdate?: (doc: BlockchainDocument) => void;
+  onDocumentSaved?: () => void;
 }
 
 const DocumentEditor: React.FC<DocumentEditorProps> = ({ 
@@ -26,7 +27,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   isAuthenticated, 
   onAuthRequired,
   currentDocument: propDocument,
-  onDocumentUpdate 
+  onDocumentUpdate,
+  onDocumentSaved 
 }) => {
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
   const [localDocumentId, setLocalDocumentId] = useState<string | null>(null);
@@ -70,30 +72,48 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       doc = LocalDocumentStorage.getDocument(docId);
     }
     
-    // If no document found, create a new one
+    // Only create a new document if we have some existing documents or if explicitly requested
+    // Don't auto-create on every app load
     if (!doc) {
-      doc = LocalDocumentStorage.createNewDocument();
-      LocalDocumentStorage.saveDocument(doc);
-      LocalDocumentStorage.setCurrentDocumentId(doc.id);
+      const existingDocs = LocalDocumentStorage.getAllDocuments();
+      if (existingDocs.length === 0) {
+        // First time user - don't create anything, just show empty editor
+        setLocalDocumentId(null);
+        setCurrentDocument(null);
+        setQuillContent('<p>Start writing...</p>');
+        setEditorContent('<p>Start writing...</p>');
+        return;
+      } else {
+        // Has existing docs but no current one set - use the most recent
+        const mostRecent = existingDocs.sort((a, b) => 
+          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        )[0];
+        if (mostRecent) {
+          LocalDocumentStorage.setCurrentDocumentId(mostRecent.id);
+          doc = mostRecent;
+        }
+      }
     }
     
-    setLocalDocumentId(doc.id);
-    setCurrentDocument({
-      id: doc.id,
-      title: doc.title,
-      content: doc.content,
-      metadata: {
-        created_at: doc.created_at,
-        updated_at: doc.updated_at,
-        author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
-        encrypted: false,
-        word_count: doc.word_count,
-        character_count: doc.character_count
-      }
-    });
-    
-    setQuillContent(doc.content || '<p><br></p>');
-    setEditorContent(doc.content || '<p><br></p>');
+    if (doc) {
+      setLocalDocumentId(doc.id);
+      setCurrentDocument({
+        id: doc.id,
+        title: doc.title,
+        content: doc.content,
+        metadata: {
+          created_at: doc.created_at,
+          updated_at: doc.updated_at,
+          author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
+          encrypted: false,
+          word_count: doc.word_count,
+          character_count: doc.character_count
+        }
+      });
+      
+      setQuillContent(doc.content || '<p><br></p>');
+      setEditorContent(doc.content || '<p><br></p>');
+    }
   }, [isAuthenticated, documentService]);
 
   // Track if this is initial mount
@@ -248,7 +268,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     };
   }, []);
 
-
   // Update counts is now handled by Quill's onTextChange callback
 
   // Removed duplicate loadLocalDocument - already defined above
@@ -290,12 +309,50 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   }, [propDocument, isAuthenticated, loadLocalDocument]);
 
   const saveToLocalStorage = useCallback(() => {
+    const content = quillContent || editorContent;
+    const text = content.replace(/<[^>]*>/g, '');
+    
+    // Only save if there's actual content (not just placeholder text)
+    if (!text || text.trim() === '' || content === '<p>Start writing...</p>' || content === '<p><br></p>') {
+      return;
+    }
+    
     if (localDocumentId) {
-      const content = quillContent || editorContent;
       const title = extractTitleFromContent(content) || 'Untitled Document';
       LocalDocumentStorage.autoSave(localDocumentId, content, title);
+    } else {
+      // Create a new document only when there's actual content to save
+      const newDoc = LocalDocumentStorage.createNewDocument();
+      const title = extractTitleFromContent(content) || 'Untitled Document';
+      newDoc.title = title;
+      newDoc.content = content;
+      newDoc.word_count = wordCount;
+      newDoc.character_count = charCount;
+      LocalDocumentStorage.saveDocument(newDoc);
+      LocalDocumentStorage.setCurrentDocumentId(newDoc.id);
+      setLocalDocumentId(newDoc.id);
+      
+      // Update current document state
+      setCurrentDocument({
+        id: newDoc.id,
+        title: newDoc.title,
+        content: newDoc.content,
+        metadata: {
+          created_at: newDoc.created_at,
+          updated_at: newDoc.updated_at,
+          author: isAuthenticated ? documentService?.getCurrentUser()?.handle || 'User' : 'Guest',
+          encrypted: false,
+          word_count: newDoc.word_count,
+          character_count: newDoc.character_count
+        }
+      });
+      
+      // Trigger sidebar refresh
+      if (onDocumentSaved) {
+        onDocumentSaved();
+      }
     }
-  }, [localDocumentId, quillContent, editorContent]);
+  }, [localDocumentId, quillContent, editorContent, wordCount, charCount, isAuthenticated, documentService, onDocumentSaved]);
 
   // Cursor position is now handled by Quill editor
 
@@ -1164,7 +1221,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       <DragDropZone
         onFileDrop={handleFileDrop}
         isAuthenticated={isAuthenticated}
-        onAuthRequired={onAuthRequired}
+        onAuthRequired={onAuthRequired || (() => {})}
       />
     </div>
   );
