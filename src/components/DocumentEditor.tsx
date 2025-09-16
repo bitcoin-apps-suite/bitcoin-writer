@@ -7,6 +7,8 @@ import TokenizeModal, { TokenizationOptions } from './TokenizeModal';
 import PostToTwitterModal from './PostToTwitterModal';
 import { StorageOption } from '../utils/pricingCalculator';
 import BSVStorageService from '../services/BSVStorageService';
+import { HandCashItemsService } from '../services/HandCashItemsService';
+import { HandCashService } from '../services/HandCashService';
 import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
 import CryptoJS from 'crypto-js';
 import QuillEditor from './QuillEditor';
@@ -385,12 +387,77 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       const text = content.replace(/<[^>]*>/g, '');
       const title = extractTitleFromContent(text) || options.metadata.title;
       
-      // Use BSV service directly for blockchain storage
-      const result = await bsvService.storeDocumentWithOptions(
-        text,
-        options,
-        documentService?.getCurrentUser()?.handle || 'anonymous'
-      );
+      // Check if NFT minting is enabled
+      if (options.monetization?.enableNFT) {
+        setAutoSaveStatus('🎨 Minting NFT on HandCash...');
+        
+        // Get HandCash auth token
+        const handcashService = new HandCashService();
+        const authToken = handcashService.getAccessToken();
+        
+        if (!authToken) {
+          alert('Please sign in with HandCash to mint NFTs');
+          setIsLoading(false);
+          setAutoSaveStatus('');
+          if (onAuthRequired) {
+            onAuthRequired();
+          }
+          return;
+        }
+        
+        // Prepare NFT data
+        const itemsService = new HandCashItemsService();
+        const nftData = {
+          name: title,
+          description: options.metadata.description || `${title} - A document minted as NFT`,
+          quantity: options.monetization.maxSupply || 1,
+          initialPrice: options.monetization.initialPrice || 1,
+          royaltyPercentage: options.monetization.royaltyPercentage || 10,
+          rarity: 'common' as const,
+          documentContent: text,
+          documentMetadata: {
+            id: localDocumentId || `doc_${Date.now()}`,
+            title: title,
+            wordCount: wordCount,
+            createdAt: new Date().toISOString(),
+            contentHash: itemsService.calculateContentHash(text),
+            storageMethod: options.storageMethod
+          }
+        };
+        
+        // Mint the NFT
+        const nftResult = await itemsService.mintDocumentNFT(authToken, nftData);
+        
+        if (nftResult.success) {
+          setAutoSaveStatus('✅ NFT minted successfully!');
+          
+          // Show success message with market URL
+          if (nftResult.marketUrl) {
+            alert(`NFT minted successfully!\n\nView on HandCash Market:\n${nftResult.marketUrl}`);
+          } else {
+            alert('NFT minted successfully! Check your HandCash wallet.');
+          }
+          
+          // Still store document data on-chain for permanence
+          if (options.storageMethod !== 'cloud') {
+            setAutoSaveStatus('📝 Storing document on-chain...');
+            await bsvService.storeDocumentWithOptions(
+              text,
+              options,
+              documentService?.getCurrentUser()?.handle || 'anonymous'
+            );
+          }
+        } else {
+          throw new Error(nftResult.error || 'Failed to mint NFT');
+        }
+      } else {
+        // Regular blockchain storage without NFT
+        const result = await bsvService.storeDocumentWithOptions(
+          text,
+          options,
+          documentService?.getCurrentUser()?.handle || 'anonymous'
+        );
+      }
       
       // Update document with blockchain info
       if (currentDocument) {

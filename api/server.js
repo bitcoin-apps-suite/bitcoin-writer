@@ -18,11 +18,15 @@ app.use(express.json());
 // Import the HandCash profile handler
 const handcashProfileHandler = require('./handcash-profile');
 
+// Import the HandCash Items handler
+const handcashItemsHandler = require('./handcash-items');
+
 // Import Twitter routes
 const twitterRoutes = require('./routes/twitter');
 
 // Routes
 app.post('/api/handcash-profile', handcashProfileHandler);
+app.post('/api/handcash-items', handcashItemsHandler);
 
 // Twitter API routes
 app.use('/api/twitter', twitterRoutes);
