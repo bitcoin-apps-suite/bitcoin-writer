@@ -109,7 +109,8 @@
   right: 30px;
   width: 120px;
   height: 120px;
-  background: linear-gradient(135deg, rgba(255, 149, 0, 0.9), rgba(255, 111, 0, 0.9));
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -117,7 +118,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   animation: floatIn 0.5s ease;
 }
@@ -135,12 +136,14 @@
 
 .floating-drop-pad:hover {
   transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 15px 40px rgba(255, 149, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 1);
 }
 
 .floating-drop-pad.drag-over {
   transform: scale(1.1);
-  background: linear-gradient(135deg, rgba(255, 149, 0, 1), rgba(255, 111, 0, 1));
+  background: rgba(255, 149, 0, 0.1);
+  border: 2px solid #ff9500;
   animation: wiggle 0.5s ease infinite;
 }
 
@@ -159,7 +162,7 @@
 }
 
 .drop-pad-text {
-  color: #fff;
+  color: #333;
   font-size: 12px;
   font-weight: 600;
   text-align: center;

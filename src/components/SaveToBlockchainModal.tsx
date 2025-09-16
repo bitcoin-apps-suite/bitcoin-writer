@@ -13,7 +13,15 @@ export interface UnlockConditions {
 }
 
 export interface BlockchainSaveOptions {
-  storageMethod: 'direct' | 'ipfs' | 'hybrid';
+  storageMethod: 'direct' | 'ipfs' | 'hybrid' | 'cloud';
+  cloudProvider?: 'googledrive' | 'aws-s3' | 'supabase' | 'cloudflare-r2' | 'azure-blob';
+  cloudConfig?: {
+    apiKey?: string;
+    bucket?: string;
+    region?: string;
+    endpoint?: string;
+    folder?: string;
+  };
   encryption: boolean;
   encryptionMethod?: 'password' | 'multiparty' | 'timelock';
   encryptionPassword?: string;
@@ -55,11 +63,15 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   onAuthRequired,
   preselectedMode
 }) => {
-  const [activeTab, setActiveTab] = useState<'storage' | 'access' | 'monetization'>('storage');
+  const [activeTab, setActiveTab] = useState<'storage' | 'encryption' | 'access' | 'monetization'>('storage');
   const [isLoading, setIsLoading] = useState(false);
   
   // Storage options
-  const [storageMethod, setStorageMethod] = useState<'direct' | 'ipfs' | 'hybrid'>('direct');
+  const [storageMethod, setStorageMethod] = useState<'direct' | 'ipfs' | 'hybrid' | 'cloud'>('direct');
+  const [cloudProvider, setCloudProvider] = useState<'googledrive' | 'aws-s3' | 'supabase' | 'cloudflare-r2' | 'azure-blob'>('googledrive');
+  const [cloudApiKey, setCloudApiKey] = useState('');
+  const [cloudBucket, setCloudBucket] = useState('');
+  const [cloudRegion, setCloudRegion] = useState('');
   const [encryption, setEncryption] = useState(true);
   const [encryptionMethod, setEncryptionMethod] = useState<'password' | 'multiparty' | 'timelock'>('multiparty');
   const [encryptionPassword, setEncryptionPassword] = useState('');
@@ -91,12 +103,12 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
       if (preselectedMode === 'encrypt') {
         setEncryption(true);
         setEncryptionMethod('multiparty');
-        setActiveTab('storage');
+        setActiveTab('encryption');
       } else if (preselectedMode === 'schedule') {
         setEncryption(true);
         setEncryptionMethod('timelock');
         setUnlockMethod('timed');
-        setActiveTab('access');
+        setActiveTab('encryption');
         // Set default time to tomorrow at noon
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
@@ -183,6 +195,15 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
     const options: BlockchainSaveOptions = {
       storageMethod,
+      ...(storageMethod === 'cloud' ? {
+        cloudProvider,
+        cloudConfig: {
+          apiKey: cloudApiKey,
+          bucket: cloudBucket,
+          region: cloudRegion,
+          folder: 'bitcoin-writer-documents'
+        }
+      } : {}),
       encryption,
       ...(encryption ? { encryptionMethod, encryptionPassword } : {}),
       unlockConditions,
@@ -217,7 +238,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
     <div className="modal-overlay">
       <div className="save-blockchain-modal">
         <div className="modal-header">
-          <h2>Save to Bitcoin Blockchain</h2>
+          <h2>Publish & Monetize with Bitcoin</h2>
           <button className="close-btn" onClick={onClose} disabled={isLoading}>×</button>
         </div>
 
@@ -242,14 +263,21 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
             onClick={() => setActiveTab('storage')}
             disabled={isLoading}
           >
-            Storage & Encryption
+            Storage
+          </button>
+          <button 
+            className={`tab ${activeTab === 'encryption' ? 'active' : ''}`}
+            onClick={() => setActiveTab('encryption')}
+            disabled={isLoading}
+          >
+            Encryption
           </button>
           <button 
             className={`tab ${activeTab === 'access' ? 'active' : ''}`}
             onClick={() => setActiveTab('access')}
             disabled={isLoading}
           >
-            Access Control
+            Access & Pricing
           </button>
           <button 
             className={`tab ${activeTab === 'monetization' ? 'active' : ''}`}
@@ -309,15 +337,324 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     <p>Metadata on-chain, content on IPFS. Best of both worlds.</p>
                   </div>
                 </label>
+                
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="storage"
+                    value="cloud"
+                    checked={storageMethod === 'cloud'}
+                    onChange={(e) => setStorageMethod(e.target.value as any)}
+                    disabled={isLoading}
+                  />
+                  <div className="option-content">
+                    <strong>Cloud Storage</strong>
+                    <p>Store on your preferred cloud provider, hash on-chain for verification.</p>
+                  </div>
+                </label>
               </div>
 
-              <h3>Encryption</h3>
-              <div className="encryption-notice">
-                <strong>✅ Automatic HandCash Encryption</strong>
-                <p>Your document will be automatically encrypted using your unique HandCash identity. Only you can decrypt it with your HandCash account.</p>
-                <p style={{fontSize: '12px', marginTop: '8px', color: '#888'}}>
-                  🔐 This ensures complete privacy - even we cannot read your encrypted documents.
-                </p>
+              {storageMethod === 'cloud' && (
+                <div className="cloud-options">
+                  <h4>Select Cloud Provider</h4>
+                  <select 
+                    value={cloudProvider} 
+                    onChange={(e) => setCloudProvider(e.target.value as any)}
+                    disabled={isLoading}
+                  >
+                    <option value="googledrive">Google Drive</option>
+                    <option value="aws-s3">AWS S3</option>
+                    <option value="supabase">Supabase Storage</option>
+                    <option value="cloudflare-r2">Cloudflare R2</option>
+                    <option value="azure-blob">Azure Blob Storage</option>
+                  </select>
+
+                  {cloudProvider === 'googledrive' && (
+                    <div className="provider-config">
+                      <p>
+                        📁 Documents will be stored in your Google Drive with blockchain verification
+                      </p>
+                      <button 
+                        type="button"
+                        onClick={() => alert('Google Drive OAuth integration coming soon!')}
+                      >
+                        Connect Google Drive
+                      </button>
+                    </div>
+                  )}
+
+                  {cloudProvider === 'aws-s3' && (
+                    <div className="provider-config">
+                      <label>
+                        AWS Access Key:
+                        <input
+                          type="password"
+                          value={cloudApiKey}
+                          onChange={(e) => setCloudApiKey(e.target.value)}
+                          placeholder="Enter your AWS access key"
+                          disabled={isLoading}
+                        />
+                      </label>
+                      <label>
+                        S3 Bucket Name:
+                        <input
+                          type="text"
+                          value={cloudBucket}
+                          onChange={(e) => setCloudBucket(e.target.value)}
+                          placeholder="my-documents-bucket"
+                          disabled={isLoading}
+                        />
+                      </label>
+                      <label>
+                        Region:
+                        <input
+                          type="text"
+                          value={cloudRegion}
+                          onChange={(e) => setCloudRegion(e.target.value)}
+                          placeholder="us-east-1"
+                          disabled={isLoading}
+                        />
+                      </label>
+                    </div>
+                  )}
+
+                  {cloudProvider === 'supabase' && (
+                    <div className="provider-config">
+                      <label>
+                        Supabase Project URL:
+                        <input
+                          type="text"
+                          value={cloudApiKey}
+                          onChange={(e) => setCloudApiKey(e.target.value)}
+                          placeholder="https://your-project.supabase.co"
+                          disabled={isLoading}
+                        />
+                      </label>
+                      <label>
+                        Supabase Anon Key:
+                        <input
+                          type="password"
+                          value={cloudBucket}
+                          onChange={(e) => setCloudBucket(e.target.value)}
+                          placeholder="Your public anon key"
+                          disabled={isLoading}
+                        />
+                      </label>
+                    </div>
+                  )}
+
+                  {cloudProvider === 'cloudflare-r2' && (
+                    <div className="provider-config">
+                      <p>
+                        ☁️ Zero egress fees with Cloudflare R2 - perfect for serving paid content at scale
+                      </p>
+                      <label>
+                        Account ID:
+                        <input
+                          type="text"
+                          value={cloudApiKey}
+                          onChange={(e) => setCloudApiKey(e.target.value)}
+                          placeholder="Your Cloudflare account ID"
+                          disabled={isLoading}
+                        />
+                      </label>
+                      <label>
+                        R2 Bucket:
+                        <input
+                          type="text"
+                          value={cloudBucket}
+                          onChange={(e) => setCloudBucket(e.target.value)}
+                          placeholder="documents"
+                          disabled={isLoading}
+                        />
+                      </label>
+                      <div style={{ marginTop: '12px', padding: '10px', backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '6px' }}>
+                        <strong>💰 CDN Ready:</strong> Your content will be served globally via Cloudflare's CDN. 
+                        Readers pay micropayments directly to your HandCash wallet to access.
+                      </div>
+                    </div>
+                  )}
+
+                  {cloudProvider === 'azure-blob' && (
+                    <div className="provider-config">
+                      <label>
+                        Storage Account:
+                        <input
+                          type="text"
+                          value={cloudApiKey}
+                          onChange={(e) => setCloudApiKey(e.target.value)}
+                          placeholder="Your storage account name"
+                          disabled={isLoading}
+                        />
+                      </label>
+                      <label>
+                        Container Name:
+                        <input
+                          type="text"
+                          value={cloudBucket}
+                          onChange={(e) => setCloudBucket(e.target.value)}
+                          placeholder="documents"
+                          disabled={isLoading}
+                        />
+                      </label>
+                    </div>
+                  )}
+
+                  <div className="cloud-warning">
+                    <strong>⚠️ Note:</strong> Your document hash will still be stored on-chain for immutable verification. 
+                    The actual content will be served from your cloud provider.
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'encryption' && (
+            <div className="tab-content encryption-tab">
+              <h3>Document Encryption</h3>
+              
+              <div className="encryption-options">
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="encryption"
+                    checked={!encryption}
+                    onChange={() => setEncryption(false)}
+                    disabled={isLoading}
+                  />
+                  <div className="option-content">
+                    <strong>No Encryption</strong>
+                    <p>Document stored in plain text (required for public monetization)</p>
+                  </div>
+                </label>
+
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="encryption"
+                    checked={encryption && encryptionMethod === 'multiparty'}
+                    onChange={() => {
+                      setEncryption(true);
+                      setEncryptionMethod('multiparty');
+                    }}
+                    disabled={isLoading}
+                  />
+                  <div className="option-content">
+                    <strong>✅ HandCash Identity Encryption</strong>
+                    <p>Encrypted with your HandCash identity - only you can decrypt</p>
+                  </div>
+                </label>
+
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="encryption"
+                    checked={encryption && encryptionMethod === 'password'}
+                    onChange={() => {
+                      setEncryption(true);
+                      setEncryptionMethod('password');
+                    }}
+                    disabled={isLoading}
+                  />
+                  <div className="option-content">
+                    <strong>Password Encryption</strong>
+                    <p>Encrypt with a custom password you choose</p>
+                  </div>
+                </label>
+
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="encryption"
+                    checked={encryption && encryptionMethod === 'timelock'}
+                    onChange={() => {
+                      setEncryption(true);
+                      setEncryptionMethod('timelock');
+                    }}
+                    disabled={isLoading}
+                  />
+                  <div className="option-content">
+                    <strong>Time-locked Encryption</strong>
+                    <p>Automatically decrypts at a specified future time</p>
+                  </div>
+                </label>
+              </div>
+
+              {encryption && encryptionMethod === 'password' && (
+                <div className="password-input" style={{ marginTop: '20px' }}>
+                  <label>
+                    Encryption Password:
+                    <input
+                      type="password"
+                      value={encryptionPassword}
+                      onChange={(e) => setEncryptionPassword(e.target.value)}
+                      placeholder="Enter a strong password"
+                      disabled={isLoading}
+                      style={{ 
+                        width: '100%', 
+                        padding: '10px', 
+                        marginTop: '8px',
+                        background: '#1a1a1a',
+                        color: '#fff',
+                        border: '1px solid #444',
+                        borderRadius: '6px'
+                      }}
+                    />
+                  </label>
+                  <p style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>
+                    ⚠️ Remember this password - it cannot be recovered if lost!
+                  </p>
+                </div>
+              )}
+
+              {encryption && encryptionMethod === 'multiparty' && (
+                <div className="encryption-notice" style={{ marginTop: '20px' }}>
+                  <strong>🔐 HandCash Identity Protection</strong>
+                  <p>Your document will be encrypted using your unique HandCash identity.</p>
+                  <ul style={{ marginTop: '10px', paddingLeft: '20px', fontSize: '13px' }}>
+                    <li>Only you can decrypt with your HandCash account</li>
+                    <li>Lost account = lost access (keep recovery phrase safe!)</li>
+                    <li>Perfect for private notes and sensitive documents</li>
+                  </ul>
+                </div>
+              )}
+
+              {encryption && encryptionMethod === 'timelock' && (
+                <div className="timelock-options" style={{ marginTop: '20px' }}>
+                  <label>
+                    Unlock Date & Time:
+                    <input
+                      type="datetime-local"
+                      value={unlockTime}
+                      onChange={(e) => setUnlockTime(e.target.value)}
+                      min={new Date(Date.now() + 60000).toISOString().slice(0, 16)}
+                      disabled={isLoading}
+                      style={{ 
+                        width: '100%', 
+                        padding: '10px', 
+                        marginTop: '8px',
+                        background: '#1a1a1a',
+                        color: '#fff',
+                        border: '1px solid #444',
+                        borderRadius: '6px'
+                      }}
+                    />
+                  </label>
+                  <p style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>
+                    📅 Document will automatically decrypt at this time
+                  </p>
+                </div>
+              )}
+
+              <div style={{ 
+                marginTop: '20px', 
+                padding: '15px', 
+                backgroundColor: 'rgba(255, 193, 7, 0.1)', 
+                border: '1px solid rgba(255, 193, 7, 0.3)', 
+                borderRadius: '8px' 
+              }}>
+                <strong>⚠️ Important:</strong> Encrypted documents cannot be monetized with paywalls. 
+                Readers need unencrypted content to preview before paying.
               </div>
             </div>
           )}
@@ -366,8 +703,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     disabled={isLoading}
                   />
                   <div className="option-content">
-                    <strong>Price to Unlock</strong>
-                    <p>Readers pay to access content</p>
+                    <strong>💰 Paywall (Recommended)</strong>
+                    <p>Readers pay micropayments to your HandCash wallet</p>
                   </div>
                 </label>
                 
@@ -427,6 +764,26 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
               {(unlockMethod === 'priced' || unlockMethod === 'timedAndPriced') && (
                 <div className="pricing-options">
+                  <div style={{ 
+                    marginBottom: '20px', 
+                    padding: '15px', 
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)', 
+                    border: '1px solid rgba(34, 197, 94, 0.3)', 
+                    borderRadius: '8px' 
+                  }}>
+                    <h4 style={{ margin: '0 0 10px 0', color: '#22c55e' }}>
+                      🤝 HandCash Payment Flow
+                    </h4>
+                    <p style={{ margin: '0', fontSize: '13px', lineHeight: '1.6', color: '#ccc' }}>
+                      When readers access your content:
+                      <br />1. They see your preview/teaser
+                      <br />2. Click "Pay to Read" button
+                      <br />3. HandCash processes micropayment
+                      <br />4. Payment goes directly to your wallet
+                      <br />5. Content unlocks instantly
+                    </p>
+                  </div>
+
                   <label className="checkbox-option">
                     <input
                       type="checkbox"
@@ -642,6 +999,12 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                 <span>$0.005</span>
               </div>
             )}
+            {storageMethod === 'cloud' && (
+              <div className="cost-item">
+                <span>Hash Storage:</span>
+                <span>$0.001</span>
+              </div>
+            )}
             {enableNFT && (
               <div className="cost-item">
                 <span>NFT Minting:</span>
@@ -662,6 +1025,14 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
         </div>
 
         <div className="modal-footer">
+          <div style={{ flex: 1, fontSize: '12px', color: '#888', marginRight: '20px' }}>
+            {(unlockMethod === 'priced' || unlockMethod === 'timedAndPriced') && (
+              <>
+                <strong>After publishing:</strong> You'll get a shareable link like<br />
+                <code style={{ color: '#f7931a' }}>bitcoinwriter.io/read/{documentTitle.toLowerCase().replace(/\s+/g, '-')}</code>
+              </>
+            )}
+          </div>
           <button 
             className="cancel-btn" 
             onClick={onClose}
@@ -675,10 +1046,12 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
             disabled={isLoading}
           >
             {isLoading 
-              ? 'Saving...' 
+              ? 'Publishing...' 
               : !isAuthenticated 
-                ? '🤝 Sign in with HandCash to Save' 
-                : 'Save to Blockchain'}
+                ? '🤝 Sign in with HandCash to Publish' 
+                : unlockMethod === 'priced' 
+                  ? '💰 Publish & Monetize' 
+                  : 'Save to Blockchain'}
           </button>
         </div>
       </div>

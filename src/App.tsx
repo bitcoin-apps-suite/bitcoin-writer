@@ -10,6 +10,7 @@ import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
 import CleanTaskbar from './components/CleanTaskbar';
+import DocumentExchange from './components/DocumentExchange';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -25,6 +26,14 @@ function App() {
   const [showWriterMenu, setShowWriterMenu] = useState(false);
   const [showDevelopersMenu, setShowDevelopersMenu] = useState(false);
   const [sidebarRefresh, setSidebarRefresh] = useState(0);
+  const [showExchange, setShowExchange] = useState(false);
+
+  // Listen for Document Exchange open event
+  useEffect(() => {
+    const handleOpenExchange = () => setShowExchange(true);
+    window.addEventListener('openDocumentExchange', handleOpenExchange);
+    return () => window.removeEventListener('openDocumentExchange', handleOpenExchange);
+  }, []);
 
   useEffect(() => {
     // Check for Google user first
@@ -580,6 +589,16 @@ function App() {
         )
       } />
       </Routes>
+      
+      {/* Document Exchange Modal */}
+      <DocumentExchange 
+        isOpen={showExchange}
+        onClose={() => setShowExchange(false)}
+        onSelectWriter={(writer) => {
+          console.log('Selected writer:', writer);
+          // Could open the writer's portfolio or buy shares
+        }}
+      />
     </GoogleAuthProvider>
   );
 }

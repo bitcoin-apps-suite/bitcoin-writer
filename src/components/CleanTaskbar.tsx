@@ -122,6 +122,11 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Set Timelock', action: () => console.log('Set timelock') },
         { label: 'Set Multisig', action: () => console.log('Set multisig') },
         { divider: true },
+        { label: 'Exchange', action: () => {
+          const event = new CustomEvent('openDocumentExchange');
+          window.dispatchEvent(event);
+        }},
+        { divider: true },
         { label: 'Publish to Chain', action: () => (document.querySelector('[title*="Publish"]') as HTMLElement)?.click() },
         { label: 'View on Explorer', href: 'https://whatsonchain.com' }
       ]
@@ -129,23 +134,122 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Storage',
       items: [
-        { label: 'OP_RETURN (Metadata)', action: () => console.log('OP_RETURN storage') },
-        { label: 'OP_PUSHDATA4 (Full)', action: () => console.log('OP_PUSHDATA4 storage') },
-        { label: 'Multisig P2SH', action: () => console.log('Multisig storage') },
+        { label: 'Direct On-Chain', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+        }},
+        { label: 'IPFS with Hash', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+        }},
+        { label: 'Hybrid (Chain + IPFS)', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+        }},
+        { divider: true },
+        { label: 'Cloud Providers ▸', action: () => {} },
+        { label: '  Google Drive', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+          setTimeout(() => {
+            const cloudRadio = document.querySelector('input[value="cloud"]') as HTMLInputElement;
+            if (cloudRadio) {
+              cloudRadio.click();
+              const select = document.querySelector('.cloud-options select') as HTMLSelectElement;
+              if (select) select.value = 'googledrive';
+            }
+          }, 300);
+        }},
+        { label: '  AWS S3', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+          setTimeout(() => {
+            const cloudRadio = document.querySelector('input[value="cloud"]') as HTMLInputElement;
+            if (cloudRadio) {
+              cloudRadio.click();
+              const select = document.querySelector('.cloud-options select') as HTMLSelectElement;
+              if (select) select.value = 'aws-s3';
+            }
+          }, 300);
+        }},
+        { label: '  Supabase Storage', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+          setTimeout(() => {
+            const cloudRadio = document.querySelector('input[value="cloud"]') as HTMLInputElement;
+            if (cloudRadio) {
+              cloudRadio.click();
+              const select = document.querySelector('.cloud-options select') as HTMLSelectElement;
+              if (select) select.value = 'supabase';
+            }
+          }, 300);
+        }},
+        { label: '  Cloudflare R2', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+          setTimeout(() => {
+            const cloudRadio = document.querySelector('input[value="cloud"]') as HTMLInputElement;
+            if (cloudRadio) {
+              cloudRadio.click();
+              const select = document.querySelector('.cloud-options select') as HTMLSelectElement;
+              if (select) select.value = 'cloudflare-r2';
+            }
+          }, 300);
+        }},
+        { label: '  Azure Blob', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+          setTimeout(() => {
+            const cloudRadio = document.querySelector('input[value="cloud"]') as HTMLInputElement;
+            if (cloudRadio) {
+              cloudRadio.click();
+              const select = document.querySelector('.cloud-options select') as HTMLSelectElement;
+              if (select) select.value = 'azure-blob';
+            }
+          }, 300);
+        }},
         { divider: true },
         { label: 'Storage Calculator', action: () => setShowStorageCalc(true) },
-        { label: 'Storage Settings', action: () => console.log('Storage settings') }
+        { label: 'Storage Settings', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+        }}
       ]
     },
     {
       label: 'Social',
       items: [
         { label: 'Post to Twitter/X', action: onOpenTwitterModal || (() => console.log('Twitter')) },
+        { label: 'Share on LinkedIn', action: () => console.log('Share on LinkedIn') },
+        { label: 'Share on Facebook', action: () => console.log('Share on Facebook') },
         { label: 'Share on Substack', action: () => alert('Substack doesn\'t do OAuth!') },
+        { label: 'Share on Medium', action: () => console.log('Share on Medium') },
+        { divider: true },
+        { label: 'Copy Share Link', action: () => {
+          navigator.clipboard.writeText(window.location.href);
+          alert('Link copied to clipboard!');
+        }},
+        { label: 'Generate QR Code', action: () => console.log('Generate QR code') },
         { divider: true },
         { label: 'Email via Gmail', action: () => console.log('Send via Gmail') },
-        { label: 'Save to Google Drive', action: () => console.log('Save to Drive') },
+        { label: 'Send to Telegram', action: () => console.log('Send to Telegram') },
+        { label: 'Send to WhatsApp', action: () => console.log('Send to WhatsApp') },
         { divider: true },
+        { label: 'Save to Google Drive', action: () => {
+          const saveBtn = document.querySelector('.save-options-btn') as HTMLElement;
+          saveBtn?.click();
+          setTimeout(() => {
+            const cloudRadio = document.querySelector('input[value="cloud"]') as HTMLInputElement;
+            if (cloudRadio) {
+              cloudRadio.click();
+              const select = document.querySelector('.cloud-options select') as HTMLSelectElement;
+              if (select) select.value = 'googledrive';
+            }
+          }, 300);
+        }},
+        { label: 'Export as PDF', action: () => window.print() },
+        { divider: true },
+        { label: 'Analytics Dashboard', action: () => console.log('Open analytics') },
         { label: 'Create Calendar Event', action: () => console.log('Create event') }
       ]
     },
