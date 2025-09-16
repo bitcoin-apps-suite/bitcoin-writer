@@ -199,24 +199,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         setWordCount(0);
         setCharCount(0);
         
-        setAutoSaveStatus('New document created');
+        setAutoSaveStatus('Ready for new document');
         setTimeout(() => setAutoSaveStatus(''), 2000);
-        
-        // Notify parent component that document was updated
-        if (onDocumentUpdate) {
-          onDocumentUpdate({
-            id: newDoc.id,
-            title: newDoc.title,
-            content: newDoc.content,
-            created_at: newDoc.created_at,
-            updated_at: newDoc.updated_at,
-            author: 'Local',
-            word_count: 0,
-            character_count: 0,
-            encrypted: false,
-            storage_method: 'local'
-          } as BlockchainDocument);
-        }
         
         // Force a re-render of the sidebar
         window.dispatchEvent(new CustomEvent('documentCreated'));
