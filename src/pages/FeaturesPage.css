@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 80px 20px;
+  padding: 80px 120px 80px 200px;
   background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
   position: relative;
   overflow: hidden;
@@ -603,6 +603,7 @@
   .hero-section {
     flex-direction: column;
     text-align: center;
+    padding: 80px 20px;
   }
   
   .hero-title {
