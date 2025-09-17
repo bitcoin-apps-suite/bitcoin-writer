@@ -2116,7 +2116,7 @@ const DocumentExchange: React.FC<DocumentExchangeProps> = ({ isOpen, onClose, on
     <div className="exchange-overlay">
       <div className="exchange-container">
         <div className="exchange-header">
-          <h1>📈 Bitcoin Writer Exchange</h1>
+          <h1>📈 <span className="title-bitcoin-writer">Bitcoin Writer</span> <span className="title-exchange">Exchange</span></h1>
           {/* Small AI/Human toggle on far right */}
           <div className="author-type-toggle">
             <button

@@ -76,8 +76,9 @@
 }
 
 .toggle-btn.active {
-  background: #ff9500;
+  background: linear-gradient(135deg, #ff9500 0%, #ffb347 50%, #ff8c00 100%);
   color: #000;
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3);
 }
 
 
@@ -122,9 +123,19 @@
 
 .exchange-header h1 {
   margin: 0;
-  color: #ffffff;
   font-size: 28px;
   font-weight: 600;
+}
+
+.exchange-header h1 .title-bitcoin-writer {
+  background: linear-gradient(135deg, #ff9500 0%, #ffb347 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.exchange-header h1 .title-exchange {
+  color: #ffffff;
 }
 
 .exchange-controls {
@@ -672,12 +683,16 @@
 }
 
 .btn-read {
-  background: #ff9500;
+  background: linear-gradient(135deg, #ff9500 0%, #ffb347 50%, #ff8c00 100%);
   color: #000;
+  box-shadow: 0 2px 6px rgba(255, 149, 0, 0.25);
+  transition: all 0.2s ease;
 }
 
 .btn-read:hover {
-  background: #ff8c00;
+  background: linear-gradient(135deg, #ffb347 0%, #ff9500 50%, #ff7300 100%);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+  transform: translateY(-1px);
 }
 
 .exchange-footer {
