@@ -56,6 +56,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       label: 'Bitcoin Writer',
       items: [
         { label: 'About Bitcoin Writer', action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© @b0ase 2025\nBuilt with HandCash integration') },
+        { label: 'Features', action: () => {
+          const event = new CustomEvent('showFeaturesPage');
+          window.dispatchEvent(event);
+        }},
         { divider: true },
         { label: 'Preferences...', shortcut: '⌘,', action: () => setShowPreferences(true) },
         { label: 'Encryption Settings...', action: () => setShowEncryption(true) },

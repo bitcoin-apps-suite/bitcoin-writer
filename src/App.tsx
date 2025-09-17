@@ -32,6 +32,7 @@ function App() {
   const [showDevelopersMenu, setShowDevelopersMenu] = useState(false);
   const [sidebarRefresh, setSidebarRefresh] = useState(0);
   const [showExchange, setShowExchange] = useState(false);
+  const [showFeatures, setShowFeatures] = useState(false);
   const [showBitcoinApps, setShowBitcoinApps] = useState(false);
   const [activeAppOverview, setActiveAppOverview] = useState<string | null>(null);
   const [publishedDocuments, setPublishedDocuments] = useState<BlockchainDocument[]>([]);
@@ -41,6 +42,16 @@ function App() {
     const handleOpenExchange = () => setShowExchange(true);
     window.addEventListener('openDocumentExchange', handleOpenExchange);
     return () => window.removeEventListener('openDocumentExchange', handleOpenExchange);
+  }, []);
+
+  // Listen for Features page open event
+  useEffect(() => {
+    const handleShowFeatures = () => {
+      setShowFeatures(true);
+      setShowExchange(false); // Close exchange if open
+    };
+    window.addEventListener('showFeaturesPage', handleShowFeatures);
+    return () => window.removeEventListener('showFeaturesPage', handleShowFeatures);
   }, []);
 
   // Listen for Bitcoin Apps open event
@@ -652,7 +663,18 @@ function App() {
                 refreshTrigger={sidebarRefresh}
               />
               <main>
-                {showExchange ? (
+                {showFeatures ? (
+                  <div className="features-view-wrapper">
+                    <button 
+                      className="features-close-btn"
+                      onClick={() => setShowFeatures(false)}
+                      title="Close Features"
+                    >
+                      ✕
+                    </button>
+                    <FeaturesPage />
+                  </div>
+                ) : showExchange ? (
                   <DocumentExchangeView 
                     onSelectDocument={(doc) => {
                       console.log('Selected document from exchange:', doc);

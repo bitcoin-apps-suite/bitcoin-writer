@@ -3542,3 +3542,37 @@ main {
   opacity: 0.6;
   cursor: not-allowed;
 }
+/* Features View Wrapper */
+.features-view-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.features-close-btn {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  z-index: 1001;
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.features-close-btn:hover {
+  background: #ff9500;
+  color: #000;
+  border-color: #ff9500;
+  transform: scale(1.1);
+}

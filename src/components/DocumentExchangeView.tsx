@@ -43,6 +43,7 @@ interface WriterListing {
   handle: string;
   twitter?: string;
   authorType: 'human' | 'ai';
+  category?: 'all' | 'humans' | 'ais' | 'scientists' | 'mathematicians' | 'mothers' | 'lesbians' | 'journalists' | 'developers' | 'artists';
   joinDate: string;
   totalWorks: number;
   totalReaders: number;
@@ -71,6 +72,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   const [authorType, setAuthorType] = useState<'human' | 'ai'>('human');
   const [activeView, setActiveView] = useState<'books' | 'articles' | 'blogs' | 'authors'>('books');
   const [activeMarket, setActiveMarket] = useState<string>('All');
+  const [authorCategory, setAuthorCategory] = useState<'all' | 'humans' | 'ais' | 'scientists' | 'mathematicians' | 'mothers' | 'lesbians' | 'journalists' | 'developers' | 'artists'>('all');
   const [sortBy, setSortBy] = useState<'rank' | 'revenue' | 'volume' | 'price' | 'views'>('rank');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedWriting, setSelectedWriting] = useState<WritingListing | null>(null);
@@ -85,6 +87,18 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   const bookCategories = ['All', 'Fiction', 'Non-Fiction', 'Business', 'Tech', 'Health', 'Self-Help', 'History', 'Science'];
   const articleCategories = ['All', 'Tech', 'Business', 'Finance', 'Health', 'Politics', 'Culture', 'Opinion'];
   const blogCategories = ['All', 'Personal', 'Professional', 'Travel', 'Food', 'Lifestyle', 'Tech', 'Crypto'];
+  const authorCategories = [
+    { value: 'all', label: 'All', emoji: '🌍' },
+    { value: 'humans', label: 'Humans', emoji: '👤' },
+    { value: 'ais', label: 'AIs', emoji: '🤖' },
+    { value: 'scientists', label: 'Scientists', emoji: '🔬' },
+    { value: 'mathematicians', label: 'Mathematicians', emoji: '🔢' },
+    { value: 'mothers', label: 'Mothers', emoji: '👩‍👧' },
+    { value: 'lesbians', label: 'Lesbians', emoji: '🏳️‍🌈' },
+    { value: 'journalists', label: 'Journalists', emoji: '📰' },
+    { value: 'developers', label: 'Developers', emoji: '💻' },
+    { value: 'artists', label: 'Artists', emoji: '🎨' }
+  ] as const;
 
   // Fetch NFT documents from marketplace
   const fetchNftDocuments = async () => {
@@ -1390,6 +1404,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$rajpatel",
         twitter: "rajpatelai",
         authorType: "human",
+        category: "scientists",
         joinDate: "2024-01-15",
         totalWorks: 12,
         totalReaders: 450000,
@@ -1409,6 +1424,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$sarahchenwr",
         twitter: "sarahchenwrites",
         authorType: "human",
+        category: "journalists",
         joinDate: "2023-11-20",
         totalWorks: 15,
         totalReaders: 380000,
@@ -1428,6 +1444,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$mzhangtech",
         twitter: "michaelztech",
         authorType: "human",
+        category: "developers",
         joinDate: "2024-02-10",
         totalWorks: 9,
         totalReaders: 320000,
@@ -1447,6 +1464,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$drjenwu",
         twitter: "drjenniferwu",
         authorType: "human",
+        category: "mathematicians",
         joinDate: "2024-03-01",
         totalWorks: 7,
         totalReaders: 280000,
@@ -1466,6 +1484,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$jesswangbiz",
         twitter: "jessicawangbiz",
         authorType: "human",
+        category: "mothers",
         joinDate: "2023-09-15",
         totalWorks: 18,
         totalReaders: 520000,
@@ -1485,6 +1504,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$lisaquantum",
         twitter: "drlisamquantum",
         authorType: "human",
+        category: "scientists",
         joinDate: "2024-01-20",
         totalWorks: 6,
         totalReaders: 195000,
@@ -1500,10 +1520,11 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
       },
       {
         rank: 7,
-        name: "Carlos Martinez",
-        handle: "$carlosdefi",
-        twitter: "carlosdefi",
+        name: "Alex Rivera",
+        handle: "$alexrivera",
+        twitter: "alexriveraart",
         authorType: "human",
+        category: "lesbians",
         joinDate: "2023-12-05",
         totalWorks: 11,
         totalReaders: 310000,
@@ -1523,6 +1544,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$emmathompson",
         twitter: "emmathompsonwr",
         authorType: "human",
+        category: "artists",
         joinDate: "2024-04-10",
         totalWorks: 5,
         totalReaders: 165000,
@@ -1542,6 +1564,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$robhayes",
         twitter: "robhayespol",
         authorType: "human",
+        category: "journalists",
         joinDate: "2023-10-30",
         totalWorks: 13,
         totalReaders: 275000,
@@ -1561,6 +1584,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         handle: "$markgreen",
         twitter: "drmarkgreen",
         authorType: "human",
+        category: "scientists",
         joinDate: "2024-02-28",
         totalWorks: 8,
         totalReaders: 225000,
@@ -1580,6 +1604,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         name: "GPT-Writer Alpha",
         handle: "$gptwriter",
         authorType: "ai",
+        category: "ais",
         joinDate: "2024-06-01",
         totalWorks: 45,
         totalReaders: 680000,
@@ -1598,6 +1623,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         name: "Claude Creative",
         handle: "$claudecreative",
         authorType: "ai",
+        category: "ais",
         joinDate: "2024-07-15",
         totalWorks: 32,
         totalReaders: 425000,
@@ -1616,6 +1642,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         name: "Gemini Storyteller",
         handle: "$geministory",
         authorType: "ai",
+        category: "ais",
         joinDate: "2024-08-01",
         totalWorks: 28,
         totalReaders: 295000,
@@ -1634,6 +1661,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         name: "Bard Business",
         handle: "$bardbusiness",
         authorType: "ai",
+        category: "ais",
         joinDate: "2024-09-10",
         totalWorks: 22,
         totalReaders: 185000,
@@ -1646,11 +1674,114 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
         marketCap: 513000,
         verified: false,
         trending: false
+      },
+      // Additional diverse authors
+      {
+        rank: 15,
+        name: "Maria Rodriguez",
+        handle: "$mariarodriguez",
+        authorType: "human",
+        category: "mothers",
+        joinDate: "2024-05-15",
+        totalWorks: 14,
+        totalReaders: 298000,
+        totalRevenue: 415000.00,
+        avgRating: 4.7,
+        sharesAvailable: 175,
+        totalShares: 1400,
+        currentPrice: 320.00,
+        priceChange24h: 22.5,
+        marketCap: 448000,
+        verified: true,
+        trending: false
+      },
+      {
+        rank: 16,
+        name: "Dr. Alan Turing III",
+        handle: "$alanturing3",
+        authorType: "human",
+        category: "mathematicians",
+        joinDate: "2024-03-20",
+        totalWorks: 9,
+        totalReaders: 165000,
+        totalRevenue: 285000.00,
+        avgRating: 4.9,
+        sharesAvailable: 210,
+        totalShares: 1100,
+        currentPrice: 275.00,
+        priceChange24h: 18.3,
+        marketCap: 302500,
+        verified: true,
+        trending: false
+      },
+      {
+        rank: 17,
+        name: "Sam Johnson",
+        handle: "$samjdev",
+        authorType: "human",
+        category: "developers",
+        joinDate: "2024-02-25",
+        totalWorks: 16,
+        totalReaders: 425000,
+        totalRevenue: 635000.00,
+        avgRating: 4.6,
+        sharesAvailable: 95,
+        totalShares: 2100,
+        currentPrice: 385.00,
+        priceChange24h: 31.2,
+        marketCap: 808500,
+        verified: true,
+        trending: true
+      },
+      {
+        rank: 18,
+        name: "Casey Morgan",
+        handle: "$caseymorgan",
+        authorType: "human",
+        category: "lesbians",
+        joinDate: "2024-04-01",
+        totalWorks: 10,
+        totalReaders: 245000,
+        totalRevenue: 365000.00,
+        avgRating: 4.8,
+        sharesAvailable: 145,
+        totalShares: 1300,
+        currentPrice: 295.00,
+        priceChange24h: 14.7,
+        marketCap: 383500,
+        verified: true,
+        trending: false
+      },
+      {
+        rank: 19,
+        name: "Vincent van Art",
+        handle: "$vincentart",
+        authorType: "human",
+        category: "artists",
+        joinDate: "2024-01-30",
+        totalWorks: 21,
+        totalReaders: 515000,
+        totalRevenue: 780000.00,
+        avgRating: 4.5,
+        sharesAvailable: 65,
+        totalShares: 2800,
+        currentPrice: 495.00,
+        priceChange24h: 42.8,
+        marketCap: 1386000,
+        verified: true,
+        trending: true
       }
     ];
 
     if (activeView === 'authors') {
-      setWriters(mockWriters.filter(w => w.authorType === authorType));
+      let filteredWriters = mockWriters.filter(w => w.authorType === authorType);
+      
+      // Apply category filter if not 'all'
+      if (authorCategory !== 'all') {
+        filteredWriters = filteredWriters.filter(w => w.category === authorCategory);
+      }
+      
+      setWriters(filteredWriters);
     } else {
       // Get the appropriate content based on active view
       let contentData: WritingListing[] = [];
@@ -1709,7 +1840,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
       const combinedListings = [...userListings, ...contentData, ...nftListings].filter(w => w.authorType === authorType);
       setWritings(combinedListings);
     }
-  }, [activeView, authorType, activeMarket, userDocuments, nftDocuments]);
+  }, [activeView, authorType, activeMarket, authorCategory, userDocuments, nftDocuments]);
 
   const filteredWritings = writings
     .filter(writing => 
@@ -1810,6 +1941,22 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
               onClick={() => setActiveMarket(category)}
             >
               {category}
+            </button>
+          ))}
+        </div>
+      )}
+      
+      {/* Author Category Tabs */}
+      {activeView === 'authors' && (
+        <div className="market-tabs author-category-tabs">
+          {authorCategories.map(category => (
+            <button
+              key={category.value}
+              className={`market-tab author-tab ${authorCategory === category.value ? 'active' : ''}`}
+              onClick={() => setAuthorCategory(category.value)}
+            >
+              <span className="category-emoji">{category.emoji}</span>
+              <span className="category-label">{category.label}</span>
             </button>
           ))}
         </div>
