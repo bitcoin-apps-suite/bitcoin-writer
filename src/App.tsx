@@ -208,7 +208,10 @@ function App() {
               isAuthenticated={isAuthenticated}
               currentUser={currentUser}
               onLogout={handleLogout}
-              onNewDocument={() => setCurrentDocument(null)}
+              onNewDocument={() => {
+                setCurrentDocument(null);
+                setShowExchange(false);
+              }}
               onSaveDocument={() => {
                 const saveBtn = document.querySelector('.save-btn-mobile, [title*="Save"]') as HTMLElement;
                 saveBtn?.click();
@@ -510,6 +513,7 @@ function App() {
                             className="mobile-menu-item"
                             onClick={() => {
                               setCurrentDocument(null);
+                              setShowExchange(false);
                               setShowMobileMenu(false);
                             }}
                           >
@@ -524,6 +528,7 @@ function App() {
                             }}
                             onNewDocument={() => {
                               setCurrentDocument(null);
+                              setShowExchange(false);
                               setShowMobileMenu(false);
                               // Trigger immediate sidebar refresh
                               setSidebarRefresh(prev => prev + 1);
@@ -625,6 +630,7 @@ function App() {
                 onDocumentSelect={(doc) => setCurrentDocument(doc)}
                 onNewDocument={() => {
                   setCurrentDocument(null);
+                  setShowExchange(false);
                   // Trigger immediate sidebar refresh
                   setSidebarRefresh(prev => prev + 1);
                 }}
