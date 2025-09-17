@@ -5,6 +5,7 @@ import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
 import SaveToBlockchainModal, { BlockchainSaveOptions } from './SaveToBlockchainModal';
 import TokenizeModal, { TokenizationOptions } from './TokenizeModal';
 import PostToTwitterModal from './PostToTwitterModal';
+import DocumentVersioningModal from './modals/DocumentVersioningModal';
 import { StorageOption } from '../utils/pricingCalculator';
 import BSVStorageService from '../services/BSVStorageService';
 import { HandCashItemsService } from '../services/HandCashItemsService';
@@ -58,6 +59,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   });
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
+  const [showVersioningModal, setShowVersioningModal] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService(documentService?.handcashService || undefined));
   // Always use Quill editor
   const [quillContent, setQuillContent] = useState('');
@@ -1125,6 +1127,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               {isDarkMode ? '☀️' : '🌙'}
             </button>
             
+            <button onClick={() => setShowVersioningModal(true)} title="Document Versioning & Inscription">
+              ⛓️
+            </button>
+            
             <button onClick={toggleFullscreen} title="Toggle Fullscreen">
               ⛶
             </button>
@@ -1247,6 +1253,16 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         onClose={() => setShowTwitterModal(false)}
         documentTitle={currentDocument?.title || 'Untitled Document'}
         documentContent={quillContent || editorContent}
+      />
+      
+      <DocumentVersioningModal
+        isOpen={showVersioningModal}
+        onClose={() => setShowVersioningModal(false)}
+        documentId={localDocumentId || currentDocument?.id || 'temp-doc'}
+        currentContent={quillContent || editorContent}
+        documentTitle={currentDocument?.title || 'Untitled Document'}
+        authorAddress={documentService?.handcashService?.getCurrentUser()?.paymail || 'unknown'}
+        authorHandle={documentService?.handcashService?.getCurrentUser()?.handle}
       />
       
       {isLoading && (
