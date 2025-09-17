@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDocumentVersioning } from '../../hooks/useDocumentVersioning';
-import { DocumentInscription } from '../../types/DocumentInscription';
 import './DocumentVersioningModal.css';
 
 interface DocumentVersioningModalProps {
