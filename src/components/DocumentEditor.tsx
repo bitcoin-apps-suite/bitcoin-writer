@@ -52,6 +52,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [showSaveBlockchainModal, setShowSaveBlockchainModal] = useState(false);
   const [preselectedMode, setPreselectedMode] = useState<'encrypt' | 'schedule' | null>(null);
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('bitcoin-writer-dark-mode');
+    return saved !== null ? saved === 'true' : true; // Default to dark mode
+  });
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService(documentService?.handcashService || undefined));
@@ -833,8 +837,15 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     }
   };
 
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    localStorage.setItem('bitcoin-writer-dark-mode', newDarkMode.toString());
+    showNotification(`${newDarkMode ? 'Dark' : 'Light'} mode enabled`);
+  };
+
   return (
-    <div className={`document-editor ${isFullscreen ? 'fullscreen' : ''}`}>
+    <div className={`document-editor ${isFullscreen ? 'fullscreen' : ''} ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="toolbar">
         {/* Mobile Layout */}
         <div className="toolbar-mobile">
@@ -1110,6 +1121,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           </div>
           
           <div className="toolbar-right">
+            <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
+            
             <button onClick={toggleFullscreen} title="Toggle Fullscreen">
               ⛶
             </button>

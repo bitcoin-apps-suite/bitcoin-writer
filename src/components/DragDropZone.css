@@ -169,6 +169,34 @@
   line-height: 1.2;
 }
 
+/* Dark mode styles */
+.dark-mode .floating-drop-pad {
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+}
+
+.dark-mode .floating-drop-pad:hover {
+  background: rgba(42, 42, 42, 1);
+  border-color: rgba(255, 149, 0, 0.3);
+}
+
+.dark-mode .drop-pad-text {
+  color: #e0e0e0;
+}
+
+.dark-mode .drop-zone-overlay {
+  background: rgba(0, 0, 0, 0.97);
+}
+
+.dark-mode .drop-zone-content {
+  background: rgba(255, 149, 0, 0.08);
+}
+
+.dark-mode .drop-zone-content p {
+  color: #e0e0e0;
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .floating-drop-pad {

@@ -124,6 +124,97 @@
   color: #666;
 }
 
+/* Dark mode for the main document editor container */
+.dark-mode {
+  background: #0d0d0d;
+  color: #e0e0e0;
+}
+
+.dark-mode .toolbar {
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.dark-mode .toolbar button {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+.dark-mode .toolbar button:hover {
+  background: #333;
+  border-color: #555;
+}
+
+.dark-mode .toolbar-left,
+.dark-mode .toolbar-right,
+.dark-mode .toolbar-mobile {
+  background: inherit;
+}
+
+.dark-mode .mobile-actions-dropdown {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.dark-mode .mobile-actions-dropdown button {
+  background: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.dark-mode .mobile-actions-dropdown button:hover {
+  background: #333;
+}
+
+.dark-mode .document-editor {
+  background: #0d0d0d;
+  color: #e0e0e0;
+}
+
+.dark-mode .toolbar-stats {
+  color: #999;
+}
+
+/* Enhanced Quill dark mode for better readability */
+.dark-mode .quill-editor .ql-editor {
+  background: #0d0d0d !important;
+  color: #e8e8e8 !important;
+  caret-color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-editor * {
+  color: #e8e8e8 !important;
+}
+
+.dark-mode .quill-editor .ql-editor h1,
+.dark-mode .quill-editor .ql-editor h2,
+.dark-mode .quill-editor .ql-editor h3,
+.dark-mode .quill-editor .ql-editor h4,
+.dark-mode .quill-editor .ql-editor h5,
+.dark-mode .quill-editor .ql-editor h6 {
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-editor blockquote {
+  border-left: 4px solid #ff9500;
+  color: #ccc !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-options {
+  background: #2a2a2a;
+  border: 1px solid #444;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-item {
+  color: #ccc;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-item:hover {
+  background: #444;
+  color: #fff;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .quill-editor .ql-editor {
