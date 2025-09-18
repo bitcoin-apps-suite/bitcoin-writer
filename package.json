@@ -73,7 +73,7 @@
     "buffer": "^6.0.3",
     "concurrently": "^9.2.1",
     "crypto-browserify": "^3.12.1",
-    "electron": "^38.1.0",
+    "electron": "^27.0.0",
     "electron-builder": "^26.0.12",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
