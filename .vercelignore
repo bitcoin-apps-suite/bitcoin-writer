@@ -1,0 +1,58 @@
+# Dependencies
+node_modules
+api/node_modules
+**/node_modules
+
+# Build outputs
+dist
+build
+.next
+.nuxt
+.cache
+.output
+
+# Version control
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage
+.nyc_output
+
+# Electron
+electron-backup
+Bitcoin Writer.app
+*.dmg
+*.exe
+*.AppImage
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.temp
+
+# Documentation
+*.md
+LICENSE
