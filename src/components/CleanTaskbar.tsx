@@ -541,30 +541,27 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
               Bitcoin Drive
             </a>
 
-            <button
-              onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.EMAIL);
-                setShowBitcoinSuite(false);
-              }}
+            <a
+              href="https://bitcoin-email.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
                 color: '#ffffff',
-                background: 'transparent',
-                border: 'none',
-                width: '100%',
-                textAlign: 'left',
+                textDecoration: 'none',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'pointer'
               }}
+              onClick={() => setShowBitcoinSuite(false)}
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
               <span style={{ color: '#06b6d4', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
               Bitcoin Email
-            </button>
+            </a>
 
             <button
               onClick={() => {
