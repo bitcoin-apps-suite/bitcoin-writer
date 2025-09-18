@@ -272,12 +272,12 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'BSV SDK Docs', href: 'https://docs.bsvblockchain.org' },
         { label: 'HandCash SDK Docs', href: 'https://docs.handcash.io' },
         { divider: true },
-        { label: 'GitHub Repository', href: 'https://github.com/b0ase/bitcoin-writer' },
+        { label: 'GitHub Repository', href: 'https://github.com/bitcoin-apps-suite/bitcoin-writer' },
         { label: '$BWRITER Token', action: () => window.location.href = '/token' },
         { label: 'API Documentation', action: () => setShowAPIDoc(true) },
         { divider: true },
-        { label: 'Bitcoin Spreadsheet', href: 'https://github.com/b0ase/bitcoin-spreadsheet' },
-        { label: 'Bitcoin Drive', href: 'https://github.com/b0ase/bitcoin-drive' }
+        { label: 'Bitcoin Spreadsheet', href: 'https://github.com/bitcoin-apps-suite/bitcoin-spreadsheet' },
+        { label: 'Bitcoin Drive', href: 'https://github.com/bitcoin-apps-suite/bitcoin-drive' }
       ]
     },
     {
@@ -311,7 +311,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Release Notes', href: '/releases' },
         { label: 'What\'s New', action: () => alert('What\'s New in v2.0:\n\n• Multi-provider authentication\n• NFT tokenization\n• File shares\n• Twitter integration\n• Enhanced encryption') },
         { divider: true },
-        { label: 'Report an Issue', href: 'https://github.com/b0ase/bitcoin-writer/issues' },
+        { label: 'Report an Issue', href: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues' },
         { label: 'Contact @b0ase', href: 'https://twitter.com/b0ase' },
         { divider: true },
         { label: 'Follow @bitcoin_writer', href: 'https://x.com/bitcoin_writer' }
@@ -1031,7 +1031,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       }}>
         {/* GitHub Link */}
         <a
-          href="https://github.com/b0ase/bitcoin-writer"
+          href="https://github.com/bitcoin-apps-suite/bitcoin-writer"
           target="_blank"
           rel="noopener noreferrer"
           style={{

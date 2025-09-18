@@ -24,7 +24,7 @@ A decentralized writing application built on Bitcoin SV blockchain with HandCash
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/b0ase/bitcoin-writer.git
+   git clone https://github.com/bitcoin-apps-suite/bitcoin-writer.git
    cd bitcoin-writer
    ```
 

@@ -389,7 +389,7 @@ function App() {
                           <span>📑</span> BAP Executive Summary
                         </div>
                         <div className="menu-item" onClick={() => {
-                          window.open('https://github.com/b0ase/bitcoin-writer', '_blank');
+                          window.open('https://github.com/bitcoin-apps-suite/bitcoin-writer', '_blank');
                           setShowDevelopersMenu(false);
                         }}>
                           <span>📂</span> GitHub Repository
@@ -402,13 +402,13 @@ function App() {
                         </div>
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
-                          window.open('https://github.com/b0ase/blockchain-spreadsheet', '_blank');
+                          window.open('https://github.com/bitcoin-apps-suite/blockchain-spreadsheet', '_blank');
                           setShowDevelopersMenu(false);
                         }}>
                           <span>📊</span> Blockchain Spreadsheet
                         </div>
                         <div className="menu-item" onClick={() => {
-                          window.open('https://github.com/b0ase/bitcoin-drive', '_blank');
+                          window.open('https://github.com/bitcoin-apps-suite/bitcoin-drive', '_blank');
                           setShowDevelopersMenu(false);
                         }}>
                           <span>💾</span> Bitcoin Drive

@@ -22,7 +22,7 @@ const TokenPage: React.FC = () => {
           }}
         />
       </div>
-      <div style={{ position: 'fixed', top: '10px', right: '20px', zIndex: 1000 }}>
+      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000 }}>
         <UnifiedAuth 
           googleUser={googleUser}
           setGoogleUser={setGoogleUser}
@@ -54,17 +54,18 @@ const TokenPage: React.FC = () => {
           <h2>Our Open-Source Philosophy</h2>
           <div className="philosophy-content">
             <p>
-              Bitcoin Writer is and will always be <strong>100% open-source</strong> under the MIT License. 
-              We believe in the power of community-driven development and the importance of software freedom.
+              Bitcoin Writer is an <strong>open-source project</strong> licensed under MIT and BSV licenses. 
+              Our intention is to foster an open culture where forking, cloning, and adding to the code 
+              and features is welcomed and encouraged.
             </p>
             <p>
-              The $BWRITER token represents our commitment to creating a sustainable economic model that 
-              rewards contributors while maintaining complete transparency and openness.
+              The $BWRITER token represents our approach to creating a sustainable economic model that 
+              aims to reward contributors while maintaining transparency and openness.
             </p>
             <div className="philosophy-points">
               <div className="point">
-                <h3>Forever Open</h3>
-                <p>MIT Licensed, fork-friendly, no vendor lock-in</p>
+                <h3>Open Culture</h3>
+                <p>MIT & BSV Licensed, fork-friendly, collaborative</p>
               </div>
               <div className="point">
                 <h3>Community First</h3>
@@ -90,7 +91,7 @@ const TokenPage: React.FC = () => {
               </li>
               <li>
                 <strong>Revenue Sharing:</strong> The Bitcoin Software Company intends to distribute 
-                dividends to token holders from subscription revenues
+                dividends to token holders from subscription revenues and exchange fees
               </li>
               <li>
                 <strong>Contribution = Ownership:</strong> Build value, receive tokens, share in success
@@ -152,13 +153,32 @@ const TokenPage: React.FC = () => {
                   <p className="price">$299/month</p>
                 </div>
               </div>
+              
+              <h3 style={{marginTop: '40px'}}>Exchange Revenue</h3>
+              <div className="revenue-streams">
+                <div className="stream">
+                  <h4>Token Sales</h4>
+                  <p>Users tokenize & sell their work</p>
+                  <p className="price">2.5% fee</p>
+                </div>
+                <div className="stream featured">
+                  <h4>Share Trading</h4>
+                  <p>Secondary market for document shares</p>
+                  <p className="price">1.5% fee</p>
+                </div>
+                <div className="stream">
+                  <h4>NFT Marketplace</h4>
+                  <p>Premium content & collections</p>
+                  <p className="price">3% fee</p>
+                </div>
+              </div>
             </div>
 
             <div className="value-flow">
               <h3>Value Flow</h3>
               <div className="flow-diagram">
                 <div className="flow-item">
-                  <span>Users pay subscriptions</span>
+                  <span>Subscriptions + Exchange fees</span>
                   <span className="arrow">→</span>
                 </div>
                 <div className="flow-item">
@@ -173,6 +193,10 @@ const TokenPage: React.FC = () => {
                   <span>Contributors rewarded for building</span>
                 </div>
               </div>
+              <p style={{textAlign: 'center', marginTop: '20px', fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)'}}>
+                The Bitcoin Writer Exchange enables creators to tokenize, sell shares, and trade their work,
+                generating platform fees that contribute to the ecosystem's sustainability.
+              </p>
             </div>
           </div>
         </section>
@@ -270,7 +294,7 @@ const TokenPage: React.FC = () => {
           <h2>Ready to Build the Future?</h2>
           <div className="cta-buttons">
             <a 
-              href="https://github.com/b0ase/bitcoin-writer" 
+              href="https://github.com/bitcoin-apps-suite/bitcoin-writer" 
               target="_blank" 
               rel="noopener noreferrer"
               className="cta-btn primary"

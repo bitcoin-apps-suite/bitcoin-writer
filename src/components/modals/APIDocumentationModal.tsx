@@ -140,7 +140,7 @@ const APIDocumentationModal: React.FC<APIDocumentationModalProps> = ({ isOpen, o
         </div>
 
         <div className="modal-footer">
-          <button className="btn-secondary" onClick={() => window.open('https://github.com/b0ase/bitcoin-writer/wiki/API', '_blank')}>
+          <button className="btn-secondary" onClick={() => window.open('https://github.com/bitcoin-apps-suite/bitcoin-writer/wiki/API', '_blank')}>
             Full Documentation
           </button>
           <button className="btn-primary" onClick={onClose}>Close</button>

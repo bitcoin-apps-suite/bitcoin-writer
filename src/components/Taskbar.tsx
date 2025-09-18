@@ -268,7 +268,7 @@ const Taskbar: React.FC<TaskbarProps> = ({
         { divider: true },
         { 
           label: 'Report an Issue', 
-          href: 'https://github.com/b0ase/bitcoin-writer/issues' 
+          href: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues' 
         }
       ]
     }

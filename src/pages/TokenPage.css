@@ -14,7 +14,7 @@
   padding: 0 40px;
 }
 
-/* Token Hero - Compact */
+/* Token Hero - Full Width Black */
 .token-hero {
   min-height: 40vh;
   display: flex;
@@ -25,9 +25,14 @@
   text-align: center;
   margin-bottom: 40px;
   background: #000000;
-  margin-left: -40px;
-  margin-right: -40px;
+  /* Full viewport width - properly centered */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
   margin-top: -24px;
+  width: 100vw;
+  position: relative;
+  left: 0;
+  right: 0;
 }
 
 .token-badge {
