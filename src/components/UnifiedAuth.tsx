@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import GoogleAuthButton from './GoogleAuth';
 import { HandCashService } from '../services/HandCashService';
+import AuthModal from './AuthModal';
 import './UnifiedAuth.css';
 
 interface UnifiedAuthProps {
@@ -131,10 +133,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
           Sign In
         </button>
         
-        {showAuthModal && (
-          <>
-            <div className="auth-modal-overlay" onClick={() => setShowAuthModal(false)} />
-            <div className="auth-modal">
+        <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)}>
               <div className="auth-modal-header">
                 <h2>Connect to Bitcoin Writer</h2>
                 <button className="modal-close" onClick={() => setShowAuthModal(false)}>×</button>
@@ -249,9 +248,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   </button>
                 </div>
               </div>
-            </div>
-          </>
-        )}
+        </AuthModal>
         
         {/* Substack Modal */}
         {showSubstackModal && (
@@ -325,10 +322,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
       </button>
 
       {/* Use the same modal for connected users */}
-      {showAuthModal && (
-        <>
-          <div className="auth-modal-overlay" onClick={() => setShowAuthModal(false)} />
-          <div className="auth-modal">
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)}>
             <div className="auth-modal-header">
               <h2>Manage Connections</h2>
               <button className="modal-close" onClick={() => setShowAuthModal(false)}>×</button>
@@ -486,12 +480,10 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                 </button>
               </div>
             </div>
-          </div>
-        </>
-      )}
+      </AuthModal>
       
       {/* Substack Modal */}
-      {showSubstackModal && (
+      {showSubstackModal && ReactDOM.createPortal(
         <>
           <div className="auth-modal-overlay" onClick={() => setShowSubstackModal(false)} />
           <div className="substack-modal">
@@ -513,7 +505,8 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
               </div>
             </div>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </div>
   );
