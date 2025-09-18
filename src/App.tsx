@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import FeaturesPage from './pages/FeaturesPage';
+import TokenPage from './pages/TokenPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -213,6 +214,7 @@ function App() {
       <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/features" element={<FeaturesPage />} />
+      <Route path="/token" element={<TokenPage />} />
       <Route path="/*" element={
         isLoading ? (
           <div className="App">
