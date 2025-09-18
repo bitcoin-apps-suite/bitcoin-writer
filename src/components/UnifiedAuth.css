@@ -111,8 +111,8 @@
 
 .auth-options {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   margin-bottom: 24px;
   width: 100%;
 }
