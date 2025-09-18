@@ -116,7 +116,7 @@ const FeaturesPage: React.FC = () => {
             <div className="feature-card">
               <div className="feature-icon">💰</div>
               <h3>Progressive Investment</h3>
-              <p>Readers can invest early at better prices, with 1000 shares per document and automatic royalty distribution</p>
+              <p>Readers can invest early at better prices, with 1 million shares per document version and automatic royalty distribution</p>
             </div>
             
             <div className="feature-card">

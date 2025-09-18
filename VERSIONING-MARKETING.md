@@ -60,7 +60,7 @@ Each version is **permanently inscribed** as a numbered Bitcoin ordinal, creatin
 Transform readers into investors with our revolutionary share token system:
 
 - **Early Bird Pricing** - Investors get better prices during the writing process
-- **1000 Shares Per Document** - Customizable share distribution
+- **1 Million Shares Per Document Version** - Customizable share distribution
 - **Automatic Royalties** - Smart contract-ready for instant payments
 - **Price Discovery** - Market determines value as quality emerges
 
@@ -151,7 +151,7 @@ Every version includes:
 
 ### **Share Tokenization**
 Documents become investable assets:
-- **Fractional Ownership** - 1000 shares per document
+- **Fractional Ownership** - 1 million shares per document version
 - **Progressive Pricing** - Value grows with progress
 - **Instant Settlement** - Bitcoin-based payments
 - **Global Market** - Anyone can invest from anywhere

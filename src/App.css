@@ -238,6 +238,9 @@
   .App-header {
     padding: 12px 16px 16px 16px;
     text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
   }
   
   .App-header h1 {
@@ -319,7 +322,7 @@ main {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  min-height: 80px;
+  min-height: 96px;
 }
 
 .App-header h1 {
@@ -625,6 +628,23 @@ main {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.title-section * {
+  pointer-events: auto;
+}
+
+/* Mobile title-section positioning */
+@media (max-width: 768px) {
+  .title-section {
+    position: static;
+    transform: none;
+    left: auto;
+    top: auto;
+    width: 100%;
+  }
 }
 
 .App-header h1 {
@@ -651,11 +671,26 @@ main {
 }
 
 .header-right {
-  position: relative;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 10;
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+/* Mobile header-right positioning */
+@media (max-width: 768px) {
+  .header-right {
+    position: static;
+    transform: none;
+    right: auto;
+    top: auto;
+    margin-top: 12px;
+    justify-content: center;
+  }
 }
 
 .app-title-container {

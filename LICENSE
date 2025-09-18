@@ -1,0 +1,41 @@
+Open BSV License version 5
+Copyright (c) 2025 @b0ase
+
+Open BSV License
+
+The BSV Association, a Swiss Verein headquartered at c/o nChain Licensing AG, Dammstrasse 16, 6300, Zug, Switzerland, grants
+permission, free of charge and on a non-exclusive and revocable basis, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+
+1. The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial
+portions of the Software.
+
+2. The Software, and any software that is derived from the Software or parts thereof, can only be used on the Bitcoin SV blockchains.
+The Bitcoin SV blockchains are defined, for purposes of this license, as the Bitcoin blockchain containing block height #556767 with
+the hash "000000000000000001d956714215d96ffc00e0afda4cd0a96c96f8d802b1662b" and the test blockchains that are supported by
+the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+This license is subject to the laws of Switzerland and any disputes relating to this license shall be resolved through arbitration in
+accordance with the Arbitration Rules of the Swiss Arbitration Centre.
+
+For the purposes of this license:
+- "Bitcoin Protocol" means the protocol implementation as described in the Bitcoin White Paper at https://craigwright.net/bitcoin-white-paper.pdf
+- "Bitcoin White Paper" means the paper 'Bitcoin: A Peer-to-Peer Electronic Cash System' by Satoshi Nakamoto published October 2008
+- "BSV Blockchains" means blockchains derived from and compatible with the Bitcoin Protocol
+- "Network Access Rules" means the rules as published at https://www.bsvblockchain.org regulating the relationship between the BSV Association
+  and nodes operators on BSV Blockchains based on the Bitcoin Protocol rules
+
+Permission is revocable by the BSV Association at any time if the Software is being used in a manner that is not compliant with the
+Bitcoin Protocol or the Network Access Rules, or the user is otherwise not compliant with the terms of this license.
+
+---
+
+Note: This software is part of the Bitcoin Writer suite, designed to demonstrate the original vision of Bitcoin as described
+in the white paper - a peer-to-peer electronic cash system with unbounded scaling capability.

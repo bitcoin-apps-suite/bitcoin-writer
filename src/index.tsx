@@ -1,3 +1,7 @@
+// Open BSV License version 5
+// Copyright (c) 2025 @b0ase
+// This software can only be used on BSV blockchains
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

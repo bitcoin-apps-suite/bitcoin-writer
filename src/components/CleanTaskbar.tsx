@@ -42,6 +42,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   
   // Modal states
@@ -316,11 +318,23 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     }
   ];
 
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setActiveMenu(null);
         setShowBitcoinSuite(false);
+        setShowMobileMenu(false);
       }
     };
 
@@ -335,7 +349,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        height: '28px',
+        height: '32px',
         background: 'linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 100%)',
         borderBottom: '1px solid #1a1a1a',
         fontSize: '13px',
@@ -354,7 +368,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         <button
           onClick={() => {
             setShowBitcoinSuite(!showBitcoinSuite);
-            setActiveMenu(null); // Close other menus
+            setActiveMenu(null);
           }}
           style={{
             padding: '0 12px',
@@ -363,7 +377,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             color: '#ff9500',
             display: 'flex',
             alignItems: 'center',
-            height: '28px',
+            height: '32px',
             background: showBitcoinSuite ? 'rgba(255, 149, 0, 0.1)' : 'transparent',
             border: 'none',
             cursor: 'pointer',
@@ -378,7 +392,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         {showBitcoinSuite && (
           <div style={{
             position: 'absolute',
-            top: '28px',
+            top: '32px',
             left: 0,
             minWidth: '220px',
             background: '#1a1a1a',
@@ -418,102 +432,91 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.AUTH);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#ef4444', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Auth
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Auth <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.CHAT);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#ff6500', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Chat
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Chat <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.DOMAINS);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#eab308', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Domains
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Domains <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.DRAW);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#10b981', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Draw
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Draw <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <a
@@ -564,152 +567,134 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.EXCHANGE);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#3b82f6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Exchange
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Exchange <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.MUSIC);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#8b5cf6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Music
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Music <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.PAINT);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#a855f7', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Paint
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Paint <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.PICS);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#ec4899', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Pics
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Pics <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.REGISTRY);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#f43f5e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Registry
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Registry <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.SHARES);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#f43f5e', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Shares
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Shares <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <a
@@ -736,59 +721,154 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.VIDEO);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#65a30d', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Video
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Video <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
 
             <button
               onClick={() => {
-                openBitcoinApp(BitcoinAppEvents.WALLET);
-                setShowBitcoinSuite(false);
+                alert('Coming Soon!');
               }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#ffffff',
+                color: '#666666',
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
-                transition: 'background 0.15s ease',
-                cursor: 'pointer'
+                cursor: 'not-allowed',
+                opacity: 0.5
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <span style={{ color: '#f59e0b', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Wallet
+              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Wallet <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
             </button>
+          </div>
+        )}
+        
+        {/* Mobile Menu */}
+        {isMobile && showMobileMenu && (
+          <div style={{
+            position: 'fixed',
+            top: '32px',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: '#1a1a1a',
+            overflowY: 'auto',
+            zIndex: 9999
+          }}>
+            <div style={{ padding: '16px' }}>
+              {/* Quick Actions */}
+              <div style={{ marginBottom: '24px' }}>
+                <h3 style={{ fontSize: '14px', color: '#ff9500', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Quick Actions
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <button onClick={() => { onNewDocument?.(); setShowMobileMenu(false); }} 
+                    style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
+                    📝 New
+                  </button>
+                  <button onClick={() => { onSaveDocument?.(); setShowMobileMenu(false); }} 
+                    style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
+                    💾 Save
+                  </button>
+                  <button onClick={() => { window.dispatchEvent(new CustomEvent('openDocumentExchange')); setShowMobileMenu(false); }} 
+                    style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
+                    🏪 Exchange
+                  </button>
+                  <button onClick={() => { onOpenTokenizeModal?.(); setShowMobileMenu(false); }} 
+                    style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
+                    🎨 NFT
+                  </button>
+                </div>
+              </div>
+              
+              {/* Menu Items */}
+              {menus.map((menu) => (
+                <div key={menu.label} style={{ marginBottom: '16px' }}>
+                  <button
+                    onClick={() => setActiveMenu(activeMenu === menu.label ? null : menu.label)}
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      background: activeMenu === menu.label ? 'rgba(255, 149, 0, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '6px',
+                      color: '#fff',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {menu.label}
+                    <span style={{ fontSize: '10px', opacity: 0.5 }}>{activeMenu === menu.label ? '−' : '+'}</span>
+                  </button>
+                  
+                  {activeMenu === menu.label && (
+                    <div style={{ marginTop: '8px', paddingLeft: '12px' }}>
+                      {menu.items.map((item, index) => (
+                        item.divider ? (
+                          <div key={index} style={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', margin: '8px 0' }} />
+                        ) : (
+                          <button
+                            key={index}
+                            onClick={() => {
+                              if (item.href) {
+                                window.open(item.href, '_blank');
+                              } else {
+                                item.action?.();
+                              }
+                              setShowMobileMenu(false);
+                            }}
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              padding: '8px',
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'rgba(255, 255, 255, 0.8)',
+                              fontSize: '13px',
+                              textAlign: 'left',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {item.label}
+                          </button>
+                        )
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
 
-      {/* Menu Items */}
-      <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+      {/* Menu Items - Hidden on Mobile */}
+      <div style={{ display: isMobile ? 'none' : 'flex', alignItems: 'center', height: '100%' }}>
         {menus.map((menu) => (
           <div key={menu.label} style={{ position: 'relative' }}>
             <button
@@ -813,7 +893,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             {activeMenu === menu.label && (
               <div style={{
                 position: 'absolute',
-                top: '28px',
+                top: '32px',
                 left: 0,
                 minWidth: '200px',
                 background: '#1a1a1a',
@@ -906,9 +986,41 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         ))}
       </div>
 
+      {/* Mobile Menu Button and Title - Show in center on mobile */}
+      {isMobile && (
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <button
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            style={{
+              padding: '6px 12px',
+              background: showMobileMenu ? 'rgba(255, 149, 0, 0.1)' : 'transparent',
+              border: '1px solid rgba(255, 149, 0, 0.3)',
+              borderRadius: '4px',
+              color: '#ff9500',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <span style={{ fontSize: '16px' }}>☰</span>
+            Menu
+          </button>
+        </div>
+      )}
+      
       {/* Right side - Status */}
       <div style={{
-        marginLeft: 'auto',
+        marginLeft: isMobile ? '0' : 'auto',
         display: 'flex',
         alignItems: 'center',
         gap: '16px',

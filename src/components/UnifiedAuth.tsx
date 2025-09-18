@@ -49,7 +49,9 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
   };
 
   const handleHandCashLogout = () => {
-    onHandCashLogout();
+    if (onHandCashLogout) {
+      onHandCashLogout();
+    }
     setShowDropdown(false);
   };
 
@@ -155,7 +157,9 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   <button 
                     className="handcash-login-btn full-width"
                     onClick={() => {
-                      onHandCashLogin();
+                      if (onHandCashLogin) {
+                        onHandCashLogin();
+                      }
                       setShowAuthModal(false);
                     }}
                   >
@@ -204,16 +208,6 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                     </div>
                   ) : null}
                   
-                  {!process.env.TWITTER_CLIENT_ID ? (
-                    <div className="config-notice">
-                      <h4>⚠️ Twitter/X Integration Setup Required</h4>
-                      <p>To enable Twitter features, add these to your Vercel environment variables:</p>
-                      <code>TWITTER_CLIENT_ID=your-twitter-client-id</code>
-                      <code>TWITTER_CLIENT_SECRET=your-twitter-client-secret</code>
-                      <p>Set your Twitter App callback URL to:</p>
-                      <code>{window.location.origin}/api/auth/twitter/callback</code>
-                    </div>
-                  ) : null}
                   
                   <div className="topup-buttons-section">
                     <h4>Quick Top-up</h4>
@@ -388,7 +382,9 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   <button 
                     className="handcash-login-btn full-width"
                     onClick={() => {
-                      onHandCashLogin();
+                      if (onHandCashLogin) {
+                        onHandCashLogin();
+                      }
                       setShowAuthModal(false);
                     }}
                   >

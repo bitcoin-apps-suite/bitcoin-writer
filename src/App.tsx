@@ -1,3 +1,7 @@
+// Open BSV License version 5
+// Copyright (c) 2025 @b0ase
+// This software can only be used on BSV blockchains
+
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -448,12 +452,13 @@ function App() {
                     className="app-logo"
                     style={{
                       width: '32px',
-                      height: '32px'
+                      height: '32px',
+                      marginRight: '12px'
                     }}
                   />
                   <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
                 </div>
-                <p className="app-subtitle">Write, encrypt, and store on Bitcoin</p>
+                <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
               </div>
               
               {/* Auth and mobile menu on the right */}
