@@ -21,32 +21,32 @@ const TokenPage: React.FC = () => {
             setCurrentHandCashUser(null);
           }}
         />
-        <div className="auth-controls">
-          <UnifiedAuth 
-            googleUser={googleUser}
-            setGoogleUser={setGoogleUser}
-            isHandCashAuthenticated={isHandCashAuthenticated}
-            currentHandCashUser={currentHandCashUser}
-            handcashService={handcashService}
-            onHandCashLogin={() => {
-              // HandCash login logic
-            }}
-            onHandCashLogout={() => {
-              setIsHandCashAuthenticated(false);
-              setCurrentHandCashUser(null);
-            }}
-          />
-        </div>
+      </div>
+      <div style={{ position: 'fixed', top: '10px', right: '20px', zIndex: 1000 }}>
+        <UnifiedAuth 
+          googleUser={googleUser}
+          setGoogleUser={setGoogleUser}
+          isHandCashAuthenticated={isHandCashAuthenticated}
+          currentHandCashUser={currentHandCashUser}
+          handcashService={handcashService}
+          onHandCashLogin={() => {
+            // HandCash login logic
+          }}
+          onHandCashLogout={() => {
+            setIsHandCashAuthenticated(false);
+            setCurrentHandCashUser(null);
+          }}
+        />
       </div>
       <div className="token-page">
       <div className="token-container">
         {/* Hero Section */}
         <section className="token-hero">
-          <div className="token-badge">$BWRITER</div>
-          <h1>The Bitcoin Writer Token</h1>
+          <h1><span style={{color: '#ffffff'}}>The</span> Bitcoin Writer <span style={{color: '#ffffff'}}>Token</span></h1>
           <p className="token-tagline">
             Open-source development meets sustainable economics
           </p>
+          <div className="token-badge">$BWRITER</div>
         </section>
 
         {/* Philosophy Section */}
@@ -63,17 +63,14 @@ const TokenPage: React.FC = () => {
             </p>
             <div className="philosophy-points">
               <div className="point">
-                <span className="icon">🔓</span>
                 <h3>Forever Open</h3>
                 <p>MIT Licensed, fork-friendly, no vendor lock-in</p>
               </div>
               <div className="point">
-                <span className="icon">🤝</span>
                 <h3>Community First</h3>
                 <p>Contributors earn tokens through meaningful work</p>
               </div>
               <div className="point">
-                <span className="icon">💎</span>
                 <h3>Value Aligned</h3>
                 <p>Success shared with those who build it</p>
               </div>
@@ -105,7 +102,7 @@ const TokenPage: React.FC = () => {
           </div>
 
           <div className="model-card warning">
-            <h3>⚠️ Important Disclaimers</h3>
+            <h3>Important Notices</h3>
             <ul>
               <li>
                 <strong>No Guarantees:</strong> Token allocation is entirely discretionary with no promises 
@@ -225,7 +222,7 @@ const TokenPage: React.FC = () => {
           <div className="stats-grid">
             <div className="stat">
               <h3>Total Supply</h3>
-              <p className="stat-value">100,000,000</p>
+              <p className="stat-value">1,000,000,000</p>
               <p className="stat-label">$BWRITER tokens</p>
             </div>
             <div className="stat">
