@@ -30,7 +30,7 @@
 .token-badge {
   display: inline-block;
   padding: 6px 16px;
-  background: linear-gradient(90deg, #00d4ff, #0099ff);
+  background: linear-gradient(90deg, #ffa500, #ffcd00);
   border-radius: 100px;
   font-size: 11px;
   font-weight: 500;
@@ -46,7 +46,7 @@
   margin: 0 0 24px 0;
   line-height: 1.1;
   letter-spacing: -1px;
-  background: linear-gradient(90deg, #00d4ff, #4CAF50);
+  background: linear-gradient(90deg, #ffcd00, #ffa500);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -103,7 +103,7 @@ section h2 {
 
 .philosophy-content strong {
   font-weight: 500;
-  color: #4CAF50;
+  color: #ffa500;
 }
 
 .philosophy-points {
@@ -125,7 +125,7 @@ section h2 {
 .point:hover {
   transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.02);
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(255, 165, 0, 0.3);
 }
 
 .point .icon {
@@ -139,7 +139,7 @@ section h2 {
   font-size: 18px;
   font-weight: 400;
   margin: 0 0 12px 0;
-  color: #4CAF50;
+  color: #ffa500;
   letter-spacing: 0.5px;
 }
 
@@ -166,7 +166,7 @@ section h2 {
 }
 
 .model-card:hover {
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(255, 165, 0, 0.3);
   background: rgba(255, 255, 255, 0.01);
 }
 
@@ -203,7 +203,7 @@ section h2 {
 }
 
 .model-card li strong {
-  color: #4CAF50;
+  color: #ffa500;
   font-weight: 500;
   margin-right: 12px;
 }
@@ -232,7 +232,7 @@ section h2 {
   font-weight: 300;
   margin-bottom: 48px;
   text-align: center;
-  color: #4CAF50;
+  color: #ffa500;
   letter-spacing: -0.5px;
 }
 
@@ -254,13 +254,13 @@ section h2 {
 
 .stream:hover {
   transform: translateY(-4px);
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(255, 165, 0, 0.3);
   background: rgba(255, 255, 255, 0.01);
 }
 
 .stream.featured {
-  border-color: #4CAF50;
-  background: rgba(76, 175, 80, 0.02);
+  border-color: #ffa500;
+  background: rgba(255, 165, 0, 0.02);
 }
 
 .stream.featured::before {
@@ -269,7 +269,7 @@ section h2 {
   top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  background: #4CAF50;
+  background: #ffa500;
   color: #000;
   padding: 3px 12px;
   border-radius: 100px;
@@ -282,7 +282,7 @@ section h2 {
   font-size: 20px;
   font-weight: 400;
   margin: 0 0 12px 0;
-  color: #4CAF50;
+  color: #ffa500;
   letter-spacing: -0.5px;
 }
 
@@ -302,8 +302,8 @@ section h2 {
 }
 
 .value-flow {
-  background: rgba(76, 175, 80, 0.02);
-  border: 1px solid rgba(76, 175, 80, 0.2);
+  background: rgba(255, 165, 0, 0.02);
+  border: 1px solid rgba(255, 165, 0, 0.2);
   border-radius: 12px;
   padding: 48px;
 }
@@ -313,7 +313,7 @@ section h2 {
   font-weight: 300;
   margin: 0 0 40px 0;
   text-align: center;
-  color: #4CAF50;
+  color: #ffa500;
   letter-spacing: -0.5px;
 }
 
@@ -339,7 +339,7 @@ section h2 {
 }
 
 .flow-item .arrow {
-  color: #4CAF50;
+  color: #ffa500;
   font-size: 18px;
 }
 
@@ -367,7 +367,7 @@ section h2 {
 
 .step:hover {
   transform: translateY(-4px);
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(255, 165, 0, 0.3);
   background: rgba(255, 255, 255, 0.01);
 }
 
@@ -375,14 +375,14 @@ section h2 {
   width: 48px;
   height: 48px;
   background: transparent;
-  border: 1px solid #4CAF50;
+  border: 1px solid #ffa500;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   font-weight: 300;
-  color: #4CAF50;
+  color: #ffa500;
   margin: 0 auto 24px;
 }
 
@@ -403,8 +403,8 @@ section h2 {
 }
 
 .contribution-examples {
-  background: rgba(76, 175, 80, 0.02);
-  border: 1px solid rgba(76, 175, 80, 0.2);
+  background: rgba(255, 165, 0, 0.02);
+  border: 1px solid rgba(255, 165, 0, 0.2);
   border-radius: 12px;
   padding: 40px;
   max-width: 700px;
@@ -415,7 +415,7 @@ section h2 {
   font-size: 22px;
   font-weight: 300;
   margin: 0 0 32px 0;
-  color: #4CAF50;
+  color: #ffa500;
   text-align: center;
   letter-spacing: -0.5px;
 }
@@ -441,7 +441,7 @@ section h2 {
   content: '→';
   position: absolute;
   left: 0;
-  color: #4CAF50;
+  color: #ffa500;
   font-size: 16px;
 }
 
@@ -468,7 +468,7 @@ section h2 {
 
 .stat:hover {
   transform: translateY(-2px);
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(255, 165, 0, 0.3);
   background: rgba(255, 255, 255, 0.01);
 }
 
@@ -484,7 +484,7 @@ section h2 {
 .stat-value {
   font-size: 40px;
   font-weight: 200;
-  color: #4CAF50;
+  color: #ffa500;
   margin: 0 0 8px 0;
   letter-spacing: -1px;
 }
@@ -564,25 +564,25 @@ section h2 {
 }
 
 .cta-btn.primary {
-  background: linear-gradient(90deg, #4CAF50, #00d4ff);
+  background: linear-gradient(90deg, #ffa500, #ffcd00);
   color: #000;
   border: none;
 }
 
 .cta-btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
 }
 
 .cta-btn.secondary {
   background: transparent;
-  color: #4CAF50;
-  border: 1px solid rgba(76, 175, 80, 0.5);
+  color: #ffa500;
+  border: 1px solid rgba(255, 165, 0, 0.5);
 }
 
 .cta-btn.secondary:hover {
-  background: rgba(76, 175, 80, 0.05);
-  border-color: #4CAF50;
+  background: rgba(255, 165, 0, 0.05);
+  border-color: #ffa500;
 }
 
 .cta-btn svg {
