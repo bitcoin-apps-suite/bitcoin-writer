@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
+import CleanTaskbar from '../components/CleanTaskbar';
+import UnifiedAuth from '../components/UnifiedAuth';
+import { HandCashService } from '../services/HandCashService';
 import './TokenPage.css';
 
 const TokenPage: React.FC = () => {
+  const [googleUser, setGoogleUser] = useState<any>(null);
+  const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
+  const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
+  const handcashService = new HandCashService();
+
   return (
-    <div className="token-page">
+    <div className="App">
+      <div className="taskbar-header">
+        <CleanTaskbar 
+          isAuthenticated={isHandCashAuthenticated}
+          currentUser={currentHandCashUser}
+          onLogout={() => {
+            setIsHandCashAuthenticated(false);
+            setCurrentHandCashUser(null);
+          }}
+        />
+        <div className="auth-controls">
+          <UnifiedAuth 
+            googleUser={googleUser}
+            setGoogleUser={setGoogleUser}
+            isHandCashAuthenticated={isHandCashAuthenticated}
+            currentHandCashUser={currentHandCashUser}
+            handcashService={handcashService}
+            onHandCashLogin={() => {
+              // HandCash login logic
+            }}
+            onHandCashLogout={() => {
+              setIsHandCashAuthenticated(false);
+              setCurrentHandCashUser(null);
+            }}
+          />
+        </div>
+      </div>
+      <div className="token-page">
       <div className="token-container">
         {/* Hero Section */}
         <section className="token-hero">
@@ -257,6 +292,7 @@ const TokenPage: React.FC = () => {
           </div>
         </section>
       </div>
+    </div>
     </div>
   );
 };
