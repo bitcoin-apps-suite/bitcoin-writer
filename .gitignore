@@ -1,5 +1,6 @@
 # Dependencies
 /node_modules
+api/node_modules
 /.pnp
 .pnp.js
 
@@ -53,3 +54,4 @@ dist/
 build-instructions.md
 bitcoin-writer.*
 BITCOIN_WRITER_README.md
+.vercel
