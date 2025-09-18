@@ -269,22 +269,27 @@ const TokenPage: React.FC = () => {
 
         {/* Legal Section */}
         <section className="legal-section">
-          <h2>Legal & Regulatory</h2>
+          <h2>Legal & Regulatory Notice</h2>
           <div className="legal-content">
             <p>
-              <strong>This is not an investment opportunity.</strong> The $BWRITER token is a mechanism 
-              for rewarding open-source contributions to the Bitcoin Writer project. It should not be 
-              purchased, traded, or treated as a security or investment vehicle.
+              <strong>Revenue Sharing Model:</strong> The $BWRITER token is designed to enable revenue 
+              sharing with contributors through dividend distributions. Token holders may receive dividends 
+              based on platform revenues from subscriptions and exchange fees.
             </p>
             <p>
-              The Bitcoin Software Company (when incorporated) will conduct any capital raising through 
-              proper regulatory channels with accredited investors only. The $BWRITER token system is 
-              entirely separate from any equity offering.
+              <strong>Trading & Liquidity:</strong> The $BWRITER token is intended to be freely tradable 
+              on the Bitcoin Writer Exchange and associated platforms. We encourage an active secondary 
+              market to provide liquidity and price discovery for contributors' work.
             </p>
             <p>
-              By contributing to the project, you acknowledge that token allocation is discretionary, 
-              creates no obligations, and should not be relied upon for financial planning or investment 
-              purposes.
+              <strong>$BSHARE Fundraising:</strong> The Bitcoin Software Company intends to issue $BSHARE 
+              tokens as a fundraising mechanism. These tokens will represent participation in the platform's 
+              success and may be offered through appropriate channels.
+            </p>
+            <p>
+              By participating in the token ecosystem, you acknowledge that token allocation is discretionary, 
+              regulatory frameworks may evolve, and you should conduct your own due diligence regarding 
+              tax and legal implications in your jurisdiction.
             </p>
           </div>
         </section>
