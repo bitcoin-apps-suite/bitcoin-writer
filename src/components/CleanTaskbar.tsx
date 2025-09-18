@@ -395,7 +395,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             position: 'absolute',
             top: '32px',
             left: 0,
-            minWidth: '220px',
+            minWidth: '280px',
             background: '#1a1a1a',
             backdropFilter: 'blur(16px)',
             border: '1px solid rgba(255, 255, 255, 0.15)',
@@ -439,7 +439,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
@@ -447,11 +447,11 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 fontSize: '13px',
                 transition: 'background 0.15s ease',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Auth <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#9b59b6', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Auth <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <button
@@ -462,18 +462,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Chat <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#3498db', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Chat <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <button
@@ -484,18 +484,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Domains <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#e74c3c', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Domains <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <button
@@ -506,18 +506,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Draw <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#e67e22', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Draw <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <a
@@ -574,14 +574,14 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
               <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
@@ -596,14 +596,14 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
               <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
@@ -618,14 +618,14 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
               <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
@@ -640,18 +640,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Pics <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#f39c12', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Pics <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <button
@@ -662,18 +662,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Registry <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#8e44ad', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Registry <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <button
@@ -684,18 +684,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Shares <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#16a085', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Shares <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <a
@@ -728,18 +728,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
-              <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
-              Bitcoin Video <span style={{ fontSize: '11px', marginLeft: '4px' }}>(Coming Soon)</span>
+              <span style={{ color: '#c0392b', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
+              Bitcoin Video <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.7 }}>(Coming Soon)</span>
             </button>
 
             <button
@@ -750,14 +750,14 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 padding: '6px 16px',
-                color: '#666666',
+                color: rgba(255, 255, 255, 0.5),
                 background: 'transparent',
                 border: 'none',
                 width: '100%',
                 textAlign: 'left',
                 fontSize: '13px',
                 cursor: 'not-allowed',
-                opacity: 0.5
+                opacity: 0.7
               }}
             >
               <span style={{ color: '#666666', marginRight: '12px', fontSize: '16px', fontWeight: 'bold' }}>₿</span>
