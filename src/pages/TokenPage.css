@@ -9,7 +9,7 @@
 }
 
 .token-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
 }
@@ -100,10 +100,10 @@ section h2 {
 }
 
 .philosophy-content p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 18px;
   font-weight: 300;
 }
 
@@ -139,10 +139,10 @@ section h2 {
 }
 
 .point p {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
   font-weight: 300;
 }
 
@@ -178,11 +178,11 @@ section h2 {
 }
 
 .model-card li {
-  padding: 10px 0;
+  padding: 12px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 300;
 }
 
@@ -202,11 +202,11 @@ section h2 {
 }
 
 .business-content .intro {
-  font-size: 16px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
   text-align: center;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto 40px;
   font-weight: 300;
 }
@@ -267,22 +267,22 @@ section h2 {
 }
 
 .stream h4 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
   color: #ffa500;
 }
 
 .stream p {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0 0 12px 0;
-  line-height: 1.4;
+  line-height: 1.5;
   font-weight: 300;
 }
 
 .stream .price {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 200;
   color: #ffffff;
   margin: 0;
@@ -315,12 +315,12 @@ section h2 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 100px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 300;
 }
 
@@ -372,10 +372,10 @@ section h2 {
 }
 
 .step p {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
   font-weight: 300;
 }
 
@@ -404,8 +404,8 @@ section h2 {
 }
 
 .contribution-examples li {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
   padding-left: 20px;
   position: relative;
   font-weight: 300;
@@ -483,10 +483,10 @@ section h2 {
 }
 
 .legal-content p {
-  font-size: 13px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 16px;
   font-weight: 300;
 }
 
