@@ -49,6 +49,13 @@ Thumbs.db
 *.tmp
 *.temp
 
+# Screenshots
+Screenshot*.png
+Screenshot*.jpg
+screenshot*.png
+screenshot*.jpg
+*screenshot*
+
 # Old Electron build files
 dist/
 build-instructions.md
