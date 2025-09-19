@@ -55,3 +55,15 @@ build-instructions.md
 bitcoin-writer.*
 BITCOIN_WRITER_README.md
 .vercel
+
+# Commercial and internal documentation
+commercial-docs/
+*-MRR-*.md
+*-SAAS*.md
+*-MARKETING*.md
+BSV-TECH-*.md
+PROJECT_ANALYSIS.md
+IMPLEMENTATION-*.md
+ROADMAP*.md
+BUSINESS*.md
+REVENUE*.md
