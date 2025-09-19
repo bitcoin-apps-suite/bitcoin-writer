@@ -1,0 +1,574 @@
+.bwriter-contributions-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.contributions-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.contributions-header h1 {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.contributions-header p {
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.tab-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 149, 0, 0.1);
+  border-color: #ff9500;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  border-color: transparent;
+}
+
+/* Contributors Section */
+.github-section h2 {
+  color: #ff9500;
+  margin-bottom: 1rem;
+}
+
+.repo-link {
+  margin-bottom: 2rem;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.github-link:hover {
+  background: rgba(255, 149, 0, 0.2);
+}
+
+.github-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.contributors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.contributor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.contributor-card:hover {
+  transform: translateY(-4px);
+  border-color: #ff9500;
+  box-shadow: 0 8px 24px rgba(255, 149, 0, 0.2);
+}
+
+.contributor-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 2px solid #ff9500;
+}
+
+.contributor-info {
+  text-align: center;
+}
+
+.contributor-name {
+  color: #ff9500;
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.contributor-name:hover {
+  text-decoration: underline;
+}
+
+.contribution-count {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Todo Section */
+.todo-content {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.todo-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.todo-header h2 {
+  color: #ff9500;
+  margin-bottom: 0.5rem;
+}
+
+.todo-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff9500;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.todo-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.todo-item:hover {
+  border-color: #ff9500;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2);
+}
+
+.todo-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.todo-header-row h3 {
+  color: #fff;
+  margin: 0;
+  flex: 1;
+}
+
+.todo-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.category-badge,
+.difficulty-badge,
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.category-badge {
+  background: rgba(100, 100, 255, 0.2);
+  color: #8080ff;
+  border: 1px solid rgba(100, 100, 255, 0.3);
+}
+
+.difficulty-badge {
+  color: #fff;
+}
+
+.status-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.todo-description {
+  color: #ccc;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.token-reward {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reward-label {
+  color: #888;
+}
+
+.reward-value {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ff9500;
+}
+
+.reward-amount {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.claim-btn {
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.claim-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+}
+
+.assignee {
+  color: #888;
+  font-style: italic;
+}
+
+.contribution-guidelines {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: rgba(255, 149, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+.contribution-guidelines h3 {
+  color: #ff9500;
+  margin-bottom: 1rem;
+}
+
+.contribution-guidelines ol {
+  color: #ccc;
+  line-height: 2;
+  padding-left: 1.5rem;
+}
+
+.guidelines-note {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* Tokenomics Section */
+.tokenomics-content {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.tokenomics-content h2 {
+  color: #ff9500;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.token-overview {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.total-supply h3 {
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.supply-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.distribution-chart {
+  margin-bottom: 3rem;
+}
+
+.distribution-bar {
+  display: flex;
+  height: 60px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bar-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.bar-segment.reserved {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bar-segment.allocated {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.bar-segment.available {
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+}
+
+.bar-segment span {
+  padding: 0 1rem;
+  white-space: nowrap;
+}
+
+.distribution-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.distribution-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.distribution-card h3 {
+  color: #ff9500;
+  margin-bottom: 1rem;
+}
+
+.distribution-card .percentage {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.distribution-card .token-amount {
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.distribution-card p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.token-utility {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.token-utility h3 {
+  color: #ff9500;
+  margin-bottom: 1rem;
+}
+
+.token-utility ul {
+  list-style: none;
+  padding: 0;
+}
+
+.token-utility li {
+  color: #ccc;
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.token-utility li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #ff9500;
+  font-weight: bold;
+}
+
+.vesting-schedule {
+  background: rgba(255, 149, 0, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+.vesting-schedule h3 {
+  color: #ff9500;
+  margin-bottom: 1rem;
+}
+
+.vesting-schedule p {
+  color: #ccc;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+.contributions-footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+.contributions-footer p {
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.social-links a {
+  color: #ff9500;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #ff6b00;
+  transform: translateY(-2px);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bwriter-contributions-page {
+    padding: 1rem;
+  }
+
+  .contributions-header h1 {
+    font-size: 2rem;
+  }
+
+  .tab-navigation {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+  }
+
+  .contributors-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .todo-header-row {
+    flex-direction: column;
+  }
+
+  .distribution-bar span {
+    font-size: 0.7rem;
+    padding: 0 0.5rem;
+  }
+
+  .distribution-details {
+    grid-template-columns: 1fr;
+  }
+}

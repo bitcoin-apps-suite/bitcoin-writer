@@ -1016,7 +1016,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         </div>
       )}
       
-      {/* Right side - GitHub and Status */}
+      {/* Right side - Links and Status */}
       <div style={{
         marginLeft: isMobile ? '0' : 'auto',
         display: 'flex',
@@ -1026,6 +1026,83 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         fontSize: '12px',
         color: 'rgba(255, 255, 255, 0.8)'
       }}>
+        {/* Docs Link */}
+        <a
+          href="/bitcoin-writer/bap"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            color: 'rgba(255, 255, 255, 0.8)',
+            textDecoration: 'none',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+            e.currentTarget.style.color = '#ffffff';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
+          }}
+        >
+          <span style={{ fontSize: '13px', fontWeight: '500' }}>📖 Docs</span>
+        </a>
+
+        {/* $BWRITER Token Link */}
+        <a
+          href="/token"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            color: '#ff9500',
+            textDecoration: 'none',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 149, 0, 0.1)';
+            e.currentTarget.style.color = '#ffb033';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = '#ff9500';
+          }}
+        >
+          <span style={{ fontSize: '13px', fontWeight: '600' }}>$BWRITER</span>
+        </a>
+
+        {/* Contributions Link */}
+        <a
+          href="/contributions"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            color: 'rgba(255, 255, 255, 0.8)',
+            textDecoration: 'none',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+            e.currentTarget.style.color = '#ffffff';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
+          }}
+        >
+          <span style={{ fontSize: '13px', fontWeight: '500' }}>🚀 Contribute</span>
+        </a>
+
         {/* GitHub Link */}
         <a
           href="https://github.com/bitcoin-apps-suite/bitcoin-writer"
