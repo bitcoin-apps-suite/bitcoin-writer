@@ -56,6 +56,10 @@ bitcoin-writer.*
 BITCOIN_WRITER_README.md
 .vercel
 
+# macOS App Bundles
+*.app/
+bitcoin-writer-launcher.sh
+
 # Commercial and internal documentation
 commercial-docs/
 *-MRR-*.md
