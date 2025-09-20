@@ -130,68 +130,68 @@ const DocsPage: React.FC = () => {
         {/* Writing & Editor Section */}
         <section className="writing-section">
           <h2>Writing & Document Management</h2>
-          <div class="writing-content">
-            <p class="intro">
+          <div className="writing-content">
+            <p className="intro">
               The Bitcoin Writer editor provides a powerful yet intuitive writing experience with 
               blockchain-native features built in.
             </p>
 
-            <div class="writing-model">
+            <div className="writing-model">
               <h3>Editor Features</h3>
-              <div class="feature-streams">
-                <div class="stream">
+              <div className="feature-streams">
+                <div className="stream">
                   <h4>Rich Text</h4>
                   <p>Bold, italic, underline formatting</p>
-                  <p class="price">⌘B, ⌘I, ⌘U</p>
+                  <p className="price">⌘B, ⌘I, ⌘U</p>
                 </div>
-                <div class="stream featured">
+                <div className="stream featured">
                   <h4>Auto-Save</h4>
                   <p>Documents save automatically as you type</p>
-                  <p class="price">Real-time</p>
+                  <p className="price">Real-time</p>
                 </div>
-                <div class="stream">
+                <div className="stream">
                   <h4>Version Control</h4>
                   <p>Every save creates blockchain version</p>
-                  <p class="price">⌘B</p>
+                  <p className="price">⌘B</p>
                 </div>
               </div>
               
               <h3 style={{marginTop: '40px'}}>Keyboard Shortcuts</h3>
-              <div class="feature-streams">
-                <div class="stream">
+              <div className="feature-streams">
+                <div className="stream">
                   <h4>Document Control</h4>
                   <p>New: ⌘N, Save: ⌘S, Blockchain: ⌘B</p>
-                  <p class="price">Essential</p>
+                  <p className="price">Essential</p>
                 </div>
-                <div class="stream featured">
+                <div className="stream featured">
                   <h4>Text Formatting</h4>
                   <p>Bold: ⌘B, Italic: ⌘I, Underline: ⌘U</p>
-                  <p class="price">Popular</p>
+                  <p className="price">Popular</p>
                 </div>
-                <div class="stream">
+                <div className="stream">
                   <h4>Security</h4>
                   <p>Encrypt: ⌘L, Find: ⌘F, Undo: ⌘Z</p>
-                  <p class="price">Advanced</p>
+                  <p className="price">Advanced</p>
                 </div>
               </div>
             </div>
 
-            <div class="value-flow">
+            <div className="value-flow">
               <h3>Document Workflow</h3>
-              <div class="flow-diagram">
-                <div class="flow-item">
+              <div className="flow-diagram">
+                <div className="flow-item">
                   <span>Create Document</span>
-                  <span class="arrow">→</span>
+                  <span className="arrow">→</span>
                 </div>
-                <div class="flow-item">
+                <div className="flow-item">
                   <span>Write & Edit</span>
-                  <span class="arrow">→</span>
+                  <span className="arrow">→</span>
                 </div>
-                <div class="flow-item">
+                <div className="flow-item">
                   <span>Save to Blockchain</span>
-                  <span class="arrow">→</span>
+                  <span className="arrow">→</span>
                 </div>
-                <div class="flow-item">
+                <div className="flow-item">
                   <span>Publish & Monetize</span>
                 </div>
               </div>
