@@ -1,443 +1,392 @@
-import React from 'react';
+import React, { useState } from 'react';
+import CleanTaskbar from '../components/CleanTaskbar';
+import UnifiedAuth from '../components/UnifiedAuth';
+import { HandCashService } from '../services/HandCashService';
 import './DocsPage.css';
 
 const DocsPage: React.FC = () => {
+  const [googleUser, setGoogleUser] = useState<any>(null);
+  const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
+  const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
+  const handcashService = new HandCashService();
+
   return (
-    <div className="docs-page">
-      {/* Header */}
-      <header className="docs-header">
-        <div className="container">
-          <h1>Bitcoin Writer Documentation</h1>
-          <p>Complete guide to writing, encrypting, and publishing documents on the Bitcoin blockchain</p>
-        </div>
-      </header>
+    <div className="App">
+      <div className="taskbar-header">
+        <CleanTaskbar 
+          isAuthenticated={isHandCashAuthenticated}
+          currentUser={currentHandCashUser}
+          onLogout={() => {
+            setIsHandCashAuthenticated(false);
+            setCurrentHandCashUser(null);
+          }}
+        />
+      </div>
+      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000 }}>
+        <UnifiedAuth 
+          googleUser={googleUser}
+          setGoogleUser={setGoogleUser}
+          isHandCashAuthenticated={isHandCashAuthenticated}
+          currentHandCashUser={currentHandCashUser}
+          handcashService={handcashService}
+          onHandCashLogin={() => {
+            // HandCash login logic
+          }}
+          onHandCashLogout={() => {
+            setIsHandCashAuthenticated(false);
+            setCurrentHandCashUser(null);
+          }}
+        />
+      </div>
+      <div className="docs-page">
+      <div className="docs-container">
+        {/* Hero Section */}
+        <section className="docs-hero">
+          <h1><span style={{color: '#ffffff'}}>Bitcoin Writer</span> Documentation</h1>
+          <p className="docs-tagline">
+            Complete guide to writing, encrypting, and publishing documents on the Bitcoin blockchain
+          </p>
+          <div className="docs-badge">DOCUMENTATION</div>
+        </section>
 
-      {/* Navigation */}
-      <nav className="docs-nav">
-        <div className="container">
-          <ul className="nav-links">
-            <li><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#writing">Writing</a></li>
-            <li><a href="#blockchain">Blockchain Features</a></li>
-            <li><a href="#monetization">Monetization</a></li>
-            <li><a href="#api">API Reference</a></li>
-            <li><a href="#troubleshooting">Troubleshooting</a></li>
-          </ul>
-        </div>
-      </nav>
-
-      {/* Content */}
-      <main className="docs-content">
-        <div className="container">
-          {/* Getting Started */}
-          <section id="getting-started" className="docs-section">
-            <h2>Getting Started</h2>
-            
-            <div className="subsection">
-              <h3>Authentication</h3>
-              <p>Bitcoin Writer supports multiple authentication methods:</p>
-              <ul>
-                <li><strong>HandCash:</strong> Recommended for Bitcoin payments and blockchain features</li>
-                <li><strong>Google:</strong> For cloud storage and collaboration features</li>
-              </ul>
-              
-              <div className="code-block">
-                <h4>Connecting with HandCash</h4>
-                <ol>
-                  <li>Click "Sign in with HandCash" in the top right</li>
-                  <li>Authorize Bitcoin Writer in your HandCash app</li>
-                  <li>Return to Bitcoin Writer - you're now connected!</li>
-                </ol>
+        {/* Getting Started Section */}
+        <section className="getting-started-section">
+          <h2>Getting Started</h2>
+          <div className="getting-started-content">
+            <p>
+              Bitcoin Writer is a <strong>decentralized document platform</strong> that stores your work 
+              permanently on the Bitcoin blockchain. Create, encrypt, and monetize your documents with 
+              cryptographic proof of authorship.
+            </p>
+            <p>
+              This guide will walk you through authentication, document creation, blockchain features, 
+              and monetization options to help you get the most out of the platform.
+            </p>
+            <div className="getting-started-points">
+              <div className="point">
+                <h3>Quick Setup</h3>
+                <p>Connect with HandCash or Google in under 30 seconds</p>
+              </div>
+              <div className="point">
+                <h3>Write Instantly</h3>
+                <p>Rich text editor with auto-save and version control</p>
+              </div>
+              <div className="point">
+                <h3>Blockchain Ready</h3>
+                <p>One-click publishing to Bitcoin with proof of creation</p>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="subsection">
-              <h3>Your First Document</h3>
-              <ol>
-                <li>Click "New Document" from the sidebar or use <kbd>⌘N</kbd></li>
-                <li>Start typing in the editor</li>
-                <li>Save to blockchain using <kbd>⌘B</kbd> or the save button</li>
-                <li>Choose your storage method (see Storage Options below)</li>
-              </ol>
-            </div>
-          </section>
+        {/* Authentication Section */}
+        <section className="auth-section">
+          <h2>Authentication & Setup</h2>
+          <div className="model-card">
+            <h3>Connect Your Accounts</h3>
+            <ul>
+              <li>
+                <strong>HandCash (Recommended):</strong> Required for Bitcoin payments and blockchain features. 
+                Provides secure wallet integration for document inscription and monetization
+              </li>
+              <li>
+                <strong>Google Account:</strong> Optional for cloud storage and Google Drive integration. 
+                Enables collaborative features and document backup
+              </li>
+              <li>
+                <strong>First Document:</strong> Click "New Document" or use ⌘N to create your first document. 
+                The editor supports rich text formatting and auto-saves as you type
+              </li>
+              <li>
+                <strong>Save to Blockchain:</strong> Use ⌘B or click the blockchain save button to store 
+                your document permanently on Bitcoin with cryptographic proof
+              </li>
+            </ul>
+          </div>
 
-          {/* Writing */}
-          <section id="writing" className="docs-section">
-            <h2>Writing & Editing</h2>
-            
-            <div className="subsection">
+          <div className="model-card warning">
+            <h3>Important Setup Notes</h3>
+            <ul>
+              <li>
+                <strong>HandCash Required:</strong> Blockchain features require HandCash wallet connection 
+                and sufficient satoshis for transaction fees
+              </li>
+              <li>
+                <strong>Browser Requirements:</strong> Modern browsers with JavaScript enabled. 
+                Local storage required for document caching
+              </li>
+              <li>
+                <strong>Network Connection:</strong> Internet required for blockchain operations, 
+                cloud storage, and real-time collaboration features
+              </li>
+              <li>
+                <strong>Mobile Support:</strong> Fully responsive design works on desktop, tablet, 
+                and mobile devices with touch-optimized interface
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Writing & Editor Section */}
+        <section className="writing-section">
+          <h2>Writing & Document Management</h2>
+          <div class="writing-content">
+            <p class="intro">
+              The Bitcoin Writer editor provides a powerful yet intuitive writing experience with 
+              blockchain-native features built in.
+            </p>
+
+            <div class="writing-model">
               <h3>Editor Features</h3>
-              <ul>
-                <li><strong>Rich Text:</strong> Bold, italic, underline formatting</li>
-                <li><strong>Auto-save:</strong> Documents save automatically as you type</li>
-                <li><strong>Version History:</strong> Every save creates a blockchain version</li>
-                <li><strong>Word Count:</strong> Real-time tracking in the status bar</li>
-              </ul>
+              <div class="feature-streams">
+                <div class="stream">
+                  <h4>Rich Text</h4>
+                  <p>Bold, italic, underline formatting</p>
+                  <p class="price">⌘B, ⌘I, ⌘U</p>
+                </div>
+                <div class="stream featured">
+                  <h4>Auto-Save</h4>
+                  <p>Documents save automatically as you type</p>
+                  <p class="price">Real-time</p>
+                </div>
+                <div class="stream">
+                  <h4>Version Control</h4>
+                  <p>Every save creates blockchain version</p>
+                  <p class="price">⌘B</p>
+                </div>
+              </div>
+              
+              <h3 style={{marginTop: '40px'}}>Keyboard Shortcuts</h3>
+              <div class="feature-streams">
+                <div class="stream">
+                  <h4>Document Control</h4>
+                  <p>New: ⌘N, Save: ⌘S, Blockchain: ⌘B</p>
+                  <p class="price">Essential</p>
+                </div>
+                <div class="stream featured">
+                  <h4>Text Formatting</h4>
+                  <p>Bold: ⌘B, Italic: ⌘I, Underline: ⌘U</p>
+                  <p class="price">Popular</p>
+                </div>
+                <div class="stream">
+                  <h4>Security</h4>
+                  <p>Encrypt: ⌘L, Find: ⌘F, Undo: ⌘Z</p>
+                  <p class="price">Advanced</p>
+                </div>
+              </div>
             </div>
 
-            <div className="subsection">
-              <h3>Keyboard Shortcuts</h3>
-              <div className="shortcuts-grid">
-                <div className="shortcut">
-                  <kbd>⌘N</kbd>
-                  <span>New Document</span>
+            <div class="value-flow">
+              <h3>Document Workflow</h3>
+              <div class="flow-diagram">
+                <div class="flow-item">
+                  <span>Create Document</span>
+                  <span class="arrow">→</span>
                 </div>
-                <div className="shortcut">
-                  <kbd>⌘S</kbd>
-                  <span>Save Document</span>
+                <div class="flow-item">
+                  <span>Write & Edit</span>
+                  <span class="arrow">→</span>
                 </div>
-                <div className="shortcut">
-                  <kbd>⌘B</kbd>
+                <div class="flow-item">
                   <span>Save to Blockchain</span>
+                  <span class="arrow">→</span>
                 </div>
-                <div className="shortcut">
-                  <kbd>⌘L</kbd>
-                  <span>Encrypt Document</span>
-                </div>
-                <div className="shortcut">
-                  <kbd>⌘Z</kbd>
-                  <span>Undo</span>
-                </div>
-                <div className="shortcut">
-                  <kbd>⇧⌘Z</kbd>
-                  <span>Redo</span>
+                <div class="flow-item">
+                  <span>Publish & Monetize</span>
                 </div>
               </div>
+              <p style={{textAlign: 'center', marginTop: '20px', fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)'}}>
+                Every document follows this simple workflow from creation to monetization,
+                with each step creating permanent blockchain records.
+              </p>
             </div>
+          </div>
+        </section>
 
-            <div className="subsection">
-              <h3>Document Management</h3>
-              <p>All your documents appear in the left sidebar. You can:</p>
-              <ul>
-                <li>Click any document to open it</li>
-                <li>Right-click for options (rename, delete, publish)</li>
-                <li>Use the search bar to find documents quickly</li>
-                <li>Sort by creation date, name, or last modified</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* Blockchain Features */}
-          <section id="blockchain" className="docs-section">
-            <h2>Blockchain Features</h2>
-            
-            <div className="subsection">
+        {/* Blockchain Features Section */}
+        <section className="blockchain-section">
+          <h2>Blockchain Features</h2>
+          <div className="blockchain-steps">
+            <div className="step">
+              <div className="step-number">1</div>
               <h3>Storage Options</h3>
-              
-              <div className="storage-option">
-                <h4>🔗 Direct On-Chain (OP_RETURN)</h4>
-                <p>Store documents directly on Bitcoin blockchain</p>
-                <ul>
-                  <li><strong>Pros:</strong> Permanent, immutable, decentralized</li>
-                  <li><strong>Cons:</strong> Size limited to 100KB, higher cost</li>
-                  <li><strong>Best for:</strong> Important documents, legal contracts</li>
-                  <li><strong>Cost:</strong> ~$1-5 per document</li>
-                </ul>
-              </div>
-
-              <div className="storage-option">
-                <h4>🌐 IPFS with Hash</h4>
-                <p>Store content on IPFS, hash on blockchain</p>
-                <ul>
-                  <li><strong>Pros:</strong> Unlimited size, lower cost, fast access</li>
-                  <li><strong>Cons:</strong> Requires IPFS network availability</li>
-                  <li><strong>Best for:</strong> Large documents, multimedia content</li>
-                  <li><strong>Cost:</strong> ~$0.10-0.50 per document</li>
-                </ul>
-              </div>
-
-              <div className="storage-option">
-                <h4>☁️ Cloud Providers</h4>
-                <p>Store in traditional cloud, hash on blockchain</p>
-                <ul>
-                  <li><strong>Supported:</strong> Google Drive, AWS S3, Supabase, Cloudflare R2, Azure Blob</li>
-                  <li><strong>Pros:</strong> Fast access, familiar interface, backup redundancy</li>
-                  <li><strong>Cons:</strong> Centralized, requires provider account</li>
-                  <li><strong>Best for:</strong> Draft versions, collaborative documents</li>
-                </ul>
-              </div>
+              <p>Choose between on-chain, IPFS, or cloud storage for your documents</p>
             </div>
-
-            <div className="subsection">
+            <div className="step">
+              <div className="step-number">2</div>
               <h3>Encryption</h3>
-              <p>Protect your documents with military-grade encryption:</p>
-              <ul>
-                <li><strong>AES-256:</strong> Industry standard encryption</li>
-                <li><strong>Password Protection:</strong> Set custom passwords</li>
-                <li><strong>Key Derivation:</strong> PBKDF2 with 100,000 iterations</li>
-                <li><strong>Metadata Protection:</strong> Titles and descriptions encrypted too</li>
-              </ul>
-              
-              <div className="warning-box">
-                <strong>⚠️ Important:</strong> Lost passwords cannot be recovered. Store them securely!
-              </div>
+              <p>AES-256 encryption with password protection and key derivation</p>
             </div>
-
-            <div className="subsection">
+            <div className="step">
+              <div className="step-number">3</div>
               <h3>Version Control</h3>
-              <p>Every save creates a new blockchain version with:</p>
-              <ul>
-                <li><strong>Timestamp:</strong> Exact save time</li>
-                <li><strong>Hash:</strong> Cryptographic fingerprint</li>
-                <li><strong>Word Count:</strong> Document length tracking</li>
-                <li><strong>Author:</strong> Your HandCash handle</li>
-                <li><strong>Chain Link:</strong> Connection to previous version</li>
-              </ul>
+              <p>Every save creates timestamped, cryptographically linked versions</p>
             </div>
-          </section>
-
-          {/* Monetization */}
-          <section id="monetization" className="docs-section">
-            <h2>Monetization</h2>
-            
-            <div className="subsection">
-              <h3>Create NFTs</h3>
-              <p>Turn your documents into tradeable NFTs:</p>
-              <ol>
-                <li>Click the "Create NFT" button or use Blockchain → Create NFT</li>
-                <li>Set your NFT metadata (title, description, image)</li>
-                <li>Choose rarity and supply (1 for unique, more for limited editions)</li>
-                <li>Pay the inscription fee (~$5-20)</li>
-                <li>Your NFT is minted on Bitcoin as an Ordinal!</li>
-              </ol>
-            </div>
-
-            <div className="subsection">
-              <h3>Issue File Shares</h3>
-              <p>Let readers invest in your work as it develops:</p>
-              <ul>
-                <li><strong>1 Million Shares:</strong> Per document version</li>
-                <li><strong>Progressive Pricing:</strong> Early versions cheaper</li>
-                <li><strong>Automatic Royalties:</strong> Share revenue with investors</li>
-                <li><strong>Tradeable:</strong> Investors can buy/sell shares</li>
-              </ul>
-              
-              <div className="example-box">
-                <h4>Example: Novel Chapters</h4>
-                <ul>
-                  <li>Chapter 1: 100 sats/share</li>
-                  <li>Chapter 5: 250 sats/share</li>
-                  <li>Final Version: 500 sats/share</li>
-                  <li>Early investors earn 5x returns!</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="subsection">
-              <h3>Paywall Documents</h3>
-              <p>Charge readers to access your content:</p>
-              <ol>
-                <li>Write your document</li>
-                <li>Click "Set Paywall" or use Blockchain → Set Paywall</li>
-                <li>Choose price in satoshis</li>
-                <li>Publish to the Document Exchange</li>
-                <li>Earn Bitcoin when readers pay to unlock!</li>
-              </ol>
-            </div>
-
-            <div className="subsection">
-              <h3>Document Exchange</h3>
-              <p>Browse and trade documents from other writers:</p>
-              <ul>
-                <li><strong>Discover:</strong> Find interesting content to read/invest in</li>
-                <li><strong>Preview:</strong> See excerpts before purchasing</li>
-                <li><strong>Ratings:</strong> Rate documents after reading</li>
-                <li><strong>Categories:</strong> Fiction, journalism, research, business</li>
-              </ul>
-            </div>
-          </section>
-
-          {/* API Reference */}
-          <section id="api" className="docs-section">
-            <h2>API Reference</h2>
-            
-            <div className="subsection">
-              <h3>Authentication</h3>
-              <div className="code-block">
-                <pre>{`// HandCash Connect SDK
-import { HandCashConnect } from '@handcash/handcash-connect';
-
-const handCashConnect = new HandCashConnect({
-  appId: 'your-app-id',
-  appSecret: 'your-app-secret'
-});`}</pre>
-              </div>
-            </div>
-
-            <div className="subsection">
-              <h3>Document Operations</h3>
-              
-              <h4>Create Document</h4>
-              <div className="code-block">
-                <pre>{`POST /api/documents
-{
-  "title": "My Document",
-  "content": "Document content...",
-  "storage": "blockchain",
-  "encrypted": false
-}`}</pre>
-              </div>
-
-              <h4>Get Document</h4>
-              <div className="code-block">
-                <pre>{`GET /api/documents/:id
-Response:
-{
-  "id": "doc_123",
-  "title": "My Document", 
-  "content": "Document content...",
-  "createdAt": "2024-01-01T00:00:00Z",
-  "blockchain": {
-    "txid": "abc123...",
-    "hash": "def456..."
-  }
-}`}</pre>
-              </div>
-
-              <h4>List Documents</h4>
-              <div className="code-block">
-                <pre>{`GET /api/documents
-Response:
-{
-  "documents": [
-    {
-      "id": "doc_123",
-      "title": "My Document",
-      "createdAt": "2024-01-01T00:00:00Z",
-      "wordCount": 1250
-    }
-  ]
-}`}</pre>
-              </div>
-            </div>
-
-            <div className="subsection">
-              <h3>Blockchain Operations</h3>
-              
-              <h4>Save to Blockchain</h4>
-              <div className="code-block">
-                <pre>{`POST /api/blockchain/save
-{
-  "documentId": "doc_123",
-  "storage": "op_return", // "op_return" | "ipfs" | "cloud"
-  "provider": "aws-s3" // for cloud storage
-}`}</pre>
-              </div>
-
-              <h4>Create NFT</h4>
-              <div className="code-block">
-                <pre>{`POST /api/nft/create
-{
-  "documentId": "doc_123",
-  "metadata": {
-    "name": "My NFT",
-    "description": "A unique document NFT",
-    "image": "data:image/png;base64,..."
-  },
-  "supply": 1
-}`}</pre>
-              </div>
-            </div>
-          </section>
-
-          {/* Troubleshooting */}
-          <section id="troubleshooting" className="docs-section">
-            <h2>Troubleshooting</h2>
-            
-            <div className="subsection">
-              <h3>Common Issues</h3>
-              
-              <div className="faq-item">
-                <h4>Q: My HandCash login isn't working</h4>
-                <p><strong>A:</strong> Make sure you have the latest HandCash app installed and try clearing your browser cache. If problems persist, try incognito mode.</p>
-              </div>
-
-              <div className="faq-item">
-                <h4>Q: Document won't save to blockchain</h4>
-                <p><strong>A:</strong> Check your HandCash balance - blockchain saves require a small fee. Also ensure you're connected to the internet.</p>
-              </div>
-
-              <div className="faq-item">
-                <h4>Q: Can't decrypt my document</h4>
-                <p><strong>A:</strong> Double-check your password. Bitcoin Writer cannot recover lost passwords for security reasons.</p>
-              </div>
-
-              <div className="faq-item">
-                <h4>Q: NFT creation failed</h4>
-                <p><strong>A:</strong> NFT creation requires sufficient funds in your HandCash wallet. Check your balance and try again.</p>
-              </div>
-
-              <div className="faq-item">
-                <h4>Q: Document Exchange not loading</h4>
-                <p><strong>A:</strong> The exchange requires an internet connection to load published documents. Check your network connection.</p>
-              </div>
-            </div>
-
-            <div className="subsection">
-              <h3>Getting Help</h3>
-              <ul>
-                <li><strong>GitHub Issues:</strong> <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer/issues" target="_blank">Report bugs and feature requests</a></li>
-                <li><strong>Twitter Support:</strong> <a href="https://twitter.com/bitcoin_writer" target="_blank">@bitcoin_writer</a></li>
-                <li><strong>Developer Contact:</strong> <a href="https://twitter.com/b0ase" target="_blank">@b0ase</a></li>
-                <li><strong>HandCash Support:</strong> <a href="https://handcash.io/support" target="_blank">For payment issues</a></li>
-              </ul>
-            </div>
-
-            <div className="subsection">
-              <h3>System Requirements</h3>
-              <ul>
-                <li><strong>Browser:</strong> Chrome 90+, Firefox 90+, Safari 14+, Edge 90+</li>
-                <li><strong>JavaScript:</strong> Must be enabled</li>
-                <li><strong>Local Storage:</strong> Required for document caching</li>
-                <li><strong>Internet:</strong> Required for blockchain features</li>
-                <li><strong>HandCash App:</strong> For Bitcoin payments and blockchain features</li>
-              </ul>
-            </div>
-          </section>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="docs-footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h4>Bitcoin Writer</h4>
-              <p>Transforming writing into digital assets on the Bitcoin blockchain</p>
-              <div className="footer-links">
-                <a href="/">← Back to Editor</a>
-                <a href="/features">Features</a>
-                <a href="/token">$BWRITER Token</a>
-              </div>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Quick Links</h4>
-              <ul>
-                <li><a href="#getting-started">Getting Started</a></li>
-                <li><a href="#writing">Writing Guide</a></li>
-                <li><a href="#blockchain">Blockchain Features</a></li>
-                <li><a href="#api">API Reference</a></li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Community</h4>
-              <ul>
-                <li><a href="https://github.com/bitcoin-apps-suite/bitcoin-writer" target="_blank">GitHub</a></li>
-                <li><a href="https://twitter.com/bitcoin_writer" target="_blank">Twitter</a></li>
-                <li><a href="https://handcash.io" target="_blank">HandCash</a></li>
-                <li><a href="https://whatsonchain.com" target="_blank">Bitcoin Explorer</a></li>
-              </ul>
+            <div className="step">
+              <div className="step-number">4</div>
+              <h3>Proof System</h3>
+              <p>Mathematical proof of creation time and document integrity</p>
             </div>
           </div>
-          
-          <div className="footer-bottom">
-            <p>© 2024 Bitcoin Writer. Open source on the BSV blockchain.</p>
+
+          <div className="blockchain-examples">
+            <h3>Storage Methods</h3>
+            <ul>
+              <li>✅ Direct On-Chain (OP_RETURN) - $1-5, permanent, immutable</li>
+              <li>✅ IPFS with Hash - $0.10-0.50, unlimited size, decentralized</li>
+              <li>✅ Cloud Providers - $0.01-0.10, fast access, familiar interface</li>
+              <li>✅ Hybrid Storage - Best of both worlds, redundant backup</li>
+              <li>✅ Encrypted Options - All methods support AES-256 encryption</li>
+              <li>✅ Version Chains - Cryptographic links between document versions</li>
+            </ul>
           </div>
-        </div>
-      </footer>
+        </section>
+
+        {/* Monetization Section */}
+        <section className="monetization-section">
+          <h2>Monetization & NFTs</h2>
+          <div className="monetization-grid">
+            <div className="stat">
+              <h3>NFT Creation</h3>
+              <p className="stat-value">1-Click</p>
+              <p className="stat-label">Turn documents into Bitcoin ordinals</p>
+            </div>
+            <div className="stat">
+              <h3>File Shares</h3>
+              <p className="stat-value">1M</p>
+              <p className="stat-label">Shares per document version</p>
+            </div>
+            <div className="stat">
+              <h3>Paywall Docs</h3>
+              <p className="stat-value">Custom</p>
+              <p className="stat-label">Set your own unlock price</p>
+            </div>
+            <div className="stat">
+              <h3>Trading</h3>
+              <p className="stat-value">24/7</p>
+              <p className="stat-label">Document Exchange marketplace</p>
+            </div>
+          </div>
+        </section>
+
+        {/* API Reference Section */}
+        <section className="api-section">
+          <h2>API Reference</h2>
+          <div className="api-content">
+            <p>
+              <strong>REST API:</strong> Bitcoin Writer provides a comprehensive REST API for document 
+              management, blockchain operations, and user authentication. Perfect for building custom 
+              integrations and third-party applications.
+            </p>
+            <p>
+              <strong>HandCash SDK:</strong> Built on the HandCash Connect SDK for seamless Bitcoin 
+              payments and wallet integration. Handles authentication, payments, and blockchain transactions 
+              with enterprise-grade security.
+            </p>
+            <div className="api-endpoints">
+              <h3>Core Endpoints</h3>
+              <div className="endpoint-grid">
+                <div className="endpoint">
+                  <h4>Documents</h4>
+                  <p>POST /api/documents - Create new document</p>
+                  <p>GET /api/documents/:id - Retrieve document</p>
+                  <p>PUT /api/documents/:id - Update document</p>
+                  <p>DELETE /api/documents/:id - Delete document</p>
+                </div>
+                <div className="endpoint">
+                  <h4>Blockchain</h4>
+                  <p>POST /api/blockchain/save - Save to blockchain</p>
+                  <p>POST /api/nft/create - Create NFT</p>
+                  <p>POST /api/shares/issue - Issue file shares</p>
+                  <p>GET /api/blockchain/verify - Verify integrity</p>
+                </div>
+                <div className="endpoint">
+                  <h4>Exchange</h4>
+                  <p>GET /api/exchange/browse - Browse marketplace</p>
+                  <p>POST /api/exchange/purchase - Buy document</p>
+                  <p>POST /api/exchange/publish - Publish for sale</p>
+                  <p>GET /api/exchange/stats - Market statistics</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Troubleshooting Section */}
+        <section className="troubleshooting-section">
+          <h2>Troubleshooting & Support</h2>
+          <div className="troubleshooting-content">
+            <div className="faq-grid">
+              <div className="faq-item">
+                <h4>HandCash Login Issues</h4>
+                <p>Clear browser cache, try incognito mode, ensure latest HandCash app installed</p>
+              </div>
+              <div className="faq-item">
+                <h4>Document Won't Save</h4>
+                <p>Check HandCash balance for fees, verify internet connection, try different storage method</p>
+              </div>
+              <div className="faq-item">
+                <h4>Encryption Problems</h4>
+                <p>Double-check password, Bitcoin Writer cannot recover lost passwords for security</p>
+              </div>
+              <div className="faq-item">
+                <h4>NFT Creation Failed</h4>
+                <p>Ensure sufficient funds in HandCash wallet, check network connectivity, try again</p>
+              </div>
+            </div>
+
+            <div className="support-links">
+              <h3>Get Help</h3>
+              <div className="support-grid">
+                <div className="support-item">
+                  <h4>GitHub Issues</h4>
+                  <p>Report bugs and request features</p>
+                  <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer/issues" target="_blank" rel="noopener noreferrer">
+                    Submit Issue
+                  </a>
+                </div>
+                <div className="support-item">
+                  <h4>Twitter Support</h4>
+                  <p>Quick help and updates</p>
+                  <a href="https://twitter.com/bitcoin_writer" target="_blank" rel="noopener noreferrer">
+                    @bitcoin_writer
+                  </a>
+                </div>
+                <div className="support-item">
+                  <h4>Developer Contact</h4>
+                  <p>Direct developer access</p>
+                  <a href="https://twitter.com/b0ase" target="_blank" rel="noopener noreferrer">
+                    @b0ase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="cta-section">
+          <h2>Ready to Start Writing?</h2>
+          <div className="cta-buttons">
+            <a 
+              href="/" 
+              className="cta-btn primary"
+            >
+              <svg height="20" width="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+              </svg>
+              Start Writing
+            </a>
+            <a 
+              href="/features" 
+              className="cta-btn secondary"
+            >
+              Explore Features
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
     </div>
   );
 };
