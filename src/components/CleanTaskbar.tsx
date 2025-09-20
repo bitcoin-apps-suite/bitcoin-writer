@@ -28,6 +28,7 @@ interface TaskbarProps {
   onOpenTokenizeModal?: () => void;
   onOpenTwitterModal?: () => void;
   documentService?: any;
+  onToggleAIChat?: () => void;
 }
 
 const CleanTaskbar: React.FC<TaskbarProps> = ({ 
@@ -38,7 +39,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   onSaveDocument,
   onOpenTokenizeModal,
   onOpenTwitterModal,
-  documentService
+  documentService,
+  onToggleAIChat
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
@@ -291,6 +293,19 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Zoom In', shortcut: '⌘+', action: () => (document.body.style as any).zoom = '110%' },
         { label: 'Zoom Out', shortcut: '⌘-', action: () => (document.body.style as any).zoom = '90%' },
         { label: 'Actual Size', shortcut: '⌘0', action: () => (document.body.style as any).zoom = '100%' }
+      ]
+    },
+    {
+      label: 'Tools',
+      items: [
+        { label: 'AI Assistant', shortcut: '⌘⌥A', action: onToggleAIChat },
+        { divider: true },
+        { label: 'Storage Calculator', action: () => setShowStorageCalc(true) },
+        { label: 'Create NFT', action: onOpenTokenizeModal },
+        { label: 'Post to Twitter', action: onOpenTwitterModal },
+        { divider: true },
+        { label: 'API Documentation', action: () => setShowAPIDoc(true) },
+        { label: 'Keyboard Shortcuts', shortcut: '⌘/', action: () => setShowKeyboardShortcuts(true) }
       ]
     },
     {

@@ -23,6 +23,7 @@ interface TaskbarProps {
   onSaveDocument?: () => void;
   onOpenTokenizeModal?: () => void;
   onOpenTwitterModal?: () => void;
+  onToggleAIChat?: () => void;
 }
 
 const Taskbar: React.FC<TaskbarProps> = ({
@@ -32,9 +33,11 @@ const Taskbar: React.FC<TaskbarProps> = ({
   onNewDocument,
   onSaveDocument,
   onOpenTokenizeModal,
-  onOpenTwitterModal
+  onOpenTwitterModal,
+  onToggleAIChat
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const menus: DropdownMenu[] = [
@@ -188,6 +191,13 @@ const Taskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Tools',
       items: [
+        {
+          label: 'AI Assistant',
+          icon: '🤖',
+          shortcut: '⌘⌥A',
+          action: onToggleAIChat
+        },
+        { divider: true },
         { 
           label: 'Save to Blockchain', 
           action: () => console.log('Save to blockchain') 
@@ -278,12 +288,14 @@ const Taskbar: React.FC<TaskbarProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setActiveMenu(null);
+        setShowMobileMenu(false);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setActiveMenu(null);
+        setShowMobileMenu(false);
       }
     };
 
@@ -305,6 +317,19 @@ const Taskbar: React.FC<TaskbarProps> = ({
       <div className="taskbar-logo">
         <span className="bitcoin-symbol">₿</span>
       </div>
+
+      {/* Mobile: Center title */}
+      <button 
+        className="mobile-title"
+        onClick={() => {
+          // Return to main view functionality if needed
+          window.location.reload();
+        }}
+        title="Bitcoin Writer"
+      >
+        <span className="bitcoin-symbol">₿</span>
+        <span>Bitcoin Writer</span>
+      </button>
 
       {/* Menu Items */}
       <div className="taskbar-menus">
@@ -393,6 +418,92 @@ const Taskbar: React.FC<TaskbarProps> = ({
           </svg>
         </a>
       </div>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="mobile-menu-button"
+        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        aria-label="Toggle menu"
+      >
+        {showMobileMenu ? '✕' : '☰'}
+      </button>
+
+      {/* Mobile Menu Overlay */}
+      {showMobileMenu && (
+        <div className="mobile-menu-overlay">
+          <div className="mobile-menu-content">
+            {/* User Status */}
+            <div style={{
+              padding: '12px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              borderRadius: '8px',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              {isAuthenticated && currentUser ? (
+                <>
+                  <span style={{ color: '#ffffff', fontSize: '14px' }}>
+                    {currentUser.handle ? `$${currentUser.handle}` : 'Connected'}
+                  </span>
+                  <span style={{ color: '#30d158' }}>●</span>
+                </>
+              ) : (
+                <>
+                  <span style={{ color: '#ffffff', fontSize: '14px' }}>Not Connected</span>
+                  <span style={{ color: '#ff3b30', opacity: 0.6 }}>●</span>
+                </>
+              )}
+            </div>
+
+            {/* Menu Sections */}
+            {menus.map((menu) => (
+              <div key={menu.label} className="mobile-menu-section">
+                <div className="mobile-menu-header">
+                  {menu.label}
+                </div>
+                <div style={{ padding: '8px' }}>
+                  {menu.items.map((item, index) => (
+                    item.divider ? (
+                      <div 
+                        key={index}
+                        style={{
+                          height: '1px',
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          margin: '8px 0'
+                        }}
+                      />
+                    ) : item.href ? (
+                      <a
+                        key={index}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mobile-menu-item"
+                        onClick={() => setShowMobileMenu(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <button
+                        key={index}
+                        className="mobile-menu-item"
+                        onClick={() => {
+                          item.action?.();
+                          setShowMobileMenu(false);
+                        }}
+                      >
+                        {item.label}
+                      </button>
+                    )
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

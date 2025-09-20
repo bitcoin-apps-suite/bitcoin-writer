@@ -200,9 +200,114 @@
   outline: none;
 }
 
-/* Mobile responsive */
+/* Mobile responsive - show mobile version */
 @media (max-width: 768px) {
   .bitcoin-writer-taskbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .taskbar-menus {
+    display: none;
+  }
+  
+  .taskbar-logo {
+    padding: 0 12px;
+  }
+  
+  .bitcoin-symbol {
+    font-size: 18px;
+  }
+  
+  .mobile-title {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #ff9500;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    height: 100%;
+    gap: 6px;
+  }
+  
+  .mobile-menu-button {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 22px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(22, 22, 22, 0.98);
+    backdrop-filter: blur(20px);
+    z-index: 10001;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-menu-content {
+    padding: 16px;
+  }
+  
+  .mobile-menu-section {
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .mobile-menu-header {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 13px;
+    font-weight: 400;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+  }
+  
+  .mobile-menu-item:hover,
+  .mobile-menu-item:active {
+    background: rgba(255, 153, 0, 0.2);
+  }
+  
+  .taskbar-status {
+    display: none;
+  }
+}
+
+/* Desktop only elements */
+@media (min-width: 769px) {
+  .mobile-title,
+  .mobile-menu-button,
+  .mobile-menu-overlay {
     display: none;
   }
 }

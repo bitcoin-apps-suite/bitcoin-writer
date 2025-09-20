@@ -15,6 +15,8 @@ import CryptoJS from 'crypto-js';
 import QuillEditor from './QuillEditor';
 import './QuillEditor.css';
 import DragDropZone from './DragDropZone';
+import AIChatWindow from './AIChatWindow';
+import { AIService } from '../services/AIService';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -23,6 +25,8 @@ interface DocumentEditorProps {
   currentDocument?: BlockchainDocument | null;
   onDocumentUpdate?: (doc: BlockchainDocument) => void;
   onDocumentSaved?: () => void;
+  showAIChat?: boolean;
+  onToggleAIChat?: () => void;
 }
 
 const DocumentEditor: React.FC<DocumentEditorProps> = ({ 
@@ -31,7 +35,9 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   onAuthRequired,
   currentDocument: propDocument,
   onDocumentUpdate,
-  onDocumentSaved 
+  onDocumentSaved,
+  showAIChat: propShowAIChat = false,
+  onToggleAIChat 
 }) => {
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
   const [localDocumentId, setLocalDocumentId] = useState<string | null>(null);
@@ -46,6 +52,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedStorageOption, setSelectedStorageOption] = useState<StorageOption | null>(null);
   const [editorContent, setEditorContent] = useState('');
+  const [internalShowAIChat, setInternalShowAIChat] = useState(false);
+  const [selectedAIProvider, setSelectedAIProvider] = useState('gemini');
+  const [aiService] = useState(() => new AIService(new HandCashService()));
+  
+  // Use prop if provided, otherwise use internal state
+  const showAIChat = onToggleAIChat ? propShowAIChat : internalShowAIChat;
+  const handleToggleAIChat = onToggleAIChat || (() => setInternalShowAIChat(!internalShowAIChat));
   const [showPublishModal, setShowPublishModal] = useState(false);
   const [publishSettings, setPublishSettings] = useState<PublishSettings | null>(null);
   const [isEncrypted, setIsEncrypted] = useState(false);
@@ -296,6 +309,15 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       setQuillContent('<p><br></p>');
     }
   }, [propDocument, isAuthenticated, loadLocalDocument]);
+
+  const handleInsertFromAI = useCallback((text: string) => {
+    // Get current content and insert AI text
+    const currentContent = editorContent.replace(/<\/?[^>]+(>|$)/g, '').trim();
+    const newContent = currentContent + '\n\n' + text;
+    const htmlContent = `<p>${newContent.split('\n\n').join('</p><p>')}</p>`;
+    setEditorContent(htmlContent);
+    setUnsavedChanges(true);
+  }, [editorContent]);
 
   const saveToLocalStorage = useCallback(() => {
     const content = quillContent || editorContent;
@@ -1275,6 +1297,14 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         onFileDrop={handleFileDrop}
         isAuthenticated={isAuthenticated}
         onAuthRequired={onAuthRequired || (() => {})}
+      />
+
+      <AIChatWindow
+        isOpen={showAIChat}
+        onClose={handleToggleAIChat}
+        onInsertToDocument={handleInsertFromAI}
+        selectedProvider={selectedAIProvider}
+        onProviderChange={setSelectedAIProvider}
       />
     </div>
   );

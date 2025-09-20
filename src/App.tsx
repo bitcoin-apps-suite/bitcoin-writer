@@ -30,6 +30,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<HandCashUser | null>(null);
   const [googleUser, setGoogleUser] = useState<any>(null);
+  const [showAIChat, setShowAIChat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -246,6 +247,7 @@ function App() {
                 window.dispatchEvent(new CustomEvent('openTwitterModal'));
               }}
               documentService={documentService}
+              onToggleAIChat={() => setShowAIChat(!showAIChat)}
             />
             
             {/* Old macOS-style taskbar (kept for reference, can be removed later) */}
@@ -727,6 +729,8 @@ function App() {
                       // Trigger sidebar refresh after document is saved
                       setSidebarRefresh(prev => prev + 1);
                     }}
+                    showAIChat={showAIChat}
+                    onToggleAIChat={() => setShowAIChat(!showAIChat)}
                   />
                 )}
               </main>

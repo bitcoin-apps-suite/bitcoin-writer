@@ -1,0 +1,20 @@
+  {
+    "manifest_version": 3,
+    "name": "Bitcoin Writer Yellow Orange",
+    "version": "1.0",
+    "theme": {
+      "colors": {
+        "frame": [255, 153, 0],
+        "frame_inactive": [204, 122, 0],
+        "frame_incognito": [179, 107, 0],
+        "frame_incognito_inactive": [153, 92, 0],
+        "toolbar": [26, 26, 26],
+        "tab_background_text": [255, 204, 102],
+        "tab_selected": [51, 51, 51],
+        "tab_text": [255, 255, 255],
+        "bookmark_text": [255, 204, 102],
+        "ntp_background": [10, 10, 10],
+        "ntp_text": [255, 153, 0]
+      }
+    }
+  }
