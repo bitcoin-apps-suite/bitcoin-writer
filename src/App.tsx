@@ -8,6 +8,7 @@ import './App.css';
 import FeaturesPage from './pages/FeaturesPage';
 import TokenPage from './pages/TokenPage';
 import BWriterContributionsPage from './pages/BWriterContributionsPage';
+import DocsPage from './pages/DocsPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -217,6 +218,7 @@ function App() {
       <Route path="/features" element={<FeaturesPage />} />
       <Route path="/token" element={<TokenPage />} />
       <Route path="/contributions" element={<BWriterContributionsPage />} />
+      <Route path="/docs" element={<DocsPage />} />
       <Route path="/*" element={
         isLoading ? (
           <div className="App">
@@ -460,7 +462,20 @@ function App() {
                       marginRight: '12px'
                     }}
                   />
-                  <h1><span style={{color: '#ff9500'}}>Bitcoin</span> Writer</h1>
+                  <h1 
+                    onClick={() => {
+                      setShowFeatures(false);
+                      setShowExchange(false);
+                      setShowBitcoinApps(false);
+                      setActiveAppOverview(null);
+                    }}
+                    style={{
+                      cursor: 'pointer'
+                    }}
+                    title="Return to main view"
+                  >
+                    <span style={{color: '#ff9500'}}>Bitcoin</span> Writer
+                  </h1>
                 </div>
                 <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
               </div>

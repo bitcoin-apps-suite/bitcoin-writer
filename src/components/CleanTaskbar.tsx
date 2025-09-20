@@ -1028,9 +1028,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       }}>
         {/* Docs Link */}
         <a
-          href="/bitcoin-writer/bap"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/docs"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -1050,7 +1048,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
           }}
         >
-          <span style={{ fontSize: '13px', fontWeight: '500' }}>📖 Docs</span>
+          <svg height="16" width="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+          </svg>
+          <span style={{ fontSize: '13px', fontWeight: '500' }}>Docs</span>
         </a>
 
         {/* $BWRITER Token Link */}
@@ -1060,21 +1061,23 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            color: '#ff9500',
+            color: 'rgba(255, 149, 0, 0.9)',
             textDecoration: 'none',
             padding: '4px 8px',
             borderRadius: '4px',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            fontWeight: '600'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = 'rgba(255, 149, 0, 0.1)';
-            e.currentTarget.style.color = '#ffb033';
+            e.currentTarget.style.color = '#ff9500';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = '#ff9500';
+            e.currentTarget.style.color = 'rgba(255, 149, 0, 0.9)';
           }}
         >
+          <span style={{ fontSize: '16px', fontWeight: 'bold' }}>₿</span>
           <span style={{ fontSize: '13px', fontWeight: '600' }}>$BWRITER</span>
         </a>
 
@@ -1102,7 +1105,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         >
           <span style={{ fontSize: '13px', fontWeight: '500' }}>🚀 Contribute</span>
         </a>
-
+        
         {/* GitHub Link */}
         <a
           href="https://github.com/bitcoin-apps-suite/bitcoin-writer"
