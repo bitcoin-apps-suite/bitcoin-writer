@@ -1,18 +1,27 @@
 .ai-chat-window {
-  position: fixed;
-  top: 80px;
-  right: 20px;
+  position: absolute !important;
   width: 400px;
   height: 500px;
   background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
   border: 1px solid rgba(255, 153, 0, 0.3);
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 153, 0, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 153, 0, 0.2);
   display: flex;
   flex-direction: column;
-  z-index: 1000;
-  transition: all 0.3s ease;
-  animation: slideIn 0.3s ease;
+  z-index: 99999;
+  transition: height 0.3s ease, box-shadow 0.3s ease;
+  animation: smoothSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes smoothSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 @keyframes slideIn {
@@ -28,6 +37,17 @@
 
 .ai-chat-window.minimized {
   height: 50px;
+  overflow: hidden;
+}
+
+/* Ensure the window stays on top and doesn't jump */
+.react-draggable {
+  position: fixed !important;
+  z-index: 99999 !important;
+}
+
+.react-draggable-dragging {
+  z-index: 100000 !important;
 }
 
 .ai-chat-header {
@@ -38,6 +58,24 @@
   background: rgba(255, 153, 0, 0.1);
   border-bottom: 1px solid rgba(255, 153, 0, 0.2);
   border-radius: 12px 12px 0 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  transition: background 0.2s;
+}
+
+.drag-handle {
+  cursor: move;
+  cursor: grab;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.ai-chat-header:hover {
+  background: rgba(255, 153, 0, 0.15);
 }
 
 .ai-chat-header-left {
@@ -122,6 +160,45 @@
 
 .ai-chat-welcome p {
   margin: 8px 0;
+}
+
+.ai-quick-actions {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 153, 0, 0.1);
+}
+
+.ai-quick-actions-title {
+  color: #ff9900;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.ai-quick-action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.ai-quick-action-btn {
+  background: rgba(255, 153, 0, 0.05);
+  border: 1px solid rgba(255, 153, 0, 0.2);
+  border-radius: 6px;
+  color: #ff9900;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.ai-quick-action-btn:hover {
+  background: rgba(255, 153, 0, 0.15);
+  border-color: #ff9900;
+  transform: translateY(-1px);
 }
 
 .ai-message {

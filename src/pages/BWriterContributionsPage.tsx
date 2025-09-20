@@ -44,7 +44,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Implement IPFS Storage Option',
       description: 'Add IPFS as an alternative storage backend for documents, with pinning service integration',
       difficulty: 'hard',
-      tokenReward: 0.8,
+      tokenReward: 0.2,
       status: 'open',
       category: 'Storage'
     },
@@ -53,7 +53,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Add Markdown Export',
       description: 'Enable users to export documents as Markdown files with proper formatting',
       difficulty: 'easy',
-      tokenReward: 0.3,
+      tokenReward: 0.075,
       status: 'open',
       category: 'Features'
     },
@@ -62,7 +62,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Implement Collaborative Editing',
       description: 'Add real-time collaborative editing using WebRTC and CRDTs',
       difficulty: 'expert',
-      tokenReward: 1.0,
+      tokenReward: 0.25,
       status: 'open',
       category: 'Features'
     },
@@ -71,7 +71,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Create Mobile App',
       description: 'Build React Native mobile app for iOS and Android with full feature parity',
       difficulty: 'expert',
-      tokenReward: 1.0,
+      tokenReward: 0.25,
       status: 'open',
       category: 'Mobile'
     },
@@ -80,7 +80,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Add Document Templates',
       description: 'Create a template library for common document types (contracts, letters, resumes)',
       difficulty: 'medium',
-      tokenReward: 0.5,
+      tokenReward: 0.125,
       status: 'open',
       category: 'Features'
     },
@@ -89,7 +89,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Implement Version History',
       description: 'Add document version tracking and rollback functionality on-chain',
       difficulty: 'hard',
-      tokenReward: 0.7,
+      tokenReward: 0.175,
       status: 'open',
       category: 'Blockchain'
     },
@@ -98,7 +98,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Add PDF Import',
       description: 'Enable users to import and convert PDF documents for editing',
       difficulty: 'medium',
-      tokenReward: 0.6,
+      tokenReward: 0.15,
       status: 'open',
       category: 'Features'
     },
@@ -107,7 +107,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Create API Documentation',
       description: 'Write comprehensive API documentation with examples and SDK guides',
       difficulty: 'medium',
-      tokenReward: 0.4,
+      tokenReward: 0.1,
       status: 'open',
       category: 'Documentation'
     },
@@ -116,7 +116,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Implement Smart Contract Templates',
       description: 'Create reusable smart contract templates for document agreements',
       difficulty: 'expert',
-      tokenReward: 1.0,
+      tokenReward: 0.25,
       status: 'open',
       category: 'Blockchain'
     },
@@ -125,7 +125,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Add Multi-language Support',
       description: 'Implement i18n for supporting multiple languages in the UI',
       difficulty: 'medium',
-      tokenReward: 0.5,
+      tokenReward: 0.125,
       status: 'open',
       category: 'UI/UX'
     },
@@ -134,7 +134,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Optimize Performance',
       description: 'Improve document loading times and reduce bundle size by 30%',
       difficulty: 'hard',
-      tokenReward: 0.7,
+      tokenReward: 0.175,
       status: 'open',
       category: 'Performance'
     },
@@ -143,7 +143,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Add Voice Dictation',
       description: 'Implement voice-to-text functionality using Web Speech API',
       difficulty: 'medium',
-      tokenReward: 0.6,
+      tokenReward: 0.15,
       status: 'open',
       category: 'Features'
     },
@@ -152,7 +152,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Create Browser Extension',
       description: 'Build Chrome/Firefox extension for quick document creation from any webpage',
       difficulty: 'hard',
-      tokenReward: 0.8,
+      tokenReward: 0.2,
       status: 'open',
       category: 'Extensions'
     },
@@ -161,7 +161,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Implement Document Analytics',
       description: 'Add analytics dashboard for document views, shares, and earnings',
       difficulty: 'medium',
-      tokenReward: 0.5,
+      tokenReward: 0.125,
       status: 'open',
       category: 'Analytics'
     },
@@ -170,7 +170,7 @@ const BWriterContributionsPage: React.FC = () => {
       title: 'Add E-Signature Support',
       description: 'Integrate digital signature functionality with blockchain verification',
       difficulty: 'hard',
-      tokenReward: 0.9,
+      tokenReward: 0.225,
       status: 'open',
       category: 'Blockchain'
     }
