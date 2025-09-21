@@ -219,6 +219,9 @@ function App() {
         {/* Global elements that appear on all pages */}
         {!isLoading && (
           <>
+            {/* Proof of Concept Banner */}
+            <ProofOfConceptBanner />
+            
             {/* Clean taskbar with proper spacing */}
             <CleanTaskbar
               isAuthenticated={isAuthenticated}
@@ -241,9 +244,6 @@ function App() {
               documentService={documentService}
               onToggleAIChat={() => setShowAIChat(!showAIChat)}
             />
-            
-            {/* Proof of Concept Banner */}
-            <ProofOfConceptBanner />
           </>
         )}
 
