@@ -6,6 +6,10 @@ const ProofOfConceptBanner: React.FC = () => {
 
   if (!isVisible) return null;
 
+  const openBitcoinApp = (appUrl: string) => {
+    window.open(appUrl, '_blank');
+  };
+
   return (
     <div className="poc-banner">
       <div className="poc-banner-content">
@@ -18,9 +22,21 @@ const ProofOfConceptBanner: React.FC = () => {
         </div>
         <div className="poc-banner-text">
           <span className="poc-banner-message">
-            <strong>PROOF OF CONCEPT:</strong> This is a demonstration version. Features are under active development.
-            <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer" target="_blank" rel="noopener noreferrer">
-              Contribute on GitHub →
+            <strong>PROOF OF CONCEPT:</strong> This is a demonstration version.
+            <button className="poc-banner-link" onClick={() => openBitcoinApp('https://bitcoin-spreadsheet.vercel.app/tasks')}>
+              Tasks
+            </button>
+            <span className="poc-banner-separator">•</span>
+            <button className="poc-banner-link" onClick={() => openBitcoinApp('https://bitcoin-spreadsheet.vercel.app/contributions')}>
+              Contributions
+            </button>
+            <span className="poc-banner-separator">•</span>
+            <button className="poc-banner-link" onClick={() => openBitcoinApp('https://bitcoin-spreadsheet.vercel.app/docs')}>
+              Docs
+            </button>
+            <span className="poc-banner-separator">•</span>
+            <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer" target="_blank" rel="noopener noreferrer" className="poc-banner-link">
+              GitHub
             </a>
           </span>
         </div>
