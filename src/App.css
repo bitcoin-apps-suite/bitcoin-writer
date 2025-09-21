@@ -203,6 +203,16 @@
   flex: 1;
   overflow: hidden;
   width: 100%;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust layout when DevSidebar is present */
+.app-container.with-dev-sidebar {
+  margin-left: 260px;
+}
+
+.app-container.with-dev-sidebar-collapsed {
+  margin-left: 60px;
 }
 
 /* Mobile layout adjustments */

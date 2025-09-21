@@ -20,6 +20,7 @@ import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
 import CleanTaskbar from './components/CleanTaskbar';
 import ProofOfConceptBanner from './components/ProofOfConceptBanner';
+import DevSidebar from './components/DevSidebar';
 import DocumentExchangeView from './components/DocumentExchangeView';
 import BitcoinAppsView from './components/BitcoinAppsView';
 import BitcoinAppOverviews from './components/BitcoinAppOverviews';
@@ -46,6 +47,10 @@ function App() {
   const [showBitcoinApps, setShowBitcoinApps] = useState(false);
   const [activeAppOverview, setActiveAppOverview] = useState<string | null>(null);
   const [publishedDocuments, setPublishedDocuments] = useState<BlockchainDocument[]>([]);
+  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('devSidebarCollapsed');
+    return saved === 'true';
+  });
 
   // Listen for Document Exchange open event
   useEffect(() => {
@@ -222,6 +227,9 @@ function App() {
         {/* Global elements that appear on all pages */}
         {!isLoading && (
           <>
+            {/* Developer Sidebar */}
+            <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />
+            
             {/* Clean taskbar with proper spacing */}
             <CleanTaskbar
               isAuthenticated={isAuthenticated}
@@ -682,7 +690,7 @@ function App() {
                 </div>
               </div>
             )}
-            <div className="app-container">
+            <div className={`app-container ${devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : 'with-dev-sidebar'}`}>
               <DocumentSidebar
                 documentService={documentService}
                 isAuthenticated={isAuthenticated}

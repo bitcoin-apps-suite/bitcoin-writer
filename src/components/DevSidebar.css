@@ -1,0 +1,251 @@
+/* Developer Sidebar Styles */
+.dev-sidebar {
+  position: fixed;
+  left: 0;
+  top: 72px; /* Below POC banner (40px) and taskbar (32px) */
+  bottom: 0;
+  width: 260px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  z-index: 9989; /* Below taskbar (10000) and PoC banner (10001) */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.dev-sidebar.collapsed {
+  width: 60px;
+  overflow: hidden;
+}
+
+.dev-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dev-sidebar-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ff9500; /* Bitcoin Writer orange theme */
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.dev-sidebar-logo {
+  color: #F7931A;
+  flex-shrink: 0;
+}
+
+.dev-sidebar-toggle {
+  background: transparent;
+  border: none;
+  color: #ff9500;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.dev-sidebar-toggle:hover {
+  background: rgba(255, 149, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.dev-sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.dev-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  color: #b0b0b0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 14px;
+}
+
+.dev-sidebar-item:hover {
+  background: rgba(255, 149, 0, 0.1);
+  color: #ff9500;
+  transform: translateX(2px);
+}
+
+.dev-sidebar-item.active {
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.2), rgba(247, 147, 26, 0.2));
+  color: #ff9500;
+  font-weight: 600;
+}
+
+.dev-sidebar-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 70%;
+  background: #ff9500;
+  border-radius: 0 2px 2px 0;
+}
+
+.dev-sidebar-label {
+  flex: 1;
+}
+
+.dev-sidebar-badge {
+  background: linear-gradient(135deg, #F7931A, #FF6B35);
+  color: #1a1a1a;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.dev-sidebar-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 12px 0;
+}
+
+.dev-sidebar-stats {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dev-sidebar-stats h4 {
+  color: #ff9500;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  letter-spacing: 1px;
+}
+
+.dev-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.dev-stat-label {
+  color: #808080;
+}
+
+.dev-stat-value {
+  color: #F7931A;
+  font-weight: 600;
+}
+
+.dev-sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dev-sidebar-cta {
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.1), rgba(247, 147, 26, 0.1));
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.dev-sidebar-cta p {
+  color: #ff9500;
+  font-size: 12px;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dev-sidebar-cta-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff9500, #F7931A);
+  color: #1a1a1a;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.dev-sidebar-cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+/* Collapsed state specific styles */
+.dev-sidebar.collapsed .dev-sidebar-item {
+  justify-content: center;
+  padding: 12px;
+}
+
+.dev-sidebar.collapsed .dev-sidebar-toggle {
+  margin: 0 auto;
+}
+
+.dev-sidebar.collapsed .dev-sidebar-item.active::before {
+  display: none;
+}
+
+.dev-sidebar.collapsed .dev-sidebar-badge {
+  display: none;
+}
+
+/* Scrollbar styling */
+.dev-sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dev-sidebar-nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.dev-sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 149, 0, 0.3);
+  border-radius: 3px;
+}
+
+.dev-sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 149, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dev-sidebar {
+    display: none; /* Hide on mobile for now */
+  }
+}
+
+/* Content adjustment when sidebar is open */
+.app-container {
+  transition: margin-left 0.3s ease;
+}
+
+.app-container.with-dev-sidebar {
+  margin-left: 260px;
+}
+
+.app-container.with-dev-sidebar-collapsed {
+  margin-left: 60px;
+}
