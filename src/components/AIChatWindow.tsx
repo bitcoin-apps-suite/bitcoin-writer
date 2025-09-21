@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Draggable from 'react-draggable';
 import './AIChatWindow.css';
 import { AIService } from '../services/AIService';
 import { HandCashService } from '../services/HandCashService';
@@ -39,11 +38,6 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
   const [apiKey, setApiKey] = useState('');
   const [showSettings, setShowSettings] = useState(false);
   const [conversationContext, setConversationContext] = useState<any[]>([]);
-  // Initialize position in center-right of screen
-  const [controlledPosition, setControlledPosition] = useState({ 
-    x: typeof window !== 'undefined' ? window.innerWidth - 440 : 100, 
-    y: typeof window !== 'undefined' ? (window.innerHeight - 500) / 2 : 100 
-  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -66,10 +60,6 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const handleDrag = (e: any, data: any) => {
-    setControlledPosition({ x: data.x, y: data.y });
-  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -214,17 +204,10 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
   if (!isOpen) return null;
 
   return (
-    <Draggable
-      handle=".drag-handle"
-      position={controlledPosition}
-      onDrag={handleDrag}
-      bounds={{ left: 0, top: 0, right: window.innerWidth - 400, bottom: window.innerHeight - 100 }}
-      defaultPosition={{ x: window.innerWidth - 440, y: (window.innerHeight - 500) / 2 }}
+    <div 
+      className={`ai-chat-terminal ${isMinimized ? 'minimized' : ''}`} 
+      ref={chatContainerRef}
     >
-      <div 
-        className={`ai-chat-window ${isMinimized ? 'minimized' : ''}`} 
-        ref={chatContainerRef}
-      >
         <div 
           className="ai-chat-header drag-handle"
         >
@@ -273,7 +256,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
             onClick={() => setIsMinimized(!isMinimized)}
             title={isMinimized ? "Expand" : "Minimize"}
           >
-            {isMinimized ? '□' : '─'}
+            {isMinimized ? '▲' : '▼'}
           </button>
           <button 
             className="ai-chat-control-btn"
@@ -339,15 +322,6 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
             ) : (
               messages.map(message => (
                 <div key={message.id} className={`ai-message ${message.role}`}>
-                  <div className="ai-message-header">
-                    <span className="ai-message-role">
-                      {message.role === 'user' ? '👤 You' : '🤖 AI'}
-                    </span>
-                    {message.edited && <span className="ai-message-edited">(edited)</span>}
-                    <span className="ai-message-time">
-                      {message.timestamp.toLocaleTimeString()}
-                    </span>
-                  </div>
                   {editingMessageId === message.id ? (
                     <div className="ai-message-edit">
                       <textarea
@@ -363,14 +337,17 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
                     </div>
                   ) : (
                     <div className="ai-message-content">
-                      <div className="ai-message-text">{message.content}</div>
-                      <div className="ai-message-actions">
+                      <span className="ai-message-header">
+                        {message.role === 'user' ? '>' : '$'} 
+                      </span>
+                      <span className="ai-message-text">{message.content}</span>
+                      <span className="ai-message-actions">
                         <button
                           className="ai-message-action"
                           onClick={() => handleEditMessage(message.id, message.content)}
                           title="Edit"
                         >
-                          ✏️
+                          [edit]
                         </button>
                         {message.role === 'assistant' && (
                           <button
@@ -378,7 +355,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
                             onClick={() => handleInsertToDocument(message.content)}
                             title="Insert to document"
                           >
-                            📄 Insert
+                            [insert]
                           </button>
                         )}
                         <button
@@ -386,9 +363,9 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
                           onClick={() => navigator.clipboard.writeText(message.content)}
                           title="Copy"
                         >
-                          📋
+                          [copy]
                         </button>
-                      </div>
+                      </span>
                     </div>
                   )}
                 </div>
@@ -396,16 +373,12 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
             )}
             {isLoading && (
               <div className="ai-message assistant">
-                <div className="ai-message-header">
-                  <span className="ai-message-role">🤖 AI</span>
-                </div>
-                <div className="ai-message-content">
-                  <div className="ai-typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
+                <span className="ai-message-header">$ </span>
+                <span className="ai-typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -437,7 +410,6 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
           aiService={aiService}
         />
       </div>
-    </Draggable>
   );
 };
 
