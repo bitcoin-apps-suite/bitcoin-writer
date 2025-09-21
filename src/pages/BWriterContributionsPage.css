@@ -298,6 +298,25 @@
   box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
 }
 
+.github-issue-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.github-issue-btn:hover {
+  background: rgba(255, 149, 0, 0.1);
+  color: #ff9500;
+  border-color: rgba(255, 149, 0, 0.3);
+  transform: translateY(-1px);
+}
+
 .assignee {
   color: #888;
   font-style: italic;

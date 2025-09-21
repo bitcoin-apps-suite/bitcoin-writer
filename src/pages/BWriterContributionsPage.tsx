@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import CleanTaskbar from '../components/CleanTaskbar';
 import UnifiedAuth from '../components/UnifiedAuth';
+import TaskClaimModal from '../components/TaskClaimModal';
 import { HandCashService } from '../services/HandCashService';
 import './BWriterContributionsPage.css';
 
@@ -25,6 +26,7 @@ interface TodoItem {
   assignee?: string;
   prNumber?: number;
   category: string;
+  githubIssueNumber?: number;
 }
 
 const BWriterContributionsPage: React.FC = () => {
@@ -44,6 +46,8 @@ const BWriterContributionsPage: React.FC = () => {
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
   const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
+  const [selectedTask, setSelectedTask] = useState<TodoItem | null>(null);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const handcashService = new HandCashService();
   
   // Token distribution tracking
@@ -56,140 +60,394 @@ const BWriterContributionsPage: React.FC = () => {
 
   // Todo items for development
   const [todoItems] = useState<TodoItem[]>([
+    // CRITICAL: Blockchain Infrastructure
     {
       id: '1',
-      title: 'Implement IPFS Storage Option',
+      title: 'Implement Micro-Ordinals Inscription',
+      description: 'Replace mock inscription with actual micro-ordinals implementation for document storage on BSV blockchain. Currently using localStorage as a placeholder.',
+      difficulty: 'expert',
+      tokenReward: 0.5,
+      status: 'open',
+      category: 'Blockchain',
+      githubIssueNumber: 4
+    },
+    {
+      id: '2',
+      title: 'UTXO Chain Version Control',
+      description: 'Implement SHA-256 hashing to chain documents as UTXOs for blockchain-based version control. This will create an immutable audit trail of document changes.',
+      difficulty: 'expert',
+      tokenReward: 0.4,
+      status: 'open',
+      category: 'Blockchain',
+      githubIssueNumber: 5
+    },
+    {
+      id: '3',
+      title: 'Share Token Creation System',
+      description: 'Implement document share tokens as separate inscriptions for granular access control and monetization',
+      difficulty: 'hard',
+      tokenReward: 0.3,
+      status: 'open',
+      category: 'Blockchain',
+      githubIssueNumber: 6
+    },
+    
+    // Core Editor Features
+    {
+      id: '4',
+      title: 'Document Open/Save/SaveAs Functions',
+      description: 'Implement file operations: Open documents from blockchain, Save current work, Save As with new name. Currently marked as TODO in App.tsx',
+      difficulty: 'medium',
+      tokenReward: 0.2,
+      status: 'open',
+      category: 'Core Feature',
+      githubIssueNumber: 7
+    },
+    {
+      id: '5',
+      title: 'Document Encryption/Decryption',
+      description: 'Implement client-side AES encryption and decryption for documents before blockchain storage. Critical for privacy.',
+      difficulty: 'hard',
+      tokenReward: 0.25,
+      status: 'open',
+      category: 'Security',
+      githubIssueNumber: 8
+    },
+    {
+      id: '6',
+      title: 'Document Publishing Pipeline',
+      description: 'Build complete publishing flow from draft to blockchain-inscribed final document with metadata',
+      difficulty: 'hard',
+      tokenReward: 0.25,
+      status: 'open',
+      category: 'Core Feature',
+      githubIssueNumber: 9
+    },
+    
+    // Monetization Features
+    {
+      id: '7',
+      title: 'Paywall System Implementation',
+      description: 'Create paywall functionality for monetizing documents with BSV micropayments. Enable creators to earn from their content.',
+      difficulty: 'hard',
+      tokenReward: 0.3,
+      status: 'open',
+      category: 'Monetization',
+      githubIssueNumber: 10
+    },
+    {
+      id: '8',
+      title: 'Document Tokenization Logic',
+      description: 'Implement actual tokenization logic in DocumentEditor.tsx to create tradeable document shares',
+      difficulty: 'hard',
+      tokenReward: 0.25,
+      status: 'open',
+      category: 'Monetization',
+      githubIssueNumber: 11
+    },
+    {
+      id: '9',
+      title: 'Real BSV Price Feed Integration',
+      description: 'Replace mock pricing (currently returns $30) with CoinGecko or similar API for real-time BSV/USD rates',
+      difficulty: 'easy',
+      tokenReward: 0.1,
+      status: 'open',
+      category: 'Integration',
+      githubIssueNumber: 12
+    },
+    
+    // Exchange & Trading Features
+    {
+      id: '10',
+      title: 'Bitcoin Writer Exchange',
+      description: 'Build decentralized exchange for trading document shares and NFTs with order book and liquidity pools',
+      difficulty: 'expert',
+      tokenReward: 0.5,
+      status: 'open',
+      category: 'Exchange',
+      githubIssueNumber: 13
+    },
+    {
+      id: '11',
+      title: 'Document NFT Marketplace',
+      description: 'Create marketplace for buying/selling document NFTs with royalty distribution',
+      difficulty: 'hard',
+      tokenReward: 0.3,
+      status: 'open',
+      category: 'Marketplace',
+      githubIssueNumber: 14
+    },
+    
+    // AI Integration (Already partially implemented)
+    {
+      id: '12',
+      title: 'Enhance AI Assistant',
+      description: 'Improve AI chat with document context awareness, auto-suggestions, and writing style learning',
+      difficulty: 'medium',
+      tokenReward: 0.2,
+      status: 'in-progress',
+      category: 'AI',
+      githubIssueNumber: 15
+    },
+    {
+      id: '13',
+      title: 'AI Model Fine-tuning',
+      description: 'Fine-tune language models for specific writing tasks and document types',
+      difficulty: 'hard',
+      tokenReward: 0.25,
+      status: 'open',
+      category: 'AI',
+      githubIssueNumber: 16
+    },
+    
+    // Collaboration Features
+    {
+      id: '14',
+      title: 'Real-time Collaborative Editing',
+      description: 'Add real-time collaborative editing using WebRTC and CRDTs for multiple users',
+      difficulty: 'expert',
+      tokenReward: 0.35,
+      status: 'open',
+      category: 'Collaboration',
+      githubIssueNumber: 17
+    },
+    {
+      id: '15',
+      title: 'Comment & Review System',
+      description: 'Implement commenting, suggestions, and review workflow for documents',
+      difficulty: 'medium',
+      tokenReward: 0.2,
+      status: 'open',
+      category: 'Collaboration',
+      githubIssueNumber: 18
+    },
+    
+    // Storage & Performance
+    {
+      id: '16',
+      title: 'IPFS Storage Integration',
       description: 'Add IPFS as an alternative storage backend for documents, with pinning service integration',
       difficulty: 'hard',
       tokenReward: 0.2,
       status: 'open',
-      category: 'Storage'
+      category: 'Storage',
+      githubIssueNumber: 19
     },
     {
-      id: '2',
-      title: 'Add Markdown Export',
-      description: 'Enable users to export documents as Markdown files with proper formatting',
+      id: '17',
+      title: 'Optimize Performance',
+      description: 'Improve document loading times, reduce bundle size by 30%, implement code splitting',
+      difficulty: 'hard',
+      tokenReward: 0.175,
+      status: 'open',
+      category: 'Performance',
+      githubIssueNumber: 20
+    },
+    
+    // Import/Export Features
+    {
+      id: '18',
+      title: 'Markdown Import/Export',
+      description: 'Enable users to import and export documents as Markdown files with proper formatting',
       difficulty: 'easy',
       tokenReward: 0.075,
       status: 'open',
-      category: 'Features'
+      category: 'Features',
+      githubIssueNumber: 21
     },
     {
-      id: '3',
-      title: 'Implement Collaborative Editing',
-      description: 'Add real-time collaborative editing using WebRTC and CRDTs',
-      difficulty: 'expert',
-      tokenReward: 0.25,
-      status: 'open',
-      category: 'Features'
-    },
-    {
-      id: '4',
-      title: 'Create Mobile App',
-      description: 'Build React Native mobile app for iOS and Android with full feature parity',
-      difficulty: 'expert',
-      tokenReward: 0.25,
-      status: 'open',
-      category: 'Mobile'
-    },
-    {
-      id: '5',
-      title: 'Add Document Templates',
-      description: 'Create a template library for common document types (contracts, letters, resumes)',
-      difficulty: 'medium',
-      tokenReward: 0.125,
-      status: 'open',
-      category: 'Features'
-    },
-    {
-      id: '6',
-      title: 'Implement Version History',
-      description: 'Add document version tracking and rollback functionality on-chain',
-      difficulty: 'hard',
-      tokenReward: 0.175,
-      status: 'open',
-      category: 'Blockchain'
-    },
-    {
-      id: '7',
-      title: 'Add PDF Import',
-      description: 'Enable users to import and convert PDF documents for editing',
+      id: '19',
+      title: 'PDF Import/Export',
+      description: 'Enable users to import PDF documents for editing and export as PDF',
       difficulty: 'medium',
       tokenReward: 0.15,
       status: 'open',
-      category: 'Features'
+      category: 'Features',
+      githubIssueNumber: 22
     },
     {
-      id: '8',
-      title: 'Create API Documentation',
-      description: 'Write comprehensive API documentation with examples and SDK guides',
-      difficulty: 'medium',
-      tokenReward: 0.1,
-      status: 'open',
-      category: 'Documentation'
-    },
-    {
-      id: '9',
-      title: 'Implement Smart Contract Templates',
-      description: 'Create reusable smart contract templates for document agreements',
-      difficulty: 'expert',
-      tokenReward: 0.25,
-      status: 'open',
-      category: 'Blockchain'
-    },
-    {
-      id: '10',
-      title: 'Add Multi-language Support',
-      description: 'Implement i18n for supporting multiple languages in the UI',
-      difficulty: 'medium',
-      tokenReward: 0.125,
-      status: 'open',
-      category: 'UI/UX'
-    },
-    {
-      id: '11',
-      title: 'Optimize Performance',
-      description: 'Improve document loading times and reduce bundle size by 30%',
-      difficulty: 'hard',
-      tokenReward: 0.175,
-      status: 'open',
-      category: 'Performance'
-    },
-    {
-      id: '12',
-      title: 'Add Voice Dictation',
-      description: 'Implement voice-to-text functionality using Web Speech API',
-      difficulty: 'medium',
-      tokenReward: 0.15,
-      status: 'open',
-      category: 'Features'
-    },
-    {
-      id: '13',
-      title: 'Create Browser Extension',
-      description: 'Build Chrome/Firefox extension for quick document creation from any webpage',
+      id: '20',
+      title: 'MS Word Import/Export',
+      description: 'Add support for .docx file import and export with formatting preservation',
       difficulty: 'hard',
       tokenReward: 0.2,
       status: 'open',
-      category: 'Extensions'
+      category: 'Features',
+      githubIssueNumber: 23
+    },
+    
+    // Mobile & Extensions
+    {
+      id: '21',
+      title: 'React Native Mobile App',
+      description: 'Build React Native mobile app for iOS and Android with full feature parity',
+      difficulty: 'expert',
+      tokenReward: 0.4,
+      status: 'open',
+      category: 'Mobile',
+      githubIssueNumber: 24
     },
     {
-      id: '14',
-      title: 'Implement Document Analytics',
-      description: 'Add analytics dashboard for document views, shares, and earnings',
+      id: '22',
+      title: 'Browser Extension',
+      description: 'Build Chrome/Firefox extension for quick document creation and web clipping',
+      difficulty: 'hard',
+      tokenReward: 0.2,
+      status: 'open',
+      category: 'Extensions',
+      githubIssueNumber: 25
+    },
+    
+    // Templates & Productivity
+    {
+      id: '23',
+      title: 'Document Template Library',
+      description: 'Create template library for contracts, letters, resumes, invoices, and more',
       difficulty: 'medium',
       tokenReward: 0.125,
       status: 'open',
-      category: 'Analytics'
+      category: 'Features',
+      githubIssueNumber: 26
     },
     {
-      id: '15',
-      title: 'Add E-Signature Support',
-      description: 'Integrate digital signature functionality with blockchain verification',
+      id: '24',
+      title: 'Smart Contract Templates',
+      description: 'Create reusable smart contract templates for document agreements and escrow',
+      difficulty: 'expert',
+      tokenReward: 0.25,
+      status: 'open',
+      category: 'Blockchain',
+      githubIssueNumber: 27
+    },
+    
+    // Analytics & Insights
+    {
+      id: '25',
+      title: 'Document Analytics Dashboard',
+      description: 'Add analytics for document views, shares, earnings, and reader engagement',
+      difficulty: 'medium',
+      tokenReward: 0.125,
+      status: 'open',
+      category: 'Analytics',
+      githubIssueNumber: 28
+    },
+    {
+      id: '26',
+      title: 'Writing Analytics',
+      description: 'Track writing productivity, word count goals, and writing streaks',
+      difficulty: 'easy',
+      tokenReward: 0.1,
+      status: 'open',
+      category: 'Analytics',
+      githubIssueNumber: 29
+    },
+    
+    // Accessibility & Localization
+    {
+      id: '27',
+      title: 'Multi-language Support (i18n)',
+      description: 'Implement internationalization for UI in Spanish, Chinese, Japanese, French, German',
+      difficulty: 'medium',
+      tokenReward: 0.125,
+      status: 'open',
+      category: 'UI/UX',
+      githubIssueNumber: 30
+    },
+    {
+      id: '28',
+      title: 'Accessibility Improvements',
+      description: 'Ensure WCAG 2.1 AA compliance, screen reader support, keyboard navigation',
+      difficulty: 'medium',
+      tokenReward: 0.15,
+      status: 'open',
+      category: 'UI/UX',
+      githubIssueNumber: 31
+    },
+    
+    // Advanced Features
+    {
+      id: '29',
+      title: 'Voice Dictation & Commands',
+      description: 'Implement voice-to-text and voice commands using Web Speech API',
+      difficulty: 'medium',
+      tokenReward: 0.15,
+      status: 'open',
+      category: 'Features',
+      githubIssueNumber: 32
+    },
+    {
+      id: '30',
+      title: 'E-Signature Integration',
+      description: 'Add legally binding e-signature functionality with blockchain verification',
       difficulty: 'hard',
       tokenReward: 0.225,
       status: 'open',
-      category: 'Blockchain'
+      category: 'Blockchain',
+      githubIssueNumber: 33
+    },
+    {
+      id: '31',
+      title: 'Version Control UI',
+      description: 'Build UI for document version history, diffs, and rollback functionality',
+      difficulty: 'medium',
+      tokenReward: 0.175,
+      status: 'open',
+      category: 'UI/UX',
+      githubIssueNumber: 34
+    },
+    
+    // Documentation & Testing
+    {
+      id: '32',
+      title: 'API Documentation',
+      description: 'Write comprehensive API documentation with OpenAPI spec and SDK guides',
+      difficulty: 'medium',
+      tokenReward: 0.1,
+      status: 'open',
+      category: 'Documentation',
+      githubIssueNumber: 35
+    },
+    {
+      id: '33',
+      title: 'End-to-End Testing Suite',
+      description: 'Implement Cypress E2E tests for critical user flows',
+      difficulty: 'medium',
+      tokenReward: 0.15,
+      status: 'open',
+      category: 'Testing',
+      githubIssueNumber: 36
+    },
+    {
+      id: '34',
+      title: 'Unit Test Coverage',
+      description: 'Achieve 80% unit test coverage with Jest and React Testing Library',
+      difficulty: 'medium',
+      tokenReward: 0.125,
+      status: 'open',
+      category: 'Testing',
+      githubIssueNumber: 37
+    },
+    
+    // Security
+    {
+      id: '35',
+      title: 'Security Audit',
+      description: 'Conduct comprehensive security audit and implement recommendations',
+      difficulty: 'hard',
+      tokenReward: 0.2,
+      status: 'open',
+      category: 'Security',
+      githubIssueNumber: 38
+    },
+    {
+      id: '36',
+      title: 'Two-Factor Authentication',
+      description: 'Add 2FA support for enhanced account security',
+      difficulty: 'medium',
+      tokenReward: 0.15,
+      status: 'open',
+      category: 'Security',
+      githubIssueNumber: 39
     }
   ]);
 
@@ -257,6 +515,17 @@ const BWriterContributionsPage: React.FC = () => {
       case 'completed': return '✅ Completed';
       default: return status;
     }
+  };
+
+  const handleClaimTask = (task: TodoItem) => {
+    setSelectedTask(task);
+    setIsClaimModalOpen(true);
+  };
+
+  const handleTaskClaimed = (taskId: string) => {
+    // Update task status to in-progress
+    console.log(`Task ${taskId} has been claimed`);
+    // In a real app, you'd update the task status in your state/database
   };
 
   return (
@@ -452,13 +721,21 @@ const BWriterContributionsPage: React.FC = () => {
                     </span>
                   </div>
                   {item.status === 'open' && (
-                    <a 
-                      href={`https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/new?title=${encodeURIComponent(item.title)}&body=${encodeURIComponent(`I would like to work on: ${item.title}\n\n${item.description}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button 
+                      onClick={() => handleClaimTask(item)}
                       className="claim-btn"
                     >
                       Claim Task
+                    </button>
+                  )}
+                  {item.githubIssueNumber && (
+                    <a 
+                      href={`https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/${item.githubIssueNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="github-issue-btn"
+                    >
+                      View Issue #{item.githubIssueNumber}
                     </a>
                   )}
                   {item.assignee && (
@@ -586,6 +863,19 @@ const BWriterContributionsPage: React.FC = () => {
         </div>
       </div>
       </div>
+
+      {/* Task Claim Modal */}
+      {selectedTask && (
+        <TaskClaimModal
+          isOpen={isClaimModalOpen}
+          onClose={() => {
+            setIsClaimModalOpen(false);
+            setSelectedTask(null);
+          }}
+          task={selectedTask}
+          onTaskClaimed={handleTaskClaimed}
+        />
+      )}
     </div>
   );
 };
