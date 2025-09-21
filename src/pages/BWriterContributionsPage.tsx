@@ -53,9 +53,9 @@ const BWriterContributionsPage: React.FC = () => {
   // Token distribution tracking
   const TOTAL_TOKENS = 1000000000; // 1 billion tokens
   const [tokenDistribution, setTokenDistribution] = useState({
-    allocated: 0,
-    reserved: 51, // 51% reserved for core team
-    available: 49
+    allocated: 7.5, // Initial 7.5% allocated to @b0ase for platform creation
+    reserved: 0,
+    available: 92.5
   });
 
   // Todo items for development
@@ -486,14 +486,24 @@ const BWriterContributionsPage: React.FC = () => {
   };
 
   const calculateTokenDistribution = () => {
-    const allocatedTokens = todoItems
+    const foundersAllocation = 7.5; // @b0ase initial platform development
+    
+    const allocatedToTasks = todoItems
       .filter(item => item.status === 'completed')
       .reduce((sum, item) => sum + item.tokenReward, 0);
     
+    const availableInTasks = todoItems
+      .filter(item => item.status === 'open' || item.status === 'in-progress')
+      .reduce((sum, item) => sum + item.tokenReward, 0);
+    
+    const totalAllocated = foundersAllocation + allocatedToTasks;
+    const totalAvailable = 100 - totalAllocated;
+    const unallocatedReserve = totalAvailable - availableInTasks;
+    
     setTokenDistribution({
-      allocated: allocatedTokens,
-      reserved: 51,
-      available: 49 - allocatedTokens
+      allocated: totalAllocated,
+      reserved: unallocatedReserve > 0 ? unallocatedReserve : 0,
+      available: availableInTasks
     });
   };
 
@@ -588,28 +598,56 @@ const BWriterContributionsPage: React.FC = () => {
               <div className="loading">Loading contributors...</div>
             ) : (
               <div className="contributors-grid">
-                {contributors.map((contributor) => (
-                  <div key={contributor.login} className="contributor-card">
-                    <img 
-                      src={contributor.avatar_url} 
-                      alt={contributor.login}
-                      className="contributor-avatar"
-                    />
-                    <div className="contributor-info">
-                      <a 
-                        href={contributor.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="contributor-name"
-                      >
-                        {contributor.login}
-                      </a>
-                      <span className="contribution-count">
-                        {contributor.contributions} commits
-                      </span>
-                    </div>
+                {/* Founder Contribution */}
+                <div className="contributor-card" style={{ border: '2px solid #F7931E', background: 'rgba(247, 147, 30, 0.05)' }}>
+                  <img 
+                    src="https://github.com/b0ase.png" 
+                    alt="b0ase"
+                    className="contributor-avatar"
+                  />
+                  <div className="contributor-info">
+                    <a 
+                      href="https://github.com/b0ase"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contributor-name"
+                    >
+                      @b0ase
+                    </a>
+                    <span className="contribution-count">
+                      117 commits • Founder
+                    </span>
+                    <span className="token-allocation" style={{ color: '#F7931E', fontWeight: 'bold', marginTop: '4px', display: 'block', fontSize: '12px' }}>
+                      7.5% tokens earned (75M $BWRITER)
+                    </span>
                   </div>
-                ))}
+                </div>
+                
+                {/* Other Contributors */}
+                {contributors
+                  .filter(c => c.login !== 'b0ase' && c.login !== 'Richard Boase')
+                  .map((contributor) => (
+                    <div key={contributor.login} className="contributor-card">
+                      <img 
+                        src={contributor.avatar_url} 
+                        alt={contributor.login}
+                        className="contributor-avatar"
+                      />
+                      <div className="contributor-info">
+                        <a 
+                          href={contributor.html_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="contributor-name"
+                        >
+                          {contributor.login}
+                        </a>
+                        <span className="contribution-count">
+                          {contributor.contributions} commits
+                        </span>
+                      </div>
+                    </div>
+                  ))}
               </div>
             )}
           </div>
@@ -633,7 +671,7 @@ const BWriterContributionsPage: React.FC = () => {
               <span className="stat-label">Total Rewards</span>
             </div>
             <div className="stat-card">
-              <span className="stat-value">{tokenDistribution.available.toFixed(1)}%</span>
+              <span className="stat-value">{(100 - tokenDistribution.allocated).toFixed(1)}%</span>
               <span className="stat-label">Tokens Available</span>
             </div>
           </div>
@@ -721,54 +759,69 @@ const BWriterContributionsPage: React.FC = () => {
 
           <div className="distribution-chart">
             <div className="distribution-bar">
-              <div 
-                className="bar-segment reserved" 
-                style={{ width: `${tokenDistribution.reserved}%` }}
-              >
-                <span>Core Team Reserve: {tokenDistribution.reserved}%</span>
-              </div>
-              <div 
-                className="bar-segment allocated" 
-                style={{ width: `${tokenDistribution.allocated}%` }}
-              >
-                <span>Allocated: {tokenDistribution.allocated}%</span>
-              </div>
-              <div 
-                className="bar-segment available" 
-                style={{ width: `${tokenDistribution.available}%` }}
-              >
-                <span>Available: {tokenDistribution.available}%</span>
-              </div>
+              {tokenDistribution.allocated > 0 && (
+                <div 
+                  className="bar-segment allocated" 
+                  style={{ width: `${tokenDistribution.allocated}%` }}
+                  title={`Distributed to Contributors: ${tokenDistribution.allocated}%`}
+                >
+                  <span>Distributed: {tokenDistribution.allocated}%</span>
+                </div>
+              )}
+              {tokenDistribution.available > 0 && (
+                <div 
+                  className="bar-segment available" 
+                  style={{ width: `${tokenDistribution.available}%` }}
+                  title={`Available for Tasks: ${tokenDistribution.available}%`}
+                >
+                  <span>Available: {tokenDistribution.available}%</span>
+                </div>
+              )}
+              {tokenDistribution.reserved > 0 && (
+                <div 
+                  className="bar-segment reserved" 
+                  style={{ width: `${tokenDistribution.reserved}%` }}
+                  title={`Unallocated Reserve: ${tokenDistribution.reserved}%`}
+                >
+                  <span>Unallocated: {tokenDistribution.reserved}%</span>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="distribution-details">
-            <div className="distribution-card">
-              <h3>Core Team Reserve</h3>
-              <div className="percentage">{tokenDistribution.reserved}%</div>
-              <div className="token-amount">
-                {(TOTAL_TOKENS * tokenDistribution.reserved / 100).toLocaleString()} tokens
+            {tokenDistribution.allocated > 0 && (
+              <div className="distribution-card">
+                <h3>Already Distributed</h3>
+                <div className="percentage">{tokenDistribution.allocated.toFixed(1)}%</div>
+                <div className="token-amount">
+                  {(TOTAL_TOKENS * tokenDistribution.allocated / 100).toLocaleString()} tokens
+                </div>
+                <p>Earned by contributors • 7.5% to @b0ase (founder)</p>
               </div>
-              <p>Maintained for platform governance and future development</p>
-            </div>
+            )}
 
-            <div className="distribution-card">
-              <h3>Developer Rewards</h3>
-              <div className="percentage">{tokenDistribution.allocated}%</div>
-              <div className="token-amount">
-                {(TOTAL_TOKENS * tokenDistribution.allocated / 100).toLocaleString()} tokens
+            {tokenDistribution.available > 0 && (
+              <div className="distribution-card">
+                <h3>Available for Tasks</h3>
+                <div className="percentage">{tokenDistribution.available.toFixed(1)}%</div>
+                <div className="token-amount">
+                  {(TOTAL_TOKENS * tokenDistribution.available / 100).toLocaleString()} tokens
+                </div>
+                <p>Ready to be earned by completing open development tasks</p>
               </div>
-              <p>Already distributed to contributors</p>
-            </div>
+            )}
 
-            <div className="distribution-card">
-              <h3>Available for Tasks</h3>
-              <div className="percentage">{tokenDistribution.available}%</div>
-              <div className="token-amount">
-                {(TOTAL_TOKENS * tokenDistribution.available / 100).toLocaleString()} tokens
+            {tokenDistribution.reserved > 0 && (
+              <div className="distribution-card">
+                <h3>Unallocated Reserve</h3>
+                <div className="percentage">{tokenDistribution.reserved.toFixed(1)}%</div>
+                <div className="token-amount">
+                  {(TOTAL_TOKENS * tokenDistribution.reserved / 100).toLocaleString()} tokens
+                </div>
+                <p>Available for future tasks, partnerships, and ecosystem growth</p>
               </div>
-              <p>Ready to be earned by completing development tasks</p>
-            </div>
+            )}
           </div>
 
           <div className="token-utility">
@@ -784,9 +837,10 @@ const BWriterContributionsPage: React.FC = () => {
           </div>
 
           <div className="vesting-schedule">
-            <h3>Vesting Schedule</h3>
+            <h3>Token Distribution Model</h3>
+            <p>All tokens are allocated dynamically based on actual contributions</p>
             <p>Developer rewards are distributed immediately upon PR merge</p>
-            <p>Core team tokens are vested over 24 months with 6-month cliff</p>
+            <p>No fixed allocations - 100% merit-based distribution</p>
           </div>
         </div>
       )}
