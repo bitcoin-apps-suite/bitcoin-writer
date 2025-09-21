@@ -1,10 +1,10 @@
 /* Proof of Concept Banner */
 .poc-banner {
   position: fixed;
-  top: 0;
+  top: 32px; /* Position below taskbar (32px height) */
   left: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 9998; /* Below taskbar (10000) but above content */
   background: linear-gradient(135deg, #FF6B35, #F7931E);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
@@ -34,6 +34,14 @@
   gap: 12px;
   flex: 1;
 }
+
+.poc-banner-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+}
+
 
 .poc-banner-icon {
   color: #1a1a1a;
@@ -79,6 +87,34 @@
 
 .poc-banner-link:hover {
   border-bottom: 1px solid #1a1a1a;
+}
+
+.poc-banner-token {
+  color: #1a1a1a !important;
+  font-weight: 700;
+}
+
+.poc-banner-token:hover {
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.poc-banner-link svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  display: inline;
+  vertical-align: middle;
+}
+
+.poc-banner-link span {
+  display: inline;
+  vertical-align: middle;
+}
+
+.poc-banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .poc-banner-separator {
@@ -127,16 +163,23 @@
     font-size: 12px;
   }
   
+  .poc-banner-nav {
+    gap: 6px;
+    margin-right: 8px;
+  }
+  
   .poc-banner-link {
     margin: 0 4px;
+    font-size: 12px;
   }
   
   .poc-banner-separator {
     margin: 0 2px;
   }
   
-  .poc-banner-message a {
-    margin-left: 4px;
+  .poc-banner-link svg {
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -154,8 +197,23 @@
     display: none;
   }
   
+  .poc-banner-nav {
+    gap: 4px;
+    margin-right: 6px;
+  }
+  
   .poc-banner-link {
     margin: 0 3px;
+    font-size: 11px;
+  }
+  
+  .poc-banner-link svg {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .poc-banner-separator {
+    margin: 0 1px;
   }
 }
 

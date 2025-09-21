@@ -530,63 +530,6 @@ const BWriterContributionsPage: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="taskbar-header">
-        <CleanTaskbar 
-          isAuthenticated={isHandCashAuthenticated}
-          currentUser={currentHandCashUser}
-          onLogout={() => {
-            setIsHandCashAuthenticated(false);
-            setCurrentHandCashUser(null);
-          }}
-        />
-      </div>
-      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000, display: 'flex', gap: '10px', alignItems: 'center' }}>
-        <a 
-          href="https://x.com/bitcoin_writer" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{
-            padding: '8px 16px',
-            background: 'linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%)',
-            borderRadius: '8px',
-            color: '#fff',
-            textDecoration: 'none',
-            fontWeight: '600',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'transform 0.2s, box-shadow 0.2s',
-            fontSize: '14px'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(29, 161, 242, 0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          Follow @bitcoin_writer
-        </a>
-        <UnifiedAuth 
-          googleUser={googleUser}
-          setGoogleUser={setGoogleUser}
-          isHandCashAuthenticated={isHandCashAuthenticated}
-          currentHandCashUser={currentHandCashUser}
-          handcashService={handcashService}
-          onHandCashLogin={() => {
-            // HandCash login logic
-          }}
-          onHandCashLogout={() => {
-            setIsHandCashAuthenticated(false);
-            setCurrentHandCashUser(null);
-          }}
-        />
-      </div>
       <div className="bwriter-contributions-page">
       <div className="contributions-header">
         <h1>$BWriter Development Hub</h1>

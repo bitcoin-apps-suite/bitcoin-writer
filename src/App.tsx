@@ -215,23 +215,10 @@ function App() {
 
   return (
     <>
-      <ProofOfConceptBanner />
       <GoogleAuthProvider>
-        <Routes>
-      <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
-      <Route path="/bitcoin-writer/bap" element={<BapPage />} />
-      <Route path="/features" element={<FeaturesPage />} />
-      <Route path="/token" element={<TokenPage />} />
-      <Route path="/tasks" element={<TasksPage />} />
-      <Route path="/contributions" element={<BWriterContributionsPage />} />
-      <Route path="/docs" element={<DocsPage />} />
-      <Route path="/*" element={
-        isLoading ? (
-          <div className="App">
-            <div className="loading">Loading Bitcoin Writer...</div>
-          </div>
-        ) : (
-          <div className="App">
+        {/* Global elements that appear on all pages */}
+        {!isLoading && (
+          <>
             {/* Clean taskbar with proper spacing */}
             <CleanTaskbar
               isAuthenticated={isAuthenticated}
@@ -254,6 +241,27 @@ function App() {
               documentService={documentService}
               onToggleAIChat={() => setShowAIChat(!showAIChat)}
             />
+            
+            {/* Proof of Concept Banner */}
+            <ProofOfConceptBanner />
+          </>
+        )}
+
+        <Routes>
+      <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
+      <Route path="/bitcoin-writer/bap" element={<BapPage />} />
+      <Route path="/features" element={<FeaturesPage />} />
+      <Route path="/token" element={<TokenPage />} />
+      <Route path="/tasks" element={<TasksPage />} />
+      <Route path="/contributions" element={<BWriterContributionsPage />} />
+      <Route path="/docs" element={<DocsPage />} />
+      <Route path="/*" element={
+        isLoading ? (
+          <div className="App">
+            <div className="loading">Loading Bitcoin Writer...</div>
+          </div>
+        ) : (
+          <div className="App">
             
             {/* Old macOS-style taskbar (kept for reference, can be removed later) */}
             <div className="taskbar" style={{display: 'none'}}>
