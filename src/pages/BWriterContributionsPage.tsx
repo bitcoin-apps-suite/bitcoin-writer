@@ -3,6 +3,9 @@
 // This software can only be used on BSV blockchains
 
 import React, { useState, useEffect } from 'react';
+import CleanTaskbar from '../components/CleanTaskbar';
+import UnifiedAuth from '../components/UnifiedAuth';
+import { HandCashService } from '../services/HandCashService';
 import './BWriterContributionsPage.css';
 
 interface Contributor {
@@ -28,6 +31,10 @@ const BWriterContributionsPage: React.FC = () => {
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'contributions' | 'todo' | 'tokenomics'>('contributions');
+  const [googleUser, setGoogleUser] = useState<any>(null);
+  const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
+  const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
+  const handcashService = new HandCashService();
   
   // Token distribution tracking
   const TOTAL_TOKENS = 1000000000; // 1 billion tokens
@@ -228,7 +235,34 @@ const BWriterContributionsPage: React.FC = () => {
   };
 
   return (
-    <div className="bwriter-contributions-page">
+    <div className="App">
+      <div className="taskbar-header">
+        <CleanTaskbar 
+          isAuthenticated={isHandCashAuthenticated}
+          currentUser={currentHandCashUser}
+          onLogout={() => {
+            setIsHandCashAuthenticated(false);
+            setCurrentHandCashUser(null);
+          }}
+        />
+      </div>
+      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000 }}>
+        <UnifiedAuth 
+          googleUser={googleUser}
+          setGoogleUser={setGoogleUser}
+          isHandCashAuthenticated={isHandCashAuthenticated}
+          currentHandCashUser={currentHandCashUser}
+          handcashService={handcashService}
+          onHandCashLogin={() => {
+            // HandCash login logic
+          }}
+          onHandCashLogout={() => {
+            setIsHandCashAuthenticated(false);
+            setCurrentHandCashUser(null);
+          }}
+        />
+      </div>
+      <div className="bwriter-contributions-page">
       <div className="contributions-header">
         <h1>$BWriter Development Hub</h1>
         <p>Contribute to Bitcoin Writer and earn $BWriter tokens</p>
@@ -485,6 +519,7 @@ const BWriterContributionsPage: React.FC = () => {
             Discord
           </a>
         </div>
+      </div>
       </div>
     </div>
   );
