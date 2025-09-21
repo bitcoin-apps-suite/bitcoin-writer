@@ -284,6 +284,13 @@ function App() {
                         </div>
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
+                          window.location.href = '/';
+                          setShowBitcoinMenu(false);
+                        }}>
+                          <span>📝</span> Bitcoin Writer
+                        </div>
+                        <div className="menu-separator" />
+                        <div className="menu-item" onClick={() => {
                           alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© 2025 The Bitcoin Corporation LTD\nBuilt on Bitcoin SV blockchain');
                           setShowBitcoinMenu(false);
                         }}>
