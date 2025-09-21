@@ -18,6 +18,7 @@ import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
 import CleanTaskbar from './components/CleanTaskbar';
+import ProofOfConceptBanner from './components/ProofOfConceptBanner';
 import DocumentExchangeView from './components/DocumentExchangeView';
 import BitcoinAppsView from './components/BitcoinAppsView';
 import BitcoinAppOverviews from './components/BitcoinAppOverviews';
@@ -212,8 +213,10 @@ function App() {
   };
 
   return (
-    <GoogleAuthProvider>
-      <Routes>
+    <>
+      <ProofOfConceptBanner />
+      <GoogleAuthProvider>
+        <Routes>
       <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/features" element={<FeaturesPage />} />
@@ -740,6 +743,7 @@ function App() {
       } />
       </Routes>
     </GoogleAuthProvider>
+    </>
   );
 }
 
