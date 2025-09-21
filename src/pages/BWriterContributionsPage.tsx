@@ -30,7 +30,7 @@ const BWriterContributionsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'contributions' | 'todo' | 'tokenomics'>('contributions');
   
   // Token distribution tracking
-  const TOTAL_TOKENS = 100000000; // 100 million tokens
+  const TOTAL_TOKENS = 1000000000; // 1 billion tokens
   const [tokenDistribution, setTokenDistribution] = useState({
     allocated: 0,
     reserved: 51, // 51% reserved for core team
