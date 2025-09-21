@@ -31,6 +31,33 @@ interface TodoItem {
 
 const BWriterContributionsPage: React.FC = () => {
   const [contributors, setContributors] = useState<Contributor[]>([]);
+  const [showCompletedTasks, setShowCompletedTasks] = useState(false);
+  
+  // Completed tasks by @b0ase - total 7.5% allocation
+  const completedTasksByFounder = [
+    { task: 'Initial React app setup & configuration', allocation: 0.2 },
+    { task: 'HandCash authentication integration', allocation: 0.4 },
+    { task: 'Document editor with Quill.js', allocation: 0.5 },
+    { task: 'BSV blockchain storage service', allocation: 0.3 },
+    { task: 'NFT tokenization system', allocation: 0.4 },
+    { task: 'Document exchange marketplace', allocation: 0.3 },
+    { task: 'Clean taskbar navigation system', allocation: 0.2 },
+    { task: 'GitHub OAuth authentication', allocation: 0.3 },
+    { task: 'AI Chat Assistant with multiple providers', allocation: 0.6 },
+    { task: 'Document versioning with Ordinals', allocation: 0.4 },
+    { task: 'Features marketing page', allocation: 0.2 },
+    { task: 'Token page & tokenomics design', allocation: 0.3 },
+    { task: 'Contributions page & task system', allocation: 0.5 },
+    { task: 'Smart contract integration', allocation: 0.4 },
+    { task: 'Proof of concept banner', allocation: 0.1 },
+    { task: 'Mobile responsive design', allocation: 0.3 },
+    { task: 'Document encryption system', allocation: 0.3 },
+    { task: 'Storage options (IPFS, Cloud)', allocation: 0.4 },
+    { task: 'Social media integrations', allocation: 0.3 },
+    { task: 'API documentation', allocation: 0.2 },
+    { task: 'Testing & bug fixes', allocation: 0.5 },
+    { task: 'Deployment configuration', allocation: 0.3 }
+  ];
   const [loading, setLoading] = useState(true);
   
   // Initialize activeTab based on URL hash
@@ -620,8 +647,82 @@ const BWriterContributionsPage: React.FC = () => {
                     <span className="token-allocation" style={{ color: '#F7931E', fontWeight: 'bold', marginTop: '4px', display: 'block', fontSize: '12px' }}>
                       7.5% tokens earned (75M $BWRITER)
                     </span>
+                    <button 
+                      onClick={() => setShowCompletedTasks(!showCompletedTasks)}
+                      style={{
+                        marginTop: '8px',
+                        padding: '4px 12px',
+                        background: '#F7931E',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      {showCompletedTasks ? 'Hide' : 'View'} Completed Tasks
+                    </button>
                   </div>
                 </div>
+                
+                {/* Show completed tasks if toggled */}
+                {showCompletedTasks && (
+                  <div style={{ 
+                    gridColumn: '1 / -1', 
+                    marginTop: '20px',
+                    padding: '20px',
+                    background: 'rgba(247, 147, 30, 0.02)',
+                    border: '1px solid rgba(247, 147, 30, 0.2)',
+                    borderRadius: '8px'
+                  }}>
+                    <h3 style={{ marginBottom: '16px', color: '#F7931E' }}>Completed Tasks by @b0ase</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '12px' }}>
+                      {completedTasksByFounder.map((item, index) => (
+                        <div key={index} style={{
+                          padding: '12px',
+                          background: 'white',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '6px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+                          <span style={{ flex: 1, fontSize: '13px' }}>{item.task}</span>
+                          <div style={{ textAlign: 'right' }}>
+                            <span style={{ 
+                              fontWeight: 'bold', 
+                              color: '#F7931E',
+                              fontSize: '12px',
+                              display: 'block'
+                            }}>
+                              {item.allocation}%
+                            </span>
+                            <span style={{ 
+                              fontSize: '11px', 
+                              color: '#666',
+                              display: 'block'
+                            }}>
+                              {(TOTAL_TOKENS * item.allocation / 100).toLocaleString()} tokens
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{
+                      marginTop: '16px',
+                      padding: '12px',
+                      background: '#F7931E',
+                      color: 'white',
+                      borderRadius: '6px',
+                      textAlign: 'center',
+                      fontWeight: 'bold'
+                    }}>
+                      Total: {completedTasksByFounder.reduce((sum, item) => sum + item.allocation, 0).toFixed(1)}% 
+                      ({(TOTAL_TOKENS * 7.5 / 100).toLocaleString()} $BWRITER)
+                    </div>
+                  </div>
+                )}
                 
                 {/* Other Contributors */}
                 {contributors
