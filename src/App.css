@@ -15,18 +15,18 @@
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
-  padding-top: 76px; /* Account for proof of concept banner (48px) + taskbar (28px) */
+  padding-top: 68px; /* Account for proof of concept banner (40px) + taskbar (28px) */
 }
 
 @media (max-width: 768px) {
   .App {
-    padding-top: 72px; /* Smaller banner (44px) + taskbar (28px) on mobile */
+    padding-top: 64px; /* Smaller banner (36px) + taskbar (28px) on mobile */
   }
 }
 
 @media (max-width: 480px) {
   .App {
-    padding-top: 88px; /* Text wrapping banner (60px) + taskbar (28px) on very small screens */
+    padding-top: 60px; /* Smaller banner (32px) + taskbar (28px) on very small screens */
   }
 }
 
