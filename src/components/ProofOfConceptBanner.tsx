@@ -17,11 +17,10 @@ const ProofOfConceptBanner: React.FC = () => {
           </svg>
         </div>
         <div className="poc-banner-text">
-          <span className="poc-banner-label">PROOF OF CONCEPT</span>
           <span className="poc-banner-message">
-            This is a demonstration version. Features are under active development. 
+            <strong>PROOF OF CONCEPT:</strong> This is a demonstration version. Features are under active development.
             <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer" target="_blank" rel="noopener noreferrer">
-              Contribute on GitHub
+              Contribute on GitHub →
             </a>
           </span>
         </div>

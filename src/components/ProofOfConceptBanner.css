@@ -6,12 +6,12 @@
   right: 0;
   z-index: 9999;
   background: linear-gradient(135deg, #FF6B35, #F7931E);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 24px;
-  height: 48px;
+  padding: 8px 24px;
+  height: 40px;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   animation: slideDown 0.3s ease-out;
@@ -36,7 +36,7 @@
 }
 
 .poc-banner-icon {
-  color: #ffffff;
+  color: #1a1a1a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,42 +47,34 @@
 
 .poc-banner-text {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  color: #ffffff;
-}
-
-.poc-banner-label {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  line-height: 1;
+  align-items: center;
+  color: #1a1a1a;
+  flex: 1;
 }
 
 .poc-banner-message {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.3;
-  opacity: 0.95;
+  line-height: 1;
 }
 
 .poc-banner-message a {
-  color: #ffffff;
-  text-decoration: underline;
-  font-weight: 500;
-  margin-left: 8px;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 12px;
   transition: opacity 0.2s ease;
+  border-bottom: 1px solid transparent;
 }
 
 .poc-banner-message a:hover {
-  opacity: 0.8;
+  border-bottom: 1px solid #1a1a1a;
 }
 
 .poc-banner-close {
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #1a1a1a;
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -91,40 +83,32 @@
   justify-content: center;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .poc-banner-close:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   opacity: 1;
 }
 
 .poc-banner-close:focus {
-  outline: 2px solid rgba(255, 255, 255, 0.3);
+  outline: 2px solid rgba(0, 0, 0, 0.2);
   outline-offset: 2px;
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .poc-banner {
-    padding: 8px 16px;
-    height: 44px;
+    padding: 6px 16px;
+    height: 36px;
   }
   
   .poc-banner-content {
     gap: 8px;
   }
   
-  .poc-banner-text {
-    gap: 1px;
-  }
-  
-  .poc-banner-label {
-    font-size: 11px;
-  }
-  
   .poc-banner-message {
-    font-size: 12px;
+    font-size: 13px;
   }
   
   .poc-banner-message a {
@@ -134,23 +118,12 @@
 
 @media (max-width: 480px) {
   .poc-banner {
-    padding: 6px 12px;
-    height: 40px;
-  }
-  
-  .poc-banner-text {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  
-  .poc-banner-label {
-    font-size: 10px;
+    padding: 5px 12px;
+    height: 32px;
   }
   
   .poc-banner-message {
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 

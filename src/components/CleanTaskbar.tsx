@@ -373,7 +373,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         color: '#ffffff',
         userSelect: 'none',
         position: 'fixed',
-        top: 48, /* Account for proof of concept banner */
+        top: 40, /* Account for proof of concept banner */
         left: 0,
         right: 0,
         zIndex: 10000
