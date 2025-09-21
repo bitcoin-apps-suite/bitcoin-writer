@@ -1,0 +1,13 @@
+Bitcoin Writer Social Media Links
+==================================
+
+Discord: https://discord.gg/xBB8r8dj
+Twitter/X: https://x.com/bitcoin_writer
+GitHub Organization: https://github.com/bitcoin-apps-suite
+GitHub Repository: https://github.com/bitcoin-apps-suite/bitcoin-writer
+
+Website: https://bitcoin-writer.vercel.app
+Contributions Page: https://bitcoin-writer.vercel.app/contributions
+Token Info: https://bitcoin-writer.vercel.app/token
+
+Contact Email: admin@bitcoinwriter.io

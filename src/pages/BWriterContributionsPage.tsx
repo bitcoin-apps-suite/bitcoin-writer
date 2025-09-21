@@ -30,7 +30,17 @@ interface TodoItem {
 const BWriterContributionsPage: React.FC = () => {
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'contributions' | 'todo' | 'tokenomics'>('contributions');
+  
+  // Initialize activeTab based on URL hash
+  const getInitialTab = () => {
+    const hash = window.location.hash.slice(1).toLowerCase();
+    if (hash === 'tasks' || hash === 'todo') return 'todo';
+    if (hash === 'tokendistribution' || hash === 'tokenomics') return 'tokenomics';
+    if (hash === 'contributors' || hash === 'contributions') return 'contributions';
+    return 'contributions';
+  };
+  
+  const [activeTab, setActiveTab] = useState<'contributions' | 'todo' | 'tokenomics'>(getInitialTab());
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
   const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
@@ -186,6 +196,21 @@ const BWriterContributionsPage: React.FC = () => {
   useEffect(() => {
     fetchContributors();
     calculateTokenDistribution();
+    
+    // Listen for hash changes
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1).toLowerCase();
+      if (hash === 'tasks' || hash === 'todo') {
+        setActiveTab('todo');
+      } else if (hash === 'tokendistribution' || hash === 'tokenomics') {
+        setActiveTab('tokenomics');
+      } else if (hash === 'contributors' || hash === 'contributions') {
+        setActiveTab('contributions');
+      }
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   const fetchContributors = async () => {
@@ -246,7 +271,38 @@ const BWriterContributionsPage: React.FC = () => {
           }}
         />
       </div>
-      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000 }}>
+      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000, display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <a 
+          href="https://x.com/bitcoin_writer" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            padding: '8px 16px',
+            background: 'linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%)',
+            borderRadius: '8px',
+            color: '#fff',
+            textDecoration: 'none',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'transform 0.2s, box-shadow 0.2s',
+            fontSize: '14px'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(29, 161, 242, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Follow @bitcoin_writer
+        </a>
         <UnifiedAuth 
           googleUser={googleUser}
           setGoogleUser={setGoogleUser}
@@ -270,19 +326,28 @@ const BWriterContributionsPage: React.FC = () => {
         <div className="tab-navigation">
           <button 
             className={`tab-btn ${activeTab === 'contributions' ? 'active' : ''}`}
-            onClick={() => setActiveTab('contributions')}
+            onClick={() => {
+              setActiveTab('contributions');
+              window.location.hash = 'contributors';
+            }}
           >
             Contributors
           </button>
           <button 
             className={`tab-btn ${activeTab === 'todo' ? 'active' : ''}`}
-            onClick={() => setActiveTab('todo')}
+            onClick={() => {
+              setActiveTab('todo');
+              window.location.hash = 'tasks';
+            }}
           >
             Development Tasks
           </button>
           <button 
             className={`tab-btn ${activeTab === 'tokenomics' ? 'active' : ''}`}
-            onClick={() => setActiveTab('tokenomics')}
+            onClick={() => {
+              setActiveTab('tokenomics');
+              window.location.hash = 'tokenDistribution';
+            }}
           >
             Token Distribution
           </button>
@@ -515,7 +580,7 @@ const BWriterContributionsPage: React.FC = () => {
           <a href="https://github.com/bitcoin-apps-suite" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
-          <a href="https://discord.gg/bitcoin-writer" target="_blank" rel="noopener noreferrer">
+          <a href="https://discord.gg/xBB8r8dj" target="_blank" rel="noopener noreferrer">
             Discord
           </a>
         </div>
