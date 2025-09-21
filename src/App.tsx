@@ -9,6 +9,7 @@ import FeaturesPage from './pages/FeaturesPage';
 import TokenPage from './pages/TokenPage';
 import BWriterContributionsPage from './pages/BWriterContributionsPage';
 import DocsPage from './pages/DocsPage';
+import TasksPage from './pages/TasksPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -221,6 +222,7 @@ function App() {
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/features" element={<FeaturesPage />} />
       <Route path="/token" element={<TokenPage />} />
+      <Route path="/tasks" element={<TasksPage />} />
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/*" element={

@@ -1,0 +1,363 @@
+/* Tasks Page Styles */
+.tasks-page {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  position: relative;
+  padding-top: 68px; /* 40px banner + 28px taskbar */
+}
+
+.tasks-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.tasks-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.tasks-header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.tasks-subtitle {
+  font-size: 18px;
+  color: #999;
+}
+
+/* Filters */
+.tasks-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tasks-filters button {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #333;
+  color: #999;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tasks-filters button:hover {
+  border-color: #FF6B35;
+  color: #FF6B35;
+}
+
+.tasks-filters button.active {
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+/* Tasks Grid */
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.task-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.task-card:hover {
+  border-color: #FF6B35;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.1);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.task-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.task-difficulty {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.task-difficulty.easy {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.task-difficulty.medium {
+  background: rgba(255, 193, 7, 0.1);
+  color: #FFC107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.task-difficulty.hard {
+  background: rgba(244, 67, 54, 0.1);
+  color: #F44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.task-description {
+  color: #999;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.task-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #222;
+}
+
+.task-category {
+  color: #666;
+  font-size: 14px;
+}
+
+.task-reward {
+  color: #FF6B35;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.task-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  padding: 4px 8px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Task Modal */
+.task-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.task-modal-content {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 32px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #FF6B35;
+}
+
+.task-modal-content h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.task-modal-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.task-modal-description {
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.task-modal-section {
+  margin-bottom: 32px;
+}
+
+.task-modal-section h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #FF6B35;
+}
+
+.task-deliverables {
+  list-style: none;
+  padding: 0;
+}
+
+.task-deliverables li {
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+  color: #999;
+}
+
+.task-deliverables li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #FF6B35;
+}
+
+.apply-button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.apply-button:hover {
+  opacity: 0.9;
+}
+
+/* Contact Modal */
+.contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  padding: 20px;
+}
+
+.contact-modal-content {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.contact-modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.contact-modal-content p {
+  color: #999;
+  margin-bottom: 24px;
+}
+
+.contact-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-modal-content input,
+.contact-modal-content textarea {
+  padding: 12px;
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.contact-modal-content input:focus,
+.contact-modal-content textarea:focus {
+  outline: none;
+  border-color: #FF6B35;
+}
+
+.contact-modal-content button[type="submit"] {
+  padding: 14px;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.contact-modal-content button[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tasks-header h1 {
+    font-size: 36px;
+  }
+
+  .tasks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-modal-content {
+    padding: 24px;
+  }
+}

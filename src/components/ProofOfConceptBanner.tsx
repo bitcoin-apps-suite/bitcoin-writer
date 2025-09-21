@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ProofOfConceptBanner.css';
 
 const ProofOfConceptBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const navigate = useNavigate();
 
   if (!isVisible) return null;
 
-  const openBitcoinApp = (appUrl: string) => {
-    window.open(appUrl, '_blank');
+  const handleNavigation = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -23,15 +25,15 @@ const ProofOfConceptBanner: React.FC = () => {
         <div className="poc-banner-text">
           <span className="poc-banner-message">
             <strong>PROOF OF CONCEPT:</strong> This is a demonstration version.
-            <button className="poc-banner-link" onClick={() => openBitcoinApp('https://bitcoin-spreadsheet.vercel.app/tasks')}>
+            <button className="poc-banner-link" onClick={() => handleNavigation('/tasks')}>
               Tasks
             </button>
             <span className="poc-banner-separator">•</span>
-            <button className="poc-banner-link" onClick={() => openBitcoinApp('https://bitcoin-spreadsheet.vercel.app/contributions')}>
+            <button className="poc-banner-link" onClick={() => handleNavigation('/contributions')}>
               Contributions
             </button>
             <span className="poc-banner-separator">•</span>
-            <button className="poc-banner-link" onClick={() => openBitcoinApp('https://bitcoin-spreadsheet.vercel.app/docs')}>
+            <button className="poc-banner-link" onClick={() => handleNavigation('/docs')}>
               Docs
             </button>
             <span className="poc-banner-separator">•</span>
