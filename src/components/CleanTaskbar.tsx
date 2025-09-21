@@ -374,7 +374,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         color: '#ffffff',
         userSelect: 'none',
         position: 'fixed',
-        top: 0,
+        top: '40px', // Position below POC banner (40px height)
         left: 0,
         right: 0,
         zIndex: 10000

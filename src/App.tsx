@@ -215,13 +215,13 @@ function App() {
 
   return (
     <>
+      {/* Proof of Concept Banner - positioned at the very top */}
+      <ProofOfConceptBanner />
+      
       <GoogleAuthProvider>
         {/* Global elements that appear on all pages */}
         {!isLoading && (
           <>
-            {/* Proof of Concept Banner */}
-            <ProofOfConceptBanner />
-            
             {/* Clean taskbar with proper spacing */}
             <CleanTaskbar
               isAuthenticated={isAuthenticated}
