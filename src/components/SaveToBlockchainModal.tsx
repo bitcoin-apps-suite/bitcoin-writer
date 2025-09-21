@@ -649,12 +649,12 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
               <div style={{ 
                 marginTop: '20px', 
                 padding: '15px', 
-                backgroundColor: 'rgba(255, 193, 7, 0.1)', 
-                border: '1px solid rgba(255, 193, 7, 0.3)', 
+                backgroundColor: 'rgba(40, 167, 69, 0.1)', 
+                border: '1px solid rgba(40, 167, 69, 0.3)', 
                 borderRadius: '8px' 
               }}>
-                <strong>⚠️ Important:</strong> Encrypted documents cannot be monetized with paywalls. 
-                Readers need unencrypted content to preview before paying.
+                <strong>💰 Pro Tip:</strong> Encrypted content + Paywall = Premium Access Model. 
+                Set a price to automatically grant decryption keys to paying customers. Perfect for exclusive content, research papers, and premium documents.
               </div>
             </div>
           )}
