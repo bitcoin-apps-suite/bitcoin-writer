@@ -4,13 +4,15 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10001;
+  z-index: 9999;
   background: linear-gradient(135deg, #FF6B35, #F7931E);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
+  padding: 10px 24px;
+  height: 48px;
+  box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   animation: slideDown 0.3s ease-out;
 }
@@ -105,7 +107,8 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .poc-banner {
-    padding: 10px 16px;
+    padding: 8px 16px;
+    height: 44px;
   }
   
   .poc-banner-content {
@@ -131,7 +134,8 @@
 
 @media (max-width: 480px) {
   .poc-banner {
-    padding: 8px 12px;
+    padding: 6px 12px;
+    height: 40px;
   }
   
   .poc-banner-text {
