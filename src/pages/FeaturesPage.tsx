@@ -348,7 +348,7 @@ const FeaturesPage: React.FC = () => {
           </div>
           
           <div className="footer-bottom">
-            <p>© 2024 Bitcoin Writer. Transform your words into digital gold.</p>
+            <p>© 2025 The Bitcoin Corporation LTD. All rights reserved.</p>
           </div>
         </div>
       </footer>

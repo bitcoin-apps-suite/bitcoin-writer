@@ -1,5 +1,5 @@
 // Open BSV License version 5
-// Copyright (c) 2025 @b0ase
+// Copyright (c) 2025 The Bitcoin Corporation LTD
 // This software can only be used on BSV blockchains
 
 import React, { useState, useEffect } from 'react';

@@ -60,7 +60,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Bitcoin Writer',
       items: [
-        { label: 'About Bitcoin Writer', action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© @b0ase 2025\nBuilt with HandCash integration') },
+        { label: 'About Bitcoin Writer', action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© 2025 The Bitcoin Corporation LTD\nAll rights reserved\n\nBuilt with HandCash integration') },
         { label: 'Features', action: () => {
           const event = new CustomEvent('showFeaturesPage');
           window.dispatchEvent(event);

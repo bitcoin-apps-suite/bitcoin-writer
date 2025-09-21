@@ -1,5 +1,5 @@
 // Open BSV License version 5
-// Copyright (c) 2025 @b0ase
+// Copyright (c) 2025 The Bitcoin Corporation LTD
 // This software can only be used on BSV blockchains
 
 import React, { useState, useEffect } from 'react';
@@ -284,7 +284,7 @@ function App() {
                         </div>
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
-                          alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© @b0ase 2025\nBuilt on Bitcoin SV blockchain');
+                          alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© 2025 The Bitcoin Corporation LTD\nBuilt on Bitcoin SV blockchain');
                           setShowBitcoinMenu(false);
                         }}>
                           <span>ℹ️</span> About Bitcoin Writer

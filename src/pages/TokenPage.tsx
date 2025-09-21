@@ -90,7 +90,7 @@ const TokenPage: React.FC = () => {
                 who contribute meaningful code that gets merged into production
               </li>
               <li>
-                <strong>Revenue Sharing:</strong> The Bitcoin Software Company intends to distribute 
+                <strong>Revenue Sharing:</strong> The Bitcoin Corporation LTD intends to distribute 
                 dividends to token holders from subscription revenues and exchange fees
               </li>
               <li>
@@ -118,7 +118,7 @@ const TokenPage: React.FC = () => {
                 capital raising. $BWRITER tokens are rewards for contribution, not investment instruments
               </li>
               <li>
-                <strong>Future Equity:</strong> The Bitcoin Software Company may incorporate and offer 
+                <strong>Future Equity:</strong> The Bitcoin Corporation LTD may incorporate and offer 
                 regulated equity shares separately from the token system
               </li>
             </ul>
@@ -127,7 +127,7 @@ const TokenPage: React.FC = () => {
 
         {/* Business Model Section */}
         <section className="business-section">
-          <h2>The Bitcoin Software Company</h2>
+          <h2>The Bitcoin Corporation LTD</h2>
           <div className="business-content">
             <p className="intro">
               Our vision is to create sustainable open-source software through a hybrid model that 
@@ -282,7 +282,7 @@ const TokenPage: React.FC = () => {
               market to provide liquidity and price discovery for contributors' work.
             </p>
             <p>
-              <strong>$BSHARE Fundraising:</strong> The Bitcoin Software Company intends to issue $BSHARE 
+              <strong>$BSHARE Fundraising:</strong> The Bitcoin Corporation LTD intends to issue $BSHARE 
               tokens as a fundraising mechanism. These tokens will represent participation in the platform's 
               success and may be offered through appropriate channels.
             </p>
