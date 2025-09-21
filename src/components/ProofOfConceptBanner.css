@@ -4,7 +4,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 20000;
+  z-index: 10001;
   background: linear-gradient(135deg, #FF6B35, #F7931E);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
