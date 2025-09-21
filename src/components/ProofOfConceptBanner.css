@@ -63,7 +63,7 @@
 }
 
 .poc-banner-link {
-  color: #1a1a1a;
+  color: #1a1a1a !important;
   text-decoration: none;
   font-weight: 600;
   margin: 0 8px;
