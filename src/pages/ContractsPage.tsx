@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ContractsPage.css';
 import { HandCashService } from '../services/HandCashService';
+import Footer from '../components/Footer';
 
 interface Contract {
   id: string;
@@ -445,6 +446,7 @@ const ContractsPage: React.FC = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

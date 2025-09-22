@@ -23,6 +23,7 @@ import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
 import UnifiedAuth from './components/UnifiedAuth';
 import CleanTaskbar from './components/CleanTaskbar';
+import Footer from './components/Footer';
 import ProofOfConceptBanner from './components/ProofOfConceptBanner';
 import DevSidebar from './components/DevSidebar';
 import DocumentExchangeView from './components/DocumentExchangeView';
@@ -779,6 +780,7 @@ function App() {
                   />
                 )}
               </main>
+              <Footer />
             </div>
           </div>
         )}

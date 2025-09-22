@@ -18,6 +18,17 @@
   padding-top: 72px; /* Account for CleanTaskbar (32px) + POC banner (40px) */
 }
 
+/* Ensure pages have proper layout with footer */
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
 @media (max-width: 768px) {
   .App {
     padding-top: 104px; /* Taskbar (32px) + POC banner (72px) on mobile */

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignupPage.css';
+import Footer from '../components/Footer';
 
 const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -211,6 +212,7 @@ const SignupPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

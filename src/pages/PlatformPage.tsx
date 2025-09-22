@@ -1,5 +1,6 @@
 import React from 'react';
 import './PlatformPage.css';
+import Footer from '../components/Footer';
 
 const PlatformPage: React.FC = () => {
   return (
@@ -182,6 +183,7 @@ const PlatformPage: React.FC = () => {
           </a>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

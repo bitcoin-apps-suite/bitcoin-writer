@@ -1,5 +1,6 @@
 import React from 'react';
 import './FeaturesPage.css';
+import Footer from '../components/Footer';
 
 const FeaturesPage: React.FC = () => {
   return (
@@ -352,6 +353,7 @@ const FeaturesPage: React.FC = () => {
           </div>
         </div>
       </footer>
+    <Footer />
     </div>
   );
 };

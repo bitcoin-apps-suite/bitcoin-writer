@@ -9,6 +9,7 @@ import UnifiedAuth from '../components/UnifiedAuth';
 import TaskClaimModal from '../components/TaskClaimModal';
 import { HandCashService } from '../services/HandCashService';
 import './BWriterContributionsPage.css';
+import Footer from '../components/Footer';
 
 interface Contributor {
   login: string;
@@ -975,7 +976,8 @@ const BWriterContributionsPage: React.FC = () => {
           onTaskClaimed={handleTaskClaimed}
         />
       )}
-    </div>
+    <Footer />
+</div>
   );
 };
 

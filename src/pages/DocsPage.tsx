@@ -3,6 +3,7 @@ import CleanTaskbar from '../components/CleanTaskbar';
 import UnifiedAuth from '../components/UnifiedAuth';
 import { HandCashService } from '../services/HandCashService';
 import './DocsPage.css';
+import Footer from '../components/Footer';
 
 const DocsPage: React.FC = () => {
   const [googleUser, setGoogleUser] = useState<any>(null);
@@ -387,6 +388,7 @@ const DocsPage: React.FC = () => {
         </section>
       </div>
     </div>
+    <Footer />
     </div>
   );
 };
