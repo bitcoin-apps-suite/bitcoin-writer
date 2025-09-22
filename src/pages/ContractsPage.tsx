@@ -1,0 +1,420 @@
+import React, { useState, useEffect } from 'react';
+import './ContractsPage.css';
+import { HandCashService } from '../services/HandCashService';
+
+interface Contract {
+  id: string;
+  githubIssueNumber: number;
+  githubIssueUrl: string;
+  title: string;
+  description: string;
+  reward: string;
+  estimatedHours: number;
+  priority: 'Critical' | 'High' | 'Medium' | 'Low';
+  status: 'available' | 'claimed' | 'in_progress' | 'submitted' | 'completed' | 'expired';
+  assignee?: {
+    githubUsername: string;
+    handcashHandle?: string;
+    claimedAt: string;
+    deadline: string;
+  };
+  pullRequest?: {
+    number: number;
+    url: string;
+    status: 'open' | 'closed' | 'merged';
+  };
+  skills: string[];
+  deliverables: string[];
+}
+
+const ContractsPage: React.FC = () => {
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
+  const [showClaimModal, setShowClaimModal] = useState(false);
+  const [handcashService] = useState(new HandCashService());
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // Form state for claim modal
+  const [claimForm, setClaimForm] = useState({
+    githubUsername: '',
+    handcashHandle: '',
+    estimatedDays: 7
+  });
+
+  useEffect(() => {
+    fetchContracts();
+    checkAuthentication();
+  }, []);
+
+  const checkAuthentication = () => {
+    setIsAuthenticated(handcashService.isAuthenticated());
+  };
+
+  const fetchContracts = async () => {
+    try {
+      // Fetch GitHub issues
+      const response = await fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/issues?state=all&per_page=100');
+      const issues = await response.json();
+      
+      // Also fetch pull requests to match with issues
+      const prsResponse = await fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/pulls?state=all&per_page=100');
+      const pullRequests = await prsResponse.json();
+      
+      // Map issues to contracts
+      const mappedContracts: Contract[] = issues.map((issue: any) => {
+        const body = issue.body || '';
+        const priorityMatch = body.match(/\*\*Priority:\*\*\s*(Critical|High|Medium|Low)/i);
+        const hoursMatch = body.match(/\*\*Estimated Hours:\*\*\s*(\d+)/i);
+        const rewardMatch = body.match(/\*\*Token Reward:\*\*\s*([\d,]+)\s*BWRITER/i);
+        
+        // Find matching PR if exists
+        const matchingPR = pullRequests.find((pr: any) => 
+          pr.body && pr.body.includes(`#${issue.number}`)
+        );
+        
+        // Extract skills
+        let skills: string[] = ['TypeScript', 'React'];
+        if (body.includes('blockchain') || body.includes('BSV')) skills.push('BSV');
+        if (body.includes('HandCash')) skills.push('HandCash SDK');
+        if (body.includes('OAuth')) skills.push('OAuth');
+        
+        // Extract deliverables
+        const deliverables: string[] = [];
+        const criteriaMatch = body.match(/## Acceptance Criteria[\s\S]*?(\n\n|\*\*|$)/);
+        if (criteriaMatch) {
+          const criteria = criteriaMatch[0];
+          const items = criteria.match(/- \[ \] .*/g) || [];
+          items.forEach(item => {
+            deliverables.push(item.replace('- [ ] ', ''));
+          });
+        }
+        
+        // Determine contract status
+        let status: Contract['status'] = 'available';
+        if (issue.state === 'closed') {
+          status = 'completed';
+        } else if (matchingPR) {
+          if (matchingPR.state === 'closed' && matchingPR.merged_at) {
+            status = 'completed';
+          } else if (matchingPR.state === 'open') {
+            status = 'submitted';
+          }
+        } else if (issue.assignee) {
+          status = 'in_progress';
+        }
+        
+        // Get contract from localStorage if it exists
+        const storedContract = localStorage.getItem(`contract-${issue.number}`);
+        const contractData = storedContract ? JSON.parse(storedContract) : null;
+        
+        return {
+          id: `contract-${issue.number}`,
+          githubIssueNumber: issue.number,
+          githubIssueUrl: issue.html_url,
+          title: issue.title,
+          description: body.split('## Requirements')[0].replace('## Description', '').trim(),
+          reward: rewardMatch ? `${rewardMatch[1]} BWRITER` : '2,000 BWRITER',
+          estimatedHours: hoursMatch ? parseInt(hoursMatch[1]) : 8,
+          priority: (priorityMatch ? priorityMatch[1] : 'Medium') as Contract['priority'],
+          status,
+          assignee: contractData?.assignee || (issue.assignee ? {
+            githubUsername: issue.assignee.login,
+            claimedAt: issue.assigned_at || new Date().toISOString(),
+            deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+          } : undefined),
+          pullRequest: matchingPR ? {
+            number: matchingPR.number,
+            url: matchingPR.html_url,
+            status: matchingPR.state
+          } : undefined,
+          skills,
+          deliverables: deliverables.length > 0 ? deliverables : ['See issue for details']
+        };
+      });
+      
+      setContracts(mappedContracts);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch contracts:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleClaimContract = async () => {
+    if (!selectedContract || !claimForm.githubUsername || !claimForm.handcashHandle) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    
+    // Calculate deadline
+    const deadline = new Date();
+    deadline.setDate(deadline.getDate() + claimForm.estimatedDays);
+    
+    // Store contract claim locally (in production, this would go to backend)
+    const contractClaim = {
+      assignee: {
+        githubUsername: claimForm.githubUsername,
+        handcashHandle: claimForm.handcashHandle,
+        claimedAt: new Date().toISOString(),
+        deadline: deadline.toISOString()
+      }
+    };
+    
+    localStorage.setItem(`contract-${selectedContract.githubIssueNumber}`, JSON.stringify(contractClaim));
+    
+    // Update local state
+    const updatedContracts = contracts.map(c => 
+      c.id === selectedContract.id 
+        ? { ...c, status: 'claimed' as Contract['status'], assignee: contractClaim.assignee }
+        : c
+    );
+    setContracts(updatedContracts);
+    
+    // Close modals
+    setShowClaimModal(false);
+    setSelectedContract(null);
+    
+    alert(`Contract claimed successfully! You have ${claimForm.estimatedDays} days to complete this task.`);
+  };
+
+  const getStatusColor = (status: Contract['status']) => {
+    switch (status) {
+      case 'available': return '#22c55e';
+      case 'claimed': return '#f59e0b';
+      case 'in_progress': return '#3b82f6';
+      case 'submitted': return '#8b5cf6';
+      case 'completed': return '#6b7280';
+      case 'expired': return '#ef4444';
+      default: return '#6b7280';
+    }
+  };
+
+  const getTimeRemaining = (deadline: string) => {
+    const now = new Date();
+    const end = new Date(deadline);
+    const diff = end.getTime() - now.getTime();
+    
+    if (diff <= 0) return 'Expired';
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    if (days > 0) return `${days} days remaining`;
+    if (hours > 0) return `${hours} hours remaining`;
+    return 'Less than 1 hour';
+  };
+
+  return (
+    <div className="contracts-page">
+      <div className="contracts-header">
+        <h1>Developer Contracts</h1>
+        <p>Claim contracts, deliver code, earn BWRITER tokens</p>
+      </div>
+
+      <div className="contracts-stats">
+        <div className="stat-card">
+          <span className="stat-value">{contracts.filter(c => c.status === 'available').length}</span>
+          <span className="stat-label">Available</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-value">{contracts.filter(c => c.status === 'in_progress' || c.status === 'claimed').length}</span>
+          <span className="stat-label">In Progress</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-value">{contracts.filter(c => c.status === 'submitted').length}</span>
+          <span className="stat-label">Under Review</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-value">{contracts.filter(c => c.status === 'completed').length}</span>
+          <span className="stat-label">Completed</span>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="contracts-loading">Loading contracts...</div>
+      ) : (
+        <div className="contracts-grid">
+          {contracts.map(contract => (
+            <div 
+              key={contract.id} 
+              className={`contract-card ${contract.status !== 'available' ? 'contract-unavailable' : ''}`}
+              onClick={() => contract.status === 'available' && setSelectedContract(contract)}
+            >
+              <div className="contract-header">
+                <h3>{contract.title}</h3>
+                <span 
+                  className="contract-status"
+                  style={{ background: getStatusColor(contract.status) }}
+                >
+                  {contract.status.replace('_', ' ').toUpperCase()}
+                </span>
+              </div>
+              
+              <p className="contract-description">{contract.description}</p>
+              
+              <div className="contract-meta">
+                <span className="contract-priority priority-{contract.priority.toLowerCase()}">
+                  {contract.priority}
+                </span>
+                <span className="contract-reward">{contract.reward}</span>
+                <span className="contract-time">{contract.estimatedHours}h</span>
+              </div>
+
+              {contract.assignee && (
+                <div className="contract-assignee">
+                  <span className="assignee-label">Assigned to:</span>
+                  <span className="assignee-name">@{contract.assignee.githubUsername}</span>
+                  {contract.status === 'in_progress' && (
+                    <span className="assignee-deadline">
+                      {getTimeRemaining(contract.assignee.deadline)}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {contract.pullRequest && (
+                <div className="contract-pr">
+                  <a 
+                    href={contract.pullRequest.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    PR #{contract.pullRequest.number} ({contract.pullRequest.status})
+                  </a>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Contract Details Modal */}
+      {selectedContract && (
+        <div className="contract-modal" onClick={() => setSelectedContract(null)}>
+          <div className="contract-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setSelectedContract(null)}>×</button>
+            
+            <h2>{selectedContract.title}</h2>
+            
+            <div className="contract-modal-meta">
+              <span className="priority-badge priority-{selectedContract.priority.toLowerCase()}">
+                {selectedContract.priority} Priority
+              </span>
+              <span className="reward-badge">{selectedContract.reward}</span>
+              <span className="time-badge">{selectedContract.estimatedHours} hours</span>
+            </div>
+
+            <div className="contract-modal-section">
+              <h3>Description</h3>
+              <p>{selectedContract.description}</p>
+            </div>
+
+            <div className="contract-modal-section">
+              <h3>Required Skills</h3>
+              <div className="skills-list">
+                {selectedContract.skills.map(skill => (
+                  <span key={skill} className="skill-badge">{skill}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="contract-modal-section">
+              <h3>Deliverables</h3>
+              <ul className="deliverables-list">
+                {selectedContract.deliverables.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="contract-actions">
+              <a 
+                href={selectedContract.githubIssueUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="github-button"
+              >
+                View on GitHub →
+              </a>
+              <button 
+                className="claim-button"
+                onClick={() => setShowClaimModal(true)}
+                disabled={!isAuthenticated}
+              >
+                {isAuthenticated ? 'Claim Contract' : 'Login to Claim'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Claim Contract Modal */}
+      {showClaimModal && (
+        <div className="claim-modal" onClick={() => setShowClaimModal(false)}>
+          <div className="claim-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setShowClaimModal(false)}>×</button>
+            
+            <h2>Claim Contract</h2>
+            <p>By claiming this contract, you agree to deliver the work within the specified timeframe.</p>
+            
+            <form onSubmit={(e) => { e.preventDefault(); handleClaimContract(); }}>
+              <div className="form-group">
+                <label>GitHub Username *</label>
+                <input
+                  type="text"
+                  value={claimForm.githubUsername}
+                  onChange={(e) => setClaimForm({...claimForm, githubUsername: e.target.value})}
+                  placeholder="your-github-username"
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>HandCash Handle *</label>
+                <input
+                  type="text"
+                  value={claimForm.handcashHandle}
+                  onChange={(e) => setClaimForm({...claimForm, handcashHandle: e.target.value})}
+                  placeholder="$yourhandle"
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Estimated Days to Complete *</label>
+                <select
+                  value={claimForm.estimatedDays}
+                  onChange={(e) => setClaimForm({...claimForm, estimatedDays: parseInt(e.target.value)})}
+                >
+                  <option value={3}>3 days</option>
+                  <option value={5}>5 days</option>
+                  <option value={7}>7 days (default)</option>
+                  <option value={14}>14 days</option>
+                  <option value={30}>30 days</option>
+                </select>
+              </div>
+              
+              <div className="claim-terms">
+                <h4>Terms & Conditions:</h4>
+                <ul>
+                  <li>You must submit a PR within the agreed timeframe</li>
+                  <li>Code must meet all acceptance criteria</li>
+                  <li>Token rewards are distributed upon PR merge</li>
+                  <li>Inactive contracts may be reassigned after deadline</li>
+                </ul>
+              </div>
+              
+              <button type="submit" className="submit-claim-button">
+                Accept & Claim Contract
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ContractsPage;

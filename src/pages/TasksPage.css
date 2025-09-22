@@ -257,8 +257,34 @@
   color: #FF6B35;
 }
 
+.task-modal-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.github-link-button {
+  background: #2d2d2d;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.github-link-button:hover {
+  background: #3d3d3d;
+  border-color: #666;
+}
+
 .apply-button {
-  width: 100%;
+  flex: 1;
   padding: 16px;
   background: linear-gradient(135deg, #FF6B35, #F7931E);
   border: none;
@@ -272,6 +298,18 @@
 
 .apply-button:hover {
   opacity: 0.9;
+}
+
+.tasks-loading {
+  text-align: center;
+  padding: 48px;
+  color: #999;
+  font-size: 18px;
+}
+
+.task-difficulty.critical {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: #fff;
 }
 
 /* Contact Modal */

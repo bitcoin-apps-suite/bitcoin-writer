@@ -1,0 +1,517 @@
+.contracts-page {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contracts-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contracts-header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.contracts-header p {
+  font-size: 18px;
+  color: #999;
+}
+
+/* Stats Cards */
+.contracts-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 36px;
+  font-weight: 700;
+  color: #FF6B35;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Contracts Grid */
+.contracts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.contract-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.contract-card:hover {
+  border-color: #FF6B35;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+}
+
+.contract-unavailable {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contract-unavailable:hover {
+  transform: none;
+  border-color: #333;
+  box-shadow: none;
+}
+
+.contract-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.contract-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.contract-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.contract-description {
+  color: #999;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.contract-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.contract-priority {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.priority-critical {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+}
+
+.priority-high {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+}
+
+.priority-medium {
+  background: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+}
+
+.priority-low {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+}
+
+.contract-reward {
+  color: #F7931E;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.contract-time {
+  color: #666;
+  font-size: 14px;
+}
+
+.contract-assignee {
+  padding-top: 16px;
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.assignee-label {
+  color: #666;
+}
+
+.assignee-name {
+  color: #3498db;
+  font-weight: 600;
+}
+
+.assignee-deadline {
+  margin-left: auto;
+  color: #f59e0b;
+  font-size: 12px;
+}
+
+.contract-pr {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #333;
+}
+
+.contract-pr a {
+  color: #8b5cf6;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.contract-pr a:hover {
+  text-decoration: underline;
+}
+
+/* Contract Modal */
+.contract-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.contract-modal-content {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  color: #fff;
+}
+
+.contract-modal-content h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #fff;
+  padding-right: 40px;
+}
+
+.contract-modal-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.priority-badge,
+.reward-badge,
+.time-badge {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reward-badge {
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  color: #000;
+}
+
+.time-badge {
+  background: #2d2d2d;
+  color: #999;
+}
+
+.contract-modal-section {
+  margin-bottom: 24px;
+}
+
+.contract-modal-section h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #FF6B35;
+  margin-bottom: 12px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-badge {
+  padding: 6px 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #999;
+}
+
+.deliverables-list {
+  margin-left: 20px;
+  color: #999;
+  line-height: 1.8;
+}
+
+.deliverables-list li {
+  margin-bottom: 8px;
+}
+
+.contract-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.github-button {
+  flex: 1;
+  padding: 16px;
+  background: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.github-button:hover {
+  background: #3d3d3d;
+  border-color: #666;
+}
+
+.claim-button {
+  flex: 2;
+  padding: 16px;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.claim-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+}
+
+.claim-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Claim Modal */
+.claim-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  padding: 20px;
+}
+
+.claim-modal-content {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.claim-modal-content h2 {
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.claim-modal-content p {
+  color: #999;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #999;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #FF6B35;
+}
+
+.claim-terms {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.claim-terms h4 {
+  color: #FF6B35;
+  margin-bottom: 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.claim-terms ul {
+  margin-left: 20px;
+  color: #999;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.submit-claim-button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-claim-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+}
+
+.contracts-loading {
+  text-align: center;
+  padding: 48px;
+  color: #999;
+  font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contracts-page {
+    padding: 20px;
+  }
+  
+  .contracts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contract-modal-content,
+  .claim-modal-content {
+    padding: 20px;
+  }
+  
+  .contract-actions {
+    flex-direction: column;
+  }
+}

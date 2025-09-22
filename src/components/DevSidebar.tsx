@@ -26,12 +26,21 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     const saved = localStorage.getItem('devSidebarCollapsed');
     return saved === 'true';
   });
+  const [issueCount, setIssueCount] = useState<number>(0);
   const location = useLocation();
 
   useEffect(() => {
     localStorage.setItem('devSidebarCollapsed', isCollapsed.toString());
     onCollapsedChange?.(isCollapsed);
   }, [isCollapsed, onCollapsedChange]);
+
+  useEffect(() => {
+    // Fetch GitHub issue count
+    fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/issues?state=open')
+      .then(res => res.json())
+      .then(issues => setIssueCount(Array.isArray(issues) ? issues.length : 0))
+      .catch(() => setIssueCount(0));
+  }, []);
 
   const menuItems: Array<{
     path?: string;
@@ -41,14 +50,14 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     divider?: boolean;
     external?: boolean;
   }> = [
-    { path: '/contracts', icon: FileText, label: 'Contracts', badge: '12' },
-    { path: '/tasks', icon: Terminal, label: 'Tasks', badge: '30+' },
+    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/tasks', icon: Terminal, label: 'Tasks', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     { path: '/docs', icon: BookOpen, label: 'Documentation' },
     { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
     { divider: true },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
-    { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues', icon: Bug, label: 'Issues', external: true, badge: '8' },
+    { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues', icon: Bug, label: 'Issues', external: true, badge: issueCount > 0 ? String(issueCount) : undefined },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/pulls', icon: Code, label: 'Pull Requests', external: true },
     { divider: true },
     { path: '/api', icon: Package, label: 'API Reference' },

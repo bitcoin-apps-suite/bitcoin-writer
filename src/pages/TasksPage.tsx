@@ -1,113 +1,116 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TasksPage.css';
 
 interface Task {
   id: string;
   title: string;
   description: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: 'Easy' | 'Medium' | 'Hard' | 'Critical';
   category: string;
   reward: string;
   status: 'available' | 'in_progress' | 'completed';
   skills: string[];
   deliverables: string[];
+  githubIssueNumber?: number;
+  githubIssueUrl?: string;
+  estimatedHours?: number;
+  assignee?: string;
 }
 
 const TasksPage: React.FC = () => {
-  const [tasks] = useState<Task[]>([
-    {
-      id: 'bw-1',
-      title: 'Implement Collaborative Editing',
-      description: 'Add real-time collaborative editing features using WebRTC or similar technology',
-      difficulty: 'Hard',
-      category: 'Feature',
-      reward: '5,000 BWRITER',
-      status: 'available',
-      skills: ['React', 'WebRTC', 'TypeScript', 'Real-time Systems'],
-      deliverables: [
-        'Real-time cursor tracking',
-        'Conflict resolution system',
-        'User presence indicators',
-        'Comprehensive testing'
-      ]
-    },
-    {
-      id: 'bw-2',
-      title: 'Add Markdown Export',
-      description: 'Implement functionality to export documents as Markdown files',
-      difficulty: 'Easy',
-      category: 'Feature',
-      reward: '1,000 BWRITER',
-      status: 'available',
-      skills: ['React', 'TypeScript', 'File Handling'],
-      deliverables: [
-        'Export button in toolbar',
-        'Proper Markdown formatting',
-        'Preserve document structure'
-      ]
-    },
-    {
-      id: 'bw-3',
-      title: 'Create Document Templates',
-      description: 'Design and implement a template system for common document types',
-      difficulty: 'Medium',
-      category: 'Feature',
-      reward: '2,500 BWRITER',
-      status: 'available',
-      skills: ['React', 'UI/UX', 'TypeScript'],
-      deliverables: [
-        'Template gallery UI',
-        'At least 10 professional templates',
-        'Template customization options'
-      ]
-    },
-    {
-      id: 'bw-4',
-      title: 'Optimize Document Loading',
-      description: 'Improve performance for loading large documents from the blockchain',
-      difficulty: 'Medium',
-      category: 'Performance',
-      reward: '2,000 BWRITER',
-      status: 'available',
-      skills: ['React', 'BSV', 'Performance Optimization'],
-      deliverables: [
-        'Lazy loading implementation',
-        'Caching strategy',
-        'Loading time improvement metrics'
-      ]
-    },
-    {
-      id: 'bw-5',
-      title: 'Add Version Control UI',
-      description: 'Create an interface for viewing and managing document versions',
-      difficulty: 'Hard',
-      category: 'Feature',
-      reward: '4,000 BWRITER',
-      status: 'available',
-      skills: ['React', 'BSV', 'UI/UX', 'Git-like Systems'],
-      deliverables: [
-        'Version history viewer',
-        'Diff visualization',
-        'Rollback functionality',
-        'Branch/merge capabilities'
-      ]
-    },
-    {
-      id: 'bw-6',
-      title: 'Write API Documentation',
-      description: 'Create comprehensive API documentation for the Bitcoin Writer SDK',
-      difficulty: 'Easy',
-      category: 'Documentation',
-      reward: '1,500 BWRITER',
-      status: 'available',
-      skills: ['Technical Writing', 'TypeScript', 'API Design'],
-      deliverables: [
-        'Complete API reference',
-        'Code examples',
-        'Integration guides'
-      ]
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch GitHub issues on mount
+  useEffect(() => {
+    fetchGitHubIssues();
+  }, []);
+  
+  const fetchGitHubIssues = async () => {
+    try {
+      const response = await fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/issues?state=open&per_page=100');
+      const issues = await response.json();
+      
+      const mappedTasks: Task[] = issues.map((issue: any) => {
+        // Parse priority and reward from issue body
+        const body = issue.body || '';
+        const priorityMatch = body.match(/\*\*Priority:\*\*\s*(Critical|High|Medium|Low)/i);
+        const hoursMatch = body.match(/\*\*Estimated Hours:\*\*\s*(\d+)/i);
+        const rewardMatch = body.match(/\*\*Token Reward:\*\*\s*([\d,]+)\s*BWRITER/i);
+        
+        // Map GitHub labels to categories
+        const labels = issue.labels || [];
+        let category = 'Feature';
+        if (labels.some((l: any) => l.name === 'bug')) category = 'Bug Fix';
+        if (labels.some((l: any) => l.name === 'documentation')) category = 'Documentation';
+        if (labels.some((l: any) => l.name === 'enhancement')) category = 'Enhancement';
+        
+        // Map priority to difficulty
+        let difficulty: Task['difficulty'] = 'Medium';
+        const priority = priorityMatch ? priorityMatch[1] : 'Medium';
+        if (priority === 'Critical') difficulty = 'Critical';
+        if (priority === 'High') difficulty = 'Hard';
+        if (priority === 'Medium') difficulty = 'Medium';
+        if (priority === 'Low') difficulty = 'Easy';
+        
+        // Extract skills from issue body
+        const skillsMatch = body.match(/## Files to modify[\s\S]*?## Acceptance Criteria/);
+        let skills: string[] = ['TypeScript', 'React'];
+        if (body.includes('blockchain') || body.includes('BSV')) skills.push('BSV');
+        if (body.includes('HandCash')) skills.push('HandCash SDK');
+        if (body.includes('OAuth')) skills.push('OAuth');
+        if (body.includes('PDF')) skills.push('PDF Generation');
+        
+        // Extract deliverables from acceptance criteria
+        const deliverables: string[] = [];
+        const criteriaMatch = body.match(/## Acceptance Criteria[\s\S]*?(\n\n|\*\*|$)/);
+        if (criteriaMatch) {
+          const criteria = criteriaMatch[0];
+          const items = criteria.match(/- \[ \] .*/g) || [];
+          items.forEach(item => {
+            deliverables.push(item.replace('- [ ] ', ''));
+          });
+        }
+        
+        return {
+          id: `issue-${issue.number}`,
+          title: issue.title,
+          description: body.split('## Requirements')[0].replace('## Description', '').trim(),
+          difficulty,
+          category,
+          reward: rewardMatch ? `${rewardMatch[1]} BWRITER` : '2,000 BWRITER',
+          status: issue.assignee ? 'in_progress' : 'available',
+          skills,
+          deliverables: deliverables.length > 0 ? deliverables : ['See issue for details'],
+          githubIssueNumber: issue.number,
+          githubIssueUrl: issue.html_url,
+          estimatedHours: hoursMatch ? parseInt(hoursMatch[1]) : 8,
+          assignee: issue.assignee ? issue.assignee.login : undefined
+        };
+      });
+      
+      setTasks(mappedTasks);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch GitHub issues:', error);
+      // Fallback to some default tasks
+      setTasks([
+        {
+          id: 'default-1',
+          title: 'Check GitHub for latest tasks',
+          description: 'Visit our GitHub repository to see the latest available tasks',
+          difficulty: 'Easy',
+          category: 'Information',
+          reward: 'Various',
+          status: 'available',
+          skills: ['GitHub'],
+          deliverables: ['Visit repository'],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues'
+        }
+      ]);
+      setLoading(false);
     }
-  ]);
+  };
 
   const [filter, setFilter] = useState<string>('all');
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -115,6 +118,7 @@ const TasksPage: React.FC = () => {
 
   const filteredTasks = tasks.filter(task => {
     if (filter === 'all') return true;
+    if (filter === 'critical') return task.difficulty === 'Critical';
     if (filter === 'easy') return task.difficulty === 'Easy';
     if (filter === 'medium') return task.difficulty === 'Medium';
     if (filter === 'hard') return task.difficulty === 'Hard';
@@ -145,6 +149,12 @@ const TasksPage: React.FC = () => {
             onClick={() => setFilter('all')}
           >
             All Tasks
+          </button>
+          <button
+            className={filter === 'critical' ? 'active' : ''}
+            onClick={() => setFilter('critical')}
+          >
+            Critical
           </button>
           <button
             className={filter === 'easy' ? 'active' : ''}
@@ -178,6 +188,11 @@ const TasksPage: React.FC = () => {
           </button>
         </div>
 
+        {loading ? (
+          <div className="tasks-loading">
+            <p>Loading tasks from GitHub...</p>
+          </div>
+        ) : (
         <div className="tasks-grid">
           {filteredTasks.map(task => (
             <div
@@ -207,6 +222,7 @@ const TasksPage: React.FC = () => {
             </div>
           ))}
         </div>
+        )}
 
         {selectedTask && (
           <div className="task-modal" onClick={() => setSelectedTask(null)}>
@@ -240,9 +256,21 @@ const TasksPage: React.FC = () => {
                 </ul>
               </div>
 
-              <button className="apply-button" onClick={handleApply}>
-                Apply for this Task
-              </button>
+              <div className="task-modal-actions">
+                {selectedTask.githubIssueUrl && (
+                  <a 
+                    href={selectedTask.githubIssueUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="github-link-button"
+                  >
+                    View on GitHub →
+                  </a>
+                )}
+                <button className="apply-button" onClick={handleApply}>
+                  Apply for this Task
+                </button>
+              </div>
             </div>
           </div>
         )}
