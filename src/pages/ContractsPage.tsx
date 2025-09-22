@@ -160,7 +160,7 @@ const ContractsPage: React.FC = () => {
             url: matchingPR.html_url,
             status: matchingPR.state
           } : undefined,
-          skills: [...new Set(skills)], // Remove duplicates
+          skills: Array.from(new Set(skills)), // Remove duplicates
           deliverables: deliverables.length > 0 ? deliverables.slice(0, 8) : ['See issue for details']
         };
       });

@@ -117,7 +117,7 @@ const TasksPage: React.FC = () => {
           category,
           reward: rewardMatch ? `${rewardMatch[1]} BWRITER` : '2,000 BWRITER',
           status: issue.assignee ? 'in_progress' : 'available',
-          skills: [...new Set(skills)], // Remove duplicates
+          skills: Array.from(new Set(skills)), // Remove duplicates
           deliverables: deliverables.length > 0 ? deliverables.slice(0, 5) : ['See issue for details'], // Limit to 5 items
           githubIssueNumber: issue.number,
           githubIssueUrl: issue.html_url,
