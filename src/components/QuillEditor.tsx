@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import mammoth from 'mammoth';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
+import AnimatedPlaceholder from './AnimatedPlaceholder';
 
 interface QuillEditorProps {
   content: string;
@@ -20,6 +21,13 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
 }) => {
   const quillRef = useRef<ReactQuill>(null);
   const [isReady, setIsReady] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(() => {
+    // Check if initial content is empty
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+    return text.trim().length === 0;
+  });
 
   // Quill modules configuration - comprehensive Word-like toolbar
   const modules = useMemo(() => ({
@@ -76,10 +84,20 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
     }
   }, []);
 
+  // Update isEmpty when content changes from outside
+  useEffect(() => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+    setIsEmpty(text.trim().length === 0);
+  }, [content]);
+
   const handleChange = (value: string, delta: any, source: string, editor: any) => {
     onChange(value);
+    const text = editor.getText();
+    setIsEmpty(text.trim().length === 0);
     if (onTextChange) {
-      onTextChange(editor.getText());
+      onTextChange(text);
     }
   };
 
@@ -202,16 +220,19 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         </button>
       </div>
       
-      <ReactQuill
-        ref={quillRef}
-        theme="snow"
-        value={content}
-        onChange={handleChange}
-        modules={modules}
-        formats={formats}
-        placeholder={placeholder}
-        className="quill-editor"
-      />
+      <div style={{ position: 'relative' }}>
+        <ReactQuill
+          ref={quillRef}
+          theme="snow"
+          value={content}
+          onChange={handleChange}
+          modules={modules}
+          formats={formats}
+          placeholder="" // Disable default placeholder when using animated one
+          className="quill-editor"
+        />
+        {isEmpty && <AnimatedPlaceholder />}
+      </div>
     </div>
   );
 };

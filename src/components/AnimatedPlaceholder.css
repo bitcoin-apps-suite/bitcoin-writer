@@ -1,0 +1,96 @@
+.animated-placeholder {
+  position: absolute;
+  top: 16px;
+  left: 15px;
+  right: 15px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.placeholder-text {
+  color: rgba(255, 149, 0, 0.4);
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-style: italic;
+  max-width: 600px;
+  animation: subtle-glow 3s ease-in-out infinite;
+}
+
+.placeholder-text.visible {
+  opacity: 1;
+}
+
+@keyframes subtle-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 149, 0, 0.1);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 149, 0, 0.2);
+  }
+}
+
+.placeholder-indicators {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  display: flex;
+  gap: 6px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+  pointer-events: all;
+}
+
+.animated-placeholder:hover .placeholder-indicators {
+  opacity: 0.6;
+}
+
+.indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 149, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: rgba(255, 149, 0, 0.8);
+  width: 20px;
+  border-radius: 3px;
+}
+
+.indicator:hover {
+  background: rgba(255, 149, 0, 0.6);
+  transform: scale(1.2);
+}
+
+/* Hide on mobile for better UX */
+@media (max-width: 768px) {
+  .animated-placeholder {
+    display: none;
+  }
+}
+
+/* Integration with Quill editor */
+.ql-editor:focus ~ .animated-placeholder,
+.ql-editor:not(:empty) ~ .animated-placeholder,
+.ql-editor[data-placeholder] ~ .animated-placeholder {
+  display: none;
+}
+
+/* Show only when editor is empty */
+.ql-editor:empty:not(:focus) ~ .animated-placeholder {
+  display: block;
+}
+
+/* For regular contenteditable div */
+.editor-content:focus + .animated-placeholder,
+.editor-content:not(:empty) + .animated-placeholder {
+  display: none;
+}
+
+.editor-content:empty:not(:focus) + .animated-placeholder {
+  display: block;
+}
