@@ -6,6 +6,19 @@
   color: #fff;
 }
 
+/* Mobile: Account for taller banner */
+@media (max-width: 768px) {
+  .bwriter-contributions-page {
+    padding-top: 120px; /* 72px POC banner + 32px taskbar + 16px spacing */
+  }
+}
+
+@media (max-width: 480px) {
+  .bwriter-contributions-page {
+    padding-top: 116px; /* 68px POC banner + 32px taskbar + 16px spacing */
+  }
+}
+
 /* Desktop: Use more horizontal space */
 @media (min-width: 1024px) {
   .bwriter-contributions-page {

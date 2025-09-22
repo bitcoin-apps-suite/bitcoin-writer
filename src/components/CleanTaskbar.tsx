@@ -374,7 +374,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         color: '#ffffff',
         userSelect: 'none',
         position: 'fixed',
-        top: isMobile ? (window.innerWidth <= 480 ? '56px' : '60px') : '40px', // Responsive positioning
+        top: isMobile ? (window.innerWidth <= 480 ? '68px' : '72px') : '40px', // Responsive positioning
         left: 0,
         right: 0,
         zIndex: 10000
@@ -1238,8 +1238,12 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
           }}
           title={isAuthenticated ? 'Manage HandCash connection' : 'Connect with HandCash'}
         >
-          <span>{isAuthenticated && currentUser ? (currentUser.handle || 'Connected') : 'Not Connected'}</span>
-          <span style={{ color: isAuthenticated ? '#00ff88' : '#ff4444', opacity: isAuthenticated ? 1 : 0.6 }}>●</span>
+          <span>{isAuthenticated && currentUser ? (currentUser.handle || 'Connected') : (
+            isMobile ? '' : 'Not Connected'
+          )}</span>
+          <span style={{ color: isAuthenticated ? '#00ff88' : '#ff4444', opacity: isAuthenticated ? 1 : 0.6 }}>
+            {!isAuthenticated && isMobile ? '✕' : '●'}
+          </span>
         </button>
       </div>
     </div>

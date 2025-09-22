@@ -20,13 +20,13 @@
 
 @media (max-width: 768px) {
   .App {
-    padding-top: 68px; /* CleanTaskbar (32px) + smaller POC banner (36px) on mobile */
+    padding-top: 104px; /* Taskbar (32px) + POC banner (72px) on mobile */
   }
 }
 
 @media (max-width: 480px) {
   .App {
-    padding-top: 64px; /* CleanTaskbar (32px) + smaller POC banner (32px) on very small screens */
+    padding-top: 100px; /* Taskbar (32px) + POC banner (68px) on very small screens */
   }
 }
 

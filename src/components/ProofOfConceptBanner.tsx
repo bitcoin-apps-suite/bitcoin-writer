@@ -25,9 +25,14 @@ const ProofOfConceptBanner: React.FC = () => {
             </svg>
           </div>
           <div className="poc-banner-text">
-            <span className="poc-banner-message">
-              <strong>PROOF OF CONCEPT:</strong> This is a demonstration version of Bitcoin Writer. Production version coming soon!
-            </span>
+            <div className="poc-banner-message">
+              <div className="poc-banner-line1">
+                <strong>PROOF OF CONCEPT:</strong> This is a demonstration version of Bitcoin Writer.
+              </div>
+              <div className="poc-banner-line2">
+                Production version coming soon™
+              </div>
+            </div>
           </div>
         </div>
         

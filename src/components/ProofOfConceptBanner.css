@@ -73,9 +73,17 @@
   font-weight: 400;
   line-height: 1;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2px;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.poc-banner-line1 {
+  font-size: 14px;
+}
+
+.poc-banner-line2 {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 .poc-banner-link {
@@ -161,13 +169,13 @@
   .poc-banner {
     padding: 6px 16px;
     height: auto;
-    min-height: 60px;
+    min-height: 72px;
   }
   
   .poc-banner-mobile-container {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 6px;
   }
   
   .poc-banner-content {
@@ -177,6 +185,17 @@
   
   .poc-banner-message {
     font-size: 12px;
+    flex-direction: column;
+    gap: 1px;
+    align-items: flex-start;
+  }
+  
+  .poc-banner-line1 {
+    font-size: 12px;
+  }
+  
+  .poc-banner-line2 {
+    font-size: 11px;
   }
   
   .poc-banner-nav {
@@ -211,7 +230,7 @@
   .poc-banner {
     padding: 5px 12px;
     height: auto;
-    min-height: 56px;
+    min-height: 68px;
   }
   
   .poc-banner-mobile-container {
@@ -220,10 +239,19 @@
   
   .poc-banner-message {
     font-size: 11px;
+    gap: 0;
   }
   
-  .poc-banner-message strong {
+  .poc-banner-line1 {
+    font-size: 11px;
+  }
+  
+  .poc-banner-line1 strong {
     display: none;
+  }
+  
+  .poc-banner-line2 {
+    font-size: 10px;
   }
   
   .poc-banner-nav {
@@ -253,17 +281,17 @@
 
 /* Adjustments for when banner is present */
 .poc-banner-active {
-  padding-top: 48px;
+  padding-top: 48px; /* 40px banner + 8px spacing */
 }
 
 @media (max-width: 768px) {
   .poc-banner-active {
-    padding-top: 68px; /* Increased for two-line layout */
+    padding-top: 80px; /* Increased for three-line layout on mobile */
   }
 }
 
 @media (max-width: 480px) {
   .poc-banner-active {
-    padding-top: 64px; /* Account for two-line layout */
+    padding-top: 76px; /* Account for three-line layout */
   }
 }
