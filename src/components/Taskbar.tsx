@@ -45,6 +45,12 @@ const Taskbar: React.FC<TaskbarProps> = ({
       label: 'Bitcoin Writer',
       items: [
         { 
+          label: 'Home', 
+          shortcut: '⌘⇧H',
+          action: () => window.location.href = '/'
+        },
+        { divider: true },
+        { 
           label: 'About Bitcoin Writer', 
           action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© 2025 The Bitcoin Corporation LTD\nRegistered in England and Wales • Company No. 16735102\n\nBuilt with HandCash integration') 
         },
@@ -314,7 +320,11 @@ const Taskbar: React.FC<TaskbarProps> = ({
       className="bitcoin-writer-taskbar"
     >
       {/* Bitcoin Logo */}
-      <div className="taskbar-logo">
+      <div 
+        className="taskbar-logo"
+        onDoubleClick={() => window.location.href = '/'}
+        title="Double-click to go home"
+      >
         <span className="bitcoin-symbol">₿</span>
       </div>
 
@@ -322,10 +332,10 @@ const Taskbar: React.FC<TaskbarProps> = ({
       <button 
         className="mobile-title"
         onClick={() => {
-          // Return to main view functionality if needed
-          window.location.reload();
+          // Navigate to home
+          window.location.href = '/';
         }}
-        title="Bitcoin Writer"
+        title="Bitcoin Writer - Tap to go home"
       >
         <span className="bitcoin-symbol">₿</span>
         <span>Bitcoin Writer</span>

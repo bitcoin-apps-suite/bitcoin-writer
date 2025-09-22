@@ -780,8 +780,8 @@ function App() {
                   />
                 )}
               </main>
-              <Footer />
             </div>
+            <Footer />
           </div>
         )}
       />
