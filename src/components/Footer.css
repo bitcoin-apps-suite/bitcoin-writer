@@ -75,30 +75,28 @@
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 149, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  text-align: center;
 }
 
-.footer-legal p,
-.footer-license p {
-  margin: 0;
+.footer-copyright {
+  text-align: center;
+}
+
+.footer-copyright p {
+  margin: 0.25rem 0;
   font-size: 0.9rem;
   color: #a0a0a0;
   line-height: 1.4;
 }
 
-.footer-license {
-  text-align: right;
-}
-
-.footer-license a {
+.footer-copyright a {
   color: #ff9500;
   text-decoration: none;
 }
 
-.footer-license a:hover {
+.footer-copyright a:hover {
   text-decoration: underline;
 }
 

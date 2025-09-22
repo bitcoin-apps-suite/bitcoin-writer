@@ -1,5 +1,8 @@
 .animated-placeholder {
-  /* Position will be set by parent container */
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -60,15 +63,8 @@
   }
 }
 
-/* Integration with Quill editor */
-.ql-editor:focus ~ .animated-placeholder,
-.ql-editor:not(:empty) ~ .animated-placeholder,
-.ql-editor[data-placeholder] ~ .animated-placeholder {
-  display: none;
-}
-
-/* Show only when editor is empty */
-.ql-editor:empty:not(:focus) ~ .animated-placeholder {
+/* Integration with Quill editor - simplified visibility control */
+.quill-editor-wrapper .animated-placeholder {
   display: block;
 }
 

@@ -52,11 +52,9 @@ const Footer: React.FC = () => {
       </div>
 
       <div className="footer-bottom">
-        <div className="footer-legal">
+        <div className="footer-copyright">
           <p>© 2025 The Bitcoin Corporation LTD</p>
           <p>Registered in England and Wales • Company No. 16735102</p>
-        </div>
-        <div className="footer-license">
           <p>Licensed under <a href="/LICENSE" target="_blank" rel="noopener noreferrer">Open BSV License v5</a></p>
           <p>Built on Bitcoin SV blockchain</p>
         </div>
