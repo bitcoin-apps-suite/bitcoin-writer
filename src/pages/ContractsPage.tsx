@@ -64,29 +64,61 @@ const ContractsPage: React.FC = () => {
       // Map issues to contracts
       const mappedContracts: Contract[] = issues.map((issue: any) => {
         const body = issue.body || '';
-        const priorityMatch = body.match(/\*\*Priority:\*\*\s*(Critical|High|Medium|Low)/i);
-        const hoursMatch = body.match(/\*\*Estimated Hours:\*\*\s*(\d+)/i);
-        const rewardMatch = body.match(/\*\*Token Reward:\*\*\s*([\d,]+)\s*BWRITER/i);
+        
+        // Handle both old and new format
+        let priorityMatch = body.match(/\*\*Priority:\*\*\s*(Critical|High|Medium|Low)/i);
+        let hoursMatch = body.match(/\*\*Estimated Hours:\*\*\s*([\d,]+)/i);
+        let rewardMatch = body.match(/\*\*Token Reward:\*\*\s*([\d,]+)\s*BWRITER/i);
+        let categoryMatch = body.match(/\*\*Category:\*\*\s*([^\n]+)/i);
         
         // Find matching PR if exists
         const matchingPR = pullRequests.find((pr: any) => 
           pr.body && pr.body.includes(`#${issue.number}`)
         );
         
-        // Extract skills
-        let skills: string[] = ['TypeScript', 'React'];
-        if (body.includes('blockchain') || body.includes('BSV')) skills.push('BSV');
-        if (body.includes('HandCash')) skills.push('HandCash SDK');
-        if (body.includes('OAuth')) skills.push('OAuth');
+        // Extract description - new format with emoji headers
+        let description = '';
+        const descMatch = body.match(/##\s*(?:📋\s*)?Description\s*\n([\s\S]*?)(?=##|$)/i);
+        if (descMatch) {
+          description = descMatch[1].trim().split('\n\n')[0];
+        } else {
+          description = body.split('## Requirements')[0].replace('## Description', '').trim();
+        }
         
-        // Extract deliverables
+        // Parse requirements section for skills
+        let skills: string[] = ['TypeScript', 'React'];
+        const requirementsMatch = body.match(/##\s*(?:🎯\s*)?Requirements\s*\n([\s\S]*?)(?=##|$)/i);
+        if (requirementsMatch) {
+          const requirements = requirementsMatch[1];
+          if (requirements.includes('OAuth')) skills.push('OAuth');
+          if (requirements.includes('Google')) skills.push('Google APIs');
+          if (requirements.includes('PDF')) skills.push('PDF Generation');
+          if (requirements.includes('blockchain') || requirements.includes('BSV')) skills.push('BSV');
+          if (requirements.includes('HandCash')) skills.push('HandCash SDK');
+          if (requirements.includes('WebRTC')) skills.push('WebRTC');
+          if (requirements.includes('smart contract')) skills.push('Smart Contracts');
+          if (requirements.includes('IPFS')) skills.push('IPFS');
+          if (requirements.includes('micro-ordinals')) skills.push('Ordinals');
+        }
+        
+        // Handle bounty format from older issues
+        if (!rewardMatch) {
+          const bountyMatch = body.match(/([\d.]+)%\s*(?:of\s+tokens|Bounty)/i);
+          if (bountyMatch) {
+            const percentage = parseFloat(bountyMatch[1]);
+            const tokens = Math.round(percentage * 10000000);
+            rewardMatch = ['', tokens.toLocaleString()];
+          }
+        }
+        
+        // Extract deliverables - handle both formats
         const deliverables: string[] = [];
-        const criteriaMatch = body.match(/## Acceptance Criteria[\s\S]*?(\n\n|\*\*|$)/);
+        const criteriaMatch = body.match(/##\s*(?:✅\s*)?Acceptance Criteria\s*\n([\s\S]*?)(?=##|$)/i);
         if (criteriaMatch) {
-          const criteria = criteriaMatch[0];
+          const criteria = criteriaMatch[1];
           const items = criteria.match(/- \[ \] .*/g) || [];
           items.forEach((item: string) => {
-            deliverables.push(item.replace('- [ ] ', ''));
+            deliverables.push(item.replace('- [ ] ', '').trim());
           });
         }
         
@@ -113,9 +145,9 @@ const ContractsPage: React.FC = () => {
           githubIssueNumber: issue.number,
           githubIssueUrl: issue.html_url,
           title: issue.title,
-          description: body.split('## Requirements')[0].replace('## Description', '').trim(),
+          description: description,
           reward: rewardMatch ? `${rewardMatch[1]} BWRITER` : '2,000 BWRITER',
-          estimatedHours: hoursMatch ? parseInt(hoursMatch[1]) : 8,
+          estimatedHours: hoursMatch ? parseInt(hoursMatch[1].replace(/,/g, '')) : 8,
           priority: (priorityMatch ? priorityMatch[1] : 'Medium') as Contract['priority'],
           status,
           assignee: contractData?.assignee || (issue.assignee ? {
@@ -128,8 +160,8 @@ const ContractsPage: React.FC = () => {
             url: matchingPR.html_url,
             status: matchingPR.state
           } : undefined,
-          skills,
-          deliverables: deliverables.length > 0 ? deliverables : ['See issue for details']
+          skills: [...new Set(skills)], // Remove duplicates
+          deliverables: deliverables.length > 0 ? deliverables.slice(0, 8) : ['See issue for details']
         };
       });
       

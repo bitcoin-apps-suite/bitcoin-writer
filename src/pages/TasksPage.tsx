@@ -34,16 +34,51 @@ const TasksPage: React.FC = () => {
       const mappedTasks: Task[] = issues.map((issue: any) => {
         // Parse priority and reward from issue body
         const body = issue.body || '';
-        const priorityMatch = body.match(/\*\*Priority:\*\*\s*(Critical|High|Medium|Low)/i);
-        const hoursMatch = body.match(/\*\*Estimated Hours:\*\*\s*(\d+)/i);
-        const rewardMatch = body.match(/\*\*Token Reward:\*\*\s*([\d,]+)\s*BWRITER/i);
+        
+        // Handle both old and new format
+        // New format: ## 💰 Contract Details
+        // Old format: **Priority:**
+        let priorityMatch = body.match(/\*\*Priority:\*\*\s*(Critical|High|Medium|Low)/i);
+        let hoursMatch = body.match(/\*\*Estimated Hours:\*\*\s*([\d,]+)/i);
+        let rewardMatch = body.match(/\*\*Token Reward:\*\*\s*([\d,]+)\s*BWRITER/i);
+        let categoryMatch = body.match(/\*\*Category:\*\*\s*([^\n]+)/i);
+        
+        // Extract description - new format with emoji headers
+        let description = '';
+        const descMatch = body.match(/##\s*(?:📋\s*)?Description\s*\n([\s\S]*?)(?=##|$)/i);
+        if (descMatch) {
+          description = descMatch[1].trim().split('\n\n')[0]; // Get first paragraph
+        } else {
+          // Fallback to old format
+          description = body.split('## Requirements')[0].replace('## Description', '').trim();
+        }
+        
+        // Parse requirements section for skills
+        let skills: string[] = ['TypeScript', 'React'];
+        const requirementsMatch = body.match(/##\s*(?:🎯\s*)?Requirements\s*\n([\s\S]*?)(?=##|$)/i);
+        if (requirementsMatch) {
+          const requirements = requirementsMatch[1];
+          if (requirements.includes('OAuth')) skills.push('OAuth');
+          if (requirements.includes('Google')) skills.push('Google APIs');
+          if (requirements.includes('PDF')) skills.push('PDF Generation');
+          if (requirements.includes('blockchain') || requirements.includes('BSV')) skills.push('BSV');
+          if (requirements.includes('HandCash')) skills.push('HandCash SDK');
+          if (requirements.includes('WebRTC')) skills.push('WebRTC');
+          if (requirements.includes('smart contract')) skills.push('Smart Contracts');
+          if (requirements.includes('IPFS')) skills.push('IPFS');
+          if (requirements.includes('micro-ordinals')) skills.push('Ordinals');
+        }
         
         // Map GitHub labels to categories
         const labels = issue.labels || [];
-        let category = 'Feature';
-        if (labels.some((l: any) => l.name === 'bug')) category = 'Bug Fix';
-        if (labels.some((l: any) => l.name === 'documentation')) category = 'Documentation';
-        if (labels.some((l: any) => l.name === 'enhancement')) category = 'Enhancement';
+        let category = categoryMatch ? categoryMatch[1] : 'Feature';
+        if (!categoryMatch) {
+          if (labels.some((l: any) => l.name === 'bug')) category = 'Bug Fix';
+          if (labels.some((l: any) => l.name === 'documentation')) category = 'Documentation';
+          if (labels.some((l: any) => l.name === 'enhancement')) category = 'Enhancement';
+          if (labels.some((l: any) => l.name === 'security')) category = 'Security';
+          if (labels.some((l: any) => l.name.includes('blockchain'))) category = 'Blockchain';
+        }
         
         // Map priority to difficulty
         let difficulty: Task['difficulty'] = 'Medium';
@@ -53,38 +88,40 @@ const TasksPage: React.FC = () => {
         if (priority === 'Medium') difficulty = 'Medium';
         if (priority === 'Low') difficulty = 'Easy';
         
-        // Extract skills from issue body
-        const skillsMatch = body.match(/## Files to modify[\s\S]*?## Acceptance Criteria/);
-        let skills: string[] = ['TypeScript', 'React'];
-        if (body.includes('blockchain') || body.includes('BSV')) skills.push('BSV');
-        if (body.includes('HandCash')) skills.push('HandCash SDK');
-        if (body.includes('OAuth')) skills.push('OAuth');
-        if (body.includes('PDF')) skills.push('PDF Generation');
+        // Handle bounty format from older issues
+        if (!rewardMatch) {
+          const bountyMatch = body.match(/([\d.]+)%\s*(?:of\s+tokens|Bounty)/i);
+          if (bountyMatch) {
+            const percentage = parseFloat(bountyMatch[1]);
+            const tokens = Math.round(percentage * 10000000); // 1B total supply * percentage / 100
+            rewardMatch = ['', tokens.toLocaleString()];
+          }
+        }
         
-        // Extract deliverables from acceptance criteria
+        // Extract deliverables from acceptance criteria - handle both formats
         const deliverables: string[] = [];
-        const criteriaMatch = body.match(/## Acceptance Criteria[\s\S]*?(\n\n|\*\*|$)/);
+        const criteriaMatch = body.match(/##\s*(?:✅\s*)?Acceptance Criteria\s*\n([\s\S]*?)(?=##|$)/i);
         if (criteriaMatch) {
-          const criteria = criteriaMatch[0];
+          const criteria = criteriaMatch[1];
           const items = criteria.match(/- \[ \] .*/g) || [];
           items.forEach((item: string) => {
-            deliverables.push(item.replace('- [ ] ', ''));
+            deliverables.push(item.replace('- [ ] ', '').trim());
           });
         }
         
         return {
           id: `issue-${issue.number}`,
           title: issue.title,
-          description: body.split('## Requirements')[0].replace('## Description', '').trim(),
+          description: description,
           difficulty,
           category,
           reward: rewardMatch ? `${rewardMatch[1]} BWRITER` : '2,000 BWRITER',
           status: issue.assignee ? 'in_progress' : 'available',
-          skills,
-          deliverables: deliverables.length > 0 ? deliverables : ['See issue for details'],
+          skills: [...new Set(skills)], // Remove duplicates
+          deliverables: deliverables.length > 0 ? deliverables.slice(0, 5) : ['See issue for details'], // Limit to 5 items
           githubIssueNumber: issue.number,
           githubIssueUrl: issue.html_url,
-          estimatedHours: hoursMatch ? parseInt(hoursMatch[1]) : 8,
+          estimatedHours: hoursMatch ? parseInt(hoursMatch[1].replace(/,/g, '')) : 8,
           assignee: issue.assignee ? issue.assignee.login : undefined
         };
       });
