@@ -1,5 +1,5 @@
 .contracts-page {
-  padding: 40px;
+  padding: 120px 40px 40px; /* Top padding accounts for POC banner (40px) + taskbar (32px) + extra spacing */
   max-width: 1400px;
   margin: 0 auto;
 }

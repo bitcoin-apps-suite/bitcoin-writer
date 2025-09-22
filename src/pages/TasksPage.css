@@ -5,7 +5,7 @@
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   position: relative;
-  padding-top: 68px; /* 40px banner + 28px taskbar */
+  padding-top: 80px; /* 40px POC banner + 32px taskbar + 8px spacing */
 }
 
 .tasks-container {

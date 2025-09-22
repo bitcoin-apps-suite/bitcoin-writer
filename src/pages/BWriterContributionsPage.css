@@ -1,7 +1,7 @@
 .bwriter-contributions-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 96px 2rem 2rem; /* 40px POC banner + 32px taskbar + 24px spacing */
   background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
   min-height: 100vh;
   color: #fff;
