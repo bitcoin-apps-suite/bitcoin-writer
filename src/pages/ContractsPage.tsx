@@ -85,7 +85,7 @@ const ContractsPage: React.FC = () => {
         if (criteriaMatch) {
           const criteria = criteriaMatch[0];
           const items = criteria.match(/- \[ \] .*/g) || [];
-          items.forEach(item => {
+          items.forEach((item: string) => {
             deliverables.push(item.replace('- [ ] ', ''));
           });
         }
