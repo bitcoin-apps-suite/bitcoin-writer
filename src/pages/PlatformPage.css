@@ -1,10 +1,15 @@
 .platform-page {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding: 2rem;
   color: #fff;
   background: #0a0a0a;
   min-height: 100vh;
+}
+
+.platform-page > * {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .platform-header {
@@ -44,9 +49,10 @@
 .platform-section p {
   font-size: 1.2rem;
   line-height: 1.9;
-  color: #e0e0e0;
+  color: #f0f0f0;
   margin-bottom: 1rem;
-  font-weight: 300;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 /* How It Works Grid */
@@ -58,8 +64,8 @@
 }
 
 .step {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 149, 0, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 149, 0, 0.4);
   border-radius: 12px;
   padding: 2rem;
   position: relative;
@@ -95,9 +101,10 @@
 }
 
 .step p {
-  color: #d0d0d0;
-  font-size: 1.05rem;
-  line-height: 1.6;
+  color: #f0f0f0;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 /* Features Grid */
@@ -109,12 +116,12 @@
 }
 
 .feature {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 149, 0, 0.2);
+  border: 1px solid rgba(255, 149, 0, 0.35);
 }
 
 .feature:hover {
@@ -133,17 +140,25 @@
 }
 
 .feature p {
-  color: #d0d0d0;
-  font-size: 1.05rem;
-  line-height: 1.5;
+  color: #f0f0f0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 /* Developer Info */
 .developer-info {
-  background: rgba(255, 149, 0, 0.05);
+  background: rgba(255, 149, 0, 0.08);
   border-radius: 12px;
   padding: 2rem;
-  border: 1px solid rgba(255, 149, 0, 0.2);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+}
+
+.developer-info p {
+  color: #f0f0f0;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  font-weight: 400;
 }
 
 .developer-info h3 {
@@ -164,10 +179,11 @@
 
 .developer-info li {
   padding: 0.5rem 0;
-  color: #e0e0e0;
+  color: #f0f0f0;
   padding-left: 1.5rem;
   position: relative;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  font-weight: 400;
 }
 
 .developer-info li:before {
@@ -204,19 +220,21 @@
 }
 
 .use-case p {
-  color: #d0d0d0;
-  font-size: 1rem;
+  color: #f0f0f0;
+  font-size: 1.05rem;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 /* Vision Section */
 .vision-text {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 2;
-  color: #ddd;
+  color: #f0f0f0;
   margin-bottom: 1.5rem;
   text-align: justify;
+  font-weight: 400;
 }
 
 /* CTA Section */
