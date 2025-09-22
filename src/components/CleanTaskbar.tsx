@@ -388,7 +388,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             setActiveMenu(null);
           }}
           style={{
-            padding: '0 12px',
+            padding: '0 20px 0 18px', // Shifted right to align with collapsed sidebar
             fontSize: '18px',
             fontWeight: 'bold',
             color: '#ff9500',
