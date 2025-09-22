@@ -137,7 +137,10 @@ This app integrates with HandCash using:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Open BSV License version 5 - see the [LICENSE](LICENSE) file for details.
+
+Copyright © 2025 The Bitcoin Corporation LTD  
+Registered in England and Wales • Company No. 16735102
 
 ## Support
 

@@ -8,8 +8,8 @@
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "The Bitcoin Corporation LTD",
+  "license": "Open-BSV",
   "type": "commonjs",
   "dependencies": {
     "@handcash/handcash-connect": "^0.8.11",

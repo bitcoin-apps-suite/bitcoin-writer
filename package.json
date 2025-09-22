@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "A blockchain-based writing app with HandCash authentication",
   "license": "Open-BSV",
-  "author": "@b0ase",
+  "author": "The Bitcoin Corporation LTD",
   "private": true,
   "dependencies": {
     "@bsv/sdk": "^1.7.6",
