@@ -1,6 +1,6 @@
 .signup-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+  background: #0a0a0a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,11 +10,11 @@
 .signup-container {
   max-width: 600px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 3rem;
-  border: 1px solid rgba(255, 149, 0, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .signup-container.success {
@@ -42,8 +42,8 @@
 }
 
 .subtitle {
-  color: #888;
-  font-size: 1.1rem;
+  color: #c0c0c0;
+  font-size: 1.2rem;
 }
 
 .signup-form {
@@ -64,12 +64,12 @@
 .form-group input[type="email"],
 .form-group input[type="text"] {
   width: 100%;
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 149, 0, 0.3);
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 149, 0, 0.4);
   border-radius: 8px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: all 0.3s ease;
 }
 
@@ -95,9 +95,11 @@
 .checkbox-option {
   display: flex;
   align-items: center;
-  color: #ccc;
+  color: #e0e0e0;
   cursor: pointer;
   transition: color 0.2s ease;
+  font-size: 1.05rem;
+  padding: 0.3rem 0;
 }
 
 .radio-option:hover,
@@ -126,10 +128,10 @@
 }
 
 .privacy-note {
-  color: #888;
-  font-size: 0.9rem;
+  color: #c0c0c0;
+  font-size: 1rem;
   margin-bottom: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .submit-button {
@@ -174,10 +176,11 @@
 }
 
 .signup-benefits li {
-  color: #ccc;
-  padding: 0.5rem 0;
+  color: #e0e0e0;
+  padding: 0.6rem 0;
   padding-left: 1.5rem;
   position: relative;
+  font-size: 1.05rem;
 }
 
 .signup-benefits li:before {
@@ -212,15 +215,16 @@
 
 .stat-label {
   display: block;
-  color: #888;
-  font-size: 0.85rem;
+  color: #c0c0c0;
+  font-size: 0.95rem;
 }
 
 /* Success State */
 .success-note {
-  color: #aaa;
+  color: #d0d0d0;
   margin: 1.5rem 0;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1.1rem;
 }
 
 .cta-button {

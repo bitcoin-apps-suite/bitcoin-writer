@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   color: #fff;
-  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+  background: #0a0a0a;
   min-height: 100vh;
 }
 
@@ -42,10 +42,11 @@
 }
 
 .platform-section p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #ccc;
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #e0e0e0;
   margin-bottom: 1rem;
+  font-weight: 300;
 }
 
 /* How It Works Grid */
@@ -57,8 +58,8 @@
 }
 
 .step {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 149, 0, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 149, 0, 0.3);
   border-radius: 12px;
   padding: 2rem;
   position: relative;
@@ -94,8 +95,9 @@
 }
 
 .step p {
-  color: #aaa;
-  font-size: 1rem;
+  color: #d0d0d0;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
 
 /* Features Grid */
@@ -107,12 +109,12 @@
 }
 
 .feature {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
   transition: all 0.3s ease;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 149, 0, 0.2);
 }
 
 .feature:hover {
@@ -131,8 +133,9 @@
 }
 
 .feature p {
-  color: #aaa;
-  font-size: 1rem;
+  color: #d0d0d0;
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
 /* Developer Info */
@@ -161,9 +164,10 @@
 
 .developer-info li {
   padding: 0.5rem 0;
-  color: #ccc;
+  color: #e0e0e0;
   padding-left: 1.5rem;
   position: relative;
+  font-size: 1.05rem;
 }
 
 .developer-info li:before {
@@ -200,9 +204,10 @@
 }
 
 .use-case p {
-  color: #aaa;
-  font-size: 0.95rem;
+  color: #d0d0d0;
+  font-size: 1rem;
   margin: 0;
+  line-height: 1.5;
 }
 
 /* Vision Section */
