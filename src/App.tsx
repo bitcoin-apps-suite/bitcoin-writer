@@ -11,6 +11,8 @@ import BWriterContributionsPage from './pages/BWriterContributionsPage';
 import DocsPage from './pages/DocsPage';
 import TasksPage from './pages/TasksPage';
 import ContractsPage from './pages/ContractsPage';
+import PlatformPage from './pages/PlatformPage';
+import SignupPage from './pages/SignupPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -275,6 +277,8 @@ function App() {
       <Route path="/contracts" element={<ContractsPage />} />
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
+      <Route path="/platform" element={<PlatformPage />} />
+      <Route path="/signup" element={<SignupPage />} />
       <Route path="/*" element={
         isLoading ? (
           <div className="App">

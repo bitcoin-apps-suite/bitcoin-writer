@@ -38,6 +38,16 @@ const ProofOfConceptBanner: React.FC = () => {
         
         {/* Navigation Links */}
         <div className="poc-banner-nav">
+        {/* Platform Link */}
+        <a href="/platform" className="poc-banner-link">
+          <svg height="14" width="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+          </svg>
+          Platform
+        </a>
+
+        <span className="poc-banner-separator">•</span>
+
         {/* Docs Link */}
         <a href="/docs" className="poc-banner-link">
           <svg height="14" width="14" viewBox="0 0 24 24" fill="currentColor">

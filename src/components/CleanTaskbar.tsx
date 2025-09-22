@@ -321,9 +321,11 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Help',
       items: [
+        { label: 'Platform Overview', href: '/platform' },
         { label: 'Bitcoin Writer Help', shortcut: '⌘?', action: () => alert('Bitcoin Writer v2.0\n\nWrite, encrypt, and store documents on the Bitcoin blockchain') },
         { label: 'Keyboard Shortcuts', action: () => setShowKeyboardShortcuts(true) },
         { divider: true },
+        { label: 'Sign Up for Updates', href: '/signup' },
         { label: 'Release Notes', href: '/releases' },
         { label: 'What\'s New', action: () => alert('What\'s New in v2.0:\n\n• Multi-provider authentication\n• NFT tokenization\n• File shares\n• Twitter integration\n• Enhanced encryption') },
         { divider: true },
