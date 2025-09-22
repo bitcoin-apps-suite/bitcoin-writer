@@ -38,6 +38,33 @@
   flex-direction: column;
 }
 
+/* Wrapper for editor and placeholder */
+.quill-editor-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Position placeholder inside the Quill content area */
+.quill-editor-wrapper .quill-editor {
+  position: relative;
+}
+
+.quill-editor-wrapper .ql-container {
+  position: relative;
+}
+
+.quill-editor-wrapper .animated-placeholder {
+  position: absolute;
+  /* Adjust for both toolbars: extra toolbar (~41px) + Quill toolbar (~42px) + padding */
+  top: 95px;
+  left: 15px;
+  right: 15px;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .quill-editor .ql-toolbar {
   background: #f8f9fa;
   border: none;

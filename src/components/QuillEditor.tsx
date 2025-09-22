@@ -220,7 +220,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         </button>
       </div>
       
-      <div style={{ position: 'relative' }}>
+      <div className="quill-editor-wrapper" style={{ position: 'relative', flex: 1 }}>
         <ReactQuill
           ref={quillRef}
           theme="snow"
