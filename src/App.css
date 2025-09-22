@@ -206,17 +206,24 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Adjust layout when DevSidebar is present */
-.app-container.with-dev-sidebar {
-  margin-left: 260px;
-}
+/* Adjust layout when DevSidebar is present - DESKTOP ONLY */
+@media (min-width: 769px) {
+  .app-container.with-dev-sidebar {
+    margin-left: 260px;
+  }
 
-.app-container.with-dev-sidebar-collapsed {
-  margin-left: 60px;
+  .app-container.with-dev-sidebar-collapsed {
+    margin-left: 60px;
+  }
 }
 
 /* Mobile layout adjustments */
 @media (max-width: 768px) {
+  /* Ensure no sidebar margins on mobile */
+  .app-container.with-dev-sidebar,
+  .app-container.with-dev-sidebar-collapsed {
+    margin-left: 0 !important;
+  }
   /* Mobile taskbar adjustments */
   .taskbar {
     height: 32px;

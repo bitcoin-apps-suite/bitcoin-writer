@@ -233,19 +233,28 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .dev-sidebar {
-    display: none; /* Hide on mobile for now */
+    display: none !important; /* Hide on mobile completely */
+  }
+  
+  /* Reset margins on mobile */
+  .app-container,
+  .app-container.with-dev-sidebar,
+  .app-container.with-dev-sidebar-collapsed {
+    margin-left: 0 !important;
   }
 }
 
-/* Content adjustment when sidebar is open */
-.app-container {
-  transition: margin-left 0.3s ease;
-}
+/* Content adjustment when sidebar is open - DESKTOP ONLY */
+@media (min-width: 769px) {
+  .app-container {
+    transition: margin-left 0.3s ease;
+  }
 
-.app-container.with-dev-sidebar {
-  margin-left: 260px;
-}
+  .app-container.with-dev-sidebar {
+    margin-left: 260px;
+  }
 
-.app-container.with-dev-sidebar-collapsed {
-  margin-left: 60px;
+  .app-container.with-dev-sidebar-collapsed {
+    margin-left: 60px;
+  }
 }

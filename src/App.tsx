@@ -52,6 +52,16 @@ function App() {
     const saved = localStorage.getItem('devSidebarCollapsed');
     return saved === 'true';
   });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Listen for Document Exchange open event
   useEffect(() => {
@@ -228,8 +238,8 @@ function App() {
         {/* Global elements that appear on all pages */}
         {!isLoading && (
           <>
-            {/* Developer Sidebar */}
-            <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />
+            {/* Developer Sidebar - Desktop Only */}
+            {!isMobile && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
             
             {/* Clean taskbar with proper spacing */}
             <CleanTaskbar
@@ -692,7 +702,7 @@ function App() {
                 </div>
               </div>
             )}
-            <div className={`app-container ${devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : 'with-dev-sidebar'}`}>
+            <div className={`app-container ${!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : ''} ${!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : ''}`}>
               <DocumentSidebar
                 documentService={documentService}
                 isAuthenticated={isAuthenticated}
