@@ -15,23 +15,24 @@ const ProofOfConceptBanner: React.FC = () => {
 
   return (
     <div className="poc-banner">
-      <div className="poc-banner-content">
-        <div className="poc-banner-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
+      <div className="poc-banner-mobile-container">
+        <div className="poc-banner-content">
+          <div className="poc-banner-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div className="poc-banner-text">
+            <span className="poc-banner-message">
+              <strong>PROOF OF CONCEPT:</strong> This is a demonstration version of Bitcoin Writer. Production version coming soon!
+            </span>
+          </div>
         </div>
-        <div className="poc-banner-text">
-          <span className="poc-banner-message">
-            <strong>PROOF OF CONCEPT:</strong> This is a demonstration version of Bitcoin Writer. Production version coming soon!
-          </span>
-        </div>
-      </div>
-      
-      {/* Navigation Links */}
-      <div className="poc-banner-nav">
+        
+        {/* Navigation Links */}
+        <div className="poc-banner-nav">
         {/* Docs Link */}
         <a href="/docs" className="poc-banner-link">
           <svg height="14" width="14" viewBox="0 0 24 24" fill="currentColor">
@@ -102,6 +103,7 @@ const ProofOfConceptBanner: React.FC = () => {
           Discord
         </a>
 
+        </div>
       </div>
       <button 
         className="poc-banner-close"

@@ -17,6 +17,14 @@
   animation: slideDown 0.3s ease-out;
 }
 
+.poc-banner-mobile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: 12px;
+}
+
 @keyframes slideDown {
   from {
     transform: translateY(-100%);
@@ -152,11 +160,19 @@
 @media (max-width: 768px) {
   .poc-banner {
     padding: 6px 16px;
-    height: 36px;
+    height: auto;
+    min-height: 60px;
+  }
+  
+  .poc-banner-mobile-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
   }
   
   .poc-banner-content {
     gap: 8px;
+    width: 100%;
   }
   
   .poc-banner-message {
@@ -166,6 +182,8 @@
   .poc-banner-nav {
     gap: 6px;
     margin-right: 8px;
+    justify-content: center;
+    width: 100%;
   }
   
   .poc-banner-link {
@@ -181,12 +199,23 @@
     width: 12px;
     height: 12px;
   }
+  
+  .poc-banner-close {
+    position: absolute;
+    top: 6px;
+    right: 16px;
+  }
 }
 
 @media (max-width: 480px) {
   .poc-banner {
     padding: 5px 12px;
-    height: 32px;
+    height: auto;
+    min-height: 56px;
+  }
+  
+  .poc-banner-mobile-container {
+    padding-right: 20px; /* Space for close button */
   }
   
   .poc-banner-message {
@@ -199,7 +228,7 @@
   
   .poc-banner-nav {
     gap: 4px;
-    margin-right: 6px;
+    margin-right: 0;
   }
   
   .poc-banner-link {
@@ -215,6 +244,11 @@
   .poc-banner-separator {
     margin: 0 1px;
   }
+  
+  .poc-banner-close {
+    top: 5px;
+    right: 12px;
+  }
 }
 
 /* Adjustments for when banner is present */
@@ -224,12 +258,12 @@
 
 @media (max-width: 768px) {
   .poc-banner-active {
-    padding-top: 44px;
+    padding-top: 68px; /* Increased for two-line layout */
   }
 }
 
 @media (max-width: 480px) {
   .poc-banner-active {
-    padding-top: 60px; /* More space on very small screens due to text wrapping */
+    padding-top: 64px; /* Account for two-line layout */
   }
 }
