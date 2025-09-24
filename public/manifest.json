@@ -1,22 +1,71 @@
 {
   "name": "Bitcoin Writer",
-  "short_name": "BitcoinWriter",
-  "description": "Save documents as NFTs on the BSV blockchain for just 1¢",
-  "start_url": "./index.html",
+  "short_name": "Writer",
+  "description": "Professional Document Editor on BSV Blockchain",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#1a1a1a",
+  "background_color": "#ffffff",
   "theme_color": "#FF8C00",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": [
+    "productivity",
+    "finance",
+    "blockchain"
+  ],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "logo.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "favicon.svg",
-      "sizes": "32x32",
-      "type": "image/svg+xml"
+      "src": "/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+bitcoin-writer",
+      "url": "/?action=%s"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "shortcuts": [
+    {
+      "name": "New Writer",
+      "short_name": "New",
+      "description": "Create new writer",
+      "url": "/new",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
-} 
+}

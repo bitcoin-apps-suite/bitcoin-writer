@@ -1,7 +1,418 @@
 {
     "folders": [
+      {
+        "name": "Bitcoin Music",
+        "path": "."
+      },
+      {
+        "path": "../bitcoin-apps-suite"
+      },
+      {
+        "path": "../bitcoin-drive"
+      },
+      {
+        "path": "../bitcoin-wallet"
+      },
+      {
+        "path": "../bitcoin-writer"
+      }
+    ],
+    "settings": {
+      // TypeScript
+      "typescript.preferences.importModuleSpecifier": "relative",
+      "typescript.suggest.autoImports": true,
+      "typescript.updateImportsOnFileMove.enabled": "always",
+      "typescript.preferences.includePackageJsonAutoImports": "on",
+
+      // Editor
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.organizeImports": "explicit"
+      },
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+      "editor.rulers": [80, 120],
+      "editor.wordWrap": "on",
+      "editor.minimap.enabled": true,
+      "editor.bracketPairColorization.enabled": true,
+      "editor.guides.bracketPairs": true,
+
+      // Files
+      "files.autoSave": "onFocusChange",
+      "files.trimTrailingWhitespace": true,
+      "files.insertFinalNewline": true,
+      "files.trimFinalNewlines": true,
+      "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/node_modules": true,
+        "**/.next": true,
+        "**/dist": true,
+        "**/build": true,
+        "**/*.log": true
+      },
+      "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/.next/**": true,
+        "**/dist/**": true,
+        "**/build/**": true
+      },
+
+      // Search
+      "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/.next": true,
+        "**/dist": true,
+        "**/build": true,
+        "**/.git": true,
+        "**/*.log": true
+      },
+
+      // ESLint
+      "eslint.workingDirectories": ["."],
+      "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+      ],
+
+      // Prettier
+      "prettier.configPath": "./.prettierrc",
+      "prettier.ignorePath": "./.prettierignore",
+
+      // CSS/Tailwind
+      "css.validate": false,
+      "tailwindCSS.includeLanguages": {
+        "typescript": "javascript",
+        "typescriptreact": "javascript"
+      },
+      "tailwindCSS.experimental.classRegex": [
+        ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+        ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+      ],
+
+      // Git
+      "git.autofetch": true,
+      "git.confirmSync": false,
+      "git.enableSmartCommit": true,
+      "git.suggestSmartCommit": false,
+
+      // Terminal
+      "terminal.integrated.defaultProfile.osx": "zsh",
+      "terminal.integrated.fontSize": 14,
+
+      // Emmet
+      "emmet.includeLanguages": {
+        "typescript": "html",
+        "typescriptreact": "html"
+      },
+
+      // Audio/Music specific
+      "audio.enablePreview": true,
+      "files.associations": {
+        "*.wav": "audio",
+        "*.mp3": "audio",
+        "*.flac": "audio",
+        "*.ogg": "audio",
+        "*.mid": "midi",
+        "*.midi": "midi",
+        "*.nft": "json",
+        "*.ft": "json"
+      },
+
+      // Next.js specific
+      "next.trace": true,
+
+      // Performance
+      "typescript.preferences.maxInlayHintLength": 30,
+      "typescript.inlayHints.parameterNames.enabled": "literals",
+      "typescript.inlayHints.parameterTypes.enabled": true,
+      "typescript.inlayHints.variableTypes.enabled": true,
+      "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+      "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+      // Theme & Colors - Dark Mode with Yellow
+      "workbench.colorTheme": "Monokai",
+      "workbench.iconTheme": "material-icon-theme",
+      "workbench.colorCustomizations": {
+        "statusBar.background": "#fbbf24",
+        "statusBar.foreground": "#000000",
+        "statusBar.noFolderBackground": "#fbbf24",
+        "sideBar.background": "#1a1a1a",
+        "sideBar.foreground": "#ffffff",
+        "panel.background": "#161616",
+        "terminal.background": "#0a0a0a",
+        "terminal.foreground": "#ffffff",
+        "editorGroupHeader.tabsBackground": "#1f1f1f",
+        "tab.activeBackground": "#fbbf24",
+        "tab.activeForeground": "#000000",
+        "tab.inactiveBackground": "#1a1a1a",
+        "tab.inactiveForeground": "#cccccc",
+        "tab.border": "#fbbf24",
+        "editor.background": "#0a0a0a",
+        "editor.foreground": "#ffffff",
+        "editorLineNumber.foreground": "#fbbf24",
+        "editorLineNumber.activeForeground": "#fde047",
+        "editorCursor.foreground": "#fbbf24",
+        "editor.selectionBackground": "#fbbf2433",
+        "editor.lineHighlightBackground": "#fbbf2411",
+        "scrollbarSlider.background": "#fbbf2433",
+        "scrollbarSlider.hoverBackground": "#fbbf2466",
+        "scrollbarSlider.activeBackground": "#fbbf24",
+        "minimap.background": "#0a0a0a",
+        "breadcrumb.background": "#1f1f1f",
+        "breadcrumb.foreground": "#ffffff",
+        "activityBar.background": "#161616",
+        "activityBar.foreground": "#fbbf24",
+        "activityBarBadge.background": "#fbbf24",
+        "activityBarBadge.foreground": "#000000",
+        "button.background": "#fbbf24",
+        "button.foreground": "#000000",
+        "button.hoverBackground": "#fde047",
+        "list.activeSelectionBackground": "#fbbf2433",
+        "list.activeSelectionForeground": "#ffffff",
+        "list.hoverBackground": "#fbbf2422",
+        "list.highlightForeground": "#fbbf24",
+        "progressBar.background": "#fbbf24",
+        "input.border": "#fbbf2444",
+        "focusBorder": "#fbbf24"
+      },
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "keyword",
+            "settings": {
+              "foreground": "#fbbf24",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "string",
+            "settings": {
+              "foreground": "#fde047"
+            }
+          },
+          {
+            "scope": "variable",
+            "settings": {
+              "foreground": "#facc15"
+            }
+          },
+          {
+            "scope": "comment",
+            "settings": {
+              "foreground": "#6b7280",
+              "fontStyle": "italic"
+            }
+          },
+          {
+            "scope": "entity.name.function",
+            "settings": {
+              "foreground": "#fcd34d"
+            }
+          },
+          {
+            "scope": "support.type",
+            "settings": {
+              "foreground": "#f59e0b"
+            }
+          },
+          {
+            "scope": "constant.numeric",
+            "settings": {
+              "foreground": "#fef3c7"
+            }
+          },
+          {
+            "scope": "entity.name.type",
+            "settings": {
+              "foreground": "#fde68a"
+            }
+          }
+        ]
+      },
+
+      // JSON
+      "json.schemas": [
         {
-            "path": "."
+          "fileMatch": ["package.json"],
+          "url": "https://json.schemastore.org/package.json"
+        },
+        {
+          "fileMatch": ["tsconfig.json"],
+          "url": "https://json.schemastore.org/tsconfig.json"
+        },
+        {
+          "fileMatch": ["*.nft"],
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "audio": { "type": "string" },
+              "artwork": { "type": "string" },
+              "metadata": { "type": "object" }
+            }
+          }
         }
-    ]
-}
+      ]
+    },
+    "extensions": {
+      "recommendations": [
+        // Essential for React/Next.js
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+
+        // React/JSX
+        "ms-vscode.vscode-json",
+        "ms-vscode.vscode-react-native",
+        "burkeholland.simple-react-snippets",
+
+        // Git
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+
+        // Utilities
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.hexeditor",
+        "ms-vscode.vscode-npm-script",
+
+        // Audio/Music development
+        "ms-vscode.vscode-media-preview",
+
+        // Blockchain/Crypto
+        "juanblanco.solidity",
+
+        // Markdown/Documentation
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+
+        // Theme
+        "ahmadawais.shades-of-purple",
+        "teabyii.ayu",
+        "zhuangtongfa.material-theme",
+        "pkief.material-icon-theme",
+
+        // Performance
+        "aaron-bond.better-comments",
+        "streetsidesoftware.code-spell-checker",
+        "gruntfuggly.todo-tree"
+      ],
+      "unwantedRecommendations": [
+        "ms-vscode.vscode-typescript",
+        "hookyqr.beautify"
+      ]
+    },
+    "tasks": {
+      "version": "2.0.0",
+      "tasks": [
+        {
+          "label": "dev",
+          "type": "npm",
+          "script": "dev",
+          "group": "build",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared",
+            "showReuseMessage": true,
+            "clear": false
+          },
+          "problemMatcher": []
+        },
+        {
+          "label": "build",
+          "type": "npm",
+          "script": "build",
+          "group": {
+            "kind": "build",
+            "isDefault": true
+          },
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          },
+          "problemMatcher": ["$tsc"]
+        },
+        {
+          "label": "lint",
+          "type": "npm",
+          "script": "lint",
+          "group": "test",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          },
+          "problemMatcher": ["$eslint-stylish"]
+        },
+        {
+          "label": "type-check",
+          "type": "shell",
+          "command": "npx tsc --noEmit",
+          "group": "test",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          },
+          "problemMatcher": ["$tsc"]
+        }
+      ]
+    },
+    "launch": {
+      "version": "0.2.0",
+      "configurations": [
+        {
+          "name": "Next.js: debug server-side",
+          "type": "node",
+          "request": "attach",
+          "port": 9229,
+          "skipFiles": ["<node_internals>/**"]
+        },
+        {
+          "name": "Next.js: debug client-side",
+          "type": "chrome",
+          "request": "launch",
+          "url": "http://localhost:3007",
+          "webRoot": "${workspaceFolder}"
+        },
+        {
+          "name": "Next.js: debug full stack",
+          "type": "node",
+          "request": "launch",
+          "program": "${workspaceFolder}/node_modules/.bin/next",
+          "args": ["dev"],
+          "console": "integratedTerminal",
+          "serverReadyAction": {
+            "pattern": "started server on .+, url: (https?://.+)",
+            "uriFormat": "%s",
+            "action": "debugWithChrome"
+          }
+        }
+      ]
+    }
+  }

@@ -31,11 +31,14 @@ import BitcoinAppsView from './components/BitcoinAppsView';
 import BitcoinAppOverviews from './components/BitcoinAppOverviews';
 import { BitcoinAppEvents } from './utils/appEvents';
 import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
+import { useBitcoinOS } from './utils/useBitcoinOS';
+import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
   const [handcashService] = useState<HandCashService>(new HandCashService());
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isInOS, setTitle } = useBitcoinOS();
   const [currentUser, setCurrentUser] = useState<HandCashUser | null>(null);
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [showAIChat, setShowAIChat] = useState(false);
@@ -123,6 +126,13 @@ function App() {
       setSidebarRefresh(prev => prev + 1);
     }
   }, []);
+
+  // Set app title when running in Bitcoin OS
+  useEffect(() => {
+    if (isInOS) {
+      setTitle('Bitcoin Writer');
+    }
+  }, [isInOS, setTitle]);
 
   useEffect(() => {
     // Check for Google user first
@@ -235,18 +245,19 @@ function App() {
 
   return (
     <>
+      <ServiceWorkerRegistration />
       {/* Proof of Concept Banner - positioned at the very top */}
-      <ProofOfConceptBanner />
+      {!isInOS && <ProofOfConceptBanner />}
       
       <GoogleAuthProvider>
         {/* Global elements that appear on all pages */}
         {!isLoading && (
           <>
             {/* Developer Sidebar - Desktop Only */}
-            {!isMobile && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
+            {!isMobile && !isInOS && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
             
             {/* Clean taskbar with proper spacing */}
-            <CleanTaskbar
+            {!isInOS && <CleanTaskbar
               isAuthenticated={isAuthenticated}
               currentUser={currentUser}
               onLogout={handleLogout}
@@ -266,7 +277,7 @@ function App() {
               }}
               documentService={documentService}
               onToggleAIChat={() => setShowAIChat(!showAIChat)}
-            />
+            />}
           </>
         )}
 
@@ -708,7 +719,7 @@ function App() {
                 </div>
               </div>
             )}
-            <div className={`app-container ${!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : ''} ${!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : ''}`}>
+            <div className={`app-container ${isInOS ? '' : (!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : '')} ${isInOS ? '' : (!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : '')}`}>
               <DocumentSidebar
                 documentService={documentService}
                 isAuthenticated={isAuthenticated}

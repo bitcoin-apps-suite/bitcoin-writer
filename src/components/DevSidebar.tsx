@@ -24,7 +24,8 @@ interface DevSidebarProps {
 const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
   const [isCollapsed, setIsCollapsed] = useState(() => {
     const saved = localStorage.getItem('devSidebarCollapsed');
-    return saved === 'true';
+    // Default to collapsed if no preference is saved
+    return saved !== null ? saved === 'true' : true;
   });
   const [issueCount, setIssueCount] = useState<number>(0);
   const location = useLocation();

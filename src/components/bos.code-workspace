@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "../../../bitcoin-apps-suite"
+		},
+		{
+			"path": "../../../bitcoin-drive"
+		},
+		{
+			"path": "../../../bitcoin-exchange"
+		},
+		{
+			"path": "../../../bitcoin-jobs"
+		},
+		{
+			"path": "../../../bitcoin-music"
+		},
+		{
+			"path": "../../../bitcoin-wallet"
+		},
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../../../../Volumes/Extreme SSD/Projects/bitcoin-email"
+		},
+		{
+			"path": "../../../bitcoin-OS"
+		}
+	],
+	"settings": {}
+}
