@@ -1,17 +1,12 @@
 .bwriter-contributions-page {
   width: 100%;
-  padding-top: 56px; /* Default: 32px taskbar + 24px spacing */
+  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
   background: #0a0a0a;
   min-height: 100vh;
   color: #ffffff;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 300;
-  transition: margin-left 0.3s ease, padding-top 0.3s ease;
-}
-
-/* When POC banner is active */
-.poc-banner-active .bwriter-contributions-page {
-  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
+  transition: margin-left 0.3s ease;
 }
 
 /* Adjust for DevSidebar on desktop */

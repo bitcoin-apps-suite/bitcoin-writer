@@ -4,12 +4,6 @@
   color: #e0e0e0;
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', sans-serif;
-  padding-top: 32px; /* Default: just taskbar */
-  transition: padding-top 0.3s ease;
-}
-
-/* When POC banner is active */
-.poc-banner-active .features-page {
   padding-top: 72px; /* 40px POC banner + 32px taskbar */
 }
 
