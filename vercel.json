@@ -1,4 +1,7 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "create-react-app",
   "functions": {
     "api/auth/twitter/*.js": {
       "maxDuration": 10

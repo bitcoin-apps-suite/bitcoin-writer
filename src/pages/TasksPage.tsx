@@ -180,109 +180,20 @@ const TasksPage: React.FC = () => {
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch GitHub issues:', error);
-      // Fallback to sample tasks that represent actual GitHub issues
+      // Show a message directing users to GitHub
       setTasks([
         {
-          id: 'sample-1',
-          title: 'Google Docs Integration',
-          description: 'Implement Google Docs import/export functionality with OAuth authentication',
-          difficulty: 'Hard',
-          category: 'Feature',
-          reward: '50,000 BWRITER',
-          status: 'available',
-          skills: ['TypeScript', 'React', 'OAuth', 'Google APIs'],
-          deliverables: [
-            'OAuth integration with Google',
-            'Import documents from Google Docs',
-            'Export documents to Google Docs',
-            'Sync functionality'
-          ],
-          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
-          estimatedHours: 40
-        },
-        {
-          id: 'sample-2',
-          title: 'PDF Export Feature',
-          description: 'Add ability to export documents as PDF files with formatting preserved',
-          difficulty: 'Medium',
-          category: 'Feature',
-          reward: '30,000 BWRITER',
-          status: 'available',
-          skills: ['TypeScript', 'React', 'PDF Generation'],
-          deliverables: [
-            'PDF export button in toolbar',
-            'Preserve document formatting',
-            'Support for images and tables',
-            'Download functionality'
-          ],
-          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
-          estimatedHours: 20
-        },
-        {
-          id: 'sample-3',
-          title: 'Real-time Collaboration',
-          description: 'Implement WebRTC-based real-time collaborative editing',
-          difficulty: 'Critical',
-          category: 'Feature',
-          reward: '100,000 BWRITER',
-          status: 'available',
-          skills: ['TypeScript', 'React', 'WebRTC', 'WebSockets'],
-          deliverables: [
-            'WebRTC peer connection setup',
-            'Operational Transform for conflict resolution',
-            'Cursor position sharing',
-            'User presence indicators'
-          ],
-          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
-          estimatedHours: 80
-        },
-        {
-          id: 'sample-4',
-          title: 'Mobile Responsive Design',
-          description: 'Optimize the editor for mobile devices with touch-friendly interface',
-          difficulty: 'Medium',
-          category: 'Enhancement',
-          reward: '25,000 BWRITER',
-          status: 'available',
-          skills: ['TypeScript', 'React', 'CSS', 'Mobile Design'],
-          deliverables: [
-            'Responsive layout for mobile screens',
-            'Touch-optimized toolbar',
-            'Mobile-friendly menus',
-            'Testing on iOS and Android'
-          ],
-          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
-          estimatedHours: 30
-        },
-        {
-          id: 'sample-5',
-          title: 'Dark Mode Theme',
-          description: 'Implement a complete dark mode theme with toggle functionality',
-          difficulty: 'Easy',
-          category: 'Enhancement',
-          reward: '15,000 BWRITER',
-          status: 'available',
-          skills: ['TypeScript', 'React', 'CSS'],
-          deliverables: [
-            'Dark mode CSS variables',
-            'Theme toggle button',
-            'Persist user preference',
-            'Smooth transition animations'
-          ],
-          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
-          estimatedHours: 15
-        },
-        {
-          id: 'sample-note',
-          title: '⚠️ Unable to Load Live Tasks',
-          description: 'These are sample tasks. Visit GitHub to see the latest available tasks. The API may be temporarily unavailable.',
+          id: 'github-redirect',
+          title: '📋 View Tasks on GitHub',
+          description: 'Unable to load tasks from GitHub API. This may be due to rate limiting or network issues. Click below to view all available tasks directly on GitHub.',
           difficulty: 'Easy',
           category: 'Information',
           reward: 'Various',
           status: 'available',
-          skills: ['GitHub'],
-          deliverables: ['Check GitHub for real-time task list'],
-          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues'
+          skills: ['Visit GitHub'],
+          deliverables: ['View and claim tasks on GitHub', 'Create new issues', 'Discuss bounties'],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
+          estimatedHours: 0
         }
       ]);
       setLoading(false);
@@ -320,7 +231,17 @@ const TasksPage: React.FC = () => {
             <p className="tasks-tagline">
               Contribute to Bitcoin Writer and earn BWRITER tokens
             </p>
-            <div className="tasks-badge">TASKS</div>
+            <div className="hero-actions">
+              <div className="tasks-badge">TASKS</div>
+              <a 
+                href="https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/new"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="create-issue-button"
+              >
+                + Create New Issue
+              </a>
+            </div>
           </section>
 
         <div className="tasks-filters">
