@@ -35,7 +35,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
-  z-index: 9998;
+  z-index: 10001;
   animation: fadeIn 0.2s ease;
 }
 
@@ -673,7 +673,7 @@
   border: 2px solid #FF6719;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(255, 103, 25, 0.3);
-  z-index: 9999;
+  z-index: 10002;
   animation: modalSlide 0.3s ease;
 }
 
