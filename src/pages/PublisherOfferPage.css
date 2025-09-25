@@ -53,7 +53,7 @@
   margin: 0 0 16px 0;
   line-height: 1.1;
   letter-spacing: -1px;
-  background: linear-gradient(90deg, #4CAF50, #45A049);
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -71,7 +71,7 @@
 .publisher-offer-badge {
   display: inline-block;
   padding: 8px 20px;
-  background: linear-gradient(90deg, #4CAF50, #45A049);
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
   border-radius: 100px;
   font-size: 14px;
   font-weight: 500;
@@ -180,7 +180,7 @@
 .escrow-info h3 {
   font-size: 18px;
   font-weight: 400;
-  color: #4CAF50;
+  color: #FF6B35;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -203,7 +203,7 @@
 
 .submit-button {
   padding: 12px 30px;
-  background: linear-gradient(90deg, #4CAF50, #45A049);
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
   color: #000;
   border: none;
   border-radius: 8px;
