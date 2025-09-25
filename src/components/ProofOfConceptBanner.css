@@ -278,3 +278,20 @@
     right: 12px;
   }
 }
+
+/* Adjustments for when banner is present */
+.poc-banner-active {
+  padding-top: 48px; /* 40px banner + 8px spacing */
+}
+
+@media (max-width: 768px) {
+  .poc-banner-active {
+    padding-top: 80px; /* Increased for three-line layout on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .poc-banner-active {
+    padding-top: 76px; /* Account for three-line layout */
+  }
+}
