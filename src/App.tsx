@@ -59,7 +59,11 @@ function App() {
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [showAIChat, setShowAIChat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [showLoadingDoor, setShowLoadingDoor] = useState(true);
+  const [showLoadingDoor, setShowLoadingDoor] = useState(() => {
+    // Only show loading door on first visit in this session
+    const hasShownDoor = sessionStorage.getItem('hasShownLoadingDoor');
+    return !hasShownDoor;
+  });
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -263,9 +267,12 @@ function App() {
   return (
     <>
       <ServiceWorkerRegistration />
-      {/* Loading Door Animation */}
+      {/* Loading Door Animation - Only on first visit */}
       {showLoadingDoor && (
-        <LoadingDoor onComplete={() => setShowLoadingDoor(false)} />
+        <LoadingDoor onComplete={() => {
+          setShowLoadingDoor(false);
+          sessionStorage.setItem('hasShownLoadingDoor', 'true');
+        }} />
       )}
       {/* Proof of Concept Banner - positioned at the very top */}
       {!isInOS && <ProofOfConceptBanner />}
