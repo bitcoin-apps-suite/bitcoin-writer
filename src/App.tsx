@@ -23,7 +23,7 @@ import ChangelogPage from './pages/ChangelogPage';
 import StatusPage from './pages/StatusPage';
 import DeveloperContractsPage from './pages/DeveloperContractsPage';
 import AuthorsContractsPage from './pages/AuthorsContractsPage';
-import PublisherContractsPage from './pages/PublisherContractsPage';
+import PublisherOfferPage from './pages/PublisherOfferPage';
 import DevelopersGrantsPage from './pages/DevelopersGrantsPage';
 import AuthorsGrantsPage from './pages/AuthorsGrantsPage';
 import PublishersGrantsPage from './pages/PublishersGrantsPage';
@@ -31,6 +31,7 @@ import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
 import BapPage from './pages/BapPage';
+import MAIPPage from './pages/MAIPPage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
@@ -311,7 +312,7 @@ function App() {
       <Route path="/author/offers" element={<AuthorsContractsPage />} />
       
       {/* Publisher Routes - Symmetrical */}
-      <Route path="/publisher/offer" element={<PublisherContractsPage />} />
+      <Route path="/publisher/offer" element={<PublisherOfferPage />} />
       <Route path="/publisher/offers" element={<OffersPage />} />
       
       {/* Grants Routes */}
@@ -324,6 +325,7 @@ function App() {
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/enterprise" element={<CommissionsPage />} />
       <Route path="/grants" element={<GrantsPage />} />
+      <Route path="/maip" element={<MAIPPage />} />
       <Route path="/api" element={<ApiPage />} />
       <Route path="/changelog" element={<ChangelogPage />} />
       <Route path="/status" element={<StatusPage />} />

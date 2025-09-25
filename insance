@@ -1,0 +1,1776 @@
+Compiled with problems:
+×
+ERROR
+[eslint] 
+src/pages/PublisherContractsPage.tsx
+  Line 67:13:  Parsing error: ';' expected
+
+ERROR
+[eslint] 
+src/pages/PublisherContractsPage.tsx
+  Line 67:13:  Parsing error: ';' expected
+
+ERROR in src/pages/PublisherContractsPage.tsx:25:7
+TS2322: Type '() => void' is not assignable to type 'FC<{}>'.
+  Type 'void' is not assignable to type 'ReactElement<any, any> | null'.
+    23 | }
+    24 |
+  > 25 | const PublisherContractsPage: React.FC = () => {
+       |       ^^^^^^^^^^^^^^^^^^^^^^
+    26 |   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
+    27 |     const saved = localStorage.getItem('devSidebarCollapsed');
+    28 |     return saved === 'true';
+ERROR in src/pages/PublisherContractsPage.tsx:66:13
+TS2695: Left side of comma operator is unused and has no side effects.
+    64 |     }, 100);
+    65 |       {
+  > 66 |         id: 'pub-001',
+       |             ^^^^^^^^^
+    67 |         title: 'BSV Integration Guide for E-commerce',
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+ERROR in src/pages/PublisherContractsPage.tsx:67:9
+TS2304: Cannot find name 'title'.
+    65 |       {
+    66 |         id: 'pub-001',
+  > 67 |         title: 'BSV Integration Guide for E-commerce',
+       |         ^^^^^
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+ERROR in src/pages/PublisherContractsPage.tsx:67:14
+TS1005: ';' expected.
+    65 |       {
+    66 |         id: 'pub-001',
+  > 67 |         title: 'BSV Integration Guide for E-commerce',
+       |              ^
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+ERROR in src/pages/PublisherContractsPage.tsx:67:16
+TS2695: Left side of comma operator is unused and has no side effects.
+    65 |       {
+    66 |         id: 'pub-001',
+  > 67 |         title: 'BSV Integration Guide for E-commerce',
+       |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+ERROR in src/pages/PublisherContractsPage.tsx:68:9
+TS2304: Cannot find name 'description'.
+    66 |         id: 'pub-001',
+    67 |         title: 'BSV Integration Guide for E-commerce',
+  > 68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+       |         ^^^^^^^^^^^
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+ERROR in src/pages/PublisherContractsPage.tsx:68:20
+TS1005: ';' expected.
+    66 |         id: 'pub-001',
+    67 |         title: 'BSV Integration Guide for E-commerce',
+  > 68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+       |                    ^
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+ERROR in src/pages/PublisherContractsPage.tsx:68:22
+TS2695: Left side of comma operator is unused and has no side effects.
+    66 |         id: 'pub-001',
+    67 |         title: 'BSV Integration Guide for E-commerce',
+  > 68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+       |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+ERROR in src/pages/PublisherContractsPage.tsx:69:9
+TS2304: Cannot find name 'author'.
+    67 |         title: 'BSV Integration Guide for E-commerce',
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+  > 69 |         author: 'John Smith',
+       |         ^^^^^^
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:69:15
+TS1005: ';' expected.
+    67 |         title: 'BSV Integration Guide for E-commerce',
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+  > 69 |         author: 'John Smith',
+       |               ^
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:69:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    67 |         title: 'BSV Integration Guide for E-commerce',
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+  > 69 |         author: 'John Smith',
+       |                 ^^^^^^^^^^^^
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:70:9
+TS2304: Cannot find name 'authorRating'.
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+  > 70 |         authorRating: 4.8,
+       |         ^^^^^^^^^^^^
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+ERROR in src/pages/PublisherContractsPage.tsx:70:21
+TS1005: ';' expected.
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+  > 70 |         authorRating: 4.8,
+       |                     ^
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+ERROR in src/pages/PublisherContractsPage.tsx:70:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    68 |         description: 'Comprehensive guide on integrating BSV payments into e-commerce platforms',
+    69 |         author: 'John Smith',
+  > 70 |         authorRating: 4.8,
+       |                       ^^^
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+ERROR in src/pages/PublisherContractsPage.tsx:71:15
+TS1005: ';' expected.
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+  > 71 |         status: 'active',
+       |               ^
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+ERROR in src/pages/PublisherContractsPage.tsx:71:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    69 |         author: 'John Smith',
+    70 |         authorRating: 4.8,
+  > 71 |         status: 'active',
+       |                 ^^^^^^^^
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+ERROR in src/pages/PublisherContractsPage.tsx:72:9
+TS2304: Cannot find name 'budget'.
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+  > 72 |         budget: '750 $BWRITER',
+       |         ^^^^^^
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+ERROR in src/pages/PublisherContractsPage.tsx:72:15
+TS1005: ';' expected.
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+  > 72 |         budget: '750 $BWRITER',
+       |               ^
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+ERROR in src/pages/PublisherContractsPage.tsx:72:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    70 |         authorRating: 4.8,
+    71 |         status: 'active',
+  > 72 |         budget: '750 $BWRITER',
+       |                 ^^^^^^^^^^^^^^
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+ERROR in src/pages/PublisherContractsPage.tsx:73:9
+TS2304: Cannot find name 'wordCount'.
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+  > 73 |         wordCount: '3,500 words',
+       |         ^^^^^^^^^
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+ERROR in src/pages/PublisherContractsPage.tsx:73:18
+TS1005: ';' expected.
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+  > 73 |         wordCount: '3,500 words',
+       |                  ^
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+ERROR in src/pages/PublisherContractsPage.tsx:73:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    71 |         status: 'active',
+    72 |         budget: '750 $BWRITER',
+  > 73 |         wordCount: '3,500 words',
+       |                    ^^^^^^^^^^^^^
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+ERROR in src/pages/PublisherContractsPage.tsx:74:9
+TS2304: Cannot find name 'deadline'.
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+  > 74 |         deadline: '2025-02-15',
+       |         ^^^^^^^^
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+    77 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:74:17
+TS1005: ';' expected.
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+  > 74 |         deadline: '2025-02-15',
+       |                 ^
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+    77 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:74:19
+TS2695: Left side of comma operator is unused and has no side effects.
+    72 |         budget: '750 $BWRITER',
+    73 |         wordCount: '3,500 words',
+  > 74 |         deadline: '2025-02-15',
+       |                   ^^^^^^^^^^^^
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+    77 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:75:9
+TS2304: Cannot find name 'type'.
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+  > 75 |         type: 'guide',
+       |         ^^^^
+    76 |         escrowStatus: 'funded'
+    77 |       },
+    78 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:75:13
+TS1005: ';' expected.
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+  > 75 |         type: 'guide',
+       |             ^
+    76 |         escrowStatus: 'funded'
+    77 |       },
+    78 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:75:15
+TS2695: Left side of comma operator is unused and has no side effects.
+    73 |         wordCount: '3,500 words',
+    74 |         deadline: '2025-02-15',
+  > 75 |         type: 'guide',
+       |               ^^^^^^^
+    76 |         escrowStatus: 'funded'
+    77 |       },
+    78 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:76:9
+TS2304: Cannot find name 'escrowStatus'.
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+  > 76 |         escrowStatus: 'funded'
+       |         ^^^^^^^^^^^^
+    77 |       },
+    78 |       {
+    79 |         id: 'pub-002',
+ERROR in src/pages/PublisherContractsPage.tsx:76:21
+TS1005: ';' expected.
+    74 |         deadline: '2025-02-15',
+    75 |         type: 'guide',
+  > 76 |         escrowStatus: 'funded'
+       |                     ^
+    77 |       },
+    78 |       {
+    79 |         id: 'pub-002',
+ERROR in src/pages/PublisherContractsPage.tsx:77:8
+TS1128: Declaration or statement expected.
+    75 |         type: 'guide',
+    76 |         escrowStatus: 'funded'
+  > 77 |       },
+       |        ^
+    78 |       {
+    79 |         id: 'pub-002',
+    80 |         title: 'Weekly Blockchain News Articles',
+ERROR in src/pages/PublisherContractsPage.tsx:79:13
+TS2695: Left side of comma operator is unused and has no side effects.
+    77 |       },
+    78 |       {
+  > 79 |         id: 'pub-002',
+       |             ^^^^^^^^^
+    80 |         title: 'Weekly Blockchain News Articles',
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+ERROR in src/pages/PublisherContractsPage.tsx:80:9
+TS2304: Cannot find name 'title'.
+    78 |       {
+    79 |         id: 'pub-002',
+  > 80 |         title: 'Weekly Blockchain News Articles',
+       |         ^^^^^
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+ERROR in src/pages/PublisherContractsPage.tsx:80:14
+TS1005: ';' expected.
+    78 |       {
+    79 |         id: 'pub-002',
+  > 80 |         title: 'Weekly Blockchain News Articles',
+       |              ^
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+ERROR in src/pages/PublisherContractsPage.tsx:80:16
+TS2695: Left side of comma operator is unused and has no side effects.
+    78 |       {
+    79 |         id: 'pub-002',
+  > 80 |         title: 'Weekly Blockchain News Articles',
+       |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+ERROR in src/pages/PublisherContractsPage.tsx:81:9
+TS2304: Cannot find name 'description'.
+    79 |         id: 'pub-002',
+    80 |         title: 'Weekly Blockchain News Articles',
+  > 81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+       |         ^^^^^^^^^^^
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+ERROR in src/pages/PublisherContractsPage.tsx:81:20
+TS1005: ';' expected.
+    79 |         id: 'pub-002',
+    80 |         title: 'Weekly Blockchain News Articles',
+  > 81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+       |                    ^
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+ERROR in src/pages/PublisherContractsPage.tsx:81:22
+TS2695: Left side of comma operator is unused and has no side effects.
+    79 |         id: 'pub-002',
+    80 |         title: 'Weekly Blockchain News Articles',
+  > 81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+       |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+ERROR in src/pages/PublisherContractsPage.tsx:82:9
+TS2304: Cannot find name 'author'.
+    80 |         title: 'Weekly Blockchain News Articles',
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+  > 82 |         author: 'Sarah Johnson',
+       |         ^^^^^^
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:82:15
+TS1005: ';' expected.
+    80 |         title: 'Weekly Blockchain News Articles',
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+  > 82 |         author: 'Sarah Johnson',
+       |               ^
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:82:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    80 |         title: 'Weekly Blockchain News Articles',
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+  > 82 |         author: 'Sarah Johnson',
+       |                 ^^^^^^^^^^^^^^^
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:83:9
+TS2304: Cannot find name 'authorRating'.
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+  > 83 |         authorRating: 4.9,
+       |         ^^^^^^^^^^^^
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+ERROR in src/pages/PublisherContractsPage.tsx:83:21
+TS1005: ';' expected.
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+  > 83 |         authorRating: 4.9,
+       |                     ^
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+ERROR in src/pages/PublisherContractsPage.tsx:83:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    81 |         description: 'Series of 4 weekly articles covering latest developments in blockchain',
+    82 |         author: 'Sarah Johnson',
+  > 83 |         authorRating: 4.9,
+       |                       ^^^
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+ERROR in src/pages/PublisherContractsPage.tsx:84:15
+TS1005: ';' expected.
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+  > 84 |         status: 'in_review',
+       |               ^
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+ERROR in src/pages/PublisherContractsPage.tsx:84:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    82 |         author: 'Sarah Johnson',
+    83 |         authorRating: 4.9,
+  > 84 |         status: 'in_review',
+       |                 ^^^^^^^^^^^
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+ERROR in src/pages/PublisherContractsPage.tsx:85:9
+TS2304: Cannot find name 'budget'.
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+  > 85 |         budget: '1,200 $BWRITER',
+       |         ^^^^^^
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+ERROR in src/pages/PublisherContractsPage.tsx:85:15
+TS1005: ';' expected.
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+  > 85 |         budget: '1,200 $BWRITER',
+       |               ^
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+ERROR in src/pages/PublisherContractsPage.tsx:85:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    83 |         authorRating: 4.9,
+    84 |         status: 'in_review',
+  > 85 |         budget: '1,200 $BWRITER',
+       |                 ^^^^^^^^^^^^^^^^
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+ERROR in src/pages/PublisherContractsPage.tsx:86:9
+TS2304: Cannot find name 'wordCount'.
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+  > 86 |         wordCount: '2,000 words each',
+       |         ^^^^^^^^^
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+ERROR in src/pages/PublisherContractsPage.tsx:86:18
+TS1005: ';' expected.
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+  > 86 |         wordCount: '2,000 words each',
+       |                  ^
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+ERROR in src/pages/PublisherContractsPage.tsx:86:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    84 |         status: 'in_review',
+    85 |         budget: '1,200 $BWRITER',
+  > 86 |         wordCount: '2,000 words each',
+       |                    ^^^^^^^^^^^^^^^^^^
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+ERROR in src/pages/PublisherContractsPage.tsx:87:9
+TS2304: Cannot find name 'deadline'.
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+  > 87 |         deadline: '2025-02-28',
+       |         ^^^^^^^^
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+ERROR in src/pages/PublisherContractsPage.tsx:87:17
+TS1005: ';' expected.
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+  > 87 |         deadline: '2025-02-28',
+       |                 ^
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+ERROR in src/pages/PublisherContractsPage.tsx:87:19
+TS2695: Left side of comma operator is unused and has no side effects.
+    85 |         budget: '1,200 $BWRITER',
+    86 |         wordCount: '2,000 words each',
+  > 87 |         deadline: '2025-02-28',
+       |                   ^^^^^^^^^^^^
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+ERROR in src/pages/PublisherContractsPage.tsx:88:9
+TS2304: Cannot find name 'deliveredOn'.
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+  > 88 |         deliveredOn: '2025-02-10',
+       |         ^^^^^^^^^^^
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+ERROR in src/pages/PublisherContractsPage.tsx:88:20
+TS1005: ';' expected.
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+  > 88 |         deliveredOn: '2025-02-10',
+       |                    ^
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+ERROR in src/pages/PublisherContractsPage.tsx:88:22
+TS2695: Left side of comma operator is unused and has no side effects.
+    86 |         wordCount: '2,000 words each',
+    87 |         deadline: '2025-02-28',
+  > 88 |         deliveredOn: '2025-02-10',
+       |                      ^^^^^^^^^^^^
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+ERROR in src/pages/PublisherContractsPage.tsx:89:9
+TS2304: Cannot find name 'type'.
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+  > 89 |         type: 'article',
+       |         ^^^^
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+ERROR in src/pages/PublisherContractsPage.tsx:89:13
+TS1005: ';' expected.
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+  > 89 |         type: 'article',
+       |             ^
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+ERROR in src/pages/PublisherContractsPage.tsx:89:15
+TS2695: Left side of comma operator is unused and has no side effects.
+    87 |         deadline: '2025-02-28',
+    88 |         deliveredOn: '2025-02-10',
+  > 89 |         type: 'article',
+       |               ^^^^^^^^^
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+ERROR in src/pages/PublisherContractsPage.tsx:90:9
+TS2304: Cannot find name 'escrowStatus'.
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+  > 90 |         escrowStatus: 'funded',
+       |         ^^^^^^^^^^^^
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+ERROR in src/pages/PublisherContractsPage.tsx:90:21
+TS1005: ';' expected.
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+  > 90 |         escrowStatus: 'funded',
+       |                     ^
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+ERROR in src/pages/PublisherContractsPage.tsx:90:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    88 |         deliveredOn: '2025-02-10',
+    89 |         type: 'article',
+  > 90 |         escrowStatus: 'funded',
+       |                       ^^^^^^^^
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+ERROR in src/pages/PublisherContractsPage.tsx:91:9
+TS2304: Cannot find name 'aiVerification'.
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+  > 91 |         aiVerification: {
+       |         ^^^^^^^^^^^^^^
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+    94 |           relevance: 95
+ERROR in src/pages/PublisherContractsPage.tsx:91:23
+TS1005: ';' expected.
+    89 |         type: 'article',
+    90 |         escrowStatus: 'funded',
+  > 91 |         aiVerification: {
+       |                       ^
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+    94 |           relevance: 95
+ERROR in src/pages/PublisherContractsPage.tsx:92:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    90 |         escrowStatus: 'funded',
+    91 |         aiVerification: {
+  > 92 |           plagiarism: 2,
+       |                       ^
+    93 |           quality: 92,
+    94 |           relevance: 95
+    95 |         }
+ERROR in src/pages/PublisherContractsPage.tsx:93:11
+TS2304: Cannot find name 'quality'.
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+  > 93 |           quality: 92,
+       |           ^^^^^^^
+    94 |           relevance: 95
+    95 |         }
+    96 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:93:18
+TS1005: ';' expected.
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+  > 93 |           quality: 92,
+       |                  ^
+    94 |           relevance: 95
+    95 |         }
+    96 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:93:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    91 |         aiVerification: {
+    92 |           plagiarism: 2,
+  > 93 |           quality: 92,
+       |                    ^^
+    94 |           relevance: 95
+    95 |         }
+    96 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:94:11
+TS2304: Cannot find name 'relevance'.
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+  > 94 |           relevance: 95
+       |           ^^^^^^^^^
+    95 |         }
+    96 |       },
+    97 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:94:20
+TS1005: ';' expected.
+    92 |           plagiarism: 2,
+    93 |           quality: 92,
+  > 94 |           relevance: 95
+       |                    ^
+    95 |         }
+    96 |       },
+    97 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:96:8
+TS1128: Declaration or statement expected.
+    94 |           relevance: 95
+    95 |         }
+  > 96 |       },
+       |        ^
+    97 |       {
+    98 |         id: 'pub-003',
+    99 |         title: 'Smart Contract Security Best Practices',
+ERROR in src/pages/PublisherContractsPage.tsx:98:13
+TS2695: Left side of comma operator is unused and has no side effects.
+     96 |       },
+     97 |       {
+  >  98 |         id: 'pub-003',
+        |             ^^^^^^^^^
+     99 |         title: 'Smart Contract Security Best Practices',
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+ERROR in src/pages/PublisherContractsPage.tsx:99:9
+TS2304: Cannot find name 'title'.
+     97 |       {
+     98 |         id: 'pub-003',
+  >  99 |         title: 'Smart Contract Security Best Practices',
+        |         ^^^^^
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+ERROR in src/pages/PublisherContractsPage.tsx:99:14
+TS1005: ';' expected.
+     97 |       {
+     98 |         id: 'pub-003',
+  >  99 |         title: 'Smart Contract Security Best Practices',
+        |              ^
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+ERROR in src/pages/PublisherContractsPage.tsx:99:16
+TS2695: Left side of comma operator is unused and has no side effects.
+     97 |       {
+     98 |         id: 'pub-003',
+  >  99 |         title: 'Smart Contract Security Best Practices',
+        |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+ERROR in src/pages/PublisherContractsPage.tsx:100:9
+TS2304: Cannot find name 'description'.
+     98 |         id: 'pub-003',
+     99 |         title: 'Smart Contract Security Best Practices',
+  > 100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+        |         ^^^^^^^^^^^
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+ERROR in src/pages/PublisherContractsPage.tsx:100:20
+TS1005: ';' expected.
+     98 |         id: 'pub-003',
+     99 |         title: 'Smart Contract Security Best Practices',
+  > 100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+        |                    ^
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+ERROR in src/pages/PublisherContractsPage.tsx:100:22
+TS2695: Left side of comma operator is unused and has no side effects.
+     98 |         id: 'pub-003',
+     99 |         title: 'Smart Contract Security Best Practices',
+  > 100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+        |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+ERROR in src/pages/PublisherContractsPage.tsx:101:9
+TS2304: Cannot find name 'author'.
+     99 |         title: 'Smart Contract Security Best Practices',
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+  > 101 |         author: 'Michael Chen',
+        |         ^^^^^^
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:101:15
+TS1005: ';' expected.
+     99 |         title: 'Smart Contract Security Best Practices',
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+  > 101 |         author: 'Michael Chen',
+        |               ^
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:101:17
+TS2695: Left side of comma operator is unused and has no side effects.
+     99 |         title: 'Smart Contract Security Best Practices',
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+  > 101 |         author: 'Michael Chen',
+        |                 ^^^^^^^^^^^^^^
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:102:9
+TS2304: Cannot find name 'authorRating'.
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+  > 102 |         authorRating: 5.0,
+        |         ^^^^^^^^^^^^
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+ERROR in src/pages/PublisherContractsPage.tsx:102:21
+TS1005: ';' expected.
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+  > 102 |         authorRating: 5.0,
+        |                     ^
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+ERROR in src/pages/PublisherContractsPage.tsx:102:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    100 |         description: 'Technical whitepaper on security considerations for BSV smart contracts',
+    101 |         author: 'Michael Chen',
+  > 102 |         authorRating: 5.0,
+        |                       ^^^
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+ERROR in src/pages/PublisherContractsPage.tsx:103:15
+TS1005: ';' expected.
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+  > 103 |         status: 'completed',
+        |               ^
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+ERROR in src/pages/PublisherContractsPage.tsx:103:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    101 |         author: 'Michael Chen',
+    102 |         authorRating: 5.0,
+  > 103 |         status: 'completed',
+        |                 ^^^^^^^^^^^
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+ERROR in src/pages/PublisherContractsPage.tsx:104:9
+TS2304: Cannot find name 'budget'.
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+  > 104 |         budget: '2,500 $BWRITER',
+        |         ^^^^^^
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+ERROR in src/pages/PublisherContractsPage.tsx:104:15
+TS1005: ';' expected.
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+  > 104 |         budget: '2,500 $BWRITER',
+        |               ^
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+ERROR in src/pages/PublisherContractsPage.tsx:104:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    102 |         authorRating: 5.0,
+    103 |         status: 'completed',
+  > 104 |         budget: '2,500 $BWRITER',
+        |                 ^^^^^^^^^^^^^^^^
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+ERROR in src/pages/PublisherContractsPage.tsx:105:9
+TS2304: Cannot find name 'wordCount'.
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+  > 105 |         wordCount: '8,000 words',
+        |         ^^^^^^^^^
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+ERROR in src/pages/PublisherContractsPage.tsx:105:18
+TS1005: ';' expected.
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+  > 105 |         wordCount: '8,000 words',
+        |                  ^
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+ERROR in src/pages/PublisherContractsPage.tsx:105:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    103 |         status: 'completed',
+    104 |         budget: '2,500 $BWRITER',
+  > 105 |         wordCount: '8,000 words',
+        |                    ^^^^^^^^^^^^^
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+ERROR in src/pages/PublisherContractsPage.tsx:106:9
+TS2304: Cannot find name 'deadline'.
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+  > 106 |         deadline: '2025-01-30',
+        |         ^^^^^^^^
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+ERROR in src/pages/PublisherContractsPage.tsx:106:17
+TS1005: ';' expected.
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+  > 106 |         deadline: '2025-01-30',
+        |                 ^
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+ERROR in src/pages/PublisherContractsPage.tsx:106:19
+TS2695: Left side of comma operator is unused and has no side effects.
+    104 |         budget: '2,500 $BWRITER',
+    105 |         wordCount: '8,000 words',
+  > 106 |         deadline: '2025-01-30',
+        |                   ^^^^^^^^^^^^
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+ERROR in src/pages/PublisherContractsPage.tsx:107:9
+TS2304: Cannot find name 'deliveredOn'.
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+  > 107 |         deliveredOn: '2025-01-28',
+        |         ^^^^^^^^^^^
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+ERROR in src/pages/PublisherContractsPage.tsx:107:20
+TS1005: ';' expected.
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+  > 107 |         deliveredOn: '2025-01-28',
+        |                    ^
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+ERROR in src/pages/PublisherContractsPage.tsx:107:22
+TS2695: Left side of comma operator is unused and has no side effects.
+    105 |         wordCount: '8,000 words',
+    106 |         deadline: '2025-01-30',
+  > 107 |         deliveredOn: '2025-01-28',
+        |                      ^^^^^^^^^^^^
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+ERROR in src/pages/PublisherContractsPage.tsx:108:9
+TS2304: Cannot find name 'type'.
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+  > 108 |         type: 'whitepaper',
+        |         ^^^^
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:108:13
+TS1005: ';' expected.
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+  > 108 |         type: 'whitepaper',
+        |             ^
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:108:15
+TS2695: Left side of comma operator is unused and has no side effects.
+    106 |         deadline: '2025-01-30',
+    107 |         deliveredOn: '2025-01-28',
+  > 108 |         type: 'whitepaper',
+        |               ^^^^^^^^^^^^
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:109:9
+TS2304: Cannot find name 'escrowStatus'.
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+  > 109 |         escrowStatus: 'released',
+        |         ^^^^^^^^^^^^
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+ERROR in src/pages/PublisherContractsPage.tsx:109:21
+TS1005: ';' expected.
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+  > 109 |         escrowStatus: 'released',
+        |                     ^
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+ERROR in src/pages/PublisherContractsPage.tsx:109:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    107 |         deliveredOn: '2025-01-28',
+    108 |         type: 'whitepaper',
+  > 109 |         escrowStatus: 'released',
+        |                       ^^^^^^^^^^
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+ERROR in src/pages/PublisherContractsPage.tsx:110:9
+TS2304: Cannot find name 'aiVerification'.
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+  > 110 |         aiVerification: {
+        |         ^^^^^^^^^^^^^^
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+    113 |           relevance: 100
+ERROR in src/pages/PublisherContractsPage.tsx:110:23
+TS1005: ';' expected.
+    108 |         type: 'whitepaper',
+    109 |         escrowStatus: 'released',
+  > 110 |         aiVerification: {
+        |                       ^
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+    113 |           relevance: 100
+ERROR in src/pages/PublisherContractsPage.tsx:111:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    109 |         escrowStatus: 'released',
+    110 |         aiVerification: {
+  > 111 |           plagiarism: 0,
+        |                       ^
+    112 |           quality: 98,
+    113 |           relevance: 100
+    114 |         }
+ERROR in src/pages/PublisherContractsPage.tsx:112:11
+TS2304: Cannot find name 'quality'.
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+  > 112 |           quality: 98,
+        |           ^^^^^^^
+    113 |           relevance: 100
+    114 |         }
+    115 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:112:18
+TS1005: ';' expected.
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+  > 112 |           quality: 98,
+        |                  ^
+    113 |           relevance: 100
+    114 |         }
+    115 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:112:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    110 |         aiVerification: {
+    111 |           plagiarism: 0,
+  > 112 |           quality: 98,
+        |                    ^^
+    113 |           relevance: 100
+    114 |         }
+    115 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:113:11
+TS2304: Cannot find name 'relevance'.
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+  > 113 |           relevance: 100
+        |           ^^^^^^^^^
+    114 |         }
+    115 |       },
+    116 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:113:20
+TS1005: ';' expected.
+    111 |           plagiarism: 0,
+    112 |           quality: 98,
+  > 113 |           relevance: 100
+        |                    ^
+    114 |         }
+    115 |       },
+    116 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:115:8
+TS1128: Declaration or statement expected.
+    113 |           relevance: 100
+    114 |         }
+  > 115 |       },
+        |        ^
+    116 |       {
+    117 |         id: 'pub-004',
+    118 |         title: 'Marketing Copy for DeFi Platform',
+ERROR in src/pages/PublisherContractsPage.tsx:117:13
+TS2695: Left side of comma operator is unused and has no side effects.
+    115 |       },
+    116 |       {
+  > 117 |         id: 'pub-004',
+        |             ^^^^^^^^^
+    118 |         title: 'Marketing Copy for DeFi Platform',
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+ERROR in src/pages/PublisherContractsPage.tsx:118:9
+TS2304: Cannot find name 'title'.
+    116 |       {
+    117 |         id: 'pub-004',
+  > 118 |         title: 'Marketing Copy for DeFi Platform',
+        |         ^^^^^
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+ERROR in src/pages/PublisherContractsPage.tsx:118:14
+TS1005: ';' expected.
+    116 |       {
+    117 |         id: 'pub-004',
+  > 118 |         title: 'Marketing Copy for DeFi Platform',
+        |              ^
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+ERROR in src/pages/PublisherContractsPage.tsx:118:16
+TS2695: Left side of comma operator is unused and has no side effects.
+    116 |       {
+    117 |         id: 'pub-004',
+  > 118 |         title: 'Marketing Copy for DeFi Platform',
+        |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+ERROR in src/pages/PublisherContractsPage.tsx:119:9
+TS2304: Cannot find name 'description'.
+    117 |         id: 'pub-004',
+    118 |         title: 'Marketing Copy for DeFi Platform',
+  > 119 |         description: 'Website copy and marketing materials for new DeFi application',
+        |         ^^^^^^^^^^^
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+ERROR in src/pages/PublisherContractsPage.tsx:119:20
+TS1005: ';' expected.
+    117 |         id: 'pub-004',
+    118 |         title: 'Marketing Copy for DeFi Platform',
+  > 119 |         description: 'Website copy and marketing materials for new DeFi application',
+        |                    ^
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+ERROR in src/pages/PublisherContractsPage.tsx:119:22
+TS2695: Left side of comma operator is unused and has no side effects.
+    117 |         id: 'pub-004',
+    118 |         title: 'Marketing Copy for DeFi Platform',
+  > 119 |         description: 'Website copy and marketing materials for new DeFi application',
+        |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+ERROR in src/pages/PublisherContractsPage.tsx:120:9
+TS2304: Cannot find name 'author'.
+    118 |         title: 'Marketing Copy for DeFi Platform',
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+  > 120 |         author: 'Emma Wilson',
+        |         ^^^^^^
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:120:15
+TS1005: ';' expected.
+    118 |         title: 'Marketing Copy for DeFi Platform',
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+  > 120 |         author: 'Emma Wilson',
+        |               ^
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:120:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    118 |         title: 'Marketing Copy for DeFi Platform',
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+  > 120 |         author: 'Emma Wilson',
+        |                 ^^^^^^^^^^^^^
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:121:9
+TS2304: Cannot find name 'authorRating'.
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+  > 121 |         authorRating: 4.7,
+        |         ^^^^^^^^^^^^
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+ERROR in src/pages/PublisherContractsPage.tsx:121:21
+TS1005: ';' expected.
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+  > 121 |         authorRating: 4.7,
+        |                     ^
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+ERROR in src/pages/PublisherContractsPage.tsx:121:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    119 |         description: 'Website copy and marketing materials for new DeFi application',
+    120 |         author: 'Emma Wilson',
+  > 121 |         authorRating: 4.7,
+        |                       ^^^
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+ERROR in src/pages/PublisherContractsPage.tsx:122:15
+TS1005: ';' expected.
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+  > 122 |         status: 'active',
+        |               ^
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+ERROR in src/pages/PublisherContractsPage.tsx:122:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    120 |         author: 'Emma Wilson',
+    121 |         authorRating: 4.7,
+  > 122 |         status: 'active',
+        |                 ^^^^^^^^
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+ERROR in src/pages/PublisherContractsPage.tsx:123:9
+TS2304: Cannot find name 'budget'.
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+  > 123 |         budget: '500 $BWRITER',
+        |         ^^^^^^
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+ERROR in src/pages/PublisherContractsPage.tsx:123:15
+TS1005: ';' expected.
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+  > 123 |         budget: '500 $BWRITER',
+        |               ^
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+ERROR in src/pages/PublisherContractsPage.tsx:123:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    121 |         authorRating: 4.7,
+    122 |         status: 'active',
+  > 123 |         budget: '500 $BWRITER',
+        |                 ^^^^^^^^^^^^^^
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+ERROR in src/pages/PublisherContractsPage.tsx:124:9
+TS2304: Cannot find name 'wordCount'.
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+  > 124 |         wordCount: '1,500 words',
+        |         ^^^^^^^^^
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+ERROR in src/pages/PublisherContractsPage.tsx:124:18
+TS1005: ';' expected.
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+  > 124 |         wordCount: '1,500 words',
+        |                  ^
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+ERROR in src/pages/PublisherContractsPage.tsx:124:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    122 |         status: 'active',
+    123 |         budget: '500 $BWRITER',
+  > 124 |         wordCount: '1,500 words',
+        |                    ^^^^^^^^^^^^^
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+ERROR in src/pages/PublisherContractsPage.tsx:125:9
+TS2304: Cannot find name 'deadline'.
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+  > 125 |         deadline: '2025-02-20',
+        |         ^^^^^^^^
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+    128 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:125:17
+TS1005: ';' expected.
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+  > 125 |         deadline: '2025-02-20',
+        |                 ^
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+    128 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:125:19
+TS2695: Left side of comma operator is unused and has no side effects.
+    123 |         budget: '500 $BWRITER',
+    124 |         wordCount: '1,500 words',
+  > 125 |         deadline: '2025-02-20',
+        |                   ^^^^^^^^^^^^
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+    128 |       },
+ERROR in src/pages/PublisherContractsPage.tsx:126:9
+TS2304: Cannot find name 'type'.
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+  > 126 |         type: 'copy',
+        |         ^^^^
+    127 |         escrowStatus: 'funded'
+    128 |       },
+    129 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:126:13
+TS1005: ';' expected.
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+  > 126 |         type: 'copy',
+        |             ^
+    127 |         escrowStatus: 'funded'
+    128 |       },
+    129 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:126:15
+TS2695: Left side of comma operator is unused and has no side effects.
+    124 |         wordCount: '1,500 words',
+    125 |         deadline: '2025-02-20',
+  > 126 |         type: 'copy',
+        |               ^^^^^^
+    127 |         escrowStatus: 'funded'
+    128 |       },
+    129 |       {
+ERROR in src/pages/PublisherContractsPage.tsx:127:9
+TS2304: Cannot find name 'escrowStatus'.
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+  > 127 |         escrowStatus: 'funded'
+        |         ^^^^^^^^^^^^
+    128 |       },
+    129 |       {
+    130 |         id: 'pub-005',
+ERROR in src/pages/PublisherContractsPage.tsx:127:21
+TS1005: ';' expected.
+    125 |         deadline: '2025-02-20',
+    126 |         type: 'copy',
+  > 127 |         escrowStatus: 'funded'
+        |                     ^
+    128 |       },
+    129 |       {
+    130 |         id: 'pub-005',
+ERROR in src/pages/PublisherContractsPage.tsx:128:8
+TS1128: Declaration or statement expected.
+    126 |         type: 'copy',
+    127 |         escrowStatus: 'funded'
+  > 128 |       },
+        |        ^
+    129 |       {
+    130 |         id: 'pub-005',
+    131 |         title: 'NFT Marketplace Tutorial Series',
+ERROR in src/pages/PublisherContractsPage.tsx:130:13
+TS2695: Left side of comma operator is unused and has no side effects.
+    128 |       },
+    129 |       {
+  > 130 |         id: 'pub-005',
+        |             ^^^^^^^^^
+    131 |         title: 'NFT Marketplace Tutorial Series',
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+ERROR in src/pages/PublisherContractsPage.tsx:131:9
+TS2304: Cannot find name 'title'.
+    129 |       {
+    130 |         id: 'pub-005',
+  > 131 |         title: 'NFT Marketplace Tutorial Series',
+        |         ^^^^^
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:131:14
+TS1005: ';' expected.
+    129 |       {
+    130 |         id: 'pub-005',
+  > 131 |         title: 'NFT Marketplace Tutorial Series',
+        |              ^
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:131:16
+TS2695: Left side of comma operator is unused and has no side effects.
+    129 |       {
+    130 |         id: 'pub-005',
+  > 131 |         title: 'NFT Marketplace Tutorial Series',
+        |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:132:9
+TS2304: Cannot find name 'description'.
+    130 |         id: 'pub-005',
+    131 |         title: 'NFT Marketplace Tutorial Series',
+  > 132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+        |         ^^^^^^^^^^^
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+ERROR in src/pages/PublisherContractsPage.tsx:132:20
+TS1005: ';' expected.
+    130 |         id: 'pub-005',
+    131 |         title: 'NFT Marketplace Tutorial Series',
+  > 132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+        |                    ^
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+ERROR in src/pages/PublisherContractsPage.tsx:132:22
+TS2695: Left side of comma operator is unused and has no side effects.
+    130 |         id: 'pub-005',
+    131 |         title: 'NFT Marketplace Tutorial Series',
+  > 132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+        |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+ERROR in src/pages/PublisherContractsPage.tsx:133:9
+TS2304: Cannot find name 'author'.
+    131 |         title: 'NFT Marketplace Tutorial Series',
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+  > 133 |         author: 'Not Assigned',
+        |         ^^^^^^
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:133:15
+TS1005: ';' expected.
+    131 |         title: 'NFT Marketplace Tutorial Series',
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+  > 133 |         author: 'Not Assigned',
+        |               ^
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:133:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    131 |         title: 'NFT Marketplace Tutorial Series',
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+  > 133 |         author: 'Not Assigned',
+        |                 ^^^^^^^^^^^^^^
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+ERROR in src/pages/PublisherContractsPage.tsx:134:9
+TS2304: Cannot find name 'authorRating'.
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+  > 134 |         authorRating: 0,
+        |         ^^^^^^^^^^^^
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+ERROR in src/pages/PublisherContractsPage.tsx:134:21
+TS1005: ';' expected.
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+  > 134 |         authorRating: 0,
+        |                     ^
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+ERROR in src/pages/PublisherContractsPage.tsx:134:23
+TS2695: Left side of comma operator is unused and has no side effects.
+    132 |         description: 'Step-by-step tutorials for using our NFT marketplace',
+    133 |         author: 'Not Assigned',
+  > 134 |         authorRating: 0,
+        |                       ^
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+ERROR in src/pages/PublisherContractsPage.tsx:135:15
+TS1005: ';' expected.
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+  > 135 |         status: 'draft',
+        |               ^
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+ERROR in src/pages/PublisherContractsPage.tsx:135:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    133 |         author: 'Not Assigned',
+    134 |         authorRating: 0,
+  > 135 |         status: 'draft',
+        |                 ^^^^^^^
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+ERROR in src/pages/PublisherContractsPage.tsx:136:9
+TS2304: Cannot find name 'budget'.
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+  > 136 |         budget: '900 $BWRITER',
+        |         ^^^^^^
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+ERROR in src/pages/PublisherContractsPage.tsx:136:15
+TS1005: ';' expected.
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+  > 136 |         budget: '900 $BWRITER',
+        |               ^
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+ERROR in src/pages/PublisherContractsPage.tsx:136:17
+TS2695: Left side of comma operator is unused and has no side effects.
+    134 |         authorRating: 0,
+    135 |         status: 'draft',
+  > 136 |         budget: '900 $BWRITER',
+        |                 ^^^^^^^^^^^^^^
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+ERROR in src/pages/PublisherContractsPage.tsx:137:9
+TS2304: Cannot find name 'wordCount'.
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+  > 137 |         wordCount: '4,000 words',
+        |         ^^^^^^^^^
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+    140 |         escrowStatus: 'not_funded'
+ERROR in src/pages/PublisherContractsPage.tsx:137:18
+TS1005: ';' expected.
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+  > 137 |         wordCount: '4,000 words',
+        |                  ^
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+    140 |         escrowStatus: 'not_funded'
+ERROR in src/pages/PublisherContractsPage.tsx:137:20
+TS2695: Left side of comma operator is unused and has no side effects.
+    135 |         status: 'draft',
+    136 |         budget: '900 $BWRITER',
+  > 137 |         wordCount: '4,000 words',
+        |                    ^^^^^^^^^^^^^
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+    140 |         escrowStatus: 'not_funded'
+ERROR in src/pages/PublisherContractsPage.tsx:138:9
+TS2304: Cannot find name 'deadline'.
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+  > 138 |         deadline: '2025-03-01',
+        |         ^^^^^^^^
+    139 |         type: 'tutorial',
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+ERROR in src/pages/PublisherContractsPage.tsx:138:17
+TS1005: ';' expected.
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+  > 138 |         deadline: '2025-03-01',
+        |                 ^
+    139 |         type: 'tutorial',
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+ERROR in src/pages/PublisherContractsPage.tsx:138:19
+TS2695: Left side of comma operator is unused and has no side effects.
+    136 |         budget: '900 $BWRITER',
+    137 |         wordCount: '4,000 words',
+  > 138 |         deadline: '2025-03-01',
+        |                   ^^^^^^^^^^^^
+    139 |         type: 'tutorial',
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+ERROR in src/pages/PublisherContractsPage.tsx:139:9
+TS2304: Cannot find name 'type'.
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+  > 139 |         type: 'tutorial',
+        |         ^^^^
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+    142 |     ]);
+ERROR in src/pages/PublisherContractsPage.tsx:139:13
+TS1005: ';' expected.
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+  > 139 |         type: 'tutorial',
+        |             ^
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+    142 |     ]);
+ERROR in src/pages/PublisherContractsPage.tsx:139:15
+TS2695: Left side of comma operator is unused and has no side effects.
+    137 |         wordCount: '4,000 words',
+    138 |         deadline: '2025-03-01',
+  > 139 |         type: 'tutorial',
+        |               ^^^^^^^^^^
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+    142 |     ]);
+ERROR in src/pages/PublisherContractsPage.tsx:140:9
+TS2304: Cannot find name 'escrowStatus'.
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+  > 140 |         escrowStatus: 'not_funded'
+        |         ^^^^^^^^^^^^
+    141 |       }
+    142 |     ]);
+    143 |     
+ERROR in src/pages/PublisherContractsPage.tsx:140:21
+TS1005: ';' expected.
+    138 |         deadline: '2025-03-01',
+    139 |         type: 'tutorial',
+  > 140 |         escrowStatus: 'not_funded'
+        |                     ^
+    141 |       }
+    142 |     ]);
+    143 |     
+ERROR in src/pages/PublisherContractsPage.tsx:142:5
+TS1128: Declaration or statement expected.
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+  > 142 |     ]);
+        |     ^
+    143 |     
+    144 |     return () => {
+    145 |       window.removeEventListener('storage', handleStorageChange);
+ERROR in src/pages/PublisherContractsPage.tsx:142:6
+TS1128: Declaration or statement expected.
+    140 |         escrowStatus: 'not_funded'
+    141 |       }
+  > 142 |     ]);
+        |      ^
+    143 |     
+    144 |     return () => {
+    145 |       window.removeEventListener('storage', handleStorageChange);
+ERROR in src/pages/PublisherContractsPage.tsx:149:3
+TS1128: Declaration or statement expected.
+    147 |       clearInterval(checkSidebarState);
+    148 |     };
+  > 149 |   }, []);
+        |   ^
+    150 |
+    151 |   const handleCreateContract = () => {
+    152 |     const newContract: PublisherContract = {
+ERROR in src/pages/PublisherContractsPage.tsx:149:4
+TS1128: Declaration or statement expected.
+    147 |       clearInterval(checkSidebarState);
+    148 |     };
+  > 149 |   }, []);
+        |    ^
+    150 |
+    151 |   const handleCreateContract = () => {
+    152 |     const newContract: PublisherContract = {
+ERROR in src/pages/PublisherContractsPage.tsx:149:8
+TS1005: ';' expected.
+    147 |       clearInterval(checkSidebarState);
+    148 |     };
+  > 149 |   }, []);
+        |        ^
+    150 |
+    151 |   const handleCreateContract = () => {
+    152 |     const newContract: PublisherContract = {
+ERROR in src/pages/PublisherContractsPage.tsx:154:14
+TS2304: Cannot find name 'createForm'.
+    152 |     const newContract: PublisherContract = {
+    153 |       id: `pub-${Date.now()}`,
+  > 154 |       title: createForm.title,
+        |              ^^^^^^^^^^
+    155 |       description: createForm.description,
+    156 |       author: 'Not Assigned',
+    157 |       authorRating: 0,
+ERROR in src/pages/PublisherContractsPage.tsx:155:20
+TS2304: Cannot find name 'createForm'.
+    153 |       id: `pub-${Date.now()}`,
+    154 |       title: createForm.title,
+  > 155 |       description: createForm.description,
+        |                    ^^^^^^^^^^
+    156 |       author: 'Not Assigned',
+    157 |       authorRating: 0,
+    158 |       status: 'draft',
+ERROR in src/pages/PublisherContractsPage.tsx:159:15
+TS2304: Cannot find name 'createForm'.
+    157 |       authorRating: 0,
+    158 |       status: 'draft',
+  > 159 |       budget: createForm.budget,
+        |               ^^^^^^^^^^
+    160 |       wordCount: createForm.wordCount,
+    161 |       deadline: createForm.deadline,
+    162 |       type: createForm.type as PublisherContract['type'],
+ERROR in src/pages/PublisherContractsPage.tsx:160:18
+TS2304: Cannot find name 'createForm'.
+    158 |       status: 'draft',
+    159 |       budget: createForm.budget,
+  > 160 |       wordCount: createForm.wordCount,
+        |                  ^^^^^^^^^^
+    161 |       deadline: createForm.deadline,
+    162 |       type: createForm.type as PublisherContract['type'],
+    163 |       escrowStatus: 'not_funded'
+ERROR in src/pages/PublisherContractsPage.tsx:161:17
+TS2304: Cannot find name 'createForm'.
+    159 |       budget: createForm.budget,
+    160 |       wordCount: createForm.wordCount,
+  > 161 |       deadline: createForm.deadline,
+        |                 ^^^^^^^^^^
+    162 |       type: createForm.type as PublisherContract['type'],
+    163 |       escrowStatus: 'not_funded'
+    164 |     };
+ERROR in src/pages/PublisherContractsPage.tsx:162:13
+TS2304: Cannot find name 'createForm'.
+    160 |       wordCount: createForm.wordCount,
+    161 |       deadline: createForm.deadline,
+  > 162 |       type: createForm.type as PublisherContract['type'],
+        |             ^^^^^^^^^^
+    163 |       escrowStatus: 'not_funded'
+    164 |     };
+    165 |     
+ERROR in src/pages/PublisherContractsPage.tsx:166:5
+TS2304: Cannot find name 'setContracts'.
+    164 |     };
+    165 |     
+  > 166 |     setContracts([newContract, ...contracts]);
+        |     ^^^^^^^^^^^^
+    167 |     setShowCreateModal(false);
+    168 |     
+    169 |     // Reset form
+ERROR in src/pages/PublisherContractsPage.tsx:166:35
+TS2304: Cannot find name 'contracts'.
+    164 |     };
+    165 |     
+  > 166 |     setContracts([newContract, ...contracts]);
+        |                                   ^^^^^^^^^
+    167 |     setShowCreateModal(false);
+    168 |     
+    169 |     // Reset form
+ERROR in src/pages/PublisherContractsPage.tsx:167:5
+TS2304: Cannot find name 'setShowCreateModal'.
+    165 |     
+    166 |     setContracts([newContract, ...contracts]);
+  > 167 |     setShowCreateModal(false);
+        |     ^^^^^^^^^^^^^^^^^^
+    168 |     
+    169 |     // Reset form
+    170 |     setCreateForm({
+ERROR in src/pages/PublisherContractsPage.tsx:170:5
+TS2304: Cannot find name 'setCreateForm'.
+    168 |     
+    169 |     // Reset form
+  > 170 |     setCreateForm({
+        |     ^^^^^^^^^^^^^
+    171 |       title: '',
+    172 |       description: '',
+    173 |       type: 'article',
+ERROR in src/pages/PublisherContractsPage.tsx:184:5
+TS2304: Cannot find name 'setContracts'.
+    182 |
+    183 |   const handleFundEscrow = (contractId: string) => {
+  > 184 |     setContracts(contracts.map(c => 
+        |     ^^^^^^^^^^^^
+    185 |       c.id === contractId 
+    186 |         ? { ...c, escrowStatus: 'funded' as PublisherContract['escrowStatus'], status: 'active' as PublisherContract['status'] }
+    187 |         : c
+ERROR in src/pages/PublisherContractsPage.tsx:184:18
+TS2304: Cannot find name 'contracts'.
+    182 |
+    183 |   const handleFundEscrow = (contractId: string) => {
+  > 184 |     setContracts(contracts.map(c => 
+        |                  ^^^^^^^^^
+    185 |       c.id === contractId 
+    186 |         ? { ...c, escrowStatus: 'funded' as PublisherContract['escrowStatus'], status: 'active' as PublisherContract['status'] }
+    187 |         : c
+ERROR in src/pages/PublisherContractsPage.tsx:184:32
+TS7006: Parameter 'c' implicitly has an 'any' type.
+    182 |
+    183 |   const handleFundEscrow = (contractId: string) => {
+  > 184 |     setContracts(contracts.map(c => 
+        |                                ^
+    185 |       c.id === contractId 
+    186 |         ? { ...c, escrowStatus: 'funded' as PublisherContract['escrowStatus'], status: 'active' as PublisherContract['status'] }
+    187 |         : c
+ERROR in src/pages/PublisherContractsPage.tsx:192:5
+TS2304: Cannot find name 'setContracts'.
+    190 |
+    191 |   const handleApproveWork = (contractId: string) => {
+  > 192 |     setContracts(contracts.map(c => 
+        |     ^^^^^^^^^^^^
+    193 |       c.id === contractId 
+    194 |         ? { ...c, status: 'completed' as PublisherContract['status'], escrowStatus: 'released' as PublisherContract['escrowStatus'] }
+    195 |         : c
+ERROR in src/pages/PublisherContractsPage.tsx:192:18
+TS2304: Cannot find name 'contracts'.
+    190 |
+    191 |   const handleApproveWork = (contractId: string) => {
+  > 192 |     setContracts(contracts.map(c => 
+        |                  ^^^^^^^^^
+    193 |       c.id === contractId 
+    194 |         ? { ...c, status: 'completed' as PublisherContract['status'], escrowStatus: 'released' as PublisherContract['escrowStatus'] }
+    195 |         : c
+ERROR in src/pages/PublisherContractsPage.tsx:192:32
+TS7006: Parameter 'c' implicitly has an 'any' type.
+    190 |
+    191 |   const handleApproveWork = (contractId: string) => {
+  > 192 |     setContracts(contracts.map(c => 
+        |                                ^
+    193 |       c.id === contractId 
+    194 |         ? { ...c, status: 'completed' as PublisherContract['status'], escrowStatus: 'released' as PublisherContract['escrowStatus'] }
+    195 |         : c
+ERROR in src/pages/PublisherContractsPage.tsx:661:1
+TS1128: Declaration or statement expected.
+    659 |     </div>
+    660 |   );
+  > 661 | };
+        | ^
+    662 |
+    663 | export default PublisherContractsPage;

@@ -48,16 +48,16 @@ const OffersPage: React.FC = () => {
         <section className="offers-hero">
           <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Marketplace</span></h1>
           <p className="offers-tagline">
-            Connect authors with publishers through smart contracts on the blockchain
+            Browse talented authors and developers ready to work on your projects
           </p>
-          <div className="offers-badge">MARKETPLACE</div>
+          <div className="offers-badge">FIND TALENT</div>
         </section>
 
-        {/* Author CTA - Compact version above tabs */}
-        <div className="author-cta-compact">
-          <span className="cta-text">Are You an Author?</span>
-          <button className="create-offer-button-compact" onClick={() => navigate('/offer')}>
-            Create Your Offer →
+        {/* Publisher CTA - Commission Work */}
+        <div className="publisher-cta-compact">
+          <span className="cta-text">Ready to commission work?</span>
+          <button className="commission-button-compact" onClick={() => navigate('/publisher/offer')}>
+            Create Commission →
           </button>
         </div>
 
@@ -68,13 +68,13 @@ const OffersPage: React.FC = () => {
               className={activeTab === 'marketplace' ? 'active' : ''}
               onClick={() => setActiveTab('marketplace')}
             >
-              Author Marketplace
+              Browse Talent
             </button>
             <button 
               className={activeTab === 'platform' ? 'active' : ''}
               onClick={() => setActiveTab('platform')}
             >
-              Platform Offers
+              Platform Programs
             </button>
           </div>
         </section>
@@ -82,10 +82,10 @@ const OffersPage: React.FC = () => {
         {/* Marketplace Section */}
         {activeTab === 'marketplace' && (
           <section className="marketplace-section">
-            <h2>Author Services Marketplace</h2>
+            <h2>Available Talent for Hire</h2>
             <p className="marketplace-description">
-              Authors offer their writing services directly to publishers. All contracts are recorded on the BSV blockchain
-              with escrow payments and AI-verified deliverables.
+              Browse verified authors and developers offering their services. Click any offer to create a contract 
+              with BSV escrow and blockchain-verified deliverables.
             </p>
             
             <div className="marketplace-grid">
@@ -122,7 +122,7 @@ const OffersPage: React.FC = () => {
                   <span className="tag">Technical Writing</span>
                   <span className="tag">API Docs</span>
                 </div>
-                <button className="hire-button">Create Contract →</button>
+                <button className="hire-button">Hire This Author →</button>
               </div>
 
               {/* Author Offer Example 2 */}
@@ -158,7 +158,7 @@ const OffersPage: React.FC = () => {
                   <span className="tag">Trading</span>
                   <span className="tag">Research</span>
                 </div>
-                <button className="hire-button">Create Contract →</button>
+                <button className="hire-button">Hire This Author →</button>
               </div>
 
               {/* Author Offer Example 3 */}
@@ -194,33 +194,33 @@ const OffersPage: React.FC = () => {
                   <span className="tag">SEO</span>
                   <span className="tag">Web3</span>
                 </div>
-                <button className="hire-button">Create Contract →</button>
+                <button className="hire-button">Hire This Author →</button>
               </div>
             </div>
 
             {/* How It Works Section */}
             <div className="how-it-works">
-              <h3>How the Marketplace Works</h3>
+              <h3>How to Commission Work</h3>
               <div className="steps-grid">
                 <div className="step">
                   <div className="step-number">1</div>
-                  <h4>Browse & Connect</h4>
-                  <p>Publishers browse author offers and select writers that match their needs</p>
+                  <h4>Find Talent</h4>
+                  <p>Browse offers from verified authors and developers</p>
                 </div>
                 <div className="step">
                   <div className="step-number">2</div>
-                  <h4>Smart Contract</h4>
-                  <p>Agreement terms are encoded in a BSV smart contract with escrow payment</p>
+                  <h4>Create Contract</h4>
+                  <p>Click "Hire" to create a contract with your requirements and BSV escrow</p>
                 </div>
                 <div className="step">
                   <div className="step-number">3</div>
-                  <h4>Create & Deliver</h4>
-                  <p>Authors create content, AI verifies quality and originality</p>
+                  <h4>Review Work</h4>
+                  <p>Receive deliverables and review quality</p>
                 </div>
                 <div className="step">
                   <div className="step-number">4</div>
-                  <h4>Automatic Payment</h4>
-                  <p>Upon approval, payment is released from escrow to the author</p>
+                  <h4>Release Payment</h4>
+                  <p>Approve work to automatically release BSV from escrow</p>
                 </div>
               </div>
             </div>
