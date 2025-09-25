@@ -4,10 +4,7 @@
 // This software can only be used on BSV blockchains
 
 import React, { useState, useEffect } from 'react';
-import CleanTaskbar from '../components/CleanTaskbar';
-import UnifiedAuth from '../components/UnifiedAuth';
 import TaskClaimModal from '../components/TaskClaimModal';
-import { HandCashService } from '../services/HandCashService';
 import './BWriterContributionsPage.css';
 import Footer from '../components/Footer';
 
@@ -34,6 +31,11 @@ interface TodoItem {
 const BWriterContributionsPage: React.FC = () => {
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
+  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('devSidebarCollapsed');
+    return saved === 'true';
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
   // Completed tasks by @b0ase - total 7.5% allocation
   const completedTasksByFounder = [
@@ -72,12 +74,8 @@ const BWriterContributionsPage: React.FC = () => {
   };
   
   const [activeTab, setActiveTab] = useState<'contributions' | 'todo' | 'tokenomics'>(getInitialTab());
-  const [googleUser, setGoogleUser] = useState<any>(null);
-  const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
-  const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
   const [selectedTask, setSelectedTask] = useState<TodoItem | null>(null);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
-  const handcashService = new HandCashService();
   
   // Token distribution tracking
   const TOTAL_TOKENS = 1000000000; // 1 billion tokens
@@ -496,8 +494,33 @@ const BWriterContributionsPage: React.FC = () => {
       }
     };
     
+    // Listen for storage changes to detect sidebar collapse state
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    };
+    
+    // Handle window resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('resize', handleResize);
+    
+    // Check for sidebar state changes via custom event
+    const checkSidebarState = setInterval(() => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('resize', handleResize);
+      clearInterval(checkSidebarState);
+    };
   }, []);
 
   const fetchContributors = async () => {
@@ -569,7 +592,7 @@ const BWriterContributionsPage: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="bwriter-contributions-page">
+      <div className={`bwriter-contributions-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
       <div className="contributions-header">
         <h1>$BWriter Development Hub</h1>
         <p>Contribute to Bitcoin Writer and earn $BWriter tokens</p>

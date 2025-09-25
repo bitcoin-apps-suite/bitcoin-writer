@@ -6,12 +6,45 @@
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
   font-weight: 300;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .docs-page.with-sidebar-expanded {
+    margin-left: 260px;
+  }
+  
+  .docs-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
 }
 
 .docs-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
+}
+
+/* Adjust container width when sidebar is present */
+@media (min-width: 769px) {
+  .docs-page.with-sidebar-expanded .docs-container {
+    max-width: calc(100vw - 260px - 80px);
+  }
+  
+  .docs-page.with-sidebar-collapsed .docs-container {
+    max-width: calc(100vw - 60px - 80px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .docs-page.with-sidebar-expanded .docs-container {
+    max-width: min(1200px, calc(100vw - 260px - 160px));
+  }
+  
+  .docs-page.with-sidebar-collapsed .docs-container {
+    max-width: min(1200px, calc(100vw - 60px - 160px));
+  }
 }
 
 /* Docs Hero - Full Width Black */
@@ -34,6 +67,8 @@
   left: 0;
   right: 0;
 }
+
+/* No adjustments needed - the page margin-left already centers everything correctly */
 
 .docs-badge {
   display: inline-block;

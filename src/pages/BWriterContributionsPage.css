@@ -4,6 +4,18 @@
   background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
   min-height: 100vh;
   color: #fff;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .bwriter-contributions-page.with-sidebar-expanded {
+    margin-left: 260px;
+  }
+  
+  .bwriter-contributions-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
 }
 
 /* Mobile: Account for taller banner */
@@ -23,6 +35,15 @@
 @media (min-width: 1024px) {
   .bwriter-contributions-page {
     padding: 96px 3rem 3rem;
+  }
+  
+  /* Adjust content width when sidebar is present */
+  .bwriter-contributions-page.with-sidebar-expanded {
+    max-width: calc(100vw - 260px);
+  }
+  
+  .bwriter-contributions-page.with-sidebar-collapsed {
+    max-width: calc(100vw - 60px);
   }
 }
 

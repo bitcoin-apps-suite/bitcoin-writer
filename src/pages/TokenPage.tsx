@@ -1,45 +1,45 @@
-import React, { useState } from 'react';
-import CleanTaskbar from '../components/CleanTaskbar';
-import UnifiedAuth from '../components/UnifiedAuth';
-import { HandCashService } from '../services/HandCashService';
+import React, { useState, useEffect } from 'react';
 import './TokenPage.css';
 import Footer from '../components/Footer';
 
 const TokenPage: React.FC = () => {
-  const [googleUser, setGoogleUser] = useState<any>(null);
-  const [isHandCashAuthenticated, setIsHandCashAuthenticated] = useState(false);
-  const [currentHandCashUser, setCurrentHandCashUser] = useState<any>(null);
-  const handcashService = new HandCashService();
+  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('devSidebarCollapsed');
+    return saved === 'true';
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    // Listen for storage changes to detect sidebar collapse state
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    };
+    
+    // Handle window resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('resize', handleResize);
+    
+    // Check for sidebar state changes via polling
+    const checkSidebarState = setInterval(() => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('resize', handleResize);
+      clearInterval(checkSidebarState);
+    };
+  }, []);
 
   return (
     <div className="App">
-      <div className="taskbar-header">
-        <CleanTaskbar 
-          isAuthenticated={isHandCashAuthenticated}
-          currentUser={currentHandCashUser}
-          onLogout={() => {
-            setIsHandCashAuthenticated(false);
-            setCurrentHandCashUser(null);
-          }}
-        />
-      </div>
-      <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 1000 }}>
-        <UnifiedAuth 
-          googleUser={googleUser}
-          setGoogleUser={setGoogleUser}
-          isHandCashAuthenticated={isHandCashAuthenticated}
-          currentHandCashUser={currentHandCashUser}
-          handcashService={handcashService}
-          onHandCashLogin={() => {
-            // HandCash login logic
-          }}
-          onHandCashLogout={() => {
-            setIsHandCashAuthenticated(false);
-            setCurrentHandCashUser(null);
-          }}
-        />
-      </div>
-      <div className="token-page">
+      <div className={`token-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
       <div className="token-container">
         {/* Hero Section */}
         <section className="token-hero">

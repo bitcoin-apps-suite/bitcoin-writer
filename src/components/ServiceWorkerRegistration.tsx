@@ -35,7 +35,9 @@ export default function ServiceWorkerRegistration() {
 
     // Handle protocol launches
     if ('launchQueue' in window) {
-      window.launchQueue.setConsumer((launchParams) => {
+      // Type assertion for launchQueue API
+      const launchQueue = (window as any).launchQueue;
+      launchQueue.setConsumer((launchParams: any) => {
         if (launchParams.targetURL) {
           console.log('Bitcoin Writer launched with URL:', launchParams.targetURL);
           

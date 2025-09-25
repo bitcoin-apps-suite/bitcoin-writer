@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "../../../bitcoin-OS"
+		},
+		{
+			"path": "../../../../bitcoin-spreadsheets"
 		}
 	],
 	"settings": {}
