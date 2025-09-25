@@ -13,6 +13,7 @@ interface Contract {
   estimatedHours: number;
   priority: 'Critical' | 'High' | 'Medium' | 'Low';
   status: 'available' | 'claimed' | 'in_progress' | 'submitted' | 'completed' | 'expired';
+  category: 'developer' | 'writing';
   assignee?: {
     githubUsername: string;
     handcashHandle?: string;
@@ -35,6 +36,7 @@ const ContractsPage: React.FC = () => {
   const [showClaimModal, setShowClaimModal] = useState(false);
   const [handcashService] = useState(new HandCashService());
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [activeTab, setActiveTab] = useState<'developer' | 'writing'>('developer');
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
     const saved = localStorage.getItem('devSidebarCollapsed');
     return saved === 'true';
@@ -185,6 +187,33 @@ const ContractsPage: React.FC = () => {
           status = 'in_progress';
         }
         
+        // Determine category based on title, labels, and content
+        let category: 'developer' | 'writing' = 'developer';
+        const titleLower = issue.title.toLowerCase();
+        const bodyLower = body.toLowerCase();
+        
+        // Check for writing-related keywords
+        if (titleLower.includes('content') || titleLower.includes('writing') || 
+            titleLower.includes('documentation') || titleLower.includes('article') ||
+            titleLower.includes('blog') || titleLower.includes('guide') ||
+            titleLower.includes('tutorial') || titleLower.includes('copy') ||
+            bodyLower.includes('content writing') || bodyLower.includes('technical writing') ||
+            bodyLower.includes('blog post') || bodyLower.includes('article writing')) {
+          category = 'writing';
+        }
+        
+        // Check labels if available
+        if (issue.labels && Array.isArray(issue.labels)) {
+          const labelNames = issue.labels.map((label: any) => 
+            typeof label === 'string' ? label : label.name
+          ).join(' ').toLowerCase();
+          
+          if (labelNames.includes('writing') || labelNames.includes('content') ||
+              labelNames.includes('documentation') || labelNames.includes('blog')) {
+            category = 'writing';
+          }
+        }
+        
         // Get contract from localStorage if it exists
         const storedContract = localStorage.getItem(`contract-${issue.number}`);
         const contractData = storedContract ? JSON.parse(storedContract) : null;
@@ -198,6 +227,7 @@ const ContractsPage: React.FC = () => {
           reward: rewardMatch ? `${rewardMatch[1]} BWRITER` : '2,000 BWRITER',
           estimatedHours: hoursMatch ? parseInt(hoursMatch[1].replace(/,/g, '')) : 8,
           priority: (priorityMatch ? priorityMatch[1] : 'Medium') as Contract['priority'],
+          category: category,
           status,
           assignee: contractData?.assignee || (issue.assignee ? {
             githubUsername: issue.assignee.login,
@@ -230,6 +260,7 @@ const ContractsPage: React.FC = () => {
           priority: 'Low' as const,
           reward: 'Various',
           status: 'available' as const,
+          category: 'developer' as const,
           estimatedHours: 0,
           skills: ['Visit GitHub'],
           deliverables: ['View and claim contracts on GitHub', 'Create new issues', 'Discuss bounties']
@@ -309,28 +340,48 @@ const ContractsPage: React.FC = () => {
         <div className="contracts-container">
           {/* Hero Section */}
           <section className="contracts-hero">
-            <h1>Developer <span style={{color: '#ffffff'}}>Contracts</span></h1>
+            <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Contracts</span></h1>
             <p className="contracts-tagline">
-              Claim contracts, deliver code, earn BWRITER tokens
+              {activeTab === 'developer' 
+                ? 'Claim contracts, deliver code, earn BWRITER tokens'
+                : 'Create content, fulfill contracts, get paid in BWRITER'}
             </p>
             <div className="contracts-badge">CONTRACTS</div>
           </section>
 
+          {/* Tab Navigation */}
+          <section className="contracts-tabs-section">
+            <div className="contracts-tabs">
+              <button 
+                className={activeTab === 'developer' ? 'active' : ''}
+                onClick={() => setActiveTab('developer')}
+              >
+                Developer Contracts
+              </button>
+              <button 
+                className={activeTab === 'writing' ? 'active' : ''}
+                onClick={() => setActiveTab('writing')}
+              >
+                Writing Contracts
+              </button>
+            </div>
+          </section>
+
       <div className="contracts-stats">
         <div className="stat-card">
-          <span className="stat-value">{contracts.filter(c => c.status === 'available').length}</span>
+          <span className="stat-value">{contracts.filter(c => c.category === activeTab && c.status === 'available').length}</span>
           <span className="stat-label">Available</span>
         </div>
         <div className="stat-card">
-          <span className="stat-value">{contracts.filter(c => c.status === 'in_progress' || c.status === 'claimed').length}</span>
+          <span className="stat-value">{contracts.filter(c => c.category === activeTab && (c.status === 'in_progress' || c.status === 'claimed')).length}</span>
           <span className="stat-label">In Progress</span>
         </div>
         <div className="stat-card">
-          <span className="stat-value">{contracts.filter(c => c.status === 'submitted').length}</span>
+          <span className="stat-value">{contracts.filter(c => c.category === activeTab && c.status === 'submitted').length}</span>
           <span className="stat-label">Under Review</span>
         </div>
         <div className="stat-card">
-          <span className="stat-value">{contracts.filter(c => c.status === 'completed').length}</span>
+          <span className="stat-value">{contracts.filter(c => c.category === activeTab && c.status === 'completed').length}</span>
           <span className="stat-label">Completed</span>
         </div>
       </div>
@@ -339,7 +390,7 @@ const ContractsPage: React.FC = () => {
         <div className="contracts-loading">Loading contracts...</div>
       ) : (
         <div className="contracts-grid">
-          {contracts.map(contract => (
+          {contracts.filter(c => c.category === activeTab).map(contract => (
             <div 
               key={contract.id} 
               className={`contract-card ${contract.status !== 'available' ? 'contract-unavailable' : ''}`}

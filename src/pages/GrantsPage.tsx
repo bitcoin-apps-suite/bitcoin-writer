@@ -85,7 +85,6 @@ const GrantsPage: React.FC = () => {
           <h2>What We Fund</h2>
           <div className="categories-grid">
             <div className="category-card">
-              <div className="category-icon">🔧</div>
               <h3>Core Development</h3>
               <p>
                 Improvements to the Bitcoin Writer core application, including 
@@ -95,7 +94,6 @@ const GrantsPage: React.FC = () => {
             </div>
 
             <div className="category-card">
-              <div className="category-icon">🔌</div>
               <h3>Integrations</h3>
               <p>
                 Connect Bitcoin Writer with other BSV applications, services, 
@@ -105,7 +103,6 @@ const GrantsPage: React.FC = () => {
             </div>
 
             <div className="category-card">
-              <div className="category-icon">🎨</div>
               <h3>UI/UX Innovation</h3>
               <p>
                 Design improvements, accessibility features, and user experience 
@@ -115,7 +112,6 @@ const GrantsPage: React.FC = () => {
             </div>
 
             <div className="category-card">
-              <div className="category-icon">📚</div>
               <h3>Documentation</h3>
               <p>
                 Comprehensive guides, tutorials, API documentation, and educational 
@@ -125,7 +121,6 @@ const GrantsPage: React.FC = () => {
             </div>
 
             <div className="category-card">
-              <div className="category-icon">🔬</div>
               <h3>Research</h3>
               <p>
                 Blockchain research, cryptographic innovations, and experimental 
@@ -135,7 +130,6 @@ const GrantsPage: React.FC = () => {
             </div>
 
             <div className="category-card">
-              <div className="category-icon">🌍</div>
               <h3>Community Tools</h3>
               <p>
                 Tools, plugins, and applications that help the community 
