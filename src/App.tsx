@@ -20,6 +20,9 @@ import GrantsPage from './pages/GrantsPage';
 import ApiPage from './pages/ApiPage';
 import ChangelogPage from './pages/ChangelogPage';
 import StatusPage from './pages/StatusPage';
+import DeveloperContractsPage from './pages/DeveloperContractsPage';
+import AuthorsContractsPage from './pages/AuthorsContractsPage';
+import PublisherContractsPage from './pages/PublisherContractsPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -294,6 +297,9 @@ function App() {
       <Route path="/token" element={<TokenPage />} />
       <Route path="/tasks" element={<TasksPage />} />
       <Route path="/contracts" element={<ContractsPage />} />
+      <Route path="/developer/contracts" element={<DeveloperContractsPage />} />
+      <Route path="/authors/contracts" element={<AuthorsContractsPage />} />
+      <Route path="/publisher/contracts" element={<PublisherContractsPage />} />
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/commissions" element={<CommissionsPage />} />
