@@ -60,6 +60,7 @@ function App() {
     return saved === 'true';
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [showPocBanner, setShowPocBanner] = useState(true);
 
   // Handle window resize
   useEffect(() => {
@@ -247,7 +248,7 @@ function App() {
     <>
       <ServiceWorkerRegistration />
       {/* Proof of Concept Banner - positioned at the very top */}
-      {!isInOS && <ProofOfConceptBanner />}
+      {!isInOS && showPocBanner && <ProofOfConceptBanner onVisibilityChange={setShowPocBanner} />}
       
       <GoogleAuthProvider>
         {/* Global elements that appear on all pages */}
@@ -298,7 +299,7 @@ function App() {
             <div className="loading">Loading Bitcoin Writer...</div>
           </div>
         ) : (
-          <div className="App">
+          <div className={`App ${showPocBanner ? 'poc-banner-active' : ''}`}>
             
             {/* Old macOS-style taskbar (kept for reference, can be removed later) */}
             <div className="taskbar" style={{display: 'none'}}>

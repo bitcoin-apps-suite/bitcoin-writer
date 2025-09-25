@@ -15,7 +15,13 @@
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-direction: column;
-  padding-top: 72px; /* Account for CleanTaskbar (32px) + POC banner (40px) */
+  padding-top: 32px; /* Default: just CleanTaskbar (32px) */
+  transition: padding-top 0.3s ease;
+}
+
+/* When POC banner is active, add its height */
+.App.poc-banner-active {
+  padding-top: 72px; /* CleanTaskbar (32px) + POC banner (40px) */
 }
 
 /* Ensure pages have proper layout with footer */
@@ -31,12 +37,20 @@
 
 @media (max-width: 768px) {
   .App {
+    padding-top: 32px; /* Just taskbar */
+  }
+  
+  .App.poc-banner-active {
     padding-top: 104px; /* Taskbar (32px) + POC banner (72px) on mobile */
   }
 }
 
 @media (max-width: 480px) {
   .App {
+    padding-top: 32px; /* Just taskbar */
+  }
+  
+  .App.poc-banner-active {
     padding-top: 100px; /* Taskbar (32px) + POC banner (68px) on very small screens */
   }
 }
