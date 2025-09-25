@@ -57,12 +57,13 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     // Token & Grants at top
     { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
     { path: '/grants', icon: Flower2, label: 'GRANTS' },
+    { path: '/maip', icon: Users, label: 'Multi-Authoring (MAIP)', badge: 'EXPERIMENTAL' },
     
     // Developers Section
     { divider: true },
     { section: 'DEVELOPERS' },
     { path: '/developer/offer', icon: Zap, label: 'Create Service Offer' },
-    { path: '/developer/offers', icon: Terminal, label: 'Browse Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/publisher/offers', icon: Terminal, label: 'Find Work', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/tasks', icon: Code, label: 'Open Tasks' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     
@@ -70,7 +71,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { divider: true },
     { section: 'AUTHORS' },
     { path: '/author/offer', icon: FileText, label: 'Create Writing Offer' },
-    { path: '/author/offers', icon: Package, label: 'Browse Contracts', badge: '6' },
+    { path: '/publisher/offers', icon: Package, label: 'Find Publishers', badge: '6' },
     { path: '/docs', icon: BookOpen, label: 'Writing Guides' },
     
     // Publishers Section
