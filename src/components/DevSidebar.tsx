@@ -63,8 +63,6 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { path: '/developer/contracts', icon: Terminal, label: 'Dev Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/tasks', icon: Code, label: 'Tasks' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
-    { path: '/api', icon: Package, label: 'API Reference' },
-    { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
     
     // Authors Section
     { divider: true },
@@ -82,6 +80,8 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     
     // System
     { divider: true },
+    { path: '/api', icon: Package, label: 'API Reference' },
+    { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
     { path: '/changelog', icon: FileText, label: 'Changelog' },
     { path: '/status', icon: Activity, label: 'Status', badge: 'OK' }
   ];
