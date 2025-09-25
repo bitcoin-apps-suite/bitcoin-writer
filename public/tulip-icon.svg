@@ -1,0 +1,16 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tulip petals -->
+  <path d="M12 3C9.5 3 7.5 5.5 7.5 8.5C7.5 10.5 8.5 12 10 13C10.5 13.3 11.2 13.5 12 13.5C12.8 13.5 13.5 13.3 14 13C15.5 12 16.5 10.5 16.5 8.5C16.5 5.5 14.5 3 12 3Z" fill="currentColor" opacity="0.8"/>
+  
+  <!-- Center petal highlight -->
+  <path d="M12 4C10.2 4 9 6 9 8C9 9.5 9.5 10.5 10.5 11.2C11 11.5 11.5 11.7 12 11.7C12.5 11.7 13 11.5 13.5 11.2C14.5 10.5 15 9.5 15 8C15 6 13.8 4 12 4Z" fill="currentColor" opacity="0.6"/>
+  
+  <!-- Stem -->
+  <rect x="11.5" y="13" width="1" height="6" fill="currentColor" opacity="0.7"/>
+  
+  <!-- Leaf -->
+  <path d="M10.5 16C9.5 16.5 8.5 17.5 8.5 18.5C8.5 19.2 9 19.5 9.5 19.2C10.2 18.8 11 17.8 11.2 17L10.5 16Z" fill="currentColor" opacity="0.6"/>
+  
+  <!-- Ground/base -->
+  <ellipse cx="12" cy="20" rx="2" ry="0.5" fill="currentColor" opacity="0.4"/>
+</svg>

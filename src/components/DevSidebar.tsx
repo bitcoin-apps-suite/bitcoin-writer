@@ -53,12 +53,16 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     section?: string;
     external?: boolean;
   }> = [
+    // Token & Grants at top
+    { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
+    { path: '/grants', icon: Flower2, label: 'GRANTS' },
+    
     // Developers Section
+    { divider: true },
     { section: 'DEVELOPERS' },
     { path: '/developer/contracts', icon: Terminal, label: 'Dev Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/tasks', icon: Code, label: 'Tasks' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
-    { path: '/grants', icon: Flower2, label: 'Grants' },
     { path: '/api', icon: Package, label: 'API Reference' },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
     
@@ -75,7 +79,6 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { section: 'PUBLISHERS' },
     { path: '/publisher/contracts', icon: FileText, label: 'Manage Contracts', badge: '5' },
     { path: '/offers', icon: Package, label: 'Find Writers', badge: '12' },
-    { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
     
     // System
     { divider: true },
