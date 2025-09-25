@@ -78,7 +78,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { divider: true },
     { section: 'PUBLISHERS' },
     { path: '/publisher/offer', icon: DollarSign, label: 'Commission Work' },
-    { path: '/publisher/offers', icon: Users, label: 'Find Talent', badge: '12' },
+    { path: '/author/offers', icon: Users, label: 'Find Talent', badge: '12' },
     { path: '/enterprise', icon: Wrench, label: 'Custom Platform' },
     
     // System

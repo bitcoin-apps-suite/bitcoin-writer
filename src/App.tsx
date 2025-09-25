@@ -24,6 +24,7 @@ import StatusPage from './pages/StatusPage';
 import DeveloperContractsPage from './pages/DeveloperContractsPage';
 import AuthorsContractsPage from './pages/AuthorsContractsPage';
 import PublisherOfferPage from './pages/PublisherOfferPage';
+import AuthorOffersPage from './pages/AuthorOffersPage';
 import DevelopersGrantsPage from './pages/DevelopersGrantsPage';
 import AuthorsGrantsPage from './pages/AuthorsGrantsPage';
 import PublishersGrantsPage from './pages/PublishersGrantsPage';
@@ -309,7 +310,7 @@ function App() {
       
       {/* Author Routes - Symmetrical */}
       <Route path="/author/offer" element={<OfferPage />} />
-      <Route path="/author/offers" element={<AuthorsContractsPage />} />
+      <Route path="/author/offers" element={<AuthorOffersPage />} />
       
       {/* Publisher Routes - Symmetrical */}
       <Route path="/publisher/offer" element={<PublisherOfferPage />} />
