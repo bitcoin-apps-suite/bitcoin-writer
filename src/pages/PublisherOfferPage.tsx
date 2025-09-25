@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './OfferPage.css';
+import './PublisherOfferPage.css';
 import Footer from '../components/Footer';
 
 const PublisherOfferPage: React.FC = () => {
@@ -65,22 +65,41 @@ const PublisherOfferPage: React.FC = () => {
 
   return (
     <div className="App">
-      <div className={`offer-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
-        <div className="offer-container">
-          {/* Hero Section */}
-          <section className="offer-hero">
-            <h1>Create Your <span style={{color: '#4CAF50'}}>Commission</span></h1>
-            <p className="offer-tagline">
-              Post a job for talented writers and developers with BSV escrow protection
-            </p>
-          </section>
+      <div className={`publisher-offer-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
+        
+        {/* Hero Section */}
+        <div className="publisher-offer-hero">
+          <h1>Commission Quality Content</h1>
+          <p>Post a job for talented writers with BSV escrow protection</p>
+          <div className="publisher-offer-badge">SECURE ESCROW</div>
+        </div>
+
+        <div className="publisher-offer-container">
+          {/* Info Cards */}
+          <div className="publisher-info-grid">
+            <div className="info-card">
+              <div className="info-icon">🔒</div>
+              <h3>Escrow Protection</h3>
+              <p>Funds are locked in smart contract until work is approved</p>
+            </div>
+            <div className="info-card">
+              <div className="info-icon">✍️</div>
+              <h3>Quality Writers</h3>
+              <p>Access our network of verified professional writers</p>
+            </div>
+            <div className="info-card">
+              <div className="info-icon">⚡</div>
+              <h3>Fast Delivery</h3>
+              <p>Get your content delivered on schedule with milestones</p>
+            </div>
+          </div>
 
           {/* Form Section */}
-          <section className="offer-form-section">
-            <div className="offer-form-card">
+          <section className="publisher-form-section">
+            <div className="publisher-form-card">
               <h2>Commission Details</h2>
               
-              <div className="offer-form">
+              <div className="publisher-form">
                 <div className="form-group">
                   <label>Project Title</label>
                   <input
@@ -97,49 +116,64 @@ const PublisherOfferPage: React.FC = () => {
                     placeholder="Describe what you need, deliverables, and any specific requirements..."
                     value={createForm.description}
                     onChange={(e) => setCreateForm({...createForm, description: e.target.value})}
-                    rows={4}
+                    rows={5}
                   />
                 </div>
 
                 <div className="form-row">
                   <div className="form-group">
                     <label>Content Type</label>
-                    <select value={createForm.type} onChange={(e) => setCreateForm({...createForm, type: e.target.value})}>
+                    <select
+                      value={createForm.type}
+                      onChange={(e) => setCreateForm({...createForm, type: e.target.value})}
+                    >
                       <option value="article">Article</option>
-                      <option value="tutorial">Tutorial</option>
+                      <option value="whitepaper">White Paper</option>
                       <option value="documentation">Documentation</option>
-                      <option value="whitepaper">Whitepaper</option>
-                      <option value="research">Research Report</option>
-                      <option value="analysis">Market Analysis</option>
                       <option value="blog">Blog Post</option>
-                      <option value="development">Development Work</option>
+                      <option value="tutorial">Tutorial</option>
+                      <option value="case-study">Case Study</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
+                  <div className="form-group">
+                    <label>Word Count</label>
+                    <input
+                      type="number"
+                      placeholder="e.g., 2000"
+                      value={createForm.wordCount}
+                      onChange={(e) => setCreateForm({...createForm, wordCount: e.target.value})}
+                    />
+                  </div>
+                </div>
 
+                <div className="currency-row">
                   <div className="form-group">
                     <label>Budget</label>
                     <input
                       type="text"
-                      placeholder="e.g., 1000"
+                      placeholder="e.g., 500"
                       value={createForm.budget}
                       onChange={(e) => setCreateForm({...createForm, budget: e.target.value})}
                     />
                   </div>
-
                   <div className="form-group">
                     <label>Currency</label>
-                    <select value={createForm.currency} onChange={(e) => setCreateForm({...createForm, currency: e.target.value})}>
-                      <option value="USD">USD ($)</option>
+                    <select
+                      value={createForm.currency}
+                      onChange={(e) => setCreateForm({...createForm, currency: e.target.value})}
+                    >
                       <option value="BSV">BSV</option>
+                      <option value="USD">USD</option>
                       <option value="BWRITER">$BWRITER</option>
-                      <option value="OTHER">Other BSV Token</option>
+                      <option value="custom">Custom Token</option>
                     </select>
                   </div>
                 </div>
 
-                {createForm.currency === 'OTHER' && (
+                {createForm.currency === 'custom' && (
                   <div className="form-group">
-                    <label>Custom Token Symbol</label>
+                    <label>Token Symbol</label>
                     <input
                       type="text"
                       placeholder="e.g., USDC"
@@ -149,97 +183,43 @@ const PublisherOfferPage: React.FC = () => {
                   </div>
                 )}
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Word Count / Scope</label>
-                    <input
-                      type="text"
-                      placeholder="e.g., 3000 words"
-                      value={createForm.wordCount}
-                      onChange={(e) => setCreateForm({...createForm, wordCount: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Deadline</label>
-                    <input
-                      type="date"
-                      value={createForm.deadline}
-                      onChange={(e) => setCreateForm({...createForm, deadline: e.target.value})}
-                    />
-                  </div>
-                </div>
-
                 <div className="form-group">
-                  <label>Specific Requirements</label>
-                  <textarea
-                    placeholder="Any specific skills, experience, or requirements for this commission..."
-                    value={createForm.requirements}
-                    onChange={(e) => setCreateForm({...createForm, requirements: e.target.value})}
-                    rows={3}
+                  <label>Deadline</label>
+                  <input
+                    type="date"
+                    value={createForm.deadline}
+                    onChange={(e) => setCreateForm({...createForm, deadline: e.target.value})}
                   />
                 </div>
 
-                <div className="auth-section" style={{background: 'rgba(76, 175, 80, 0.05)', border: '1px solid rgba(76, 175, 80, 0.2)'}}>
-                  <h3 style={{color: '#4CAF50'}}>Fund & Sign Commission</h3>
-                  <p>Lock BSV in escrow and create a smart contract for this commission</p>
-                  
-                  <div className="auth-steps">
-                    <div className="auth-step">
-                      <span className="step-number" style={{background: '#4CAF50'}}>1</span>
-                      <div className="step-content">
-                        <h4>Authenticate Identity</h4>
-                        <p>Sign in with Google or Twitter to verify your identity</p>
-                        <div className="auth-buttons">
-                          <button className="auth-button google">
-                            Sign with Google
-                          </button>
-                          <button className="auth-button twitter">
-                            Sign with Twitter
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="auth-step">
-                      <span className="step-number" style={{background: '#4CAF50'}}>2</span>
-                      <div className="step-content">
-                        <h4>Fund Escrow with HandCash</h4>
-                        <p>Lock your budget in BSV escrow - released only when you approve the work</p>
-                        <button className="handcash-button" onClick={handleSubmit}>
-                          Fund & Create Commission
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label>Requirements & Guidelines</label>
+                  <textarea
+                    placeholder="Any specific requirements, style guides, references, etc..."
+                    value={createForm.requirements}
+                    onChange={(e) => setCreateForm({...createForm, requirements: e.target.value})}
+                    rows={4}
+                  />
                 </div>
-              </div>
-            </div>
-          </section>
 
-          {/* How It Works */}
-          <section className="how-it-works-section">
-            <h2>How Commissions Work</h2>
-            <div className="steps-grid">
-              <div className="step">
-                <div className="step-number" style={{background: '#4CAF50'}}>1</div>
-                <h4>Create Commission</h4>
-                <p>Define your requirements and budget</p>
-              </div>
-              <div className="step">
-                <div className="step-number" style={{background: '#4CAF50'}}>2</div>
-                <h4>Fund Escrow</h4>
-                <p>Lock BSV to show you're serious</p>
-              </div>
-              <div className="step">
-                <div className="step-number" style={{background: '#4CAF50'}}>3</div>
-                <h4>Receive Applications</h4>
-                <p>Authors and developers apply for your work</p>
-              </div>
-              <div className="step">
-                <div className="step-number" style={{background: '#4CAF50'}}>4</div>
-                <h4>Release Payment</h4>
-                <p>Approve work to release escrow automatically</p>
+                {/* Escrow Info */}
+                <div className="escrow-info">
+                  <h3>🔐 Escrow Protection Active</h3>
+                  <p>
+                    Your funds will be locked in a smart contract and only released when you approve the delivered work. 
+                    This protects both you and the writer, ensuring fair payment for quality content.
+                  </p>
+                </div>
+
+                {/* Submit Buttons */}
+                <div className="submit-section">
+                  <button className="submit-button" onClick={handleSubmit}>
+                    Post Commission & Fund Escrow →
+                  </button>
+                  <button className="cancel-button" onClick={() => window.history.back()}>
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           </section>

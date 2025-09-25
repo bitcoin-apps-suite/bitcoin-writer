@@ -137,12 +137,16 @@ const AuthorOffersPage: React.FC = () => {
   return (
     <div className="App">
       <div className={`author-offers-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
-        <div className="author-offers-container">
-          <div className="author-offers-header">
-            <h1>Find Professional Writers</h1>
-            <p>Connect with experienced writers ready to work on your blockchain projects</p>
-          </div>
+        
+        {/* Hero Section */}
+        <div className="author-offers-hero">
+          <h1>Find Professional Writers</h1>
+          <p>Connect with experienced writers ready to work on your blockchain projects</p>
+          <div className="author-offers-badge">12 WRITERS AVAILABLE</div>
+        </div>
 
+        <div className="author-offers-container">
+          {/* Filters */}
           <div className="author-offers-filters">
             <div className="category-filter">
               {categories.map(cat => (
@@ -157,6 +161,7 @@ const AuthorOffersPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Authors Grid */}
           <div className="author-offers-grid">
             {filteredOffers.map(offer => (
               <div key={offer.id} className="author-offer-card">
@@ -169,7 +174,7 @@ const AuthorOffersPage: React.FC = () => {
                     </div>
                   </div>
                   <div className={`availability ${offer.availability === 'Available Now' ? 'available' : 'busy'}`}>
-                    {offer.availability}
+                    {offer.availability === 'Available Now' ? 'AVAILABLE' : 'IN ' + offer.availability.toUpperCase()}
                   </div>
                 </div>
 
@@ -189,6 +194,7 @@ const AuthorOffersPage: React.FC = () => {
             ))}
           </div>
 
+          {/* CTA Section */}
           <div className="author-offers-cta">
             <h2>Looking to Offer Your Writing Services?</h2>
             <p>Join our network of professional writers and connect with publishers looking for quality content.</p>
