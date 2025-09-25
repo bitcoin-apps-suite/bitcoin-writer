@@ -14,6 +14,9 @@ import TasksPage from './pages/TasksPage';
 import ContractsPage from './pages/ContractsPage';
 import PlatformPage from './pages/PlatformPage';
 import SignupPage from './pages/SignupPage';
+import CommissionsPage from './pages/CommissionsPage';
+import OffersPage from './pages/OffersPage';
+import GrantsPage from './pages/GrantsPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -290,6 +293,9 @@ function App() {
       <Route path="/contracts" element={<ContractsPage />} />
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
+      <Route path="/commissions" element={<CommissionsPage />} />
+      <Route path="/offers" element={<OffersPage />} />
+      <Route path="/grants" element={<GrantsPage />} />
       <Route path="/platform" element={<PlatformPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/*" element={
