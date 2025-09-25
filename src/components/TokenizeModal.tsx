@@ -39,7 +39,7 @@ const TOKENIZATION_PROTOCOLS = [
     name: 'RUN Protocol',
     icon: '⚡',
     description: 'Interactive token protocol with built-in smart contract capabilities',
-    features: ['Interactive tokens', 'On-chain state', 'Programmable', 'NFT support'],
+    features: ['Interactive tokens', 'On-chain state', 'Programmable', 'Asset support'],
     color: '#2196F3'
   },
   {
@@ -70,8 +70,8 @@ const TOKENIZATION_PROTOCOLS = [
     id: 'bsv21',
     name: 'BSV-21',
     icon: '🎨',
-    description: 'NFT-focused protocol for unique digital assets and collectibles',
-    features: ['NFT optimized', 'Metadata support', 'Royalties built-in', 'Marketplace ready'],
+    description: 'Bitcoin OS asset protocol for unique digital documents and collectibles',
+    features: ['OS-level assets', 'Metadata support', 'Royalties built-in', 'Marketplace ready'],
     color: '#00BCD4'
   }
 ];
@@ -119,13 +119,13 @@ const TokenizeModal: React.FC<TokenizeModalProps> = ({
   };
 
   const selectedProtocolInfo = TOKENIZATION_PROTOCOLS.find(p => p.id === selectedProtocol);
-  const isNFT = selectedProtocol === 'bsv21' || selectedProtocol === '1sat';
+  const isAsset = selectedProtocol === 'bsv21' || selectedProtocol === '1sat';
 
   return (
     <div className="modal-overlay">
       <div className="tokenize-modal">
         <div className="modal-header">
-          <h2>🎨 Tokenize Your Document</h2>
+          <h2>🎨 Create Bitcoin OS Asset</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
@@ -190,7 +190,7 @@ const TokenizeModal: React.FC<TokenizeModalProps> = ({
                 />
               </div>
 
-              {!isNFT && (
+              {!isAsset && (
                 <>
                   <div className="form-group">
                     <label>Total Supply</label>
@@ -215,7 +215,7 @@ const TokenizeModal: React.FC<TokenizeModalProps> = ({
                 </>
               )}
 
-              {isNFT && (
+              {isAsset && (
                 <div className="form-group">
                   <label>Edition Size</label>
                   <input
@@ -294,7 +294,7 @@ const TokenizeModal: React.FC<TokenizeModalProps> = ({
                   type="text"
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
-                  placeholder="blockchain, writing, NFT, document"
+                  placeholder="blockchain, writing, asset, document"
                 />
               </div>
             </div>
