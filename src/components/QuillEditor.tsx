@@ -5,6 +5,7 @@ import mammoth from 'mammoth';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
 import AnimatedPlaceholder from './AnimatedPlaceholder';
+import ImportSourcesModal from './ImportSourcesModal';
 
 interface QuillEditorProps {
   content: string;
@@ -21,6 +22,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
 }) => {
   const quillRef = useRef<ReactQuill>(null);
   const [isReady, setIsReady] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [isEmpty, setIsEmpty] = useState(() => {
     // Check if initial content is empty
     const tempDiv = document.createElement('div');
@@ -290,17 +292,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         </button>
         
         <button 
-          onClick={() => {
-            const url = prompt('Paste content or URL from:\n• Obsidian (paste markdown)\n• Roam Research (paste text)\n• Bear notes (paste markdown)\n• Any other writing app:');
-            if (url) {
-              if (url.startsWith('http')) {
-                alert('For web content, please copy and paste the text directly instead.');
-              } else {
-                // Treat as text content
-                onChange(url.replace(/\n/g, '<br>'));
-              }
-            }
-          }}
+          onClick={() => setShowImportModal(true)}
           className="import-btn"
           title="Import from other writing apps (Obsidian, Roam, Bear, etc.)"
         >
@@ -331,6 +323,16 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           Export HTML
         </button>
       </div>
+      
+      {showImportModal && (
+        <ImportSourcesModal 
+          onClose={() => setShowImportModal(false)}
+          onImport={(content: string) => {
+            onChange(content);
+            setShowImportModal(false);
+          }}
+        />
+      )}
       
       <div className="quill-editor-wrapper" style={{ position: 'relative', flex: 1 }}>
         <ReactQuill
