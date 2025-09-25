@@ -49,10 +49,11 @@
 .platform-section p {
   font-size: 1.2rem;
   line-height: 1.9;
-  color: #f0f0f0;
+  color: #ffffff;
   margin-bottom: 1rem;
   font-weight: 400;
   letter-spacing: 0.02em;
+  opacity: 0.9;
 }
 
 /* How It Works Grid */
@@ -64,12 +65,14 @@
 }
 
 .step {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 149, 0, 0.4);
   border-radius: 12px;
   padding: 2rem;
   position: relative;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 10;
 }
 
 .step:hover {
@@ -95,16 +98,23 @@
 }
 
 .step h3 {
-  color: #fff;
+  color: #ffffff !important;
   margin-bottom: 1rem;
   margin-top: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 20;
 }
 
 .step p {
-  color: #f0f0f0;
+  color: #ffffff !important;
   font-size: 1.1rem;
   line-height: 1.7;
   font-weight: 400;
+  opacity: 1;
+  position: relative;
+  z-index: 20;
 }
 
 /* Features Grid */
@@ -140,10 +150,11 @@
 }
 
 .feature p {
-  color: #f0f0f0;
+  color: #ffffff;
   font-size: 1.1rem;
   line-height: 1.6;
   font-weight: 400;
+  opacity: 0.9;
 }
 
 /* Developer Info */

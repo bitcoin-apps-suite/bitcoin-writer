@@ -48,6 +48,7 @@ import { BitcoinAppEvents } from './utils/appEvents';
 import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
 import { useBitcoinOS } from './utils/useBitcoinOS';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
+import LoadingDoor from './components/LoadingDoor';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -58,6 +59,7 @@ function App() {
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [showAIChat, setShowAIChat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLoadingDoor, setShowLoadingDoor] = useState(true);
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -261,6 +263,10 @@ function App() {
   return (
     <>
       <ServiceWorkerRegistration />
+      {/* Loading Door Animation */}
+      {showLoadingDoor && (
+        <LoadingDoor onComplete={() => setShowLoadingDoor(false)} />
+      )}
       {/* Proof of Concept Banner - positioned at the very top */}
       {!isInOS && <ProofOfConceptBanner />}
       

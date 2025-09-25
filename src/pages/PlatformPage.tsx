@@ -14,9 +14,9 @@ const PlatformPage: React.FC = () => {
         <h2>What is Bitcoin Writer?</h2>
         <p>
           Bitcoin Writer is a revolutionary document platform that transforms your writing into 
-          immutable blockchain assets. Every keystroke is automatically hashed to the Bitcoin SV 
-          blockchain, creating a permanent, timestamped record of your work that can never be 
-          altered, deleted, or censored.
+          verifiable blockchain assets. Every keystroke is automatically hashed to the Bitcoin SV 
+          blockchain, creating a permanent, timestamped record of your work with cryptographic 
+          proof of authorship and version history.
         </p>
       </section>
 
@@ -85,8 +85,8 @@ const PlatformPage: React.FC = () => {
           </div>
           <div className="feature">
             <div className="feature-icon">🌍</div>
-            <h3>Decentralized Publishing</h3>
-            <p>No central authority can censor or remove your published works</p>
+            <h3>Global Publishing Network</h3>
+            <p>Publish to a legally compliant, scalable network that respects both creators and law</p>
           </div>
           <div className="feature">
             <div className="feature-icon">💰</div>
@@ -133,7 +133,7 @@ const PlatformPage: React.FC = () => {
           </div>
           <div className="use-case">
             <h3>📰 Journalists</h3>
-            <p>Create censorship-resistant articles with verifiable timestamps</p>
+            <p>Create articles with verifiable timestamps and cryptographic proof of authorship</p>
           </div>
           <div className="use-case">
             <h3>🎓 Academics</h3>
