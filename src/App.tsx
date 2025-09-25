@@ -309,7 +309,7 @@ function App() {
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/commissions" element={<CommissionsPage />} />
-      <Route path="/offers" element={<OffersPage />} />
+      <Route path="/offered" element={<OffersPage />} />
       <Route path="/grants" element={<GrantsPage />} />
       <Route path="/api" element={<ApiPage />} />
       <Route path="/changelog" element={<ChangelogPage />} />
