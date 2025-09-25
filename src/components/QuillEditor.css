@@ -144,7 +144,7 @@
 
 .dark-mode .quill-editor .ql-editor {
   background: #1a1a1a;
-  color: #e0e0e0;
+  color: #ffffff;
 }
 
 .dark-mode .quill-editor .ql-editor.ql-blank::before {
@@ -211,7 +211,48 @@
 }
 
 .dark-mode .quill-editor .ql-editor * {
-  color: #e8e8e8 !important;
+  color: #ffffff !important;
+}
+
+.dark-mode .quill-editor .ql-editor h1,
+.dark-mode .quill-editor .ql-editor h2,
+.dark-mode .quill-editor .ql-editor h3 {
+  color: #FF6B35 !important;
+}
+
+.dark-mode .quill-editor .ql-editor strong {
+  color: #F7931A !important;
+  font-weight: 600;
+}
+
+.dark-mode .quill-editor .ql-editor em {
+  color: #FFB366 !important;
+}
+
+/* Text animations with visible colors */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes colorPulse {
+  0% { color: #FF6B35; }
+  50% { color: #F7931A; }
+  100% { color: #FF6B35; }
+}
+
+.dark-mode .quill-editor .ql-editor p {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.dark-mode .quill-editor .ql-editor h1 {
+  animation: fadeIn 0.8s ease-out, colorPulse 3s ease-in-out infinite;
 }
 
 .dark-mode .quill-editor .ql-editor h1,

@@ -7,285 +7,227 @@ const FeaturesPage: React.FC = () => {
     <div className="features-page">
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="hero-content">
+        <div className="container">
+          <div className="hero-badge">DECENTRALIZED WRITING PLATFORM</div>
           <h1 className="hero-title">
-            <span className="gradient-text">Bitcoin Writer</span>
-            <span className="subtitle">Document Versioning Revolution</span>
+            Write, Collaborate, <br />
+            <span className="gradient-text">Earn on Bitcoin</span>
           </h1>
           <p className="hero-description">
-            Transform your writing into immutable digital assets on Bitcoin. 
-            Every edit becomes a permanent ordinal, creating unbreakable proof of authorship.
+            Transform your words into permanent digital assets. Create contracts, 
+            collaborate with authors, and get paid instantly through Bitcoin micropayments.
           </p>
           <div className="hero-buttons">
             <button className="btn-primary" onClick={() => window.location.href = '/'}>
-              Start Writing
+              <span>Start Writing</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
             </button>
-            <button className="btn-secondary" onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}>
-              Learn More
+            <button className="btn-secondary" onClick={() => window.location.href = '/contracts'}>
+              Browse Contracts
             </button>
           </div>
-        </div>
-        <div className="hero-visual">
-          <div className="chain-animation">
-            <div className="version-block">v1</div>
-            <div className="chain-link">⛓️</div>
-            <div className="version-block">v2</div>
-            <div className="chain-link">⛓️</div>
-            <div className="version-block">v3</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problem Section */}
-      <section className="problem-section">
-        <div className="container">
-          <h2>The Problem We Solved</h2>
-          <div className="problems-grid">
-            <div className="problem-card">
-              <div className="problem-icon">🚫</div>
-              <h3>No Proof of Originality</h3>
-              <p>Anyone can copy-paste and claim authorship in the digital age</p>
+          <div className="hero-stats">
+            <div className="stat">
+              <span className="stat-value">1M+</span>
+              <span className="stat-label">BWRITER Tokens</span>
             </div>
-            <div className="problem-card">
-              <div className="problem-icon">📉</div>
-              <h3>No Investment Timeline</h3>
-              <p>Readers can't invest early in promising work as it develops</p>
+            <div className="stat">
+              <span className="stat-value">50+</span>
+              <span className="stat-label">Active Contracts</span>
             </div>
-            <div className="problem-card">
-              <div className="problem-icon">👻</div>
-              <h3>No Creation History</h3>
-              <p>The creative process vanishes, leaving only the final result</p>
+            <div className="stat">
+              <span className="stat-value">$100K+</span>
+              <span className="stat-label">Paid to Writers</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="how-section">
+      <section className="how-it-works">
         <div className="container">
-          <h2>How It Works</h2>
-          <p className="section-subtitle">Write Like Mining Bitcoin</p>
-          
-          <div className="timeline">
-            <div className="timeline-item">
-              <div className="timeline-number">1</div>
-              <div className="timeline-content">
-                <h3>Write Your Document</h3>
-                <p>Start with your genesis draft in our powerful editor</p>
-              </div>
+          <h2>How Bitcoin Writer Works</h2>
+          <div className="steps-grid">
+            <div className="step-card">
+              <div className="step-number">01</div>
+              <h3>Write & Hash</h3>
+              <p>Create content and automatically hash it to Bitcoin for permanent proof of authorship</p>
             </div>
-            
-            <div className="timeline-item">
-              <div className="timeline-number">2</div>
-              <div className="timeline-content">
-                <h3>Click ⛓️ to Version</h3>
-                <p>Create a new version with metadata and description</p>
-              </div>
+            <div className="step-card">
+              <div className="step-number">02</div>
+              <h3>Smart Contracts</h3>
+              <p>Publishers create contracts, writers fulfill them, payments release automatically</p>
             </div>
-            
-            <div className="timeline-item">
-              <div className="timeline-number">3</div>
-              <div className="timeline-content">
-                <h3>Inscribe to Bitcoin</h3>
-                <p>Permanently record on the blockchain as an ordinal</p>
-              </div>
-            </div>
-            
-            <div className="timeline-item">
-              <div className="timeline-number">4</div>
-              <div className="timeline-content">
-                <h3>Enable Investment</h3>
-                <p>Let readers buy shares in your evolving document</p>
-              </div>
+            <div className="step-card">
+              <div className="step-number">03</div>
+              <h3>Instant Payments</h3>
+              <p>Receive micropayments instantly through HandCash or Bitcoin wallets</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="features-section">
+      {/* Core Features */}
+      <section className="core-features">
         <div className="container">
-          <h2>Revolutionary Features</h2>
+          <div className="section-header">
+            <h2>Everything Writers Need</h2>
+            <p>Professional tools powered by blockchain technology</p>
+          </div>
           
           <div className="features-grid">
             <div className="feature-card">
-              <div className="feature-icon">🔐</div>
-              <h3>Cryptographic Proof</h3>
-              <p>Every version is cryptographically linked to the previous one, creating an unbreakable chain of authorship</p>
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 12h6m-3-3v6m5 5H7a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2z" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h3>Document Hashing</h3>
+              <p>Every document gets a unique hash on Bitcoin, proving when and by whom it was created</p>
             </div>
-            
+
             <div className="feature-card">
-              <div className="feature-icon">💰</div>
-              <h3>Progressive Investment</h3>
-              <p>Readers can invest early at better prices, with 1 million shares per document version and automatic royalty distribution</p>
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h3>Smart Contracts</h3>
+              <p>Create and fulfill writing contracts with automatic escrow and instant payment release</p>
             </div>
-            
+
             <div className="feature-card">
-              <div className="feature-icon">📊</div>
-              <h3>Version Analytics</h3>
-              <p>Track word count evolution, edit frequency, creation velocity, and investment metrics in real-time</p>
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h3>BWRITER Tokens</h3>
+              <p>Earn tokens for contributions, stake for governance, and trade on decentralized exchanges</p>
             </div>
-            
+
             <div className="feature-card">
-              <div className="feature-icon">⚡</div>
-              <h3>Instant Inscription</h3>
-              <p>One-click Bitcoin inscription using the Ordinals protocol for permanent, immutable storage</p>
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h3>Multi-Author Collaboration</h3>
+              <p>Work together in real-time with automatic contribution tracking and revenue sharing</p>
             </div>
-            
+
             <div className="feature-card">
-              <div className="feature-icon">🌍</div>
-              <h3>Global Market</h3>
-              <p>Anyone, anywhere can invest in your writing using Bitcoin and HandCash integration</p>
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h3>Immutable Proof</h3>
+              <p>Your work is permanently recorded on Bitcoin, providing undeniable proof of authorship</p>
             </div>
-            
+
             <div className="feature-card">
-              <div className="feature-icon">✅</div>
-              <h3>Chain Verification</h3>
-              <p>Mathematical proof of document integrity and creation timeline that stands up in court</p>
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3>Instant Publishing</h3>
+              <p>Publish directly to the blockchain or export to traditional formats with verified authorship</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Investment Model */}
-      <section className="investment-section">
+      {/* Contract Types */}
+      <section className="contract-types">
         <div className="container">
-          <h2>The Investment Revolution</h2>
-          <p className="section-subtitle">Transform Readers into Investors</p>
+          <h2>Contract Marketplace</h2>
+          <p className="section-subtitle">Find work or commission writers through smart contracts</p>
           
-          <div className="investment-timeline">
-            <div className="investment-stage">
-              <div className="stage-header">
-                <span className="stage-name">First Draft</span>
-                <span className="stage-price">100 sats/share</span>
+          <div className="contracts-grid">
+            <div className="contract-card">
+              <div className="contract-header">
+                <span className="contract-type">Writing Contracts</span>
+                <span className="contract-count">12 Active</span>
               </div>
-              <div className="stage-bar" style={{width: '25%'}}></div>
-              <p>Early believers get the best price</p>
+              <h3>Content Creation</h3>
+              <p>Technical documentation, blog posts, whitepapers, and marketing copy</p>
+              <ul>
+                <li>✓ Fixed or hourly rates</li>
+                <li>✓ Milestone payments</li>
+                <li>✓ Quality bonuses</li>
+              </ul>
+              <button className="contract-btn" onClick={() => window.location.href = '/contracts'}>
+                View Writing Jobs
+              </button>
             </div>
-            
-            <div className="investment-stage">
-              <div className="stage-header">
-                <span className="stage-name">Chapter 3 Added</span>
-                <span className="stage-price">150 sats/share</span>
+
+            <div className="contract-card">
+              <div className="contract-header">
+                <span className="contract-type">Development</span>
+                <span className="contract-count">30+ Tasks</span>
               </div>
-              <div className="stage-bar" style={{width: '50%'}}></div>
-              <p>Momentum building, quality emerging</p>
+              <h3>Platform Development</h3>
+              <p>Help build Bitcoin Writer and earn BWRITER tokens for contributions</p>
+              <ul>
+                <li>✓ Frontend features</li>
+                <li>✓ Smart contracts</li>
+                <li>✓ API integrations</li>
+              </ul>
+              <button className="contract-btn" onClick={() => window.location.href = '/tasks'}>
+                Browse Dev Tasks
+              </button>
             </div>
-            
-            <div className="investment-stage">
-              <div className="stage-header">
-                <span className="stage-name">Final Edit</span>
-                <span className="stage-price">300 sats/share</span>
+
+            <div className="contract-card featured">
+              <div className="contract-header">
+                <span className="contract-type">Publisher Offers</span>
+                <span className="contract-badge">NEW</span>
               </div>
-              <div className="stage-bar" style={{width: '75%'}}></div>
-              <p>Proven quality, nearing completion</p>
-            </div>
-            
-            <div className="investment-stage">
-              <div className="stage-header">
-                <span className="stage-name">Published</span>
-                <span className="stage-price">500 sats/share</span>
-              </div>
-              <div className="stage-bar" style={{width: '100%'}}></div>
-              <p>Complete work, maximum value</p>
+              <h3>Commission Writers</h3>
+              <p>Create custom contracts and find the perfect writer for your project</p>
+              <ul>
+                <li>✓ Escrow protection</li>
+                <li>✓ Talent matching</li>
+                <li>✓ Rights management</li>
+              </ul>
+              <button className="contract-btn primary" onClick={() => window.location.href = '/publisher/offer'}>
+                Create Contract
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Use Cases */}
-      <section className="use-cases-section">
-        <div className="container">
-          <h2>Who It's For</h2>
-          
-          <div className="use-cases-grid">
-            <div className="use-case">
-              <h3>📚 Authors</h3>
-              <ul>
-                <li>Prove you wrote your novel first</li>
-                <li>Chapter-by-chapter reader investment</li>
-                <li>Create limited edition versions</li>
-                <li>Build tradeable literary assets</li>
-              </ul>
-            </div>
-            
-            <div className="use-case">
-              <h3>📰 Journalists</h3>
-              <ul>
-                <li>Timestamp breaking news permanently</li>
-                <li>Create verifiable source chains</li>
-                <li>Protect investigative work</li>
-                <li>Enable reader-funded journalism</li>
-              </ul>
-            </div>
-            
-            <div className="use-case">
-              <h3>🔬 Academics</h3>
-              <ul>
-                <li>Establish research priority</li>
-                <li>Create citation chains</li>
-                <li>Prove hypothesis timeline</li>
-                <li>Enable peer investment</li>
-              </ul>
-            </div>
-            
-            <div className="use-case">
-              <h3>💼 Businesses</h3>
-              <ul>
-                <li>Version control legal documents</li>
-                <li>Create audit trails</li>
-                <li>Timestamp intellectual property</li>
-                <li>Enable stakeholder participation</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Technology Section */}
-      <section className="tech-section">
+      {/* Technology Stack */}
+      <section className="tech-stack">
         <div className="container">
           <h2>Built on Bitcoin</h2>
-          <p className="section-subtitle">The Most Secure Blockchain in Existence</p>
+          <p className="section-subtitle">Leveraging the most secure blockchain for permanent storage</p>
           
           <div className="tech-grid">
-            <div className="tech-card">
-              <h3>Bitcoin Ordinals</h3>
-              <p>Each version becomes a unique, numbered satoshi that's permanent, tradeable, and verifiable</p>
+            <div className="tech-item">
+              <div className="tech-logo">BSV</div>
+              <h4>Bitcoin SV</h4>
+              <p>Unlimited scale for data storage</p>
             </div>
-            
-            <div className="tech-card">
-              <h3>SHA-256 Hashing</h3>
-              <p>Military-grade cryptographic fingerprinting ensures content integrity and chain verification</p>
+            <div className="tech-item">
+              <div className="tech-logo">HC</div>
+              <h4>HandCash</h4>
+              <p>Simple Bitcoin payments</p>
             </div>
-            
-            <div className="tech-card">
-              <h3>HandCash Integration</h3>
-              <p>Simple Bitcoin payments without technical knowledge, instant global transactions</p>
+            <div className="tech-item">
+              <div className="tech-logo">1SAT</div>
+              <h4>1Sat Ordinals</h4>
+              <p>Document versioning system</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="testimonials-section">
-        <div className="container">
-          <h2>Success Stories</h2>
-          
-          <div className="testimonials-grid">
-            <div className="testimonial">
-              <p>"I watched my novel go from 10 investors at chapter 1 to 500 investors by chapter 20. The early believers made 10x returns."</p>
-              <div className="testimonial-author">— Fiction Author</div>
-            </div>
-            
-            <div className="testimonial">
-              <p>"Finally, a way to prove I wrote my research first. The timestamp saved my patent application."</p>
-              <div className="testimonial-author">— Research Scientist</div>
-            </div>
-            
-            <div className="testimonial">
-              <p>"My readers became my publishers. I kept 100% ownership and still raised $50,000."</p>
-              <div className="testimonial-author">— Independent Journalist</div>
+            <div className="tech-item">
+              <div className="tech-logo">IPFS</div>
+              <h4>IPFS</h4>
+              <p>Distributed file storage</p>
             </div>
           </div>
         </div>
@@ -294,66 +236,39 @@ const FeaturesPage: React.FC = () => {
       {/* CTA Section */}
       <section className="cta-section">
         <div className="container">
-          <h2>Start Your Chain Today</h2>
-          <p>Every great work begins with a genesis version. Your words deserve to be immortalized on the world's most secure blockchain.</p>
-          
-          <div className="cta-buttons">
-            <button className="btn-primary large" onClick={() => window.location.href = '/'}>
-              Begin Writing
-            </button>
-            <button className="btn-secondary large" onClick={() => window.location.href = '/exchange'}>
-              Browse Exchange
-            </button>
+          <div className="cta-content">
+            <h2>Ready to Start Writing on Bitcoin?</h2>
+            <p>Join the decentralized writing revolution. No fees to start, earn from day one.</p>
+            <div className="cta-buttons">
+              <button className="btn-primary large" onClick={() => window.location.href = '/'}>
+                Launch Writer
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+              <button className="btn-secondary large" onClick={() => window.location.href = '/docs'}>
+                Read Documentation
+              </button>
+            </div>
+          </div>
+          <div className="cta-graphic">
+            <div className="floating-card">
+              <div className="card-icon">📝</div>
+              <div className="card-text">Write</div>
+            </div>
+            <div className="floating-card delay-1">
+              <div className="card-icon">⛓️</div>
+              <div className="card-text">Hash</div>
+            </div>
+            <div className="floating-card delay-2">
+              <div className="card-icon">💰</div>
+              <div className="card-text">Earn</div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="features-footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h4>Bitcoin Writer</h4>
-              <p>Where Writing Meets the Blockchain Revolution</p>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Features</h4>
-              <ul>
-                <li>Document Versioning</li>
-                <li>Bitcoin Inscriptions</li>
-                <li>Share Tokens</li>
-                <li>Chain Verification</li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Technology</h4>
-              <ul>
-                <li>Bitcoin Ordinals</li>
-                <li>SHA-256 Hashing</li>
-                <li>HandCash Integration</li>
-                <li>IPFS Backup</li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Resources</h4>
-              <ul>
-                <li>Documentation</li>
-                <li>API Reference</li>
-                <li>GitHub</li>
-                <li>Support</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="footer-bottom">
-            <p>© 2025 The Bitcoin Corporation LTD. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    <Footer />
+      <Footer />
     </div>
   );
 };
