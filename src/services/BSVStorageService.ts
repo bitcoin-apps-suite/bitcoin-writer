@@ -1,6 +1,7 @@
 import { Transaction, Script, PrivateKey, PublicKey, P2PKH } from '@bsv/sdk';
 import CryptoJS from 'crypto-js';
 import { EncryptionService } from '../utils/encryptionUtils';
+import { NoteSVEncryption } from './NoteSVEncryption';
 import { UnlockConditions, BlockchainSaveOptions } from '../components/SaveToBlockchainModal';
 import { HandCashService } from './HandCashService';
 
@@ -31,10 +32,13 @@ export interface DocumentPackage {
   contentHash: string;
   encrypted: boolean;
   encryptionData?: {
-    method: 'password' | 'timelock' | 'multiparty';
+    method: 'password' | 'timelock' | 'multiparty' | 'notesv';
     salt?: string;
     iv?: string;
     unlockConditions?: any;
+    // NoteSV specific fields
+    hmac?: string;
+    iterations?: number;
   };
   wordCount: number;
   characterCount: number;
@@ -174,6 +178,19 @@ export class BSVStorageService {
             method: 'password',
             salt: passwordResult.salt,
             iv: passwordResult.iv
+          };
+          break;
+          
+        case 'notesv':
+          if (!options.encryptionPassword) throw new Error('Password required for NoteSV encryption');
+          const noteSVResult = NoteSVEncryption.encrypt(content, options.encryptionPassword);
+          encryptedContent = noteSVResult.encryptedContent;
+          encryptionData = {
+            method: 'notesv',
+            salt: noteSVResult.salt,
+            iv: noteSVResult.iv,
+            hmac: noteSVResult.hmac,
+            iterations: noteSVResult.iterations
           };
           break;
           

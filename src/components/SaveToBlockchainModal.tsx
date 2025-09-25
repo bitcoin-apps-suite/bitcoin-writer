@@ -23,7 +23,7 @@ export interface BlockchainSaveOptions {
     folder?: string;
   };
   encryption: boolean;
-  encryptionMethod?: 'password' | 'multiparty' | 'timelock';
+  encryptionMethod?: 'password' | 'multiparty' | 'timelock' | 'notesv';
   encryptionPassword?: string;
   unlockConditions: UnlockConditions;
   monetization: {
@@ -73,7 +73,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   const [cloudBucket, setCloudBucket] = useState('');
   const [cloudRegion, setCloudRegion] = useState('');
   const [encryption, setEncryption] = useState(true);
-  const [encryptionMethod, setEncryptionMethod] = useState<'password' | 'multiparty' | 'timelock'>('multiparty');
+  const [encryptionMethod, setEncryptionMethod] = useState<'password' | 'multiparty' | 'timelock' | 'notesv'>('notesv');
   const [encryptionPassword, setEncryptionPassword] = useState('');
   
   // Access control
@@ -532,6 +532,23 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                   <input
                     type="radio"
                     name="encryption"
+                    checked={encryption && encryptionMethod === 'notesv'}
+                    onChange={() => {
+                      setEncryption(true);
+                      setEncryptionMethod('notesv');
+                    }}
+                    disabled={isLoading}
+                  />
+                  <div className="option-content">
+                    <strong>🔐 NoteSV Method (Recommended)</strong>
+                    <p>Battle-tested AES-256 encryption from NOTE.SV - Simple & Secure</p>
+                  </div>
+                </label>
+
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    name="encryption"
                     checked={encryption && encryptionMethod === 'multiparty'}
                     onChange={() => {
                       setEncryption(true);
@@ -540,7 +557,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     disabled={isLoading}
                   />
                   <div className="option-content">
-                    <strong>✅ HandCash Identity Encryption</strong>
+                    <strong>🆔 HandCash Identity Encryption</strong>
                     <p>Encrypted with your HandCash identity - only you can decrypt</p>
                   </div>
                 </label>
@@ -557,8 +574,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     disabled={isLoading}
                   />
                   <div className="option-content">
-                    <strong>Password Encryption</strong>
-                    <p>Encrypt with a custom password you choose</p>
+                    <strong>🔑 Custom Password (Advanced)</strong>
+                    <p>Our advanced encryption with custom parameters</p>
                   </div>
                 </label>
 
@@ -574,13 +591,13 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     disabled={isLoading}
                   />
                   <div className="option-content">
-                    <strong>Time-locked Encryption</strong>
+                    <strong>⏰ Time-locked Encryption (Experimental)</strong>
                     <p>Automatically decrypts at a specified future time</p>
                   </div>
                 </label>
               </div>
 
-              {encryption && encryptionMethod === 'password' && (
+              {encryption && (encryptionMethod === 'password' || encryptionMethod === 'notesv') && (
                 <div className="password-input" style={{ marginTop: '20px' }}>
                   <label>
                     Encryption Password:
@@ -602,7 +619,11 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     />
                   </label>
                   <p style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>
-                    ⚠️ Remember this password - it cannot be recovered if lost!
+                    {encryptionMethod === 'notesv' ? (
+                      <>✅ Using NoteSV AES-256 encryption - Proven secure by NOTE.SV password manager</>
+                    ) : (
+                      <>⚠️ Remember this password - it cannot be recovered if lost!</>
+                    )}
                   </p>
                 </div>
               )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { EncryptionService } from '../utils/encryptionUtils';
+import { NoteSVEncryption } from '../services/NoteSVEncryption';
 import BSVStorageService from '../services/BSVStorageService';
 import './DocumentUnlock.css';
 
@@ -131,12 +132,27 @@ const DocumentUnlock: React.FC<DocumentUnlockProps> = ({
       
       // Decrypt with password
       if (doc.encryptionData) {
-        const decrypted = EncryptionService.decryptWithPassword({
-          encryptedData: doc.content,
-          password,
-          salt: doc.encryptionData.salt,
-          iv: doc.encryptionData.iv
-        });
+        let decrypted: string;
+        
+        if (doc.encryptionData.method === 'notesv') {
+          // Use NoteSV decryption
+          decrypted = NoteSVEncryption.decrypt({
+            encryptedContent: doc.content,
+            encryptionMethod: 'NoteSV-AES256',
+            salt: doc.encryptionData.salt!,
+            iv: doc.encryptionData.iv!,
+            hmac: doc.encryptionData.hmac!,
+            iterations: doc.encryptionData.iterations || 10000
+          }, password);
+        } else {
+          // Use standard decryption
+          decrypted = EncryptionService.decryptWithPassword({
+            encryptedData: doc.content,
+            password,
+            salt: doc.encryptionData.salt,
+            iv: doc.encryptionData.iv
+          });
+        }
         
         onUnlock(decrypted);
         setUnlockStatus('unlocked');
