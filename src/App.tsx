@@ -15,6 +15,7 @@ import ContractsPage from './pages/ContractsPage';
 import PlatformPage from './pages/PlatformPage';
 import SignupPage from './pages/SignupPage';
 import CommissionsPage from './pages/CommissionsPage';
+import OfferPage from './pages/OfferPage';
 import OffersPage from './pages/OffersPage';
 import GrantsPage from './pages/GrantsPage';
 import ApiPage from './pages/ApiPage';
@@ -300,16 +301,28 @@ function App() {
       <Route path="/token" element={<TokenPage />} />
       <Route path="/tasks" element={<TasksPage />} />
       <Route path="/contracts" element={<ContractsPage />} />
-      <Route path="/developer/contracts" element={<DeveloperContractsPage />} />
-      <Route path="/authors/contracts" element={<AuthorsContractsPage />} />
-      <Route path="/publisher/contracts" element={<PublisherContractsPage />} />
+      
+      {/* Developer Routes - Symmetrical */}
+      <Route path="/developer/offer" element={<OfferPage />} />
+      <Route path="/developer/offers" element={<DeveloperContractsPage />} />
+      
+      {/* Author Routes - Symmetrical */}
+      <Route path="/author/offer" element={<OfferPage />} />
+      <Route path="/author/offers" element={<AuthorsContractsPage />} />
+      
+      {/* Publisher Routes - Symmetrical */}
+      <Route path="/publisher/offer" element={<PublisherContractsPage />} />
+      <Route path="/publisher/offers" element={<OffersPage />} />
+      
+      {/* Grants Routes */}
       <Route path="/developers/grants" element={<DevelopersGrantsPage />} />
       <Route path="/authors/grants" element={<AuthorsGrantsPage />} />
       <Route path="/publishers/grants" element={<PublishersGrantsPage />} />
+      
+      {/* Other Routes */}
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
-      <Route path="/commissions" element={<CommissionsPage />} />
-      <Route path="/offered" element={<OffersPage />} />
+      <Route path="/enterprise" element={<CommissionsPage />} />
       <Route path="/grants" element={<GrantsPage />} />
       <Route path="/api" element={<ApiPage />} />
       <Route path="/changelog" element={<ChangelogPage />} />

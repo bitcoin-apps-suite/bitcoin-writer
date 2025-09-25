@@ -47,6 +47,43 @@
   }
 }
 
+/* Author CTA Compact */
+.author-cta-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: rgba(255, 107, 53, 0.05);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+.author-cta-compact .cta-text {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.create-offer-button-compact {
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931A 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-offer-button-compact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
 /* Hero Section - Full Width Black */
 .offers-hero {
   min-height: 40vh;
