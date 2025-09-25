@@ -55,26 +55,26 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
   }> = [
     // Developers Section
     { section: 'DEVELOPERS' },
-    { path: '/tasks', icon: Terminal, label: 'Tasks', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/developer/contracts', icon: Terminal, label: 'Dev Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/tasks', icon: Code, label: 'Tasks' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     { path: '/grants', icon: Flower2, label: 'Grants' },
     { path: '/api', icon: Package, label: 'API Reference' },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
-    { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues', icon: Bug, label: 'Issues', external: true, badge: issueCount > 0 ? String(issueCount) : undefined },
     
     // Authors Section
     { divider: true },
     { section: 'AUTHORS' },
-    { path: '/offers', icon: Package, label: 'Offer Services', badge: 'NEW' },
-    { path: '/contracts', icon: FileText, label: 'My Contracts' },
+    { path: '/authors/contracts', icon: FileText, label: 'Writing Contracts', badge: '6' },
+    { path: '/offers', icon: Package, label: 'Offer Services' },
     { path: '/commissions', icon: Code, label: 'Commissions' },
     { path: '/docs', icon: BookOpen, label: 'Writing Guides' },
     
     // Publishers Section
     { divider: true },
     { section: 'PUBLISHERS' },
+    { path: '/publisher/contracts', icon: FileText, label: 'Manage Contracts', badge: '5' },
     { path: '/offers', icon: Package, label: 'Find Writers', badge: '12' },
-    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
     
     // System
