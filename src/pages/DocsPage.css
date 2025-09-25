@@ -4,9 +4,14 @@
   color: #ffffff;
   min-height: 100vh;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
+  padding-top: 56px; /* Default: 32px taskbar + 24px spacing */
   font-weight: 300;
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease, padding-top 0.3s ease;
+}
+
+/* When POC banner is active */
+.poc-banner-active .docs-page {
+  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
 }
 
 /* Adjust for DevSidebar on desktop */
