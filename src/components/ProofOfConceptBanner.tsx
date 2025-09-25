@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './ProofOfConceptBanner.css';
 import { HandCashService } from '../services/HandCashService';
 
-interface ProofOfConceptBannerProps {
-  onVisibilityChange?: (isVisible: boolean) => void;
-}
-
-const ProofOfConceptBanner: React.FC<ProofOfConceptBannerProps> = ({ onVisibilityChange }) => {
+const ProofOfConceptBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const navigate = useNavigate();
 
@@ -126,10 +122,7 @@ const ProofOfConceptBanner: React.FC<ProofOfConceptBannerProps> = ({ onVisibilit
       </div>
       <button 
         className="poc-banner-close"
-        onClick={() => {
-          setIsVisible(false);
-          onVisibilityChange?.(false);
-        }}
+        onClick={() => setIsVisible(false)}
         aria-label="Close banner"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
