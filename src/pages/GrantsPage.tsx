@@ -47,7 +47,7 @@ const GrantsPage: React.FC = () => {
             </div>
             <h1>Bitcoin Writer <span style={{color: '#FF6B35'}}>Grants</span></h1>
             <p className="grants-tagline">
-              $BWRITER token awards for quality submissions, plus public discovery platform for independent Tulip Trust funding
+              $BWRITER token awards for quality submissions, plus public discovery platform for independent Tulip funding
             </p>
             <div className="grants-badge">DUAL FUNDING PLATFORM</div>
           </section>
@@ -58,7 +58,7 @@ const GrantsPage: React.FC = () => {
             <div className="mission-content">
               <p className="mission-statement">
                 Bitcoin Writer creates <strong>a unique funding ecosystem</strong> where quality work gets recognized through 
-                $BWRITER token awards and becomes discoverable by the independent Tulip Trust for potential BSV funding:
+                $BWRITER token awards and becomes discoverable for potential independent Tulip funding:
               </p>
               
               <div className="mission-pillars">
@@ -71,8 +71,8 @@ const GrantsPage: React.FC = () => {
                 <div className="pillar">
                   <div className="pillar-icon"><Flower2 size={32} /></div>
                   <h3>Public Discovery Platform</h3>
-                  <p><strong>Tulip Trust can discover and fund independently</strong><br/>
-                  All submissions become publicly viewable with funding addresses, enabling direct discovery and funding by the Tulip Trust.</p>
+                  <p><strong>Tulip funding through public discovery</strong><br/>
+                  All submissions become publicly viewable with funding addresses, enabling direct discovery and independent Tulip funding.</p>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@ const GrantsPage: React.FC = () => {
             <div className="focus-content">
               <p className="focus-intro">
                 Our platform showcases exceptional work across key innovation areas. Bitcoin Writer awards $BWRITER tokens 
-                to signal quality, while the independent Tulip Trust can discover and fund projects that align with their mission:
+                to signal quality, while independent Tulip funding can discover and support projects that align with their values:
               </p>
               
               <div className="focus-areas">
@@ -112,7 +112,7 @@ const GrantsPage: React.FC = () => {
                     <li>Build bridges to traditional industries</li>
                   </ul>
                   <div style={{marginTop: '10px', fontSize: '12px', color: '#FF6B35'}}>
-                    Tulip Trust may fund infrastructure projects independently
+                    Tulip funding may support infrastructure projects independently
                   </div>
                 </div>
                 
@@ -126,7 +126,7 @@ const GrantsPage: React.FC = () => {
                     <li>Enable new forms of academic publishing</li>
                   </ul>
                   <div style={{marginTop: '10px', fontSize: '12px', color: '#FF6B35'}}>
-                    $BWRITER curation signals attract Tulip Trust attention
+                    $BWRITER curation signals attract Tulip funding attention
                   </div>
                 </div>
               </div>
@@ -138,7 +138,7 @@ const GrantsPage: React.FC = () => {
             <h2>Apply by Role</h2>
             <p className="categories-intro">
               Choose your application path below. Submit your proposal as a public .nft file, compete for $BWRITER token awards, 
-              and become discoverable by the Tulip Trust for potential independent BSV funding:
+              and become discoverable for potential independent Tulip funding:
             </p>
             
             <div className="categories-grid">
