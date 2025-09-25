@@ -14,7 +14,8 @@ import {
   Package,
   Terminal,
   Activity,
-  Flower2
+  Flower2,
+  Wrench
 } from 'lucide-react';
 import './DevSidebar.css';
 
@@ -60,23 +61,24 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     // Developers Section
     { divider: true },
     { section: 'DEVELOPERS' },
-    { path: '/developer/contracts', icon: Terminal, label: 'Dev Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
-    { path: '/tasks', icon: Code, label: 'Tasks' },
+    { path: '/developer/offer', icon: Zap, label: 'Create Service Offer' },
+    { path: '/developer/offers', icon: Terminal, label: 'Browse Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/tasks', icon: Code, label: 'Open Tasks' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     
     // Authors Section
     { divider: true },
     { section: 'AUTHORS' },
-    { path: '/authors/contracts', icon: FileText, label: 'Writing Contracts', badge: '6' },
-    { path: '/offered', icon: Package, label: 'Offer Services' },
-    { path: '/commissions', icon: Code, label: 'Commissions' },
+    { path: '/author/offer', icon: FileText, label: 'Create Writing Offer' },
+    { path: '/author/offers', icon: Package, label: 'Browse Contracts', badge: '6' },
     { path: '/docs', icon: BookOpen, label: 'Writing Guides' },
     
     // Publishers Section
     { divider: true },
     { section: 'PUBLISHERS' },
-    { path: '/publisher/contracts', icon: FileText, label: 'Manage Contracts', badge: '5' },
-    { path: '/offered', icon: Package, label: 'Find Writers', badge: '12' },
+    { path: '/publisher/offer', icon: DollarSign, label: 'Commission Work' },
+    { path: '/publisher/offers', icon: Users, label: 'Find Talent', badge: '12' },
+    { path: '/enterprise', icon: Wrench, label: 'Custom Platform' },
     
     // System
     { divider: true },
