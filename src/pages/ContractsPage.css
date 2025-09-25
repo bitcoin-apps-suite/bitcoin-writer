@@ -579,6 +579,56 @@
   transform: translateY(0);
 }
 
+/* Authentication Options */
+.auth-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.auth-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.auth-button.github-auth:hover {
+  border-color: #6e40c9;
+  background: rgba(110, 64, 201, 0.1);
+}
+
+.auth-button.google-auth:hover {
+  border-color: #4285F4;
+  background: rgba(66, 133, 244, 0.1);
+}
+
+.auth-button.handcash-auth:hover {
+  border-color: #38CB7C;
+  background: rgba(56, 203, 124, 0.1);
+}
+
+.auth-button svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* Publisher Specific Styles */
 .publisher-actions {
   display: flex;

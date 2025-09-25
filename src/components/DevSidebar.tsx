@@ -77,8 +77,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { divider: true },
     { section: 'DEVELOPERS' },
     { path: '/developer/offer', icon: Zap, label: 'Create Service Offer' },
-    { path: '/publisher/offers', icon: Terminal, label: 'Find Work', badge: issueCount > 0 ? String(issueCount) : '0' },
-    { path: '/tasks', icon: Code, label: 'Open Tasks' },
+    { path: '/contracts', icon: Terminal, label: 'Find Work', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     
     // System
