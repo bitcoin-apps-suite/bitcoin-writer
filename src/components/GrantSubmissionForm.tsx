@@ -150,7 +150,7 @@ const GrantSubmissionForm: React.FC<GrantSubmissionFormProps> = ({
             <li>Your application is now stored as an immutable .nft container</li>
             <li>It includes your formatted application, attachments, and metadata</li>
             <li>Bitcoin Writer will review and potentially award $BWRITER tokens</li>
-            <li>The Tulip Trust can discover and fund your submission independently</li>
+            <li>Your submission becomes part of the public grant application record</li>
             <li>All funding to your BSV address will be automatically detected</li>
           </ul>
         </div>
@@ -220,7 +220,7 @@ const GrantSubmissionForm: React.FC<GrantSubmissionFormProps> = ({
               placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
               required
             />
-            <small>This address will be monitored for funding from the Tulip Trust</small>
+            <small>This address will receive any awarded grant funds</small>
           </div>
 
           <div className="form-group">
@@ -289,7 +289,7 @@ const GrantSubmissionForm: React.FC<GrantSubmissionFormProps> = ({
                 onChange={(e) => handleInputChange('requestedCurrency', e.target.value)}
               >
                 <option value="BWRITER">$BWRITER Tokens</option>
-                <option value="BSV">BSV (via Tulip Trust)</option>
+                <option value="BSV">BSV</option>
               </select>
             </div>
           </div>
@@ -373,7 +373,7 @@ const GrantSubmissionForm: React.FC<GrantSubmissionFormProps> = ({
         <ol>
           <li>Your application will be converted to a .nft container file</li>
           <li>Bitcoin Writer will review and potentially award $BWRITER tokens</li>
-          <li>Your submission becomes publicly discoverable by the Tulip Trust</li>
+          <li>Your submission becomes part of the public grant record</li>
           <li>If funded, the blockchain transaction will be automatically detected</li>
           <li>You'll have an immutable record of your successful grant application</li>
         </ol>

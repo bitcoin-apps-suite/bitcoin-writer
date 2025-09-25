@@ -1,4 +1,4 @@
-/* Grants Page - Tulip Trust Styling */
+/* Grants Page - Grant Program Styling */
 .grants-page {
   background: #0a0a0a;
   color: #ffffff;
@@ -68,7 +68,7 @@
   right: 0;
 }
 
-.tulip-hero-icon {
+.grants-hero-icon {
   margin-bottom: 20px;
   color: #FF6B35;
 }
