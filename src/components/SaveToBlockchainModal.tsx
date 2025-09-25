@@ -1108,7 +1108,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                 <span>$0.001</span>
               </div>
             )}
-            {enableNFT && (
+            {enableAsset && (
               <div className="cost-item">
                 <span>Asset Creation:</span>
                 <span>$0.01</span>

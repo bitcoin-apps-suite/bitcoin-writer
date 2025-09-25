@@ -236,7 +236,7 @@ export class BSVStorageService {
         tags: options.metadata.tags,
         category: options.metadata.category
       },
-      monetization: options.monetization.enableNFT ? {
+      monetization: options.monetization.enableAsset ? {
         nft: true,
         royaltyPercentage: options.monetization.royaltyPercentage,
         initialPrice: options.monetization.initialPrice,
