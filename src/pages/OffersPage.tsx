@@ -9,6 +9,18 @@ const OffersPage: React.FC = () => {
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [activeTab, setActiveTab] = useState<'platform' | 'marketplace'>('marketplace');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createForm, setCreateForm] = useState({
+    title: '',
+    description: '',
+    type: 'article',
+    rate: '',
+    currency: 'BSV',
+    customToken: '',
+    deliveryTime: '',
+    languages: '',
+    expertise: ''
+  });
 
   useEffect(() => {
     // Listen for storage changes to detect sidebar collapse state
@@ -77,6 +89,15 @@ const OffersPage: React.FC = () => {
               Authors offer their writing services directly to publishers. All contracts are recorded on the BSV blockchain
               with escrow payments and AI-verified deliverables.
             </p>
+            
+            {/* Add Your Offer Card - Moved to Top */}
+            <div className="author-offer-card add-offer" style={{maxWidth: '800px', margin: '30px auto'}}>
+              <div className="add-offer-content">
+                <h3>Are You an Author?</h3>
+                <p>List your writing services and connect with publishers looking for quality content.</p>
+                <button className="create-offer-button" onClick={() => setShowCreateModal(true)}>Create Your Offer →</button>
+              </div>
+            </div>
             
             <div className="marketplace-grid">
               {/* Author Offer Example 1 */}
@@ -186,15 +207,6 @@ const OffersPage: React.FC = () => {
                 </div>
                 <button className="hire-button">Create Contract →</button>
               </div>
-
-              {/* Add Your Offer Card */}
-              <div className="author-offer-card add-offer">
-                <div className="add-offer-content">
-                  <h3>Are You an Author?</h3>
-                  <p>List your writing services and connect with publishers looking for quality content.</p>
-                  <button className="create-offer-button">Create Your Offer →</button>
-                </div>
-              </div>
             </div>
 
             {/* How It Works Section */}
@@ -224,6 +236,153 @@ const OffersPage: React.FC = () => {
               </div>
             </div>
           </section>
+        )}
+
+        {/* Writer Create Offer Modal */}
+        {showCreateModal && (
+          <div className="claim-modal-overlay" onClick={() => setShowCreateModal(false)}>
+            <div className="claim-modal" onClick={(e) => e.stopPropagation()}>
+              <button className="claim-modal-close" onClick={() => setShowCreateModal(false)}>×</button>
+              <h2>Create Your Writing Offer</h2>
+              <p>Create a contractual offer to provide writing services to publishers</p>
+              
+              <div className="claim-form">
+                <div className="form-group">
+                  <label>Service Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Technical Documentation & API Guides"
+                    value={createForm.title}
+                    onChange={(e) => setCreateForm({...createForm, title: e.target.value})}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Description</label>
+                  <textarea
+                    placeholder="Describe your expertise and what you offer..."
+                    value={createForm.description}
+                    onChange={(e) => setCreateForm({...createForm, description: e.target.value})}
+                    rows={4}
+                  />
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Content Type</label>
+                    <select value={createForm.type} onChange={(e) => setCreateForm({...createForm, type: e.target.value})}>
+                      <option value="article">Article</option>
+                      <option value="tutorial">Tutorial</option>
+                      <option value="documentation">Documentation</option>
+                      <option value="whitepaper">Whitepaper</option>
+                      <option value="research">Research Report</option>
+                      <option value="analysis">Market Analysis</option>
+                      <option value="blog">Blog Post</option>
+                      <option value="social">Social Content</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Rate</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., 250"
+                      value={createForm.rate}
+                      onChange={(e) => setCreateForm({...createForm, rate: e.target.value})}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Currency</label>
+                    <select value={createForm.currency} onChange={(e) => setCreateForm({...createForm, currency: e.target.value})}>
+                      <option value="USD">USD ($)</option>
+                      <option value="BSV">BSV</option>
+                      <option value="BWRITER">$BWRITER</option>
+                      <option value="OTHER">Other BSV Token</option>
+                    </select>
+                  </div>
+                </div>
+
+                {createForm.currency === 'OTHER' && (
+                  <div className="form-group">
+                    <label>Custom Token Symbol</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., USDC"
+                      value={createForm.customToken}
+                      onChange={(e) => setCreateForm({...createForm, customToken: e.target.value})}
+                    />
+                  </div>
+                )}
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Delivery Time</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., 3-5 days"
+                      value={createForm.deliveryTime}
+                      onChange={(e) => setCreateForm({...createForm, deliveryTime: e.target.value})}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Languages</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., English, Spanish"
+                      value={createForm.languages}
+                      onChange={(e) => setCreateForm({...createForm, languages: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Areas of Expertise</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Blockchain, Technical Writing, API Docs"
+                    value={createForm.expertise}
+                    onChange={(e) => setCreateForm({...createForm, expertise: e.target.value})}
+                  />
+                </div>
+
+                <div className="escrow-info">
+                  <h3>Sign Your Offer</h3>
+                  <p>Authenticate your identity and digitally sign this contractual offer</p>
+                  
+                  <div className="escrow-steps">
+                    <div className="escrow-step">
+                      <span className="step-number">1</span>
+                      <div className="step-content">
+                        <h4>Authenticate Identity</h4>
+                        <p>Sign in with Google or Twitter to verify your identity</p>
+                        <div className="auth-buttons">
+                          <button className="auth-button google">
+                            Sign with Google
+                          </button>
+                          <button className="auth-button twitter">
+                            Sign with Twitter
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="escrow-step">
+                      <span className="step-number">2</span>
+                      <div className="step-content">
+                        <h4>Sign with HandCash Wallet</h4>
+                        <p>Create a legally binding smart contract on the BSV blockchain</p>
+                        <button className="handcash-button" disabled>
+                          Sign with HandCash
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Platform Offers Section */}

@@ -68,7 +68,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { divider: true },
     { section: 'AUTHORS' },
     { path: '/authors/contracts', icon: FileText, label: 'Writing Contracts', badge: '6' },
-    { path: '/offers', icon: Package, label: 'Offer Services' },
+    { path: '/offered', icon: Package, label: 'Offer Services' },
     { path: '/commissions', icon: Code, label: 'Commissions' },
     { path: '/docs', icon: BookOpen, label: 'Writing Guides' },
     
@@ -76,7 +76,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { divider: true },
     { section: 'PUBLISHERS' },
     { path: '/publisher/contracts', icon: FileText, label: 'Manage Contracts', badge: '5' },
-    { path: '/offers', icon: Package, label: 'Find Writers', badge: '12' },
+    { path: '/offered', icon: Package, label: 'Find Writers', badge: '12' },
     
     // System
     { divider: true },
