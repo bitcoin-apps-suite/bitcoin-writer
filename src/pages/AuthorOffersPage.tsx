@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AuthorOffersPage.css';
 import Footer from '../components/Footer';
+import ContactAuthorModal from '../components/ContactAuthorModal';
 
 interface AuthorOffer {
   id: string;
@@ -21,6 +22,8 @@ const AuthorOffersPage: React.FC = () => {
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [selectedAuthor, setSelectedAuthor] = useState<{ name: string; id: string } | null>(null);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -188,7 +191,15 @@ const AuthorOffersPage: React.FC = () => {
 
                 <div className="author-footer">
                   <div className="rate">{offer.rate}</div>
-                  <button className="hire-author-button">Hire This Writer →</button>
+                  <button 
+                    className="hire-author-button"
+                    onClick={() => {
+                      setSelectedAuthor({ name: offer.name, id: offer.id });
+                      setContactModalOpen(true);
+                    }}
+                  >
+                    Hire This Writer →
+                  </button>
                 </div>
               </div>
             ))}
@@ -205,6 +216,18 @@ const AuthorOffersPage: React.FC = () => {
         </div>
         <Footer />
       </div>
+      
+      {selectedAuthor && (
+        <ContactAuthorModal
+          isOpen={contactModalOpen}
+          onClose={() => {
+            setContactModalOpen(false);
+            setSelectedAuthor(null);
+          }}
+          authorName={selectedAuthor.name}
+          authorId={selectedAuthor.id}
+        />
+      )}
     </div>
   );
 };
