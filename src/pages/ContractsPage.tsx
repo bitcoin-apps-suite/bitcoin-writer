@@ -87,11 +87,28 @@ const ContractsPage: React.FC = () => {
     try {
       // Fetch GitHub issues
       const response = await fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/issues?state=all&per_page=100');
+      
+      // Check for errors
+      if (!response.ok) {
+        console.warn('GitHub API response not OK:', response.status);
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      
       const issues = await response.json();
+      
+      // Check for rate limiting
+      if (issues.message && issues.message.includes('rate limit')) {
+        console.warn('GitHub API rate limited');
+        throw new Error('Rate limited');
+      }
+      
+      if (!Array.isArray(issues)) {
+        throw new Error('Invalid response format');
+      }
       
       // Also fetch pull requests to match with issues
       const prsResponse = await fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/pulls?state=all&per_page=100');
-      const pullRequests = await prsResponse.json();
+      const pullRequests = prsResponse.ok ? await prsResponse.json() : [];
       
       // Map issues to contracts
       const mappedContracts: Contract[] = issues.map((issue: any) => {
@@ -201,6 +218,97 @@ const ContractsPage: React.FC = () => {
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch contracts:', error);
+      
+      // Set sample contracts as fallback
+      setContracts([
+        {
+          id: 'sample-1',
+          title: 'Implement Markdown Import/Export',
+          description: 'Add support for importing and exporting documents in Markdown format',
+          difficulty: 'Medium',
+          priority: 'High',
+          reward: '35,000 BWRITER',
+          status: 'available',
+          deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          skills: ['TypeScript', 'React', 'Markdown'],
+          githubIssue: 1,
+          estimatedHours: 25
+        },
+        {
+          id: 'sample-2',
+          title: 'Add Version Control System',
+          description: 'Implement document versioning with diff view and rollback capabilities',
+          difficulty: 'Hard',
+          priority: 'Medium',
+          reward: '75,000 BWRITER',
+          status: 'available',
+          deadline: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString(),
+          skills: ['TypeScript', 'React', 'Git', 'Diff Algorithms'],
+          githubIssue: 2,
+          estimatedHours: 60
+        },
+        {
+          id: 'sample-3',
+          title: 'Integrate Spell Check API',
+          description: 'Add real-time spell checking with suggestions and auto-correction',
+          difficulty: 'Easy',
+          priority: 'Low',
+          reward: '20,000 BWRITER',
+          status: 'available',
+          deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+          skills: ['TypeScript', 'React', 'APIs'],
+          githubIssue: 3,
+          estimatedHours: 15
+        },
+        {
+          id: 'sample-4',
+          title: 'Build Plugin Architecture',
+          description: 'Create extensible plugin system for third-party integrations',
+          difficulty: 'Critical',
+          priority: 'High',
+          reward: '150,000 BWRITER',
+          status: 'claimed',
+          deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+          skills: ['TypeScript', 'React', 'Plugin Architecture', 'API Design'],
+          githubIssue: 4,
+          estimatedHours: 100,
+          assignee: {
+            githubUsername: 'developer123',
+            handcashHandle: '$dev123'
+          }
+        },
+        {
+          id: 'sample-5',
+          title: 'Add Tables Support',
+          description: 'Implement table creation and editing with formatting options',
+          difficulty: 'Medium',
+          priority: 'Medium',
+          reward: '40,000 BWRITER',
+          status: 'in_progress',
+          deadline: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(),
+          skills: ['TypeScript', 'React', 'CSS', 'ContentEditable'],
+          githubIssue: 5,
+          estimatedHours: 30,
+          assignee: {
+            githubUsername: 'contributor456',
+            handcashHandle: '$contrib456'
+          },
+          progress: 65
+        },
+        {
+          id: 'sample-note',
+          title: '⚠️ Unable to Load Live Contracts',
+          description: 'These are sample contracts. Visit GitHub to see the latest available contracts. The API may be temporarily unavailable.',
+          difficulty: 'Easy',
+          priority: 'Low',
+          reward: 'Various',
+          status: 'available',
+          deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          skills: ['GitHub'],
+          githubIssue: 0,
+          estimatedHours: 1
+        }
+      ]);
       setLoading(false);
     }
   };

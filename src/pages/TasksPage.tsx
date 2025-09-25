@@ -60,7 +60,26 @@ const TasksPage: React.FC = () => {
   const fetchGitHubIssues = async () => {
     try {
       const response = await fetch('https://api.github.com/repos/bitcoin-apps-suite/bitcoin-writer/issues?state=open&per_page=100');
+      
+      // Check for rate limiting or other errors
+      if (!response.ok) {
+        console.warn('GitHub API response not OK:', response.status, response.statusText);
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      
       const issues = await response.json();
+      
+      // Check if we got rate limited
+      if (issues.message && issues.message.includes('rate limit')) {
+        console.warn('GitHub API rate limited');
+        throw new Error('Rate limited');
+      }
+      
+      // Ensure we have an array
+      if (!Array.isArray(issues)) {
+        console.warn('GitHub API returned non-array:', issues);
+        throw new Error('Invalid response format');
+      }
       
       const mappedTasks: Task[] = issues.map((issue: any) => {
         // Parse priority and reward from issue body
@@ -161,18 +180,108 @@ const TasksPage: React.FC = () => {
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch GitHub issues:', error);
-      // Fallback to some default tasks
+      // Fallback to sample tasks that represent actual GitHub issues
       setTasks([
         {
-          id: 'default-1',
-          title: 'Check GitHub for latest tasks',
-          description: 'Visit our GitHub repository to see the latest available tasks',
+          id: 'sample-1',
+          title: 'Google Docs Integration',
+          description: 'Implement Google Docs import/export functionality with OAuth authentication',
+          difficulty: 'Hard',
+          category: 'Feature',
+          reward: '50,000 BWRITER',
+          status: 'available',
+          skills: ['TypeScript', 'React', 'OAuth', 'Google APIs'],
+          deliverables: [
+            'OAuth integration with Google',
+            'Import documents from Google Docs',
+            'Export documents to Google Docs',
+            'Sync functionality'
+          ],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
+          estimatedHours: 40
+        },
+        {
+          id: 'sample-2',
+          title: 'PDF Export Feature',
+          description: 'Add ability to export documents as PDF files with formatting preserved',
+          difficulty: 'Medium',
+          category: 'Feature',
+          reward: '30,000 BWRITER',
+          status: 'available',
+          skills: ['TypeScript', 'React', 'PDF Generation'],
+          deliverables: [
+            'PDF export button in toolbar',
+            'Preserve document formatting',
+            'Support for images and tables',
+            'Download functionality'
+          ],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
+          estimatedHours: 20
+        },
+        {
+          id: 'sample-3',
+          title: 'Real-time Collaboration',
+          description: 'Implement WebRTC-based real-time collaborative editing',
+          difficulty: 'Critical',
+          category: 'Feature',
+          reward: '100,000 BWRITER',
+          status: 'available',
+          skills: ['TypeScript', 'React', 'WebRTC', 'WebSockets'],
+          deliverables: [
+            'WebRTC peer connection setup',
+            'Operational Transform for conflict resolution',
+            'Cursor position sharing',
+            'User presence indicators'
+          ],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
+          estimatedHours: 80
+        },
+        {
+          id: 'sample-4',
+          title: 'Mobile Responsive Design',
+          description: 'Optimize the editor for mobile devices with touch-friendly interface',
+          difficulty: 'Medium',
+          category: 'Enhancement',
+          reward: '25,000 BWRITER',
+          status: 'available',
+          skills: ['TypeScript', 'React', 'CSS', 'Mobile Design'],
+          deliverables: [
+            'Responsive layout for mobile screens',
+            'Touch-optimized toolbar',
+            'Mobile-friendly menus',
+            'Testing on iOS and Android'
+          ],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
+          estimatedHours: 30
+        },
+        {
+          id: 'sample-5',
+          title: 'Dark Mode Theme',
+          description: 'Implement a complete dark mode theme with toggle functionality',
+          difficulty: 'Easy',
+          category: 'Enhancement',
+          reward: '15,000 BWRITER',
+          status: 'available',
+          skills: ['TypeScript', 'React', 'CSS'],
+          deliverables: [
+            'Dark mode CSS variables',
+            'Theme toggle button',
+            'Persist user preference',
+            'Smooth transition animations'
+          ],
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
+          estimatedHours: 15
+        },
+        {
+          id: 'sample-note',
+          title: '⚠️ Unable to Load Live Tasks',
+          description: 'These are sample tasks. Visit GitHub to see the latest available tasks. The API may be temporarily unavailable.',
           difficulty: 'Easy',
           category: 'Information',
           reward: 'Various',
           status: 'available',
           skills: ['GitHub'],
-          deliverables: ['Visit repository'],
+          deliverables: ['Check GitHub for real-time task list'],
           githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues'
         }
       ]);
