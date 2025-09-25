@@ -57,15 +57,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     // Token & Grants at top
     { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
     { path: '/grants', icon: Flower2, label: 'GRANTS' },
-    { path: '/maip', icon: Users, label: 'Multi-Authoring (MAIP)', badge: 'EXPERIMENTAL' },
-    
-    // Developers Section
-    { divider: true },
-    { section: 'DEVELOPERS' },
-    { path: '/developer/offer', icon: Zap, label: 'Create Service Offer' },
-    { path: '/publisher/offers', icon: Terminal, label: 'Find Work', badge: issueCount > 0 ? String(issueCount) : '0' },
-    { path: '/tasks', icon: Code, label: 'Open Tasks' },
-    { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
+    { path: '/maip', icon: Users, label: 'MAIP', badge: 'EXPERIMENTAL' },
     
     // Authors Section
     { divider: true },
@@ -80,6 +72,14 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { path: '/publisher/offer', icon: DollarSign, label: 'Commission Work' },
     { path: '/author/offers', icon: Users, label: 'Find Talent', badge: '12' },
     { path: '/enterprise', icon: Wrench, label: 'Custom Platform' },
+    
+    // Developers Section
+    { divider: true },
+    { section: 'DEVELOPERS' },
+    { path: '/developer/offer', icon: Zap, label: 'Create Service Offer' },
+    { path: '/publisher/offers', icon: Terminal, label: 'Find Work', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/tasks', icon: Code, label: 'Open Tasks' },
+    { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     
     // System
     { divider: true },
@@ -102,7 +102,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
         {!isCollapsed && (
           <div className="dev-sidebar-title">
             <Zap className="dev-sidebar-logo" />
-            <span>Developer Hub</span>
+            <span>Contracts Hub</span>
           </div>
         )}
         <button 

@@ -307,27 +307,13 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                   key={doc.id}
                   className={`document-item ${currentDocumentId === doc.id ? 'active' : ''}`}
                 >
-                  <div 
-                    className="document-content"
+                  <button 
+                    className="document-button"
                     onClick={() => onDocumentSelect(doc)}
                   >
-                    <div className="document-header">
-                      <span className="document-icon">{getStorageIcon(doc.storage_method)}</span>
-                      <span className="document-title">{doc.title || 'Untitled'}</span>
-                    </div>
-                    {doc.preview && (
-                      <div className="document-preview">{doc.preview}</div>
-                    )}
-                    <div className="document-meta">
-                      <span className="document-date">{formatDate(doc.updated_at)}</span>
-                      {doc.word_count && (
-                        <span className="document-words">{doc.word_count.toLocaleString()} words</span>
-                      )}
-                      {doc.storage_cost && (
-                        <span className="document-cost">{formatUSD(doc.storage_cost)}</span>
-                      )}
-                    </div>
-                  </div>
+                    <span className="document-icon">{getStorageIcon(doc.storage_method)}</span>
+                    <span className="document-title">{doc.title || 'Untitled'}</span>
+                  </button>
                   <div className="document-actions">
                     {onPublishDocument && (
                       <button

@@ -60,6 +60,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Bitcoin Writer',
       items: [
+        { label: 'Home', action: () => {
+          window.location.href = '/';
+        }},
+        { divider: true },
         { label: 'About Bitcoin Writer', action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© 2025 The Bitcoin Corporation LTD\nRegistered in England and Wales • Company No. 16735102\nAll rights reserved\n\nBuilt with HandCash integration') },
         { label: 'Features', action: () => {
           const event = new CustomEvent('showFeaturesPage');
