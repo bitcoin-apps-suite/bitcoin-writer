@@ -414,6 +414,68 @@ export class HandCashAuthService {
     return response.json();
   }
 
+  // Request magic link authentication via email
+  async requestMagicLink(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+      if (!this.config.appId) {
+        throw new Error('HandCash App ID is not configured');
+      }
+
+      // HandCash magic link API endpoint
+      const magicLinkUrl = `${this.HANDCASH_CONNECT_BASE}/users/magiclink`;
+      
+      const response = await fetch(magicLinkUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-handcash-app-id': this.config.appId,
+          ...(this.config.appSecret && { 'x-handcash-app-secret': this.config.appSecret })
+        },
+        body: JSON.stringify({
+          email: email,
+          redirectUrl: this.config.redirectUrl
+        })
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to send magic link');
+      }
+
+      return {
+        success: true,
+        message: result.message || 'Magic link sent to your email'
+      };
+    } catch (error: any) {
+      console.error('Magic link request failed:', error);
+      return {
+        success: false,
+        message: error.message || 'Failed to send magic link'
+      };
+    }
+  }
+
+  // Handle magic link callback (when user clicks email link)
+  async handleMagicLinkCallback(token: string): Promise<HandCashUser> {
+    console.log('Handling magic link callback with token:', token.substring(0, 20) + '...');
+    
+    // Store the token
+    this.tokens = {
+      accessToken: token,
+      tokenType: 'Bearer'
+    };
+    
+    // Fetch user profile
+    const user = await this.fetchUserProfile();
+    this.currentUser = user;
+    
+    // Save session
+    this.saveSession();
+    
+    return user;
+  }
+
   // Public methods
   public logout(): void {
     this.clearSession();
