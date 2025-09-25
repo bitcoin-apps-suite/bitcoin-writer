@@ -17,25 +17,25 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/logo192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-256.png",
+      "src": "/logo192.png",
       "sizes": "256x256",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-384.png",
+      "src": "/logo192.png",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/logo192.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -43,7 +43,7 @@
   ],
   "protocol_handlers": [
     {
-      "protocol": "web+bitcoin-writer",
+      "protocol": "web+bitcoinwriter",
       "url": "/?action=%s"
     }
   ],
@@ -62,7 +62,7 @@
       "url": "/new",
       "icons": [
         {
-          "src": "/icon-192.png",
+          "src": "/logo192.png",
           "sizes": "192x192"
         }
       ]
