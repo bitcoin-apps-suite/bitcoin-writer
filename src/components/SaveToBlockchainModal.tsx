@@ -27,7 +27,7 @@ export interface BlockchainSaveOptions {
   encryptionPassword?: string;
   unlockConditions: UnlockConditions;
   monetization: {
-    enableNFT: boolean;
+    enableAsset: boolean;
     royaltyPercentage?: number;
     initialPrice?: number;
     maxSupply?: number;
@@ -87,7 +87,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   const [fullPrice, setFullPrice] = useState<number>(0.10);
   
   // Monetization
-  const [enableNFT, setEnableNFT] = useState(false);
+  const [enableAsset, setEnableAsset] = useState(false);
   const [royaltyPercentage, setRoyaltyPercentage] = useState<number>(10);
   const [nftPrice, setNftPrice] = useState<number>(1);
   const [maxSupply, setMaxSupply] = useState<number>(100);
@@ -128,8 +128,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
       totalCost += 0.005; // Extra for IPFS pinning
     }
     
-    if (enableNFT) {
-      totalCost += 0.01; // NFT minting cost
+    if (enableAsset) {
+      totalCost += 0.01; // Asset creation cost
     }
     
     return totalCost;
@@ -208,8 +208,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
       ...(encryption ? { encryptionMethod, encryptionPassword } : {}),
       unlockConditions,
       monetization: {
-        enableNFT,
-        ...(enableNFT ? { 
+        enableAsset,
+        ...(enableAsset ? { 
           royaltyPercentage, 
           initialPrice: nftPrice,
           maxSupply 
@@ -882,7 +882,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
           {activeTab === 'monetization' && (
             <div className="tab-content monetization-tab">
-              <h3>🎨 HandCash NFT Marketplace</h3>
+              <h3>🎨 Bitcoin OS Asset Creation</h3>
               
               <div style={{ 
                 marginBottom: '20px', 
@@ -895,7 +895,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                   🤝 HandCash Items Protocol
                 </h4>
                 <p style={{ margin: '0 0 10px 0', fontSize: '13px', lineHeight: '1.6', color: '#ccc' }}>
-                  Mint your document as a tradeable NFT on HandCash Market:
+                  Save your document as a tradeable Bitcoin OS asset:
                 </p>
                 <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '12px', color: '#aaa' }}>
                   <li>Appears in HandCash Market instantly</li>
@@ -908,14 +908,14 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
               <label className="checkbox-option">
                 <input
                   type="checkbox"
-                  checked={enableNFT}
-                  onChange={(e) => setEnableNFT(e.target.checked)}
+                  checked={enableAsset}
+                  onChange={(e) => setEnableAsset(e.target.checked)}
                   disabled={isLoading}
                 />
-                <span><strong>Mint as HandCash NFT</strong> - List on HandCash Market</span>
+                <span><strong>Create Bitcoin OS Asset</strong> - List on asset marketplace</span>
               </label>
 
-              {enableNFT && (
+              {enableAsset && (
                 <div className="nft-options">
                   <div style={{ 
                     display: 'grid', 
@@ -1027,11 +1027,11 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
                     fontSize: '12px',
                     color: '#93c5fd'
                   }}>
-                    <strong>🛍️ After minting:</strong> Your document NFT will appear in:
+                    <strong>🛍️ After creation:</strong> Your document asset will appear in:
                     <ul style={{ margin: '5px 0 0 20px', padding: 0 }}>
                       <li>HandCash Market (in-app marketplace)</li>
                       <li>Your HandCash profile</li>
-                      <li>Buyer's NFT collection</li>
+                      <li>Buyer's asset collection</li>
                     </ul>
                   </div>
                 </div>
@@ -1110,7 +1110,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
             )}
             {enableNFT && (
               <div className="cost-item">
-                <span>NFT Minting:</span>
+                <span>Asset Creation:</span>
                 <span>$0.01</span>
               </div>
             )}

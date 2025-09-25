@@ -80,8 +80,8 @@ const PlatformPage: React.FC = () => {
           </div>
           <div className="feature">
             <div className="feature-icon">💎</div>
-            <h3>NFT Documents</h3>
-            <p>Transform your writing into tradeable NFTs with built-in royalties</p>
+            <h3>Bitcoin OS Assets</h3>
+            <p>Save documents as Bitcoin OS assets with built-in ownership and royalties</p>
           </div>
           <div className="feature">
             <div className="feature-icon">🌍</div>

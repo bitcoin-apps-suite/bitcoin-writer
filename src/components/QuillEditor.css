@@ -78,16 +78,21 @@
   font-size: 16px;
   border: none;
   background: #ffffff;
+  overflow-x: hidden !important;
 }
 
 .quill-editor .ql-editor {
   padding: 20px 40px;
   width: 100%;
+  max-width: 100%;
   min-height: calc(100vh - 300px);
   background: #ffffff;
   color: #000000;
   caret-color: #000000;
   text-align: left;
+  overflow-x: hidden !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .quill-editor .ql-editor * {

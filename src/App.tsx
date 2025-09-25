@@ -447,7 +447,7 @@ function App() {
                           window.dispatchEvent(new CustomEvent('openTokenizeModal'));
                           setShowWriterMenu(false);
                         }}>
-                          <span>🎨</span> Tokenize
+                          <span>🎨</span> Create Bitcoin Asset
                         </div>
                         <div className="menu-item" onClick={() => {
                           // TODO: Implement Paywall
@@ -713,7 +713,7 @@ function App() {
                             💰 Set Price to Unlock
                           </button>
                           <button className="mobile-menu-item">
-                            🎨 Create NFT
+                            🎨 Save as Bitcoin OS Asset
                           </button>
                           <button className="mobile-menu-item">
                             📈 Issue File Shares

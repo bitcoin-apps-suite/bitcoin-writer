@@ -418,16 +418,16 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       // Store the result from either NFT minting or regular storage
       let result: any = null;
       
-      // Check if NFT minting is enabled
-      if (options.monetization?.enableNFT) {
-        setAutoSaveStatus('🎨 Minting NFT on HandCash...');
+      // Check if asset creation is enabled
+      if (options.monetization?.enableAsset) {
+        setAutoSaveStatus('🎨 Creating Bitcoin OS Asset...');
         
         // Get HandCash auth token
         const handcashService = new HandCashService();
         const authToken = handcashService.getAccessToken();
         
         if (!authToken) {
-          alert('Please sign in with HandCash to mint NFTs');
+          alert('Please sign in with HandCash to create Bitcoin OS assets');
           setIsLoading(false);
           setAutoSaveStatus('');
           if (onAuthRequired) {
@@ -436,11 +436,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           return;
         }
         
-        // Prepare NFT data
+        // Prepare asset data
         const itemsService = new HandCashItemsService();
-        const nftData = {
+        const assetData = {
           name: title,
-          description: options.metadata.description || `${title} - A document minted as NFT`,
+          description: options.metadata.description || `${title} - A document saved as Bitcoin OS asset`,
           quantity: options.monetization.maxSupply || 1,
           initialPrice: options.monetization.initialPrice || 1,
           royaltyPercentage: options.monetization.royaltyPercentage || 10,
@@ -456,17 +456,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           }
         };
         
-        // Mint the NFT
-        const nftResult = await itemsService.mintDocumentNFT(authToken, nftData);
+        // Create the asset
+        const assetResult = await itemsService.mintDocumentNFT(authToken, assetData);
         
-        if (nftResult.success) {
-          setAutoSaveStatus('✅ NFT minted successfully!');
+        if (assetResult.success) {
+          setAutoSaveStatus('✅ Bitcoin OS asset created successfully!');
           
           // Show success message with market URL
-          if (nftResult.marketUrl) {
-            alert(`NFT minted successfully!\n\nView on HandCash Market:\n${nftResult.marketUrl}`);
+          if (assetResult.marketUrl) {
+            alert(`Bitcoin OS asset created successfully!\n\nView on HandCash Market:\n${assetResult.marketUrl}`);
           } else {
-            alert('NFT minted successfully! Check your HandCash wallet.');
+            alert('Bitcoin OS asset created successfully! Check your HandCash wallet.');
           }
           
           // Still store document data on-chain for permanence
@@ -479,10 +479,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             );
           }
         } else {
-          throw new Error(nftResult.error || 'Failed to mint NFT');
+          throw new Error(assetResult.error || 'Failed to create Bitcoin OS asset');
         }
       } else {
-        // Regular blockchain storage without NFT
+        // Regular blockchain storage without asset creation
         result = await bsvService.storeDocumentWithOptions(
           text,
           options,
