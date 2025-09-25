@@ -880,7 +880,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
               className={`save-btn-mobile ${!isAuthenticated ? 'save-guest' : ''}`}
             >
-              💾 Save {wordCount > 0 && `(${currentPrice})`}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
+              </svg>
+              Save {wordCount > 0 && `(${currentPrice})`}
             </button>
             
             <div className="mobile-dropdown-container">
@@ -889,7 +892,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                 onClick={() => setShowActionsDropdown(!showActionsDropdown)}
                 title="More actions"
               >
-                ⚙️ Actions
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                  <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                </svg>
+                Actions
               </button>
               
               {showActionsDropdown && (
@@ -901,7 +907,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                     }}
                     className="dropdown-item"
                   >
-                    📷 Add Image
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                      <path d="M9,2V7.38L10.5,8.88L12,7.38V2H9M20,5V19C20,20.1 19.1,21 18,21H6C4.89,21 4,20.1 4,19V5C4,3.89 4.89,3 6,3H7V9L9.5,6.5L12,9V3H18C19.1,3 20,3.89 20,5Z"/>
+                    </svg>
+                    Add Image
                   </button>
                   {isAuthenticated && (
                     <>
@@ -913,7 +922,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                         disabled={isLoading}
                         className={`dropdown-item ${isEncrypted ? 'encrypted' : ''}`}
                       >
-                        {isEncrypted ? '🔓 Decrypt' : '🔒 Encrypt Draft'}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                          <path d={isEncrypted ? "M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11H16V18H8V11H9.2V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.2,8.7 10.2,10V11H13.8V10C13.8,8.7 12.8,8.2 12,8.2Z" : "M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11H15C15.6,11 16,11.4 16,12V18C16,18.6 15.6,19 15,19H9C8.4,19 8,18.6 8,18V12C8,11.4 8.4,11 9,11H9.2V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.2,8.7 10.2,10V11H13.8V10C13.8,8.7 12.8,8.2 12,8.2Z"}/>
+                        </svg>
+                        {isEncrypted ? 'Decrypt' : 'Encrypt Draft'}
                       </button>
                       <button 
                         onClick={() => {
@@ -923,7 +935,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                         disabled={isLoading}
                         className="dropdown-item"
                       >
-                        💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                          <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                        </svg>
+                        Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
                       </button>
                       <button 
                         onClick={() => {
@@ -933,7 +948,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
                         disabled={isLoading}
                         className="dropdown-item"
                       >
-                        🌍 Publish Document
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                          <path d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        Publish Document
                       </button>
                     </>
                   )}
@@ -1005,7 +1023,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               className={wordCount > 0 ? 'save-btn-active' : 'save-btn-inactive'}
               style={{ display: 'flex', alignItems: 'center', gap: '6px', marginRight: '20px' }}
             >
-              💾 Save
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
+              </svg>
+              Save
               {wordCount > 0 && (
                 <span style={{ 
                   fontSize: '11px', 
@@ -1043,7 +1064,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               }}
               title="Export document to file"
             >
-              📥 Export...
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+              </svg>
+              Export...
             </button>
             
             {/* Save with Options - opens modal for all users */}
@@ -1053,7 +1077,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title="Save with advanced options (encryption, pricing, etc.)"
               className="save-options-btn"
             >
-              ⚙️ Save to Blockchain
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+              </svg>
+              Save to Blockchain
             </button>
             
             {/* Encrypt on chain - saves with encryption */}
@@ -1066,7 +1093,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title="Encrypt and save privately on blockchain"
               className="encrypt-btn"
             >
-              🔒 Encrypt on Chain
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11H15C15.6,11 16,11.4 16,12V18C16,18.6 15.6,19 15,19H9C8.4,19 8,18.6 8,18V12C8,11.4 8.4,11 9,11H9.2V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.2,8.7 10.2,10V11H13.8V10C13.8,8.7 12.8,8.2 12,8.2Z"/>
+              </svg>
+              Encrypt on Chain
             </button>
             
             {/* Publish to chain - saves publicly */}
@@ -1082,7 +1112,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title="Publish document publicly on blockchain"
               className="publish-btn"
             >
-              🌍 Publish to Chain
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              Publish to Chain
             </button>
             
             {/* Schedule Publication - time-locked encryption */}
@@ -1095,11 +1128,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title="Schedule automatic publication at a future date"
               className="schedule-btn"
             >
-              📅 Schedule Publication
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+              </svg>
+              Schedule Publication
             </button>
             
             <button onClick={insertImage} title="Add images to your document (included in blockchain storage cost)">
-              📷 Add Image
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M9,2V7.38L10.5,8.88L12,7.38V2H9M20,5V19C20,20.1 19.1,21 18,21H6C4.89,21 4,20.1 4,19V5C4,3.89 4.89,3 6,3H7V9L9.5,6.5L12,9V3H18C19.1,3 20,3.89 20,5Z"/>
+              </svg>
+              Add Image
             </button>
             
             <button 
@@ -1114,7 +1153,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title="Set price readers must pay to read your document"
               className="price-btn"
             >
-              💰 Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+              </svg>
+              Set Price to Read {readPrice > 0 ? `($${readPrice})` : ''}
             </button>
             <button 
               onClick={() => {
@@ -1128,7 +1170,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               title="Share your writing on Twitter"
               className="twitter-share-btn"
             >
-              🐦 Post to Twitter
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+                <path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z"/>
+              </svg>
+              Post to Twitter
             </button>
             <input
               type="file"
