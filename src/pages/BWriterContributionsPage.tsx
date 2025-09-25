@@ -593,40 +593,45 @@ const BWriterContributionsPage: React.FC = () => {
   return (
     <div className="App">
       <div className={`bwriter-contributions-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
-      <div className="contributions-header">
-        <h1>$BWriter Development Hub</h1>
-        <p>Contribute to Bitcoin Writer and earn $BWriter tokens</p>
+        <div className="contributions-container">
+          {/* Hero Section */}
+          <section className="contributions-hero">
+            <h1>$BWriter <span style={{color: '#ffffff'}}>Development Hub</span></h1>
+            <p className="contributions-tagline">
+              Contribute to Bitcoin Writer and earn $BWriter tokens
+            </p>
+            <div className="contributions-badge">DEVELOPMENT HUB</div>
+          </section>
         
-        <div className="tab-navigation">
-          <button 
-            className={`tab-btn ${activeTab === 'contributions' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('contributions');
-              window.location.hash = 'contributors';
-            }}
-          >
-            Contributors
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'todo' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('todo');
-              window.location.hash = 'tasks';
-            }}
-          >
-            Development Tasks
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'tokenomics' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('tokenomics');
-              window.location.hash = 'tokenDistribution';
-            }}
-          >
-            Token Distribution
-          </button>
-        </div>
-      </div>
+          <div className="tab-navigation">
+            <button 
+              className={`tab-btn ${activeTab === 'contributions' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveTab('contributions');
+                window.location.hash = 'contributors';
+              }}
+            >
+              Contributors
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'todo' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveTab('todo');
+                window.location.hash = 'tasks';
+              }}
+            >
+              Development Tasks
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'tokenomics' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveTab('tokenomics');
+                window.location.hash = 'tokenDistribution';
+              }}
+            >
+              Token Distribution
+            </button>
+          </div>
 
       {activeTab === 'contributions' && (
         <div className="contributions-content">
@@ -984,7 +989,8 @@ const BWriterContributionsPage: React.FC = () => {
             Discord
           </a>
         </div>
-      </div>
+          </div>
+        </div>
       </div>
 
       {/* Task Claim Modal */}

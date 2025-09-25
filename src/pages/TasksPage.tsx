@@ -20,10 +20,41 @@ interface Task {
 const TasksPage: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('devSidebarCollapsed');
+    return saved === 'true';
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
   // Fetch GitHub issues on mount
   useEffect(() => {
     fetchGitHubIssues();
+    
+    // Listen for storage changes to detect sidebar collapse state
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    };
+    
+    // Handle window resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('resize', handleResize);
+    
+    // Check for sidebar state changes via polling
+    const checkSidebarState = setInterval(() => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('resize', handleResize);
+      clearInterval(checkSidebarState);
+    };
   }, []);
   
   const fetchGitHubIssues = async () => {
@@ -171,54 +202,57 @@ const TasksPage: React.FC = () => {
   };
 
   return (
-    <div className="tasks-page">
-      <div className="tasks-container">
-        <div className="tasks-header">
-          <h1>Bitcoin Writer Tasks</h1>
-          <p className="tasks-subtitle">
-            Contribute to Bitcoin Writer and earn BWRITER tokens
-          </p>
-        </div>
+    <div className="App">
+      <div className={`tasks-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
+        <div className="tasks-container">
+          {/* Hero Section */}
+          <section className="tasks-hero">
+            <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Tasks</span></h1>
+            <p className="tasks-tagline">
+              Contribute to Bitcoin Writer and earn BWRITER tokens
+            </p>
+            <div className="tasks-badge">TASKS</div>
+          </section>
 
         <div className="tasks-filters">
           <button
-            className={filter === 'all' ? 'active' : ''}
+            className={`filter-button ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
           >
             All Tasks
           </button>
           <button
-            className={filter === 'critical' ? 'active' : ''}
+            className={`filter-button ${filter === 'critical' ? 'active' : ''}`}
             onClick={() => setFilter('critical')}
           >
             Critical
           </button>
           <button
-            className={filter === 'easy' ? 'active' : ''}
+            className={`filter-button ${filter === 'easy' ? 'active' : ''}`}
             onClick={() => setFilter('easy')}
           >
             Easy
           </button>
           <button
-            className={filter === 'medium' ? 'active' : ''}
+            className={`filter-button ${filter === 'medium' ? 'active' : ''}`}
             onClick={() => setFilter('medium')}
           >
             Medium
           </button>
           <button
-            className={filter === 'hard' ? 'active' : ''}
+            className={`filter-button ${filter === 'hard' ? 'active' : ''}`}
             onClick={() => setFilter('hard')}
           >
             Hard
           </button>
           <button
-            className={filter === 'feature' ? 'active' : ''}
+            className={`filter-button ${filter === 'feature' ? 'active' : ''}`}
             onClick={() => setFilter('feature')}
           >
             Features
           </button>
           <button
-            className={filter === 'documentation' ? 'active' : ''}
+            className={`filter-button ${filter === 'documentation' ? 'active' : ''}`}
             onClick={() => setFilter('documentation')}
           >
             Documentation
@@ -333,6 +367,7 @@ const TasksPage: React.FC = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

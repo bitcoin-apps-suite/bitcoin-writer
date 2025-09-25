@@ -35,6 +35,11 @@ const ContractsPage: React.FC = () => {
   const [showClaimModal, setShowClaimModal] = useState(false);
   const [handcashService] = useState(new HandCashService());
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('devSidebarCollapsed');
+    return saved === 'true';
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
   // Form state for claim modal
   const [claimForm, setClaimForm] = useState({
@@ -46,6 +51,32 @@ const ContractsPage: React.FC = () => {
   useEffect(() => {
     fetchContracts();
     checkAuthentication();
+    
+    // Listen for storage changes to detect sidebar collapse state
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    };
+    
+    // Handle window resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('resize', handleResize);
+    
+    // Check for sidebar state changes via polling
+    const checkSidebarState = setInterval(() => {
+      const saved = localStorage.getItem('devSidebarCollapsed');
+      setDevSidebarCollapsed(saved === 'true');
+    }, 100);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('resize', handleResize);
+      clearInterval(checkSidebarState);
+    };
   }, []);
 
   const checkAuthentication = () => {
@@ -239,11 +270,17 @@ const ContractsPage: React.FC = () => {
   };
 
   return (
-    <div className="contracts-page">
-      <div className="contracts-header">
-        <h1>Developer Contracts</h1>
-        <p>Claim contracts, deliver code, earn BWRITER tokens</p>
-      </div>
+    <div className="App">
+      <div className={`contracts-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
+        <div className="contracts-container">
+          {/* Hero Section */}
+          <section className="contracts-hero">
+            <h1>Developer <span style={{color: '#ffffff'}}>Contracts</span></h1>
+            <p className="contracts-tagline">
+              Claim contracts, deliver code, earn BWRITER tokens
+            </p>
+            <div className="contracts-badge">CONTRACTS</div>
+          </section>
 
       <div className="contracts-stats">
         <div className="stat-card">
@@ -446,6 +483,8 @@ const ContractsPage: React.FC = () => {
           </div>
         </div>
       )}
+        </div>
+      </div>
       <Footer />
     </div>
   );

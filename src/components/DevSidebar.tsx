@@ -51,8 +51,8 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     divider?: boolean;
     external?: boolean;
   }> = [
-    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/tasks', icon: Terminal, label: 'Tasks', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
     { path: '/docs', icon: BookOpen, label: 'Documentation' },
     { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
