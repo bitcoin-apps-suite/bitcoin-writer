@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Flower2, DollarSign, Cpu, GraduationCap, Users, Wrench, Zap } from 'lucide-react';
 import './GrantsPage.css';
 import Footer from '../components/Footer';
 
@@ -10,13 +12,11 @@ const GrantsPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    // Listen for storage changes to detect sidebar collapse state
     const handleStorageChange = () => {
       const saved = localStorage.getItem('devSidebarCollapsed');
       setDevSidebarCollapsed(saved === 'true');
     };
     
-    // Handle window resize
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -24,7 +24,6 @@ const GrantsPage: React.FC = () => {
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('resize', handleResize);
     
-    // Check for sidebar state changes via polling
     const checkSidebarState = setInterval(() => {
       const saved = localStorage.getItem('devSidebarCollapsed');
       setDevSidebarCollapsed(saved === 'true');
@@ -40,229 +39,226 @@ const GrantsPage: React.FC = () => {
   return (
     <div className="App">
       <div className={`grants-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
-      <div className="grants-container">
-        {/* Hero Section */}
-        <section className="grants-hero">
-          <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Grants</span></h1>
-          <p className="grants-tagline">
-            Funding innovation in BSV development and adoption
-          </p>
-          <div className="grants-badge">GRANTS</div>
-        </section>
-
-        {/* Overview Section */}
-        <section className="overview-section">
-          <h2>Developer Grant Program</h2>
-          <div className="overview-content">
-            <p>
-              The Bitcoin Writer Grant Program provides funding for developers building 
-              innovative features, integrations, and applications that enhance the Bitcoin 
-              Writer ecosystem.
+        <div className="grants-container">
+          {/* Hero Section */}
+          <section className="grants-hero">
+            <div className="tulip-hero-icon">
+              <Flower2 size={64} />
+            </div>
+            <h1>Bitcoin Writer <span style={{color: '#FF6B35'}}>Grants</span></h1>
+            <p className="grants-tagline">
+              $BWRITER token awards for quality submissions, plus public discovery platform for independent Tulip Trust funding
             </p>
-            <p>
-              We allocate grants quarterly to projects that demonstrate technical merit, 
-              community value, and alignment with our open-source mission.
+            <div className="grants-badge">DUAL FUNDING PLATFORM</div>
+          </section>
+
+          {/* Dual System Section */}
+          <section className="mission-section">
+            <h2>Two Paths to Funding</h2>
+            <div className="mission-content">
+              <p className="mission-statement">
+                Bitcoin Writer creates <strong>a unique funding ecosystem</strong> where quality work gets recognized through 
+                $BWRITER token awards and becomes discoverable by the independent Tulip Trust for potential BSV funding:
+              </p>
+              
+              <div className="mission-pillars">
+                <div className="pillar">
+                  <div className="pillar-icon"><DollarSign size={32} /></div>
+                  <h3>Bitcoin Writer Curation</h3>
+                  <p><strong>$BWRITER token awards for quality work</strong><br/>
+                  We review submissions and award $BWRITER tokens to exceptional proposals, signaling their quality to the broader ecosystem.</p>
+                </div>
+                <div className="pillar">
+                  <div className="pillar-icon"><Flower2 size={32} /></div>
+                  <h3>Public Discovery Platform</h3>
+                  <p><strong>Tulip Trust can discover and fund independently</strong><br/>
+                  All submissions become publicly viewable with funding addresses, enabling direct discovery and funding by the Tulip Trust.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Focus Areas */}
+          <section className="focus-section">
+            <h2>Focus Areas for Both Programs</h2>
+            <div className="focus-content">
+              <p className="focus-intro">
+                Our platform showcases exceptional work across key innovation areas. Bitcoin Writer awards $BWRITER tokens 
+                to signal quality, while the independent Tulip Trust can discover and fund projects that align with their mission:
+              </p>
+              
+              <div className="focus-areas">
+                <div className="focus-area">
+                  <div className="focus-area-icon"><Wrench size={24} /></div>
+                  <h4>Bitcoin Writer Platform Development</h4>
+                  <ul>
+                    <li>Enhance functionality and user experience</li>
+                    <li>Create innovative content monetization features</li>
+                    <li>Develop educational tools and resources</li>
+                    <li>Build integrations with other BSV applications</li>
+                  </ul>
+                  <div style={{marginTop: '10px', fontSize: '12px', color: '#FF6B35'}}>
+                    Bitcoin Writer awards $BWRITER for platform improvements
+                  </div>
+                </div>
+                
+                <div className="focus-area">
+                  <div className="focus-area-icon"><Zap size={24} /></div>
+                  <h4>BSV Ecosystem Infrastructure</h4>
+                  <ul>
+                    <li>Demonstrate real-world blockchain applications</li>
+                    <li>Create developer tools and infrastructure</li>
+                    <li>Research scalability and efficiency improvements</li>
+                    <li>Build bridges to traditional industries</li>
+                  </ul>
+                  <div style={{marginTop: '10px', fontSize: '12px', color: '#FF6B35'}}>
+                    Tulip Trust may fund infrastructure projects independently
+                  </div>
+                </div>
+                
+                <div className="focus-area">
+                  <div className="focus-area-icon"><GraduationCap size={24} /></div>
+                  <h4>STEM Education & Research</h4>
+                  <ul>
+                    <li>Develop interactive STEM learning platforms</li>
+                    <li>Create open educational resources</li>
+                    <li>Build tools for educators and researchers</li>
+                    <li>Enable new forms of academic publishing</li>
+                  </ul>
+                  <div style={{marginTop: '10px', fontSize: '12px', color: '#FF6B35'}}>
+                    $BWRITER curation signals attract Tulip Trust attention
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Grant Categories */}
+          <section className="categories-section">
+            <h2>Apply by Role</h2>
+            <p className="categories-intro">
+              Choose your application path below. Submit your proposal as a public .nft file, compete for $BWRITER token awards, 
+              and become discoverable by the Tulip Trust for potential independent BSV funding:
             </p>
-            <div className="grant-stats">
-              <div className="stat">
-                <div className="stat-value">$100,000</div>
-                <div className="stat-label">Annual Budget</div>
-              </div>
-              <div className="stat">
-                <div className="stat-value">$1-25K</div>
-                <div className="stat-label">Per Grant</div>
-              </div>
-              <div className="stat">
-                <div className="stat-value">Q1 2025</div>
-                <div className="stat-label">Next Round</div>
-              </div>
-            </div>
-          </div>
-        </section>
+            
+            <div className="categories-grid">
+              <Link to="/developers/grants" className="category-card developer-card">
+                <div className="category-header">
+                  <h3><Cpu size={20} style={{marginRight: '8px', verticalAlign: 'middle'}} />Developer Grants</h3>
+                  <div className="category-badge">APPLY NOW</div>
+                </div>
+                <p>
+                  Building the infrastructure, tools, and applications that power the future of decentralized technology.
+                </p>
+                <div className="category-details">
+                  <div className="detail">Infrastructure Development</div>
+                  <div className="detail">Protocol Innovation</div>
+                  <div className="detail">Developer Tooling</div>
+                  <div className="detail">Research Projects</div>
+                </div>
+                <div className="category-cta">View Developer Opportunities →</div>
+              </Link>
 
-        {/* Grant Categories Section */}
-        <section className="categories-section">
-          <h2>What We Fund</h2>
-          <div className="categories-grid">
-            <div className="category-card">
-              <h3>Core Development</h3>
+              <Link to="/authors/grants" className="category-card author-card">
+                <div className="category-header">
+                  <h3><Users size={20} style={{marginRight: '8px', verticalAlign: 'middle'}} />Author Grants</h3>
+                  <div className="category-badge">APPLY NOW</div>
+                </div>
+                <p>
+                  Creating educational content, documentation, and research that advances knowledge and understanding.
+                </p>
+                <div className="category-details">
+                  <div className="detail">Educational Content</div>
+                  <div className="detail">Technical Documentation</div>
+                  <div className="detail">Research Publications</div>
+                  <div className="detail">Learning Resources</div>
+                </div>
+                <div className="category-cta">View Writing Opportunities →</div>
+              </Link>
+
+              <Link to="/publishers/grants" className="category-card publisher-card">
+                <div className="category-header">
+                  <h3><Flower2 size={20} style={{marginRight: '8px', verticalAlign: 'middle'}} />Publisher Grants</h3>
+                  <div className="category-badge">APPLY NOW</div>
+                </div>
+                <p>
+                  Scaling platforms, distribution networks, and publishing infrastructure for the decentralized future.
+                </p>
+                <div className="category-details">
+                  <div className="detail">Platform Development</div>
+                  <div className="detail">Content Distribution</div>
+                  <div className="detail">Publishing Innovation</div>
+                  <div className="detail">Infrastructure Scaling</div>
+                </div>
+                <div className="category-cta">View Publisher Opportunities →</div>
+              </Link>
+            </div>
+          </section>
+
+          {/* Impact Section */}
+          <section className="impact-section">
+            <h2>Creating Lasting Impact</h2>
+            <div className="impact-content">
               <p>
-                Improvements to the Bitcoin Writer core application, including 
-                performance optimizations, new features, and bug fixes.
+                The Tulip Trust believes in nurturing ideas that bloom into transformative technologies and educational 
+                resources. Their grants support projects that:
               </p>
-              <div className="grant-range">$5,000 - $25,000</div>
+              
+              <div className="impact-points">
+                <div className="impact-point">
+                  <div className="impact-point-icon"><Flower2 size={24} /></div>
+                  <h4>Plant Seeds of Innovation</h4>
+                  <p>Support early-stage research and development that could reshape entire industries</p>
+                </div>
+                <div className="impact-point">
+                  <div className="impact-point-icon"><Zap size={24} /></div>
+                  <h4>Foster Growth</h4>
+                  <p>Provide resources and mentorship to help promising projects reach their full potential</p>
+                </div>
+                <div className="impact-point">
+                  <div className="impact-point-icon"><GraduationCap size={24} /></div>
+                  <h4>Enable Flourishing</h4>
+                  <p>Create sustainable ecosystems where innovation, education, and collaboration thrive</p>
+                </div>
+              </div>
             </div>
+          </section>
 
-            <div className="category-card">
-              <h3>Integrations</h3>
+          {/* Call to Action */}
+          <section className="cta-section">
+            <div className="cta-content">
+              <Flower2 size={48} />
+              <h2>Ready to Make Your Mark?</h2>
               <p>
-                Connect Bitcoin Writer with other BSV applications, services, 
-                and platforms to expand functionality.
+                Apply through Bitcoin Writer to join the Tulip Trust's mission of building a more educated, innovative, and connected world. 
+                Whether you're a developer pushing technical boundaries, an author sharing knowledge, or a publisher scaling platforms—
+                submit your proposal for grant consideration.
               </p>
-              <div className="grant-range">$2,500 - $15,000</div>
-            </div>
-
-            <div className="category-card">
-              <h3>UI/UX Innovation</h3>
-              <p>
-                Design improvements, accessibility features, and user experience 
-                enhancements that make Bitcoin Writer better for everyone.
-              </p>
-              <div className="grant-range">$1,000 - $10,000</div>
-            </div>
-
-            <div className="category-card">
-              <h3>Documentation</h3>
-              <p>
-                Comprehensive guides, tutorials, API documentation, and educational 
-                content for developers and users.
-              </p>
-              <div className="grant-range">$500 - $5,000</div>
-            </div>
-
-            <div className="category-card">
-              <h3>Research</h3>
-              <p>
-                Blockchain research, cryptographic innovations, and experimental 
-                features that push the boundaries.
-              </p>
-              <div className="grant-range">$5,000 - $20,000</div>
-            </div>
-
-            <div className="category-card">
-              <h3>Community Tools</h3>
-              <p>
-                Tools, plugins, and applications that help the community 
-                use and extend Bitcoin Writer.
-              </p>
-              <div className="grant-range">$1,000 - $7,500</div>
-            </div>
-          </div>
-        </section>
-
-        {/* Recent Grants Section */}
-        <section className="recent-grants-section">
-          <h2>Recent Grant Recipients</h2>
-          <div className="grants-list">
-            <div className="grant-item">
-              <div className="grant-header">
-                <h3>Markdown Export Plugin</h3>
-                <span className="grant-amount">$3,500</span>
-              </div>
-              <p>Advanced markdown export with preservation of blockchain metadata</p>
-              <div className="grant-meta">
-                <span className="grant-developer">@devuser1</span>
-                <span className="grant-date">December 2024</span>
+              <div className="cta-buttons">
+                <Link to="/developers/grants" className="cta-button developer">
+                  Apply as Developer
+                </Link>
+                <Link to="/authors/grants" className="cta-button author">
+                  Apply as Author
+                </Link>
+                <Link to="/publishers/grants" className="cta-button publisher">
+                  Apply as Publisher
+                </Link>
               </div>
             </div>
+          </section>
 
-            <div className="grant-item">
-              <div className="grant-header">
-                <h3>HandCash Wallet Integration</h3>
-                <span className="grant-amount">$7,500</span>
-              </div>
-              <p>Seamless payment integration with HandCash Connect SDK</p>
-              <div className="grant-meta">
-                <span className="grant-developer">@blockchain_dev</span>
-                <span className="grant-date">November 2024</span>
-              </div>
-            </div>
-
-            <div className="grant-item">
-              <div className="grant-header">
-                <h3>Accessibility Improvements</h3>
-                <span className="grant-amount">$5,000</span>
-              </div>
-              <p>Screen reader support and keyboard navigation enhancements</p>
-              <div className="grant-meta">
-                <span className="grant-developer">@a11y_expert</span>
-                <span className="grant-date">October 2024</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Application Process Section */}
-        <section className="process-section">
-          <h2>How to Apply</h2>
-          <div className="process-steps">
-            <div className="step">
-              <div className="step-number">1</div>
-              <h3>Submit Proposal</h3>
-              <p>Create a detailed proposal outlining your project and budget</p>
-            </div>
-            <div className="step">
-              <div className="step-number">2</div>
-              <h3>Review Period</h3>
-              <p>Our team reviews proposals and may request additional information</p>
-            </div>
-            <div className="step">
-              <div className="step-number">3</div>
-              <h3>Approval</h3>
-              <p>Approved grants receive initial funding to begin development</p>
-            </div>
-            <div className="step">
-              <div className="step-number">4</div>
-              <h3>Milestones</h3>
-              <p>Receive remaining funds as you complete project milestones</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Evaluation Criteria Section */}
-        <section className="criteria-section">
-          <h2>Evaluation Criteria</h2>
-          <div className="criteria-grid">
-            <div className="criterion">
-              <h3>Technical Merit</h3>
-              <p>Sound technical approach and feasibility of implementation</p>
-            </div>
-            <div className="criterion">
-              <h3>Community Impact</h3>
-              <p>Benefit to Bitcoin Writer users and the broader BSV ecosystem</p>
-            </div>
-            <div className="criterion">
-              <h3>Innovation</h3>
-              <p>Novel approaches and creative solutions to existing problems</p>
-            </div>
-            <div className="criterion">
-              <h3>Team Experience</h3>
-              <p>Demonstrated ability to deliver on proposed objectives</p>
-            </div>
-            <div className="criterion">
-              <h3>Open Source</h3>
-              <p>Commitment to open-source principles and collaboration</p>
-            </div>
-            <div className="criterion">
-              <h3>Sustainability</h3>
-              <p>Long-term viability and maintenance plan for the project</p>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="cta-section">
-          <h2>Ready to Build the Future?</h2>
-          <p>Apply for a grant and help shape the future of decentralized writing</p>
-          <div className="cta-buttons">
-            <a 
-              href="https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/new?template=grant-proposal.md" 
-              className="cta-button primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Submit Proposal
-            </a>
-            <a 
-              href="/docs#grants" 
-              className="cta-button secondary"
-            >
-              Grant Guidelines
-            </a>
-          </div>
-        </section>
-      </div>
-      <Footer />
+          {/* Footer Note */}
+          <section className="footer-note">
+            <p>
+              <strong>Note:</strong> Bitcoin Writer awards direct grants in $BWRITER tokens and also serves as an application 
+              portal for the independent Tulip Trust (BSV funding). Each application form will guide you through both 
+              funding options. Applications are reviewed on a rolling basis, with priority given to projects that demonstrate 
+              clear potential for advancing STEM education, BSV blockchain technology, and decentralized publishing.
+            </p>
+          </section>
+        </div>
+        <Footer />
       </div>
     </div>
   );

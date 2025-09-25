@@ -801,6 +801,107 @@
   font-size: 13px;
 }
 
+/* New Grant Submission UI */
+.hero-actions {
+  margin-top: 20px;
+}
+
+.primary-cta-button {
+  padding: 16px 32px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.primary-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 107, 53, 0.4);
+}
+
+.back-navigation {
+  margin-bottom: 30px;
+}
+
+.back-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #FF6B35;
+}
+
+/* Submissions Section */
+.submissions-section {
+  margin: 40px 0;
+  padding: 30px;
+  background: rgba(255, 107, 53, 0.05);
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  border-radius: 12px;
+}
+
+.submissions-section h2 {
+  color: #FF6B35;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.submissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.submission-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.submission-card:hover {
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.submission-card h3 {
+  color: #ffffff;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.submission-card p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.bwriter-award {
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .contracts-page {

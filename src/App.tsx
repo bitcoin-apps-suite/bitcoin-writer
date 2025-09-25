@@ -23,6 +23,9 @@ import StatusPage from './pages/StatusPage';
 import DeveloperContractsPage from './pages/DeveloperContractsPage';
 import AuthorsContractsPage from './pages/AuthorsContractsPage';
 import PublisherContractsPage from './pages/PublisherContractsPage';
+import DevelopersGrantsPage from './pages/DevelopersGrantsPage';
+import AuthorsGrantsPage from './pages/AuthorsGrantsPage';
+import PublishersGrantsPage from './pages/PublishersGrantsPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -300,6 +303,9 @@ function App() {
       <Route path="/developer/contracts" element={<DeveloperContractsPage />} />
       <Route path="/authors/contracts" element={<AuthorsContractsPage />} />
       <Route path="/publisher/contracts" element={<PublisherContractsPage />} />
+      <Route path="/developers/grants" element={<DevelopersGrantsPage />} />
+      <Route path="/authors/grants" element={<AuthorsGrantsPage />} />
+      <Route path="/publishers/grants" element={<PublishersGrantsPage />} />
       <Route path="/contributions" element={<BWriterContributionsPage />} />
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/commissions" element={<CommissionsPage />} />
