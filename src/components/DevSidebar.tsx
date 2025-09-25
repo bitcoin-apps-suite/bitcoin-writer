@@ -57,6 +57,10 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { path: '/docs', icon: BookOpen, label: 'Documentation' },
     { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
     { divider: true },
+    { path: '/commissions', icon: Code, label: 'Commissions' },
+    { path: '/offers', icon: Package, label: 'Offers', badge: '6' },
+    { path: '/grants', icon: DollarSign, label: 'Grants' },
+    { divider: true },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues', icon: Bug, label: 'Issues', external: true, badge: issueCount > 0 ? String(issueCount) : undefined },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/pulls', icon: Code, label: 'Pull Requests', external: true },
@@ -142,22 +146,17 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
 
       {!isCollapsed && (
         <div className="dev-sidebar-stats">
-          <h4>Token Stats</h4>
-          <div className="dev-stat">
-            <span className="dev-stat-label">Total Supply</span>
-            <span className="dev-stat-value">{stats.totalTokens}</span>
-          </div>
-          <div className="dev-stat">
-            <span className="dev-stat-label">Distributed</span>
-            <span className="dev-stat-value">{stats.distributed}</span>
-          </div>
-          <div className="dev-stat">
-            <span className="dev-stat-label">Contributors</span>
-            <span className="dev-stat-value">{stats.contributors}</span>
-          </div>
-          <div className="dev-stat">
-            <span className="dev-stat-label">Open Tasks</span>
-            <span className="dev-stat-value">{stats.openTasks}</span>
+          <h4>Quick Links</h4>
+          <div className="dev-quick-links">
+            <Link to="/commissions" className="dev-quick-link">
+              💼 Custom Development
+            </Link>
+            <Link to="/offers" className="dev-quick-link">
+              🎁 Special Offers
+            </Link>
+            <Link to="/grants" className="dev-quick-link">
+              💰 Apply for Grants
+            </Link>
           </div>
         </div>
       )}
