@@ -17,6 +17,9 @@ import SignupPage from './pages/SignupPage';
 import CommissionsPage from './pages/CommissionsPage';
 import OffersPage from './pages/OffersPage';
 import GrantsPage from './pages/GrantsPage';
+import ApiPage from './pages/ApiPage';
+import ChangelogPage from './pages/ChangelogPage';
+import StatusPage from './pages/StatusPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -296,6 +299,9 @@ function App() {
       <Route path="/commissions" element={<CommissionsPage />} />
       <Route path="/offers" element={<OffersPage />} />
       <Route path="/grants" element={<GrantsPage />} />
+      <Route path="/api" element={<ApiPage />} />
+      <Route path="/changelog" element={<ChangelogPage />} />
+      <Route path="/status" element={<StatusPage />} />
       <Route path="/platform" element={<PlatformPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/*" element={

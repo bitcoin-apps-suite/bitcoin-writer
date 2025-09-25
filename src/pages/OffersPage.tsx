@@ -8,6 +8,7 @@ const OffersPage: React.FC = () => {
     return saved === 'true';
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [activeTab, setActiveTab] = useState<'platform' | 'marketplace'>('marketplace');
 
   useEffect(() => {
     // Listen for storage changes to detect sidebar collapse state
@@ -43,16 +44,195 @@ const OffersPage: React.FC = () => {
       <div className="offers-container">
         {/* Hero Section */}
         <section className="offers-hero">
-          <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Offers</span></h1>
+          <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Marketplace</span></h1>
           <p className="offers-tagline">
-            Special opportunities for developers and partners
+            Connect authors with publishers through smart contracts on the blockchain
           </p>
-          <div className="offers-badge">OFFERS</div>
+          <div className="offers-badge">MARKETPLACE</div>
         </section>
 
-        {/* Current Offers Section */}
+        {/* Tab Navigation */}
+        <section className="offers-tabs-section">
+          <div className="offers-tabs">
+            <button 
+              className={activeTab === 'marketplace' ? 'active' : ''}
+              onClick={() => setActiveTab('marketplace')}
+            >
+              Author Marketplace
+            </button>
+            <button 
+              className={activeTab === 'platform' ? 'active' : ''}
+              onClick={() => setActiveTab('platform')}
+            >
+              Platform Offers
+            </button>
+          </div>
+        </section>
+
+        {/* Marketplace Section */}
+        {activeTab === 'marketplace' && (
+          <section className="marketplace-section">
+            <h2>Author Services Marketplace</h2>
+            <p className="marketplace-description">
+              Authors offer their writing services directly to publishers. All contracts are recorded on the BSV blockchain
+              with escrow payments and AI-verified deliverables.
+            </p>
+            
+            <div className="marketplace-grid">
+              {/* Author Offer Example 1 */}
+              <div className="author-offer-card">
+                <div className="author-header">
+                  <div className="author-avatar">JD</div>
+                  <div className="author-info">
+                    <h3>John Doe</h3>
+                    <div className="author-badges">
+                      <span className="badge verified">Verified</span>
+                      <span className="badge rating">★ 4.9</span>
+                    </div>
+                  </div>
+                </div>
+                <h4>Technical Documentation & API Guides</h4>
+                <p>I specialize in creating comprehensive technical documentation, API references, and developer guides for blockchain projects.</p>
+                <div className="offer-details">
+                  <div className="detail-item">
+                    <span className="label">Rate:</span>
+                    <span className="value">$250 per 1000 words</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label">Delivery:</span>
+                    <span className="value">3-5 days</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label">Languages:</span>
+                    <span className="value">English, Spanish</span>
+                  </div>
+                </div>
+                <div className="offer-tags">
+                  <span className="tag">Blockchain</span>
+                  <span className="tag">Technical Writing</span>
+                  <span className="tag">API Docs</span>
+                </div>
+                <button className="hire-button">Create Contract →</button>
+              </div>
+
+              {/* Author Offer Example 2 */}
+              <div className="author-offer-card">
+                <div className="author-header">
+                  <div className="author-avatar">SM</div>
+                  <div className="author-info">
+                    <h3>Sarah Mitchell</h3>
+                    <div className="author-badges">
+                      <span className="badge verified">Verified</span>
+                      <span className="badge rating">★ 5.0</span>
+                    </div>
+                  </div>
+                </div>
+                <h4>Cryptocurrency Market Analysis & Reports</h4>
+                <p>Professional market analysis, trend reports, and investment research for crypto publications and trading platforms.</p>
+                <div className="offer-details">
+                  <div className="detail-item">
+                    <span className="label">Rate:</span>
+                    <span className="value">$500 per report</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label">Delivery:</span>
+                    <span className="value">24-48 hours</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label">Expertise:</span>
+                    <span className="value">DeFi, NFTs, BSV</span>
+                  </div>
+                </div>
+                <div className="offer-tags">
+                  <span className="tag">Market Analysis</span>
+                  <span className="tag">Trading</span>
+                  <span className="tag">Research</span>
+                </div>
+                <button className="hire-button">Create Contract →</button>
+              </div>
+
+              {/* Author Offer Example 3 */}
+              <div className="author-offer-card">
+                <div className="author-header">
+                  <div className="author-avatar">AK</div>
+                  <div className="author-info">
+                    <h3>Alex Kim</h3>
+                    <div className="author-badges">
+                      <span className="badge verified">Verified</span>
+                      <span className="badge rating">★ 4.8</span>
+                    </div>
+                  </div>
+                </div>
+                <h4>Web3 Content Marketing & Blog Posts</h4>
+                <p>Engaging content for Web3 startups, including blog posts, whitepapers, and social media content strategies.</p>
+                <div className="offer-details">
+                  <div className="detail-item">
+                    <span className="label">Rate:</span>
+                    <span className="value">$150 per article</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label">Delivery:</span>
+                    <span className="value">2-3 days</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label">Package:</span>
+                    <span className="value">10 articles/month</span>
+                  </div>
+                </div>
+                <div className="offer-tags">
+                  <span className="tag">Content Marketing</span>
+                  <span className="tag">SEO</span>
+                  <span className="tag">Web3</span>
+                </div>
+                <button className="hire-button">Create Contract →</button>
+              </div>
+
+              {/* Add Your Offer Card */}
+              <div className="author-offer-card add-offer">
+                <div className="add-offer-content">
+                  <h3>Are You an Author?</h3>
+                  <p>List your writing services and connect with publishers looking for quality content.</p>
+                  <button className="create-offer-button">Create Your Offer →</button>
+                </div>
+              </div>
+            </div>
+
+            {/* How It Works Section */}
+            <div className="how-it-works">
+              <h3>How the Marketplace Works</h3>
+              <div className="steps-grid">
+                <div className="step">
+                  <div className="step-number">1</div>
+                  <h4>Browse & Connect</h4>
+                  <p>Publishers browse author offers and select writers that match their needs</p>
+                </div>
+                <div className="step">
+                  <div className="step-number">2</div>
+                  <h4>Smart Contract</h4>
+                  <p>Agreement terms are encoded in a BSV smart contract with escrow payment</p>
+                </div>
+                <div className="step">
+                  <div className="step-number">3</div>
+                  <h4>Create & Deliver</h4>
+                  <p>Authors create content, AI verifies quality and originality</p>
+                </div>
+                <div className="step">
+                  <div className="step-number">4</div>
+                  <h4>Automatic Payment</h4>
+                  <p>Upon approval, payment is released from escrow to the author</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Platform Offers Section */}
+        {activeTab === 'platform' && (
         <section className="current-offers-section">
-          <h2>Active Offers</h2>
+          <h2>Bitcoin Writer Platform Offers</h2>
+          <p className="platform-description">
+            Special programs and opportunities offered by Bitcoin Writer to developers, partners, and the community.
+          </p>
           <div className="offers-grid">
             <div className="offer-card featured">
               <div className="offer-type">Partnership</div>
@@ -175,8 +355,10 @@ const OffersPage: React.FC = () => {
             </div>
           </div>
         </section>
+        )}
 
-        {/* Partner Benefits Section */}
+        {/* Partner Benefits Section - Only show for platform offers */}
+        {activeTab === 'platform' && (
         <section className="benefits-section">
           <h2>Why Partner With Us</h2>
           <div className="benefits-grid">
@@ -212,8 +394,10 @@ const OffersPage: React.FC = () => {
             </div>
           </div>
         </section>
+        )}
 
-        {/* CTA Section */}
+        {/* CTA Section - Only show for platform offers */}
+        {activeTab === 'platform' && (
         <section className="cta-section">
           <h2>Don't See What You're Looking For?</h2>
           <p>We're always open to new partnership opportunities</p>
@@ -232,6 +416,7 @@ const OffersPage: React.FC = () => {
             </a>
           </div>
         </section>
+        )}
       </div>
       <Footer />
       </div>

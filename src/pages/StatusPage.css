@@ -1,0 +1,583 @@
+/* Status Page - Matching Token Page Style */
+.status-page {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
+  font-weight: 300;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .status-page.with-sidebar-expanded {
+    margin-left: 260px;
+  }
+  
+  .status-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
+}
+
+.status-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Adjust container width when sidebar is present */
+@media (min-width: 769px) {
+  .status-page.with-sidebar-expanded .status-container {
+    max-width: calc(100vw - 260px - 80px);
+  }
+  
+  .status-page.with-sidebar-collapsed .status-container {
+    max-width: calc(100vw - 60px - 80px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .status-page.with-sidebar-expanded .status-container {
+    max-width: min(1200px, calc(100vw - 260px - 160px));
+  }
+  
+  .status-page.with-sidebar-collapsed .status-container {
+    max-width: min(1200px, calc(100vw - 60px - 160px));
+  }
+}
+
+/* Hero Section - Full Width Black */
+.status-hero {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px 40px;
+  text-align: center;
+  margin-bottom: 40px;
+  background: #000000;
+  /* Full viewport width - properly centered */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-top: -24px;
+  width: 100vw;
+  position: relative;
+  left: 0;
+  right: 0;
+}
+
+.status-hero h1 {
+  font-size: 42px;
+  font-weight: 200;
+  margin: 0 0 16px 0;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.status-tagline {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+.status-badge.operational {
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  color: #000;
+}
+
+.status-badge.degraded {
+  background: linear-gradient(90deg, #FFC107, #FF9800);
+  color: #000;
+}
+
+.status-badge.outage {
+  background: linear-gradient(90deg, #F44336, #E91E63);
+  color: #fff;
+}
+
+/* Status Overview Section */
+.status-overview-section {
+  background: #0a0a0a;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-overview-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.status-overview {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.overall-status {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.operational {
+  background: #4CAF50;
+}
+
+.status-indicator.degraded {
+  background: #FFC107;
+}
+
+.status-indicator.outage {
+  background: #F44336;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.overall-status h3 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 0 5px 0;
+  letter-spacing: -0.3px;
+}
+
+.overall-status p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Services Section */
+.services-section {
+  background: #0d0d0d;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.services-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.service-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.03);
+}
+
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.service-header h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.status-pill {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pill.operational {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+.status-pill.degraded {
+  background: rgba(255, 193, 7, 0.2);
+  color: #FFC107;
+}
+
+.status-pill.outage {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+}
+
+.service-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+.metric-value {
+  font-size: 14px;
+  color: #FF6B35;
+  font-weight: 400;
+}
+
+/* Metrics Section */
+.metrics-section {
+  background: #0a0a0a;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metrics-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.metric-card {
+  background: rgba(255, 107, 53, 0.03);
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+}
+
+.metric-card h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #FF6B35;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+
+.chart-placeholder {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 100px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+}
+
+.chart-bar {
+  width: 12%;
+  background: linear-gradient(180deg, #FF6B35, #F7931E);
+  border-radius: 3px 3px 0 0;
+  transition: height 0.3s ease;
+}
+
+.metric-card p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Incidents Section */
+.incidents-section {
+  background: #0d0d0d;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.incidents-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.incidents-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.incident-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.incident-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.incident-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.incident-status.resolved {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+.incident-status.investigating {
+  background: rgba(255, 193, 7, 0.2);
+  color: #FFC107;
+}
+
+.incident-status.identified {
+  background: rgba(33, 150, 243, 0.2);
+  color: #2196F3;
+}
+
+.incident-date {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+.incident-item h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.3px;
+}
+
+.incident-item p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Uptime Section */
+.uptime-section {
+  background: #0a0a0a;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.uptime-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.uptime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.uptime-card {
+  text-align: center;
+}
+
+.uptime-card h3 {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.uptime-value {
+  font-size: 32px;
+  font-weight: 200;
+  color: #4CAF50;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.uptime-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.uptime-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Subscribe Section */
+.subscribe-section {
+  background: #0d0d0d;
+  text-align: center;
+  padding: 60px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.subscribe-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 10px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.subscribe-section > p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.subscribe-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.subscribe-button {
+  padding: 12px 30px;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.subscribe-button.primary {
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  color: #000;
+}
+
+.subscribe-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+}
+
+.subscribe-button.secondary {
+  border: 1px solid rgba(255, 107, 53, 0.5);
+  color: #FF6B35;
+  background: transparent;
+}
+
+.subscribe-button.secondary:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: #FF6B35;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .status-page {
+    padding-top: 120px;
+  }
+  
+  .status-container {
+    padding: 0 20px;
+  }
+  
+  .status-hero h1 {
+    font-size: 32px;
+  }
+  
+  .services-grid,
+  .metrics-grid,
+  .uptime-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .incident-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

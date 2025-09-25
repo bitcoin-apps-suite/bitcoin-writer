@@ -74,7 +74,7 @@
   margin: 0 0 16px 0;
   line-height: 1.1;
   letter-spacing: -1px;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -92,7 +92,7 @@
 .offers-badge {
   display: inline-block;
   padding: 8px 20px;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
   border-radius: 100px;
   font-size: 14px;
   font-weight: 500;
@@ -146,21 +146,21 @@ section h2 {
 }
 
 .offer-card.featured {
-  border-color: rgba(76, 175, 80, 0.3);
-  background: rgba(76, 175, 80, 0.05);
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.05);
 }
 
 .offer-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(76, 175, 80, 0.3);
-  background: rgba(76, 175, 80, 0.05);
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.05);
 }
 
 .offer-type {
   display: inline-block;
   padding: 4px 12px;
-  background: rgba(76, 175, 80, 0.2);
-  color: #4CAF50;
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
@@ -204,10 +204,10 @@ section h2 {
 }
 
 .offer-card li:before {
-  content: "✓";
+  content: "→";
   position: absolute;
   left: 0;
-  color: #4CAF50;
+  color: #FF6B35;
 }
 
 .offer-cta {
@@ -215,7 +215,7 @@ section h2 {
 }
 
 .offer-cta a {
-  color: #4CAF50;
+  color: #FF6B35;
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
@@ -225,7 +225,7 @@ section h2 {
 }
 
 .offer-cta a:hover {
-  color: #8BC34A;
+  color: #F7931E;
   transform: translateX(5px);
 }
 
@@ -304,24 +304,326 @@ section h2 {
 }
 
 .cta-button.primary {
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
   color: #000;
 }
 
 .cta-button.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
 }
 
 .cta-button.secondary {
-  border: 1px solid rgba(76, 175, 80, 0.5);
-  color: #4CAF50;
+  border: 1px solid rgba(255, 107, 53, 0.5);
+  color: #FF6B35;
   background: transparent;
 }
 
 .cta-button.secondary:hover {
-  background: rgba(76, 175, 80, 0.1);
-  border-color: #4CAF50;
+  background: rgba(255, 107, 53, 0.1);
+  border-color: #FF6B35;
+}
+
+/* Tab Navigation */
+.offers-tabs-section {
+  background: #0d0d0d;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.offers-tabs {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.offers-tabs button {
+  padding: 10px 30px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.offers-tabs button:hover {
+  border-color: rgba(255, 107, 53, 0.5);
+  color: #FF6B35;
+}
+
+.offers-tabs button.active {
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  border-color: transparent;
+  color: #000;
+}
+
+/* Marketplace Section */
+.marketplace-section {
+  background: #0a0a0a;
+  padding: 40px 0;
+}
+
+.marketplace-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.marketplace-description,
+.platform-description {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.marketplace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+/* Author Offer Cards */
+.author-offer-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.author-offer-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.author-header {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.author-info h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.author-badges {
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge.verified {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+.badge.rating {
+  background: rgba(255, 193, 7, 0.2);
+  color: #FFC107;
+}
+
+.author-offer-card h4 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #FF6B35;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.author-offer-card > p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-weight: 300;
+  flex-grow: 1;
+}
+
+.offer-details {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.detail-item .label {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+.detail-item .value {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+
+.offer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  padding: 4px 10px;
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 20px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hire-button,
+.create-offer-button {
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  color: #000;
+  border: none;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: stretch;
+}
+
+.hire-button:hover,
+.create-offer-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+}
+
+/* Add Offer Card */
+.author-offer-card.add-offer {
+  background: rgba(255, 107, 53, 0.05);
+  border: 2px dashed rgba(255, 107, 53, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.add-offer-content {
+  text-align: center;
+}
+
+.add-offer-content h3 {
+  font-size: 22px;
+  font-weight: 400;
+  color: #FF6B35;
+  margin-bottom: 15px;
+}
+
+.add-offer-content p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 25px;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+/* How It Works */
+.how-it-works {
+  max-width: 1000px;
+  margin: 60px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.how-it-works h3 {
+  font-size: 24px;
+  font-weight: 200;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.step {
+  text-align: center;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 auto 20px;
+}
+
+.step h4 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+
+.step p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  font-weight: 300;
 }
 
 /* Mobile Responsive */
@@ -339,6 +641,14 @@ section h2 {
   }
   
   .offers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .marketplace-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .steps-grid {
     grid-template-columns: 1fr;
   }
   

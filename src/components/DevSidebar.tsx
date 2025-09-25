@@ -13,7 +13,8 @@ import {
   Zap,
   Package,
   Terminal,
-  Activity
+  Activity,
+  Flower2
 } from 'lucide-react';
 import './DevSidebar.css';
 
@@ -49,25 +50,37 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     label?: string;
     badge?: string;
     divider?: boolean;
+    section?: string;
     external?: boolean;
   }> = [
+    // Developers Section
+    { section: 'DEVELOPERS' },
     { path: '/tasks', icon: Terminal, label: 'Tasks', badge: issueCount > 0 ? String(issueCount) : '0' },
-    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
-    { path: '/docs', icon: BookOpen, label: 'Documentation' },
-    { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
-    { divider: true },
-    { path: '/commissions', icon: Code, label: 'Commissions' },
-    { path: '/offers', icon: Package, label: 'Offers', badge: '6' },
-    { path: '/grants', icon: DollarSign, label: 'Grants' },
-    { divider: true },
+    { path: '/grants', icon: Flower2, label: 'Grants' },
+    { path: '/api', icon: Package, label: 'API Reference' },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer', icon: GitBranch, label: 'GitHub', external: true },
     { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues', icon: Bug, label: 'Issues', external: true, badge: issueCount > 0 ? String(issueCount) : undefined },
-    { path: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/pulls', icon: Code, label: 'Pull Requests', external: true },
+    
+    // Authors Section
     { divider: true },
-    { path: '/api', icon: Package, label: 'API Reference' },
+    { section: 'AUTHORS' },
+    { path: '/offers', icon: Package, label: 'Offer Services', badge: 'NEW' },
+    { path: '/contracts', icon: FileText, label: 'My Contracts' },
+    { path: '/commissions', icon: Code, label: 'Commissions' },
+    { path: '/docs', icon: BookOpen, label: 'Writing Guides' },
+    
+    // Publishers Section
+    { divider: true },
+    { section: 'PUBLISHERS' },
+    { path: '/offers', icon: Package, label: 'Find Writers', badge: '12' },
+    { path: '/contracts', icon: FileText, label: 'Contracts', badge: issueCount > 0 ? String(issueCount) : '0' },
+    { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
+    
+    // System
+    { divider: true },
     { path: '/changelog', icon: FileText, label: 'Changelog' },
-    { path: '/status', icon: Activity, label: 'Status', badge: '🟢' }
+    { path: '/status', icon: Activity, label: 'Status', badge: 'OK' }
   ];
 
   const stats = {
@@ -101,13 +114,21 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
             return <div key={index} className="dev-sidebar-divider" />;
           }
 
+          if (item.section) {
+            return !isCollapsed ? (
+              <div key={index} className="dev-sidebar-section">
+                {item.section}
+              </div>
+            ) : null;
+          }
+
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
 
           if (item.external) {
             return (
               <a
-                key={item.path}
+                key={`${item.path}-${index}`}
                 href={item.path}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -127,7 +148,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
 
           return (
             <Link
-              key={item.path}
+              key={`${item.path}-${index}`}
               to={item.path || '/'}
               className={`dev-sidebar-item ${isActive ? 'active' : ''}`}
               title={isCollapsed ? item.label : undefined}
@@ -143,34 +164,6 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
           );
         })}
       </nav>
-
-      {!isCollapsed && (
-        <div className="dev-sidebar-stats">
-          <h4>Quick Links</h4>
-          <div className="dev-quick-links">
-            <Link to="/commissions" className="dev-quick-link">
-              💼 Custom Development
-            </Link>
-            <Link to="/offers" className="dev-quick-link">
-              🎁 Special Offers
-            </Link>
-            <Link to="/grants" className="dev-quick-link">
-              💰 Apply for Grants
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {!isCollapsed && (
-        <div className="dev-sidebar-footer">
-          <div className="dev-sidebar-cta">
-            <p>Start Contributing</p>
-            <Link to="/tasks" className="dev-sidebar-cta-button">
-              View Tasks
-            </Link>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
