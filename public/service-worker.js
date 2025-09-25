@@ -1,57 +1,36 @@
-const CACHE_NAME = 'bitcoin-writer-v1';
-const urlsToCache = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
-];
+// Bitcoin Writer Service Worker v2
+// Force cache refresh on deployment
+
+const CACHE_NAME = 'bitcoin-writer-v2-' + new Date().getTime();
 
 self.addEventListener('install', (event) => {
+  // Skip waiting to activate immediately
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  // Clear all caches to force fresh content
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          return caches.delete(cacheName);
+        })
+      );
+    }).then(() => {
+      // Take control of all clients immediately
+      return self.clients.claim();
+    })
   );
 });
 
+// Don't cache anything for now - always fetch fresh
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
-  );
+  event.respondWith(fetch(event.request));
 });
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
-  if (event.data && event.data.type === 'PROTOCOL_LAUNCH') {
-    const url = event.data.url;
-    console.log('Protocol handler launched with URL:', url);
-    
-    event.ports[0].postMessage({
-      type: 'PROTOCOL_HANDLED',
-      url: url
-    });
-  }
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
 });
