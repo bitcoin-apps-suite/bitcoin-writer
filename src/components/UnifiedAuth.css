@@ -69,6 +69,17 @@
   }
 }
 
+@keyframes substackModalSlide {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) !important;
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
 .auth-modal-header {
   display: flex;
   justify-content: space-between;
@@ -663,18 +674,19 @@
 
 /* Substack Modal */
 .substack-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 420px;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90% !important;
+  max-width: 420px !important;
   background: #1a1a1a;
   border: 2px solid #FF6719;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(255, 103, 25, 0.3);
   z-index: 10001;
-  animation: modalSlide 0.3s ease;
+  animation: substackModalSlide 0.3s ease;
+  margin: 0 !important;
 }
 
 .substack-modal-header {
