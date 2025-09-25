@@ -63,7 +63,7 @@ const HandCashCallback: React.FC = () => {
           console.log('Token length:', finalAuthToken.length);
           console.log('Token preview:', finalAuthToken.substring(0, 20) + '...');
           
-          const user = await handcashService.handleCallback(fullUrl);
+          const user = await handcashService.handleCallback(finalAuthToken);
           
           console.log('Callback completed, user:', user);
           

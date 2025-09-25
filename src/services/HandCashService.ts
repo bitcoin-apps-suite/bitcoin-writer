@@ -62,4 +62,14 @@ export class HandCashService {
   async makeAuthenticatedRequest(endpoint: string, options: RequestInit = {}): Promise<any> {
     return this.authService.makeAuthenticatedRequest(endpoint, options);
   }
+
+  // Request magic link authentication via email
+  async requestMagicLink(email: string): Promise<{ success: boolean; message: string }> {
+    return this.authService.requestMagicLink(email);
+  }
+
+  // Handle magic link callback
+  async handleMagicLinkCallback(token: string): Promise<HandCashUser> {
+    return this.authService.handleMagicLinkCallback(token);
+  }
 }
