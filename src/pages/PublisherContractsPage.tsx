@@ -38,6 +38,8 @@ const PublisherContractsPage: React.FC = () => {
     description: '',
     type: 'article',
     budget: '',
+    currency: 'BSV',
+    customToken: '',
     wordCount: '',
     deadline: '',
     requirements: ''
@@ -73,8 +75,8 @@ const PublisherContractsPage: React.FC = () => {
         author: 'John Smith',
         authorRating: 4.8,
         status: 'active',
-        budget: '$750',
-        wordCount: '3,500',
+        budget: '750 $BWRITER',
+        wordCount: '3,500 words',
         deadline: '2025-02-15',
         type: 'guide',
         escrowStatus: 'funded'
@@ -86,8 +88,8 @@ const PublisherContractsPage: React.FC = () => {
         author: 'Sarah Johnson',
         authorRating: 4.9,
         status: 'in_review',
-        budget: '$1,200',
-        wordCount: '2,000 per article',
+        budget: '1,200 $BWRITER',
+        wordCount: '2,000 words each',
         deadline: '2025-02-28',
         deliveredOn: '2025-02-10',
         type: 'article',
@@ -105,8 +107,8 @@ const PublisherContractsPage: React.FC = () => {
         author: 'Michael Chen',
         authorRating: 5.0,
         status: 'completed',
-        budget: '$2,500',
-        wordCount: '8,000',
+        budget: '2,500 $BWRITER',
+        wordCount: '8,000 words',
         deadline: '2025-01-30',
         deliveredOn: '2025-01-28',
         type: 'whitepaper',
@@ -124,8 +126,8 @@ const PublisherContractsPage: React.FC = () => {
         author: 'Emma Wilson',
         authorRating: 4.7,
         status: 'active',
-        budget: '$500',
-        wordCount: '1,500',
+        budget: '500 $BWRITER',
+        wordCount: '1,500 words',
         deadline: '2025-02-20',
         type: 'copy',
         escrowStatus: 'funded'
@@ -137,8 +139,8 @@ const PublisherContractsPage: React.FC = () => {
         author: 'Not Assigned',
         authorRating: 0,
         status: 'draft',
-        budget: '$900',
-        wordCount: '4,000',
+        budget: '900 $BWRITER',
+        wordCount: '4,000 words',
         deadline: '2025-03-01',
         type: 'tutorial',
         escrowStatus: 'not_funded'
@@ -176,6 +178,8 @@ const PublisherContractsPage: React.FC = () => {
       description: '',
       type: 'article',
       budget: '',
+      currency: 'BSV',
+      customToken: '',
       wordCount: '',
       deadline: '',
       requirements: ''
@@ -251,9 +255,15 @@ const PublisherContractsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="publisher-actions">
-            <button className="create-contract-btn" onClick={() => setShowCreateModal(true)}>
-              + Create New Contract
+          <div className="publisher-actions" style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
+            <button 
+              className="create-contract-btn" 
+              onClick={() => {
+                console.log('Create New Offer clicked!');
+                setShowCreateModal(true);
+              }}
+            >
+              + Create New Offer
             </button>
           </div>
 
@@ -471,14 +481,29 @@ const PublisherContractsPage: React.FC = () => {
             </div>
           )}
 
-          {/* Create Contract Modal */}
+          {/* Create BSV Escrow Offer Modal */}
           {showCreateModal && (
-            <div className="claim-modal" onClick={() => setShowCreateModal(false)}>
-              <div className="claim-modal-content" onClick={(e) => e.stopPropagation()}>
-                <button className="modal-close" onClick={() => setShowCreateModal(false)}>×</button>
+            <div className="claim-modal-overlay" onClick={() => setShowCreateModal(false)}>
+              <div className="claim-modal" onClick={(e) => e.stopPropagation()}>
+                <button className="modal-close" onClick={() => setShowCreateModal(false)} style={{position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', color: '#ffffff', fontSize: '28px', cursor: 'pointer'}}>×</button>
                 
-                <h2>Create Writing Contract</h2>
-                <p>Define your content requirements and budget</p>
+                <div className="claim-modal-header">
+                  <h2>Create BSV Escrow Offer</h2>
+                  <p>Create a blockchain-secured writing contract with automatic BSV escrow</p>
+                </div>
+                
+                <div style={{padding: '0 24px 24px'}}>
+                
+                <div className="escrow-info" style={{background: 'rgba(255, 107, 53, 0.1)', padding: '15px', borderRadius: '8px', marginBottom: '20px', border: '1px solid rgba(255, 107, 53, 0.2)'}}>
+                  <h4 style={{color: '#FF6B35', margin: '0 0 10px 0', fontSize: '14px'}}>How BSV Escrow Works:</h4>
+                  <ul style={{margin: '0', paddingLeft: '20px', fontSize: '12px', color: 'rgba(255,255,255,0.8)'}}>
+                    <li>You sign this offer with Google/Twitter + HandCash authentication</li>
+                    <li>Your BSV payment is locked in on-chain escrow until deadline</li>
+                    <li>Authors can accept by signing with their accounts + HandCash</li>
+                    <li>Contract locks both parties until completion or expiry</li>
+                    <li>You approve final work to release BSV from escrow</li>
+                  </ul>
+                </div>
                 
                 <div className="claim-form">
                   <div className="form-group">
@@ -517,15 +542,51 @@ const PublisherContractsPage: React.FC = () => {
                     </select>
                   </div>
                   
-                  <div className="form-group">
-                    <label>Budget *</label>
-                    <input 
-                      type="text"
-                      value={createForm.budget}
-                      onChange={(e) => setCreateForm({...createForm, budget: e.target.value})}
-                      placeholder="$500"
-                    />
+                  <div className="form-row" style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '15px'}}>
+                    <div className="form-group">
+                      <label>Escrow Amount *</label>
+                      <input 
+                        type="number"
+                        step="0.001"
+                        value={createForm.budget}
+                        onChange={(e) => setCreateForm({...createForm, budget: e.target.value})}
+                        placeholder={createForm.currency === 'USD' ? '500.00' : createForm.currency === 'BSV' ? '0.1' : '1000'}
+                      />
+                      <small style={{color: 'rgba(255,255,255,0.6)', fontSize: '11px'}}>
+                        {createForm.currency === 'USD' ? 'USD payment will be converted to BSV at time of escrow' : 
+                         createForm.currency === 'BSV' ? 'BSV will be locked in escrow until completion' :
+                         createForm.currency === 'BWRITER' ? '$BWRITER tokens locked until completion' :
+                         'Custom BSV token will be locked in escrow'}
+                      </small>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label>Currency *</label>
+                      <select 
+                        value={createForm.currency}
+                        onChange={(e) => setCreateForm({...createForm, currency: e.target.value, customToken: ''})}
+                        style={{width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', color: '#fff'}}
+                      >
+                        <option value="USD">USD ($)</option>
+                        <option value="BSV">BSV</option>
+                        <option value="BWRITER">$BWRITER</option>
+                        <option value="OTHER">Other BSV Token</option>
+                      </select>
+                    </div>
                   </div>
+                  
+                  {createForm.currency === 'OTHER' && (
+                    <div className="form-group">
+                      <label>Custom Token Name *</label>
+                      <input 
+                        type="text"
+                        value={createForm.customToken}
+                        onChange={(e) => setCreateForm({...createForm, customToken: e.target.value})}
+                        placeholder="e.g., SHUA, RUN, etc. (must be on BSV network)"
+                      />
+                      <small style={{color: '#FF6B35', fontSize: '11px'}}>⚠️ Token must exist on the BSV blockchain</small>
+                    </div>
+                  )}
                   
                   <div className="form-group">
                     <label>Word Count *</label>
@@ -556,6 +617,28 @@ const PublisherContractsPage: React.FC = () => {
                     />
                   </div>
                   
+                  {/* Authentication Section */}
+                  <div className="auth-section" style={{background: 'rgba(255,255,255,0.02)', padding: '15px', borderRadius: '8px', margin: '20px 0'}}>
+                    <h4 style={{color: '#ffffff', fontSize: '14px', marginBottom: '15px'}}>Sign & Create Escrow Offer</h4>
+                    
+                    <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '15px'}}>
+                      <button className="auth-btn" style={{padding: '8px 12px', background: '#4285f4', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px'}}>
+                        🔒 Sign with Google
+                      </button>
+                      <button className="auth-btn" style={{padding: '8px 12px', background: '#1DA1F2', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px'}}>
+                        🔒 Sign with Twitter
+                      </button>
+                    </div>
+                    
+                    <button className="handcash-btn" style={{padding: '10px', background: 'linear-gradient(90deg, #FF6B35, #F7931E)', color: '#000', border: 'none', borderRadius: '6px', width: '100%', fontWeight: 'bold', fontSize: '13px'}}>
+                      🔐 Sign with HandCash & Lock Funds in Escrow
+                    </button>
+                    
+                    <div style={{fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '10px', textAlign: 'center'}}>
+                      By signing, you create a blockchain contract and lock {createForm.budget || '0'} {createForm.currency === 'OTHER' ? createForm.customToken || 'tokens' : createForm.currency} in escrow
+                    </div>
+                  </div>
+                  
                   <div className="claim-actions">
                     <button 
                       className="cancel-button"
@@ -568,9 +651,10 @@ const PublisherContractsPage: React.FC = () => {
                       onClick={handleCreateContract}
                       disabled={!createForm.title || !createForm.description || !createForm.budget || !createForm.wordCount || !createForm.deadline}
                     >
-                      Create Contract
+                      Create Escrow Offer
                     </button>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
