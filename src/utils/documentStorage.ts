@@ -22,9 +22,148 @@ export class LocalDocumentStorage {
   private static readonly MAX_DOCUMENTS = 50; // Limit to prevent localStorage overflow
 
   /**
+   * Initialize default example documents if none exist
+   */
+  static initializeDefaultDocuments(): void {
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    if (!stored || stored === '[]') {
+      const maipDoc: LocalDocument = {
+        id: 'maip_example_001',
+        title: 'Multi-Authoring in Public',
+        content: `<h1>Multi-Authoring in Public (MAIP)</h1>
+<p><em>Collaborative Writing on the Blockchain</em></p>
+
+<h2>Executive Summary</h2>
+<p>Multi-Authoring in Public (MAIP) represents a revolutionary approach to collaborative content creation on the blockchain. Instead of hidden Google Docs or private repositories, MAIP enables authors to write together in real-time on the blockchain, where every keystroke can be valued and every contribution rewarded through micropayments.</p>
+
+<h2>The Vision</h2>
+<p>MAIP transforms how humanity creates and shares knowledge by introducing:</p>
+<ul>
+<li><strong>Real-Time Collaboration:</strong> Multiple authors working simultaneously with blockchain-verified contributions</li>
+<li><strong>Micro-Payments:</strong> Every edit, suggestion, and improvement triggers automatic BSV micropayments</li>
+<li><strong>Contribution Tracking:</strong> Immutable record of who wrote what, when, and how much value they added</li>
+<li><strong>Public by Default:</strong> All writing happens in public view, creating unprecedented transparency</li>
+</ul>
+
+<h2>How MAIP Works</h2>
+<h3>1. Document Creation</h3>
+<p>An author initiates a public document on the blockchain with an initial stake or bounty to attract contributors.</p>
+
+<h3>2. Open Contribution</h3>
+<p>Other authors join the document, making edits and additions. Each contribution is tracked by smart contracts that monitor:</p>
+<ul>
+<li>Character and word additions/deletions</li>
+<li>Quality improvements (grammar, clarity, structure)</li>
+<li>Fact-checking and source citations</li>
+<li>Visual elements and formatting</li>
+</ul>
+
+<h3>3. Value Attribution</h3>
+<p>AI models and peer review mechanisms determine the value of each contribution based on:</p>
+<ul>
+<li>Originality of content</li>
+<li>Improvement to readability</li>
+<li>Factual accuracy added</li>
+<li>Structural enhancements</li>
+</ul>
+
+<h3>4. Automatic Rewards</h3>
+<p>Contributors receive micropayments instantly based on their value-add, creating a real-time economy of ideas.</p>
+
+<h2>Revolutionary Use Cases</h2>
+
+<h3>Academic Papers</h3>
+<p>Researchers worldwide collaborate openly, with citations and contributions tracked immutably. Peer review happens in real-time, with reviewers compensated for their expertise.</p>
+
+<h3>News Articles</h3>
+<p>Journalists from different regions contribute facts and perspectives to breaking stories, creating more comprehensive and balanced reporting.</p>
+
+<h3>Technical Documentation</h3>
+<p>Developers improve documentation together, with rewards for valuable contributions incentivizing high-quality technical writing.</p>
+
+<h3>Creative Writing</h3>
+<p>Stories that evolve through collective imagination, with royalties automatically split based on contribution percentages.</p>
+
+<h2>Technical Architecture</h2>
+
+<h3>BSV Blockchain Layer</h3>
+<p>Every edit is a microtransaction containing document changes as OP_RETURN data. This creates an immutable history of all contributions.</p>
+
+<h3>CRDTs (Conflict-free Replicated Data Types)</h3>
+<p>Enable real-time collaborative editing without conflicts, ensuring all authors can work simultaneously.</p>
+
+<h3>Smart Contract Escrow</h3>
+<p>Automated payment distribution based on contribution metrics, with funds locked until quality thresholds are met.</p>
+
+<h3>AI Valuation Engine</h3>
+<p>Machine learning models assess the quality and value of contributions, trained on peer review data.</p>
+
+<h2>The Economics of MAIP</h2>
+
+<p>MAIP creates a new economic model for content creation:</p>
+
+<ul>
+<li><strong>Initiation Bounties:</strong> Document creators stake BSV to attract quality contributors</li>
+<li><strong>Reader Payments:</strong> Readers pay micropayments that flow directly to all contributors</li>
+<li><strong>Quality Bonuses:</strong> High-value contributions receive multiplied rewards</li>
+<li><strong>Reputation Staking:</strong> Authors stake reputation tokens to participate in high-value documents</li>
+</ul>
+
+<h2>Implementation Roadmap</h2>
+
+<h3>Phase 1: Foundation (Q1 2025)</h3>
+<ul>
+<li>Core CRDT implementation for collaborative editing</li>
+<li>BSV transaction layer for contribution tracking</li>
+<li>Basic micropayment distribution</li>
+</ul>
+
+<h3>Phase 2: Intelligence (Q2 2025)</h3>
+<ul>
+<li>AI valuation engine deployment</li>
+<li>Peer review integration</li>
+<li>Reputation system launch</li>
+</ul>
+
+<h3>Phase 3: Scale (Q3 2025)</h3>
+<ul>
+<li>Multi-language support</li>
+<li>Academic institution partnerships</li>
+<li>News organization integration</li>
+</ul>
+
+<h3>Phase 4: Ecosystem (Q4 2025)</h3>
+<ul>
+<li>Developer API release</li>
+<li>Third-party app ecosystem</li>
+<li>Cross-chain compatibility</li>
+</ul>
+
+<h2>Join the Revolution</h2>
+
+<p>MAIP is more than a feature - it's a paradigm shift in how humanity creates and shares knowledge. Be part of the first generation of public multi-authors.</p>
+
+<p><strong>Status:</strong> Currently in conceptual development with core infrastructure being built on BSV blockchain. Expected alpha release Q2 2025.</p>
+
+<p><em>This document itself will be the first MAIP document, open for collaborative improvement with contributor rewards.</em></p>`,
+        created_at: new Date('2025-01-25T10:00:00Z').toISOString(),
+        updated_at: new Date('2025-01-25T10:00:00Z').toISOString(),
+        word_count: 750,
+        character_count: 5234,
+        is_hashed: false
+      };
+      
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify([maipDoc]));
+    }
+  }
+
+  /**
    * Get all documents from local storage
    */
   static getAllDocuments(): LocalDocument[] {
+    // Initialize default documents if needed
+    this.initializeDefaultDocuments();
+    
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (!stored) return [];
