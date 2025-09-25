@@ -223,16 +223,16 @@ const ContractsPage: React.FC = () => {
       setContracts([
         {
           id: 'github-redirect',
+          githubIssueNumber: 0,
+          githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues',
           title: '📋 View Contracts on GitHub',
           description: 'Unable to load contracts from GitHub API. This may be due to rate limiting or network issues. Click below to view all available contracts directly on GitHub.',
-          difficulty: 'Easy',
-          priority: 'Low',
+          priority: 'Low' as const,
           reward: 'Various',
-          status: 'available',
-          deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'available' as const,
+          estimatedHours: 0,
           skills: ['Visit GitHub'],
-          githubIssue: 0,
-          estimatedHours: 0
+          deliverables: ['View and claim contracts on GitHub', 'Create new issues', 'Discuss bounties']
         }
       ]);
       setLoading(false);
