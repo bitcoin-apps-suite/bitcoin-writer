@@ -326,6 +326,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       
       {showImportModal && (
         <ImportSourcesModal 
+          isOpen={showImportModal}
           onClose={() => setShowImportModal(false)}
           onImport={(content: string) => {
             onChange(content);
