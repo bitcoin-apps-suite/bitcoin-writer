@@ -181,8 +181,12 @@ export class HandCashAuthService {
       console.log('=====================================');
       console.log('IMPORTANT: Make sure', this.config.redirectUrl, 'is configured in your HandCash app settings!');
       
-      // Redirect to HandCash for authorization immediately
-      window.location.href = authUrl;
+      // Add a small delay and confirm before redirecting
+      console.log('Redirecting to HandCash in 1 second...');
+      setTimeout(() => {
+        console.log('Redirecting now to:', authUrl);
+        window.location.href = authUrl;
+      }, 1000);
     } catch (error) {
       console.error('Failed to start OAuth flow:', error);
       throw error;
