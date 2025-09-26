@@ -136,7 +136,17 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   };
 
   const validateForm = (): boolean => {
-    // Encryption is automatic with HandCash - no password validation needed
+    // Check if password is required for encryption
+    if (encryption && (encryptionMethod === 'password' || encryptionMethod === 'notesv')) {
+      if (!encryptionPassword) {
+        alert('Please enter an encryption password');
+        return false;
+      }
+      if (encryptionPassword.length < 8) {
+        alert('Password must be at least 8 characters long');
+        return false;
+      }
+    }
     
     if (unlockMethod === 'timed' || unlockMethod === 'timedAndPriced') {
       if (!unlockTime) {
