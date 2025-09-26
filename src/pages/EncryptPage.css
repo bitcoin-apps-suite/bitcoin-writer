@@ -1,0 +1,698 @@
+.encrypt-page {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 96px;
+  font-weight: 300;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .encrypt-page.with-sidebar-expanded {
+    margin-left: 260px;
+  }
+  
+  .encrypt-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
+}
+
+/* Hero Section - Full Width Black */
+.encrypt-hero {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px 60px;
+  text-align: center;
+  margin-bottom: 60px;
+  background: #000000;
+  /* Full viewport width */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-top: -24px;
+  width: 100vw;
+  position: relative;
+}
+
+.encrypt-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.encrypt-hero h1 {
+  font-size: 48px;
+  font-weight: 200;
+  margin: 16px 0 20px 0;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-tagline {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Container */
+.encrypt-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 60px;
+}
+
+/* Adjust container width when sidebar is present */
+@media (min-width: 769px) {
+  .encrypt-page.with-sidebar-expanded .encrypt-container {
+    max-width: calc(100vw - 260px - 80px);
+  }
+  
+  .encrypt-page.with-sidebar-collapsed .encrypt-container {
+    max-width: calc(100vw - 60px - 80px);
+  }
+}
+
+/* Demo Section */
+.encrypt-demo-section {
+  margin-bottom: 80px;
+}
+
+.encrypt-demo-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-section-subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.encrypt-demo-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.encrypt-demo-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.encrypt-demo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.encrypt-demo-input label {
+  font-weight: 400;
+  color: #f7931a;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.encrypt-demo-input textarea,
+.encrypt-demo-input input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-size: 14px;
+}
+
+.encrypt-demo-input textarea:focus,
+.encrypt-demo-input input:focus {
+  outline: none;
+  border-color: rgba(247, 147, 26, 0.5);
+  box-shadow: 0 0 0 2px rgba(247, 147, 26, 0.1);
+}
+
+.password-strength {
+  margin-top: 8px;
+}
+
+.password-strength-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+
+.password-strength-fill {
+  height: 100%;
+  background: #f7931a;
+  transition: width 0.3s ease;
+}
+
+.password-strength span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+.password-strength.score-0 .password-strength-fill,
+.password-strength.score-1 .password-strength-fill { background: #f44336; }
+.password-strength.score-2 .password-strength-fill { background: #ff9800; }
+.password-strength.score-3 .password-strength-fill { background: #ffc107; }
+.password-strength.score-4 .password-strength-fill { background: #8bc34a; }
+.password-strength.score-5 .password-strength-fill { background: #4caf50; }
+
+.encrypt-demo-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.encrypt-button,
+.decrypt-button,
+.generate-button {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.encrypt-button {
+  background: linear-gradient(135deg, #f7931a 0%, #ff8c00 100%);
+  color: white;
+}
+
+.encrypt-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(247, 147, 26, 0.3);
+}
+
+.decrypt-button {
+  background: #2196f3;
+  color: white;
+}
+
+.decrypt-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+}
+
+.decrypt-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.generate-button {
+  background: #4caf50;
+  color: white;
+}
+
+.generate-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+}
+
+.encrypt-result,
+.decrypt-result {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 12px;
+}
+
+.encrypt-result h4,
+.decrypt-result h4 {
+  margin-top: 0;
+  color: #f7931a;
+}
+
+.encrypt-result pre,
+.decrypt-result pre {
+  margin: 0;
+  font-size: 12px;
+  overflow-x: auto;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Features Section */
+.encrypt-features-section {
+  margin-bottom: 80px;
+}
+
+.encrypt-features-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.encrypt-feature-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.encrypt-feature-card:hover {
+  transform: translateY(-5px);
+  background: rgba(247, 147, 26, 0.05);
+  border-color: rgba(247, 147, 26, 0.3);
+}
+
+.encrypt-feature-icon {
+  margin-bottom: 20px;
+}
+
+.encrypt-feature-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: #f7931a;
+}
+
+.encrypt-feature-card p {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Algorithm Section */
+.encrypt-algorithm-section {
+  margin-bottom: 80px;
+}
+
+.encrypt-algorithm-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-algorithm-steps {
+  display: grid;
+  gap: 30px;
+}
+
+.algorithm-step {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.algorithm-step h3 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #f7931a;
+}
+
+.algorithm-code {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.algorithm-code pre {
+  margin: 0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-size: 14px;
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+.algorithm-step p {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Specifications Section */
+.encrypt-specs-section {
+  margin-bottom: 80px;
+}
+
+.encrypt-specs-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.spec-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.spec-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #f7931a;
+}
+
+.spec-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spec-card li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(247, 147, 26, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+}
+
+.spec-card li:last-child {
+  border-bottom: none;
+}
+
+/* Security Section */
+.encrypt-security-section {
+  margin-bottom: 80px;
+}
+
+.encrypt-security-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-security-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.security-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  backdrop-filter: blur(10px);
+}
+
+.security-item svg {
+  flex-shrink: 0;
+}
+
+.security-item span {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Attribution Section */
+.encrypt-attribution-section {
+  margin-bottom: 80px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+}
+
+.encrypt-attribution-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.attribution-content {
+  display: grid;
+  gap: 40px;
+}
+
+.attribution-text {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.attribution-text strong {
+  color: #f7931a;
+}
+
+.attribution-text ul {
+  margin: 20px 0;
+  padding-left: 30px;
+}
+
+.attribution-text li {
+  margin: 10px 0;
+}
+
+.attribution-comparison h3 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #f7931a;
+}
+
+.comparison-table {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.comparison-table thead {
+  background: rgba(247, 147, 26, 0.1);
+}
+
+.comparison-table th {
+  padding: 15px;
+  text-align: left;
+  color: #f7931a;
+  font-weight: 400;
+  border-bottom: 1px solid rgba(247, 147, 26, 0.2);
+}
+
+.comparison-table td {
+  padding: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid rgba(247, 147, 26, 0.05);
+  font-weight: 300;
+}
+
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comparison-table tbody tr:hover {
+  background: rgba(247, 147, 26, 0.05);
+}
+
+/* Use Cases Section */
+.encrypt-use-cases-section {
+  margin-bottom: 80px;
+}
+
+.encrypt-use-cases-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.use-case-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.use-case-card:hover {
+  transform: translateY(-5px);
+  background: rgba(247, 147, 26, 0.05);
+  border-color: rgba(247, 147, 26, 0.3);
+}
+
+.use-case-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: #f7931a;
+}
+
+.use-case-card p {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* CTA Section */
+.encrypt-cta-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid rgba(247, 147, 26, 0.1);
+  border-radius: 16px;
+  margin-bottom: 80px;
+  backdrop-filter: blur(10px);
+}
+
+.encrypt-cta-section h2 {
+  font-size: 42px;
+  font-weight: 200;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.encrypt-cta-section p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.encrypt-cta-button {
+  display: inline-block;
+  padding: 14px 32px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.encrypt-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(247, 147, 26, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .encrypt-page.with-sidebar-expanded,
+  .encrypt-page.with-sidebar-collapsed {
+    margin-left: 0;
+  }
+  
+  .encrypt-hero h1 {
+    font-size: 32px;
+  }
+  
+  .encrypt-tagline {
+    font-size: 16px;
+  }
+  
+  .encrypt-features-grid,
+  .encrypt-specs-grid,
+  .use-cases-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .encrypt-demo-buttons {
+    flex-direction: column;
+  }
+  
+  .comparison-table {
+    font-size: 12px;
+  }
+  
+  .comparison-table th,
+  .comparison-table td {
+    padding: 10px;
+  }
+}
