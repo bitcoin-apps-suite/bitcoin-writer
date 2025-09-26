@@ -30,6 +30,9 @@ import AuthorsGrantsPage from './pages/AuthorsGrantsPage';
 import PublishersGrantsPage from './pages/PublishersGrantsPage';
 import ImportPage from './pages/ImportPage';
 import EncryptPage from './pages/EncryptPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
+import ContactPage from './pages/ContactPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -320,6 +323,9 @@ function App() {
       <Route path="/contracts" element={<ContractsPage />} />
       <Route path="/import" element={<ImportPage />} />
       <Route path="/encrypt" element={<EncryptPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       
       {/* Developer Routes - Symmetrical */}
       <Route path="/developer/offer" element={<OfferPage />} />

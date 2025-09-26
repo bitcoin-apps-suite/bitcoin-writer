@@ -1,0 +1,213 @@
+/* Terms Page Styling */
+.terms-page {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
+  font-weight: 300;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .terms-page.with-sidebar-expanded {
+    margin-left: 260px;
+  }
+  
+  .terms-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
+}
+
+.terms-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+
+/* Header */
+.terms-header {
+  text-align: center;
+  margin-bottom: 60px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(247, 147, 26, 0.2);
+}
+
+.terms-header h1 {
+  font-size: 48px;
+  font-weight: 200;
+  margin-bottom: 16px;
+  letter-spacing: -1.5px;
+  background: linear-gradient(90deg, #f7931a, #ff9500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.terms-update {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Content */
+.terms-content {
+  line-height: 1.8;
+}
+
+.terms-section {
+  margin-bottom: 50px;
+}
+
+.terms-section h2 {
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #f7931a;
+  padding-top: 20px;
+}
+
+.terms-section h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  color: rgba(247, 147, 26, 0.9);
+}
+
+.terms-section p {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.terms-section ul {
+  margin: 16px 0;
+  padding-left: 30px;
+}
+
+.terms-section li {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.terms-section li::marker {
+  color: #f7931a;
+}
+
+/* Strong emphasis */
+.terms-section strong {
+  color: #f7931a;
+  font-weight: 600;
+}
+
+/* Contact Info */
+.contact-info {
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.contact-info p {
+  margin: 8px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Acknowledgment Section */
+.acknowledgment {
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.1), rgba(247, 147, 26, 0.05));
+  border: 1px solid rgba(247, 147, 26, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  margin-top: 60px;
+}
+
+.acknowledgment h2 {
+  color: #ff9500;
+  margin-bottom: 20px;
+}
+
+.acknowledgment p {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* Links */
+.terms-content a {
+  color: #f7931a;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(247, 147, 26, 0.3);
+  transition: all 0.2s ease;
+}
+
+.terms-content a:hover {
+  color: #ff9500;
+  border-bottom-color: #ff9500;
+}
+
+/* Code blocks */
+.terms-content code {
+  background: rgba(247, 147, 26, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-size: 14px;
+}
+
+/* Scrollbar */
+.terms-page::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terms-page::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.terms-page::-webkit-scrollbar-thumb {
+  background: #f7931a;
+  border-radius: 4px;
+}
+
+.terms-page::-webkit-scrollbar-thumb:hover {
+  background: #ff9500;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .terms-container {
+    padding: 20px 20px 60px;
+  }
+  
+  .terms-header h1 {
+    font-size: 36px;
+  }
+  
+  .terms-section h2 {
+    font-size: 24px;
+  }
+  
+  .terms-section h3 {
+    font-size: 18px;
+  }
+  
+  .terms-section p,
+  .terms-section li {
+    font-size: 14px;
+  }
+  
+  .contact-info {
+    padding: 16px;
+  }
+  
+  .acknowledgment {
+    padding: 20px;
+  }
+}

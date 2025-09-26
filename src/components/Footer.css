@@ -100,6 +100,27 @@
   text-decoration: underline;
 }
 
+/* Footer Links */
+.footer-links {
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: #999;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  color: #f7931a;
+  text-decoration: underline;
+}
+
+.footer-links .separator {
+  color: #666;
+  margin: 0 5px;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .app-footer {
