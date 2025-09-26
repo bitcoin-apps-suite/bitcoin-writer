@@ -57,6 +57,11 @@ const Footer: React.FC = () => {
           <p>Registered in England and Wales • Company No. 16735102</p>
           <p>Licensed under <a href="/LICENSE" target="_blank" rel="noopener noreferrer">Open BSV License v5</a></p>
           <p>Built on Bitcoin SV blockchain</p>
+          <p className="footer-links">
+            <a href="/terms">Terms of Service</a>
+            <span className="separator">•</span>
+            <a href="/privacy">Privacy Policy</a>
+          </p>
         </div>
       </div>
     </footer>
