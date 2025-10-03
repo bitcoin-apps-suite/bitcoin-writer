@@ -29,6 +29,39 @@
 		},
 		{
 			"path": "../../../../bitcoin-spreadsheets"
+		},
+		{
+			"path": "../../../bitcoin-code"
+		},
+		{
+			"path": "../../../bitcoin-email"
+		},
+		{
+			"path": "../../../bitcoin-paint"
+		},
+		{
+			"path": "../../../bitcoin-corp-website"
+		},
+		{
+			"path": "../../../bitcoin-photos"
+		},
+		{
+			"path": "../../../bitcoin-maps"
+		},
+		{
+			"path": "../../../bitcoin-chat"
+		},
+		{
+			"path": "../../../bitcoin-social"
+		},
+		{
+			"path": "../../../bitcoin-gaming"
+		},
+		{
+			"path": "../../../bitcoin-books"
+		},
+		{
+			"path": "../../../bitcoin-twitter"
 		}
 	],
 	"settings": {}

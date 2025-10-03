@@ -1,16 +1,16 @@
-# Bitcoin Writer - Blockchain Writing App
+# Bitcoin Social - Social Platform for Bitcoin Community
 
-A decentralized writing application built on Bitcoin SV blockchain with HandCash authentication. Your documents are encrypted and stored on the blockchain, accessible only with your HandCash login.
+A social platform for the Bitcoin community built with HandCash authentication. Connect, share ideas, and engage with fellow Bitcoin enthusiasts in a decentralized social environment.
 
 ## Features
 
-- 🔒 **Encrypted Storage**: All documents are encrypted before being stored on the blockchain
 - 🔑 **HandCash Authentication**: Secure login with your HandCash wallet
-- 🌐 **Access Anywhere**: Your documents are available from any device with your HandCash login
-- 💎 **Permanent Storage**: Built on Bitcoin SV for immutable document storage
-- ✍️ **Rich Editor**: Distraction-free writing with image support
-- 💾 **Auto-save**: Automatic saving of your work
-- 📱 **Responsive**: Works on desktop and mobile devices
+- 🐦 **Twitter-like Interface**: Familiar social media experience optimized for Bitcoin discussions
+- 💬 **Real-time Feed**: Share thoughts, insights, and updates with the Bitcoin community
+- ❤️ **Social Interactions**: Like, retweet, and engage with posts from other users
+- 🔥 **Trending Topics**: Discover what's hot in the Bitcoin space
+- 📱 **Responsive Design**: Seamless experience across desktop and mobile devices
+- 🌐 **Decentralized**: Built on Bitcoin SV for transparent and secure social interactions
 
 ## Getting Started
 
@@ -24,8 +24,8 @@ A decentralized writing application built on Bitcoin SV blockchain with HandCash
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/bitcoin-apps-suite/bitcoin-writer.git
-   cd bitcoin-writer
+   git clone https://github.com/bitcoin-apps-suite/bitcoin-social.git
+   cd bitcoin-social
    ```
 
 2. Install dependencies:

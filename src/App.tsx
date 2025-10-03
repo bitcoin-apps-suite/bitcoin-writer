@@ -33,8 +33,8 @@ import EncryptPage from './pages/EncryptPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import ContactPage from './pages/ContactPage';
-import DocumentEditor from './components/DocumentEditor';
-import DocumentSidebar from './components/DocumentSidebar';
+import SocialFeed from './components/SocialFeed';
+import './components/SocialFeed.css';
 import HandCashCallback from './components/HandCashCallback';
 import BapPage from './pages/BapPage';
 import MAIPPage from './pages/MAIPPage';
@@ -156,7 +156,7 @@ function App() {
   // Set app title when running in Bitcoin OS
   useEffect(() => {
     if (isInOS) {
-      setTitle('Bitcoin Writer');
+      setTitle('Bitcoin Social');
     }
   }, [isInOS, setTitle]);
 
@@ -596,10 +596,10 @@ function App() {
                     }}
                     title="Return to main view"
                   >
-                    <span style={{color: '#ff9500'}}>Bitcoin</span> Writer
+                    <span style={{color: '#ff9500'}}>Bitcoin</span> Social
                   </h1>
                 </div>
-                <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
+                <p className="app-subtitle">Connect with the Bitcoin community</p>
               </div>
               
               {/* Auth and mobile menu on the right */}
@@ -840,17 +840,10 @@ function App() {
                     onClose={() => setActiveAppOverview(null)}
                   />
                 ) : (
-                  <DocumentEditor 
-                    documentService={documentService}
+                  <SocialFeed 
                     isAuthenticated={isAuthenticated}
-                    currentDocument={currentDocument}
-                    onDocumentUpdate={setCurrentDocument}
-                    onDocumentSaved={() => {
-                      // Trigger sidebar refresh after document is saved
-                      setSidebarRefresh(prev => prev + 1);
-                    }}
-                    showAIChat={showAIChat}
-                    onToggleAIChat={() => setShowAIChat(!showAIChat)}
+                    currentUser={currentUser}
+                    handcashService={handcashService}
                   />
                 )}
               </main>

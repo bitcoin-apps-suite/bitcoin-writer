@@ -1,0 +1,366 @@
+/* Social Feed Styles */
+.social-feed-container {
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.auth-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+.auth-prompt-content {
+  text-align: center;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-prompt-content h2 {
+  color: #f7931a;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.auth-prompt-content p {
+  margin-bottom: 2rem;
+  color: #cccccc;
+  line-height: 1.6;
+}
+
+.handcash-login-btn {
+  background: linear-gradient(135deg, #f7931a, #ff6b35);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.handcash-login-btn:hover {
+  transform: translateY(-2px);
+}
+
+.social-feed {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+  padding: 1rem;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+.feed-header h2 {
+  color: #f7931a;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.user-info {
+  color: #cccccc;
+}
+
+.user-handle {
+  font-weight: 500;
+}
+
+.tweet-composer {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.composer-header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.user-avatar, .tweet-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f7931a, #ff6b35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-icon {
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.composer-content {
+  flex: 1;
+}
+
+.tweet-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.1rem;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+.tweet-input::placeholder {
+  color: #999999;
+}
+
+.composer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.char-count {
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.char-count .warning {
+  color: #ff6b6b;
+}
+
+.post-btn {
+  background: linear-gradient(135deg, #f7931a, #ff6b35);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.post-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.post-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tweet-feed {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.tweet-feed::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tweet-feed::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.tweet-feed::-webkit-scrollbar-thumb {
+  background: rgba(247, 147, 26, 0.5);
+  border-radius: 3px;
+}
+
+.empty-feed {
+  text-align: center;
+  padding: 2rem;
+  color: #999999;
+}
+
+.tweet-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.tweet-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tweet-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.tweet-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cccccc;
+}
+
+.tweet-author {
+  font-weight: bold;
+  color: #f7931a;
+}
+
+.tweet-timestamp {
+  color: #999999;
+  font-size: 0.9rem;
+}
+
+.tweet-content {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.tweet-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: #cccccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.like-btn.active {
+  color: #ff6b6b;
+}
+
+.retweet-btn.active {
+  color: #1da1f2;
+}
+
+.trending-sidebar {
+  position: sticky;
+  top: 1rem;
+  height: fit-content;
+}
+
+.trending-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.trending-card h3 {
+  color: #f7931a;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.trending-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.trending-item:hover {
+  color: #f7931a;
+}
+
+.trending-tag {
+  font-weight: bold;
+}
+
+.trending-count {
+  color: #999999;
+  font-size: 0.9rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .social-feed {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .trending-sidebar {
+    display: none;
+  }
+  
+  .tweet-composer {
+    margin: 0 0.5rem 1rem 0.5rem;
+  }
+  
+  .tweet-card {
+    margin: 0 0.5rem 1rem 0.5rem;
+  }
+  
+  .composer-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .user-avatar, .tweet-avatar {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .feed-header {
+    padding: 0.5rem 1rem;
+  }
+}
