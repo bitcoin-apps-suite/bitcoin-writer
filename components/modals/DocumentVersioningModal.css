@@ -1,0 +1,557 @@
+/* Document Versioning Modal Styles */
+.versioning-modal {
+  background: #1a1a1a;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #333;
+  background: #0d0d0d;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #ff9500;
+  font-size: 24px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.tab {
+  padding: 15px 25px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.tab:hover {
+  color: #ff9500;
+  background: #222;
+}
+
+.tab.active {
+  color: #ff9500;
+  background: #0d0d0d;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ff9500;
+}
+
+/* Tab Content */
+.tab-content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  background: #0d0d0d;
+}
+
+/* Version Form */
+.version-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 15px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ff9500;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-checkboxes {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.form-checkboxes input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff9500;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.btn-create,
+.btn-inscribe,
+.btn-verify {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-create {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: #fff;
+}
+
+.btn-create:hover:not(:disabled) {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  transform: translateY(-1px);
+}
+
+.btn-inscribe {
+  background: linear-gradient(135deg, #ff9500 0%, #ffb347 50%, #ff8c00 100%);
+  color: #000;
+  box-shadow: 0 2px 6px rgba(255, 149, 0, 0.25);
+}
+
+.btn-inscribe:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ffb347 0%, #ff9500 50%, #ff7300 100%);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-verify {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: #fff;
+}
+
+.btn-verify:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+}
+
+.btn-create:disabled,
+.btn-inscribe:disabled,
+.btn-verify:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.inscription-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.existing-version-section {
+  padding: 20px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.existing-version-section h4 {
+  margin: 0 0 10px 0;
+  color: #ff9500;
+  font-size: 16px;
+}
+
+.existing-version-section p {
+  margin: 0 0 15px 0;
+  color: #ccc;
+  font-size: 14px;
+}
+
+/* Version History */
+.version-history {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.version-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.version-item {
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.version-item:hover {
+  border-color: #444;
+  background: #222;
+}
+
+.version-item.inscribed {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.version-item.pending {
+  border-color: #ff9500;
+  background: rgba(255, 149, 0, 0.05);
+}
+
+.version-item.failed {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.version-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.version-number {
+  background: #ff9500;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.draft {
+  background: #666;
+  color: #fff;
+}
+
+.status-badge.pending {
+  background: #ff9500;
+  color: #000;
+}
+
+.status-badge.inscribed {
+  background: #22c55e;
+  color: #fff;
+}
+
+.status-badge.failed {
+  background: #ef4444;
+  color: #fff;
+}
+
+.version-date {
+  color: #888;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.version-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.version-description {
+  margin: 0;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.version-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+  color: #888;
+}
+
+.version-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255, 149, 0, 0.1);
+  color: #ff9500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.inscription-info {
+  background: #0d0d0d;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.inscription-info p {
+  margin: 5px 0;
+  font-size: 12px;
+  color: #ccc;
+  word-break: break-all;
+}
+
+.no-versions,
+.no-stats {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+}
+
+/* Chain Stats */
+.chain-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.stat-card h4 {
+  margin: 0 0 10px 0;
+  color: #888;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.stat-value.valid {
+  color: #22c55e;
+}
+
+.stat-value.invalid {
+  color: #ef4444;
+}
+
+.stat-card small {
+  display: block;
+  margin-top: 10px;
+  color: #888;
+  font-size: 12px;
+}
+
+.chain-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* Inscription Progress */
+.inscription-progress {
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+  padding: 20px 30px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.progress-bar {
+  background: #333;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(135deg, #ff9500 0%, #ffb347 100%);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.tx-info {
+  margin: 10px 0 0 0;
+  color: #888;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+/* Inscription Error */
+.inscription-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: 6px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.inscription-error h4 {
+  margin: 0 0 10px 0;
+  color: #ef4444;
+  font-size: 16px;
+}
+
+.inscription-error p {
+  margin: 0 0 10px 0;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.inscription-error small {
+  color: #888;
+  font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .versioning-modal {
+    width: 95%;
+    height: 95vh;
+  }
+  
+  .tab-content {
+    padding: 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-checkboxes {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .version-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .version-stats {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
