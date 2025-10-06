@@ -345,35 +345,71 @@ export class BSVStorageService {
     }
   }
 
-  // Broadcast transaction via HandCash API
+  // Broadcast transaction via BSV SDK and HandCash
   private async broadcastViaHandCash(data: Buffer, quote: StorageQuote): Promise<string> {
     if (!this.handcashService) {
       throw new Error('HandCash service not available');
     }
 
     try {
-      // Create data transaction payload for HandCash
-      // HandCash Connect API expects specific format for data transactions
+      // Get current user for paymail
+      const user = this.handcashService.getCurrentUser();
+      if (!user) {
+        throw new Error('No authenticated user');
+      }
+
+      // Create real BSV transaction with data
+      const txResult = await this.createRealBSVTransaction(data, quote, user.paymail);
+      
+      console.log('Document stored on blockchain:', txResult.txid);
+      return txResult.txid;
+      
+    } catch (error) {
+      console.error('BSV broadcast error:', error);
+      // Fallback to simulation for development
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Falling back to simulated broadcast in development mode');
+        return this.simulateBroadcast(data, quote);
+      }
+      throw error;
+    }
+  }
+
+  // Create real BSV transaction using simplified approach
+  private async createRealBSVTransaction(
+    data: Buffer, 
+    quote: StorageQuote, 
+    paymail: string
+  ): Promise<{ txid: string; rawTx: string }> {
+    try {
+      // For now, use HandCash Connect API for data transactions
+      // This is more reliable than manual transaction construction
+      const dataHex = data.toString('hex');
+      
+      // Create HandCash data transaction payload
       const dataPayload = {
         description: 'Bitcoin Writer Document Storage',
-        data: [
-          {
-            value: data.toString('hex'),
-            encoding: 'hex'
-          }
-        ],
+        data: [{
+          value: dataHex,
+          encoding: 'hex'
+        }],
         payments: [], // No payments for data-only transaction
         attachment: {
           format: 'json',
           value: {
             app: 'BitcoinWriter',
-            type: 'document',
-            timestamp: Date.now()
+            type: 'document_storage',
+            timestamp: Date.now(),
+            size: data.length
           }
         }
       };
 
       // Make authenticated request to HandCash data endpoint
+      if (!this.handcashService) {
+        throw new Error('HandCash service not available');
+      }
+
       const response = await this.handcashService.makeAuthenticatedRequest(
         '/v1/connect/data',
         {
@@ -386,42 +422,161 @@ export class BSVStorageService {
       );
 
       if (response.transactionId) {
-        console.log('Document stored on blockchain:', response.transactionId);
-        return response.transactionId;
+        return {
+          txid: response.transactionId,
+          rawTx: response.rawTransaction || 'handcash_managed'
+        };
       } else {
         throw new Error('No transaction ID returned from HandCash');
       }
+      
     } catch (error) {
-      console.error('HandCash broadcast error:', error);
-      // Fallback to simulation for development
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Falling back to simulated broadcast in development mode');
-        return this.simulateBroadcast(data, quote);
+      console.error('Failed to create BSV transaction:', error);
+      throw new Error(`BSV transaction creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  // Split data into manageable chunks
+  private splitDataIntoChunks(data: Buffer, chunkSize: number): Buffer[] {
+    const chunks: Buffer[] = [];
+    for (let i = 0; i < data.length; i += chunkSize) {
+      chunks.push(data.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+
+  // Broadcast transaction to BSV network (simplified version)
+  private async broadcastToBSVNetwork(rawTx: string): Promise<string> {
+    try {
+      // Use WhatsOnChain API for broadcasting
+      const response = await fetch('https://api.whatsonchain.com/v1/bsv/main/tx/raw', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          txhex: rawTx
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Broadcast failed: ${response.statusText}`);
       }
-      throw error;
+
+      const result = await response.text();
+      
+      // WhatsOnChain returns the txid on successful broadcast
+      return result.replace(/['"]/g, ''); // Remove quotes
+      
+    } catch (error) {
+      console.error('Failed to broadcast to BSV network:', error);
+      throw new Error(`Broadcast failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
   // Retrieve document from BSV blockchain
   public async retrieveDocument(txid: string): Promise<DocumentPackage | null> {
     try {
-      // In production, fetch from BSV network
-      // For demo, retrieve from localStorage simulation
-      const storedTx = localStorage.getItem(`bsv_tx_${txid}`);
-      if (!storedTx) {
+      // Fetch transaction from BSV network
+      const txData = await this.fetchTransactionFromBSV(txid);
+      if (!txData) {
         return null;
       }
+
+      // Extract document data from OP_RETURN outputs
+      const documentData = this.extractDocumentFromTransaction(txData);
+      if (!documentData) {
+        return null;
+      }
+
+      const documentPackage: DocumentPackage = JSON.parse(documentData);
       
-      const documentPackage: DocumentPackage = JSON.parse(storedTx);
-      
-      // Decrypt if necessary
-      if (documentPackage.encrypted && this.privateKey) {
-        documentPackage.content = this.decryptContent(documentPackage.content);
+      // Decrypt if necessary and user has access
+      if (documentPackage.encrypted) {
+        // For now, we'll return the encrypted version
+        // Decryption should be handled by the calling code with proper credentials
+        console.log('Document is encrypted, returning encrypted version');
       }
       
       return documentPackage;
     } catch (error) {
       console.error('Failed to retrieve document:', error);
+      // Fallback to localStorage for development
+      if (process.env.NODE_ENV === 'development') {
+        const storedTx = localStorage.getItem(`bsv_tx_${txid}`);
+        if (storedTx) {
+          try {
+            return JSON.parse(Buffer.from(storedTx, 'hex').toString());
+          } catch (parseError) {
+            console.error('Failed to parse stored transaction:', parseError);
+          }
+        }
+      }
+      return null;
+    }
+  }
+
+  // Fetch transaction data from BSV network
+  private async fetchTransactionFromBSV(txid: string): Promise<any> {
+    try {
+      // Use WhatsOnChain API to fetch transaction
+      const response = await fetch(`https://api.whatsonchain.com/v1/bsv/main/tx/${txid}/hex`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch transaction: ${response.statusText}`);
+      }
+
+      const hexData = await response.text();
+      
+      // Parse the raw transaction
+      const tx = Transaction.fromHex(hexData);
+      
+      return {
+        txid,
+        hex: hexData,
+        transaction: tx,
+        outputs: tx.outputs
+      };
+      
+    } catch (error) {
+      console.error('Failed to fetch transaction from BSV:', error);
+      return null;
+    }
+  }
+
+  // Extract document data from transaction outputs
+  private extractDocumentFromTransaction(txData: any): string | null {
+    try {
+      // Look for OP_RETURN outputs containing our document data
+      for (const output of txData.outputs) {
+        const script = output.script;
+        
+        // Check if this is an OP_RETURN output
+        if (script && script.chunks && script.chunks.length > 0) {
+          const firstChunk = script.chunks[0];
+          
+          // Check for OP_RETURN opcode
+          if (firstChunk.opCodeNum === 106) { // OP_RETURN opcode value
+            // Combine all data chunks after OP_RETURN
+            let documentData = '';
+            
+            for (let i = 1; i < script.chunks.length; i++) {
+              const chunk = script.chunks[i];
+              if (chunk.buf) {
+                documentData += chunk.buf.toString();
+              }
+            }
+            
+            if (documentData) {
+              return documentData;
+            }
+          }
+        }
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Failed to extract document from transaction:', error);
       return null;
     }
   }
@@ -476,10 +631,137 @@ export class BSVStorageService {
     return (sats / BSVStorageService.SATS_PER_BSV) * BSVStorageService.BSV_PRICE_USD;
   }
 
-  // Get current BSV price (in production, fetch from API)
+  // Get current BSV price from multiple sources
   public async getCurrentBSVPrice(): Promise<number> {
-    // In production, fetch from price API
-    return BSVStorageService.BSV_PRICE_USD;
+    try {
+      // Try multiple price sources for reliability
+      const priceSources = [
+        'https://api.coinbase.com/v2/exchange-rates?currency=BSV',
+        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin-sv&vs_currencies=usd',
+        'https://api.whatsonchain.com/v1/bsv/main/exchangerate'
+      ];
+
+      for (const source of priceSources) {
+        try {
+          const price = await this.fetchPriceFromSource(source);
+          if (price && price > 0) {
+            console.log(`BSV price fetched: $${price} from ${source}`);
+            return price;
+          }
+        } catch (error) {
+          console.warn(`Failed to fetch price from ${source}:`, error);
+        }
+      }
+
+      // Fallback to static price
+      console.warn('All price sources failed, using fallback price');
+      return BSVStorageService.BSV_PRICE_USD;
+      
+    } catch (error) {
+      console.error('Failed to get BSV price:', error);
+      return BSVStorageService.BSV_PRICE_USD;
+    }
+  }
+
+  // Fetch price from a specific source
+  private async fetchPriceFromSource(source: string): Promise<number | null> {
+    try {
+      const response = await fetch(source);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Parse different API response formats
+      if (source.includes('coinbase')) {
+        return parseFloat(data.data?.rates?.USD || '0');
+      } else if (source.includes('coingecko')) {
+        return parseFloat(data['bitcoin-sv']?.usd || '0');
+      } else if (source.includes('whatsonchain')) {
+        return parseFloat(data.rate || '0');
+      }
+
+      return null;
+    } catch (error) {
+      throw new Error(`Price fetch failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  // Get real-time fee estimation from BSV network
+  public async getNetworkFeeRate(): Promise<number> {
+    try {
+      // Fetch current network fee rate from WhatsOnChain
+      const response = await fetch('https://api.whatsonchain.com/v1/bsv/main/fees');
+      
+      if (response.ok) {
+        const feeData = await response.json();
+        // Return fee rate in satoshis per byte
+        return parseFloat(feeData.standard || BSVStorageService.SATS_PER_BYTE);
+      }
+    } catch (error) {
+      console.warn('Failed to fetch network fee rate:', error);
+    }
+
+    // Fallback to static rate
+    return BSVStorageService.SATS_PER_BYTE;
+  }
+
+  // Update storage cost calculation with real-time data
+  public async calculateStorageCostRealTime(
+    wordCount: number, 
+    encrypted: boolean = false,
+    currentBudget: number = BSVStorageService.DEFAULT_BUDGET_USD
+  ): Promise<StorageQuote> {
+    // Get real-time BSV price and fee rate
+    const [bsvPrice, feeRate] = await Promise.all([
+      this.getCurrentBSVPrice(),
+      this.getNetworkFeeRate()
+    ]);
+
+    const bytes = wordCount * BSVStorageService.BYTES_PER_WORD;
+    
+    // Calculate actual miner fees with real-time rate
+    const minerFeeSats = Math.ceil(bytes * feeRate);
+    
+    // Apply service markup
+    let totalFeeSats = minerFeeSats * BSVStorageService.SERVICE_MARKUP;
+    
+    // Add encryption cost if enabled
+    if (encrypted) {
+      totalFeeSats = totalFeeSats * BSVStorageService.ENCRYPTION_MULTIPLIER;
+    }
+    
+    const serviceFeeSats = totalFeeSats - minerFeeSats;
+    
+    // Calculate USD cost with real-time price
+    const totalUSD = (totalFeeSats / BSVStorageService.SATS_PER_BSV) * bsvPrice;
+    
+    // Determine budget requirements
+    const budget: AutoSaveBudget = {
+      currentLimit: currentBudget,
+      requiresIncrease: totalUSD > currentBudget
+    };
+    
+    if (wordCount >= BSVStorageService.BUDGET_INCREASE_THRESHOLD || totalUSD > currentBudget) {
+      const nextBudget = BSVStorageService.BUDGET_INCREMENTS.find(b => b > totalUSD);
+      budget.suggestedLimit = nextBudget || totalUSD * 2;
+    }
+    
+    const costPerWord = totalUSD / wordCount;
+    const costPerThousandWords = costPerWord * 1000;
+    
+    return {
+      wordCount,
+      bytes,
+      minerFeeSats,
+      serviceFeeSats,
+      totalSats: totalFeeSats,
+      totalUSD,
+      budget,
+      costPerWord,
+      description: `${costPerThousandWords.toFixed(4)}¢ per 1k words${encrypted ? ' (encrypted)' : ''} (BSV: $${bsvPrice.toFixed(2)})`
+    };
   }
 
   // Check if service is ready
