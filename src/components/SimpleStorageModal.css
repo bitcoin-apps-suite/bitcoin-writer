@@ -1,0 +1,163 @@
+.simple-storage {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.document-info {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.document-info h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.document-info p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.storage-method {
+  margin-bottom: 24px;
+}
+
+.storage-method h4 {
+  margin: 0 0 8px 0;
+  color: #f7931a;
+  font-size: 16px;
+}
+
+.storage-method p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.encryption-section {
+  margin-bottom: 24px;
+}
+
+.encryption-toggle {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.encryption-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.encryption-toggle input:checked + .checkmark {
+  background: #f7931a;
+  border-color: #f7931a;
+}
+
+.encryption-toggle input:checked + .checkmark::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.encryption-details strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.encryption-details p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.3;
+}
+
+.cost-display {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.cost-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cost-line:last-child {
+  margin-bottom: 0;
+}
+
+.total-cost {
+  padding-top: 8px;
+  border-top: 1px solid #dee2e6;
+  margin-top: 8px;
+}
+
+.encryption-cost {
+  color: #28a745;
+  font-size: 14px;
+}
+
+.cost-amount {
+  font-family: 'SF Mono', monospace;
+  font-size: 14px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-btn {
+  padding: 10px 24px;
+  border: none;
+  background: #f7931a;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.save-btn:hover {
+  background: #e8840f;
+}
+
+.cancel-btn:hover {
+  background: #f8f9fa;
+}
