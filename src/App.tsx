@@ -54,7 +54,7 @@ import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
 import { useBitcoinOS } from './utils/useBitcoinOS';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
-import Dock from './components/Dock';
+import MinimalDock from './components/MinimalDock';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -857,8 +857,8 @@ function App() {
               </main>
             </div>
             <Footer />
-            {/* Bitcoin OS Dock - Only show when not running in Bitcoin OS */}
-            {!isInOS && <Dock />}
+            {/* Minimal Dock - Only show when not running in Bitcoin OS */}
+            {!isInOS && <MinimalDock />}
           </div>
         )}
       />

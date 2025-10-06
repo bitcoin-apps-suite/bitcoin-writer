@@ -2,6 +2,8 @@ import CryptoJS from 'crypto-js';
 import { HandCashService, HandCashUser } from './HandCashService';
 import { StorageMethod } from '../components/EnhancedStorageModal';
 import BSVStorageService, { StorageQuote } from './BSVStorageService';
+import HandCashNFTService, { NFTMintOptions } from './HandCashNFTService';
+import { NoteSVEncryption } from './NoteSVEncryption';
 
 export interface DocumentData {
   id: string;
@@ -41,6 +43,7 @@ export interface BlockchainDocument {
 export class BlockchainDocumentService {
   public handcashService: HandCashService; // Made public for access from components
   private bsvStorage: BSVStorageService;
+  private nftService: HandCashNFTService;
   private encryptionKey: string | null = null;
   private isConnected: boolean = false;
   private currentUser: HandCashUser | null = null;
@@ -48,6 +51,7 @@ export class BlockchainDocumentService {
   constructor(handcashService: HandCashService) {
     this.handcashService = handcashService;
     this.bsvStorage = new BSVStorageService(handcashService);
+    this.nftService = new HandCashNFTService(handcashService);
     this.initialize();
   }
 
@@ -133,7 +137,7 @@ export class BlockchainDocumentService {
     const charCount = this.countCharacters(content);
     
     try {
-      // Store document on BSV blockchain
+      // Store document on BSV blockchain with real-time pricing
       const storageResult = await this.bsvStorage.storeDocument(
         content,
         title,
@@ -237,11 +241,76 @@ export class BlockchainDocumentService {
     }
   }
 
-  // Create NFT for document
+  // Create NFT for document using HandCash Items
   private async createNFT(document: DocumentData, content: string): Promise<void> {
     console.log('Minting NFT for document:', document.title);
     
-    // Create NFT metadata
+    try {
+      // Create document package for NFT
+      const documentPackage = {
+        version: '2.0',
+        timestamp: Date.now(),
+        author: document.metadata.author,
+        title: document.title,
+        content: content,
+        contentHash: CryptoJS.SHA256(content).toString(),
+        encrypted: document.metadata.encrypted,
+        wordCount: document.metadata.word_count,
+        characterCount: document.metadata.character_count
+      };
+
+      // Configure NFT mint options
+      const mintOptions: NFTMintOptions = {
+        name: document.title,
+        description: `Unique document NFT created by ${document.metadata.author}`,
+        rarity: this.determineDocumentRarity(document.metadata.word_count),
+        attributes: [
+          {
+            name: "Storage Method",
+            value: "NFT Creation",
+            type: 'text'
+          },
+          {
+            name: "Content Hash",
+            value: documentPackage.contentHash.substring(0, 16) + "...",
+            type: 'text'
+          }
+        ],
+        quantity: 1,
+        royaltyPercentage: 5, // 5% royalty for creator
+        listForSale: false // Don't auto-list, let user decide
+      };
+
+      // Mint the NFT using HandCash Items
+      const mintResult = await this.nftService.mintDocumentAsNFT(documentPackage, mintOptions);
+      
+      // Store NFT reference locally for quick access
+      const nftKey = `nft_${document.metadata.author}_${document.id}`;
+      localStorage.setItem(nftKey, JSON.stringify({
+        tokenId: mintResult.item.id,
+        itemOrigin: mintResult.item.origin,
+        handcashItem: mintResult.item,
+        marketplaceUrl: mintResult.marketUrl,
+        mintDate: new Date().toISOString(),
+        documentId: document.id
+      }));
+      
+      console.log(`NFT minted successfully!`, {
+        itemId: mintResult.item.id,
+        marketUrl: mintResult.marketUrl
+      });
+      
+    } catch (error) {
+      console.error('Failed to mint NFT:', error);
+      // Fallback to local storage for demo
+      await this.createNFTFallback(document, content);
+    }
+  }
+
+  // Fallback NFT creation for development
+  private async createNFTFallback(document: DocumentData, content: string): Promise<void> {
+    console.log('Using NFT fallback for development');
+    
     const nftMetadata = {
       name: document.title,
       description: `Unique document NFT created by ${document.metadata.author}`,
@@ -252,34 +321,17 @@ export class BlockchainDocumentService {
           value: document.metadata.author
         },
         {
-          trait_type: "Word Count",
+          trait_type: "Word Count", 
           value: document.metadata.word_count
-        },
-        {
-          trait_type: "Character Count",
-          value: document.metadata.character_count
-        },
-        {
-          trait_type: "Created Date",
-          value: document.metadata.created_at
         },
         {
           trait_type: "Storage Method",
           value: "NFT Creation"
         }
       ],
-      content: content, // Full document content embedded in NFT
       contentHash: CryptoJS.SHA256(content).toString()
     };
     
-    // In production: Create NFT smart contract and mint token
-    console.log('NFT Metadata created:', {
-      tokenId: document.id,
-      metadata: nftMetadata,
-      owner: document.metadata.author
-    });
-    
-    // Store NFT data locally for demo
     const nftKey = `nft_${document.metadata.author}_${document.id}`;
     localStorage.setItem(nftKey, JSON.stringify({
       tokenId: document.id,
@@ -287,10 +339,17 @@ export class BlockchainDocumentService {
       metadata: nftMetadata,
       owner: document.metadata.author,
       mintDate: new Date().toISOString(),
-      marketplaceUrl: `https://marketplace.example.com/nft/${document.id}`
+      marketplaceUrl: `https://demo-marketplace.com/nft/${document.id}`
     }));
-    
-    console.log(`NFT minted successfully! Token ID: ${document.id}`);
+  }
+
+  // Determine rarity based on document characteristics
+  private determineDocumentRarity(wordCount: number): 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' {
+    if (wordCount >= 50000) return 'legendary'; // 50k+ words
+    if (wordCount >= 20000) return 'epic';      // 20k+ words
+    if (wordCount >= 10000) return 'rare';      // 10k+ words  
+    if (wordCount >= 5000) return 'uncommon';   // 5k+ words
+    return 'common';                            // Under 5k words
   }
 
   // Create file shares for document monetization
@@ -609,5 +668,127 @@ export class BlockchainDocumentService {
   // Reconnect after authentication
   async reconnect(): Promise<void> {
     await this.initialize();
+  }
+
+  // Get HandCash NFT service
+  public getNFTService(): HandCashNFTService {
+    return this.nftService;
+  }
+
+  // Get BSV storage service
+  public getBSVStorageService(): BSVStorageService {
+    return this.bsvStorage;
+  }
+
+  // Get real-time storage quote
+  public async getStorageQuoteRealTime(wordCount: number, encrypted: boolean = false): Promise<StorageQuote> {
+    return await this.bsvStorage.calculateStorageCostRealTime(wordCount, encrypted);
+  }
+
+  // Create document with advanced options
+  public async createDocumentAdvanced(
+    title: string,
+    content: string,
+    options: {
+      storageMethod?: StorageMethod;
+      encryption?: boolean;
+      encryptionMethod?: 'password' | 'notesv' | 'timelock' | 'multiparty';
+      encryptionPassword?: string;
+      mintAsNFT?: boolean;
+      nftOptions?: NFTMintOptions;
+      createShares?: boolean;
+      shareOptions?: {
+        totalShares: number;
+        pricePerShare: number;
+        royaltyPercentage: number;
+      };
+    } = {}
+  ): Promise<DocumentData> {
+    if (!this.isConnected || !this.currentUser) {
+      throw new Error('User not authenticated');
+    }
+
+    const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const now = new Date().toISOString();
+    const method = options.storageMethod || 'op_return';
+    const wordCount = this.countWords(content);
+    const charCount = this.countCharacters(content);
+    
+    let processedContent = content;
+    let encryptionData: any = undefined;
+
+    // Handle encryption
+    if (options.encryption && options.encryptionPassword) {
+      switch (options.encryptionMethod) {
+        case 'notesv':
+          const noteSVResult = NoteSVEncryption.encrypt(content, options.encryptionPassword);
+          processedContent = noteSVResult.encryptedContent;
+          encryptionData = {
+            method: 'notesv',
+            salt: noteSVResult.salt,
+            iv: noteSVResult.iv,
+            hmac: noteSVResult.hmac,
+            iterations: noteSVResult.iterations
+          };
+          break;
+        default:
+          processedContent = this.encryptContent(content);
+          break;
+      }
+    }
+    
+    try {
+      // Store document on BSV blockchain
+      const storageResult = await this.bsvStorage.storeDocument(
+        processedContent,
+        title,
+        this.currentUser.handle,
+        options.encryption || false
+      );
+      
+      const document: DocumentData = {
+        id: documentId,
+        title,
+        content: this.encryptContent(processedContent), // Keep encrypted copy locally
+        metadata: {
+          created_at: now,
+          updated_at: now,
+          author: this.currentUser.handle,
+          encrypted: options.encryption || false,
+          word_count: wordCount,
+          character_count: charCount,
+          storage_method: method,
+          blockchain_tx: storageResult.transactionId,
+          storage_cost: storageResult.storageCost.totalUSD
+        }
+      };
+
+      // Mint as NFT if requested
+      if (options.mintAsNFT && options.nftOptions) {
+        await this.createNFT(document, content);
+      }
+
+      // Create tokenized shares if requested
+      if (options.createShares) {
+        await this.createFileShares(document, content);
+      }
+
+      // Store document metadata locally for quick access
+      this.storeDocumentMetadata(document);
+      
+      console.log('Advanced document created:', {
+        txid: storageResult.transactionId,
+        explorer: storageResult.explorerUrl,
+        cost: `$${storageResult.storageCost.totalUSD.toFixed(4)}`,
+        encrypted: options.encryption,
+        nft: options.mintAsNFT,
+        shares: options.createShares
+      });
+
+      return document;
+    } catch (error) {
+      console.error('Failed to create advanced document:', error);
+      throw new Error(`Document creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   }
 }
