@@ -66,9 +66,13 @@ function App() {
   const [showAIChat, setShowAIChat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showLoadingDoor, setShowLoadingDoor] = useState(() => {
-    // Only show loading door on first visit in this session
-    const hasShownDoor = sessionStorage.getItem('hasShownLoadingDoor');
-    return !hasShownDoor;
+    // Don't show loading door if this is an auth callback or if already shown
+    const hasShownDoor = sessionStorage.getItem('hasShownLoadingDoor') || 
+                        localStorage.getItem('hasShownLoadingDoor');
+    const isAuthCallback = window.location.pathname.includes('/auth/') || 
+                          window.location.search.includes('authToken') ||
+                          window.location.search.includes('code=');
+    return !hasShownDoor && !isAuthCallback;
   });
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -278,6 +282,7 @@ function App() {
         <LoadingDoor onComplete={() => {
           setShowLoadingDoor(false);
           sessionStorage.setItem('hasShownLoadingDoor', 'true');
+          localStorage.setItem('hasShownLoadingDoor', 'true');
         }} />
       )}
       {/* Proof of Concept Banner - positioned at the very top */}
