@@ -43,7 +43,7 @@ const StatusPage: React.FC = () => {
       <div className="status-container">
         {/* Hero Section */}
         <section className="status-hero">
-          <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Status</span></h1>
+          <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> <span style={{color: '#ffffff'}}>Status</span></h1>
           <p className="status-tagline">
             Real-time system health and performance monitoring
           </p>

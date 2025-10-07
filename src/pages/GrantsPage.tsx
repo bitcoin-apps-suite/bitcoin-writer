@@ -45,7 +45,7 @@ const GrantsPage: React.FC = () => {
             <div className="grants-hero-icon">
               <Flower2 size={64} />
             </div>
-            <h1>Bitcoin Writer <span style={{color: '#FF6B35'}}>Grants</span></h1>
+            <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> <span style={{color: '#FF6B35'}}>Grants</span></h1>
             <p className="grants-tagline">
               $BWRITER token awards for quality submissions, plus public discovery platform for independent funding
             </p>

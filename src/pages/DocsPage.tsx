@@ -43,7 +43,7 @@ const DocsPage: React.FC = () => {
       <div className="docs-container">
         {/* Hero Section */}
         <section className="docs-hero">
-          <h1><span style={{color: '#ffffff'}}>Bitcoin Writer</span> Documentation</h1>
+          <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> Documentation</h1>
           <p className="docs-tagline">
             Complete guide to writing, encrypting, and publishing documents on the Bitcoin blockchain
           </p>
