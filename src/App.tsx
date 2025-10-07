@@ -55,6 +55,8 @@ import { useBitcoinOS } from './utils/useBitcoinOS';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
 import MinimalDock from './components/MinimalDock';
+import SubscriptionModal from './components/SubscriptionModal';
+import TopUpModal from './components/TopUpModal';
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -91,6 +93,8 @@ function App() {
     return saved === 'true';
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showTopUpModal, setShowTopUpModal] = useState(false);
 
   // Handle window resize
   useEffect(() => {
@@ -99,6 +103,30 @@ function App() {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Listen for subscription modal event
+  useEffect(() => {
+    const handleOpenSubscriptionModal = () => {
+      setShowSubscriptionModal(true);
+    };
+    window.addEventListener('openSubscriptionModal', handleOpenSubscriptionModal);
+    
+    return () => {
+      window.removeEventListener('openSubscriptionModal', handleOpenSubscriptionModal);
+    };
+  }, []);
+
+  // Listen for top-up modal event
+  useEffect(() => {
+    const handleOpenTopUpModal = () => {
+      setShowTopUpModal(true);
+    };
+    window.addEventListener('openTopUpModal', handleOpenTopUpModal);
+    
+    return () => {
+      window.removeEventListener('openTopUpModal', handleOpenTopUpModal);
+    };
   }, []);
 
   // Listen for Document Exchange open event
@@ -869,6 +897,24 @@ function App() {
       />
       </Routes>
     </GoogleAuthProvider>
+
+    {/* Payment Modals */}
+    {isAuthenticated && currentUser && (
+      <>
+        <SubscriptionModal
+          isOpen={showSubscriptionModal}
+          onClose={() => setShowSubscriptionModal(false)}
+          userEmail={currentUser.paymail}
+          handcashHandle={currentUser.handle}
+        />
+        <TopUpModal
+          isOpen={showTopUpModal}
+          onClose={() => setShowTopUpModal(false)}
+          userEmail={currentUser.paymail}
+          handcashHandle={currentUser.handle}
+        />
+      </>
+    )}
     </>
   );
 }

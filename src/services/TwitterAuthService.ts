@@ -12,7 +12,7 @@ export interface TwitterPostData {
 
 export class TwitterAuthService {
   private static instance: TwitterAuthService;
-  private apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+  private apiUrl = process.env.REACT_APP_API_URL || '';
   private currentUser: TwitterUser | null = null;
   private accessToken: string | null = null;
 
@@ -85,14 +85,14 @@ export class TwitterAuthService {
     }
   }
 
-  async handleCallback(oauthToken: string, oauthVerifier: string): Promise<TwitterUser> {
+  async handleCallback(code: string, state: string): Promise<TwitterUser> {
     try {
       const response = await fetch(`${this.apiUrl}/api/twitter/auth/callback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ oauthToken, oauthVerifier })
+        body: JSON.stringify({ code, state })
       });
 
       if (!response.ok) {
