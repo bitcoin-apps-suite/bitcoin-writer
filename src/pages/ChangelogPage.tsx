@@ -43,7 +43,7 @@ const ChangelogPage: React.FC = () => {
       <div className="changelog-container">
         {/* Hero Section */}
         <section className="changelog-hero">
-          <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Changelog</span></h1>
+          <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> <span style={{color: '#ffffff'}}>Changelog</span></h1>
           <p className="changelog-tagline">
             Track every improvement, feature, and update
           </p>

@@ -340,7 +340,7 @@ const ContractsPage: React.FC = () => {
         <div className="contracts-container">
           {/* Hero Section */}
           <section className="contracts-hero">
-            <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>Contracts</span></h1>
+            <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> <span style={{color: '#ffffff'}}>Contracts</span></h1>
             <p className="contracts-tagline">
               {activeTab === 'developer' 
                 ? 'Claim contracts, deliver code, earn BWRITER tokens'
