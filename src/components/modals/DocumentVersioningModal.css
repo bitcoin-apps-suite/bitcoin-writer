@@ -2,14 +2,48 @@
 .versioning-modal {
   background: #1a1a1a;
   border-radius: 12px;
-  width: 90%;
-  max-width: 800px;
+  width: 95%;
+  max-width: 1600px;
   max-height: 90vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border: 1px solid #333;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* Modal Main Content Layout */
+.modal-main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Work Tree Canvas Container */
+.worktree-canvas-container {
+  flex: 1;
+  background: #0d0d0d;
+  border-right: 1px solid #333;
+  position: relative;
+  overflow: hidden;
+}
+
+.worktree-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.worktree-canvas:active {
+  cursor: grabbing;
+}
+
+/* Tab Content Container */
+.tab-content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .modal-header {

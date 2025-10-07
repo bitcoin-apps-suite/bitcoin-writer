@@ -307,12 +307,12 @@ export class StripePaymentService {
 
       const { sessionId } = await response.json();
 
-      const { error } = await (this.stripe as any)!.redirectToCheckout({
+      const result = await (this.stripe as any)!.redirectToCheckout({
         sessionId,
       });
 
-      if (error) {
-        throw new Error(error.message);
+      if (result.error) {
+        throw new Error(result.error.message);
       }
     } catch (error) {
       console.error('Error redirecting to Pro subscription checkout:', error);
@@ -358,12 +358,12 @@ export class StripePaymentService {
 
       const { sessionId } = await response.json();
 
-      const { error } = await (this.stripe as any)!.redirectToCheckout({
+      const result = await (this.stripe as any)!.redirectToCheckout({
         sessionId,
       });
 
-      if (error) {
-        throw new Error(error.message);
+      if (result.error) {
+        throw new Error(result.error.message);
       }
     } catch (error) {
       console.error('Error redirecting to top-up checkout:', error);
