@@ -1,0 +1,112 @@
+/* Bitcoin Writer Color Theme */
+:root {
+  /* App-specific colors from Bitcoin OS Color Scheme */
+  --app-primary: #1e40af;      /* Deep Blue */
+  --app-secondary: #06d6ff;    /* Electric Cyan */
+  --app-primary-rgb: 30, 64, 175;
+  --app-secondary-rgb: 6, 214, 255;
+  
+  /* Gradient definitions */
+  --app-gradient: linear-gradient(135deg, var(--app-primary) 0%, var(--app-secondary) 100%);
+  --app-gradient-subtle: linear-gradient(135deg, var(--app-primary) 0%, #1e40afcc 50%, #06d6ff99 100%);
+  --app-gradient-radial: radial-gradient(circle, var(--app-secondary) 0%, var(--app-primary) 100%);
+  
+  /* Transparency levels */
+  --app-bg-overlay: rgba(var(--app-primary-rgb), 0.1);
+  --app-bg-glass: rgba(var(--app-primary-rgb), 0.8);
+  --app-bg-hover: rgba(var(--app-primary-rgb), 0.8);
+  --app-bg-active: rgba(var(--app-primary-rgb), 1);
+  
+  /* Shadows */
+  --app-shadow: 0 4px 12px rgba(var(--app-primary-rgb), 0.3);
+  --app-shadow-soft: 0 2px 8px rgba(var(--app-primary-rgb), 0.2);
+  --app-shadow-strong: 0 8px 24px rgba(var(--app-primary-rgb), 0.4);
+  
+  /* Typography colors */
+  --app-text-primary: var(--app-primary);
+  --app-text-secondary: rgba(var(--app-secondary-rgb), 0.8);
+  --app-text-muted: rgba(var(--app-primary-rgb), 0.6);
+  --app-text-accent: var(--app-secondary);
+}
+
+/* Component utility classes */
+.app-primary { color: var(--app-primary); }
+.app-secondary { color: var(--app-secondary); }
+.app-text-primary { color: var(--app-text-primary); }
+.app-text-secondary { color: var(--app-text-secondary); }
+.app-text-muted { color: var(--app-text-muted); }
+.app-text-accent { color: var(--app-text-accent); }
+
+.app-bg-gradient { background: var(--app-gradient); }
+.app-bg-gradient-subtle { background: var(--app-gradient-subtle); }
+.app-bg-gradient-radial { background: var(--app-gradient-radial); }
+.app-bg-overlay { background: var(--app-bg-overlay); }
+.app-bg-glass { background: var(--app-bg-glass); }
+
+.app-border { border-color: var(--app-primary); }
+.app-border-secondary { border-color: var(--app-secondary); }
+
+.app-shadow { box-shadow: var(--app-shadow); }
+.app-shadow-soft { box-shadow: var(--app-shadow-soft); }
+.app-shadow-strong { box-shadow: var(--app-shadow-strong); }
+
+/* Interactive states */
+.app-hover:hover {
+  background: var(--app-bg-hover);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.app-button {
+  background: var(--app-gradient);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--app-shadow-soft);
+}
+
+.app-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--app-shadow-strong);
+}
+
+.app-button:active {
+  transform: translateY(0);
+  box-shadow: var(--app-shadow-soft);
+}
+
+/* Focus states */
+.app-focus:focus {
+  outline: 2px solid var(--app-secondary);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: var(--app-secondary);
+  color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(var(--app-primary-rgb), 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--app-gradient);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-primary);
+}
