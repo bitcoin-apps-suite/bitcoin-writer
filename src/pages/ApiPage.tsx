@@ -44,7 +44,7 @@ const ApiPage: React.FC = () => {
       <div className="api-container">
         {/* Hero Section */}
         <section className="api-hero">
-          <h1>Bitcoin Writer <span style={{color: '#ffffff'}}>API</span></h1>
+          <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> <span style={{color: '#ffffff'}}>API</span></h1>
           <p className="api-tagline">
             Complete API reference for integrating Bitcoin Writer
           </p>

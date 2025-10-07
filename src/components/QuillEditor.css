@@ -93,10 +93,51 @@
   overflow-x: hidden !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  hyphens: auto;
+  white-space: pre-wrap;
+  /* Force text to wrap and never overflow horizontally */
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  box-sizing: border-box;
 }
 
 .quill-editor .ql-editor * {
   color: #000000;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+/* Ensure all paragraphs and text elements wrap properly */
+.quill-editor .ql-editor p,
+.quill-editor .ql-editor div,
+.quill-editor .ql-editor span,
+.quill-editor .ql-editor h1,
+.quill-editor .ql-editor h2,
+.quill-editor .ql-editor h3,
+.quill-editor .ql-editor h4,
+.quill-editor .ql-editor h5,
+.quill-editor .ql-editor h6,
+.quill-editor .ql-editor blockquote,
+.quill-editor .ql-editor pre {
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Special handling for code blocks and preformatted text */
+.quill-editor .ql-editor pre,
+.quill-editor .ql-editor code {
+  white-space: pre-wrap;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .quill-editor .ql-editor.ql-blank::before {

@@ -6,7 +6,7 @@ const PlatformPage: React.FC = () => {
   return (
     <div className="platform-page">
       <div className="platform-header">
-        <h1>Bitcoin Writer Platform</h1>
+        <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> Platform</h1>
         <p className="tagline">Write Once, Preserve Forever on the Blockchain</p>
       </div>
 
