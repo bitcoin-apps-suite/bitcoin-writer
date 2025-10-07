@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDocumentVersioning } from '../../hooks/useDocumentVersioning';
+import WorkTreeCanvas from '../WorkTreeCanvas';
 import './DocumentVersioningModal.css';
 
 interface DocumentVersioningModalProps {
@@ -10,6 +11,7 @@ interface DocumentVersioningModalProps {
   documentTitle: string;
   authorAddress: string;
   authorHandle?: string;
+  onContentRestore?: (content: string) => void;
 }
 
 const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
@@ -19,7 +21,8 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
   currentContent,
   documentTitle,
   authorAddress,
-  authorHandle
+  authorHandle,
+  onContentRestore
 }) => {
   const {
     versionChain,
@@ -34,7 +37,30 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
     getLatestVersion
   } = useDocumentVersioning(documentId);
 
+  const chainStats = getChainStats();
+  const latestVersion = getLatestVersion();
+
   const [activeTab, setActiveTab] = useState<'create' | 'history' | 'stats'>('create');
+  const [selectedVersion, setSelectedVersion] = useState(latestVersion);
+
+  // Handle version checkout (git checkout equivalent)
+  const handleVersionCheckout = useCallback((version: any) => {
+    if (version.localId === 'current') {
+      // Can't checkout current - it's already current
+      return;
+    }
+
+    // Restore content to this version
+    if (onContentRestore && version.content) {
+      onContentRestore(version.content);
+      
+      // Close modal after checkout
+      onClose();
+      
+      // Show feedback
+      alert(`Checked out to version ${version.metadata.version}`);
+    }
+  }, [onContentRestore, onClose]);
   const [isCreatingVersion, setIsCreatingVersion] = useState(false);
   const [privateKey, setPrivateKey] = useState('');
   const [versionMetadata, setVersionMetadata] = useState({
@@ -47,9 +73,6 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
     shareCount: 1000,
     pricePerShare: 100
   });
-
-  const chainStats = getChainStats();
-  const latestVersion = getLatestVersion();
 
   // Reset form when modal opens
   useEffect(() => {
@@ -169,34 +192,50 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="versioning-modal">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="versioning-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>📝 Document Versioning & Inscription</h2>
+          <h2>🌳 Work Tree</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="tab-navigation">
-          <button 
-            className={`tab ${activeTab === 'create' ? 'active' : ''}`}
-            onClick={() => setActiveTab('create')}
-          >
-            Create Version
-          </button>
-          <button 
-            className={`tab ${activeTab === 'history' ? 'active' : ''}`}
-            onClick={() => setActiveTab('history')}
-          >
-            Version History
-          </button>
-          <button 
-            className={`tab ${activeTab === 'stats' ? 'active' : ''}`}
-            onClick={() => setActiveTab('stats')}
-          >
-            Chain Stats
-          </button>
-        </div>
+        {/* Main Content with Canvas and Tabs */}
+        <div className="modal-main-content">
+          {/* Work Tree Canvas */}
+          <div className="worktree-canvas-container">
+            <WorkTreeCanvas
+              versions={versionChain ? versionChain.versions : []}
+              onVersionSelect={setSelectedVersion}
+              onVersionCheckout={handleVersionCheckout}
+              selectedVersion={selectedVersion}
+              currentContent={currentContent}
+              documentTitle={documentTitle}
+            />
+          </div>
+
+          {/* Tab Content Container */}
+          <div className="tab-content-container">
+            {/* Tab Navigation */}
+            <div className="tab-navigation">
+              <button 
+                className={`tab ${activeTab === 'create' ? 'active' : ''}`}
+                onClick={() => setActiveTab('create')}
+              >
+                Create Version
+              </button>
+              <button 
+                className={`tab ${activeTab === 'history' ? 'active' : ''}`}
+                onClick={() => setActiveTab('history')}
+              >
+                Version History
+              </button>
+              <button 
+                className={`tab ${activeTab === 'stats' ? 'active' : ''}`}
+                onClick={() => setActiveTab('stats')}
+              >
+                Chain Stats
+              </button>
+            </div>
 
         {/* Create Version Tab */}
         {activeTab === 'create' && (
@@ -454,33 +493,35 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
           </div>
         )}
 
-        {/* Inscription Progress */}
-        {inscriptionProgress && (
-          <div className="inscription-progress">
-            <div className="progress-header">
-              <span>{inscriptionProgress.message}</span>
-              <span>{inscriptionProgress.progress}%</span>
-            </div>
-            <div className="progress-bar">
-              <div 
-                className="progress-fill" 
-                style={{ width: `${inscriptionProgress.progress}%` }}
-              />
-            </div>
-            {inscriptionProgress.txId && (
-              <p className="tx-info">Transaction: {inscriptionProgress.txId}</p>
+            {/* Inscription Progress */}
+            {inscriptionProgress && (
+              <div className="inscription-progress">
+                <div className="progress-header">
+                  <span>{inscriptionProgress.message}</span>
+                  <span>{inscriptionProgress.progress}%</span>
+                </div>
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill" 
+                    style={{ width: `${inscriptionProgress.progress}%` }}
+                  />
+                </div>
+                {inscriptionProgress.txId && (
+                  <p className="tx-info">Transaction: {inscriptionProgress.txId}</p>
+                )}
+              </div>
+            )}
+
+            {/* Inscription Error */}
+            {inscriptionError && (
+              <div className="inscription-error">
+                <h4>⚠️ Inscription Error</h4>
+                <p>{inscriptionError.message}</p>
+                <small>Error code: {inscriptionError.code}</small>
+              </div>
             )}
           </div>
-        )}
-
-        {/* Inscription Error */}
-        {inscriptionError && (
-          <div className="inscription-error">
-            <h4>⚠️ Inscription Error</h4>
-            <p>{inscriptionError.message}</p>
-            <small>Error code: {inscriptionError.code}</small>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

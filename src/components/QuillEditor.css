@@ -3,9 +3,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  max-width: 100%;
   background: #ffffff;
   border-radius: 8px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .quill-toolbar-extra {
@@ -78,7 +81,10 @@
   font-size: 16px;
   border: none;
   background: #ffffff;
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden !important;
+  box-sizing: border-box;
 }
 
 .quill-editor .ql-editor {
@@ -338,4 +344,61 @@
   .quill-toolbar-extra {
     flex-wrap: wrap;
   }
+  
+  /* Adjust for smaller drop pad on mobile (80px width + 20px right margin + 10px buffer) */
+  .quill-editor-container {
+    width: calc(100vw - 110px);
+    max-width: calc(100vw - 110px);
+  }
+}
+
+/* Critical fix to prevent horizontal overflow and layout issues */
+.quill-editor,
+.quill-editor *,
+.ql-editor,
+.ql-editor *,
+.ql-container,
+.ql-container * {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Ensure editor container has proper boundaries and doesn't overlap drop zone */
+.quill-editor-container {
+  position: relative;
+  /* Calculate width to leave space for drop pad: 100vw - drop pad width - margins - buffer */
+  width: calc(100vw - 170px);
+  max-width: calc(100vw - 170px);
+  overflow: hidden;
+  border: none !important;
+}
+
+/* Remove any borders that might be causing layout issues */
+.quill-editor .ql-container,
+.quill-editor .ql-editor {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Specific targeting for any elements that might cause overflow */
+.ql-editor img,
+.ql-editor video,
+.ql-editor iframe,
+.ql-editor canvas,
+.ql-editor table {
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Force any absolutely positioned elements to stay within bounds */
+.quill-editor .ql-tooltip,
+.quill-editor .ql-picker-options {
+  max-width: calc(100vw - 40px) !important;
+  left: 20px !important;
+  right: 20px !important;
 }

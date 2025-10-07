@@ -252,12 +252,12 @@ export class StripeSubscriptionService {
       const { sessionId } = await response.json();
 
       // Redirect to Stripe Checkout
-      const { error } = await (this.stripe as any)!.redirectToCheckout({
+      const result = await (this.stripe as any)!.redirectToCheckout({
         sessionId,
       });
 
-      if (error) {
-        throw new Error(error.message);
+      if (result.error) {
+        throw new Error(result.error.message);
       }
     } catch (error) {
       console.error('Error redirecting to checkout:', error);
