@@ -3,28 +3,33 @@ const router = express.Router();
 const { TwitterApi } = require('twitter-api-v2');
 const crypto = require('crypto');
 
-// Store OAuth tokens temporarily (in production, use Redis or a database)
+// Store OAuth tokens and user sessions temporarily (in production, use Redis or a database)
 const oauthTokens = new Map();
+const userSessions = new Map();
 
-// Twitter API configuration
+// Twitter API configuration for OAuth 2.0
 const twitterClient = new TwitterApi({
-  appKey: process.env.TWITTER_API_KEY || 'your-api-key',
-  appSecret: process.env.TWITTER_API_SECRET || 'your-api-secret',
-  accessToken: process.env.TWITTER_ACCESS_TOKEN,
-  accessSecret: process.env.TWITTER_ACCESS_SECRET,
+  clientId: process.env.TWITTER_CLIENT_ID,
+  clientSecret: process.env.TWITTER_CLIENT_SECRET,
 });
 
 // Generate OAuth URL for Twitter authentication
 router.get('/auth/url', async (req, res) => {
   try {
-    const callbackUrl = process.env.TWITTER_CALLBACK_URL || 'http://localhost:3000/auth/twitter/callback';
+    const callbackUrl = process.env.TWITTER_REDIRECT_URI || 'http://localhost:3001/api/auth/callback/twitter';
     
-    // Generate OAuth link
-    const authLink = await twitterClient.generateAuthLink(callbackUrl, { linkMode: 'authorize' });
+    // Generate OAuth 2.0 link with PKCE
+    const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(
+      callbackUrl,
+      { 
+        scope: ['tweet.read', 'tweet.write', 'users.read', 'offline.access'],
+        code_challenge_method: 'S256'
+      }
+    );
     
-    // Store the OAuth token secret temporarily
-    oauthTokens.set(authLink.oauth_token, {
-      oauth_token_secret: authLink.oauth_token_secret,
+    // Store the code verifier and state temporarily
+    oauthTokens.set(state, {
+      codeVerifier,
       timestamp: Date.now()
     });
     
@@ -35,7 +40,7 @@ router.get('/auth/url', async (req, res) => {
       }
     }
     
-    res.json({ authUrl: authLink.url });
+    res.json({ authUrl: url });
   } catch (error) {
     console.error('Failed to generate Twitter auth URL:', error);
     res.status(500).json({ error: 'Failed to initialize Twitter authentication' });
@@ -45,38 +50,57 @@ router.get('/auth/url', async (req, res) => {
 // Handle OAuth callback
 router.post('/auth/callback', async (req, res) => {
   try {
-    const { oauthToken, oauthVerifier } = req.body;
+    const { code, state } = req.body;
     
-    // Retrieve the stored OAuth token secret
-    const tokenData = oauthTokens.get(oauthToken);
+    // Retrieve the stored code verifier
+    const tokenData = oauthTokens.get(state);
     if (!tokenData) {
-      return res.status(400).json({ error: 'Invalid or expired OAuth token' });
+      return res.status(400).json({ error: 'Invalid or expired OAuth state' });
     }
     
-    const { oauth_token_secret } = tokenData;
+    const { codeVerifier } = tokenData;
     
-    // Create a client with the OAuth token and secret
-    const client = new TwitterApi({
-      appKey: process.env.TWITTER_API_KEY || 'your-api-key',
-      appSecret: process.env.TWITTER_API_SECRET || 'your-api-secret',
-      accessToken: oauthToken,
-      accessSecret: oauth_token_secret,
+    // Exchange authorization code for access token
+    const {
+      client: loggedClient,
+      accessToken,
+      refreshToken,
+      expiresIn,
+    } = await twitterClient.loginWithOAuth2({
+      code,
+      codeVerifier,
+      redirectUri: process.env.TWITTER_REDIRECT_URI || 'http://localhost:3001/api/auth/callback/twitter',
     });
     
-    // Get the access token
-    const { client: loggedClient, accessToken, accessSecret } = await client.login(oauthVerifier);
-    
-    // Get user information
-    const user = await loggedClient.v2.me();
+    // Get user information with profile image
+    const user = await loggedClient.v2.me({ 'user.fields': ['profile_image_url'] });
     
     // Generate a session token for our app
     const sessionToken = crypto.randomBytes(32).toString('hex');
     
-    // In production, store this in a database with the user info and Twitter tokens
-    // For now, we'll just return it to the client
+    // Store the user session with their Twitter tokens
+    userSessions.set(sessionToken, {
+      user: {
+        id: user.data.id,
+        username: user.data.username,
+        name: user.data.name,
+        profile_image_url: user.data.profile_image_url
+      },
+      accessToken,
+      refreshToken,
+      expiresIn,
+      timestamp: Date.now()
+    });
+    
+    // Clean up old sessions (older than 1 hour)
+    for (const [token, data] of userSessions.entries()) {
+      if (Date.now() - data.timestamp > 3600000) {
+        userSessions.delete(token);
+      }
+    }
     
     // Clean up the temporary OAuth token
-    oauthTokens.delete(oauthToken);
+    oauthTokens.delete(state);
     
     res.json({
       user: {
@@ -103,20 +127,35 @@ router.get('/auth/verify', async (req, res) => {
     
     const sessionToken = authHeader.substring(7);
     
-    // In production, verify the session token against your database
-    // For now, we'll just check if it exists and is valid format
-    if (!sessionToken || sessionToken.length !== 64) {
-      return res.status(401).json({ error: 'Invalid authentication token' });
+    // Check if session exists
+    const sessionData = userSessions.get(sessionToken);
+    if (!sessionData) {
+      return res.status(401).json({ error: 'Invalid or expired authentication token' });
     }
     
-    // Return user info (in production, fetch from database)
-    res.json({
-      user: {
-        id: 'demo-user',
-        username: 'demo',
-        name: 'Demo User'
-      }
-    });
+    // Check if session is not too old (1 hour)
+    if (Date.now() - sessionData.timestamp > 3600000) {
+      userSessions.delete(sessionToken);
+      return res.status(401).json({ error: 'Session expired' });
+    }
+    
+    // Verify the user still exists on Twitter by making a quick API call
+    try {
+      const userClient = new TwitterApi(sessionData.accessToken);
+      
+      // Quick verification call
+      await userClient.v2.me();
+      
+      // Return cached user info
+      res.json({
+        user: sessionData.user
+      });
+    } catch (twitterError) {
+      console.error('Twitter API verification failed:', twitterError);
+      // If Twitter API call fails, remove the session
+      userSessions.delete(sessionToken);
+      return res.status(401).json({ error: 'Twitter authentication no longer valid' });
+    }
   } catch (error) {
     console.error('Failed to verify auth:', error);
     res.status(500).json({ error: 'Failed to verify authentication' });
@@ -131,6 +170,7 @@ router.post('/post', async (req, res) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
     
+    const sessionToken = authHeader.substring(7);
     const { text, replyToId, mediaIds } = req.body;
     
     if (!text || text.length === 0) {
@@ -141,40 +181,60 @@ router.post('/post', async (req, res) => {
       return res.status(400).json({ error: 'Tweet text exceeds 280 characters' });
     }
     
-    // In production, you would:
-    // 1. Verify the session token
-    // 2. Retrieve the user's Twitter access tokens from database
-    // 3. Create a client with those tokens
-    // 4. Post the tweet
+    // Get user session
+    const sessionData = userSessions.get(sessionToken);
+    if (!sessionData) {
+      return res.status(401).json({ error: 'Invalid or expired authentication token' });
+    }
     
-    // For demo purposes, we'll simulate a successful post
-    const tweetId = Date.now().toString();
+    // Check if session is not too old
+    if (Date.now() - sessionData.timestamp > 3600000) {
+      userSessions.delete(sessionToken);
+      return res.status(401).json({ error: 'Session expired' });
+    }
     
-    res.json({
+    // Create authenticated Twitter client for the user
+    const userClient = new TwitterApi(sessionData.accessToken);
+    
+    // Post the tweet
+    const tweetPayload = {
+      text
+    };
+    
+    // Add reply if specified
+    if (replyToId) {
+      tweetPayload.reply = { in_reply_to_tweet_id: replyToId };
+    }
+    
+    // Add media if specified
+    if (mediaIds && mediaIds.length > 0) {
+      tweetPayload.media = { media_ids: mediaIds };
+    }
+    
+    const tweet = await userClient.v2.tweet(tweetPayload);
+    
+    res.json({ 
       data: {
-        id: tweetId,
-        text: text
+        id: tweet.data.id,
+        text: tweet.data.text
       }
     });
-    
-    /* Production code would look like:
-    const userClient = new TwitterApi({
-      appKey: process.env.TWITTER_API_KEY,
-      appSecret: process.env.TWITTER_API_SECRET,
-      accessToken: userAccessToken,
-      accessSecret: userAccessSecret,
-    });
-    
-    const tweet = await userClient.v2.tweet({
-      text,
-      reply: replyToId ? { in_reply_to_tweet_id: replyToId } : undefined,
-      media: mediaIds ? { media_ids: mediaIds } : undefined
-    });
-    
-    res.json({ data: tweet.data });
-    */
   } catch (error) {
     console.error('Failed to post tweet:', error);
+    
+    // Check if it's a Twitter API error
+    if (error.code === 401) {
+      return res.status(401).json({ error: 'Twitter authentication expired' });
+    }
+    
+    if (error.data && error.data.errors) {
+      const twitterError = error.data.errors[0];
+      return res.status(400).json({ 
+        error: `Twitter API error: ${twitterError.message}`,
+        code: twitterError.code
+      });
+    }
+    
     res.status(500).json({ error: 'Failed to post to Twitter' });
   }
 });
