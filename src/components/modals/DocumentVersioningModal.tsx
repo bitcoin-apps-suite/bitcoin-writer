@@ -185,8 +185,20 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
 
   if (!isOpen) return null;
 
+  // Detect dev sidebar state from app container class
+  const appContainer = document.querySelector('.app-container');
+  const hasDevSidebar = appContainer?.classList.contains('with-dev-sidebar');
+  const hasDevSidebarCollapsed = appContainer?.classList.contains('with-dev-sidebar-collapsed');
+  
+  let overlayClass = 'modal-overlay';
+  if (hasDevSidebarCollapsed) {
+    overlayClass += ' with-dev-sidebar-collapsed';
+  } else if (!hasDevSidebar) {
+    overlayClass += ' no-dev-sidebar';
+  }
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className={overlayClass} onClick={onClose}>
       <div className="versioning-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>🌳 Work Tree</h2>
