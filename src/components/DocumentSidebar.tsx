@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
-import { formatUSD } from '../utils/pricingCalculator';
 import { LocalDocumentStorage } from '../utils/documentStorage';
+import ProtocolBadge from './ProtocolBadge';
 
 interface DocumentSidebarProps {
   documentService: BlockchainDocumentService | null;
@@ -91,15 +91,22 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
     // Load documents for both authenticated and guest users
     loadDocuments();
     
-    // Listen for document creation events
+    // Listen for document events
     const handleDocumentCreated = () => {
+      loadDocuments();
+    };
+
+    const handleDocumentsSync = (event: CustomEvent) => {
+      console.log('Documents synced:', event.detail);
       loadDocuments();
     };
     
     window.addEventListener('documentCreated', handleDocumentCreated);
+    window.addEventListener('documentsSync', handleDocumentsSync as EventListener);
     
     return () => {
       window.removeEventListener('documentCreated', handleDocumentCreated);
+      window.removeEventListener('documentsSync', handleDocumentsSync as EventListener);
     };
   }, [loadDocuments]);
 
@@ -178,12 +185,48 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
 
   const getStorageIcon = (storageMethod?: string) => {
     switch (storageMethod) {
-      case 'op_return': return '📝';
-      case 'ordinals': return '🎨';
-      case 'encrypted_data': return '🔐';
-      case 'metanet': return '🌐';
+      case 'blockchain': return '⛓️'; // Published to blockchain
+      case 'op_return': return '📝'; // OP_RETURN storage
+      case 'ordinals': return '🎨'; // Ordinals/Inscriptions
+      case 'encrypted_data': return '🔐'; // Encrypted storage
+      case 'metanet': return '🌐'; // Metanet protocol
+      case 'hashed': return '🔗'; // Hashed/BSV storage
+      case 'local': return '💾'; // Local storage only
       case 'pdf': return '📑';
       default: return '📄';
+    }
+  };
+
+  const getProtocolFromDocument = (doc: BlockchainDocument): 'b' | 'd' | 'bcat' | 'bico' | 'local' | 'unknown' => {
+    // Check if document has protocol information
+    if (doc.protocol) {
+      const protocolMap: { [key: string]: 'b' | 'd' | 'bcat' | 'bico' } = {
+        'B': 'b',
+        'D': 'd', 
+        'Bcat': 'bcat'
+      };
+      return protocolMap[doc.protocol] || 'b';
+    }
+    
+    // Legacy detection based on storage method
+    switch (doc.storage_method) {
+      case 'local':
+        return 'local';
+      case 'blockchain':
+      case 'hashed':
+        // Try to detect based on URL patterns or metadata
+        if (doc.protocol_reference?.startsWith('b://')) {
+          return 'b';
+        }
+        if (doc.protocol_reference?.startsWith('D://')) {
+          return 'd';
+        }
+        if (doc.bico_url && doc.bico_url.includes('bico.media')) {
+          return 'bico';
+        }
+        return 'b'; // Default to B:// for blockchain storage
+      default:
+        return 'unknown';
     }
   };
 
@@ -242,6 +285,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                   <div className="mobile-doc-header">
                     <span className="mobile-doc-icon">{getStorageIcon(doc.storage_method)}</span>
                     <span className="mobile-doc-title">{doc.title}</span>
+                    <ProtocolBadge protocol={getProtocolFromDocument(doc)} size="small" />
                     <span className="mobile-doc-date">{formatDate(doc.updated_at)}</span>
                   </div>
                   {doc.preview && (
@@ -311,8 +355,13 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                     className="document-button"
                     onClick={() => onDocumentSelect(doc)}
                   >
-                    <span className="document-icon">{getStorageIcon(doc.storage_method)}</span>
-                    <span className="document-title">{doc.title || 'Untitled'}</span>
+                    <div className="document-main-info">
+                      <span className="document-icon">{getStorageIcon(doc.storage_method)}</span>
+                      <span className="document-title">{doc.title || 'Untitled'}</span>
+                    </div>
+                    <div className="document-meta">
+                      <ProtocolBadge protocol={getProtocolFromDocument(doc)} size="small" showLabel={false} />
+                    </div>
                   </button>
                   <div className="document-actions">
                     {onPublishDocument && (

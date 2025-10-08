@@ -1317,6 +1317,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         documentTitle={currentDocument?.title || 'Untitled Document'}
         authorAddress={documentService?.handcashService?.getCurrentUser()?.paymail || 'unknown'}
         authorHandle={documentService?.handcashService?.getCurrentUser()?.handle}
+        blockchainService={documentService}
         onContentRestore={(content) => {
           setQuillContent(content);
           setEditorContent(content);

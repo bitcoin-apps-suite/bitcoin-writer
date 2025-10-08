@@ -14,6 +14,7 @@ export interface UnlockConditions {
 
 export interface BlockchainSaveOptions {
   storageMethod: 'direct' | 'ipfs' | 'hybrid' | 'cloud';
+  bsvProtocol?: 'auto' | 'b' | 'd' | 'bcat' | 'bico'; // BSV protocol selection
   cloudProvider?: 'googledrive' | 'aws-s3' | 'supabase' | 'cloudflare-r2' | 'azure-blob';
   cloudConfig?: {
     apiKey?: string;
@@ -68,6 +69,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   
   // Storage options
   const [storageMethod, setStorageMethod] = useState<'direct' | 'ipfs' | 'hybrid' | 'cloud'>('direct');
+  const [bsvProtocol, setBsvProtocol] = useState<'auto' | 'b' | 'd' | 'bcat' | 'bico'>('auto');
   const [cloudProvider, setCloudProvider] = useState<'googledrive' | 'aws-s3' | 'supabase' | 'cloudflare-r2' | 'azure-blob'>('googledrive');
   const [cloudApiKey, setCloudApiKey] = useState('');
   const [cloudBucket, setCloudBucket] = useState('');
@@ -120,9 +122,32 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
   if (!isOpen) return null;
 
+  const getProtocolCost = (): { base: number; description: string } => {
+    switch (bsvProtocol) {
+      case 'b':
+        return { base: 0.0005, description: 'B:// Protocol (standard)' };
+      case 'd':
+        return { base: 0.001, description: 'D:// Protocol (dynamic)' };
+      case 'bcat':
+        return { base: 0.002, description: 'Bcat Protocol (large files)' };
+      case 'bico':
+        return { base: 0.0008, description: 'Bico.Media CDN' };
+      case 'auto':
+      default:
+        // Auto-select based on file size
+        if (estimatedSize > 100000) {
+          return { base: 0.002, description: 'Auto: Bcat (large file)' };
+        } else if (estimatedSize > 50000) {
+          return { base: 0.0008, description: 'Auto: Bico.Media' };
+        } else {
+          return { base: 0.0005, description: 'Auto: B:// Protocol' };
+        }
+    }
+  };
+
   const calculateStorageCost = (): number => {
-    const baseCost = 0.01; // Flat 1 penny base cost
-    let totalCost = baseCost;
+    const protocolCost = getProtocolCost();
+    let totalCost = protocolCost.base;
     
     if (storageMethod === 'hybrid') {
       totalCost += 0.005; // Extra for IPFS pinning
@@ -205,6 +230,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
 
     const options: BlockchainSaveOptions = {
       storageMethod,
+      bsvProtocol,
       ...(storageMethod === 'cloud' ? {
         cloudProvider,
         cloudConfig: {
@@ -245,8 +271,8 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="save-blockchain-modal">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="save-blockchain-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Publish & Monetize with Bitcoin</h2>
           <button className="close-btn" onClick={onClose} disabled={isLoading}>×</button>
@@ -301,6 +327,119 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
         <div className="modal-content">
           {activeTab === 'storage' && (
             <div className="tab-content storage-tab">
+              <h3>BSV Protocol Selection</h3>
+              <div className="protocol-selection" style={{ marginBottom: '30px' }}>
+                <div className="protocol-options">
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="protocol"
+                      value="auto"
+                      checked={bsvProtocol === 'auto'}
+                      onChange={(e) => setBsvProtocol(e.target.value as any)}
+                      disabled={isLoading}
+                    />
+                    <div className="option-content">
+                      <strong>🔍 Auto-Select (Recommended)</strong>
+                      <p>Automatically choose the best protocol based on content size and features.</p>
+                      <small style={{ color: '#888' }}>
+                        {getProtocolCost().description} - ${getProtocolCost().base.toFixed(4)}
+                      </small>
+                    </div>
+                  </label>
+
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="protocol"
+                      value="b"
+                      checked={bsvProtocol === 'b'}
+                      onChange={(e) => setBsvProtocol(e.target.value as any)}
+                      disabled={isLoading}
+                    />
+                    <div className="option-content">
+                      <strong>🅱️ B:// Protocol</strong>
+                      <p>Standard on-chain storage. Best for small-medium documents.</p>
+                      <small style={{ color: '#888' }}>
+                        Direct blockchain storage - $0.0005 base cost
+                      </small>
+                    </div>
+                  </label>
+
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="protocol"
+                      value="d"
+                      checked={bsvProtocol === 'd'}
+                      onChange={(e) => setBsvProtocol(e.target.value as any)}
+                      disabled={isLoading}
+                    />
+                    <div className="option-content">
+                      <strong>🔄 D:// Protocol</strong>
+                      <p>Dynamic references for updatable content and document indexes.</p>
+                      <small style={{ color: '#888' }}>
+                        Mutable references - $0.001 base cost
+                      </small>
+                    </div>
+                  </label>
+
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="protocol"
+                      value="bcat"
+                      checked={bsvProtocol === 'bcat'}
+                      onChange={(e) => setBsvProtocol(e.target.value as any)}
+                      disabled={isLoading}
+                    />
+                    <div className="option-content">
+                      <strong>📚 Bcat Protocol</strong>
+                      <p>Large file support via transaction splitting. Best for 100KB+ documents.</p>
+                      <small style={{ color: '#888' }}>
+                        Multi-part storage - $0.002 base cost
+                      </small>
+                    </div>
+                  </label>
+
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="protocol"
+                      value="bico"
+                      checked={bsvProtocol === 'bico'}
+                      onChange={(e) => setBsvProtocol(e.target.value as any)}
+                      disabled={isLoading}
+                    />
+                    <div className="option-content">
+                      <strong>🌐 Bico.Media CDN</strong>
+                      <p>Global CDN delivery with B://eard templating support.</p>
+                      <small style={{ color: '#888' }}>
+                        CDN + blockchain - $0.0008 base cost
+                      </small>
+                    </div>
+                  </label>
+                </div>
+
+                {bsvProtocol === 'bico' && (
+                  <div className="bico-features" style={{ 
+                    marginTop: '15px', 
+                    padding: '12px', 
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)', 
+                    border: '1px solid rgba(59, 130, 246, 0.3)', 
+                    borderRadius: '6px' 
+                  }}>
+                    <strong style={{ color: '#60a5fa' }}>🎨 Bico.Media Features:</strong>
+                    <ul style={{ margin: '5px 0 0 20px', fontSize: '12px', color: '#ccc' }}>
+                      <li>Global CDN for fast loading</li>
+                      <li>B://eard Mustache templating</li>
+                      <li>B://inject content inclusion</li>
+                      <li>Advanced content processing</li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+
               <h3>Storage Method</h3>
               <div className="storage-options">
                 <label className="radio-option">
@@ -1124,8 +1263,12 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
               <span>{(estimatedSize / 1024).toFixed(2)} KB</span>
             </div>
             <div className="cost-item">
-              <span>Base Storage:</span>
-              <span>$0.01</span>
+              <span>Protocol:</span>
+              <span>${getProtocolCost().base.toFixed(4)}</span>
+            </div>
+            <div className="cost-item" style={{ fontSize: '11px', color: '#888' }}>
+              <span>{getProtocolCost().description}</span>
+              <span></span>
             </div>
             {storageMethod === 'hybrid' && (
               <div className="cost-item">
@@ -1147,7 +1290,7 @@ const SaveToBlockchainModal: React.FC<SaveToBlockchainModalProps> = ({
             )}
             <div className="cost-item total">
               <span>Total Cost:</span>
-              <span>${calculateStorageCost().toFixed(3)}</span>
+              <span>${calculateStorageCost().toFixed(4)}</span>
             </div>
           </div>
           <div className="pricing-info" style={{ marginTop: '10px', fontSize: '12px', color: '#888' }}>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useDocumentVersioning } from '../../hooks/useDocumentVersioning';
+import { useIntegratedWorkTree } from '../../hooks/useIntegratedWorkTree';
+import { BlockchainDocumentService } from '../../services/BlockchainDocumentService';
 import WorkTreeCanvas from '../WorkTreeCanvas';
 import './DocumentVersioningModal.css';
 
@@ -12,6 +13,7 @@ interface DocumentVersioningModalProps {
   authorAddress: string;
   authorHandle?: string;
   onContentRestore?: (content: string) => void;
+  blockchainService?: BlockchainDocumentService | null;
 }
 
 const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
@@ -22,22 +24,25 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
   documentTitle,
   authorAddress,
   authorHandle,
-  onContentRestore
+  onContentRestore,
+  blockchainService
 }) => {
   const {
     versionChain,
-    isInscribing,
-    inscriptionProgress,
-    inscriptionError,
+    isOperating,
+    progress,
+    error,
     createVersion,
-    inscribeVersion,
-    createAndInscribeVersion,
+    checkoutVersion,
     getChainStats,
     verifyChain,
     getLatestVersion,
     currentHead,
-    setCurrentHead
-  } = useDocumentVersioning(documentId);
+    setCurrentHead,
+    getCostEstimates,
+    isReady,
+    isInitialized
+  } = useIntegratedWorkTree(documentId, blockchainService || null);
 
   const chainStats = getChainStats();
   const latestVersion = getLatestVersion();
@@ -46,37 +51,45 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
   const [selectedVersion, setSelectedVersion] = useState(latestVersion);
 
   // Handle version checkout (git checkout equivalent)
-  const handleVersionCheckout = useCallback((version: any) => {
+  const handleVersionCheckout = useCallback(async (version: any) => {
     if (version.localId === 'current') {
       // Can't checkout current - it's already current
       return;
     }
 
-    // Set HEAD pointer to this version - this is like git checkout
-    setCurrentHead?.(version);
-    
-    // Restore content to this version for editing
-    if (onContentRestore && version.content) {
-      onContentRestore(version.content);
+    try {
+      // Use integrated checkout which handles blockchain retrieval
+      const result = await checkoutVersion(version.metadata.version);
+      
+      // Restore content to this version for editing
+      if (onContentRestore) {
+        onContentRestore(result.content);
+      }
+      
+      // Show feedback but don't close modal so user can see the tree update
+      alert(`Checked out version ${version.metadata.version} - content restored`);
+    } catch (error) {
+      console.error('Failed to checkout version:', error);
+      alert(`Failed to checkout version ${version.metadata.version}`);
     }
-    
-    // Show feedback but don't close modal so user can see the tree update
-    alert(`HEAD moved to ${version.metadata.version || version.localId}`);
-  }, [onContentRestore, setCurrentHead]);
+  }, [onContentRestore, checkoutVersion]);
   const [isCreatingVersion, setIsCreatingVersion] = useState(false);
-  const [privateKey, setPrivateKey] = useState('');
+  const [costEstimates, setCostEstimates] = useState<any>(null);
   const [versionMetadata, setVersionMetadata] = useState({
     description: '',
     genre: '',
     tags: '',
     isPublished: false,
     isPaid: false,
+    storeOnBlockchain: false,
+    protocol: 'auto' as 'auto' | 'B' | 'D' | 'Bcat',
+    encrypt: false,
     createShares: false,
     shareCount: 1000,
     pricePerShare: 100
   });
 
-  // Reset form when modal opens
+  // Reset form when modal opens and get cost estimates
   useEffect(() => {
     if (isOpen) {
       setVersionMetadata({
@@ -85,13 +98,22 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
         tags: '',
         isPublished: false,
         isPaid: false,
+        storeOnBlockchain: false,
+        protocol: 'auto' as 'auto' | 'B' | 'D' | 'Bcat',
+        encrypt: false,
         createShares: false,
         shareCount: 1000,
         pricePerShare: 100
       });
-      setPrivateKey('');
+      
+      // Get cost estimates for current content
+      if (currentContent && getCostEstimates) {
+        getCostEstimates(currentContent).then(estimates => {
+          setCostEstimates(estimates);
+        }).catch(console.error);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, currentContent, getCostEstimates]);
 
   const handleCreateVersion = async () => {
     if (!currentContent.trim()) {
@@ -112,8 +134,24 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
         isPaid: versionMetadata.isPaid
       };
 
-      await createVersion(currentContent, metadata);
-      alert('Version created successfully!');
+      const options = {
+        storeOnBlockchain: versionMetadata.storeOnBlockchain,
+        protocol: versionMetadata.protocol,
+        encrypt: versionMetadata.encrypt,
+        createShares: versionMetadata.createShares,
+        shareOptions: versionMetadata.createShares ? {
+          totalShares: versionMetadata.shareCount,
+          pricePerShare: versionMetadata.pricePerShare
+        } : undefined
+      };
+
+      const inscription = await createVersion(currentContent, metadata, options);
+      
+      const successMessage = versionMetadata.storeOnBlockchain 
+        ? `Version ${inscription.metadata.version} created and stored on blockchain!`
+        : `Version ${inscription.metadata.version} created locally!`;
+      
+      alert(successMessage);
       
     } catch (error) {
       console.error('Failed to create version:', error);
@@ -123,61 +161,15 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
     }
   };
 
-  const handleInscribeLatest = async () => {
-    if (!latestVersion) {
-      alert('No version to inscribe');
-      return;
-    }
-
-    if (!privateKey.trim()) {
-      alert('Private key is required for inscription');
-      return;
-    }
-
-    try {
-      await inscribeVersion(latestVersion, privateKey);
-      alert('Version inscribed successfully!');
-      setPrivateKey(''); // Clear for security
-      
-    } catch (error) {
-      console.error('Failed to inscribe version:', error);
-      alert('Failed to inscribe version. Please try again.');
-    }
-  };
-
-  const handleCreateAndInscribe = async () => {
-    if (!currentContent.trim()) {
-      alert('Cannot create version with empty content');
-      return;
-    }
-
-    if (!privateKey.trim()) {
-      alert('Private key is required for inscription');
-      return;
-    }
-
-    setIsCreatingVersion(true);
-    try {
-      const metadata = {
-        title: documentTitle,
-        description: versionMetadata.description,
-        author: authorAddress,
-        authorHandle,
-        genre: versionMetadata.genre || undefined,
-        tags: versionMetadata.tags ? versionMetadata.tags.split(',').map(t => t.trim()) : undefined,
-        isPublished: versionMetadata.isPublished,
-        isPaid: versionMetadata.isPaid
-      };
-
-      await createAndInscribeVersion(currentContent, metadata, privateKey);
-      alert('Version created and inscribed successfully!');
-      setPrivateKey(''); // Clear for security
-      
-    } catch (error) {
-      console.error('Failed to create and inscribe version:', error);
-      alert('Failed to create and inscribe version. Please try again.');
-    } finally {
-      setIsCreatingVersion(false);
+  // Cost calculation helper
+  const getSelectedProtocolCost = () => {
+    if (!costEstimates) return 0;
+    
+    switch (versionMetadata.protocol) {
+      case 'B': return costEstimates.b.cost;
+      case 'D': return costEstimates.d.cost;
+      case 'Bcat': return costEstimates.bcat.cost;
+      default: return costEstimates[costEstimates.recommended.toLowerCase()].cost;
     }
   };
 
@@ -298,12 +290,64 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
                 <label>
                   <input
                     type="checkbox"
+                    checked={versionMetadata.storeOnBlockchain}
+                    onChange={(e) => setVersionMetadata(prev => ({ ...prev, storeOnBlockchain: e.target.checked }))}
+                    disabled={!isReady}
+                  />
+                  Store on Blockchain {!isReady && '(Login Required)'}
+                </label>
+
+                {versionMetadata.storeOnBlockchain && (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={versionMetadata.encrypt}
+                      onChange={(e) => setVersionMetadata(prev => ({ ...prev, encrypt: e.target.checked }))}
+                    />
+                    Encrypt Content
+                  </label>
+                )}
+
+                <label>
+                  <input
+                    type="checkbox"
                     checked={versionMetadata.createShares}
                     onChange={(e) => setVersionMetadata(prev => ({ ...prev, createShares: e.target.checked }))}
                   />
                   Create Share Tokens
                 </label>
               </div>
+
+              {versionMetadata.storeOnBlockchain && (
+                <div className="blockchain-options">
+                  <div className="form-group">
+                    <label>Storage Protocol</label>
+                    <select
+                      value={versionMetadata.protocol}
+                      onChange={(e) => setVersionMetadata(prev => ({ 
+                        ...prev, 
+                        protocol: e.target.value as 'auto' | 'B' | 'D' | 'Bcat' 
+                      }))}
+                    >
+                      <option value="auto">Auto-select (Recommended)</option>
+                      <option value="B">B:// Protocol</option>
+                      <option value="D">D:// Protocol</option>
+                      <option value="Bcat">Bcat Protocol (Large Files)</option>
+                    </select>
+                  </div>
+                  
+                  {costEstimates && (
+                    <div className="cost-estimate">
+                      <small>
+                        Estimated cost: ${getSelectedProtocolCost().toFixed(4)} USD
+                        {costEstimates.recommended && versionMetadata.protocol === 'auto' && (
+                          <span> (using {costEstimates.recommended}://)</span>
+                        )}
+                      </small>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {versionMetadata.createShares && (
                 <div className="form-row">
@@ -333,46 +377,25 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
               <div className="action-buttons">
                 <button 
                   onClick={handleCreateVersion}
-                  disabled={isCreatingVersion || isInscribing}
+                  disabled={isCreatingVersion || isOperating || !isInitialized}
                   className="btn-create"
                 >
-                  {isCreatingVersion ? 'Creating...' : 'Create Version (Local)'}
+                  {isCreatingVersion ? 'Creating...' : 
+                   versionMetadata.storeOnBlockchain ? 'Create Version & Store on Blockchain' : 'Create Version (Local)'}
                 </button>
-
-                <div className="inscription-section">
-                  <div className="form-group">
-                    <label>Private Key (for inscription)</label>
-                    <input
-                      type="password"
-                      value={privateKey}
-                      onChange={(e) => setPrivateKey(e.target.value)}
-                      placeholder="Enter private key to inscribe to Bitcoin..."
-                    />
+                
+                {!isInitialized && (
+                  <div className="init-status">
+                    <small>⏳ Initializing Work Tree...</small>
                   </div>
-
-                  <button 
-                    onClick={handleCreateAndInscribe}
-                    disabled={isCreatingVersion || isInscribing || !privateKey.trim()}
-                    className="btn-inscribe"
-                  >
-                    {isInscribing ? 'Inscribing...' : 'Create & Inscribe to Bitcoin'}
-                  </button>
-                </div>
+                )}
+                
+                {error && (
+                  <div className="error-message">
+                    <small>❌ {error.message}</small>
+                  </div>
+                )}
               </div>
-
-              {latestVersion && latestVersion.status === 'draft' && (
-                <div className="existing-version-section">
-                  <h4>Inscribe Latest Version</h4>
-                  <p>Version {latestVersion.metadata.version} is ready to be inscribed to Bitcoin.</p>
-                  <button 
-                    onClick={handleInscribeLatest}
-                    disabled={isInscribing || !privateKey.trim()}
-                    className="btn-inscribe"
-                  >
-                    {isInscribing ? 'Inscribing...' : 'Inscribe Latest Version'}
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -452,6 +475,11 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
                   </div>
 
                   <div className="stat-card">
+                    <h4>Blockchain Versions</h4>
+                    <div className="stat-value">{chainStats.inscribedVersions || 0}</div>
+                  </div>
+
+                  <div className="stat-card">
                     <h4>Total Word Count</h4>
                     <div className="stat-value">{chainStats.totalWordCount.toLocaleString()}</div>
                   </div>
@@ -496,31 +524,31 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
           </div>
         )}
 
-            {/* Inscription Progress */}
-            {inscriptionProgress && (
-              <div className="inscription-progress">
+            {/* Operation Progress */}
+            {progress && (
+              <div className="operation-progress">
                 <div className="progress-header">
-                  <span>{inscriptionProgress.message}</span>
-                  <span>{inscriptionProgress.progress}%</span>
+                  <span>{progress.message}</span>
+                  <span>{progress.progress}%</span>
                 </div>
                 <div className="progress-bar">
                   <div 
                     className="progress-fill" 
-                    style={{ width: `${inscriptionProgress.progress}%` }}
+                    style={{ width: `${progress.progress}%` }}
                   />
                 </div>
-                {inscriptionProgress.txId && (
-                  <p className="tx-info">Transaction: {inscriptionProgress.txId}</p>
+                {progress.txId && (
+                  <p className="tx-info">Transaction: {progress.txId}</p>
                 )}
               </div>
             )}
 
-            {/* Inscription Error */}
-            {inscriptionError && (
-              <div className="inscription-error">
-                <h4>⚠️ Inscription Error</h4>
-                <p>{inscriptionError.message}</p>
-                <small>Error code: {inscriptionError.code}</small>
+            {/* Operation Error */}
+            {error && (
+              <div className="operation-error">
+                <h4>⚠️ Operation Error</h4>
+                <p>{error.message}</p>
+                <small>Error code: {error.code}</small>
               </div>
             )}
           </div>
