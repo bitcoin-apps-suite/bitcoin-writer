@@ -1578,14 +1578,35 @@ main {
 .modal-overlay {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100vw;
+  left: 260px; /* Position to the right of dev sidebar */
+  width: calc(100vw - 260px);
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
+  transition: left 0.3s ease, width 0.3s ease;
+}
+
+/* Modal positioning for collapsed dev sidebar */
+.modal-overlay.with-dev-sidebar-collapsed {
+  left: 60px;
+  width: calc(100vw - 60px);
+}
+
+/* Modal positioning when no dev sidebar */
+.modal-overlay.no-dev-sidebar {
+  left: 0;
+  width: 100vw;
+}
+
+/* Modal positioning for mobile (no dev sidebar) */
+@media (max-width: 768px) {
+  .modal-overlay {
+    left: 0;
+    width: 100vw;
+  }
 }
 
 .document-list-modal {

@@ -626,7 +626,8 @@ function App() {
                       setActiveAppOverview(null);
                     }}
                     style={{
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      paddingTop: '12px'
                     }}
                     title="Return to main view"
                   >

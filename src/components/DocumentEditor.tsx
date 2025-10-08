@@ -1071,7 +1071,17 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             </button>
             
             {/* Work Tree */}
-            <button onClick={() => setShowVersioningModal(true)} title="Work Tree">
+            <button onClick={() => setShowVersioningModal(true)} title="Work Tree" style={{ minWidth: '120px' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ marginRight: '6px', verticalAlign: 'middle' }}>
+                {/* Tree trunk */}
+                <rect x="11" y="16" width="2" height="6" fill="#8b4513" />
+                {/* Tree foliage layers */}
+                <circle cx="12" cy="8" r="6" fill="#22c55e" opacity="0.9" />
+                <circle cx="12" cy="10" r="5" fill="#16a34a" opacity="0.8" />
+                <circle cx="12" cy="12" r="4" fill="#15803d" opacity="0.7" />
+                {/* Tree branches/details */}
+                <path d="M8 10l2-1M16 10l-2-1M9 12l1.5-0.5M15 12l-1.5-0.5" stroke="#0f5132" strokeWidth="1" strokeLinecap="round" />
+              </svg>
               Work Tree
             </button>
             
