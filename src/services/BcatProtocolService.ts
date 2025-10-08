@@ -691,6 +691,20 @@ export class BcatProtocolService {
   private storeBcatTransactionInfo(txId: string, transaction: BcatTransaction): void {
     localStorage.setItem(`bcat_${txId}`, JSON.stringify(transaction));
   }
+
+  /**
+   * Get protocol badge information for Bcat transactions
+   */
+  getProtocolBadge(txId: string): { name: string; description: string; color: string; icon: string } | null {
+    if (!txId) return null;
+    
+    return {
+      name: 'Bcat',
+      description: 'Large file storage via concatenation protocol - supports files up to ~290MB by splitting across multiple BSV transactions',
+      color: '#FF7F50', // Coral orange
+      icon: '🗂️' // File organizer icon representing concatenated parts
+    };
+  }
 }
 
 export default BcatProtocolService;

@@ -546,6 +546,20 @@ export class DProtocolService {
     const CryptoJS = require('crypto-js');
     return CryptoJS.SHA256(JSON.stringify(data) + Date.now().toString()).toString();
   }
+
+  /**
+   * Get protocol badge information for D:// protocol
+   */
+  getProtocolBadge(txId: string): { name: string; description: string; color: string; icon: string } | null {
+    if (!txId) return null;
+    
+    return {
+      name: 'D://',
+      description: 'Document indexing protocol - creates searchable document directories with metadata, tags, and version control on BSV blockchain',
+      color: '#4169E1', // Royal blue
+      icon: '📚' // Books icon representing directories/indexing
+    };
+  }
 }
 
 export default DProtocolService;
