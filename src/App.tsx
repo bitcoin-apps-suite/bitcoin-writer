@@ -615,7 +615,8 @@ function App() {
                     style={{
                       width: '32px',
                       height: '32px',
-                      marginRight: '12px',
+                      marginRight: '16px',
+                      marginTop: '4px',
                       verticalAlign: 'baseline'
                     }}
                   />
