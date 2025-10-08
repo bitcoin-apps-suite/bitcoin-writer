@@ -466,6 +466,20 @@ export class BProtocolService {
   private countWords(content: string): number {
     return content.trim().split(/\s+/).filter(word => word.length > 0).length;
   }
+
+  /**
+   * Get protocol badge information for B:// protocol
+   */
+  getProtocolBadge(txId: string): { name: string; description: string; color: string; icon: string } | null {
+    if (!txId) return null;
+    
+    return {
+      name: 'B://',
+      description: 'Basic file storage protocol - stores files directly on BSV blockchain with B:// addressing for immediate content retrieval',
+      color: '#FF6600', // Orange
+      icon: '📄' // Document icon
+    };
+  }
 }
 
 export default BProtocolService;
