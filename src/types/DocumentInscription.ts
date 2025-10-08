@@ -39,6 +39,12 @@ export interface DocumentInscriptionMetadata {
   // Chain of custody
   signature?: string;       // Author's signature of content hash
   publicKey?: string;       // Author's public key for verification
+  
+  // Blockchain integration
+  blockchainProtocol?: 'B' | 'D' | 'Bcat';
+  blockchainReference?: string;  // B://, D://, or Bcat URL
+  bicoUrl?: string;             // Bico.Media CDN URL
+  storageCost?: number;         // USD cost for blockchain storage
 }
 
 export interface DocumentInscription {
@@ -84,7 +90,7 @@ export interface DocumentVersionChain {
 }
 
 export interface InscriptionError {
-  code: 'INSUFFICIENT_FUNDS' | 'INVALID_CONTENT' | 'NETWORK_ERROR' | 'SIGNATURE_FAILED';
+  code: 'INSUFFICIENT_FUNDS' | 'INVALID_CONTENT' | 'NETWORK_ERROR' | 'SIGNATURE_FAILED' | 'CREATE_ERROR';
   message: string;
   details?: any;
 }

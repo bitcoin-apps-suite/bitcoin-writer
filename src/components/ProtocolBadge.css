@@ -1,0 +1,33 @@
+.protocol-badge {
+  cursor: help;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.protocol-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.protocol-badge--small {
+  min-height: 18px;
+}
+
+.protocol-badge--medium {
+  min-height: 22px;
+}
+
+.protocol-badge--large {
+  min-height: 28px;
+}
+
+.protocol-icon {
+  display: inline-block;
+  line-height: 1;
+}
+
+.protocol-label {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}

@@ -4,6 +4,10 @@ import { StorageMethod } from '../components/EnhancedStorageModal';
 import BSVStorageService, { StorageQuote } from './BSVStorageService';
 import HandCashNFTService, { NFTMintOptions } from './HandCashNFTService';
 import { NoteSVEncryption } from './NoteSVEncryption';
+import BProtocolService, { BProtocolResult, BProtocolOptions } from './BProtocolService';
+import DProtocolService, { DocumentIndex, DocumentIndexEntry } from './DProtocolService';
+import BcatProtocolService, { BcatResult, BcatOptions } from './BcatProtocolService';
+import BicoMediaService, { BicoMediaOptions } from './BicoMediaService';
 
 export interface DocumentData {
   id: string;
@@ -38,6 +42,10 @@ export interface BlockchainDocument {
   storage_method?: string;
   blockchain_tx?: string;
   storage_cost?: number;
+  // BSV Protocol fields
+  protocol?: 'B' | 'D' | 'Bcat' | 'legacy';
+  protocol_reference?: string; // B:// URL, D:// URL, or Bcat TX ID
+  bico_url?: string; // Bico.Media CDN URL
 }
 
 export class BlockchainDocumentService {
@@ -47,11 +55,24 @@ export class BlockchainDocumentService {
   private encryptionKey: string | null = null;
   private isConnected: boolean = false;
   private currentUser: HandCashUser | null = null;
+  
+  // BSV Protocol Services
+  private bProtocolService: BProtocolService;
+  private dProtocolService: DProtocolService;
+  private bcatProtocolService: BcatProtocolService;
+  private bicoMediaService: BicoMediaService;
 
   constructor(handcashService: HandCashService) {
     this.handcashService = handcashService;
     this.bsvStorage = new BSVStorageService(handcashService);
     this.nftService = new HandCashNFTService(handcashService);
+    
+    // Initialize BSV Protocol Services
+    this.bProtocolService = new BProtocolService(handcashService);
+    this.dProtocolService = new DProtocolService(handcashService, this.bProtocolService);
+    this.bcatProtocolService = new BcatProtocolService(handcashService, this.bProtocolService);
+    this.bicoMediaService = new BicoMediaService();
+    
     this.initialize();
   }
 
@@ -63,10 +84,332 @@ export class BlockchainDocumentService {
         this.generateEncryptionKey();
         this.isConnected = true;
         console.log('BlockchainDocumentService initialized for user:', this.currentUser?.handle);
+        
+        // Auto-sync documents on initialization
+        await this.syncUserDocuments();
       }
     } catch (error) {
       console.error('Failed to initialize blockchain document service:', error);
     }
+  }
+
+  // Sync user documents from all sources
+  public async syncUserDocuments(): Promise<void> {
+    if (!this.isConnected || !this.currentUser) {
+      console.log('Cannot sync: user not authenticated');
+      return;
+    }
+
+    try {
+      console.log('Syncing documents for user:', this.currentUser.handle);
+      
+      // For now, this ensures all stored documents are accessible
+      // In future versions, this will:
+      // 1. Query blockchain for user's D:// document index
+      // 2. Fetch any new documents from blockchain
+      // 3. Update local cache with latest versions
+      
+      const documents = await this.getDocuments();
+      console.log(`Sync complete: ${documents.length} documents available`);
+      
+      // Emit event to notify UI to refresh
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('documentsSync', { 
+          detail: { count: documents.length, user: this.currentUser.handle }
+        }));
+      }
+      
+    } catch (error) {
+      console.error('Failed to sync user documents:', error);
+    }
+  }
+
+  // ========== BSV PROTOCOL METHODS ==========
+
+  /**
+   * Store document using optimal BSV protocol
+   */
+  async storeWithBSVProtocols(
+    content: string,
+    title: string,
+    options: {
+      protocol?: 'auto' | 'B' | 'D' | 'Bcat';
+      encrypt?: boolean;
+      compress?: boolean;
+      enableTemplating?: boolean;
+    } = {}
+  ): Promise<{
+    protocol: 'B' | 'D' | 'Bcat';
+    reference: string;
+    bicoUrl: string;
+    cost: number;
+    document: BlockchainDocument;
+  }> {
+    if (!this.isConnected || !this.currentUser) {
+      throw new Error('User not authenticated');
+    }
+
+    try {
+      const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const now = new Date().toISOString();
+      
+      // Determine optimal protocol
+      const selectedProtocol = this.selectOptimalProtocol(content, options.protocol);
+      
+      let storageResult: any;
+      let protocolReference: string;
+      let bicoUrl: string;
+
+      switch (selectedProtocol) {
+        case 'B':
+          const bResult = await this.bProtocolService.storeContent(content, {
+            mediaType: 'text/html',
+            filename: `${title}.html`,
+            encrypt: options.encrypt,
+            compress: options.compress
+          });
+          storageResult = bResult;
+          protocolReference = bResult.bUrl;
+          bicoUrl = bResult.bicoUrl;
+          break;
+
+        case 'Bcat':
+          const bcatResult = await this.bcatProtocolService.storeLargeContent(content, {
+            mimeType: 'text/html',
+            filename: `${title}.html`,
+            compress: options.compress || true, // Auto-compress large files
+            info: `Bitcoin Writer document: ${title}`
+          });
+          storageResult = bcatResult;
+          protocolReference = bcatResult.bcatUrl;
+          bicoUrl = bcatResult.bicoUrl;
+          break;
+
+        case 'D':
+          // For D:// protocol, first store content with B:// then create D:// reference
+          const bContentResult = await this.bProtocolService.storeContent(content, {
+            mediaType: 'text/html',
+            filename: `${title}.html`
+          });
+          
+          const dResult = await this.dProtocolService.createReference(
+            `documents/${documentId}`,
+            bContentResult.txId,
+            { type: 'b' }
+          );
+          
+          storageResult = { ...bContentResult, dUrl: dResult.dUrl };
+          protocolReference = dResult.dUrl;
+          bicoUrl = bContentResult.bicoUrl;
+          break;
+
+        default:
+          throw new Error(`Unsupported protocol: ${selectedProtocol}`);
+      }
+
+      // Create document record
+      const document: BlockchainDocument = {
+        id: documentId,
+        title,
+        content,
+        preview: content.substring(0, 200).replace(/<[^>]*>/g, '').trim() + '...',
+        created_at: now,
+        updated_at: now,
+        author: this.currentUser.handle,
+        encrypted: options.encrypt || false,
+        word_count: this.countWords(content),
+        character_count: content.length,
+        storage_method: 'bsv_protocol',
+        blockchain_tx: storageResult.txId,
+        storage_cost: storageResult.cost?.totalUSD || 0,
+        protocol: selectedProtocol,
+        protocol_reference: protocolReference,
+        bico_url: bicoUrl
+      };
+
+      // Store for persistence
+      await this.storePublishedDocument({
+        id: documentId,
+        title,
+        content,
+        metadata: {
+          created_at: now,
+          updated_at: now,
+          author: this.currentUser.handle,
+          encrypted: options.encrypt || false,
+          word_count: document.word_count || 0,
+          character_count: document.character_count || 0,
+          storage_method: 'bsv_protocol',
+          blockchain_tx: storageResult.txId,
+          storage_cost: storageResult.cost?.totalUSD || 0
+        }
+      }, storageResult.txId);
+
+      // Update user's document index
+      await this.updateUserDocumentIndex(document);
+
+      console.log(`Document stored with ${selectedProtocol}:// protocol:`, {
+        reference: protocolReference,
+        cost: storageResult.cost?.totalUSD
+      });
+
+      return {
+        protocol: selectedProtocol,
+        reference: protocolReference,
+        bicoUrl,
+        cost: storageResult.cost?.totalUSD || 0,
+        document
+      };
+
+    } catch (error) {
+      console.error('Failed to store with BSV protocols:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Retrieve document using BSV protocols
+   */
+  async retrieveWithBSVProtocols(reference: string): Promise<string> {
+    try {
+      // Determine protocol from reference format
+      if (reference.startsWith('b://')) {
+        return await this.bProtocolService.retrieveContent(reference);
+      } else if (reference.startsWith('D://')) {
+        const resolved = await this.dProtocolService.resolveReference(reference);
+        if (resolved?.value) {
+          return await this.bProtocolService.retrieveContent(`b://${resolved.value}`);
+        }
+        throw new Error('D:// reference could not be resolved');
+      } else if (reference.startsWith('bcat://')) {
+        return await this.bcatProtocolService.retrieveLargeContent(reference);
+      } else {
+        // Try Bico.Media direct retrieval
+        const bicoResult = await this.bicoMediaService.retrieveContent(reference);
+        return bicoResult.content;
+      }
+    } catch (error) {
+      console.error('Failed to retrieve with BSV protocols:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get cost estimates for different protocols
+   */
+  async getProtocolCostEstimates(content: string): Promise<{
+    b: { cost: number; supported: boolean };
+    bcat: { cost: number; supported: boolean };
+    d: { cost: number; supported: boolean };
+    recommended: 'B' | 'Bcat' | 'D';
+  }> {
+    const estimates = {
+      b: { cost: 0, supported: true },
+      bcat: { cost: 0, supported: true },
+      d: { cost: 0, supported: true },
+      recommended: 'B' as 'B' | 'Bcat' | 'D'
+    };
+
+    try {
+      // B:// protocol estimate
+      const bCost = await this.bProtocolService.estimateCost(content);
+      estimates.b.cost = bCost.totalUSD;
+
+      // Bcat protocol estimate (for large files)
+      if (content.length > 100000) {
+        const bcatCost = await this.bcatProtocolService.estimateCost(content);
+        estimates.bcat.cost = bcatCost.totalUSD;
+        estimates.recommended = estimates.bcat.cost < estimates.b.cost ? 'Bcat' : 'B';
+      } else {
+        estimates.bcat.supported = false;
+      }
+
+      // D:// protocol estimate (B:// + D:// reference)
+      estimates.d.cost = estimates.b.cost + 0.0005; // Additional D:// reference cost
+
+    } catch (error) {
+      console.error('Failed to get cost estimates:', error);
+    }
+
+    return estimates;
+  }
+
+  /**
+   * Update user's document index with D:// protocol
+   */
+  private async updateUserDocumentIndex(document: BlockchainDocument): Promise<void> {
+    try {
+      // Get current index
+      const currentIndex = await this.dProtocolService.getDocumentIndex();
+      const documents = currentIndex?.documents || [];
+
+      // Add or update document in index
+      const existingIndex = documents.findIndex(d => d.id === document.id);
+      const indexEntry: DocumentIndexEntry = {
+        id: document.id,
+        title: document.title,
+        contentProtocol: document.protocol as 'B' | 'D' | 'Bcat',
+        contentReference: document.protocol_reference || '',
+        metadata: {
+          createdAt: document.created_at,
+          updatedAt: document.updated_at,
+          size: document.character_count || 0,
+          wordCount: document.word_count || 0,
+          characterCount: document.character_count || 0,
+          version: 1,
+          encrypted: document.encrypted || false
+        }
+      };
+
+      if (existingIndex >= 0) {
+        documents[existingIndex] = indexEntry;
+      } else {
+        documents.unshift(indexEntry);
+      }
+
+      // Keep only last 100 documents
+      if (documents.length > 100) {
+        documents.splice(100);
+      }
+
+      // Update index
+      await this.dProtocolService.updateDocumentIndex(documents);
+
+    } catch (error) {
+      console.error('Failed to update document index:', error);
+      // Don't throw - index update is not critical
+    }
+  }
+
+  /**
+   * Select optimal protocol based on content and options
+   */
+  private selectOptimalProtocol(
+    content: string,
+    preferredProtocol?: 'auto' | 'B' | 'D' | 'Bcat'
+  ): 'B' | 'D' | 'Bcat' {
+    if (preferredProtocol && preferredProtocol !== 'auto') {
+      return preferredProtocol;
+    }
+
+    const contentSize = Buffer.from(content, 'utf-8').length;
+
+    // Use Bcat for large content
+    if (contentSize > 100000) {
+      return 'Bcat';
+    }
+
+    // Use B:// for standard content
+    return 'B';
+  }
+
+  /**
+   * Count words in content
+   */
+  private countWords(content: string): number {
+    // Strip HTML tags and count words
+    const textContent = content.replace(/<[^>]*>/g, '');
+    return textContent.trim().split(/\s+/).filter(word => word.length > 0).length;
   }
 
   // Generate encryption key from user's authentication
@@ -102,11 +445,6 @@ export class BlockchainDocumentService {
     }
   }
 
-  // Count words in text
-  private countWords(text: string): number {
-    if (!text || text.trim() === '') return 0;
-    return text.trim().split(/\s+/).length;
-  }
 
   // Count characters in text
   private countCharacters(text: string): number {
@@ -164,6 +502,9 @@ export class BlockchainDocumentService {
 
       // Store document metadata locally for quick access
       this.storeDocumentMetadata(document);
+      
+      // Store document for persistence across sessions
+      await this.storePublishedDocument(document, storageResult.transactionId);
       
       console.log('Document stored on BSV blockchain:', {
         txid: storageResult.transactionId,
@@ -480,21 +821,57 @@ export class BlockchainDocumentService {
       throw new Error('User not authenticated');
     }
 
-    // In production, this would query blockchain for user's documents
     console.log('Retrieving document list for user:', this.currentUser.handle);
-
-    const metadataKey = `docs_metadata_${this.currentUser.handle}`;
-    const storedMetadata = localStorage.getItem(metadataKey);
     
-    if (!storedMetadata) {
-      return [];
-    }
-
     try {
-      const documents: BlockchainDocument[] = JSON.parse(storedMetadata);
-      return documents;
+      // Try to load from multiple sources and merge
+      const documents = new Map<string, BlockchainDocument>();
+      
+      // 1. Load from localStorage metadata (existing published docs)
+      const metadataKey = `docs_metadata_${this.currentUser.handle}`;
+      const storedMetadata = localStorage.getItem(metadataKey);
+      
+      if (storedMetadata) {
+        try {
+          const localDocs: BlockchainDocument[] = JSON.parse(storedMetadata);
+          localDocs.forEach(doc => documents.set(doc.id, doc));
+        } catch (error) {
+          console.error('Failed to parse stored metadata:', error);
+        }
+      }
+      
+      // 2. Load from user's published documents storage
+      const publishedDocsKey = `published_docs_${this.currentUser.handle}`;
+      const publishedDocs = localStorage.getItem(publishedDocsKey);
+      
+      if (publishedDocs) {
+        try {
+          const published: BlockchainDocument[] = JSON.parse(publishedDocs);
+          published.forEach(doc => {
+            // Only add if not already present or if this version is newer
+            const existing = documents.get(doc.id);
+            if (!existing || new Date(doc.updated_at) > new Date(existing.updated_at)) {
+              documents.set(doc.id, doc);
+            }
+          });
+        } catch (error) {
+          console.error('Failed to parse published documents:', error);
+        }
+      }
+      
+      // 3. In future: Query blockchain for user's D:// document index
+      // await this.syncFromBlockchain();
+      
+      // Convert map to array and sort by updated date
+      const result = Array.from(documents.values()).sort((a, b) => 
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      );
+      
+      console.log(`Found ${result.length} blockchain documents for user:`, this.currentUser.handle);
+      return result;
+      
     } catch (error) {
-      console.error('Failed to parse document metadata:', error);
+      console.error('Failed to retrieve documents:', error);
       return [];
     }
   }
@@ -523,7 +900,73 @@ export class BlockchainDocumentService {
     localStorage.setItem(key, JSON.stringify(document));
   }
 
-  // Store document metadata for quick listing
+  // Store published document for persistence across sessions
+  async storePublishedDocument(document: DocumentData, transactionId?: string): Promise<void> {
+    if (!this.currentUser) return;
+    
+    const publishedDocsKey = `published_docs_${this.currentUser.handle}`;
+    let publishedDocs: BlockchainDocument[] = [];
+    
+    try {
+      const existing = localStorage.getItem(publishedDocsKey);
+      if (existing) {
+        publishedDocs = JSON.parse(existing);
+      }
+    } catch (error) {
+      console.error('Failed to parse published documents:', error);
+    }
+    
+    // Decrypt content for preview and full content storage
+    let decryptedContent = '';
+    let preview = '';
+    
+    try {
+      decryptedContent = this.decryptContent(document.content);
+      preview = decryptedContent.substring(0, 200).replace(/\n/g, ' ').trim();
+      if (preview.length === 200) preview += '...';
+    } catch (error) {
+      console.error('Failed to decrypt content for storage:', error);
+      preview = 'Content encrypted';
+    }
+    
+    const blockchainDoc: BlockchainDocument = {
+      id: document.id,
+      title: document.title,
+      content: decryptedContent, // Store decrypted for easy access
+      preview: preview,
+      created_at: document.metadata.created_at,
+      updated_at: document.metadata.updated_at,
+      author: this.currentUser.handle,
+      encrypted: document.metadata.encrypted,
+      word_count: document.metadata.word_count,
+      character_count: document.metadata.character_count,
+      storage_method: document.metadata.storage_method || 'blockchain',
+      blockchain_tx: transactionId || document.metadata.blockchain_tx,
+      storage_cost: document.metadata.storage_cost
+    };
+    
+    // Update or add document
+    const existingIndex = publishedDocs.findIndex(d => d.id === document.id);
+    if (existingIndex >= 0) {
+      publishedDocs[existingIndex] = blockchainDoc;
+    } else {
+      publishedDocs.unshift(blockchainDoc);
+    }
+    
+    // Keep only the last 100 published documents to prevent storage bloat
+    if (publishedDocs.length > 100) {
+      publishedDocs = publishedDocs.slice(0, 100);
+    }
+    
+    try {
+      localStorage.setItem(publishedDocsKey, JSON.stringify(publishedDocs));
+      console.log('Stored published document for persistence:', document.title);
+    } catch (error) {
+      console.error('Failed to store published document:', error);
+    }
+  }
+
+  // Store document metadata for quick listing (legacy method)
   private storeDocumentMetadata(document: DocumentData): void {
     if (!this.currentUser) return;
     
@@ -775,6 +1218,9 @@ export class BlockchainDocumentService {
 
       // Store document metadata locally for quick access
       this.storeDocumentMetadata(document);
+      
+      // Store document for persistence across sessions
+      await this.storePublishedDocument(document, storageResult.transactionId);
       
       console.log('Advanced document created:', {
         txid: storageResult.transactionId,
