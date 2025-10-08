@@ -8,6 +8,7 @@ interface WorkTreeCanvasProps {
   selectedVersion?: DocumentInscription | null;
   currentContent?: string;
   documentTitle?: string;
+  currentHead?: DocumentInscription | null;
 }
 
 interface CanvasNode {
@@ -37,7 +38,8 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
   onVersionCheckout,
   selectedVersion,
   currentContent = '',
-  documentTitle = 'Untitled'
+  documentTitle = 'Untitled',
+  currentHead
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [nodes, setNodes] = useState<CanvasNode[]>([]);
@@ -72,24 +74,24 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
 
   // Build tree structure from versions
   const buildTree = useCallback(() => {
-    // Create a current node if there's content (even if no saved versions exist)
+    // Git-style logic: show current node only if content differs from HEAD
     const hasCurrentContent = currentContent && currentContent.trim().length > 0;
     const allVersions = [...versions];
     
-    // If we have current content but no versions, or current content differs from latest version
+    // Check if current content differs from HEAD (not latest version)
     if (hasCurrentContent) {
-      const latestVersion = versions.length > 0 ? versions[versions.length - 1] : null;
-      const currentContentDifferent = !latestVersion || latestVersion.content !== currentContent;
+      const headContent = currentHead?.content || '';
+      const currentContentDifferent = currentContent !== headContent;
       
       if (currentContentDifferent) {
-        // Create a virtual current node
+        // Create a virtual current node that branches from HEAD
         const currentNode: DocumentInscription = {
           localId: 'current',
           content: currentContent,
           status: 'draft',
           metadata: {
             title: documentTitle,
-            version: (latestVersion?.metadata.version || 0) + 1,
+            version: (currentHead?.metadata.version || 0) + 1,
             author: 'current-user',
             createdAt: Date.now(),
             contentType: 'text/plain',
@@ -98,7 +100,8 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
             characterCount: currentContent.length,
             isPublished: false,
             isPaid: false,
-            previousInscriptionId: latestVersion?.inscriptionId || latestVersion?.localId
+            // Branch from current HEAD, not latest version
+            previousInscriptionId: currentHead?.inscriptionId || currentHead?.localId
           }
         };
         allVersions.push(currentNode);
@@ -207,7 +210,7 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     });
 
     return Array.from(nodeMap.values());
-  }, [versions, canvasSize, currentContent, currentHash, documentTitle]);
+  }, [versions, canvasSize, currentContent, currentHash, documentTitle, currentHead]);
 
   // Update canvas size and rebuild tree when container resizes
   useEffect(() => {
@@ -324,6 +327,28 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
         ctx.fillText(node.currentHash, node.x + radius + 8, node.y);
       }
 
+      // HEAD pointer visualization
+      const isHead = currentHead && (
+        node.version.localId === currentHead.localId ||
+        node.version.inscriptionId === currentHead.inscriptionId
+      );
+      
+      if (isHead) {
+        // Draw HEAD pointer label
+        ctx.fillStyle = '#4ade80';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('HEAD', node.x, node.y - radius - 12);
+        
+        // Draw pointer arrow
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(node.x, node.y - radius - 8);
+        ctx.lineTo(node.x, node.y - radius - 3);
+        ctx.stroke();
+      }
+
       // Status indicator or current label
       if (isCurrent) {
         // Show "CURRENT" label below current node
@@ -359,7 +384,7 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     });
 
     ctx.restore();
-  }, [nodes, selectedVersion, viewOffset]);
+  }, [nodes, selectedVersion, viewOffset, currentHead]);
 
   // Animation loop for pulsing current nodes
   useEffect(() => {

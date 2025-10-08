@@ -24,11 +24,18 @@ export function useDocumentVersioning(documentId: string) {
   const [isInscribing, setIsInscribing] = useState(false);
   const [inscriptionProgress, setInscriptionProgress] = useState<InscriptionProgress | null>(null);
   const [inscriptionError, setInscriptionError] = useState<InscriptionError | null>(null);
+  const [currentHead, setCurrentHead] = useState<DocumentInscription | null>(null);
   
   // Load existing version chain
   useEffect(() => {
     const chain = inscriptionService.getVersionChain(documentId);
     setVersionChain(chain || null);
+    
+    // Initialize HEAD to the latest version (like git checkout main)
+    if (chain && chain.versions.length > 0) {
+      const latestVersion = chain.versions[chain.versions.length - 1];
+      setCurrentHead(latestVersion);
+    }
   }, [documentId, inscriptionService]);
 
   // Listen to inscription events
@@ -68,22 +75,26 @@ export function useDocumentVersioning(documentId: string) {
     }
   ): Promise<DocumentInscription> => {
     
-    // Get the latest version to link to
-    const latestVersion = versionChain?.versions[versionChain.versions.length - 1];
+    // Git-style branching: create from current HEAD, not latest version
+    // This allows branching from any commit you've checked out
+    const parentVersion = currentHead || versionChain?.versions[versionChain.versions.length - 1];
     
     // Create new inscription
     const inscription = await inscriptionService.createDocumentInscription(
       content,
       metadata,
-      latestVersion
+      parentVersion
     );
 
-    // Update version chain
+    // Update version chain - this adds to the tree, doesn't replace
     const updatedChain = inscriptionService.createVersionChain(documentId, inscription);
     setVersionChain(updatedChain);
+    
+    // Move HEAD to the new commit (like git automatically does)
+    setCurrentHead(inscription);
 
     return inscription;
-  }, [documentId, inscriptionService, versionChain]);
+  }, [documentId, inscriptionService, versionChain, currentHead]);
 
   /**
    * Inscribe a version to Bitcoin blockchain
@@ -227,12 +238,14 @@ export function useDocumentVersioning(documentId: string) {
     isInscribing,
     inscriptionProgress,
     inscriptionError,
+    currentHead,
     
     // Actions
     createVersion,
     inscribeVersion,
     createAndInscribeVersion,
     createShareTokens,
+    setCurrentHead,
     
     // Verification
     verifyChain,

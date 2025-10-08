@@ -34,7 +34,9 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
     createAndInscribeVersion,
     getChainStats,
     verifyChain,
-    getLatestVersion
+    getLatestVersion,
+    currentHead,
+    setCurrentHead
   } = useDocumentVersioning(documentId);
 
   const chainStats = getChainStats();
@@ -50,17 +52,17 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
       return;
     }
 
-    // Restore content to this version
+    // Set HEAD pointer to this version - this is like git checkout
+    setCurrentHead?.(version);
+    
+    // Restore content to this version for editing
     if (onContentRestore && version.content) {
       onContentRestore(version.content);
-      
-      // Close modal after checkout
-      onClose();
-      
-      // Show feedback
-      alert(`Checked out to version ${version.metadata.version}`);
     }
-  }, [onContentRestore, onClose]);
+    
+    // Show feedback but don't close modal so user can see the tree update
+    alert(`HEAD moved to ${version.metadata.version || version.localId}`);
+  }, [onContentRestore, setCurrentHead]);
   const [isCreatingVersion, setIsCreatingVersion] = useState(false);
   const [privateKey, setPrivateKey] = useState('');
   const [versionMetadata, setVersionMetadata] = useState({
@@ -210,6 +212,7 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
               selectedVersion={selectedVersion}
               currentContent={currentContent}
               documentTitle={documentTitle}
+              currentHead={currentHead}
             />
           </div>
 
