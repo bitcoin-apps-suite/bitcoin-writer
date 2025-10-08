@@ -1924,7 +1924,23 @@ main {
   text-align: left;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
+}
+
+.document-main-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0; /* Allow text to truncate */
+}
+
+.document-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .document-button:hover {
@@ -1958,6 +1974,7 @@ main {
   font-weight: 500;
   color: #fff;
   flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

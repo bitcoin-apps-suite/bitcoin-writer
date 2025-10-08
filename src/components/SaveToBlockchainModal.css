@@ -1,9 +1,9 @@
 .save-blockchain-modal {
   background: #1a1a1a;
   border-radius: 12px;
-  max-width: 900px;
-  width: 90%;
-  max-height: 95vh;
+  max-width: 1200px;
+  width: 95%;
+  max-height: 85vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
