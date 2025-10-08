@@ -1,31 +1,40 @@
-/* Minimal Dock Styles */
+/* Minimal Dock */
 .minimal-dock {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999998;
-  padding: 8px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999995;
+  height: 32px;
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .minimal-dock-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
-  padding: 0 8px;
+  height: 100%;
+  padding: 0 12px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .minimal-dock-apps {
   display: flex;
   align-items: center;
   gap: 6px;
+  overflow-x: auto;
+  flex: 1;
+  padding-right: 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.minimal-dock-apps::-webkit-scrollbar {
+  display: none;
 }
 
 .minimal-dock-app {
@@ -33,30 +42,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 20px;
+  height: 20px;
   background: transparent;
   border: none;
-  border-radius: 8px;
+  border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 0;
+  flex-shrink: 0;
 }
 
-.minimal-dock-app:hover:not(.disabled) {
-  transform: scale(1.1);
+.minimal-dock-app:hover:not(.active) {
   background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
 }
 
-.minimal-dock-app.active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  width: 3px;
-  height: 3px;
-  background: #3b82f6;
-  border-radius: 50%;
-  box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
+.minimal-dock-app.active {
+  background: rgba(247, 147, 26, 0.2);
+}
+
+.minimal-dock-icon {
+  width: 14px;
+  height: 14px;
+  transition: filter 0.2s ease;
+}
+
+.minimal-dock-icon-image {
+  width: 14px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
 }
 
 .minimal-dock-app.disabled {
@@ -69,72 +85,42 @@
   background: transparent;
 }
 
-.minimal-dock-icon {
-  width: 20px;
-  height: 20px;
-  transition: filter 0.2s ease;
-}
-
-.minimal-dock-app:hover:not(.disabled) .minimal-dock-icon {
+.minimal-dock-app:hover:not(.active) .minimal-dock-icon {
   filter: brightness(1.2);
-}
-
-.minimal-dock-icon-image {
-  width: 20px;
-  height: 20px;
-  object-fit: cover;
-  border-radius: 4px;
 }
 
 .minimal-dock-indicator {
   position: absolute;
-  bottom: -4px;
+  bottom: -2px;
   width: 3px;
   height: 3px;
-  background: #3b82f6;
+  background: #f7931a;
   border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.2);
-  }
 }
 
 .minimal-dock-status {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-left: 12px;
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
-  margin-left: 8px;
+  gap: 12px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .minimal-status-item {
   display: flex;
   align-items: center;
-  cursor: default;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background 0.2s ease;
 }
 
-.minimal-status-time {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: default;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+.minimal-status-item:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .minimal-status-icon {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -142,68 +128,74 @@
   color: #10b981;
 }
 
+.minimal-status-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.minimal-status-time span {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .minimal-dock {
-    bottom: 10px;
-    padding: 6px;
-    border-radius: 12px;
-  }
-  
   .minimal-dock-container {
-    height: 44px;
-    padding: 0 6px;
+    padding: 0 8px;
   }
   
   .minimal-dock-apps {
     gap: 4px;
+    padding-right: 8px;
   }
   
   .minimal-dock-app {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .minimal-dock-icon,
-  .minimal-dock-icon-image {
     width: 18px;
     height: 18px;
   }
   
-  .minimal-status-time {
-    font-size: 11px;
-  }
-  
-  .minimal-status-icon {
+  .minimal-dock-icon,
+  .minimal-dock-icon-image {
     width: 12px;
     height: 12px;
+  }
+  
+  .minimal-dock-status {
+    gap: 8px;
+  }
+  
+  .minimal-status-time span {
+    display: none; /* Hide time text on mobile, keep icon */
   }
 }
 
 @media (max-width: 480px) {
-  .minimal-dock {
-    width: calc(100% - 20px);
-    bottom: 5px;
-    left: 10px;
-    right: 10px;
-    transform: none;
-  }
-  
-  .minimal-dock-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  
-  .minimal-dock-container::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .minimal-dock-status {
-    display: none; /* Hide status on very small screens */
+  .minimal-dock-apps {
+    gap: 3px;
+    padding-right: 6px;
   }
   
   .minimal-dock-app {
-    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+  
+  .minimal-dock-icon,
+  .minimal-dock-icon-image {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .minimal-dock-status {
+    gap: 6px;
+  }
+  
+  .minimal-status-item:not(.minimal-status-time) {
+    display: none; /* Hide battery/wifi on very small screens */
   }
 }

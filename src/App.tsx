@@ -890,7 +890,7 @@ function App() {
               </main>
             </div>
             <Footer />
-            {/* Minimal Dock - Only show when not running in Bitcoin OS */}
+            {/* Minimal Status Bar - Only show when not running in Bitcoin OS */}
             {!isInOS && <MinimalDock />}
           </div>
         )}
