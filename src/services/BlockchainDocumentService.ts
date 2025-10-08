@@ -1237,4 +1237,62 @@ export class BlockchainDocumentService {
       throw new Error(`Document creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
+
+  /**
+   * Get protocol badge information for a document's blockchain reference
+   */
+  public getProtocolBadge(document: BlockchainDocument): { name: string; description: string; color: string; icon: string } | null {
+    // Handle specific protocols first
+    if (document.protocol_reference) {
+      switch (document.protocol) {
+        case 'B':
+          return this.bProtocolService.getProtocolBadge(document.protocol_reference);
+        case 'D':
+          return this.dProtocolService.getProtocolBadge(document.protocol_reference);
+        case 'Bcat':
+          return this.bcatProtocolService.getProtocolBadge(document.protocol_reference);
+      }
+    }
+    
+    // Handle Bico.Media URLs
+    if (document.bico_url) {
+      const txId = this.extractTxIdFromUrl(document.bico_url);
+      if (txId) {
+        return this.bicoMediaService.getProtocolBadge(txId);
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * Extract transaction ID from various URL formats
+   */
+  private extractTxIdFromUrl(url: string): string | null {
+    if (url.includes('bico.media/')) {
+      const parts = url.split('/');
+      const txPart = parts[parts.length - 1];
+      // Remove file extension if present
+      return txPart.split('.')[0];
+    }
+    
+    if (url.startsWith('b://')) {
+      return url.substring(4);
+    }
+    
+    if (url.startsWith('d://')) {
+      return url.substring(4);
+    }
+    
+    if (url.startsWith('bcat://')) {
+      return url.substring(7);
+    }
+    
+    // Check if it's already a transaction ID
+    if (/^[a-f0-9]{64}$/i.test(url)) {
+      return url;
+    }
+    
+    return null;
+  }
 }

@@ -613,9 +613,10 @@ function App() {
                     alt="Bitcoin Writer Logo" 
                     className="app-logo"
                     style={{
-                      width: '32px',
-                      height: '32px',
-                      marginRight: '12px'
+                      width: '180px',
+                      height: '180px',
+                      marginRight: '12px',
+                      paddingTop: '24px'
                     }}
                   />
                   <h1 
@@ -627,7 +628,7 @@ function App() {
                     }}
                     style={{
                       cursor: 'pointer',
-                      paddingTop: '12px'
+                      paddingTop: '24px'
                     }}
                     title="Return to main view"
                   >
