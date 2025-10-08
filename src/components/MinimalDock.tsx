@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Store, FileText, Clock, Wifi, Battery, Wallet, Mail, Music, HardDrive, Calendar, Search, Table, Share2, Briefcase, TrendingUp, Building2, Shield, Video, Code2, Camera, MapPin, MessageCircle, Users, Gamepad2, BookOpen, Globe, Box } from 'lucide-react';
+import { Wallet, Mail, Music, FileText, HardDrive, Calendar, Search, Table, Share2, Briefcase, Store, Wifi, Battery, Clock, TrendingUp, Building2, Shield, Video, Code2, Camera, MapPin, MessageCircle, Users, Gamepad2, BookOpen, Globe, Box } from 'lucide-react';
 import './MinimalDock.css';
 
 interface DockApp {
@@ -27,8 +27,18 @@ const MinimalDock: React.FC = () => {
 
   const getRainbowColor = (index: number): string => {
     const rainbowColors = [
-      '#ff0000', '#ff8000', '#ffff00', '#80ff00', '#00ff00', '#00ff80',
-      '#00ffff', '#0080ff', '#0000ff', '#8000ff', '#ff00ff', '#ff0080'
+      '#ff0000', // Red
+      '#ff8000', // Orange  
+      '#ffff00', // Yellow
+      '#80ff00', // Lime
+      '#00ff00', // Green
+      '#00ff80', // Spring Green
+      '#00ffff', // Cyan
+      '#0080ff', // Blue
+      '#0000ff', // Deep Blue
+      '#8000ff', // Purple
+      '#ff00ff', // Magenta
+      '#ff0080'  // Rose
     ];
     return rainbowColors[index % rainbowColors.length];
   };
@@ -39,13 +49,20 @@ const MinimalDock: React.FC = () => {
     }
     
     const colorMap: { [key: string]: string } = {
-      'text-orange-500': '#f97316', 'text-bitcoin-orange': '#f7931a',
-      'text-yellow-500': '#eab308', 'text-red-500': '#ef4444',
-      'text-purple-500': '#a855f7', 'text-fuchsia-500': '#d946ef',
-      'text-pink-500': '#ec4899', 'text-green-500': '#22c55e',
-      'text-blue-500': '#3b82f6', 'text-gray-500': '#6b7280',
-      'text-sky-400': '#38bdf8', 'text-cyan-500': '#06b6d4',
-      'text-cyan-400': '#22d3ee', 'text-emerald-500': '#10b981',
+      'text-orange-500': '#f97316',
+      'text-bitcoin-orange': '#f7931a',
+      'text-yellow-500': '#eab308',
+      'text-red-500': '#ef4444',
+      'text-purple-500': '#a855f7',
+      'text-fuchsia-500': '#d946ef',
+      'text-pink-500': '#ec4899',
+      'text-green-500': '#22c55e',
+      'text-blue-500': '#3b82f6',
+      'text-gray-500': '#6b7280',
+      'text-sky-400': '#38bdf8',
+      'text-cyan-500': '#06b6d4',
+      'text-cyan-400': '#22d3ee',
+      'text-emerald-500': '#10b981',
       'text-blue-600': '#2563eb'
     };
     return colorMap[colorClass] || '#ffffff';
@@ -84,6 +101,7 @@ const MinimalDock: React.FC = () => {
   return (
     <div className="minimal-dock">
       <div className="minimal-dock-container">
+        {/* All apps on the left */}
         <div className="minimal-dock-apps">
           {dockApps.map((app, index) => {
             const Icon = app.icon;
@@ -106,6 +124,7 @@ const MinimalDock: React.FC = () => {
           })}
         </div>
         
+        {/* Status on the right */}
         <div className="minimal-dock-status">
           <div className="minimal-status-item" title="Connected">
             <Wifi className="minimal-status-icon connected" />
