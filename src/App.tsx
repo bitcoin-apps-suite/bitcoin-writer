@@ -615,8 +615,7 @@ function App() {
                     style={{
                       width: '56px',
                       height: '56px',
-                      marginRight: '12px',
-                      paddingTop: '24px'
+                      marginRight: '16px'
                     }}
                   />
                   <h1 
