@@ -613,8 +613,8 @@ function App() {
                     alt="Bitcoin Writer Logo" 
                     className="app-logo"
                     style={{
-                      width: '48px',
-                      height: '48px',
+                      width: '72px',
+                      height: '72px',
                       marginRight: '12px',
                       paddingTop: '24px'
                     }}
