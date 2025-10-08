@@ -629,8 +629,8 @@ function App() {
                     }}
                     style={{
                       cursor: 'pointer',
-                      paddingTop: '16px',
-                      marginLeft: '-4px'
+                      paddingTop: '8px',
+                      marginLeft: '-8px'
                     }}
                     title="Return to main view"
                   >
