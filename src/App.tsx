@@ -32,7 +32,6 @@ import EncryptPage from './pages/EncryptPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import ContactPage from './pages/ContactPage';
-import ExchangePage from './pages/ExchangePage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -47,6 +46,7 @@ import Footer from './components/Footer';
 import ProofOfConceptBanner from './components/ProofOfConceptBanner';
 import DevSidebar from './components/DevSidebar';
 import DocumentExchangeView from './components/DocumentExchangeView';
+import ExchangeStandalonePage from './pages/ExchangeStandalonePage';
 import BitcoinAppsView from './components/BitcoinAppsView';
 import TickerSidebar from './components/TickerSidebar';
 import BitcoinAppOverviews from './components/BitcoinAppOverviews';
@@ -99,14 +99,14 @@ function App() {
     const saved = localStorage.getItem('marketSidebarCollapsed');
     return saved === 'true';
   });
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showTopUpModal, setShowTopUpModal] = useState(false);
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 900);
+      setIsMobile(window.innerWidth <= 768);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -369,7 +369,7 @@ function App() {
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/contact" element={<ContactPage />} />
-      <Route path="/exchange" element={<ExchangePage />} />
+      <Route path="/exchange" element={<ExchangeStandalonePage />} />
       
       {/* Developer Routes - Symmetrical */}
       <Route path="/developer/offer" element={<OfferPage />} />
@@ -902,13 +902,11 @@ function App() {
                   />
                 )}
               </main>
-              {!isMobile && (
-                <TickerSidebar 
-                  userHandle={currentUser?.handle}
-                  currentJobToken={undefined} // TODO: Pass current job token when available
-                  onCollapsedChange={setMarketSidebarCollapsed}
-                />
-              )}
+              <TickerSidebar 
+                userHandle={currentUser?.handle}
+                currentJobToken={undefined} // TODO: Pass current job token when available
+                onCollapsedChange={setMarketSidebarCollapsed}
+              />
             </div>
             <Footer />
             {/* Minimal Status Bar - Only show when not running in Bitcoin OS */}

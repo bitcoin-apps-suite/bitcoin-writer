@@ -16,7 +16,8 @@ const Footer: React.FC = () => {
             <span className="app-name">Writer</span>
           </div>
           <p className="footer-tagline">
-            Decentralized document writing on Bitcoin SV
+            Write and publish on the blockchain.<br />
+            Issue and sell shares in your writing.
           </p>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './DocumentExchangeView.css';
 import { HandCashItemsService } from '../services/HandCashItemsService';
 import { HandCashService } from '../services/HandCashService';
@@ -101,7 +101,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   ] as const;
 
   // Fetch NFT documents from marketplace
-  const fetchNftDocuments = async () => {
+  const fetchNftDocuments = useCallback(async () => {
     setIsLoadingNfts(true);
     try {
       const response = await fetch(`${process.env.NODE_ENV === 'production' ? '' : 'http://localhost:4000'}/api/marketplace`, {
@@ -124,7 +124,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
     } finally {
       setIsLoadingNfts(false);
     }
-  };
+  }, [authorType]);
 
   // Handle NFT document click
   const handleNftDocumentClick = (nftDoc: any) => {
@@ -142,7 +142,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   // Fetch NFT documents when component mounts or authorType changes
   useEffect(() => {
     fetchNftDocuments();
-  }, [authorType]);
+  }, [authorType, fetchNftDocuments]);
 
   // Combine user documents with mock marketplace data
   useEffect(() => {

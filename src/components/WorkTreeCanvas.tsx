@@ -210,7 +210,7 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     });
 
     return Array.from(nodeMap.values());
-  }, [versions, canvasSize, currentContent, currentHash, documentTitle, currentHead]);
+  }, [versions, canvasSize, currentContent, currentHash, documentTitle, currentHead, branchColors]);
 
   // Update canvas size and rebuild tree when container resizes
   useEffect(() => {
@@ -404,7 +404,7 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
         cancelAnimationFrame(animationId);
       }
     };
-  }, [nodes.some(node => node.isCurrentNode)]);
+  }, [nodes]);
 
   // Handle mouse events
   const handleMouseDown = (e: React.MouseEvent) => {

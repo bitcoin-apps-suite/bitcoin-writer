@@ -1,26 +1,61 @@
+/* Outside toggle button */
+.ticker-toggle-outside {
+  position: fixed;
+  right: 0;
+  top: 220px; /* Align with Jobs Queue sidebar */
+  background: #F7931A;
+  color: #000;
+  border: none;
+  border-radius: 4px 0 0 4px; /* Round left corners */
+  padding: 8px 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  width: 24px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001; /* Above everything including ruler */
+  transition: all 0.2s ease;
+  box-shadow: -2px 0 4px rgba(0,0,0,0.3);
+}
+
+.ticker-toggle-outside:hover {
+  background: #ff9800;
+  box-shadow: -3px 0 6px rgba(247, 147, 26, 0.5);
+}
+
 /* Ticker Sidebar Styles */
 .ticker-sidebar {
-  width: 400px; /* Doubled from 200px */
-  min-width: 400px; /* Prevent shrinking */
-  max-width: 400px; /* Prevent growing */
-  flex-shrink: 0; /* Don't shrink in flex container */
+  position: fixed; /* Pin to viewport */
+  right: 0; /* Stick to right edge of viewport */
+  top: 220px; /* Align with Jobs Queue sidebar */
+  bottom: 0;
+  width: 280px;
   background: #0d0d0d;
-  border-left: 1px solid #222;
+  border-left: 2px solid #F7931A;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  position: relative;
-  padding-right: 10px;
+  height: calc(100vh - 220px);
+  z-index: 1000; /* Above the ruler */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ticker-header {
+  position: relative;
   padding: 12px;
+  border-top: 2px solid #F7931A;
   border-bottom: 1px solid #222;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
   background: #1a1a1a;
+  min-height: 48px;
 }
+
+/* Removed header toggle - using outside toggle only */
 
 .ticker-header-controls {
   display: flex;
@@ -28,47 +63,7 @@
   gap: 8px;
 }
 
-.ticker-collapse-btn {
-  background: #F7931A;
-  color: #000;
-  border: 2px solid #F7931A;
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 32px;
-  box-shadow: 0 2px 4px rgba(247, 147, 26, 0.3);
-}
-
-.ticker-collapse-btn:hover {
-  background: #ff9800;
-  border-color: #ff9800;
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(247, 147, 26, 0.5);
-}
-
-/* Collapsed state */
-.ticker-sidebar.collapsed {
-  width: 60px;
-  min-width: 60px;
-  max-width: 60px;
-  transition: all 0.3s ease;
-}
-
-.ticker-sidebar.collapsed .ticker-header h3 {
-  display: none;
-}
-
-.ticker-sidebar.collapsed .ticker-update-time {
-  display: none;
-}
+/* Sidebar completely hidden when collapsed - controlled by React */
 
 .ticker-header h3 {
   font-size: 14px;
@@ -105,7 +100,8 @@
 .ticker-list {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  padding: 8px 12px 8px 8px; /* More right padding */
   position: relative;
 }
 
@@ -313,12 +309,7 @@
   background: #444;
 }
 
-/* Responsive - hide on smaller screens */
-@media (max-width: 900px) {
-  .ticker-sidebar {
-    display: none;
-  }
-}
+/* Keep sidebar visible on all screen sizes */
 
 /* Animation for price updates */
 @keyframes priceUpdate {
