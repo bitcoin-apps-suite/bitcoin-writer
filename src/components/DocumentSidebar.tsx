@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
 import { LocalDocumentStorage } from '../utils/documentStorage';
 import ProtocolBadge from './ProtocolBadge';
+import GigQueueView from './GigQueueView';
 
 interface DocumentSidebarProps {
   documentService: BlockchainDocumentService | null;
@@ -31,6 +32,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const [isResizing, setIsResizing] = useState(false);
+  const [viewMode, setViewMode] = useState<'documents' | 'gigs'>('documents');
 
   const loadDocuments = useCallback(async () => {
     setIsLoading(true);
@@ -320,32 +322,54 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
         >
           {isCollapsed ? '→' : '←'}
         </button>
-        {!isCollapsed && <h3>My Documents</h3>}
+        {!isCollapsed && (
+          <div className="sidebar-title-area">
+            <h3>{viewMode === 'documents' ? 'My Documents' : 'Gig Queue'}</h3>
+            <div className="view-toggle">
+              <button 
+                className={`toggle-btn ${viewMode === 'documents' ? 'active' : ''}`}
+                onClick={() => setViewMode('documents')}
+                title="My Documents"
+              >
+                📄
+              </button>
+              <button 
+                className={`toggle-btn ${viewMode === 'gigs' ? 'active' : ''}`}
+                onClick={() => setViewMode('gigs')}
+                title="Gig Queue"
+              >
+                💼
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       
       {!isCollapsed && (
         <div className="sidebar-content">
-          <div className="sidebar-actions">
-            <button className="new-document-btn" onClick={onNewDocument}>
-              + New Document
-            </button>
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search documents..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+          {viewMode === 'documents' ? (
+            <>
+              <div className="sidebar-actions">
+                <button className="new-document-btn" onClick={onNewDocument}>
+                  + New Document
+                </button>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search documents..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
 
-          {isLoading ? (
-            <div className="sidebar-loading">Loading documents...</div>
-          ) : filteredDocuments.length === 0 ? (
-            <div className="sidebar-empty">
-              {searchQuery ? 'No documents found' : 'No documents yet. Start writing!'}
-            </div>
-          ) : (
-            <div className="document-list">
+              {isLoading ? (
+                <div className="sidebar-loading">Loading documents...</div>
+              ) : filteredDocuments.length === 0 ? (
+                <div className="sidebar-empty">
+                  {searchQuery ? 'No documents found' : 'No documents yet. Start writing!'}
+                </div>
+              ) : (
+                <div className="document-list">
               {filteredDocuments.map(doc => (
                 <div
                   key={doc.id}
@@ -387,6 +411,20 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
                 </div>
               ))}
             </div>
+              )}
+            </>
+          ) : (
+            <GigQueueView 
+              documentService={documentService}
+              isAuthenticated={isAuthenticated}
+              onAcceptGig={(gig) => {
+                // Handle accepting a gig
+                console.log('Accepting gig:', gig);
+                // Switch to documents view and create new document with gig requirements
+                setViewMode('documents');
+                onNewDocument();
+              }}
+            />
           )}
         </div>
       )}
