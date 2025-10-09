@@ -348,8 +348,9 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           className={`ruler-toggle-btn ${showRulers ? 'active' : ''}`}
           title={showRulers ? "Hide Rulers" : "Show Rulers"}
           style={{ 
-            backgroundColor: showRulers ? '#e3f2fd' : 'white',
-            border: '1px solid #dee2e6',
+            backgroundColor: showRulers ? '#444' : '#2a2a2a',
+            color: '#fff',
+            border: '1px solid #555',
             padding: '6px 12px',
             borderRadius: '4px',
             cursor: 'pointer',
