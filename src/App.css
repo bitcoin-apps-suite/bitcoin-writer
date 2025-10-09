@@ -1912,8 +1912,10 @@ main {
 }
 
 .view-toggle .toggle-btn.active {
-  color: #F7931A;
+  color: #fff;
   font-weight: 600;
+  background: #F7931A;
+  padding: 4px 10px;
 }
 
 .toggle-separator {
