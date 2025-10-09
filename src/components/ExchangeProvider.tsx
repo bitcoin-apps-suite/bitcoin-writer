@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { ExchangeService, Market, Order, Balance, Trade, OrderBook, ExchangeConfig } from '../src/lib/exchange-service'
+import { ExchangeService, Market, Order, Balance, Trade, OrderBook, ExchangeConfig } from '../lib/exchange-service'
 
 interface ExchangeContextType {
   exchange: ExchangeService | null
