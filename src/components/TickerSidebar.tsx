@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { PriceService, TokenPrice as ServiceTokenPrice } from '../services/PriceService';
 import './TickerSidebar.css';
 
-interface TokenPrice {
-  symbol: string;
-  name: string;
-  price: number;
+interface TokenPrice extends ServiceTokenPrice {
   change24h: number;
   changePercent: number;
-  volume24h?: number;
 }
 
 interface TickerSidebarProps {
@@ -27,71 +24,58 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   useEffect(() => {
-    // Load initial prices
-    loadPrices();
-    
-    // Update prices every 30 seconds
-    const interval = setInterval(() => {
-      loadPrices();
-    }, 30000);
-
-    return () => clearInterval(interval);
-  }, [userHandle, currentJobToken]);
-
-  const loadPrices = async () => {
-    try {
-      // Mock data - in production this would fetch from price APIs
-      const mockPrices: TokenPrice[] = [
-        {
-          symbol: 'BWRITER',
-          name: 'Bitcoin Writer',
-          price: 0.0234,
-          change24h: 0.0018,
-          changePercent: 8.33,
-          volume24h: 125000
-        },
-        {
-          symbol: 'BSV',
-          name: 'Bitcoin SV',
-          price: 65.42,
-          change24h: -2.15,
-          changePercent: -3.18,
-          volume24h: 45000000
-        }
-      ];
-
-      // Add user's handle token if available
-      if (userHandle) {
-        mockPrices.push({
+    // Subscribe to price updates
+    const subscription = PriceService.subscribeAll((updatedPrices) => {
+      // Map service prices to component format
+      const formattedPrices = updatedPrices.map(p => ({
+        ...p,
+        change24h: p.change_24h,
+        changePercent: p.change_percent_24h
+      }));
+      
+      // Add user's handle token if available and not in list
+      if (userHandle && !formattedPrices.find(p => p.symbol === `$${userHandle.toUpperCase()}`)) {
+        formattedPrices.push({
           symbol: `$${userHandle.toUpperCase()}`,
           name: `${userHandle} Token`,
           price: 0.00156,
+          price_usd: 0.00156,
           change24h: 0.00012,
           changePercent: 8.33,
-          volume24h: 5000
+          change_24h: 0.00012,
+          change_percent_24h: 8.33,
+          volume_24h: 5000,
+          last_updated: new Date(),
+          source: 'Mock'
         });
       }
 
-      // Add current job token if available
-      if (currentJobToken) {
-        mockPrices.push({
+      // Add current job token if available and not in list
+      if (currentJobToken && !formattedPrices.find(p => p.symbol === currentJobToken.symbol)) {
+        formattedPrices.push({
           symbol: currentJobToken.symbol,
           name: currentJobToken.name,
           price: 0.0089,
+          price_usd: 0.0089,
           change24h: -0.0003,
           changePercent: -3.26,
-          volume24h: 12000
+          change_24h: -0.0003,
+          change_percent_24h: -3.26,
+          volume_24h: 12000,
+          last_updated: new Date(),
+          source: 'Mock'
         });
       }
 
-      setPrices(mockPrices);
+      setPrices(formattedPrices);
       setLastUpdate(new Date());
-    } catch (error) {
-      console.error('Failed to load token prices:', error);
-    } finally {
       setIsLoading(false);
-    }
-  };
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [userHandle, currentJobToken]);
 
   const formatPrice = (price: number): string => {
     if (price >= 1000) {
@@ -151,9 +135,9 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
                 <span className="ticker-price">{formatPrice(token.price)}</span>
               </div>
               
-              {token.volume24h && (
+              {token.volume_24h && (
                 <div className="ticker-volume">
-                  Vol: {formatVolume(token.volume24h)}
+                  Vol: {formatVolume(token.volume_24h)}
                 </div>
               )}
             </div>
