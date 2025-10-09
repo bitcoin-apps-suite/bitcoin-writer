@@ -50,21 +50,21 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
             <React.Fragment key={i}>
               <div 
                 className="ruler-mark inch" 
-                style={{ top: `${8 + i * 72}px` }}
+                style={{ top: `${18 + i * 72}px` }}
               >
                 <span className="ruler-mark-label">{i}"</span>
               </div>
               <div 
                 className="ruler-mark half-inch" 
-                style={{ top: `${8 + i * 72 + 36}px` }}
+                style={{ top: `${18 + i * 72 + 36}px` }}
               />
               <div 
                 className="ruler-mark quarter-inch" 
-                style={{ top: `${8 + i * 72 + 18}px` }}
+                style={{ top: `${18 + i * 72 + 18}px` }}
               />
               <div 
                 className="ruler-mark quarter-inch" 
-                style={{ top: `${8 + i * 72 + 54}px` }}
+                style={{ top: `${18 + i * 72 + 54}px` }}
               />
             </React.Fragment>
           ))}
