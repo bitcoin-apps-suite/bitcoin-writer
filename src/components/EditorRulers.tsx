@@ -13,7 +13,7 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
       {/* Horizontal Ruler */}
       <div className="editor-horizontal-ruler">
         <div className="ruler-marks-container">
-          {[...Array(9)].map((_, i) => (
+          {[...Array(13)].map((_, i) => (
             <React.Fragment key={i}>
               <div 
                 className="ruler-mark inch" 
