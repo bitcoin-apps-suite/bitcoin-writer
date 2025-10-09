@@ -1177,6 +1177,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </svg>
               Post to Twitter
             </button>
+            <div className="word-counter" style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
+              <span>{wordCount} words</span>
+              <span style={{ margin: '0 8px' }}>•</span>
+              <span>{charCount} characters</span>
+            </div>
             <input
               type="file"
               ref={imageInputRef}
@@ -1190,8 +1195,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
               {isDarkMode ? '☀️' : '🌙'}
             </button>
-            <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
-            <span>{charCount} character{charCount !== 1 ? 's' : ''}</span>
           </div>
           
           <div className="toolbar-right">
