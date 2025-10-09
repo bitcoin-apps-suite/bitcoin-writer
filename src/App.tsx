@@ -830,7 +830,7 @@ function App() {
                 </div>
               </div>
             )}
-            <div className={`app-container ${isInOS ? '' : (!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : '')} ${isInOS ? '' : (!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : '')} ${!isMobile && marketSidebarCollapsed ? 'with-market-sidebar-collapsed' : ''}`}>
+            <div className={`app-container ${isInOS ? '' : (!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : '')} ${isInOS ? '' : (!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : '')} ${!isMobile && !marketSidebarCollapsed ? 'with-market-sidebar' : ''} ${!isMobile && marketSidebarCollapsed ? 'with-market-sidebar-collapsed' : ''}`}>
               <DocumentSidebar
                 documentService={documentService}
                 isAuthenticated={isAuthenticated}

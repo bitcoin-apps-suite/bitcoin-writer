@@ -1,6 +1,9 @@
 /* Ticker Sidebar Styles */
 .ticker-sidebar {
   width: 400px; /* Doubled from 200px */
+  min-width: 400px; /* Prevent shrinking */
+  max-width: 400px; /* Prevent growing */
+  flex-shrink: 0; /* Don't shrink in flex container */
   background: #0d0d0d;
   border-left: 1px solid #222;
   display: flex;
@@ -55,7 +58,8 @@
 .ticker-sidebar.collapsed {
   width: 60px;
   min-width: 60px;
-  transition: width 0.3s ease;
+  max-width: 60px;
+  transition: all 0.3s ease;
 }
 
 .ticker-sidebar.collapsed .ticker-header h3 {
