@@ -21,18 +21,23 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
               >
                 <span className="ruler-mark-label">{i}"</span>
               </div>
-              <div 
-                className="ruler-mark half-inch" 
-                style={{ left: `${40 + i * 96 + 48}px` }}
-              />
-              <div 
-                className="ruler-mark quarter-inch" 
-                style={{ left: `${40 + i * 96 + 24}px` }}
-              />
-              <div 
-                className="ruler-mark quarter-inch" 
-                style={{ left: `${40 + i * 96 + 72}px` }}
-              />
+              {/* Only show subdivision marks before the 12-inch mark */}
+              {i < 12 && (
+                <>
+                  <div 
+                    className="ruler-mark half-inch" 
+                    style={{ left: `${40 + i * 96 + 48}px` }}
+                  />
+                  <div 
+                    className="ruler-mark quarter-inch" 
+                    style={{ left: `${40 + i * 96 + 24}px` }}
+                  />
+                  <div 
+                    className="ruler-mark quarter-inch" 
+                    style={{ left: `${40 + i * 96 + 72}px` }}
+                  />
+                </>
+              )}
             </React.Fragment>
           ))}
         </div>
