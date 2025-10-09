@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BlockchainDocumentService } from '../services/BlockchainDocumentService';
 import './GigQueueView.css';
 
-interface WritingGig {
+interface WritingJob {
   id: string;
   title: string;
   description: string;
@@ -26,7 +26,7 @@ interface WritingGig {
 interface GigQueueViewProps {
   documentService: BlockchainDocumentService | null;
   isAuthenticated: boolean;
-  onAcceptGig: (gig: WritingGig) => void;
+  onAcceptGig: (job: WritingJob) => void;
 }
 
 const GigQueueView: React.FC<GigQueueViewProps> = ({
@@ -34,20 +34,20 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
   isAuthenticated,
   onAcceptGig
 }) => {
-  const [gigs, setGigs] = useState<WritingGig[]>([]);
-  const [selectedGig, setSelectedGig] = useState<WritingGig | null>(null);
-  const [filter, setFilter] = useState<'all' | 'available' | 'my-gigs'>('available');
+  const [jobs, setJobs] = useState<WritingJob[]>([]);
+  const [selectedJob, setSelectedJob] = useState<WritingJob | null>(null);
+  const [filter, setFilter] = useState<'all' | 'available' | 'my-jobs'>('available');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    loadGigs();
+    loadJobs();
   }, [filter]);
 
-  const loadGigs = async () => {
+  const loadJobs = async () => {
     setIsLoading(true);
     try {
       // Mock data for now - this would come from blockchain/API
-      const mockGigs: WritingGig[] = [
+      const mockJobs: WritingJob[] = [
         {
           id: '1',
           title: 'Bitcoin Mining Article',
@@ -90,23 +90,23 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
       ];
 
       // Filter based on selected filter
-      let filteredGigs = mockGigs;
+      let filteredJobs = mockJobs;
       if (filter === 'available') {
-        filteredGigs = mockGigs.filter(g => g.status === 'available');
-      } else if (filter === 'my-gigs') {
-        filteredGigs = mockGigs.filter(g => g.status === 'accepted');
+        filteredJobs = mockJobs.filter(j => j.status === 'available');
+      } else if (filter === 'my-jobs') {
+        filteredJobs = mockJobs.filter(j => j.status === 'accepted');
       }
 
-      setGigs(filteredGigs);
+      setJobs(filteredJobs);
     } catch (error) {
-      console.error('Failed to load gigs:', error);
-      setGigs([]);
+      console.error('Failed to load jobs:', error);
+      setJobs([]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const formatCompensation = (comp: WritingGig['compensation']) => {
+  const formatCompensation = (comp: WritingJob['compensation']) => {
     if (comp.currency === 'USD') {
       return `$${comp.amount}`;
     } else if (comp.currency === 'BSV') {
@@ -128,16 +128,16 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
     return `${days} days`;
   };
 
-  const handleAcceptGig = (gig: WritingGig) => {
+  const handleAcceptJob = (job: WritingJob) => {
     if (!isAuthenticated) {
-      alert('Please sign in to accept gigs');
+      alert('Please sign in to accept jobs');
       return;
     }
     
     // Show confirmation
-    if (window.confirm(`Accept gig: "${gig.title}"?\n\nCompensation: ${formatCompensation(gig.compensation)}\nDeadline: ${formatDeadline(gig.deadline)}`)) {
-      onAcceptGig(gig);
-      setSelectedGig(null);
+    if (window.confirm(`Accept job: "${job.title}"?\n\nCompensation: ${formatCompensation(job.compensation)}\nDeadline: ${formatDeadline(job.deadline)}`)) {
+      onAcceptGig(job);
+      setSelectedJob(null);
     }
   };
 
@@ -148,7 +148,7 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
           className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
           onClick={() => setFilter('all')}
         >
-          All Gigs
+          All Jobs
         </button>
         <button 
           className={`filter-btn ${filter === 'available' ? 'active' : ''}`}
@@ -157,46 +157,46 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
           Available
         </button>
         <button 
-          className={`filter-btn ${filter === 'my-gigs' ? 'active' : ''}`}
-          onClick={() => setFilter('my-gigs')}
+          className={`filter-btn ${filter === 'my-jobs' ? 'active' : ''}`}
+          onClick={() => setFilter('my-jobs')}
         >
-          My Gigs
+          My Jobs
         </button>
       </div>
 
       {isLoading ? (
-        <div className="gig-loading">Loading gigs...</div>
-      ) : gigs.length === 0 ? (
+        <div className="gig-loading">Loading jobs...</div>
+      ) : jobs.length === 0 ? (
         <div className="gig-empty">
-          No gigs available at the moment. Check back later!
+          No jobs available at the moment. Check back later!
         </div>
       ) : (
         <div className="gig-list">
-          {gigs.map(gig => (
+          {jobs.map(job => (
             <div 
-              key={gig.id} 
-              className={`gig-item ${selectedGig?.id === gig.id ? 'selected' : ''}`}
-              onClick={() => setSelectedGig(gig)}
+              key={job.id} 
+              className={`gig-item ${selectedJob?.id === job.id ? 'selected' : ''}`}
+              onClick={() => setSelectedJob(job)}
             >
               <div className="gig-header">
-                <h4 className="gig-title">{gig.title}</h4>
-                <span className="gig-compensation">{formatCompensation(gig.compensation)}</span>
+                <h4 className="gig-title">{job.title}</h4>
+                <span className="gig-compensation">{formatCompensation(job.compensation)}</span>
               </div>
               
               <div className="gig-meta">
-                <span className="gig-publisher">📢 {gig.publisher}</span>
-                <span className="gig-deadline">⏰ {formatDeadline(gig.deadline)}</span>
-                <span className="gig-words">📝 {gig.wordCount.min}-{gig.wordCount.max} words</span>
+                <span className="gig-publisher">📢 {job.publisher}</span>
+                <span className="gig-deadline">⏰ {formatDeadline(job.deadline)}</span>
+                <span className="gig-words">📝 {job.wordCount.min}-{job.wordCount.max} words</span>
               </div>
 
-              {selectedGig?.id === gig.id && (
+              {selectedJob?.id === job.id && (
                 <div className="gig-details">
-                  <p className="gig-description">{gig.description}</p>
+                  <p className="gig-description">{job.description}</p>
                   
                   <div className="gig-topics">
                     <strong>Topics:</strong>
                     <div className="topic-tags">
-                      {gig.topics.map(topic => (
+                      {job.topics.map(topic => (
                         <span key={topic} className="topic-tag">{topic}</span>
                       ))}
                     </div>
@@ -205,7 +205,7 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
                   <div className="gig-requirements">
                     <strong>Requirements:</strong>
                     <ul>
-                      {gig.requirements.map((req, idx) => (
+                      {job.requirements.map((req, idx) => (
                         <li key={idx}>{req}</li>
                       ))}
                     </ul>
@@ -216,16 +216,16 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
                       className="accept-gig-btn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleAcceptGig(gig);
+                        handleAcceptJob(job);
                       }}
                     >
-                      Accept Gig
+                      Accept Job
                     </button>
                     <button 
                       className="details-close-btn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedGig(null);
+                        setSelectedJob(null);
                       }}
                     >
                       Close
