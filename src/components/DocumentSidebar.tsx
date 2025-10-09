@@ -32,7 +32,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const [isResizing, setIsResizing] = useState(false);
-  const [viewMode, setViewMode] = useState<'documents' | 'gigs'>('documents');
+  const [viewMode, setViewMode] = useState<'documents' | 'gigs'>('gigs');
 
   const loadDocuments = useCallback(async () => {
     setIsLoading(true);
@@ -326,17 +326,17 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
           <div className="sidebar-title-area">
             <div className="view-toggle">
               <button 
+                className={`toggle-btn ${viewMode === 'gigs' ? 'active' : ''}`}
+                onClick={() => setViewMode('gigs')}
+              >
+                Jobs Queue
+              </button>
+              <span className="toggle-separator">/</span>
+              <button 
                 className={`toggle-btn ${viewMode === 'documents' ? 'active' : ''}`}
                 onClick={() => setViewMode('documents')}
               >
                 My Docs
-              </button>
-              <span className="toggle-separator">/</span>
-              <button 
-                className={`toggle-btn ${viewMode === 'gigs' ? 'active' : ''}`}
-                onClick={() => setViewMode('gigs')}
-              >
-                Gig Queue
               </button>
             </div>
           </div>
@@ -415,10 +415,10 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
             <GigQueueView 
               documentService={documentService}
               isAuthenticated={isAuthenticated}
-              onAcceptGig={(gig) => {
-                // Handle accepting a gig
-                console.log('Accepting gig:', gig);
-                // Switch to documents view and create new document with gig requirements
+              onAcceptGig={(job) => {
+                // Handle accepting a job
+                console.log('Accepting job:', job);
+                // Switch to documents view and create new document with job requirements
                 setViewMode('documents');
                 onNewDocument();
               }}
