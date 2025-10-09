@@ -1262,6 +1262,12 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             placeholder="Start writing your document..."
           />
         )}
+        
+        <DragDropZone
+          onFileDrop={handleFileDrop}
+          isAuthenticated={isAuthenticated}
+          onAuthRequired={onAuthRequired || (() => {})}
+        />
       </div>
 
       <div className="status-bar">
@@ -1342,12 +1348,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           <div className="spinner"></div>
         </div>
       )}
-      
-      <DragDropZone
-        onFileDrop={handleFileDrop}
-        isAuthenticated={isAuthenticated}
-        onAuthRequired={onAuthRequired || (() => {})}
-      />
 
       <AIChatWindow
         isOpen={showAIChat}
