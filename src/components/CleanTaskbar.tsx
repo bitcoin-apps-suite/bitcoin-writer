@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { BitcoinAppEvents, openBitcoinApp } from '../utils/appEvents';
 import PreferencesModal from './modals/PreferencesModal';
 import EncryptionSettingsModal from './modals/EncryptionSettingsModal';
 import StorageCalculatorModal from './modals/StorageCalculatorModal';
