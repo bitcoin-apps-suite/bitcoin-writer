@@ -48,6 +48,7 @@ import ProofOfConceptBanner from './components/ProofOfConceptBanner';
 import DevSidebar from './components/DevSidebar';
 import DocumentExchangeView from './components/DocumentExchangeView';
 import BitcoinAppsView from './components/BitcoinAppsView';
+import TickerSidebar from './components/TickerSidebar';
 import BitcoinAppOverviews from './components/BitcoinAppOverviews';
 import { BitcoinAppEvents } from './utils/appEvents';
 import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
@@ -892,6 +893,12 @@ function App() {
                   />
                 )}
               </main>
+              {!isMobile && (
+                <TickerSidebar 
+                  userHandle={currentUser?.handle}
+                  currentJobToken={undefined} // TODO: Pass current job token when available
+                />
+              )}
             </div>
             <Footer />
             {/* Minimal Status Bar - Only show when not running in Bitcoin OS */}
