@@ -324,21 +324,19 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
         </button>
         {!isCollapsed && (
           <div className="sidebar-title-area">
-            <h3>{viewMode === 'documents' ? 'My Documents' : 'Gig Queue'}</h3>
             <div className="view-toggle">
               <button 
                 className={`toggle-btn ${viewMode === 'documents' ? 'active' : ''}`}
                 onClick={() => setViewMode('documents')}
-                title="My Documents"
               >
-                📄
+                My Docs
               </button>
+              <span className="toggle-separator">/</span>
               <button 
                 className={`toggle-btn ${viewMode === 'gigs' ? 'active' : ''}`}
                 onClick={() => setViewMode('gigs')}
-                title="Gig Queue"
               >
-                💼
+                Gig Queue
               </button>
             </div>
           </div>
