@@ -13,7 +13,7 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
       {/* Horizontal Ruler */}
       <div className="editor-horizontal-ruler">
         <div className="ruler-marks-container">
-          {[...Array(13)].map((_, i) => (
+          {[...Array(9)].map((_, i) => (
             <React.Fragment key={i}>
               <div 
                 className="ruler-mark inch" 
@@ -21,8 +21,8 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
               >
                 <span className="ruler-mark-label">{i}"</span>
               </div>
-              {/* Only show subdivision marks before the 12-inch mark */}
-              {i < 12 && (
+              {/* Only show subdivision marks before the 8-inch mark (A4 width) */}
+              {i < 8 && (
                 <>
                   <div 
                     className="ruler-mark half-inch" 
@@ -43,10 +43,10 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
         </div>
       </div>
       
-      {/* Vertical Ruler */}
+      {/* Vertical Ruler - A4 is 11.69 inches tall, show 0-12 */}
       <div className="editor-vertical-ruler">
         <div className="ruler-marks-container">
-          {[...Array(11)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <React.Fragment key={i}>
               <div 
                 className="ruler-mark inch" 
