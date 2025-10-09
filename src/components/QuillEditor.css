@@ -104,15 +104,16 @@
   background: #ffffff;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden !important;
+  overflow-x: auto; /* Allow horizontal scroll if needed */
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
 .quill-editor .ql-editor {
   padding: 38px 75px;
-  width: 1190px; /* Scale up A4: 8.27" * 150px/inch = 1240px - 75px padding each side */
-  max-width: 1190px;
-  margin: 18px 0 0 20px; /* Move paper down */
+  width: calc(100% - 40px); /* Responsive width with margin */
+  max-width: 1190px; /* Maximum A4 width */
+  margin: 18px 20px 0 20px; /* Equal margins on both sides */
   min-height: calc(100vh - 300px);
   background: #ffffff;
   color: #000000;
