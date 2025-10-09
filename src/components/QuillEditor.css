@@ -75,7 +75,7 @@
   position: absolute;
   /* Adjust for both toolbars: extra toolbar (~41px) + Quill toolbar (~42px) + padding */
   top: 95px;
-  left: 15px;
+  left: 60px; /* Move right to align with paper edge when rulers are off */
   right: 15px;
   z-index: 1;
   pointer-events: none;
