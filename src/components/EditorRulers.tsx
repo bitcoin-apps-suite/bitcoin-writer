@@ -17,7 +17,7 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
             <React.Fragment key={i}>
               <div 
                 className="ruler-mark inch" 
-                style={{ left: `${40 + i * 96}px` }}
+                style={{ left: `${88 + i * 96}px` }}
               >
                 <span className="ruler-mark-label">{i}"</span>
               </div>
@@ -26,15 +26,15 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
                 <>
                   <div 
                     className="ruler-mark half-inch" 
-                    style={{ left: `${40 + i * 96 + 48}px` }}
+                    style={{ left: `${88 + i * 96 + 48}px` }}
                   />
                   <div 
                     className="ruler-mark quarter-inch" 
-                    style={{ left: `${40 + i * 96 + 24}px` }}
+                    style={{ left: `${88 + i * 96 + 24}px` }}
                   />
                   <div 
                     className="ruler-mark quarter-inch" 
-                    style={{ left: `${40 + i * 96 + 72}px` }}
+                    style={{ left: `${88 + i * 96 + 72}px` }}
                   />
                 </>
               )}
@@ -50,21 +50,21 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
             <React.Fragment key={i}>
               <div 
                 className="ruler-mark inch" 
-                style={{ top: `${20 + i * 72}px` }}
+                style={{ top: `${56 + i * 72}px` }}
               >
                 <span className="ruler-mark-label">{i}"</span>
               </div>
               <div 
                 className="ruler-mark half-inch" 
-                style={{ top: `${20 + i * 72 + 36}px` }}
+                style={{ top: `${56 + i * 72 + 36}px` }}
               />
               <div 
                 className="ruler-mark quarter-inch" 
-                style={{ top: `${20 + i * 72 + 18}px` }}
+                style={{ top: `${56 + i * 72 + 18}px` }}
               />
               <div 
                 className="ruler-mark quarter-inch" 
-                style={{ top: `${20 + i * 72 + 54}px` }}
+                style={{ top: `${56 + i * 72 + 54}px` }}
               />
             </React.Fragment>
           ))}

@@ -104,7 +104,7 @@
   padding: 20px 40px;
   width: 1072px; /* 1152px (12 inches) - 80px (padding) */
   max-width: 1072px;
-  margin: 0 auto;
+  margin: 20px 0 0 -20px; /* Push down and left */
   min-height: calc(100vh - 300px);
   background: #ffffff;
   color: #000000;
