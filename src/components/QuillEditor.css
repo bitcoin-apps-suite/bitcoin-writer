@@ -101,9 +101,9 @@
 }
 
 .quill-editor .ql-editor {
-  padding: 30px 60px;
-  width: 952px; /* Scale up A4: 8.27" * 120px/inch = 992px - 60px padding each side */
-  max-width: 952px;
+  padding: 38px 75px;
+  width: 1190px; /* Scale up A4: 8.27" * 150px/inch = 1240px - 75px padding each side */
+  max-width: 1190px;
   margin: 18px 0 0 20px; /* Move paper down */
   min-height: calc(100vh - 300px);
   background: #ffffff;
@@ -112,7 +112,7 @@
   text-align: left;
   overflow-x: hidden !important;
   word-wrap: break-word;
-  box-shadow: 0 0 0 1px #e0e0e0;
+  box-shadow: 0 0 0 1px #666666;
   overflow-wrap: break-word;
   hyphens: auto;
   white-space: pre-wrap;
