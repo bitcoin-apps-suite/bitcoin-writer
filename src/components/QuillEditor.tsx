@@ -23,6 +23,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   const quillRef = useRef<ReactQuill>(null);
   const [isReady, setIsReady] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [showRulers, setShowRulers] = useState(false);
   const [isEmpty, setIsEmpty] = useState(() => {
     // Check if initial content is empty
     const tempDiv = document.createElement('div');
@@ -339,6 +340,28 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           </svg>
           Export HTML
         </button>
+        
+        <div className="toolbar-separator" style={{ width: '1px', height: '24px', backgroundColor: '#ddd', margin: '0 8px' }} />
+        
+        <button 
+          onClick={() => setShowRulers(!showRulers)}
+          className={`ruler-toggle-btn ${showRulers ? 'active' : ''}`}
+          title={showRulers ? "Hide Rulers" : "Show Rulers"}
+          style={{ 
+            backgroundColor: showRulers ? '#e3f2fd' : 'white',
+            border: '1px solid #dee2e6',
+            padding: '6px 12px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            transition: 'all 0.2s'
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+            <path d="M3,5V7H7V5H3M13,5V11H21V5H13M15,7H19V9H15V7M3,11V13H7V11H3M15,13V19H21V13H15M17,15H19V17H17V15M3,17V19H7V17H3M9,5V7H11V5H9M9,9V19H13V9H9M11,11V13H11.5V11H11M11,15V17H11.5V15H11Z"/>
+          </svg>
+          Rulers
+        </button>
       </div>
       
       {showImportModal && (
@@ -353,17 +376,96 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       )}
       
       <div className="quill-editor-wrapper" style={{ position: 'relative', flex: 1 }}>
-        <ReactQuill
-          ref={quillRef}
-          theme="snow"
-          value={content}
-          onChange={handleChange}
-          modules={modules}
-          formats={formats}
-          placeholder="" // Disable default placeholder when using animated one
-          className="quill-editor"
-        />
-        {isEmpty && <AnimatedPlaceholder />}
+        {showRulers ? (
+          <div className="editor-with-rulers">
+            {/* Vertical Ruler */}
+            <div className="vertical-ruler">
+              <div className="vertical-ruler-marks">
+                {[...Array(11)].map((_, i) => (
+                  <div key={i}>
+                    <div 
+                      className="ruler-mark inch" 
+                      style={{ top: `${i * 72}px` }}
+                    >
+                      <span className="ruler-mark-label">{i}"</span>
+                    </div>
+                    <div 
+                      className="ruler-mark half-inch" 
+                      style={{ top: `${i * 72 + 36}px` }}
+                    />
+                    <div 
+                      className="ruler-mark quarter-inch" 
+                      style={{ top: `${i * 72 + 18}px` }}
+                    />
+                    <div 
+                      className="ruler-mark quarter-inch" 
+                      style={{ top: `${i * 72 + 54}px` }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              {/* Horizontal Ruler */}
+              <div className="horizontal-ruler">
+                <div className="horizontal-ruler-marks">
+                  {[...Array(9)].map((_, i) => (
+                    <div key={i}>
+                      <div 
+                        className="ruler-mark inch" 
+                        style={{ left: `${i * 96}px` }}
+                      >
+                        <span className="ruler-mark-label">{i}"</span>
+                      </div>
+                      <div 
+                        className="ruler-mark half-inch" 
+                        style={{ left: `${i * 96 + 48}px` }}
+                      />
+                      <div 
+                        className="ruler-mark quarter-inch" 
+                        style={{ left: `${i * 96 + 24}px` }}
+                      />
+                      <div 
+                        className="ruler-mark quarter-inch" 
+                        style={{ left: `${i * 96 + 72}px` }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Editor Content */}
+              <div className="editor-content-area">
+                <ReactQuill
+                  ref={quillRef}
+                  theme="snow"
+                  value={content}
+                  onChange={handleChange}
+                  modules={modules}
+                  formats={formats}
+                  placeholder="" // Disable default placeholder when using animated one
+                  className="quill-editor"
+                />
+                {isEmpty && <AnimatedPlaceholder />}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <ReactQuill
+              ref={quillRef}
+              theme="snow"
+              value={content}
+              onChange={handleChange}
+              modules={modules}
+              formats={formats}
+              placeholder="" // Disable default placeholder when using animated one
+              className="quill-editor"
+            />
+            {isEmpty && <AnimatedPlaceholder />}
+          </>
+        )}
       </div>
     </div>
   );
