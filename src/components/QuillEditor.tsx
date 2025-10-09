@@ -6,9 +6,6 @@ import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
 import AnimatedPlaceholder from './AnimatedPlaceholder';
 import ImportSourcesModal from './ImportSourcesModal';
-import SaveToBlockchainModal, { BlockchainSaveOptions } from './SaveToBlockchainModal';
-import BSVStorageService from '../services/BSVStorageService';
-import { HandCashService } from '../services/HandCashService';
 
 interface QuillEditorProps {
   content: string;
@@ -26,10 +23,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   const quillRef = useRef<ReactQuill>(null);
   const [isReady, setIsReady] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
-  const [showSaveModal, setShowSaveModal] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const handcashService = useMemo(() => new HandCashService(), []);
-  const bsvService = useMemo(() => new BSVStorageService(handcashService), [handcashService]);
   const [isEmpty, setIsEmpty] = useState(() => {
     // Check if initial content is empty
     const tempDiv = document.createElement('div');
@@ -186,39 +179,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
     saveAs(blob, `${title}.html`);
   };
 
-  // Handle Save to Blockchain
-  const handleSaveToBlockchain = async (options: BlockchainSaveOptions) => {
-    setIsSaving(true);
-    try {
-      if (!quillRef.current) {
-        throw new Error('Editor not ready');
-      }
-      
-      const editor = quillRef.current.getEditor();
-      const text = editor.getText();
-      
-      // Check if HandCash is authenticated
-      const isAuthenticated = handcashService.isAuthenticated();
-      const author = isAuthenticated ? handcashService.getCurrentUser()?.handle || 'Anonymous' : 'Anonymous';
-      
-      // Store document with options
-      const result = await bsvService.storeDocumentWithOptions(
-        text,
-        options,
-        author
-      );
-      
-      // Show success message
-      alert(`Document saved to blockchain!\n\nTransaction ID: ${result.transactionId}\n\nExplorer: ${result.explorerUrl}`);
-      
-      setShowSaveModal(false);
-    } catch (error) {
-      console.error('Failed to save to blockchain:', error);
-      alert(`Failed to save document: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   // Get word count
   const getWordCount = (): number => {
@@ -379,20 +339,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           </svg>
           Export HTML
         </button>
-        
-        <div className="toolbar-separator" style={{ width: '1px', height: '24px', backgroundColor: '#ddd', margin: '0 8px' }} />
-        
-        <button 
-          onClick={() => setShowSaveModal(true)}
-          className="save-blockchain-btn"
-          title="Save to BSV Blockchain"
-          style={{ backgroundColor: '#f7931a', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', fontWeight: 'bold' }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
-            <path d="M9,3V9H9.73L7.1,16H14.42L12.07,11H14.9L15,3M12,18.08C11.45,18.08 11,18.53 11,19.08C11,19.63 11.45,20.08 12,20.08C12.55,20.08 13,19.63 13,19.08C13,18.53 12.55,18.08 12,18.08Z"/>
-          </svg>
-          Save to Blockchain
-        </button>
       </div>
       
       {showImportModal && (
@@ -419,18 +365,6 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         />
         {isEmpty && <AnimatedPlaceholder />}
       </div>
-      
-      {showSaveModal && (
-        <SaveToBlockchainModal
-          isOpen={showSaveModal}
-          onClose={() => setShowSaveModal(false)}
-          onSave={handleSaveToBlockchain}
-          documentTitle="Bitcoin Writer Document"
-          wordCount={getWordCount()}
-          estimatedSize={getEstimatedSize()}
-          isAuthenticated={handcashService.isAuthenticated()}
-        />
-      )}
     </div>
   );
 };
