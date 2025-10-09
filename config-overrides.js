@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 
-module.exports = function override(config) {
+module.exports = {
+  webpack: function override(config, env) {
   const fallback = config.resolve.fallback || {};
   Object.assign(fallback, {
     crypto: require.resolve('crypto-browserify'),
@@ -19,6 +20,42 @@ module.exports = function override(config) {
       Buffer: ['buffer', 'Buffer'],
     }),
   ]);
-  config.ignoreWarnings = [/Failed to parse source map/];
+  config.ignoreWarnings = [
+    /Failed to parse source map/,
+    /DEP0176/, // fs.F_OK deprecation warning
+    /DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE/,
+    /DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE/
+  ];
+  
   return config;
+  },
+  
+  devServer: function(configFunction) {
+    return function(proxy, allowedHost) {
+      const config = configFunction(proxy, allowedHost);
+      
+      // Fix deprecation warnings by replacing deprecated middleware options
+      if (config.onBeforeSetupMiddleware || config.onAfterSetupMiddleware) {
+        const beforeMiddleware = config.onBeforeSetupMiddleware;
+        const afterMiddleware = config.onAfterSetupMiddleware;
+        
+        delete config.onBeforeSetupMiddleware;
+        delete config.onAfterSetupMiddleware;
+        
+        config.setupMiddlewares = (middlewares, devServer) => {
+          if (beforeMiddleware) {
+            beforeMiddleware(devServer);
+          }
+          
+          if (afterMiddleware) {
+            afterMiddleware(devServer);
+          }
+          
+          return middlewares;
+        };
+      }
+      
+      return config;
+    };
+  }
 };

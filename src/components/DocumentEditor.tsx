@@ -230,7 +230,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     
     prevPropDocument.current = propDocument;
     isInitialMount.current = false;
-  }, [propDocument, loadLocalDocument, isAuthenticated, documentService, localDocumentId]);
+  }, [propDocument, loadLocalDocument, isAuthenticated, documentService, localDocumentId, editorContent, quillContent]);
 
   // Listen for tokenize modal event
   useEffect(() => {
@@ -397,7 +397,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     
     setAutoSaveStatus('New document ready');
     setTimeout(() => setAutoSaveStatus(''), 2000);
-  }, [localDocumentId, saveToLocalStorage, isAuthenticated, documentService, onDocumentUpdate]);
+  }, [localDocumentId, saveToLocalStorage, isAuthenticated, documentService, onDocumentUpdate, editorContent, quillContent]);
 
 
   const saveDocument = async () => {
@@ -607,6 +607,47 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     }
   }, [isAuthenticated, currentDocument, documentService, selectedStorageOption, wordCount, charCount, saveToLocalStorage, quillContent, editorContent]);
 
+  // Hash document (ultra-low cost, just store hash)
+  const hashDocument = useCallback(async () => {
+    if (!localDocumentId) return;
+    
+    const content = quillContent || editorContent;
+    const text = content.replace(/<[^>]*>/g, '');
+    if (!text || text.length < 10) return; // Don't hash empty or very short documents
+    
+    const hash = CryptoJS.SHA256(text).toString();
+    const timestamp = new Date().toISOString();
+    
+    // Store hash locally
+    const doc = LocalDocumentStorage.getDocument(localDocumentId);
+    if (doc) {
+      doc.is_hashed = true;
+      doc.hash = hash;
+      doc.updated_at = timestamp;
+      LocalDocumentStorage.saveDocument(doc);
+    }
+    
+    // If authenticated, store hash on blockchain (ultra-low cost)
+    if (isAuthenticated && bsvService) {
+      try {
+        // This would cost about 1/10,000th of a penny
+        // Just storing 32 bytes of hash data
+        setAutoSaveStatus('⚓️ Hashing to blockchain...');
+        
+        // In production, this would make a minimal BSV transaction
+        // For now, we'll simulate it
+        console.log('Document hash:', hash);
+        setLastHashTime(Date.now());
+        setAutoSaveStatus('✅ Hash saved to blockchain');
+        setTimeout(() => setAutoSaveStatus(''), 2000);
+      } catch (error) {
+        console.error('Hash save failed:', error);
+        setAutoSaveStatus('❌ Hash save failed');
+        setTimeout(() => setAutoSaveStatus(''), 3000);
+      }
+    }
+  }, [localDocumentId, quillContent, editorContent, isAuthenticated, bsvService]);
+
   // Auto-save every minute
   useEffect(() => {
     const interval = setInterval(() => {
@@ -645,48 +686,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     }, 60000); // Every 60 seconds (1 minute)
 
     return () => clearInterval(interval);
-  }, [saveToLocalStorage, isAuthenticated, localDocumentId, lastHashTime, quillContent]);
-  
-  // Hash document (ultra-low cost, just store hash)
-  const hashDocument = async () => {
-    if (!localDocumentId) return;
-    
-    const content = quillContent || editorContent;
-    const text = content.replace(/<[^>]*>/g, '');
-    if (!text || text.length < 10) return; // Don't hash empty or very short documents
-    
-    const hash = CryptoJS.SHA256(text).toString();
-    const timestamp = new Date().toISOString();
-    
-    // Store hash locally
-    const doc = LocalDocumentStorage.getDocument(localDocumentId);
-    if (doc) {
-      doc.is_hashed = true;
-      doc.hash = hash;
-      doc.updated_at = timestamp;
-      LocalDocumentStorage.saveDocument(doc);
-    }
-    
-    // If authenticated, store hash on blockchain (ultra-low cost)
-    if (isAuthenticated && bsvService) {
-      try {
-        // This would cost about 1/10,000th of a penny
-        // Just storing 32 bytes of hash data
-        setAutoSaveStatus('⚓️ Hashing to blockchain...');
-        
-        // In production, this would make a minimal BSV transaction
-        // For now, we'll simulate it
-        console.log('Document hash:', hash);
-        console.log('Timestamp:', timestamp);
-        
-        setLastHashTime(Date.now());
-        setAutoSaveStatus('✓ Hashed to blockchain');
-        setTimeout(() => setAutoSaveStatus(''), 3000);
-      } catch (error) {
-        console.error('Failed to hash to blockchain:', error);
-      }
-    }
-  };
+  }, [saveToLocalStorage, isAuthenticated, localDocumentId, lastHashTime, quillContent, editorContent, hashDocument]);
 
   const extractTitleFromContent = (html: string): string => {
     const tempDiv = document.createElement('div');

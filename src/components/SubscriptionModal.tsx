@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import StripePaymentService, { ProSubscription } from '../services/StripePaymentService';
 import './SubscriptionModal.css';
 
@@ -20,20 +20,20 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isOpen && handcashHandle) {
-      loadSubscriptionStatus();
-    }
-  }, [isOpen, handcashHandle]);
-
-  const loadSubscriptionStatus = async () => {
+  const loadSubscriptionStatus = useCallback(async () => {
     try {
       const subscription = await paymentService.getProSubscriptionStatus(handcashHandle);
       setCurrentSubscription(subscription);
     } catch (error) {
       console.error('Error loading subscription:', error);
     }
-  };
+  }, [paymentService, handcashHandle]);
+
+  useEffect(() => {
+    if (isOpen && handcashHandle) {
+      loadSubscriptionStatus();
+    }
+  }, [isOpen, handcashHandle, loadSubscriptionStatus]);
 
   const handleSubscribe = async () => {
     setLoading(true);

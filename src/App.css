@@ -212,9 +212,15 @@
 .app-container {
   display: flex;
   flex: 1;
-  overflow: hidden;
+  overflow: hidden; /* Contain children properly */
   width: 100%;
-  transition: margin-left 0.3s ease;
+  margin-right: 280px; /* Account for fixed sidebar */
+  transition: margin-left 0.3s ease, margin-right 0.3s ease;
+  position: relative;
+}
+
+.app-container.with-market-sidebar-collapsed {
+  margin-right: 24px; /* Just space for the toggle button */
 }
 
 /* Adjust layout when DevSidebar is present - DESKTOP ONLY */
@@ -349,9 +355,9 @@
 }
 
 main {
-  flex: 1;
-  overflow: auto; /* Allow scrolling when content is too wide */
-  min-width: 0; /* Important for flex children to shrink properly */
+  flex: 1; /* Take remaining space */
+  overflow: auto;
+  min-width: 0; /* Allow shrinking */
   display: flex;
   flex-direction: column;
 }

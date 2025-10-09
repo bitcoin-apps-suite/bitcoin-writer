@@ -1,7 +1,7 @@
 .app-footer {
   background: #0a0a0a;
   border-top: 1px solid rgba(255, 149, 0, 0.2);
-  padding: 3rem 2rem 1rem;
+  padding: 3rem 2rem 4rem; /* Increased bottom padding to clear dock */
   margin-top: auto;
   color: #f0f0f0;
 }
@@ -33,10 +33,11 @@
 }
 
 .footer-section a {
-  color: #d0d0d0;
+  color: #e5e5e5;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.2s ease;
+  font-weight: 400;
 }
 
 .footer-section a:hover {
@@ -63,10 +64,11 @@
 }
 
 .footer-tagline {
-  color: #c0c0c0;
-  font-size: 1rem;
-  line-height: 1.5;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  line-height: 1.6;
   margin: 0;
+  font-weight: 500;
 }
 
 .footer-bottom {
@@ -87,8 +89,9 @@
 .footer-copyright p {
   margin: 0.25rem 0;
   font-size: 0.9rem;
-  color: #a0a0a0;
-  line-height: 1.4;
+  color: #c5c5c5;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 .footer-copyright a {
@@ -106,9 +109,10 @@
 }
 
 .footer-links a {
-  color: #999;
+  color: #d0d0d0;
   text-decoration: none;
   margin: 0 10px;
+  font-weight: 400;
 }
 
 .footer-links a:hover {

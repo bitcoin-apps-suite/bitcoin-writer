@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { GitHubAuthService, GitHubUser } from '../services/GitHubAuthService';
 import { TaskContractService } from '../services/TaskContractService';
 import { HandCashService } from '../services/HandCashService';
@@ -32,9 +32,9 @@ const TaskClaimModal: React.FC<TaskClaimModalProps> = ({
   const [error, setError] = useState<string>('');
   const [countdown, setCountdown] = useState<{ days: number; hours: number; minutes: number } | null>(null);
   
-  const githubAuth = new GitHubAuthService();
-  const contractService = new TaskContractService();
-  const handcashService = new HandCashService();
+  const githubAuth = useMemo(() => new GitHubAuthService(), []);
+  const contractService = useMemo(() => new TaskContractService(), []);
+  const handcashService = useMemo(() => new HandCashService(), []);
 
   useEffect(() => {
     // Check if already authenticated
@@ -42,7 +42,7 @@ const TaskClaimModal: React.FC<TaskClaimModalProps> = ({
       setGithubUser(githubAuth.getCurrentUser());
       setStep('handcash');
     }
-  }, []);
+  }, [githubAuth]);
 
   useEffect(() => {
     // Update countdown timer
@@ -66,7 +66,7 @@ const TaskClaimModal: React.FC<TaskClaimModalProps> = ({
         return () => clearInterval(timer);
       }
     }
-  }, [step, task.id]);
+  }, [step, task.id, contractService]);
 
   const handleGitHubLogin = async () => {
     setIsLoading(true);

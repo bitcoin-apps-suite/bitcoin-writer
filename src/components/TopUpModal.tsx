@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import StripePaymentService from '../services/StripePaymentService';
 import './TopUpModal.css';
 
@@ -21,20 +21,20 @@ const TopUpModal: React.FC<TopUpModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isOpen && handcashHandle) {
-      loadCurrentBalance();
-    }
-  }, [isOpen, handcashHandle]);
-
-  const loadCurrentBalance = async () => {
+  const loadCurrentBalance = useCallback(async () => {
     try {
       const balanceData = await paymentService.getBSVBalance(handcashHandle);
       setCurrentBalance(balanceData.currentBalance);
     } catch (error) {
       console.error('Error loading balance:', error);
     }
-  };
+  }, [paymentService, handcashHandle]);
+
+  useEffect(() => {
+    if (isOpen && handcashHandle) {
+      loadCurrentBalance();
+    }
+  }, [isOpen, handcashHandle, loadCurrentBalance]);
 
   const handleTopUp = async () => {
     if (!selectedTopUp) return;

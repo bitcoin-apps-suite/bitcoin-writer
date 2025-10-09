@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BlockchainDocumentService } from '../services/BlockchainDocumentService';
 import './GigQueueView.css';
 
@@ -39,11 +39,7 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
   const [filter, setFilter] = useState<'all' | 'available' | 'my-jobs'>('available');
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    loadJobs();
-  }, [filter]);
-
-  const loadJobs = async () => {
+  const loadJobs = useCallback(async () => {
     setIsLoading(true);
     try {
       // Mock data for now - this would come from blockchain/API
@@ -104,7 +100,11 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    loadJobs();
+  }, [filter, loadJobs]);
 
   const formatCompensation = (comp: WritingJob['compensation']) => {
     if (comp.currency === 'USD') {

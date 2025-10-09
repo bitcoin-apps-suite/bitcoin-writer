@@ -205,32 +205,20 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   console.log('TickerSidebar rendering, isCollapsed:', isCollapsed);
   
   return (
-    <div className={`ticker-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
-      <div className="ticker-header">
-        <h3>$bWriter Market</h3>
-        <div className="ticker-header-controls">
-          <button 
-            className="ticker-collapse-btn"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            title={isCollapsed ? "Expand Market Sidebar" : "Collapse Market Sidebar"}
-            style={{ 
-              backgroundColor: '#F7931A', 
-              color: '#000',
-              border: '2px solid #F7931A',
-              padding: '8px',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '18px',
-              fontWeight: 'bold'
-            }}
-          >
-            {isCollapsed ? '◀' : '×'}
-          </button>
-        </div>
-      </div>
-
+    <>
+      <button 
+        className="ticker-toggle-outside"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        title={isCollapsed ? "Expand Market Sidebar" : "Collapse Market Sidebar"}
+      >
+        {isCollapsed ? '◀' : '▶'}
+      </button>
       {!isCollapsed && (
-        <>
+        <div className="ticker-sidebar">
+          <div className="ticker-header">
+            <h3>$bWriter Market</h3>
+          </div>
+
           {isLoading ? (
             <div className="ticker-loading">Loading prices...</div>
           ) : (
@@ -302,9 +290,9 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
               Prices update every 30s
             </div>
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
