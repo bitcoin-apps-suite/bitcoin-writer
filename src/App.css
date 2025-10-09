@@ -350,8 +350,8 @@
 
 main {
   flex: 1;
-  overflow: hidden;
-  width: 100%;
+  overflow: auto; /* Allow scrolling when content is too wide */
+  min-width: 0; /* Important for flex children to shrink properly */
   display: flex;
   flex-direction: column;
 }
