@@ -1879,6 +1879,51 @@ main {
   color: #ccc;
 }
 
+.sidebar-title-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+}
+
+.sidebar-title-area h3 {
+  margin: 0;
+  flex: 1;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+.view-toggle .toggle-btn {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #999;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.view-toggle .toggle-btn:hover {
+  background: #333;
+  border-color: #555;
+  color: #ccc;
+}
+
+.view-toggle .toggle-btn.active {
+  background: #F7931A;
+  border-color: #F7931A;
+  color: #000;
+}
+
 .sidebar-content {
   flex: 1;
   overflow-y: auto;
