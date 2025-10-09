@@ -386,21 +386,21 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
                   <div key={i}>
                     <div 
                       className="ruler-mark inch" 
-                      style={{ top: `${i * 72}px` }}
+                      style={{ top: `${20 + i * 72}px` }}
                     >
                       <span className="ruler-mark-label">{i}"</span>
                     </div>
                     <div 
                       className="ruler-mark half-inch" 
-                      style={{ top: `${i * 72 + 36}px` }}
+                      style={{ top: `${20 + i * 72 + 36}px` }}
                     />
                     <div 
                       className="ruler-mark quarter-inch" 
-                      style={{ top: `${i * 72 + 18}px` }}
+                      style={{ top: `${20 + i * 72 + 18}px` }}
                     />
                     <div 
                       className="ruler-mark quarter-inch" 
-                      style={{ top: `${i * 72 + 54}px` }}
+                      style={{ top: `${20 + i * 72 + 54}px` }}
                     />
                   </div>
                 ))}
@@ -415,21 +415,21 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
                     <div key={i}>
                       <div 
                         className="ruler-mark inch" 
-                        style={{ left: `${i * 96}px` }}
+                        style={{ left: `${40 + i * 96}px` }}
                       >
                         <span className="ruler-mark-label">{i}"</span>
                       </div>
                       <div 
                         className="ruler-mark half-inch" 
-                        style={{ left: `${i * 96 + 48}px` }}
+                        style={{ left: `${40 + i * 96 + 48}px` }}
                       />
                       <div 
                         className="ruler-mark quarter-inch" 
-                        style={{ left: `${i * 96 + 24}px` }}
+                        style={{ left: `${40 + i * 96 + 24}px` }}
                       />
                       <div 
                         className="ruler-mark quarter-inch" 
-                        style={{ left: `${i * 96 + 72}px` }}
+                        style={{ left: `${40 + i * 96 + 72}px` }}
                       />
                     </div>
                   ))}

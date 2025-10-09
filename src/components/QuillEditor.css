@@ -77,10 +77,9 @@
   display: flex;
   position: relative;
   height: 100%;
-  margin: 0 auto;
-  max-width: 800px;
   width: 100%;
-  padding: 0 40px;
+  padding: 0;
+  margin-left: 30px; /* Align with vertical ruler width */
   box-sizing: border-box;
 }
 
