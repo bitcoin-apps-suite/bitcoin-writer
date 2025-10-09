@@ -1819,6 +1819,8 @@ main {
   min-width: 200px;
   max-width: 500px;
   flex-shrink: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .document-sidebar.collapsed {
@@ -1852,6 +1854,7 @@ main {
   align-items: center;
   gap: 8px;
   min-height: 48px;
+  flex-shrink: 0;
 }
 
 .collapse-btn {
@@ -1879,11 +1882,16 @@ main {
 .sidebar-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 12px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-actions {
   margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .new-document-btn {
@@ -1923,6 +1931,10 @@ main {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
 }
 
 .document-item {
