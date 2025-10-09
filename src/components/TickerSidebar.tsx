@@ -71,7 +71,8 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
           holders: holders,
           last_updated: new Date(),
           source: 'Jobs Queue',
-          isGig: true
+          isGig: true,
+          isSpecial: false
         };
       });
 
@@ -82,13 +83,14 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
     // Subscribe to price updates
     const subscription = PriceService.subscribeAll((updatedPrices) => {
       // Get core token prices (BSV and BWRITER)
-      const corePrices = updatedPrices.filter(p => 
+      const corePrices: TokenPrice[] = updatedPrices.filter(p => 
         p.symbol === 'BSV' || p.symbol === 'BWRITER'
       ).map(p => ({
         ...p,
         change24h: p.change_24h,
         changePercent: p.change_percent_24h,
-        isSpecial: true
+        isSpecial: true,
+        isGig: false
       }));
 
       // Add user's handle token if available
@@ -109,6 +111,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
           last_updated: new Date(),
           source: 'HandCash',
           isSpecial: true,
+          isGig: false,
           category: 'Creator'
         };
       }
