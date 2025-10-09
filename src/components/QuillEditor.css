@@ -104,7 +104,7 @@
   padding: 20px 40px;
   width: 1072px; /* 1152px (12 inches) - 80px (padding) */
   max-width: 1072px;
-  margin: 56px 0 0 88px; /* Align with 0 marks + half-inch gap (48px from rulers + 8px for 0 position) */
+  margin: 8px 0 0 58px; /* Align paper edge exactly with ruler 0 marks */
   min-height: calc(100vh - 300px);
   background: #ffffff;
   color: #000000;
