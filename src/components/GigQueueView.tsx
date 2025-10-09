@@ -135,7 +135,7 @@ const GigQueueView: React.FC<GigQueueViewProps> = ({
     }
     
     // Show confirmation
-    if (confirm(`Accept gig: "${gig.title}"?\n\nCompensation: ${formatCompensation(gig.compensation)}\nDeadline: ${formatDeadline(gig.deadline)}`)) {
+    if (window.confirm(`Accept gig: "${gig.title}"?\n\nCompensation: ${formatCompensation(gig.compensation)}\nDeadline: ${formatDeadline(gig.deadline)}`)) {
       onAcceptGig(gig);
       setSelectedGig(null);
     }
