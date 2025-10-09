@@ -103,14 +103,24 @@ export class BlockchainDocumentService {
     try {
       console.log('Syncing documents for user:', this.currentUser.handle);
       
-      // For now, this ensures all stored documents are accessible
-      // In future versions, this will:
-      // 1. Query blockchain for user's D:// document index
-      // 2. Fetch any new documents from blockchain
-      // 3. Update local cache with latest versions
-      
+      // Load all documents from localStorage
       const documents = await this.getDocuments();
       console.log(`Sync complete: ${documents.length} documents available`);
+      
+      // Additionally, check if we have any orphaned documents that need recovery
+      const publishedDocsKey = `published_docs_${this.currentUser.handle}`;
+      const publishedDocs = localStorage.getItem(publishedDocsKey);
+      
+      if (publishedDocs) {
+        try {
+          const docs = JSON.parse(publishedDocs);
+          if (Array.isArray(docs) && docs.length > 0) {
+            console.log(`Found ${docs.length} published documents in localStorage for ${this.currentUser.handle}`);
+          }
+        } catch (error) {
+          console.error('Error parsing published documents:', error);
+        }
+      }
       
       // Emit event to notify UI to refresh
       if (typeof window !== 'undefined') {
@@ -789,20 +799,53 @@ export class BlockchainDocumentService {
       throw new Error('User not authenticated');
     }
 
-    console.log('Retrieving document from Bitcoin:', documentId);
+    console.log('Retrieving document:', documentId);
 
-    // In production, this would retrieve from blockchain
-    // For now, we'll simulate with localStorage
+    // First, check if we have the document in published_docs localStorage
+    const publishedDocsKey = `published_docs_${this.currentUser.handle}`;
+    const publishedDocs = localStorage.getItem(publishedDocsKey);
+    
+    if (publishedDocs) {
+      try {
+        const docs: BlockchainDocument[] = JSON.parse(publishedDocs);
+        const foundDoc = docs.find(doc => doc.id === documentId);
+        
+        if (foundDoc) {
+          console.log('Found document in published_docs:', documentId);
+          return {
+            id: foundDoc.id,
+            title: foundDoc.title,
+            content: foundDoc.content || '',
+            metadata: {
+              created_at: foundDoc.created_at,
+              updated_at: foundDoc.updated_at,
+              author: foundDoc.author || this.currentUser.handle,
+              encrypted: foundDoc.encrypted || false,
+              word_count: foundDoc.word_count || 0,
+              character_count: foundDoc.character_count || 0,
+              storage_method: foundDoc.storage_method,
+              blockchain_tx: foundDoc.blockchain_tx,
+              storage_cost: foundDoc.storage_cost
+            }
+          };
+        }
+      } catch (error) {
+        console.error('Error parsing published documents:', error);
+      }
+    }
+
+    // Fallback to old storage location
     const storedDoc = localStorage.getItem(`doc_${this.currentUser.handle}_${documentId}`);
     
     if (!storedDoc) {
+      console.log('Document not found in localStorage:', documentId);
       return null;
     }
 
     try {
       const document: DocumentData = JSON.parse(storedDoc);
       
-      // Decrypt the content
+      // Decrypt the content if needed
       const decryptedContent = this.decryptContent(document.content);
       
       return {
@@ -827,35 +870,34 @@ export class BlockchainDocumentService {
       // Try to load from multiple sources and merge
       const documents = new Map<string, BlockchainDocument>();
       
-      // 1. Load from localStorage metadata (existing published docs)
+      // 1. Load from published_docs key (where storePublishedDocument saves)
+      const publishedDocsKey = `published_docs_${this.currentUser.handle}`;
+      const publishedDocs = localStorage.getItem(publishedDocsKey);
+      
+      if (publishedDocs) {
+        try {
+          const parsedDocs: BlockchainDocument[] = JSON.parse(publishedDocs);
+          parsedDocs.forEach(doc => documents.set(doc.id, doc));
+          console.log(`Loaded ${parsedDocs.length} published documents from localStorage`);
+        } catch (error) {
+          console.error('Failed to parse published documents:', error);
+        }
+      }
+      
+      // 2. Also check the old metadata key for backward compatibility
       const metadataKey = `docs_metadata_${this.currentUser.handle}`;
       const storedMetadata = localStorage.getItem(metadataKey);
       
       if (storedMetadata) {
         try {
           const localDocs: BlockchainDocument[] = JSON.parse(storedMetadata);
-          localDocs.forEach(doc => documents.set(doc.id, doc));
-        } catch (error) {
-          console.error('Failed to parse stored metadata:', error);
-        }
-      }
-      
-      // 2. Load from user's published documents storage
-      const publishedDocsKey = `published_docs_${this.currentUser.handle}`;
-      const publishedDocs = localStorage.getItem(publishedDocsKey);
-      
-      if (publishedDocs) {
-        try {
-          const published: BlockchainDocument[] = JSON.parse(publishedDocs);
-          published.forEach(doc => {
-            // Only add if not already present or if this version is newer
-            const existing = documents.get(doc.id);
-            if (!existing || new Date(doc.updated_at) > new Date(existing.updated_at)) {
+          localDocs.forEach(doc => {
+            if (!documents.has(doc.id)) {
               documents.set(doc.id, doc);
             }
           });
         } catch (error) {
-          console.error('Failed to parse published documents:', error);
+          console.error('Failed to parse stored metadata:', error);
         }
       }
       
