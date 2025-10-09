@@ -103,7 +103,7 @@
 .quill-editor .ql-editor {
   padding: 20px 40px;
   width: 100%;
-  max-width: 1152px; /* 12 inches at 96px per inch */
+  max-width: 1232px; /* 12 inches (1152px) + 80px padding (40px left + 40px right) */
   margin: 0 auto;
   min-height: calc(100vh - 300px);
   background: #ffffff;
@@ -113,6 +113,7 @@
   overflow-x: hidden !important;
   word-wrap: break-word;
   box-shadow: 0 0 0 1px #e0e0e0;
+  box-sizing: border-box;
   overflow-wrap: break-word;
   hyphens: auto;
   white-space: pre-wrap;
