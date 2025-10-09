@@ -24,7 +24,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   const quillRef = useRef<ReactQuill>(null);
   const [isReady, setIsReady] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
-  const [showRulers, setShowRulers] = useState(false);
+  const [showRulers, setShowRulers] = useState(true);
   const [isEmpty, setIsEmpty] = useState(() => {
     // Check if initial content is empty
     const tempDiv = document.createElement('div');
