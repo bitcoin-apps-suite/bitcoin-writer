@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
-  Code, 
   GitBranch, 
-  Bug, 
   FileText, 
   DollarSign, 
   Users, 
@@ -87,13 +85,6 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { path: '/changelog', icon: FileText, label: 'Changelog' },
     { path: '/status', icon: Activity, label: 'Status', badge: 'OK' }
   ];
-
-  const stats = {
-    totalTokens: '1,000,000,000',
-    distributed: '650,000',
-    contributors: '2',
-    openTasks: '30+'
-  };
 
   return (
     <div className={`dev-sidebar ${isCollapsed ? 'collapsed' : ''}`}>

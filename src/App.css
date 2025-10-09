@@ -226,6 +226,11 @@
   .app-container.with-dev-sidebar-collapsed {
     margin-left: 60px;
   }
+
+  /* Adjust layout when Market Sidebar is collapsed - DESKTOP ONLY */
+  .app-container.with-market-sidebar-collapsed {
+    margin-right: 0;
+  }
 }
 
 /* Mobile layout adjustments */

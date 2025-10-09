@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import StripePaymentService, { TopUpOption } from '../services/StripePaymentService';
+import StripePaymentService from '../services/StripePaymentService';
 import './TopUpModal.css';
 
 interface TopUpModalProps {

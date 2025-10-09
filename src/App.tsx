@@ -3,7 +3,7 @@
 // Registered in England and Wales • Company No. 16735102
 // This software can only be used on BSV blockchains
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import FeaturesPage from './pages/FeaturesPage';
@@ -22,7 +22,6 @@ import ApiPage from './pages/ApiPage';
 import ChangelogPage from './pages/ChangelogPage';
 import StatusPage from './pages/StatusPage';
 import DeveloperContractsPage from './pages/DeveloperContractsPage';
-import AuthorsContractsPage from './pages/AuthorsContractsPage';
 import PublisherOfferPage from './pages/PublisherOfferPage';
 import AuthorOffersPage from './pages/AuthorOffersPage';
 import DevelopersGrantsPage from './pages/DevelopersGrantsPage';
@@ -95,14 +94,18 @@ function App() {
     const saved = localStorage.getItem('devSidebarCollapsed');
     return saved === 'true';
   });
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [marketSidebarCollapsed, setMarketSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('marketSidebarCollapsed');
+    return saved === 'true';
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
   const [showTopUpModal, setShowTopUpModal] = useState(false);
 
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 900);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -825,7 +828,7 @@ function App() {
                 </div>
               </div>
             )}
-            <div className={`app-container ${isInOS ? '' : (!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : '')} ${isInOS ? '' : (!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : '')}`}>
+            <div className={`app-container ${isInOS ? '' : (!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : '')} ${isInOS ? '' : (!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : '')} ${!isMobile && marketSidebarCollapsed ? 'with-market-sidebar-collapsed' : ''}`}>
               <DocumentSidebar
                 documentService={documentService}
                 isAuthenticated={isAuthenticated}
@@ -901,6 +904,7 @@ function App() {
                 <TickerSidebar 
                   userHandle={currentUser?.handle}
                   currentJobToken={undefined} // TODO: Pass current job token when available
+                  onCollapsedChange={setMarketSidebarCollapsed}
                 />
               )}
             </div>
