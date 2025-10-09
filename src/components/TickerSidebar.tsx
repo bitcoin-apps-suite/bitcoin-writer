@@ -5,6 +5,10 @@ import './TickerSidebar.css';
 interface TokenPrice extends ServiceTokenPrice {
   change24h: number;
   changePercent: number;
+  contractId?: string;
+  liquidity?: number;
+  holders?: number;
+  category?: string;
 }
 
 interface TickerSidebarProps {
@@ -24,50 +28,64 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   useEffect(() => {
+    // Generate trending topic tokens with contract IDs
+    const generateTrendingTokens = (): TokenPrice[] => {
+      const topics = [
+        { base: 'bNews', name: 'Breaking News', category: 'Media' },
+        { base: 'bSport', name: 'Sports Coverage', category: 'Sports' },
+        { base: 'bTech', name: 'Tech Analysis', category: 'Technology' },
+        { base: 'bCrypto', name: 'Crypto Reports', category: 'Finance' },
+        { base: 'bAI', name: 'AI Articles', category: 'Technology' },
+        { base: 'bClimate', name: 'Climate Stories', category: 'Environment' },
+        { base: 'bHealth', name: 'Health Updates', category: 'Healthcare' },
+        { base: 'bPolitics', name: 'Political Analysis', category: 'Politics' }
+      ];
+
+      return topics.map((topic, index) => {
+        const contractNum = Math.floor(Math.random() * 9000) + 1000;
+        const contractId = `${Math.random().toString(36).substring(2, 5)}_${contractNum}`;
+        const basePrice = Math.random() * 0.05 + 0.001;
+        const change = (Math.random() - 0.5) * basePrice * 0.3;
+        const liquidity = Math.floor(Math.random() * 50000) + 1000;
+        const holders = Math.floor(Math.random() * 500) + 10;
+        
+        return {
+          symbol: `${topic.base}_${contractId}`,
+          name: topic.name,
+          category: topic.category,
+          contractId: contractId,
+          price: basePrice,
+          price_usd: basePrice,
+          change24h: change,
+          changePercent: (change / basePrice) * 100,
+          change_24h: change,
+          change_percent_24h: (change / basePrice) * 100,
+          volume_24h: liquidity,
+          liquidity: liquidity,
+          holders: holders,
+          last_updated: new Date(),
+          source: 'BitcoinOS'
+        };
+      });
+    };
+
     // Subscribe to price updates
     const subscription = PriceService.subscribeAll((updatedPrices) => {
-      // Map service prices to component format
-      const formattedPrices = updatedPrices.map(p => ({
+      // Get BSV and BWRITER prices
+      const corePrices = updatedPrices.filter(p => 
+        p.symbol === 'BSV' || p.symbol === 'BWRITER'
+      ).map(p => ({
         ...p,
         change24h: p.change_24h,
         changePercent: p.change_percent_24h
       }));
+
+      // Add trending topic tokens
+      const trendingTokens = generateTrendingTokens();
       
-      // Add user's handle token if available and not in list
-      if (userHandle && !formattedPrices.find(p => p.symbol === `$${userHandle.toUpperCase()}`)) {
-        formattedPrices.push({
-          symbol: `$${userHandle.toUpperCase()}`,
-          name: `${userHandle} Token`,
-          price: 0.00156,
-          price_usd: 0.00156,
-          change24h: 0.00012,
-          changePercent: 8.33,
-          change_24h: 0.00012,
-          change_percent_24h: 8.33,
-          volume_24h: 5000,
-          last_updated: new Date(),
-          source: 'Mock'
-        });
-      }
-
-      // Add current job token if available and not in list
-      if (currentJobToken && !formattedPrices.find(p => p.symbol === currentJobToken.symbol)) {
-        formattedPrices.push({
-          symbol: currentJobToken.symbol,
-          name: currentJobToken.name,
-          price: 0.0089,
-          price_usd: 0.0089,
-          change24h: -0.0003,
-          changePercent: -3.26,
-          change_24h: -0.0003,
-          change_percent_24h: -3.26,
-          volume_24h: 12000,
-          last_updated: new Date(),
-          source: 'Mock'
-        });
-      }
-
-      setPrices(formattedPrices);
+      const allPrices = [...corePrices, ...trendingTokens];
+      
+      setPrices(allPrices);
       setLastUpdate(new Date());
       setIsLoading(false);
     });
@@ -97,6 +115,24 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
       return `$${(volume / 1000).toFixed(1)}K`;
     }
     return `$${volume.toFixed(0)}`;
+  };
+
+  const formatLiquidity = (liquidity?: number): string => {
+    if (!liquidity) return 'Low';
+    if (liquidity >= 100000) return 'Very High';
+    if (liquidity >= 50000) return 'High';
+    if (liquidity >= 10000) return 'Medium';
+    if (liquidity >= 5000) return 'Fair';
+    return 'Low';
+  };
+
+  const getLiquidityColor = (liquidity?: number): string => {
+    if (!liquidity) return '#666';
+    if (liquidity >= 100000) return '#4CAF50';
+    if (liquidity >= 50000) return '#8BC34A';
+    if (liquidity >= 10000) return '#FFC107';
+    if (liquidity >= 5000) return '#FF9800';
+    return '#f44336';
   };
 
   const formatTime = (date: Date): string => {
@@ -129,17 +165,40 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
                 </span>
               </div>
               
-              <div className="ticker-name">{token.name}</div>
+              <div className="ticker-name">
+                {token.name}
+                {token.category && (
+                  <span className="ticker-category"> • {token.category}</span>
+                )}
+              </div>
               
               <div className="ticker-price-row">
                 <span className="ticker-price">{formatPrice(token.price)}</span>
+                {token.contractId && (
+                  <span className="ticker-contract-id">#{token.contractId}</span>
+                )}
               </div>
               
-              {token.volume_24h && (
-                <div className="ticker-volume">
-                  Vol: {formatVolume(token.volume_24h)}
-                </div>
-              )}
+              <div className="ticker-stats">
+                {token.volume_24h && (
+                  <span className="ticker-volume">
+                    Vol: {formatVolume(token.volume_24h)}
+                  </span>
+                )}
+                {token.liquidity !== undefined && (
+                  <span 
+                    className="ticker-liquidity"
+                    style={{ color: getLiquidityColor(token.liquidity) }}
+                  >
+                    {formatLiquidity(token.liquidity)}
+                  </span>
+                )}
+                {token.holders !== undefined && (
+                  <span className="ticker-holders">
+                    {token.holders} holders
+                  </span>
+                )}
+              </div>
             </div>
           ))}
         </div>
