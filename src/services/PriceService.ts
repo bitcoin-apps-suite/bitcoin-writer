@@ -286,7 +286,7 @@ class PriceServiceClass {
     };
     
     // Subscribe to all existing symbols
-    const symbols = new Set([...this.prices.keys(), 'BSV', 'BWRITER']);
+    const symbols = new Set(Array.from(this.prices.keys()).concat(['BSV', 'BWRITER']));
     symbols.forEach(symbol => {
       this.subscribe(symbol, handler);
     });
