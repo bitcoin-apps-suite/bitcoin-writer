@@ -100,9 +100,9 @@
 
 /* Special tokens (BWRITER, BSV, Author) */
 .ticker-item.special {
-  background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
-  border: 1px solid #F7931A;
-  box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1);
+  background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
+  border: 2px solid #F7931A;
+  box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
 }
 
 .ticker-item.special::before {
@@ -110,8 +110,8 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  font-size: 12px;
-  opacity: 0.6;
+  font-size: 16px;
+  opacity: 0.8;
 }
 
 /* Gig tokens */
