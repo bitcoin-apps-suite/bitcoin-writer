@@ -56,6 +56,12 @@
   margin-left: 30px;
 }
 
+/* Adjust animated placeholder when rulers are shown */
+.quill-editor.with-rulers ~ .animated-placeholder {
+  top: 125px; /* Account for extra ruler height (30px) */
+  left: 70px; /* Account for vertical ruler (30px) + editor padding (40px) */
+}
+
 /* Position placeholder inside the Quill content area */
 .quill-editor-wrapper .quill-editor {
   position: relative;
