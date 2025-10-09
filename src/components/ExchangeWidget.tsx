@@ -287,7 +287,7 @@ export const ExchangeWidget: React.FC<ExchangeWidgetProps> = ({
                     {order.quantity} @ ${order.price}
                   </div>
                 </div>
-              ))
+              ))}
           </div>
         </div>
       )}
