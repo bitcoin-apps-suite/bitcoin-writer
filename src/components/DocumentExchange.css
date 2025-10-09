@@ -228,7 +228,7 @@
 }
 
 .exchange-table tbody tr {
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #2a2a2a;
   transition: background 0.2s;
   cursor: pointer;
 }
@@ -261,8 +261,9 @@
 
 .exchange-table td {
   padding: 12px 10px;
-  color: #ccc;
+  color: #e8e8e8;
   vertical-align: middle;
+  font-size: 13px;
 }
 
 /* Column specific styles */
@@ -283,9 +284,9 @@
 }
 
 .writer-name {
-  color: #fff;
+  color: #ffffff;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -298,7 +299,7 @@
 
 .writer-handle {
   color: #ff9500;
-  font-size: 11px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -321,9 +322,9 @@
 }
 
 .bio-text {
-  color: #ccc;
-  font-size: 12px;
-  line-height: 1.4;
+  color: #e0e0e0;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .bio-genres {
