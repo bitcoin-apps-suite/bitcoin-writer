@@ -58,7 +58,7 @@ const DocumentExchange: React.FC<DocumentExchangeProps> = ({ isOpen, onClose, on
   const [writings, setWritings] = useState<WritingListing[]>([]);
   const [writers, setWriters] = useState<WriterListing[]>([]);
   const [authorType, setAuthorType] = useState<'human' | 'ai'>('human');
-  const [activeView, setActiveView] = useState<'books' | 'articles' | 'blogs' | 'writers'>('books');
+  const [activeView, setActiveView] = useState<'books' | 'articles' | 'blogs' | 'writers'>('writers');
   const [activeMarket, setActiveMarket] = useState<string>('All');
   const [sortBy, setSortBy] = useState<'rank' | 'revenue' | 'volume' | 'price' | 'views'>('rank');
   const [searchQuery, setSearchQuery] = useState('');
@@ -2140,6 +2140,12 @@ const DocumentExchange: React.FC<DocumentExchangeProps> = ({ isOpen, onClose, on
         {/* View Tabs */}
         <div className="view-tabs">
           <button 
+            className={`view-tab ${activeView === 'writers' ? 'active' : ''}`}
+            onClick={() => setActiveView('writers')}
+          >
+            Writers
+          </button>
+          <button 
             className={`view-tab ${activeView === 'books' ? 'active' : ''}`}
             onClick={() => {
               setActiveView('books');
@@ -2165,12 +2171,6 @@ const DocumentExchange: React.FC<DocumentExchangeProps> = ({ isOpen, onClose, on
             }}
           >
             Blogs
-          </button>
-          <button 
-            className={`view-tab ${activeView === 'writers' ? 'active' : ''}`}
-            onClick={() => setActiveView('writers')}
-          >
-            Writers
           </button>
         </div>
 

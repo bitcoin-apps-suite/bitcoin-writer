@@ -152,14 +152,7 @@
   box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
 }
 
-.ticker-item.special::before {
-  content: '⭐';
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 16px;
-  opacity: 0.8;
-}
+/* Star emoji removed for cleaner look */
 
 /* Gig tokens */
 .ticker-item.gig {
