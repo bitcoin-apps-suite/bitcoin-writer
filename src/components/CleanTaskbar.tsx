@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PreferencesModal from './modals/PreferencesModal';
 import EncryptionSettingsModal from './modals/EncryptionSettingsModal';
 import StorageCalculatorModal from './modals/StorageCalculatorModal';
@@ -42,6 +43,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   documentService,
   onToggleAIChat
 }) => {
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -143,8 +145,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Set Multisig', action: () => console.log('Set multisig') },
         { divider: true },
         { label: 'Exchange', action: () => {
-          const event = new CustomEvent('openDocumentExchange');
-          window.dispatchEvent(event);
+          navigate('/exchange');
         }},
         { divider: true },
         { label: 'Publish to Chain', action: () => (document.querySelector('[title*="Publish"]') as HTMLElement)?.click() },
@@ -820,7 +821,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                     </svg>
                     Save
                   </button>
-                  <button onClick={() => { window.dispatchEvent(new CustomEvent('openDocumentExchange')); setShowMobileMenu(false); }} 
+                  <button onClick={() => { navigate('/exchange'); setShowMobileMenu(false); }} 
                     style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '6px'}}>
                       <path d="M12,16L16,12H13V8H11V12H8L12,16M16,20V18H8V20H16M16,2V4H8V2H16M20,6H4V18H20V6Z"/>
