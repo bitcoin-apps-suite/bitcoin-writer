@@ -110,7 +110,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   return (
     <div className="ticker-sidebar">
       <div className="ticker-header">
-        <h3>Token Prices</h3>
+        <h3>Market</h3>
         <span className="ticker-update-time" title={`Last updated: ${formatTime(lastUpdate)}`}>
           🔄
         </span>

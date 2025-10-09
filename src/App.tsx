@@ -53,6 +53,7 @@ import BitcoinAppOverviews from './components/BitcoinAppOverviews';
 import { BitcoinAppEvents } from './utils/appEvents';
 import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
 import { useBitcoinOS } from './utils/useBitcoinOS';
+import JobsQueuePage from './pages/JobsQueuePage';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
 import MinimalDock from './components/MinimalDock';
@@ -353,6 +354,7 @@ function App() {
       <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/features" element={<FeaturesPage />} />
+      <Route path="/jobs-queue" element={<JobsQueuePage />} />
       <Route path="/token" element={<TokenPage />} />
       <Route path="/tasks" element={<TasksPage />} />
       <Route path="/contracts" element={<ContractsPage />} />
