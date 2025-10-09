@@ -37,7 +37,7 @@ const BWriterContributionsPage: React.FC = () => {
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
-  // Completed tasks by @b0ase - total 7.5% allocation
+  // Completed tasks by @b0ase - total 10.125% allocation
   const completedTasksByFounder = [
     { task: 'Initial React app setup & configuration', allocation: 0.2 },
     { task: 'HandCash authentication integration', allocation: 0.4 },
@@ -60,7 +60,8 @@ const BWriterContributionsPage: React.FC = () => {
     { task: 'Social media integrations', allocation: 0.3 },
     { task: 'API documentation', allocation: 0.2 },
     { task: 'Testing & bug fixes', allocation: 0.5 },
-    { task: 'Deployment configuration', allocation: 0.3 }
+    { task: 'Deployment configuration', allocation: 0.3 },
+    { task: '✅ Document Persistence Bug Fix (#45)', allocation: 0.3 }
   ];
   const [loading, setLoading] = useState(true);
   
@@ -80,9 +81,9 @@ const BWriterContributionsPage: React.FC = () => {
   // Token distribution tracking
   const TOTAL_TOKENS = 1000000000; // 1 billion tokens
   const [tokenDistribution, setTokenDistribution] = useState({
-    allocated: 9.825, // 7.5% initial + 2.325% for completed tasks by @b0ase
+    allocated: 10.125, // 7.8% initial + 2.325% for completed tasks by @b0ase
     reserved: 0,
-    available: 90.175
+    available: 89.875
   });
 
   // Todo items for development
@@ -480,11 +481,11 @@ const BWriterContributionsPage: React.FC = () => {
     // CRITICAL ISSUES - Added by system
     {
       id: '37',
-      title: '🔴 CRITICAL: Document Persistence Bug',
-      description: 'URGENT: Users cannot access their published documents after re-login. Documents are stored but retrieval fails. This breaks core functionality.',
+      title: '✅ Document Persistence Bug Fixed',
+      description: 'COMPLETED: Fixed critical bug where users could not access their published documents after re-login. Documents now properly persist and reload.',
       difficulty: 'hard',
       tokenReward: 0.3,
-      status: 'critical',
+      status: 'completed',
       category: 'Bug Fix',
       githubIssueNumber: 45
     },
@@ -590,7 +591,7 @@ const BWriterContributionsPage: React.FC = () => {
   };
 
   const calculateTokenDistribution = () => {
-    const foundersAllocation = 7.5; // @b0ase initial platform development
+    const foundersAllocation = 7.8; // @b0ase initial platform development
     
     const allocatedToTasks = todoItems
       .filter(item => item.status === 'completed')
@@ -727,7 +728,7 @@ const BWriterContributionsPage: React.FC = () => {
                       117 commits • Founder
                     </span>
                     <span className="token-allocation" style={{ color: '#F7931E', fontWeight: 'bold', marginTop: '4px', display: 'block', fontSize: '12px' }}>
-                      7.5% tokens earned (75M $BWRITER)
+                      7.8% tokens earned (78M $BWRITER)
                     </span>
                     <button 
                       onClick={() => setShowCompletedTasks(!showCompletedTasks)}
@@ -980,7 +981,7 @@ const BWriterContributionsPage: React.FC = () => {
                 <div className="token-amount">
                   {(TOTAL_TOKENS * tokenDistribution.allocated / 100).toLocaleString()} tokens
                 </div>
-                <p>Earned by contributors • 7.5% to @b0ase (founder)</p>
+                <p>Earned by contributors • 7.8% to @b0ase (founder)</p>
               </div>
             )}
 
