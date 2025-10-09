@@ -111,6 +111,12 @@
   text-overflow: ellipsis;
 }
 
+.ticker-category {
+  font-size: 10px;
+  color: #666;
+  font-style: italic;
+}
+
 .ticker-price-row {
   margin-bottom: 4px;
 }
@@ -122,12 +128,45 @@
   letter-spacing: -0.5px;
 }
 
-.ticker-volume {
-  font-size: 10px;
-  color: #666;
+.ticker-contract-id {
+  font-size: 9px;
+  color: #555;
+  margin-left: 8px;
+  font-family: monospace;
+  background: #1a1a1a;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid #333;
+}
+
+.ticker-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 4px;
   padding-top: 4px;
   border-top: 1px solid #2a2a2a;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ticker-volume {
+  font-size: 10px;
+  color: #666;
+}
+
+.ticker-liquidity {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ticker-holders {
+  font-size: 10px;
+  color: #777;
+  font-style: italic;
 }
 
 .ticker-footer {
