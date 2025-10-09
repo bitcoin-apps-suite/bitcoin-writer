@@ -101,9 +101,9 @@
 }
 
 .quill-editor .ql-editor {
-  padding: 20px 40px;
-  width: 714px; /* 794px (8.27 inches) - 80px (padding) */
-  max-width: 714px;
+  padding: 30px 60px;
+  width: 952px; /* Scale up A4: 8.27" * 120px/inch = 992px - 60px padding each side */
+  max-width: 952px;
   margin: 18px 0 0 20px; /* Move paper down */
   min-height: calc(100vh - 300px);
   background: #ffffff;
