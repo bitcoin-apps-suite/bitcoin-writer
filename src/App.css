@@ -227,10 +227,8 @@
     margin-left: 60px;
   }
 
-  /* Adjust layout when Market Sidebar is collapsed - DESKTOP ONLY */
-  .app-container.with-market-sidebar-collapsed {
-    margin-right: 0;
-  }
+  /* Market sidebar doesn't need margin adjustments since it's inside the flex container */
+  /* The TickerSidebar component handles its own width (400px expanded, 60px collapsed) */
 }
 
 /* Mobile layout adjustments */
