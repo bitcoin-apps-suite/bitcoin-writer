@@ -9,6 +9,8 @@ interface TokenPrice extends ServiceTokenPrice {
   liquidity?: number;
   holders?: number;
   category?: string;
+  isSpecial?: boolean;
+  isGig?: boolean;
 }
 
 interface TickerSidebarProps {
@@ -28,31 +30,35 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   useEffect(() => {
-    // Generate trending topic tokens with contract IDs
-    const generateTrendingTokens = (): TokenPrice[] => {
-      const topics = [
-        { base: 'bNews', name: 'Breaking News', category: 'Media' },
-        { base: 'bSport', name: 'Sports Coverage', category: 'Sports' },
-        { base: 'bTech', name: 'Tech Analysis', category: 'Technology' },
-        { base: 'bCrypto', name: 'Crypto Reports', category: 'Finance' },
-        { base: 'bAI', name: 'AI Articles', category: 'Technology' },
-        { base: 'bClimate', name: 'Climate Stories', category: 'Environment' },
-        { base: 'bHealth', name: 'Health Updates', category: 'Healthcare' },
-        { base: 'bPolitics', name: 'Political Analysis', category: 'Politics' }
+    // Generate trending gig tokens with contract IDs
+    const generateTrendingGigs = (): TokenPrice[] => {
+      const gigs = [
+        { base: 'bNews', name: 'Breaking News Writer', category: 'Media', basePrice: 0.012, volatility: 0.3 },
+        { base: 'bSport', name: 'Sports Coverage', category: 'Sports', basePrice: 0.008, volatility: 0.25 },
+        { base: 'bTech', name: 'Tech Analysis', category: 'Technology', basePrice: 0.025, volatility: 0.4 },
+        { base: 'bCrypto', name: 'Crypto Reports', category: 'Finance', basePrice: 0.035, volatility: 0.5 },
+        { base: 'bAI', name: 'AI Articles', category: 'Technology', basePrice: 0.045, volatility: 0.35 },
+        { base: 'bClimate', name: 'Climate Stories', category: 'Environment', basePrice: 0.006, volatility: 0.2 },
+        { base: 'bHealth', name: 'Health Updates', category: 'Healthcare', basePrice: 0.015, volatility: 0.25 },
+        { base: 'bPolitics', name: 'Political Analysis', category: 'Politics', basePrice: 0.018, volatility: 0.45 }
       ];
 
-      return topics.map((topic, index) => {
+      // Generate gigs with varying liquidity to simulate market dynamics
+      const gigsWithLiquidity = gigs.map((gig, index) => {
         const contractNum = Math.floor(Math.random() * 9000) + 1000;
         const contractId = `${Math.random().toString(36).substring(2, 5)}_${contractNum}`;
-        const basePrice = Math.random() * 0.05 + 0.001;
-        const change = (Math.random() - 0.5) * basePrice * 0.3;
-        const liquidity = Math.floor(Math.random() * 50000) + 1000;
-        const holders = Math.floor(Math.random() * 500) + 10;
+        
+        // Simulate market dynamics with varying liquidity
+        const liquidityMultiplier = Math.random() * 2 + 0.5; // 0.5x to 2.5x
+        const basePrice = gig.basePrice * liquidityMultiplier;
+        const change = (Math.random() - 0.5) * basePrice * gig.volatility;
+        const liquidity = Math.floor(Math.random() * 100000 * liquidityMultiplier) + 5000;
+        const holders = Math.floor(liquidity / 200 + Math.random() * 100);
         
         return {
-          symbol: `${topic.base}_${contractId}`,
-          name: topic.name,
-          category: topic.category,
+          symbol: `${gig.base}_${contractId}`,
+          name: gig.name,
+          category: gig.category,
           contractId: contractId,
           price: basePrice,
           price_usd: basePrice,
@@ -64,26 +70,57 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
           liquidity: liquidity,
           holders: holders,
           last_updated: new Date(),
-          source: 'BitcoinOS'
+          source: 'Jobs Queue',
+          isGig: true
         };
       });
+
+      // Sort gigs by liquidity (most liquid first)
+      return gigsWithLiquidity.sort((a, b) => (b.liquidity || 0) - (a.liquidity || 0));
     };
 
     // Subscribe to price updates
     const subscription = PriceService.subscribeAll((updatedPrices) => {
-      // Get BSV and BWRITER prices
+      // Get core token prices (BSV and BWRITER)
       const corePrices = updatedPrices.filter(p => 
         p.symbol === 'BSV' || p.symbol === 'BWRITER'
       ).map(p => ({
         ...p,
         change24h: p.change_24h,
-        changePercent: p.change_percent_24h
+        changePercent: p.change_percent_24h,
+        isSpecial: true
       }));
 
-      // Add trending topic tokens
-      const trendingTokens = generateTrendingTokens();
+      // Add user's handle token if available
+      let userToken: TokenPrice | null = null;
+      if (userHandle) {
+        userToken = {
+          symbol: userHandle.toUpperCase(),
+          name: `@${userHandle} Token`,
+          price: 0.00156,
+          price_usd: 0.00156,
+          change24h: 0.00012,
+          changePercent: 8.33,
+          change_24h: 0.00012,
+          change_percent_24h: 8.33,
+          volume_24h: 15000,
+          liquidity: 15000,
+          holders: 42,
+          last_updated: new Date(),
+          source: 'HandCash',
+          isSpecial: true,
+          category: 'Creator'
+        };
+      }
+
+      // Generate trending gig tokens
+      const gigTokens = generateTrendingGigs();
       
-      const allPrices = [...corePrices, ...trendingTokens];
+      // Combine all prices: Special tokens at top, then sorted gigs
+      const specialTokens = [...corePrices];
+      if (userToken) specialTokens.push(userToken);
+      
+      const allPrices = [...specialTokens, ...gigTokens];
       
       setPrices(allPrices);
       setLastUpdate(new Date());
@@ -146,7 +183,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   return (
     <div className="ticker-sidebar">
       <div className="ticker-header">
-        <h3>Market</h3>
+        <h3>$bWriter Market</h3>
         <span className="ticker-update-time" title={`Last updated: ${formatTime(lastUpdate)}`}>
           🔄
         </span>
@@ -156,8 +193,15 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
         <div className="ticker-loading">Loading prices...</div>
       ) : (
         <div className="ticker-list">
-          {prices.map((token) => (
-            <div key={token.symbol} className="ticker-item">
+          {prices.map((token, index) => {
+            // Add divider after last special token
+            const showDivider = token.isSpecial && 
+              index < prices.length - 1 && 
+              !prices[index + 1].isSpecial;
+            
+            return (
+              <React.Fragment key={token.symbol}>
+                <div className={`ticker-item ${token.isSpecial ? 'special' : ''} ${token.isGig ? 'gig' : ''}`}>
               <div className="ticker-symbol-row">
                 <span className="ticker-symbol">${token.symbol}</span>
                 <span className={`ticker-change ${token.change24h >= 0 ? 'positive' : 'negative'}`}>
@@ -200,7 +244,14 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
                 )}
               </div>
             </div>
-          ))}
+            {showDivider && (
+              <div className="ticker-divider">
+                <span>Active Jobs</span>
+              </div>
+            )}
+          </React.Fragment>
+          );
+        })}
         </div>
       )}
 
