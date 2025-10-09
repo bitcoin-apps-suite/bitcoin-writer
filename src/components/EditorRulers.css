@@ -1,0 +1,96 @@
+/* Editor Rulers Styles */
+.editor-horizontal-ruler {
+  position: absolute;
+  top: 42px; /* Position below Quill toolbar */
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to right, #2a2a2a 0%, #333333 50%, #2a2a2a 100%);
+  border-bottom: 1px solid #444;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.editor-vertical-ruler {
+  position: absolute;
+  top: 72px; /* Below toolbar and horizontal ruler */
+  left: 0;
+  width: 30px;
+  bottom: 0;
+  background: linear-gradient(to bottom, #2a2a2a 0%, #333333 50%, #2a2a2a 100%);
+  border-right: 1px solid #444;
+  z-index: 99;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.3);
+}
+
+.ruler-marks-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Horizontal ruler marks */
+.editor-horizontal-ruler .ruler-mark {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  background: #888;
+  user-select: none;
+}
+
+.editor-horizontal-ruler .ruler-mark.inch {
+  height: 12px;
+}
+
+.editor-horizontal-ruler .ruler-mark.half-inch {
+  height: 8px;
+}
+
+.editor-horizontal-ruler .ruler-mark.quarter-inch {
+  height: 5px;
+}
+
+.editor-horizontal-ruler .ruler-mark-label {
+  position: absolute;
+  bottom: 14px;
+  left: -10px;
+  width: 20px;
+  text-align: center;
+  font-size: 10px;
+  color: #bbb;
+}
+
+/* Vertical ruler marks */
+.editor-vertical-ruler .ruler-mark {
+  position: absolute;
+  right: 0;
+  height: 1px;
+  background: #888;
+  user-select: none;
+}
+
+.editor-vertical-ruler .ruler-mark.inch {
+  width: 12px;
+}
+
+.editor-vertical-ruler .ruler-mark.half-inch {
+  width: 8px;
+}
+
+.editor-vertical-ruler .ruler-mark.quarter-inch {
+  width: 5px;
+}
+
+.editor-vertical-ruler .ruler-mark-label {
+  position: absolute;
+  right: 14px;
+  top: -7px;
+  font-size: 10px;
+  color: #bbb;
+}
+
+/* Adjust Quill container when rulers are shown */
+.quill-editor.with-rulers .ql-container {
+  margin-top: 30px;
+  margin-left: 30px;
+}
