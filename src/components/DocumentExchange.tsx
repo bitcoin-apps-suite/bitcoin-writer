@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAuthorSlugFromName } from '../utils/authorUtils';
 import './DocumentExchange.css';
 
 interface WritingListing {
@@ -2266,7 +2267,15 @@ const DocumentExchange: React.FC<DocumentExchangeProps> = ({ isOpen, onClose, on
                     </td>
                     <td className="col-author">
                       <div className="author-cell">
-                        <div className="author-name">{writing.author}</div>
+                        <div 
+                          className="author-name author-link-exchange"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = `/authors/${getAuthorSlugFromName(writing.author)}`;
+                          }}
+                        >
+                          {writing.author}
+                        </div>
                         <div className="author-handle">
                           {writing.authorHandle}
                           {writing.authorTwitter && (
@@ -2369,7 +2378,13 @@ const DocumentExchange: React.FC<DocumentExchangeProps> = ({ isOpen, onClose, on
                     </td>
                     <td className="col-writer">
                       <div className="writer-cell">
-                        <div className="writer-name">
+                        <div 
+                          className="writer-name author-link-exchange"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = `/authors/${getAuthorSlugFromName(writer.name)}`;
+                          }}
+                        >
                           {writer.name}
                           {writer.verified && <span className="verified-badge">✓</span>}
                           {writer.trending && <span className="trending-badge">🔥</span>}

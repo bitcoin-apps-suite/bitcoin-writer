@@ -232,6 +232,17 @@ const Taskbar: React.FC<TaskbarProps> = ({
       label: 'View',
       items: [
         { 
+          label: 'Market', 
+          shortcut: '⌘M', 
+          action: () => window.location.href = '/market' 
+        },
+        { 
+          label: 'Authors', 
+          shortcut: '⌘A', 
+          action: () => window.location.href = '/authors' 
+        },
+        { divider: true },
+        { 
           label: 'Enter Full Screen', 
           shortcut: '⌃⌘F', 
           action: () => document.documentElement.requestFullscreen() 

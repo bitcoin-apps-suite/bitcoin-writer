@@ -743,3 +743,19 @@
     min-width: 250px;
   }
 }
+
+/* Author links styling */
+.author-link-exchange {
+  cursor: pointer;
+  color: #ff9500 !important;
+  transition: all 0.2s ease;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+
+.author-link-exchange:hover {
+  background: rgba(255, 149, 0, 0.1);
+  border-color: rgba(255, 149, 0, 0.3);
+  transform: scale(1.02);
+}
