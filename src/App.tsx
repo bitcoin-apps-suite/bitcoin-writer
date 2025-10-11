@@ -368,6 +368,16 @@ function App() {
 
   const location = useLocation();
 
+  // Reading mode: Auto-collapse both sidebars when viewing articles
+  const isReadingMode = location.pathname.includes('/market/article/');
+  
+  useEffect(() => {
+    if (isReadingMode) {
+      setDevSidebarCollapsed(true);
+      setMarketSidebarCollapsed(true);
+    }
+  }, [isReadingMode]);
+
   const EditorPage = () => {
     if (showFeatures) {
         return (
