@@ -33,6 +33,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import ContactPage from './pages/ContactPage';
 import MarketPage from './pages/MarketPage';
+import ArticlePage from './pages/ArticlePage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -115,6 +116,26 @@ function App() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Handle dev sidebar body classes for layout adjustments
+  useEffect(() => {
+    if (!isMobile && !isInOS) {
+      if (devSidebarCollapsed) {
+        document.body.classList.add('dev-sidebar-collapsed');
+        document.body.classList.remove('dev-sidebar-expanded');
+      } else {
+        document.body.classList.add('dev-sidebar-expanded');
+        document.body.classList.remove('dev-sidebar-collapsed');
+      }
+    } else {
+      // Remove both classes on mobile/OS
+      document.body.classList.remove('dev-sidebar-collapsed', 'dev-sidebar-expanded');
+    }
+    
+    return () => {
+      document.body.classList.remove('dev-sidebar-collapsed', 'dev-sidebar-expanded');
+    };
+  }, [devSidebarCollapsed, isMobile, isInOS]);
 
   // Listen for subscription modal event
   useEffect(() => {
@@ -702,6 +723,7 @@ function App() {
                     <Route path="/signup" element={<SignupPage />} />
 
                     <Route path="/market" element={<MarketPage />} />
+                    <Route path="/market/article/:slug" element={<ArticlePage />} />
 
                     <Route path="/*" element={<EditorPage />} />
                 </Routes>

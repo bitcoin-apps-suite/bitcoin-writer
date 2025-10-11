@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { getArticleUrl } from '../utils/slugUtils';
 import './MarketPage.css';
 
 
@@ -231,7 +233,11 @@ const MarketPage: React.FC = () => {
         <h2>🔥 Trending Content</h2>
         <div className="content-grid">
           {trendingContent.map(content => (
-            <div key={content.id} className="content-card trending">
+            <Link 
+              key={content.id} 
+              to={getArticleUrl(content.title, content.id)}
+              className="content-card trending"
+            >
               <div className="content-thumbnail">
                 <img src={content.thumbnail} alt={content.title} />
                 <div className="content-badges">
@@ -252,7 +258,7 @@ const MarketPage: React.FC = () => {
                   {content.price && <span className="price">₿ {content.price} BSV</span>}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -262,7 +268,11 @@ const MarketPage: React.FC = () => {
         <h2>₿ Tokenized Publications</h2>
         <div className="content-grid">
           {tokenizedContent.map(content => (
-            <div key={content.id} className="content-card tokenized">
+            <Link 
+              key={content.id} 
+              to={getArticleUrl(content.title, content.id)}
+              className="content-card tokenized"
+            >
               <div className="content-thumbnail">
                 <img src={content.thumbnail} alt={content.title} />
                 <div className="tokenized-overlay">
@@ -276,9 +286,11 @@ const MarketPage: React.FC = () => {
                   <span className="author">{content.author}</span>
                   <span className="platform">{content.platform}</span>
                 </div>
-                <button className="buy-token-btn">Purchase Access</button>
+                <div className="purchase-info">
+                  <span className="purchase-text">Click to view & purchase</span>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

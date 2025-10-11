@@ -120,6 +120,9 @@ section h2 {
   transition: all 0.3s ease;
   cursor: pointer;
   border: 1px solid #404040;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .content-card:hover {
@@ -259,6 +262,18 @@ section h2 {
 .buy-token-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.purchase-info {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.purchase-text {
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 /* Platforms Section */
