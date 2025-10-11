@@ -37,6 +37,9 @@ import MarketBodyPage from './pages/MarketBodyPage';
 import ArticlePage from './pages/ArticlePage';
 import AuthorsPage from './pages/AuthorsPage';
 import AuthorPage from './pages/AuthorPage';
+import AuthorCardFixPage from './pages/AuthorCardFixPage';
+import NotFoundPage from './pages/NotFoundPage';
+import MockupArticlePage from './pages/MockupArticlePage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -749,7 +752,7 @@ function App() {
 
                     <Route path="/market" element={<MarketPage />} />
                     <Route path="/market/body" element={<MarketBodyPage />} />
-                    <Route path="/market/article/:slug" element={<ArticlePage />} />
+                    <Route path="/market/article/:slug" element={<MockupArticlePage />} />
                     <Route path="/authors" element={
                       <AuthorsPage 
                         currentUser={currentUser ? {
@@ -762,7 +765,10 @@ function App() {
                       />
                     } />
                     <Route path="/authors/:authorId" element={<AuthorPage />} />
+                    <Route path="/authors/:authorId/card-fix" element={<AuthorCardFixPage />} />
 
+                    {/* Catch-all route for 404 - should be last */}
+                    <Route path="/404" element={<NotFoundPage />} />
                     <Route path="/*" element={<EditorPage />} />
                 </Routes>
             </main>

@@ -33,13 +33,13 @@ interface AuthorData {
   articles: Article[];
 }
 
-const AuthorPage: React.FC = () => {
+const AuthorCardFixPage: React.FC = () => {
   const { authorId } = useParams<{ authorId: string }>();
   const [author, setAuthor] = useState<AuthorData | null>(null);
   const [authorArticleService] = useState(() => new AuthorArticleService());
 
   useEffect(() => {
-    // Mock author data - in production, fetch from API
+    // Fixed author data with working thumbnail URLs
     const authorData: Record<string, AuthorData> = {
       'b0ase': {
         id: 'b0ase',
@@ -57,7 +57,7 @@ const AuthorPage: React.FC = () => {
             id: '1',
             title: 'The Future of Digital Publishing',
             description: 'How blockchain technology is revolutionizing content creation and monetization',
-            thumbnail: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop&crop=center',
+            thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNEY0NkU1O3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM3QzNBRUQ7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0idXJsKCNncmFkaWVudCkiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjEzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RGlnaXRhbCBQdWJsaXNoaW5nPC90ZXh0Pgo8L3N2Zz4K',
             readTime: 8,
             engagement: 1520,
             publishDate: '2024-10-01',
@@ -71,7 +71,7 @@ const AuthorPage: React.FC = () => {
             id: '7',
             title: 'Crypto Content Monetization',
             description: 'How to earn Bitcoin through content creation and publishing',
-            thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop&crop=center',
+            thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGOTUwMDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkY2QjAwO3N0b3Atb3BhY2l0eToxIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9InVybCgjZ3JhZGllbnQyKSIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTMwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DcnlwdG8gQ29udGVudDwvdGV4dD4KPC9zdmc+Cg==',
             readTime: 9,
             engagement: 1890,
             publishDate: '2024-09-15',
@@ -85,7 +85,7 @@ const AuthorPage: React.FC = () => {
             id: '12',
             title: 'Web3 Publishing Future',
             description: 'The next frontier of digital content creation',
-            thumbnail: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop&crop=center',
+            thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQzIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzRDQUY1MDtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNDVBMDQ5O3N0b3Atb3BhY2l0eToxIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9InVybCgjZ3JhZGllbnQzKSIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTMwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5XZWIzIFB1Ymxpc2hpbmc8L3RleHQ+Cjwvc3ZnPgo=',
             readTime: 14,
             engagement: 2890,
             publishDate: '2024-08-20',
@@ -103,25 +103,22 @@ const AuthorPage: React.FC = () => {
       setAuthor(authorData[authorId]);
     } else if (authorId) {
       // Try to find dynamic author based on their handle
-      // Check all stored author profiles to see if one matches this authorId
       const allProfiles = authorArticleService.getAllAuthoredArticles();
       
       for (const [handle, articles] of Object.entries(allProfiles)) {
         const cleanHandle = handle.replace('@', '').replace('$', '').toLowerCase();
         if (cleanHandle === authorId) {
-          // Found a dynamic author, create their profile
           const profile = authorArticleService.getAuthorProfile(handle);
           if (profile && articles.length > 0) {
-            // Convert AuthoredArticle[] to Article[] format
             const convertedArticles: Article[] = articles
               .filter(article => article.status === 'published' || article.status === 'tokenized')
               .map(article => ({
                 id: article.id,
                 title: article.title,
                 description: article.description,
-                thumbnail: article.thumbnail || '',
+                thumbnail: article.thumbnail || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iIzMzMzMzMyIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTMwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BcnRpY2xlPC90ZXh0Pgo8L3N2Zz4K',
                 readTime: article.readTime,
-                engagement: Math.floor(Math.random() * 2000) + 500, // Mock engagement for now
+                engagement: Math.floor(Math.random() * 2000) + 500,
                 publishDate: article.createdAt.split('T')[0],
                 sharePrice: article.sharePrice || 0.000001,
                 shareChange24h: article.shareChange24h || 0,
@@ -231,7 +228,7 @@ const AuthorPage: React.FC = () => {
         </div>
 
         <div className="author-articles">
-          <h2>📰 Published Articles</h2>
+          <h2>📰 Published Articles (FIXED)</h2>
           <div className="articles-grid">
             {author.articles.map(article => (
               <div key={article.id} className="article-card">
@@ -240,9 +237,14 @@ const AuthorPage: React.FC = () => {
                     <img 
                       src={article.thumbnail} 
                       alt={article.title}
+                      style={{
+                        backgroundColor: '#444',
+                        minHeight: '200px',
+                        display: 'block'
+                      }}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop&crop=center';
+                        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iIzMzMzMzMyIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTMwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BcnRpY2xlPC90ZXh0Pgo8L3N2Zz4K';
                       }}
                     />
                     <div className="article-overlay">
@@ -293,4 +295,4 @@ const AuthorPage: React.FC = () => {
   );
 };
 
-export default AuthorPage;
+export default AuthorCardFixPage;
