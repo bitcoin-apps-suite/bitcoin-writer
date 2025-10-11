@@ -41,6 +41,7 @@ import IdeasPage from './pages/IdeasPage';
 import AuthorCardFixPage from './pages/AuthorCardFixPage';
 import NotFoundPage from './pages/NotFoundPage';
 import MockupArticlePage from './pages/MockupArticlePage';
+import FutureOfDesktopPublishingArticle from './pages/FutureOfDesktopPublishingArticle';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
