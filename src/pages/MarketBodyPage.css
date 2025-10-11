@@ -24,12 +24,34 @@
   flex-direction: column;
   gap: 1.5rem;
   margin-top: 6rem; /* Push widgets further down so header line can extend over them */
+  height: calc(100vh + 120rem); /* Extended to align with Market Insights section */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 0.5rem; /* Space for scrollbar */
 }
 
 .market-body-sidebar .widget-item {
   width: 100%;
   height: auto; /* Natural height */
   min-height: auto; /* No forced minimum height */
+}
+
+/* Custom scrollbar styling for sidebar */
+.market-body-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.market-body-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.market-body-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 149, 0, 0.6);
+  border-radius: 4px;
+}
+
+.market-body-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 149, 0, 0.8);
 }
 
 /* Content Grid - 3 columns for articles */
@@ -247,6 +269,7 @@ section h2 {
   text-align: center;
   margin-left: 0;
   margin-right: 0;
+  margin-top: -0.75rem; /* Move up by about half an inch */
   padding-left: 0;
   padding-right: 0;
 }
