@@ -239,6 +239,18 @@ section h2 {
   padding-bottom: 0.5rem;
 }
 
+/* Featured section header spans full width */
+.featured-section h2 {
+  position: relative;
+  left: calc(-2rem);
+  width: calc(100% + 300px + 4rem);
+  text-align: center;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /* Quick Actions */
 .quick-actions {
   margin-bottom: 3rem;
