@@ -2,7 +2,7 @@
 .dev-sidebar {
   position: fixed;
   left: 0;
-  top: 72px; /* Below POC banner (40px) and taskbar (32px) */
+  top: 72px; /* Start below CleanTaskbar (32px) + POC banner (40px) */
   bottom: 0;
   width: 260px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
@@ -10,8 +10,9 @@
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  z-index: 9989; /* Below taskbar (10000) and PoC banner (10001) */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  overflow-y: auto;
 }
 
 .dev-sidebar.collapsed {
@@ -244,6 +245,13 @@
 @media (max-width: 768px) {
   .dev-sidebar {
     display: none !important; /* Hide on mobile completely */
+    top: 104px; /* Account for mobile taskbar + POC banner */
+  }
+}
+
+@media (max-width: 480px) {
+  .dev-sidebar {
+    top: 100px; /* Account for smaller mobile taskbar + POC banner */
   }
   
   /* Reset margins on mobile */
@@ -254,20 +262,7 @@
   }
 }
 
-/* Content adjustment when sidebar is open - DESKTOP ONLY */
-@media (min-width: 769px) {
-  .app-container {
-    transition: margin-left 0.3s ease;
-  }
 
-  .app-container.with-dev-sidebar {
-    margin-left: 260px;
-  }
-
-  .app-container.with-dev-sidebar-collapsed {
-    margin-left: 60px;
-  }
-}
 
 /* Quick Links Section */
 .dev-quick-links {
