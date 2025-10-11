@@ -188,7 +188,15 @@ const AuthorsPage: React.FC<AuthorsPageProps> = ({
           <div className="cta-card">
             <h2>Become a Featured Author</h2>
             <p>Join our community of writers and start earning Bitcoin through your content. Every article you publish automatically generates dividend shares for your readers to invest in.</p>
-            <button className="cta-button">Apply to Join</button>
+            <button 
+              className="cta-button"
+              onClick={() => {
+                // Trigger HandCash sign in
+                document.querySelector<HTMLButtonElement>('.sign-in-btn')?.click();
+              }}
+            >
+              🔓 Sign in with HandCash to Start
+            </button>
           </div>
         </div>
       </div>
