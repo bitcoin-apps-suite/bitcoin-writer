@@ -220,27 +220,27 @@
   flex-direction: row;
   flex: 1;
   overflow: hidden;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: 260px; /* Account for fixed dev sidebar (expanded) */
+  margin-right: 260px; /* Account for fixed market sidebar (expanded) */
   transition: margin-left 0.3s ease, margin-right 0.3s ease;
 }
 
 /* Adjust for collapsed dev sidebar */
 body.dev-sidebar-collapsed .app-container {
-  margin-left: 0;
+  margin-left: 60px; /* Account for collapsed dev sidebar */
 }
 
 body.dev-sidebar-collapsed .App-header {
-  margin-left: 0;
+  margin-left: 60px; /* Account for collapsed dev sidebar */
 }
 
 /* Adjust for collapsed market sidebar */
 body.market-sidebar-collapsed .app-container {
-  margin-right: 0;
+  margin-right: 60px; /* Account for collapsed market sidebar */
 }
 
 body.market-sidebar-collapsed .App-header {
-  margin-right: 0;
+  margin-right: 60px; /* Account for collapsed market sidebar */
 }
 
 .app-container main {
