@@ -35,6 +35,8 @@ import ContactPage from './pages/ContactPage';
 import MarketPage from './pages/MarketPage';
 import MarketBodyPage from './pages/MarketBodyPage';
 import ArticlePage from './pages/ArticlePage';
+import AuthorsPage from './pages/AuthorsPage';
+import AuthorPage from './pages/AuthorPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -58,6 +60,7 @@ import { cleanupEmptyDocuments } from './utils/cleanupDocuments';
 import { useBitcoinOS } from './utils/useBitcoinOS';
 import JobsQueuePage from './pages/JobsQueuePage';
 import BWriterProPage from './pages/BWriterProPage';
+import AuthorArticleService from './services/AuthorArticleService';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
 // import { BitcoinDock, defaultBitcoinApps } from 'bitcoin-os-dock';
@@ -76,6 +79,7 @@ function App() {
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [showAIChat, setShowAIChat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [authorArticleService] = useState(() => new AuthorArticleService());
   const [showLoadingDoor, setShowLoadingDoor] = useState(() => {
     // Don't show loading door if this is an auth callback or if already shown
     const hasShownDoor = sessionStorage.getItem('hasShownLoadingDoor') || 
@@ -746,6 +750,18 @@ function App() {
                     <Route path="/market" element={<MarketPage />} />
                     <Route path="/market/body" element={<MarketBodyPage />} />
                     <Route path="/market/article/:slug" element={<ArticlePage />} />
+                    <Route path="/authors" element={
+                      <AuthorsPage 
+                        currentUser={currentUser ? {
+                          handle: currentUser.handle,
+                          displayName: currentUser.displayName || currentUser.handle,
+                          avatarUrl: currentUser.avatarUrl || '',
+                          articles: authorArticleService.getPublishedArticles(currentUser.handle)
+                        } : undefined}
+                        isAuthenticated={isAuthenticated}
+                      />
+                    } />
+                    <Route path="/authors/:authorId" element={<AuthorPage />} />
 
                     <Route path="/*" element={<EditorPage />} />
                 </Routes>

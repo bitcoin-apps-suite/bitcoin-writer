@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getArticleUrl } from '../utils/slugUtils';
+import { getAuthorSlugFromName } from '../utils/authorUtils';
 import WeatherWidget from '../components/WeatherWidget';
 import StockTickerCard from '../components/StockTickerCard';
 import AdCard from '../components/AdCard';
@@ -264,7 +265,13 @@ const MarketPage: React.FC = () => {
                     <h3>{content.title}</h3>
                     <p>{content.description}</p>
                     <div className="content-meta">
-                      <span className="author">{content.author}</span>
+                      <Link 
+                        to={`/authors/${getAuthorSlugFromName(content.author)}`} 
+                        className="author-link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {content.author}
+                      </Link>
                       <span className="platform">{content.platform}</span>
                       <span className="read-time">{content.readTime} min read</span>
                     </div>
@@ -306,7 +313,13 @@ const MarketPage: React.FC = () => {
                     <h3>{content.title}</h3>
                     <p>{content.description}</p>
                     <div className="content-meta">
-                      <span className="author">{content.author}</span>
+                      <Link 
+                        to={`/authors/${getAuthorSlugFromName(content.author)}`} 
+                        className="author-link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {content.author}
+                      </Link>
                       <span className="platform">{content.platform}</span>
                     </div>
                     <div className="purchase-info">

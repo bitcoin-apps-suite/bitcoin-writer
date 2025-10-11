@@ -11,6 +11,8 @@ interface TokenPrice extends ServiceTokenPrice {
   category?: string;
   isSpecial?: boolean;
   isGig?: boolean;
+  totalShares?: number;
+  marketCap?: number;
 }
 
 interface TickerSidebarProps {
@@ -42,20 +44,97 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   }, [isCollapsed, onCollapsedChange]);
 
   useEffect(() => {
-    // Generate trending gig tokens with contract IDs
+    // Generate article dividend share tokens and gig tokens
     const generateTrendingGigs = (): TokenPrice[] => {
+      // Article dividend shares (very tiny prices as requested)
+      const articles = [
+        { 
+          author: 'b0ase', 
+          title: 'Future-of-digital-publishing', 
+          name: 'Future of Digital Publishing', 
+          category: 'Technology', 
+          basePrice: 0.000024, // 24 micro-dollars
+          volatility: 0.15,
+          totalShares: 5000000
+        },
+        { 
+          author: 'b0ase', 
+          title: 'Crypto-content-monetization', 
+          name: 'Crypto Content Monetization', 
+          category: 'Finance', 
+          basePrice: 0.000031, // 31 micro-dollars
+          volatility: 0.12,
+          totalShares: 5200000
+        },
+        { 
+          author: 'b0ase', 
+          title: 'Web3-publishing-future', 
+          name: 'Web3 Publishing Future', 
+          category: 'Technology', 
+          basePrice: 0.000018, // 18 micro-dollars
+          volatility: 0.18,
+          totalShares: 5220000
+        },
+        { 
+          author: 'sarahchen', 
+          title: 'Building-sustainable-creator-economy', 
+          name: 'Building Sustainable Creator Economy', 
+          category: 'Business', 
+          basePrice: 0.000027, // 27 micro-dollars
+          volatility: 0.14,
+          totalShares: 4800000
+        },
+        { 
+          author: 'alexmart', 
+          title: 'NFT-publishing-revolution', 
+          name: 'NFT Publishing Revolution', 
+          category: 'Technology', 
+          basePrice: 0.000022, // 22 micro-dollars
+          volatility: 0.16,
+          totalShares: 4650000
+        }
+      ];
+
+      // Traditional gig tokens (kept for variety)
       const gigs = [
         { base: 'bNews', name: 'Breaking News Writer', category: 'Media', basePrice: 0.012, volatility: 0.3 },
         { base: 'bSport', name: 'Sports Coverage', category: 'Sports', basePrice: 0.008, volatility: 0.25 },
-        { base: 'bTech', name: 'Tech Analysis', category: 'Technology', basePrice: 0.025, volatility: 0.4 },
-        { base: 'bCrypto', name: 'Crypto Reports', category: 'Finance', basePrice: 0.035, volatility: 0.5 },
-        { base: 'bAI', name: 'AI Articles', category: 'Technology', basePrice: 0.045, volatility: 0.35 },
-        { base: 'bClimate', name: 'Climate Stories', category: 'Environment', basePrice: 0.006, volatility: 0.2 },
-        { base: 'bHealth', name: 'Health Updates', category: 'Healthcare', basePrice: 0.015, volatility: 0.25 },
-        { base: 'bPolitics', name: 'Political Analysis', category: 'Politics', basePrice: 0.018, volatility: 0.45 }
+        { base: 'bTech', name: 'Tech Analysis', category: 'Technology', basePrice: 0.025, volatility: 0.4 }
       ];
 
-      // Generate gigs with varying liquidity to simulate market dynamics
+      // Generate article dividend shares with $bWriter format
+      const articleShares = articles.map((article) => {
+        // Simulate market dynamics with micro-price fluctuations
+        const priceMultiplier = Math.random() * 0.4 + 0.8; // 0.8x to 1.2x variation
+        const currentPrice = article.basePrice * priceMultiplier;
+        const change = (Math.random() - 0.5) * currentPrice * article.volatility;
+        const marketCap = currentPrice * article.totalShares;
+        const volume = Math.floor(marketCap * 0.01 * (Math.random() * 2 + 0.5)); // 0.5% to 2.5% of market cap
+        const holders = Math.floor(article.totalShares / 50000 + Math.random() * 50); // Realistic holder count
+        
+        return {
+          symbol: `bWriter_${article.author}_${article.title}`,
+          name: article.name,
+          category: article.category,
+          price: currentPrice,
+          price_usd: currentPrice,
+          change24h: change,
+          changePercent: (change / currentPrice) * 100,
+          change_24h: change,
+          change_percent_24h: (change / currentPrice) * 100,
+          volume_24h: volume,
+          liquidity: volume,
+          holders: holders,
+          totalShares: article.totalShares,
+          marketCap: marketCap,
+          last_updated: new Date(),
+          source: 'Bitcoin Writer',
+          isGig: false,
+          isSpecial: false
+        };
+      });
+
+      // Generate traditional gigs with varying liquidity
       const gigsWithLiquidity = gigs.map((gig, index) => {
         const contractNum = Math.floor(Math.random() * 9000) + 1000;
         const contractId = `${Math.random().toString(36).substring(2, 5)}_${contractNum}`;
@@ -88,8 +167,13 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
         };
       });
 
-      // Sort gigs by liquidity (most liquid first)
-      return gigsWithLiquidity.sort((a, b) => (b.liquidity || 0) - (a.liquidity || 0));
+      // Combine article shares and gigs, prioritizing article shares
+      const allTokens = [
+        ...articleShares.sort((a, b) => (b.marketCap || 0) - (a.marketCap || 0)), // Sort articles by market cap
+        ...gigsWithLiquidity.sort((a, b) => (b.liquidity || 0) - (a.liquidity || 0)) // Sort gigs by liquidity
+      ];
+      
+      return allTokens;
     };
 
     // Subscribe to price updates
@@ -161,8 +245,11 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
       return `$${price.toFixed(2)}`;
     } else if (price >= 0.01) {
       return `$${price.toFixed(4)}`;
-    } else {
+    } else if (price >= 0.001) {
       return `$${price.toFixed(6)}`;
+    } else {
+      // For very small prices (dividend shares), show with full decimal precision
+      return `$${price.toFixed(8)}`;
     }
   };
 

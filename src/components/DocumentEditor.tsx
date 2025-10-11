@@ -17,6 +17,7 @@ import './QuillEditor.css';
 import DragDropZone from './DragDropZone';
 import AIChatWindow from './AIChatWindow';
 import { AIService } from '../services/AIService';
+import AuthorArticleService from '../services/AuthorArticleService';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -55,6 +56,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [internalShowAIChat, setInternalShowAIChat] = useState(false);
   const [selectedAIProvider, setSelectedAIProvider] = useState('gemini');
   const [aiService] = useState(() => new AIService(new HandCashService()));
+  const [authorArticleService] = useState(() => new AuthorArticleService());
   
   // Use prop if provided, otherwise use internal state
   const showAIChat = onToggleAIChat ? propShowAIChat : internalShowAIChat;
@@ -525,6 +527,40 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       
       setAutoSaveStatus(`✅ Saved to blockchain!`);
       
+      // Save article to author's publishing pipeline if user is authenticated
+      if (isAuthenticated && documentService?.getCurrentUser()) {
+        const currentUser = documentService.getCurrentUser();
+        if (currentUser) {
+          try {
+            const description = extractDescriptionFromContent(content);
+            const thumbnail = authorArticleService.generateThumbnail(content);
+            const tags = authorArticleService.extractTags(content);
+            const ticker = authorArticleService.generateTicker(currentUser.handle, title);
+            
+            const article = authorArticleService.saveAuthoredArticle({
+              title: title,
+              description: description,
+              content: content,
+              thumbnail: thumbnail,
+              authorHandle: currentUser.handle,
+              authorDisplayName: currentUser.displayName || currentUser.handle,
+              authorAvatar: currentUser.avatarUrl || '',
+              status: 'ready-to-publish',
+              wordCount: wordCount,
+              tags: tags,
+              ticker: ticker,
+              blockchainTx: result?.transactionId
+            });
+            
+            console.log('Article saved to author pipeline:', article);
+            setAutoSaveStatus(`✅ Saved to blockchain and added to your publishing pipeline!`);
+          } catch (error) {
+            console.error('Failed to save article to pipeline:', error);
+            // Don't fail the whole save if pipeline save fails
+          }
+        }
+      }
+      
       // Show unlock link if content is locked
       if (result && result.unlockLink) {
         alert(`Document saved! Share this unlock link: ${result.unlockLink}`);
@@ -694,6 +730,24 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     const text = tempDiv.textContent || tempDiv.innerText || '';
     const firstLine = text.split('\n')[0].trim();
     return firstLine.length > 0 && firstLine.length <= 100 ? firstLine : 'Untitled Document';
+  };
+
+  const extractDescriptionFromContent = (html: string): string => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+    const lines = text.split('\n').filter(line => line.trim().length > 0);
+    
+    // Skip the title (first line) and get the next few lines for description
+    const contentLines = lines.slice(1);
+    const description = contentLines.slice(0, 3).join(' ').trim();
+    
+    // Limit to reasonable length
+    if (description.length > 200) {
+      return description.substring(0, 200).trim() + '...';
+    }
+    
+    return description || 'No description available';
   };
 
   const insertImage = () => {

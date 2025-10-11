@@ -120,8 +120,9 @@
 
 .ticker-name {
   font-size: 11px;
-  color: #888;
+  color: #ffffff;
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .ticker-price {
