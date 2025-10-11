@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './MockupArticlePage.css';
+import FutureOfDesktopPublishingArticle from './FutureOfDesktopPublishingArticle';
 
 const MockupArticlePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -9,6 +10,11 @@ const MockupArticlePage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Show the real article for ID "1"
+  if (slug === '1') {
+    return <FutureOfDesktopPublishingArticle />;
+  }
 
   return (
     <div className="mockup-article-page">
