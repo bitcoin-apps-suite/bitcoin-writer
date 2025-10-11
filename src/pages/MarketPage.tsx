@@ -232,6 +232,258 @@ const MarketPage: React.FC = () => {
       price: 0.01,
       isTokenized: true,
       trending: false
+    },
+    {
+      id: '13',
+      title: 'Content Creator Burnout Solutions',
+      description: 'Sustainable strategies for maintaining creativity and mental health',
+      author: 'Wellness Writer',
+      authorHandle: '@wellnesswriter',
+      platform: 'Medium',
+      category: 'Wellness',
+      readTime: 6,
+      engagement: 1340,
+      thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '14',
+      title: 'AI Writing Tools Review',
+      description: 'Comprehensive analysis of the best AI writing assistants for content creators',
+      author: 'Tech Reviewer',
+      authorHandle: '@techreviewer',
+      platform: 'Substack',
+      category: 'Technology',
+      readTime: 11,
+      engagement: 2150,
+      thumbnail: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '15',
+      title: 'Remote Work Writing Setup',
+      description: 'Building the perfect home office for productive writing sessions',
+      author: 'Productivity Pro',
+      authorHandle: '@productivitypro',
+      platform: 'Ghost',
+      category: 'Productivity',
+      readTime: 8,
+      engagement: 1680,
+      thumbnail: 'https://images.unsplash.com/photo-1486312338219-ce68e2c6b7eb?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '16',
+      title: 'Visual Storytelling Techniques',
+      description: 'How to enhance your articles with compelling images and graphics',
+      author: 'Visual Artist',
+      authorHandle: '@visualartist',
+      platform: 'Medium',
+      category: 'Design',
+      readTime: 9,
+      engagement: 1920,
+      thumbnail: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '17',
+      title: 'Email Newsletter Growth Hacks',
+      description: 'Proven tactics to grow your subscriber base and engagement rates',
+      author: 'Marketing Maven',
+      authorHandle: '@marketingmaven',
+      platform: 'ConvertKit',
+      category: 'Marketing',
+      readTime: 7,
+      engagement: 1450,
+      thumbnail: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '18',
+      title: 'Freelance Writing Rates Guide',
+      description: 'How to price your writing services and negotiate better contracts',
+      author: 'Freelance Coach',
+      authorHandle: '@freelancecoach',
+      platform: 'LinkedIn',
+      category: 'Business',
+      readTime: 10,
+      engagement: 2380,
+      thumbnail: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '19',
+      title: 'Social Media Content Strategy',
+      description: 'Leveraging social platforms to amplify your written content',
+      author: 'Social Strategist',
+      authorHandle: '@socialstrategist',
+      platform: 'Buffer',
+      category: 'Marketing',
+      readTime: 12,
+      engagement: 2890,
+      thumbnail: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '20',
+      title: 'Writing Workshop Essentials',
+      description: 'Everything you need to know about joining and leading writing groups',
+      author: 'Workshop Leader',
+      authorHandle: '@workshopleader',
+      platform: 'Meetup',
+      category: 'Education',
+      readTime: 8,
+      engagement: 1560,
+      thumbnail: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '21',
+      title: 'Content Calendar Planning',
+      description: 'Strategic planning for consistent and engaging content publication',
+      author: 'Content Manager',
+      authorHandle: '@contentmanager',
+      platform: 'Notion',
+      category: 'Planning',
+      readTime: 6,
+      engagement: 1890,
+      thumbnail: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '22',
+      title: 'Interview Techniques for Writers',
+      description: 'Mastering the art of conducting compelling interviews for your articles',
+      author: 'Journalist Pro',
+      authorHandle: '@journalistpro',
+      platform: 'Journalism.org',
+      category: 'Journalism',
+      readTime: 11,
+      engagement: 2450,
+      thumbnail: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '23',
+      title: 'Book Proposal Writing Guide',
+      description: 'From idea to published book: crafting proposals that publishers love',
+      author: 'Publishing Expert',
+      authorHandle: '@publishingexpert',
+      platform: 'Writer\'s Digest',
+      category: 'Publishing',
+      readTime: 15,
+      engagement: 3120,
+      thumbnail: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '24',
+      title: 'Creative Writing Prompts Collection',
+      description: '50 inspiring prompts to overcome writer\'s block and spark creativity',
+      author: 'Creative Catalyst',
+      authorHandle: '@creativecatalyst',
+      platform: 'Writing.com',
+      category: 'Creative',
+      readTime: 5,
+      engagement: 1780,
+      thumbnail: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '25',
+      title: 'Research Skills for Writers',
+      description: 'Finding credible sources and fact-checking in the digital age',
+      author: 'Research Specialist',
+      authorHandle: '@researchspecialist',
+      platform: 'Academic Writer',
+      category: 'Research',
+      readTime: 9,
+      engagement: 1690,
+      thumbnail: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '26',
+      title: 'Writing for Different Audiences',
+      description: 'Adapting your voice and style for various reader demographics',
+      author: 'Audience Expert',
+      authorHandle: '@audienceexpert',
+      platform: 'Content Strategy',
+      category: 'Strategy',
+      readTime: 7,
+      engagement: 1420,
+      thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '27',
+      title: 'Copywriting Conversion Secrets',
+      description: 'Psychology-driven techniques that turn readers into customers',
+      author: 'Conversion Copy',
+      authorHandle: '@conversioncopy',
+      platform: 'Copy Hackers',
+      category: 'Copywriting',
+      readTime: 13,
+      engagement: 2760,
+      thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '28',
+      title: 'Travel Writing Adventures',
+      description: 'Capturing compelling stories from your journeys around the world',
+      author: 'World Wanderer',
+      authorHandle: '@worldwanderer',
+      platform: 'Travel + Leisure',
+      category: 'Travel',
+      readTime: 10,
+      engagement: 2340,
+      thumbnail: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '29',
+      title: 'Technical Writing Simplified',
+      description: 'Making complex topics accessible to general audiences',
+      author: 'Tech Communicator',
+      authorHandle: '@techcommunicator',
+      platform: 'Technical Writer HQ',
+      category: 'Technical',
+      readTime: 8,
+      engagement: 1590,
+      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
+    },
+    {
+      id: '30',
+      title: 'Personal Branding for Writers',
+      description: 'Building your reputation and online presence as a professional writer',
+      author: 'Brand Builder',
+      authorHandle: '@brandbuilder',
+      platform: 'Personal Brand Lab',
+      category: 'Branding',
+      readTime: 11,
+      engagement: 2180,
+      thumbnail: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=250&fit=crop&crop=center',
+      isTokenized: false,
+      trending: true
     }
   ];
 
@@ -246,12 +498,11 @@ const MarketPage: React.FC = () => {
         <div className="market-body-content">
           {/* Featured Content Section */}
           <section className="featured-section">
-            <h2>🔥 Trending Content</h2>
             <div className="content-grid">
               {trendingContent.map(content => (
                 <Link 
                   key={content.id} 
-                  to={getArticleUrl(content.title, content.id)}
+                  to={`/market/article/${content.id}`}
                   className="content-card trending"
                 >
                   <div className="content-thumbnail">
@@ -287,115 +538,6 @@ const MarketPage: React.FC = () => {
                   </div>
                 </Link>
               ))}
-            </div>
-          </section>
-
-          {/* Tokenized Content Section */}
-          <section className="tokenized-section">
-            <h2>₿ Tokenized Publications</h2>
-            <div className="content-grid">
-              {tokenizedContent.map(content => (
-                <Link 
-                  key={content.id} 
-                  to={getArticleUrl(content.title, content.id)}
-                  className="content-card tokenized"
-                >
-                  <div className="content-thumbnail">
-                    <img src={content.thumbnail} alt={content.title} />
-                    <div className="tokenized-overlay">
-                      <div className="token-price-display">
-                        <span className="token-price-usd">${content.price?.toFixed(2) || '0.01'}</span>
-                        <span className="token-price-bsv">₿ {formatBSVAmount(content.price || 0.01)} BSV</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="content-info">
-                    <h3>{content.title}</h3>
-                    <p>{content.description}</p>
-                    <div className="content-meta">
-                      <Link 
-                        to={`/authors/${getAuthorSlugFromName(content.author)}`} 
-                        className="author-link"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {content.author}
-                      </Link>
-                      <span className="platform">{content.platform}</span>
-                    </div>
-                    <div className="purchase-info">
-                      <span className="purchase-text">Click to view & purchase</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* Quick Actions Section */}
-          <section className="quick-actions">
-            <h2>⚡ Quick Actions</h2>
-            <div className="actions-grid">
-              <div className="action-card">
-                <div className="action-icon">📝</div>
-                <h3>Create Article</h3>
-                <p>Start writing your next piece</p>
-                <button className="action-btn">Get Started</button>
-              </div>
-              <div className="action-card">
-                <div className="action-icon">₿</div>
-                <h3>Tokenize Content</h3>
-                <p>Convert your articles into tradeable assets</p>
-                <button className="action-btn">Learn How</button>
-              </div>
-              <div className="action-card">
-                <div className="action-icon">📊</div>
-                <h3>Analytics Dashboard</h3>
-                <p>Track performance of your content</p>
-                <button className="action-btn">View Stats</button>
-              </div>
-              <div className="action-card">
-                <div className="action-icon">🌐</div>
-                <h3>Platform Integration</h3>
-                <p>Connect with publishing platforms</p>
-                <button className="action-btn" onClick={() => window.location.href = '/platform'}>Manage Platforms</button>
-              </div>
-            </div>
-          </section>
-
-          {/* Market Insights */}
-          <section className="market-insights">
-            <h2>💡 Market Insights</h2>
-            <div className="insights-grid">
-              <div className="insight-card">
-                <h4>🔥 Trending Topics</h4>
-                <ul>
-                  <li>Blockchain Publishing</li>
-                  <li>Creator Economy</li>
-                  <li>Web3 Tools</li>
-                  <li>Digital Monetization</li>
-                  <li>Open Source Writing</li>
-                </ul>
-              </div>
-              <div className="insight-card">
-                <h4>📈 Growth Platforms</h4>
-                <ul>
-                  <li>Mirror.xyz (+45%)</li>
-                  <li>Substack (+32%)</li>
-                  <li>Bitcoin Writer (+28%)</li>
-                  <li>Ghost (+15%)</li>
-                  <li>Medium (+8%)</li>
-                </ul>
-              </div>
-              <div className="insight-card">
-                <h4>💰 Top Earners</h4>
-                <ul>
-                  <li>Tech Tutorials ($2,500/mo)</li>
-                  <li>Crypto Analysis ($1,800/mo)</li>
-                  <li>Business Guides ($1,200/mo)</li>
-                  <li>Personal Stories ($900/mo)</li>
-                  <li>How-to Guides ($750/mo)</li>
-                </ul>
-              </div>
             </div>
           </section>
 
