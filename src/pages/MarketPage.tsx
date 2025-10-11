@@ -453,6 +453,127 @@ const MarketPage: React.FC = () => {
                 sponsored={true}
               />
             </div>
+            <div className="widget-item">
+              <AdCard
+                type="product"
+                title="Grammar Assistant AI"
+                description="Perfect your writing with AI-powered grammar and style suggestions"
+                imageUrl="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=400&h=250&fit=crop&crop=center"
+                actionText="Try Free"
+                brand="GrammarlyPro"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="service"
+                title="Content Marketing Course"
+                description="Learn to build an audience and monetize your content effectively"
+                imageUrl="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop&crop=center"
+                actionText="Enroll Now"
+                brand="Creator Academy"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="banner"
+                title="Bitcoin Wallet Security"
+                description="Keep your Bitcoin earnings safe with hardware wallet protection"
+                imageUrl="https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=400&h=250&fit=crop&crop=center"
+                actionText="Shop Now"
+                brand="Ledger"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="product"
+                title="Publishing Analytics"
+                description="Track your content performance across all platforms in one dashboard"
+                imageUrl="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center"
+                actionText="Start Trial"
+                brand="ContentStats"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="service"
+                title="SEO for Writers"
+                description="Optimize your content to reach more readers and earn more Bitcoin"
+                imageUrl="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=400&h=250&fit=crop&crop=center"
+                actionText="Learn More"
+                brand="SEO Masters"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="sponsored"
+                title="NFT Marketplace"
+                description="Turn your articles into collectible NFTs and reach new audiences"
+                imageUrl="https://images.unsplash.com/photo-1634704784915-aacf363b021f?w=400&h=250&fit=crop&crop=center"
+                actionText="Explore"
+                brand="OpenSea"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="banner"
+                title="Writer's Community"
+                description="Connect with fellow writers, share tips, and collaborate on projects"
+                imageUrl="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop&crop=center"
+                actionText="Join Forum"
+                brand="WriterConnect"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="product"
+                title="Blog Theme Store"
+                description="Professional themes and templates for your writing website"
+                imageUrl="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=250&fit=crop&crop=center"
+                actionText="Browse Themes"
+                brand="ThemeForest"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="service"
+                title="Copyright Protection"
+                description="Protect your intellectual property with blockchain-based copyright registration"
+                imageUrl="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=250&fit=crop&crop=center"
+                actionText="Protect Now"
+                brand="IP Guardian"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="sponsored"
+                title="Podcast Equipment"
+                description="Expand your content creation with professional podcasting gear"
+                imageUrl="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=250&fit=crop&crop=center"
+                actionText="Shop Audio"
+                brand="Audio-Technica"
+                sponsored={true}
+              />
+            </div>
+            <div className="widget-item">
+              <AdCard
+                type="banner"
+                title="Writing Retreat"
+                description="Join other writers for a productive retreat in beautiful locations"
+                imageUrl="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop&crop=center"
+                actionText="Book Retreat"
+                brand="Writer's Escape"
+                sponsored={true}
+              />
+            </div>
         </div>
       </div>
     </div>
