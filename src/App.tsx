@@ -32,6 +32,7 @@ import EncryptPage from './pages/EncryptPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import ContactPage from './pages/ContactPage';
+import MarketPage from './pages/MarketPage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
@@ -57,6 +58,7 @@ import JobsQueuePage from './pages/JobsQueuePage';
 import BWriterProPage from './pages/BWriterProPage';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
+// import { BitcoinDock, defaultBitcoinApps } from 'bitcoin-os-dock';
 import MinimalDock from './components/MinimalDock';
 import SubscriptionModal from './components/SubscriptionModal';
 import TopUpModal from './components/TopUpModal';
@@ -330,6 +332,15 @@ function App() {
             {/* Developer Sidebar - Desktop Only */}
             {!isMobile && !isInOS && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
             
+            {/* Market Sidebar - Desktop Only */}
+            {!isMobile && (
+              <TickerSidebar 
+                userHandle={currentUser?.handle}
+                currentJobToken={undefined}
+                onCollapsedChange={setMarketSidebarCollapsed}
+              />
+            )}
+            
             {/* Clean taskbar with proper spacing */}
             {!isInOS && <CleanTaskbar
               isAuthenticated={isAuthenticated}
@@ -351,6 +362,7 @@ function App() {
               }}
               documentService={documentService}
               onToggleAIChat={() => setShowAIChat(!showAIChat)}
+              isMarketSidebarCollapsed={marketSidebarCollapsed}
             />}
           </>
         )}
@@ -369,6 +381,7 @@ function App() {
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/market" element={<MarketPage />} />
       <Route path="/exchange" element={<ExchangeStandalonePage />} />
       
       {/* Developer Routes - Symmetrical */}
@@ -902,15 +915,12 @@ function App() {
                   />
                 )}
               </main>
-              <TickerSidebar 
-                userHandle={currentUser?.handle}
-                currentJobToken={undefined} // TODO: Pass current job token when available
-                onCollapsedChange={setMarketSidebarCollapsed}
-              />
             </div>
             <Footer />
-            {/* Minimal Status Bar - Only show when not running in Bitcoin OS */}
-            {!isInOS && <MinimalDock />}
+            {/* Bitcoin Dock - Only show when not running in Bitcoin OS */}
+            {/* {!isInOS && <BitcoinDock apps={defaultBitcoinApps} currentApp="Bitcoin Writer" />} */}
+            {/* Minimal Dock - Available on all pages */}
+            <MinimalDock />
           </div>
         )}
       />

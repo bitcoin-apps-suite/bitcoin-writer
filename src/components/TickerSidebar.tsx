@@ -39,6 +39,13 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
     console.log('TickerSidebar collapsed state changed:', isCollapsed);
     localStorage.setItem('marketSidebarCollapsed', isCollapsed.toString());
     onCollapsedChange?.(isCollapsed);
+    
+    // Toggle body class to control Quill editor width
+    if (isCollapsed) {
+      document.body.classList.add('market-sidebar-collapsed');
+    } else {
+      document.body.classList.remove('market-sidebar-collapsed');
+    }
   }, [isCollapsed, onCollapsedChange]);
 
   useEffect(() => {
@@ -205,23 +212,24 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   console.log('TickerSidebar rendering, isCollapsed:', isCollapsed);
   
   return (
-    <>
-      <button 
-        className="ticker-toggle-outside"
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        title={isCollapsed ? "Expand Market Sidebar" : "Collapse Market Sidebar"}
-      >
-        {isCollapsed ? '◀' : '▶'}
-      </button>
-      {!isCollapsed && (
-        <div className="ticker-sidebar">
-          <div className="ticker-header">
-            <h3>$bWriter Market</h3>
-          </div>
+    <div className={`ticker-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+      <div className="ticker-header">
+        <div className="ticker-header-title">
+          <span>📈</span>
+          <span>$bWriter Market</span>
+        </div>
+        <button 
+          className="ticker-header-toggle"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? "Expand Market Sidebar" : "Collapse Market Sidebar"}
+        >
+          {isCollapsed ? '▶' : '◀'}
+        </button>
+      </div>
 
-          {isLoading ? (
-            <div className="ticker-loading">Loading prices...</div>
-          ) : (
+      {isLoading ? (
+        <div className="ticker-loading">Loading prices...</div>
+      ) : (
             <div className="ticker-list">
               {prices.map((token, index) => {
                 // Add divider after last special token
@@ -285,14 +293,12 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
             </div>
           )}
 
-          <div className="ticker-footer">
-            <div className="ticker-disclaimer">
-              Prices update every 30s
-            </div>
-          </div>
+      <div className="ticker-footer">
+        <div className="ticker-disclaimer">
+          Prices update every 30s
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 

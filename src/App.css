@@ -214,13 +214,16 @@
   flex: 1;
   overflow: hidden; /* Contain children properly */
   width: 100%;
-  margin-right: 280px; /* Account for fixed sidebar */
-  transition: margin-left 0.3s ease, margin-right 0.3s ease;
+  transition: margin-left 0.3s ease;
   position: relative;
 }
 
-.app-container.with-market-sidebar-collapsed {
-  margin-right: 24px; /* Just space for the toggle button */
+/* Main content should flex to fill available space */
+.app-container main {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Adjust layout when DevSidebar is present - DESKTOP ONLY */
@@ -233,8 +236,14 @@
     margin-left: 60px;
   }
 
-  /* Market sidebar doesn't need margin adjustments since it's inside the flex container */
-  /* The TickerSidebar component handles its own width (400px expanded, 60px collapsed) */
+  /* Market sidebar adjustments - push content left to accommodate right sidebar */
+  .app-container.with-market-sidebar {
+    margin-right: 280px; /* Account for expanded market sidebar */
+  }
+
+  .app-container.with-market-sidebar-collapsed {
+    margin-right: 60px; /* Account for collapsed market sidebar */
+  }
 }
 
 /* Mobile layout adjustments */
@@ -243,6 +252,11 @@
   .app-container.with-dev-sidebar,
   .app-container.with-dev-sidebar-collapsed {
     margin-left: 0 !important;
+  }
+  
+  .app-container.with-market-sidebar,
+  .app-container.with-market-sidebar-collapsed {
+    margin-right: 0 !important;
   }
   /* Mobile taskbar adjustments */
   .taskbar {

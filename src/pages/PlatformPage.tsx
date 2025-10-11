@@ -1,8 +1,122 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PlatformPage.css';
 import Footer from '../components/Footer';
 
+interface PublishingPlatform {
+  id: string;
+  name: string;
+  description: string;
+  logo: string;
+  category: 'traditional' | 'crypto' | 'open-source' | 'social';
+  features: string[];
+  integration: boolean;
+  website: string;
+  tokenization: boolean;
+}
+
 const PlatformPage: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState<'all' | 'traditional' | 'crypto' | 'open-source' | 'social'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const publishingPlatforms: PublishingPlatform[] = [
+    {
+      id: 'medium',
+      name: 'Medium',
+      description: 'Professional publishing platform with built-in audience',
+      logo: '📝',
+      category: 'traditional',
+      features: ['Partner Program', 'Large Audience', 'Editorial Support'],
+      integration: true,
+      website: 'https://medium.com',
+      tokenization: false
+    },
+    {
+      id: 'substack',
+      name: 'Substack',
+      description: 'Newsletter platform for independent writers',
+      logo: '📧',
+      category: 'traditional',
+      features: ['Paid Subscriptions', 'Email Lists', 'Analytics'],
+      integration: true,
+      website: 'https://substack.com',
+      tokenization: false
+    },
+    {
+      id: 'ghost',
+      name: 'Ghost',
+      description: 'Open-source publishing platform for creators',
+      logo: '👻',
+      category: 'open-source',
+      features: ['Self-hosted', 'Custom Themes', 'Membership'],
+      integration: false,
+      website: 'https://ghost.org',
+      tokenization: false
+    },
+    {
+      id: 'mirror',
+      name: 'Mirror',
+      description: 'Decentralized publishing on Web3',
+      logo: '🪞',
+      category: 'crypto',
+      features: ['NFT Publishing', 'Token Gating', 'DAO Integration'],
+      integration: true,
+      website: 'https://mirror.xyz',
+      tokenization: true
+    },
+    {
+      id: 'hashnode',
+      name: 'Hashnode',
+      description: 'Developer-focused blogging platform',
+      logo: '💻',
+      category: 'traditional',
+      features: ['Custom Domain', 'SEO Optimized', 'Developer Tools'],
+      integration: false,
+      website: 'https://hashnode.com',
+      tokenization: false
+    },
+    {
+      id: 'devto',
+      name: 'Dev.to',
+      description: 'Community-driven platform for developers',
+      logo: '🛠️',
+      category: 'social',
+      features: ['Open Source', 'Community', 'Free'],
+      integration: false,
+      website: 'https://dev.to',
+      tokenization: false
+    },
+    {
+      id: 'wordpress',
+      name: 'WordPress',
+      description: 'World\'s most popular content management system',
+      logo: '📰',
+      category: 'open-source',
+      features: ['Plugins', 'Themes', 'SEO'],
+      integration: false,
+      website: 'https://wordpress.org',
+      tokenization: false
+    },
+    {
+      id: 'linkedin',
+      name: 'LinkedIn',
+      description: 'Professional networking with publishing features',
+      logo: '💼',
+      category: 'social',
+      features: ['Professional Network', 'Career Growth', 'B2B Audience'],
+      integration: true,
+      website: 'https://linkedin.com',
+      tokenization: false
+    }
+  ];
+
+  const filteredPlatforms = publishingPlatforms.filter(platform => {
+    const matchesCategory = activeCategory === 'all' || platform.category === activeCategory;
+    const matchesSearch = searchQuery === '' || 
+      platform.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      platform.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
   return (
     <div className="platform-page">
       <div className="platform-header">
@@ -167,6 +281,97 @@ const PlatformPage: React.FC = () => {
           Bitcoin Writer provides the solution: immutable, verifiable, and valuable writing 
           that exists forever on the world's most secure distributed ledger.
         </p>
+      </section>
+
+      {/* Publishing Platform Integration Section */}
+      <section className="platform-section">
+        <h2>🚀 Platform Integrations</h2>
+        <p>Integrate Bitcoin Writer with your favorite publishing platforms to reach wider audiences while maintaining blockchain provenance.</p>
+        
+        <div className="platforms-header">
+          <div className="platforms-controls">
+            <input
+              type="text"
+              placeholder="Search platforms..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="platform-search"
+            />
+            <div className="category-filters">
+              <button 
+                className={`filter-btn ${activeCategory === 'all' ? 'active' : ''}`}
+                onClick={() => setActiveCategory('all')}
+              >
+                All
+              </button>
+              <button 
+                className={`filter-btn ${activeCategory === 'traditional' ? 'active' : ''}`}
+                onClick={() => setActiveCategory('traditional')}
+              >
+                Traditional
+              </button>
+              <button 
+                className={`filter-btn ${activeCategory === 'crypto' ? 'active' : ''}`}
+                onClick={() => setActiveCategory('crypto')}
+              >
+                Crypto
+              </button>
+              <button 
+                className={`filter-btn ${activeCategory === 'open-source' ? 'active' : ''}`}
+                onClick={() => setActiveCategory('open-source')}
+              >
+                Open Source
+              </button>
+              <button 
+                className={`filter-btn ${activeCategory === 'social' ? 'active' : ''}`}
+                onClick={() => setActiveCategory('social')}
+              >
+                Social
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="platforms-grid">
+          {filteredPlatforms.map(platform => (
+            <div key={platform.id} className={`platform-card ${platform.category}`}>
+              <div className="platform-header">
+                <div className="platform-logo">{platform.logo}</div>
+                <div className="platform-info">
+                  <h3>{platform.name}</h3>
+                  <p>{platform.description}</p>
+                </div>
+                <div className="platform-badges">
+                  {platform.integration && <span className="badge integration">🔗 Integrated</span>}
+                  {platform.tokenization && <span className="badge crypto">₿ Tokenizable</span>}
+                </div>
+              </div>
+              
+              <div className="platform-features">
+                <h4>Key Features:</h4>
+                <ul>
+                  {platform.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div className="platform-actions">
+                {platform.integration ? (
+                  <button className="btn-primary">Publish Here</button>
+                ) : (
+                  <button className="btn-secondary">Learn More</button>
+                )}
+                <button 
+                  className="btn-outline"
+                  onClick={() => window.open(platform.website, '_blank')}
+                >
+                  Visit Site
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="platform-section cta-section">

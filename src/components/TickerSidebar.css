@@ -1,138 +1,64 @@
-/* Outside toggle button */
-.ticker-toggle-outside {
+/* Market Sidebar Styles - Mirror of DevSidebar */
+.ticker-sidebar {
   position: fixed;
   right: 0;
-  top: 220px; /* Align with Jobs Queue sidebar */
-  background: #F7931A;
-  color: #000;
-  border: none;
-  border-radius: 4px 0 0 4px; /* Round left corners */
-  padding: 8px 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  width: 24px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1001; /* Above everything including ruler */
-  transition: all 0.2s ease;
-  box-shadow: -2px 0 4px rgba(0,0,0,0.3);
-}
-
-.ticker-toggle-outside:hover {
-  background: #ff9800;
-  box-shadow: -3px 0 6px rgba(247, 147, 26, 0.5);
-}
-
-/* Ticker Sidebar Styles */
-.ticker-sidebar {
-  position: fixed; /* Pin to viewport */
-  right: 0; /* Stick to right edge of viewport */
-  top: 220px; /* Align with Jobs Queue sidebar */
+  top: 0; /* In front of everything */
   bottom: 0;
   width: 280px;
-  background: #0d0d0d;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-left: 2px solid #F7931A;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 220px);
-  z-index: 1000; /* Above the ruler */
-  overflow-y: auto;
-  overflow-x: hidden;
+  transition: width 0.3s ease, transform 0.3s ease;
+  z-index: 10000; /* In front of ruler and everything else */
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.ticker-sidebar.collapsed {
+  width: 60px;
+  overflow: hidden;
 }
 
 .ticker-header {
-  position: relative;
-  padding: 12px;
-  border-top: 2px solid #F7931A;
-  border-bottom: 1px solid #222;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: #1a1a1a;
-  min-height: 48px;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
 }
 
-/* Removed header toggle - using outside toggle only */
-
-.ticker-header-controls {
+.ticker-header-title {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-/* Sidebar completely hidden when collapsed - controlled by React */
-
-.ticker-header h3 {
-  font-size: 14px;
-  font-weight: 600;
+  gap: 12px;
   color: #F7931A;
-  margin: 0;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 16px;
 }
 
-.ticker-update-time {
-  font-size: 12px;
-  color: #666;
+.ticker-header-toggle {
+  background: transparent;
+  border: none;
+  color: #F7931A;
   cursor: pointer;
-  animation: rotate 30s linear infinite;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 18px;
+  transition: all 0.2s;
+  flex-shrink: 0;
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.ticker-loading {
-  padding: 20px;
-  text-align: center;
-  color: #666;
-  font-style: italic;
-  font-size: 12px;
+.ticker-header-toggle:hover {
+  background: rgba(247, 147, 26, 0.1);
+  transform: scale(1.1);
 }
 
 .ticker-list {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-  padding: 8px 12px 8px 8px; /* More right padding */
-  position: relative;
-}
-
-/* Divider between special tokens and gigs */
-.ticker-divider {
-  margin: 15px 0;
-  padding: 8px 0;
-  text-align: center;
-  position: relative;
-}
-
-.ticker-divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #444, transparent);
-  transform: translateY(-50%);
-}
-
-.ticker-divider span {
-  background: #0d0d0d;
-  padding: 0 12px;
-  position: relative;
-  font-size: 11px;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
+  overflow-x: hidden;
+  padding: 8px;
 }
 
 .ticker-item {
@@ -142,35 +68,24 @@
   padding: 12px;
   margin-bottom: 10px;
   transition: all 0.2s;
-  position: relative;
 }
 
-/* Special tokens (BWRITER, BSV, Author) */
 .ticker-item.special {
   background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
   border: 2px solid #F7931A;
   box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
 }
 
-/* Star emoji removed for cleaner look */
-
-/* Gig tokens */
 .ticker-item.gig {
   background: #161616;
   border: 1px solid #2a2a2a;
   opacity: 0.95;
 }
 
-.ticker-item.gig:hover {
-  opacity: 1;
-  background: #1a1a1a;
-}
-
 .ticker-item:hover {
   background: #222;
   border-color: #444;
   transform: translateX(-2px);
-  box-shadow: -2px 0 8px rgba(247, 147, 26, 0.1);
 }
 
 .ticker-symbol-row {
@@ -206,37 +121,12 @@
   font-size: 11px;
   color: #888;
   margin-bottom: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ticker-category {
-  font-size: 10px;
-  color: #666;
-  font-style: italic;
-}
-
-.ticker-price-row {
-  margin-bottom: 4px;
 }
 
 .ticker-price {
   font-size: 18px;
   font-weight: bold;
   color: #fff;
-  letter-spacing: -0.5px;
-}
-
-.ticker-contract-id {
-  font-size: 9px;
-  color: #555;
-  margin-left: 8px;
-  font-family: monospace;
-  background: #1a1a1a;
-  padding: 2px 4px;
-  border-radius: 3px;
-  border: 1px solid #333;
 }
 
 .ticker-stats {
@@ -282,7 +172,46 @@
   font-style: italic;
 }
 
-/* Dark mode already applied */
+.ticker-divider {
+  margin: 15px 0;
+  padding: 8px 0;
+  text-align: center;
+  position: relative;
+}
+
+.ticker-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #444, transparent);
+  transform: translateY(-50%);
+}
+
+.ticker-divider span {
+  background: #1a1a1a;
+  padding: 0 12px;
+  position: relative;
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Hide content when collapsed */
+.ticker-sidebar.collapsed .ticker-header-title,
+.ticker-sidebar.collapsed .ticker-list,
+.ticker-sidebar.collapsed .ticker-footer {
+  display: none;
+}
+
+/* Center toggle when collapsed */
+.ticker-sidebar.collapsed .ticker-header {
+  justify-content: center;
+}
 
 /* Scrollbar styling */
 .ticker-list::-webkit-scrollbar {
@@ -300,20 +229,4 @@
 
 .ticker-list::-webkit-scrollbar-thumb:hover {
   background: #444;
-}
-
-/* Keep sidebar visible on all screen sizes */
-
-/* Animation for price updates */
-@keyframes priceUpdate {
-  0% {
-    background-color: rgba(247, 147, 26, 0.2);
-  }
-  100% {
-    background-color: transparent;
-  }
-}
-
-.ticker-item.price-updated {
-  animation: priceUpdate 1s ease-out;
 }
