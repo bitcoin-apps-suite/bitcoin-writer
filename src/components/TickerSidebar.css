@@ -1,5 +1,9 @@
 /* Market Sidebar Styles - Mirror of DevSidebar */
 .ticker-sidebar {
+  position: fixed;
+  right: 0;
+  top: 72px; /* Start below CleanTaskbar (32px) + POC banner (40px) */
+  bottom: 0;
   width: 280px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-left: 2px solid #F7931A;
@@ -7,7 +11,8 @@
   flex-direction: column;
   transition: width 0.3s ease;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
-  flex-shrink: 0; /* Prevent sidebar from shrinking */
+  z-index: 1000;
+  overflow-y: auto;
 }
 
 .ticker-sidebar.collapsed {
@@ -225,4 +230,17 @@
 
 .ticker-list::-webkit-scrollbar-thumb:hover {
   background: #444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ticker-sidebar {
+    top: 104px; /* Account for mobile taskbar + POC banner */
+  }
+}
+
+@media (max-width: 480px) {
+  .ticker-sidebar {
+    top: 100px; /* Account for smaller mobile taskbar + POC banner */
+  }
 }

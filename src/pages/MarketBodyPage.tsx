@@ -22,7 +22,7 @@ interface FeaturedContent {
   trending: boolean;
 }
 
-const MarketPage: React.FC = () => {
+const MarketBodyPage: React.FC = () => {
   const [selectedContent, setSelectedContent] = useState<FeaturedContent | null>(null);
   const [bsvPrice, setBsvPrice] = useState<number>(40.50); // Default BSV price in USD
 
@@ -385,65 +385,64 @@ const MarketPage: React.FC = () => {
               </div>
             </div>
           </section>
-
         </div>
 
         {/* Right side - Widget sidebar */}
         <div className="market-body-sidebar">
-            <div className="widget-item">
-              <WeatherWidget />
-            </div>
-            <div className="widget-item">
-              <StockTickerCard />
-            </div>
-            <div className="widget-item">
-              <AdCard
-                type="banner"
-                title="Boost Your Writing Career"
-                description="Join thousands of writers earning Bitcoin through quality content creation"
-                imageUrl="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7eb?w=400&h=250&fit=crop&crop=center"
-                actionText="Join Now"
-                brand="Bitcoin Writer"
-                sponsored={true}
-              />
-            </div>
-            <div className="widget-item">
-              <AdCard
-                type="product"
-                title="Premium Writing Tools"
-                description="Advanced editing features and analytics to improve your content performance"
-                imageUrl="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center"
-                actionText="Upgrade"
-                brand="WritePro"
-                sponsored={true}
-              />
-            </div>
-            <div className="widget-item">
-              <AdCard
-                type="service"
-                title="Editorial Services"
-                description="Professional editing and proofreading to make your content shine"
-                imageUrl="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=250&fit=crop&crop=center"
-                actionText="Learn More"
-                brand="Editor Plus"
-                sponsored={true}
-              />
-            </div>
-            <div className="widget-item">
-              <AdCard
-                type="sponsored"
-                title="Crypto News Platform"
-                description="Stay updated with the latest cryptocurrency and blockchain developments"
-                imageUrl="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=250&fit=crop&crop=center"
-                actionText="Subscribe"
-                brand="CoinDesk"
-                sponsored={true}
-              />
-            </div>
+          <div className="widget-item">
+            <WeatherWidget />
+          </div>
+          <div className="widget-item">
+            <StockTickerCard />
+          </div>
+          <div className="widget-item">
+            <AdCard
+              type="banner"
+              title="Boost Your Writing Career"
+              description="Join thousands of writers earning Bitcoin through quality content creation"
+              imageUrl="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7eb?w=400&h=250&fit=crop&crop=center"
+              actionText="Join Now"
+              brand="Bitcoin Writer"
+              sponsored={true}
+            />
+          </div>
+          <div className="widget-item">
+            <AdCard
+              type="product"
+              title="Premium Writing Tools"
+              description="Advanced editing features and analytics to improve your content performance"
+              imageUrl="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center"
+              actionText="Upgrade"
+              brand="WritePro"
+              sponsored={true}
+            />
+          </div>
+          <div className="widget-item">
+            <AdCard
+              type="service"
+              title="Editorial Services"
+              description="Professional editing and proofreading to make your content shine"
+              imageUrl="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=250&fit=crop&crop=center"
+              actionText="Learn More"
+              brand="Editor Plus"
+              sponsored={true}
+            />
+          </div>
+          <div className="widget-item">
+            <AdCard
+              type="sponsored"
+              title="Crypto News Platform"
+              description="Stay updated with the latest cryptocurrency and blockchain developments"
+              imageUrl="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=250&fit=crop&crop=center"
+              actionText="Subscribe"
+              brand="CoinDesk"
+              sponsored={true}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default MarketPage;
+export default MarketBodyPage;

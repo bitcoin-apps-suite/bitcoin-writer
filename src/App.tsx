@@ -33,6 +33,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import ContactPage from './pages/ContactPage';
 import MarketPage from './pages/MarketPage';
+import MarketBodyPage from './pages/MarketBodyPage';
 import ArticlePage from './pages/ArticlePage';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
@@ -136,6 +137,26 @@ function App() {
       document.body.classList.remove('dev-sidebar-collapsed', 'dev-sidebar-expanded');
     };
   }, [devSidebarCollapsed, isMobile, isInOS]);
+
+  // Handle market sidebar body classes for layout adjustments
+  useEffect(() => {
+    if (!isMobile) {
+      if (marketSidebarCollapsed) {
+        document.body.classList.add('market-sidebar-collapsed');
+        document.body.classList.remove('market-sidebar-expanded');
+      } else {
+        document.body.classList.add('market-sidebar-expanded');
+        document.body.classList.remove('market-sidebar-collapsed');
+      }
+    } else {
+      // Remove both classes on mobile
+      document.body.classList.remove('market-sidebar-collapsed', 'market-sidebar-expanded');
+    }
+    
+    return () => {
+      document.body.classList.remove('market-sidebar-collapsed', 'market-sidebar-expanded');
+    };
+  }, [marketSidebarCollapsed, isMobile]);
 
   // Listen for subscription modal event
   useEffect(() => {
@@ -468,7 +489,7 @@ function App() {
                     }}
                     title="Return to main view"
                   >
-                    <span style={{color: '#ff9500'}}>Bitcoin</span> Writer
+                    <span style={{color: '#ff9500'}}>Bitcoin</span> Writer{location.pathname === '/market' && ' Market'}
                   </h1>
                 </div>
                 <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
@@ -723,6 +744,7 @@ function App() {
                     <Route path="/signup" element={<SignupPage />} />
 
                     <Route path="/market" element={<MarketPage />} />
+                    <Route path="/market/body" element={<MarketBodyPage />} />
                     <Route path="/market/article/:slug" element={<ArticlePage />} />
 
                     <Route path="/*" element={<EditorPage />} />

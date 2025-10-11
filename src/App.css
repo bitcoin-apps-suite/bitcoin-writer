@@ -43,6 +43,7 @@
   .App-header {
     margin-top: 100px; /* Account for smaller mobile taskbar + POC banner */
     margin-left: 0; /* Reset desktop sidebar margin on small mobile */
+    margin-right: 0; /* Reset desktop market sidebar margin on small mobile */
   }
 }
 
@@ -220,7 +221,8 @@
   flex: 1;
   overflow: hidden;
   margin-left: 260px; /* Account for fixed dev sidebar (expanded) */
-  transition: margin-left 0.3s ease;
+  margin-right: 280px; /* Account for fixed market sidebar (expanded) */
+  transition: margin-left 0.3s ease, margin-right 0.3s ease;
 }
 
 /* Adjust for collapsed dev sidebar */
@@ -230,6 +232,15 @@ body.dev-sidebar-collapsed .app-container {
 
 body.dev-sidebar-collapsed .App-header {
   margin-left: 60px; /* Account for collapsed dev sidebar */
+}
+
+/* Adjust for collapsed market sidebar */
+body.market-sidebar-collapsed .app-container {
+  margin-right: 60px; /* Account for collapsed market sidebar */
+}
+
+body.market-sidebar-collapsed .App-header {
+  margin-right: 60px; /* Account for collapsed market sidebar */
 }
 
 .app-container main {
@@ -291,6 +302,7 @@ body.dev-sidebar-collapsed .App-header {
     gap: 16px;
     margin-top: 104px; /* Account for mobile taskbar (32px) + mobile POC banner (72px) */
     margin-left: 0; /* Reset desktop sidebar margin on mobile */
+    margin-right: 0; /* Reset desktop market sidebar margin on mobile */
   }
   
   .App-header h1 {
@@ -348,6 +360,7 @@ body.dev-sidebar-collapsed .App-header {
   .app-container {
     flex-direction: column;
     margin-left: 0; /* Reset desktop sidebar margin on mobile */
+    margin-right: 0; /* Reset desktop market sidebar margin on mobile */
   }
   
   .disclaimer {
@@ -376,7 +389,8 @@ main {
   min-height: 96px;
   margin-top: 72px; /* Account for CleanTaskbar (32px) + POC banner (40px) */
   margin-left: 260px; /* Account for fixed dev sidebar */
-  transition: margin-left 0.3s ease;
+  margin-right: 280px; /* Account for fixed market sidebar */
+  transition: margin-left 0.3s ease, margin-right 0.3s ease;
 }
 
 .App-header h1 {
