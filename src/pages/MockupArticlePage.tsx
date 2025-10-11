@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './MockupArticlePage.css';
 
 const MockupArticlePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="mockup-article-page">

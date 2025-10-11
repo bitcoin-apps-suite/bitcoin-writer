@@ -37,6 +37,7 @@ import MarketBodyPage from './pages/MarketBodyPage';
 import ArticlePage from './pages/ArticlePage';
 import AuthorsPage from './pages/AuthorsPage';
 import AuthorPage from './pages/AuthorPage';
+import IdeasPage from './pages/IdeasPage';
 import AuthorCardFixPage from './pages/AuthorCardFixPage';
 import NotFoundPage from './pages/NotFoundPage';
 import MockupArticlePage from './pages/MockupArticlePage';
@@ -753,6 +754,7 @@ function App() {
                     <Route path="/market" element={<MarketPage />} />
                     <Route path="/market/body" element={<MarketBodyPage />} />
                     <Route path="/market/article/:slug" element={<MockupArticlePage />} />
+                    <Route path="/ideas" element={<IdeasPage />} />
                     <Route path="/authors" element={
                       <AuthorsPage 
                         currentUser={currentUser ? {
