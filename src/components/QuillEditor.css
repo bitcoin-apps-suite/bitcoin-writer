@@ -19,14 +19,7 @@
   box-sizing: border-box;
 }
 
-/* Dynamically adjust editor width based on sidebar state */
-body:not(.market-sidebar-collapsed) .quill-editor-container {
-  max-width: calc(100vw - 280px) !important; /* Leave room for expanded sidebar */
-}
 
-body.market-sidebar-collapsed .quill-editor-container {
-  max-width: calc(100vw - 60px) !important; /* Leave room for collapsed sidebar */
-}
 
 .quill-toolbar-extra {
   display: flex;
@@ -125,14 +118,7 @@ body.market-sidebar-collapsed .quill-editor-container {
   margin: 18px 20px 0 20px; /* Equal margins on both sides */
 }
 
-/* Constrain editor width when market sidebar is present */
-.app-container.with-market-sidebar .quill-editor .ql-editor {
-  max-width: calc(100vw - 420px); /* Account for sidebar width + margins */
-}
 
-.app-container.with-market-sidebar-collapsed .quill-editor .ql-editor {
-  max-width: calc(100vw - 150px); /* Account for collapsed sidebar + margins */
-}
 
 .quill-editor .ql-editor {
   min-height: calc(100vh - 300px);

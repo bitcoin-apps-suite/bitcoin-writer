@@ -39,13 +39,6 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
     console.log('TickerSidebar collapsed state changed:', isCollapsed);
     localStorage.setItem('marketSidebarCollapsed', isCollapsed.toString());
     onCollapsedChange?.(isCollapsed);
-    
-    // Toggle body class to control Quill editor width
-    if (isCollapsed) {
-      document.body.classList.add('market-sidebar-collapsed');
-    } else {
-      document.body.classList.remove('market-sidebar-collapsed');
-    }
   }, [isCollapsed, onCollapsedChange]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@
 // This software can only be used on BSV blockchains
 
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import FeaturesPage from './pages/FeaturesPage';
 import TokenPage from './pages/TokenPage';
@@ -62,6 +62,8 @@ import LoadingDoor from './components/LoadingDoor';
 import MinimalDock from './components/MinimalDock';
 import SubscriptionModal from './components/SubscriptionModal';
 import TopUpModal from './components/TopUpModal';
+
+
 
 function App() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -311,6 +313,71 @@ function App() {
     }, 100);
   };
 
+  
+
+  const location = useLocation();
+
+  const EditorPage = () => {
+    if (showFeatures) {
+        return (
+            <div className="features-view-wrapper">
+                <button 
+                    className="features-close-btn"
+                    onClick={() => setShowFeatures(false)}
+                    title="Close Features"
+                >
+                    ✕
+                </button>
+                <FeaturesPage />
+            </div>
+        );
+    }
+
+    if (showExchange) {
+        return (
+            <DocumentExchangeView 
+                onSelectDocument={(doc) => {
+                    console.log('Selected document from exchange:', doc);
+                }}
+                userDocuments={publishedDocuments}
+                onClose={() => setShowExchange(false)}
+            />
+        );
+    }
+
+    if (showBitcoinApps) {
+        return (
+            <BitcoinAppsView 
+                isOpen={showBitcoinApps}
+                onClose={() => setShowBitcoinApps(false)}
+            />
+        );
+    }
+
+    if (activeAppOverview) {
+        return (
+            <BitcoinAppOverviews
+                activeApp={activeAppOverview}
+                onClose={() => setActiveAppOverview(null)}
+            />
+        );
+    }
+
+    return (
+        <DocumentEditor 
+            documentService={documentService}
+            isAuthenticated={isAuthenticated}
+            currentDocument={currentDocument}
+            onDocumentUpdate={setCurrentDocument}
+            onDocumentSaved={() => {
+                setSidebarRefresh(prev => prev + 1);
+            }}
+            showAIChat={showAIChat}
+            onToggleAIChat={() => setShowAIChat(!showAIChat)}
+        />
+    );
+  };
+
   return (
     <>
       <ServiceWorkerRegistration />
@@ -327,306 +394,29 @@ function App() {
       
       <GoogleAuthProvider>
         {/* Global elements that appear on all pages */}
-        {!isLoading && (
-          <>
-            {/* Developer Sidebar - Desktop Only */}
-            {!isMobile && !isInOS && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
-            
-            {/* Market Sidebar - Desktop Only */}
-            {!isMobile && (
-              <TickerSidebar 
-                userHandle={currentUser?.handle}
-                currentJobToken={undefined}
-                onCollapsedChange={setMarketSidebarCollapsed}
-              />
-            )}
-            
-            {/* Clean taskbar with proper spacing */}
-            {!isInOS && <CleanTaskbar
-              isAuthenticated={isAuthenticated}
-              currentUser={currentUser}
-              onLogout={handleLogout}
-              onNewDocument={() => {
-                setCurrentDocument(null);
-                setShowExchange(false);
-              }}
-              onSaveDocument={() => {
-                const saveBtn = document.querySelector('.save-btn-mobile, [title*="Save"]') as HTMLElement;
-                saveBtn?.click();
-              }}
-              onOpenTokenizeModal={() => {
-                window.dispatchEvent(new CustomEvent('openTokenizeModal'));
-              }}
-              onOpenTwitterModal={() => {
-                window.dispatchEvent(new CustomEvent('openTwitterModal'));
-              }}
-              documentService={documentService}
-              onToggleAIChat={() => setShowAIChat(!showAIChat)}
-              isMarketSidebarCollapsed={marketSidebarCollapsed}
-            />}
-          </>
-        )}
-
-        <Routes>
-      <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
-      <Route path="/bitcoin-writer/bap" element={<BapPage />} />
-      <Route path="/features" element={<FeaturesPage />} />
-      <Route path="/jobs-queue" element={<JobsQueuePage />} />
-      <Route path="/bwriter-pro" element={<BWriterProPage />} />
-      <Route path="/token" element={<TokenPage />} />
-      <Route path="/tasks" element={<TasksPage />} />
-      <Route path="/contracts" element={<ContractsPage />} />
-      <Route path="/import" element={<ImportPage />} />
-      <Route path="/encrypt" element={<EncryptPage />} />
-      <Route path="/terms" element={<TermsPage />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/market" element={<MarketPage />} />
-      <Route path="/exchange" element={<ExchangeStandalonePage />} />
-      
-      {/* Developer Routes - Symmetrical */}
-      <Route path="/developer/offer" element={<OfferPage />} />
-      <Route path="/developer/offers" element={<DeveloperContractsPage />} />
-      
-      {/* Author Routes - Symmetrical */}
-      <Route path="/author/offer" element={<OfferPage />} />
-      <Route path="/author/offers" element={<AuthorOffersPage />} />
-      
-      {/* Publisher Routes - Symmetrical */}
-      <Route path="/publisher/offer" element={<PublisherOfferPage />} />
-      <Route path="/publisher/offers" element={<OffersPage />} />
-      
-      {/* Grants Routes */}
-      <Route path="/developers/grants" element={<DevelopersGrantsPage />} />
-      <Route path="/authors/grants" element={<AuthorsGrantsPage />} />
-      <Route path="/publishers/grants" element={<PublishersGrantsPage />} />
-      
-      {/* Other Routes */}
-      <Route path="/contributions" element={<BWriterContributionsPage />} />
-      <Route path="/docs" element={<DocsPage />} />
-      <Route path="/enterprise" element={<CommissionsPage />} />
-      <Route path="/grants" element={<GrantsPage />} />
-      <Route path="/maip" element={<MAIPPage />} />
-      <Route path="/api" element={<ApiPage />} />
-      <Route path="/changelog" element={<ChangelogPage />} />
-      <Route path="/status" element={<StatusPage />} />
-      <Route path="/platform" element={<PlatformPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/*" element={
-        isLoading ? (
-          <div className="App">
-            <div className="loading">Loading Bitcoin Writer...</div>
-          </div>
-        ) : (
-          <div className="App">
-            
-            {/* Old macOS-style taskbar (kept for reference, can be removed later) */}
-            <div className="taskbar" style={{display: 'none'}}>
-              <div className="taskbar-left">
-                <div className="bitcoin-menu-container">
-                  <button 
-                    className="bitcoin-logo-button"
-                    onClick={() => setShowBitcoinMenu(!showBitcoinMenu)}
-                    aria-label="Bitcoin Menu"
-                  >
-                    <span className="bitcoin-logo">₿</span>
-                  </button>
-                  {showBitcoinMenu && (
-                    <>
-                      <div className="menu-overlay" onClick={() => setShowBitcoinMenu(false)} />
-                      <div className="bitcoin-menu">
-                        <div className="menu-header">
-                          <div className="bitcoin-logo-small">₿</div>
-                          <span>Bitcoin Writer</span>
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          window.location.href = '/';
-                          setShowBitcoinMenu(false);
-                        }}>
-                          <span>📝</span> Bitcoin Writer
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          alert('Bitcoin Writer v1.0\n\nSecure blockchain document writing platform\n\n© 2025 The Bitcoin Corporation LTD\nBuilt on Bitcoin SV blockchain');
-                          setShowBitcoinMenu(false);
-                        }}>
-                          <span>ℹ️</span> About Bitcoin Writer
-                        </div>
-                        <div className="menu-separator" />
-                        {isAuthenticated && (
-                          <div className="menu-item" onClick={() => {
-                            handleLogout();
-                            setShowBitcoinMenu(false);
-                          }}>
-                            <span>🚪</span> Sign Out
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
-                
-                <div className="writer-menu-container">
-                  <button 
-                    className="writer-menu-button"
-                    onClick={() => setShowWriterMenu(!showWriterMenu)}
-                    aria-label="Writer Menu"
-                  >
-                    Bitcoin Writer
-                  </button>
-                  {showWriterMenu && (
-                    <>
-                      <div className="menu-overlay" onClick={() => setShowWriterMenu(false)} />
-                      <div className="writer-menu">
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Open
-                          alert('Open functionality coming soon');
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>📂</span> Open
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Save
-                          (document.querySelector('.save-btn-mobile, [title*="Save"]') as HTMLElement)?.click();
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>💾</span> Save
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Save As
-                          alert('Save As functionality coming soon');
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>📋</span> Save As
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Encrypt
-                          (document.querySelector('[title*="Encrypt"]') as HTMLElement)?.click();
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>🔒</span> Encrypt
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Decrypt
-                          (document.querySelector('[title*="Decrypt"]') as HTMLElement)?.click();
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>🔓</span> Decrypt
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          // Dispatch event to open tokenize modal
-                          window.dispatchEvent(new CustomEvent('openTokenizeModal'));
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>🎨</span> Create Bitcoin Asset
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Paywall
-                          (document.querySelector('[title*="Set price"]') as HTMLElement)?.click();
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>💰</span> Paywall
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          // TODO: Implement Publish
-                          (document.querySelector('[title*="Publish"]') as HTMLElement)?.click();
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>🌍</span> Publish
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          // Dispatch event to open Twitter modal
-                          window.dispatchEvent(new CustomEvent('openTwitterModal'));
-                          setShowWriterMenu(false);
-                        }}>
-                          <span>🐦</span> Post to Twitter
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-                
-                <div className="developers-menu-container">
-                  <button 
-                    className="developers-menu-button"
-                    onClick={() => setShowDevelopersMenu(!showDevelopersMenu)}
-                    aria-label="Developers Menu"
-                  >
-                    Developers
-                  </button>
-                  {showDevelopersMenu && (
-                    <>
-                      <div className="menu-overlay" onClick={() => setShowDevelopersMenu(false)} />
-                      <div className="developers-menu">
-                        <div className="menu-header">
-                          <span>Developer Resources</span>
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          window.open('/bitcoin-writer/bap', '_blank');
-                          setShowDevelopersMenu(false);
-                        }}>
-                          <span>📑</span> BAP Executive Summary
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          window.open('https://github.com/bitcoin-apps-suite/bitcoin-writer', '_blank');
-                          setShowDevelopersMenu(false);
-                        }}>
-                          <span>📂</span> GitHub Repository
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          window.open('https://docs.handcash.io', '_blank');
-                          setShowDevelopersMenu(false);
-                        }}>
-                          <span>📚</span> HandCash API Docs
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          window.open('https://github.com/bitcoin-apps-suite/blockchain-spreadsheet', '_blank');
-                          setShowDevelopersMenu(false);
-                        }}>
-                          <span>📊</span> Blockchain Spreadsheet
-                        </div>
-                        <div className="menu-item" onClick={() => {
-                          window.open('https://github.com/bitcoin-apps-suite/bitcoin-drive', '_blank');
-                          setShowDevelopersMenu(false);
-                        }}>
-                          <span>💾</span> Bitcoin Drive
-                        </div>
-                        <div className="menu-separator" />
-                        <div className="menu-item" onClick={() => {
-                          alert('Bitcoin Writer API\n\nEndpoints:\n• POST /api/documents - Create document\n• GET /api/documents - List documents\n• GET /api/documents/:id - Get document\n• DELETE /api/documents/:id - Delete document\n\nBuilt on Bitcoin SV blockchain');
-                          setShowDevelopersMenu(false);
-                        }}>
-                          <span>🔌</span> API Documentation
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-              <div className="taskbar-center">
-                {/* Window controls area */}
-              </div>
-              <div className="taskbar-right">
-                <a 
-                  href="https://x.com/bitcoin_writer" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="taskbar-link"
-                  aria-label="Follow on X"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                </a>
-              </div>
-            </div>
-            
-            <header className="App-header">
+        {!isLoading && !isInOS && <CleanTaskbar
+            isAuthenticated={isAuthenticated}
+            currentUser={currentUser}
+            onLogout={handleLogout}
+            onNewDocument={() => {
+            setCurrentDocument(null);
+            setShowExchange(false);
+            }}
+            onSaveDocument={() => {
+            const saveBtn = document.querySelector('.save-btn-mobile, [title*="Save"]') as HTMLElement;
+            saveBtn?.click();
+            }}
+            onOpenTokenizeModal={() => {
+            window.dispatchEvent(new CustomEvent('openTokenizeModal'));
+            }}
+            onOpenTwitterModal={() => {
+            window.dispatchEvent(new CustomEvent('openTwitterModal'));
+            }}
+            documentService={documentService}
+            onToggleAIChat={() => setShowAIChat(!showAIChat)}
+            isMarketSidebarCollapsed={marketSidebarCollapsed}
+        />}
+        <header className="App-header">
               
               {/* Logo and title in center */}
               <div className="title-section">
@@ -685,246 +475,92 @@ function App() {
                 </button>
               </div>
 
-            </header>
-
-            {/* Click overlay to close dropdowns */}
-            {(showUserDropdown || showMobileMenu || showBitcoinMenu || showWriterMenu) && (
-              <div 
-                className="overlay" 
-                onClick={() => {
-                  setShowUserDropdown(false);
-                  setShowMobileMenu(false);
-                  setShowBitcoinMenu(false);
-                  setShowWriterMenu(false);
-                }}
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  zIndex: showMobileMenu ? 999 : 100,
-                  background: showMobileMenu ? 'rgba(0, 0, 0, 0.8)' : 'transparent'
-                }}
-              />
-            )}
-
-            {/* Mobile Menu Overlay */}
-            {showMobileMenu && (
-              <div className="mobile-menu-overlay">
-                <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
-                  <div className="mobile-menu-header">
-                    <h3>Platform Features</h3>
-                    <button 
-                      className="close-mobile-menu"
-                      onClick={() => setShowMobileMenu(false)}
-                      aria-label="Close menu"
-                    >
-                      ×
-                    </button>
-                  </div>
-                  
-                  <div className="mobile-menu-content">
-                    {isAuthenticated && (
-                      <>
-                        <div className="mobile-menu-section">
-                          <h4>My Documents</h4>
-                          <button 
-                            className="mobile-menu-item"
-                            onClick={() => {
-                              setCurrentDocument(null);
-                              setShowExchange(false);
-                              setShowMobileMenu(false);
-                            }}
-                          >
-                            📄 New Document
-                          </button>
-                          <DocumentSidebar
-                            documentService={documentService}
-                            isAuthenticated={isAuthenticated}
-                            onDocumentSelect={(doc) => {
-                              setCurrentDocument(doc);
-                              setShowMobileMenu(false);
-                            }}
-                            onNewDocument={() => {
-                              setCurrentDocument(null);
-                              setShowExchange(false);
-                              setShowMobileMenu(false);
-                              // Trigger immediate sidebar refresh
-                              setSidebarRefresh(prev => prev + 1);
-                            }}
-                            onPublishDocument={(doc) => {
-                              // Add document to published list for the exchange
-                              setPublishedDocuments(prev => {
-                                // Check if already published
-                                if (prev.some(d => d.id === doc.id)) {
-                                  console.log('Document already published');
-                                  return prev;
-                                }
-                                console.log('Publishing document to exchange:', doc);
-                                return [...prev, doc];
-                              });
-                              setShowMobileMenu(false);
-                            }}
-                            currentDocumentId={currentDocument?.id}
-                            isMobile={true}
-                            refreshTrigger={sidebarRefresh}
-                          />
-                        </div>
-
-                        <div className="mobile-menu-section">
-                          <h4>Document Actions</h4>
-                          <button className="mobile-menu-item">
-                            💾 Save to Blockchain
-                          </button>
-                          <button className="mobile-menu-item">
-                            🌍 Publish Document
-                          </button>
-                        </div>
-
-                        <div className="mobile-menu-section">
-                          <h4>Security & Monetization</h4>
-                          <button className="mobile-menu-item">
-                            🔒 Encrypt Document
-                          </button>
-                          <button className="mobile-menu-item">
-                            💰 Set Price to Unlock
-                          </button>
-                          <button className="mobile-menu-item">
-                            🎨 Save as Bitcoin OS Asset
-                          </button>
-                          <button className="mobile-menu-item">
-                            📈 Issue File Shares
-                          </button>
-                        </div>
-
-                        <div className="mobile-menu-section">
-                          <h4>Blockchain Storage</h4>
-                          <button className="mobile-menu-item">
-                            ⚡ OP_RETURN (Fast)
-                          </button>
-                          <button className="mobile-menu-item">
-                            🔐 OP_PUSHDATA4 (Secure)
-                          </button>
-                          <button className="mobile-menu-item">
-                            🧩 Multisig P2SH
-                          </button>
-                        </div>
-                      </>
-                    )}
-
-                    <div className="mobile-menu-section">
-                      <h4>Help & Info</h4>
-                      <button className="mobile-menu-item">
-                        ❓ How It Works
-                      </button>
-                      <button className="mobile-menu-item">
-                        💡 Storage Options Guide
-                      </button>
-                      <button className="mobile-menu-item">
-                        📊 Pricing Calculator
-                      </button>
-                    </div>
-
-                    {!isAuthenticated && (
-                      <div className="mobile-menu-section">
-                        <button 
-                          className="mobile-menu-login"
-                          onClick={() => {
-                            handcashService.login();
-                            setShowMobileMenu(false);
-                          }}
-                        >
-                          🔑 Sign in with HandCash
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-            <div className={`app-container ${isInOS ? '' : (!isMobile && devSidebarCollapsed ? 'with-dev-sidebar-collapsed' : '')} ${isInOS ? '' : (!isMobile && !devSidebarCollapsed ? 'with-dev-sidebar' : '')} ${!isMobile && !marketSidebarCollapsed ? 'with-market-sidebar' : ''} ${!isMobile && marketSidebarCollapsed ? 'with-market-sidebar-collapsed' : ''}`}>
-              <DocumentSidebar
-                documentService={documentService}
-                isAuthenticated={isAuthenticated}
-                onDocumentSelect={(doc) => setCurrentDocument(doc)}
-                onNewDocument={() => {
-                  setCurrentDocument(null);
-                  setShowExchange(false);
-                  // Trigger immediate sidebar refresh
-                  setSidebarRefresh(prev => prev + 1);
-                }}
-                onPublishDocument={(doc) => {
-                  // Add document to published list for the exchange
-                  setPublishedDocuments(prev => {
-                    // Check if already published
-                    if (prev.some(d => d.id === doc.id)) {
-                      console.log('Document already published');
-                      return prev;
-                    }
-                    console.log('Publishing document to exchange:', doc);
-                    return [...prev, doc];
-                  });
-                }}
-                currentDocumentId={currentDocument?.id}
-                refreshTrigger={sidebarRefresh}
-              />
-              <main>
-                {showFeatures ? (
-                  <div className="features-view-wrapper">
-                    <button 
-                      className="features-close-btn"
-                      onClick={() => setShowFeatures(false)}
-                      title="Close Features"
-                    >
-                      ✕
-                    </button>
-                    <FeaturesPage />
-                  </div>
-                ) : showExchange ? (
-                  <DocumentExchangeView 
-                    onSelectDocument={(doc) => {
-                      console.log('Selected document from exchange:', doc);
-                      // Could open the document in an editor modal or side panel
-                    }}
-                    userDocuments={publishedDocuments} // Documents published from sidebar
-                    onClose={() => setShowExchange(false)} // Return to editor view
-                  />
-                ) : showBitcoinApps ? (
-                  <BitcoinAppsView 
-                    isOpen={showBitcoinApps}
-                    onClose={() => setShowBitcoinApps(false)}
-                  />
-                ) : activeAppOverview ? (
-                  <BitcoinAppOverviews
-                    activeApp={activeAppOverview}
-                    onClose={() => setActiveAppOverview(null)}
-                  />
-                ) : (
-                  <DocumentEditor 
+        </header>
+        <div className="app-container">
+            {!isMobile && !isInOS && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
+            {location.pathname === '/' && (
+                <DocumentSidebar
                     documentService={documentService}
                     isAuthenticated={isAuthenticated}
-                    currentDocument={currentDocument}
-                    onDocumentUpdate={setCurrentDocument}
-                    onDocumentSaved={() => {
-                      // Trigger sidebar refresh after document is saved
-                      setSidebarRefresh(prev => prev + 1);
+                    onDocumentSelect={(doc) => setCurrentDocument(doc)}
+                    onNewDocument={() => {
+                        setCurrentDocument(null);
+                        setShowExchange(false);
+                        setSidebarRefresh(prev => prev + 1);
                     }}
-                    showAIChat={showAIChat}
-                    onToggleAIChat={() => setShowAIChat(!showAIChat)}
-                  />
-                )}
-              </main>
-            </div>
-            <Footer />
-            {/* Bitcoin Dock - Only show when not running in Bitcoin OS */}
-            {/* {!isInOS && <BitcoinDock apps={defaultBitcoinApps} currentApp="Bitcoin Writer" />} */}
-            {/* Minimal Dock - Available on all pages */}
-            <MinimalDock />
-          </div>
-        )}
-      />
-      </Routes>
+                    onPublishDocument={(doc) => {
+                        setPublishedDocuments(prev => {
+                        if (prev.some(d => d.id === doc.id)) {
+                            return prev;
+                        }
+                        return [...prev, doc];
+                        });
+                    }}
+                    currentDocumentId={currentDocument?.id}
+                    refreshTrigger={sidebarRefresh}
+                />
+            )}
+            <main>
+                <Routes>
+                    <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
+                    <Route path="/bitcoin-writer/bap" element={<BapPage />} />
+                    <Route path="/features" element={<FeaturesPage />} />
+                    <Route path="/jobs-queue" element={<JobsQueuePage />} />
+                    <Route path="/bwriter-pro" element={<BWriterProPage />} />
+                    <Route path="/token" element={<TokenPage />} />
+                    <Route path="/tasks" element={<TasksPage />} />
+                    <Route path="/contracts" element={<ContractsPage />} />
+                    <Route path="/import" element={<ImportPage />} />
+                    <Route path="/encrypt" element={<EncryptPage />} />
+                    <Route path="/terms" element={<TermsPage />} />
+                    <Route path="/privacy" element={<PrivacyPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/exchange" element={<ExchangeStandalonePage />} />
+                    
+                    {/* Developer Routes - Symmetrical */}
+                    <Route path="/developer/offer" element={<OfferPage />} />
+                    <Route path="/developer/offers" element={<DeveloperContractsPage />} />
+                    
+                    {/* Author Routes - Symmetrical */}
+                    <Route path="/author/offer" element={<OfferPage />} />
+                    <Route path="/author/offers" element={<AuthorOffersPage />} />
+                    
+                    {/* Publisher Routes - Symmetrical */}
+                    <Route path="/publisher/offer" element={<PublisherOfferPage />} />
+                    <Route path="/publisher/offers" element={<OffersPage />} />
+                    
+                    {/* Grants Routes */}
+                    <Route path="/developers/grants" element={<DevelopersGrantsPage />} />
+                    <Route path="/authors/grants" element={<AuthorsGrantsPage />} />
+                    <Route path="/publishers/grants" element={<PublishersGrantsPage />} />
+                    
+                    {/* Other Routes */}
+                    <Route path="/contributions" element={<BWriterContributionsPage />} />
+                    <Route path="/docs" element={<DocsPage />} />
+                    <Route path="/enterprise" element={<CommissionsPage />} />
+                    <Route path="/grants" element={<GrantsPage />} />
+                    <Route path="/maip" element={<MAIPPage />} />
+                    <Route path="/api" element={<ApiPage />} />
+                    <Route path="/changelog" element={<ChangelogPage />} />
+                    <Route path="/status" element={<StatusPage />} />
+                    <Route path="/platform" element={<PlatformPage />} />
+                    <Route path="/signup" element={<SignupPage />} />
+
+                    <Route path="/market" element={<MarketPage />} />
+
+                    <Route path="/*" element={<EditorPage />} />
+                </Routes>
+            </main>
+            {!isMobile && (
+                <TickerSidebar 
+                    userHandle={currentUser?.handle}
+                    currentJobToken={undefined}
+                    onCollapsedChange={setMarketSidebarCollapsed}
+                />
+            )}
+        </div>
+        <Footer />
+        <MinimalDock />
     </GoogleAuthProvider>
 
     {/* Payment Modals */}

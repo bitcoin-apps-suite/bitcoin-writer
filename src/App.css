@@ -211,53 +211,22 @@
 
 .app-container {
   display: flex;
+  flex-direction: row;
   flex: 1;
-  overflow: hidden; /* Contain children properly */
-  width: 100%;
-  transition: margin-left 0.3s ease;
-  position: relative;
+  overflow: hidden;
 }
 
-/* Main content should flex to fill available space */
 .app-container main {
   flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-/* Adjust layout when DevSidebar is present - DESKTOP ONLY */
-@media (min-width: 769px) {
-  .app-container.with-dev-sidebar {
-    margin-left: 260px;
-  }
-
-  .app-container.with-dev-sidebar-collapsed {
-    margin-left: 60px;
-  }
-
-  /* Market sidebar adjustments - push content left to accommodate right sidebar */
-  .app-container.with-market-sidebar {
-    margin-right: 280px; /* Account for expanded market sidebar */
-  }
-
-  .app-container.with-market-sidebar-collapsed {
-    margin-right: 60px; /* Account for collapsed market sidebar */
-  }
+  transition: width 0.3s ease;
 }
 
 /* Mobile layout adjustments */
 @media (max-width: 768px) {
-  /* Ensure no sidebar margins on mobile */
-  .app-container.with-dev-sidebar,
-  .app-container.with-dev-sidebar-collapsed {
-    margin-left: 0 !important;
-  }
   
-  .app-container.with-market-sidebar,
-  .app-container.with-market-sidebar-collapsed {
-    margin-right: 0 !important;
-  }
   /* Mobile taskbar adjustments */
   .taskbar {
     height: 32px;
