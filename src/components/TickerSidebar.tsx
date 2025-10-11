@@ -294,22 +294,25 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   return (
     <div className={`ticker-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="ticker-header">
-        <div className="ticker-header-title">
-          <span>📈</span>
-          <span>$bWriter Market</span>
-        </div>
+        {!isCollapsed && (
+          <div className="ticker-header-title">
+            <span>$bWriter Market</span>
+          </div>
+        )}
         <button 
           className="ticker-header-toggle"
           onClick={() => setIsCollapsed(!isCollapsed)}
           title={isCollapsed ? "Expand Market Sidebar" : "Collapse Market Sidebar"}
         >
-          {isCollapsed ? '▶' : '◀'}
+          {isCollapsed ? '◀' : '▶'}
         </button>
       </div>
 
-      {isLoading ? (
-        <div className="ticker-loading">Loading prices...</div>
-      ) : (
+      {!isCollapsed && (
+        <>
+          {isLoading ? (
+            <div className="ticker-loading">Loading prices...</div>
+          ) : (
             <div className="ticker-list">
               {prices.map((token, index) => {
                 // Add divider after last special token
@@ -372,12 +375,14 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
             })}
             </div>
           )}
-
-      <div className="ticker-footer">
-        <div className="ticker-disclaimer">
-          Prices update every 30s
-        </div>
-      </div>
+          
+          <div className="ticker-footer">
+            <div className="ticker-disclaimer">
+              Prices update every 30s
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

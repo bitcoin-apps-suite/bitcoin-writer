@@ -114,8 +114,8 @@
 .quill-editor .ql-editor {
   padding: 38px 75px;
   width: calc(100% - 40px); /* Responsive width with margin */
-  max-width: 1190px; /* Maximum A4 width */
-  margin: 18px 20px 0 20px; /* Equal margins on both sides */
+  max-width: 900px; /* Reduced from 1190px to bring right edge left */
+  margin: 18px 20px 0 20px; /* Keep original margins for ruler alignment */
 }
 
 
