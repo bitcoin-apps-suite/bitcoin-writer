@@ -220,27 +220,27 @@
   flex-direction: row;
   flex: 1;
   overflow: hidden;
-  margin-left: 260px; /* Account for fixed dev sidebar (expanded) */
-  margin-right: 280px; /* Account for fixed market sidebar (expanded) */
+  margin-left: 0;
+  margin-right: 0;
   transition: margin-left 0.3s ease, margin-right 0.3s ease;
 }
 
 /* Adjust for collapsed dev sidebar */
 body.dev-sidebar-collapsed .app-container {
-  margin-left: 60px; /* Account for collapsed dev sidebar */
+  margin-left: 0;
 }
 
 body.dev-sidebar-collapsed .App-header {
-  margin-left: 60px; /* Account for collapsed dev sidebar */
+  margin-left: 0;
 }
 
 /* Adjust for collapsed market sidebar */
 body.market-sidebar-collapsed .app-container {
-  margin-right: 60px; /* Account for collapsed market sidebar */
+  margin-right: 0;
 }
 
 body.market-sidebar-collapsed .App-header {
-  margin-right: 60px; /* Account for collapsed market sidebar */
+  margin-right: 0;
 }
 
 .app-container main {
@@ -380,7 +380,7 @@ main {
 .App-header {
   background: #1a1a1a;
   color: #ffffff;
-  padding: 16px 24px;
+  padding: 16px 24px 16px 44px;
   border-bottom: 1px solid #333;
   position: relative;
   display: flex;
@@ -388,8 +388,8 @@ main {
   align-items: center;
   min-height: 96px;
   margin-top: 72px; /* Account for CleanTaskbar (32px) + POC banner (40px) */
-  margin-left: 260px; /* Account for fixed dev sidebar */
-  margin-right: 280px; /* Account for fixed market sidebar */
+  margin-left: 0;
+  margin-right: 0;
   transition: margin-left 0.3s ease, margin-right 0.3s ease;
 }
 

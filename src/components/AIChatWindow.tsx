@@ -404,12 +404,12 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
         </>
       )}
       
-        <AISettingsModal
-          isOpen={showSettings}
-          onClose={() => setShowSettings(false)}
-          aiService={aiService}
-        />
-      </div>
+      <AISettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        aiService={aiService}
+      />
+    </div>
   );
 };
 

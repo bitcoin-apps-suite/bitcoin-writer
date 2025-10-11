@@ -11,7 +11,7 @@
   flex-direction: column;
   transition: width 0.3s ease;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  z-index: 15000;
   overflow-y: auto;
 }
 

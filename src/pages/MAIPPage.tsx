@@ -69,10 +69,6 @@ const MAIPPage: React.FC = () => {
                 <h3>📊 Contribution Tracking</h3>
                 <p>Immutable record of who wrote what, when, and how much value they added</p>
               </div>
-              <div className="maip-feature">
-                <h3>🌐 Public by Default</h3>
-                <p>All writing happens in public view, creating unprecedented transparency</p>
-              </div>
             </div>
           </section>
 

@@ -391,7 +391,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         top: isMobile ? (window.innerWidth <= 480 ? '68px' : '72px') : '40px', // Responsive positioning
         left: 0,
         right: 0,
-        zIndex: 10000
+        zIndex: 99999
       }}
     >
       {/* Bitcoin Logo */}
@@ -432,7 +432,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             borderRadius: '8px',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8)',
             padding: '8px 0',
-            zIndex: 1000
+            zIndex: 100000
           }}>
             <button
               onClick={() => {
@@ -803,7 +803,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             bottom: 0,
             background: '#1a1a1a',
             overflowY: 'auto',
-            zIndex: 9999
+            zIndex: 100000
           }}>
             <div style={{ padding: '16px' }}>
               {/* Quick Actions */}
@@ -949,7 +949,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 borderRadius: '8px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8)',
                 padding: '4px 0',
-                zIndex: 9999,
+                zIndex: 100000,
                 overflow: 'hidden'
               }}>
                 {menu.items.map((item, index) => (

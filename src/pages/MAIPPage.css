@@ -23,7 +23,7 @@
 .maip-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 40px 80px;
+  padding: 0 20px 80px;
 }
 
 /* Hero Section */
@@ -215,7 +215,7 @@
 /* Technical Architecture */
 .maip-technical {
   margin-bottom: 80px;
-  padding: 60px 40px;
+  padding: 60px 20px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
 }
@@ -295,7 +295,7 @@
 /* CTA Section */
 .maip-cta {
   text-align: center;
-  padding: 80px 40px;
+  padding: 80px 20px;
   background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(247, 147, 26, 0.05) 100%);
   border-radius: 20px;
   margin-bottom: 60px;

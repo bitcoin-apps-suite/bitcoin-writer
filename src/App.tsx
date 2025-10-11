@@ -44,9 +44,11 @@ import MockupArticlePage from './pages/MockupArticlePage';
 import FutureOfDesktopPublishingArticle from './pages/FutureOfDesktopPublishingArticle';
 import DocumentEditor from './components/DocumentEditor';
 import DocumentSidebar from './components/DocumentSidebar';
+import AIChatWindow from './components/AIChatWindow';
 import HandCashCallback from './components/HandCashCallback';
 import BapPage from './pages/BapPage';
 import MAIPPage from './pages/MAIPPage';
+import TestPage from './pages/TestPage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
@@ -83,6 +85,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState<HandCashUser | null>(null);
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [showAIChat, setShowAIChat] = useState(false);
+  const [selectedAIProvider, setSelectedAIProvider] = useState(() => {
+    return localStorage.getItem('selectedAIProvider') || 'gemini';
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [authorArticleService] = useState(() => new AuthorArticleService());
   const [showLoadingDoor, setShowLoadingDoor] = useState(() => {
@@ -364,7 +369,23 @@ function App() {
     }, 100);
   };
 
-  
+  // AI Chat handlers
+  const handleAIProviderChange = (provider: string) => {
+    setSelectedAIProvider(provider);
+    localStorage.setItem('selectedAIProvider', provider);
+  };
+
+  const handleInsertFromAI = (text: string) => {
+    // This is a placeholder - in a real implementation, we'd need a way to 
+    // communicate with the active editor or handle global text insertion
+    console.log('AI text to insert:', text);
+    // For now, we'll just copy to clipboard
+    navigator.clipboard.writeText(text).then(() => {
+      console.log('AI-generated text copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy to clipboard:', err);
+    });
+  };
 
   const location = useLocation();
 
@@ -433,8 +454,6 @@ function App() {
             onDocumentSaved={() => {
                 setSidebarRefresh(prev => prev + 1);
             }}
-            showAIChat={showAIChat}
-            onToggleAIChat={() => setShowAIChat(!showAIChat)}
         />
     );
   };
@@ -756,6 +775,7 @@ function App() {
                     <Route path="/enterprise" element={<CommissionsPage />} />
                     <Route path="/grants" element={<GrantsPage />} />
                     <Route path="/maip" element={<MAIPPage />} />
+                    <Route path="/test" element={<TestPage />} />
                     <Route path="/api" element={<ApiPage />} />
                     <Route path="/changelog" element={<ChangelogPage />} />
                     <Route path="/status" element={<StatusPage />} />
@@ -764,7 +784,7 @@ function App() {
 
                     <Route path="/market" element={<MarketPage />} />
                     <Route path="/market/body" element={<MarketBodyPage />} />
-                    <Route path="/market/article/:slug" element={<MockupArticlePage />} />
+                    <Route path="/market/article/:slug" element={<ArticlePage />} />
                     <Route path="/ideas" element={<IdeasPage />} />
                     <Route path="/authors" element={
                       <AuthorsPage 
@@ -814,6 +834,15 @@ function App() {
         />
       </>
     )}
+
+    {/* Global AI Chat Assistant */}
+    <AIChatWindow
+      isOpen={showAIChat}
+      onClose={() => setShowAIChat(false)}
+      onInsertToDocument={handleInsertFromAI}
+      selectedProvider={selectedAIProvider}
+      onProviderChange={handleAIProviderChange}
+    />
     </>
   );
 }

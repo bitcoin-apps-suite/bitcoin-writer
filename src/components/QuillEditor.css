@@ -48,6 +48,8 @@
 /* Quill Editor Customization */
 .quill-editor {
   flex: 1;
+  position: relative;
+  z-index: 10001;
   display: flex;
   flex-direction: column;
 }
