@@ -22,6 +22,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-router-dom": "^5.3.3",
+    "bitcoin-os-dock": "^1.0.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "docx": "^9.5.1",

@@ -30,6 +30,7 @@ interface TaskbarProps {
   onOpenTwitterModal?: () => void;
   documentService?: any;
   onToggleAIChat?: () => void;
+  isMarketSidebarCollapsed?: boolean;
 }
 
 const CleanTaskbar: React.FC<TaskbarProps> = ({ 
@@ -41,7 +42,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   onOpenTokenizeModal,
   onOpenTwitterModal,
   documentService,
-  onToggleAIChat
+  onToggleAIChat,
+  isMarketSidebarCollapsed
 }) => {
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -146,6 +148,9 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { divider: true },
         { label: 'Exchange', action: () => {
           navigate('/exchange');
+        }},
+        { label: 'Publishing Market', action: () => {
+          navigate('/market');
         }},
         { divider: true },
         { label: 'Publish to Chain', action: () => (document.querySelector('[title*="Publish"]') as HTMLElement)?.click() },
@@ -806,7 +811,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                 <h3 style={{ fontSize: '14px', color: '#ff9500', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Quick Actions
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
                   <button onClick={() => { onNewDocument?.(); setShowMobileMenu(false); }} 
                     style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '6px'}}>
@@ -827,6 +832,13 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
                       <path d="M12,16L16,12H13V8H11V12H8L12,16M16,20V18H8V20H16M16,2V4H8V2H16M20,6H4V18H20V6Z"/>
                     </svg>
                     Exchange
+                  </button>
+                  <button onClick={() => { navigate('/market'); setShowMobileMenu(false); }} 
+                    style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '6px'}}>
+                      <path d="M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6A2,2 0 0,1 10,4A2,2 0 0,1 12,2M21,9V7L15,1L13.5,2.5L16.75,5.75H14.5A2.5,2.5 0 0,0 12,8.25A2.5,2.5 0 0,0 14.5,10.75H16.75L13.5,14L15,15.5L21,9.5H21V9M10.5,10.75A2.5,2.5 0 0,0 13,8.25A2.5,2.5 0 0,0 10.5,5.75H8.25L11.5,2.5L10,1L4,7V9H4L10,15.5L11.5,14L8.25,10.75H10.5Z"/>
+                    </svg>
+                    Market
                   </button>
                   <button onClick={() => { onOpenTokenizeModal?.(); setShowMobileMenu(false); }} 
                     style={{ padding: '12px', background: 'rgba(255, 149, 0, 0.1)', border: '1px solid rgba(255, 149, 0, 0.3)', borderRadius: '6px', color: '#fff', fontSize: '12px' }}>
@@ -1055,11 +1067,13 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
       
       {/* Right side - Navigation Icons and Authentication Status */}
       <div style={{
-        marginLeft: isMobile ? '0' : 'auto',
+        position: 'absolute',
+        right: '16px',
+        top: '0',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         gap: '16px',
-        paddingRight: '16px',
         fontSize: '12px',
         color: 'rgba(255, 255, 255, 0.8)'
       }}>

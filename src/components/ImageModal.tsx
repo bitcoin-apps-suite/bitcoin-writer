@@ -1,18 +1,23 @@
 import React, { useState, useRef } from 'react';
 import './ImageModal.css';
+import UnsplashService, { UnsplashImage } from '../services/UnsplashService';
 
 interface ImageModalProps {
   isOpen: boolean;
   onClose: () => void;
   onInsertImage: (imageUrl: string) => void;
+  documentTitle?: string;
+  documentContent?: string;
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
   isOpen,
   onClose,
-  onInsertImage
+  onInsertImage,
+  documentTitle,
+  documentContent
 }) => {
-  const [activeTab, setActiveTab] = useState<'upload' | 'generate'>('upload');
+  const [activeTab, setActiveTab] = useState<'upload' | 'generate' | 'unsplash'>('upload');
   const [dragOver, setDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -24,6 +29,17 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [imageHistory, setImageHistory] = useState<Array<{url: string, prompt: string}>>([]);
+  
+  // Unsplash states
+  const [unsplashQuery, setUnsplashQuery] = useState('');
+  const [unsplashImages, setUnsplashImages] = useState<UnsplashImage[]>([]);
+  const [isSearchingUnsplash, setIsSearchingUnsplash] = useState(false);
+  const [selectedUnsplashImage, setSelectedUnsplashImage] = useState<UnsplashImage | null>(null);
+  const [unsplashPage, setUnsplashPage] = useState(1);
+  
+  // Auto-suggest states
+  const [isAutoSuggesting, setIsAutoSuggesting] = useState(false);
+  const [autoSuggestedImage, setAutoSuggestedImage] = useState<string | null>(null);
 
   // Handle file selection
   const handleFileSelect = (file: File) => {
@@ -131,12 +147,91 @@ const ImageModal: React.FC<ImageModalProps> = ({
     }
   };
 
+  // Search Unsplash images
+  const searchUnsplashImages = async (query: string = unsplashQuery, page: number = 1) => {
+    if (!query.trim()) {
+      setError('Please enter a search term');
+      return;
+    }
+
+    setIsSearchingUnsplash(true);
+    setError(null);
+
+    try {
+      const result = await UnsplashService.searchImages(query, page, 12);
+      if (page === 1) {
+        setUnsplashImages(result.results);
+      } else {
+        setUnsplashImages(prev => [...prev, ...result.results]);
+      }
+      setUnsplashPage(page);
+    } catch (err) {
+      setError('Failed to search images. Please try again.');
+    } finally {
+      setIsSearchingUnsplash(false);
+    }
+  };
+
+  // Load more Unsplash images
+  const loadMoreUnsplashImages = () => {
+    if (!isSearchingUnsplash) {
+      searchUnsplashImages(unsplashQuery, unsplashPage + 1);
+    }
+  };
+
+  // Insert Unsplash image
+  const handleInsertUnsplash = () => {
+    if (selectedUnsplashImage) {
+      const imageUrl = UnsplashService.formatImageUrl(selectedUnsplashImage.urls.regular, 800, 500);
+      onInsertImage(imageUrl);
+      resetModal();
+    }
+  };
+
+  // Quick search presets for Unsplash
+  const handleUnsplashQuickSearch = (query: string) => {
+    setUnsplashQuery(query);
+    searchUnsplashImages(query, 1);
+  };
+
+  // Auto-suggest image based on document content
+  const handleAutoSuggestImage = async () => {
+    setIsAutoSuggesting(true);
+    setError(null);
+
+    try {
+      const title = documentTitle || 'article';
+      const content = documentContent || '';
+      const imageUrl = await UnsplashService.autoSuggestImage(title, content);
+      
+      setAutoSuggestedImage(imageUrl);
+      setActiveTab('upload'); // Switch to upload tab to show the suggested image
+    } catch (err) {
+      setError('Failed to auto-suggest image. Please try manual search.');
+    } finally {
+      setIsAutoSuggesting(false);
+    }
+  };
+
+  // Insert auto-suggested image
+  const handleInsertAutoSuggested = () => {
+    if (autoSuggestedImage) {
+      onInsertImage(autoSuggestedImage);
+      resetModal();
+    }
+  };
+
   // Reset modal state
   const resetModal = () => {
     setSelectedFile(null);
     setPreviewUrl(null);
     setPrompt('');
     setGeneratedImage(null);
+    setUnsplashQuery('');
+    setUnsplashImages([]);
+    setSelectedUnsplashImage(null);
+    setUnsplashPage(1);
+    setAutoSuggestedImage(null);
     setError(null);
     onClose();
   };
@@ -153,7 +248,28 @@ const ImageModal: React.FC<ImageModalProps> = ({
       <div className="image-modal">
         <div className="image-modal-header">
           <h2>📸 Add Image</h2>
-          <button className="close-btn" onClick={resetModal}>✕</button>
+          <div className="header-actions">
+            {(documentTitle || documentContent) && (
+              <button 
+                className="auto-suggest-btn"
+                onClick={handleAutoSuggestImage}
+                disabled={isAutoSuggesting}
+                title="Automatically find a relevant image based on your content"
+              >
+                {isAutoSuggesting ? (
+                  <>
+                    <span className="spinner"></span>
+                    Finding...
+                  </>
+                ) : (
+                  <>
+                    ✨ Auto-suggest
+                  </>
+                )}
+              </button>
+            )}
+            <button className="close-btn" onClick={resetModal}>✕</button>
+          </div>
         </div>
 
         <div className="image-modal-tabs">
@@ -168,6 +284,12 @@ const ImageModal: React.FC<ImageModalProps> = ({
             onClick={() => setActiveTab('generate')}
           >
             🎨 Generate with AI
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'unsplash' ? 'active' : ''}`}
+            onClick={() => setActiveTab('unsplash')}
+          >
+            📸 Unsplash Photos
           </button>
         </div>
 
@@ -239,8 +361,32 @@ const ImageModal: React.FC<ImageModalProps> = ({
                   </button>
                 </div>
               )}
+
+              {autoSuggestedImage && !previewUrl && (
+                <div className="auto-suggested-section">
+                  <h3>✨ Suggested Image</h3>
+                  <p>We found this image based on your content:</p>
+                  <div className="auto-suggested-preview">
+                    <img src={autoSuggestedImage} alt="Auto-suggested" className="auto-suggested-image" />
+                    <div className="auto-suggested-actions">
+                      <button 
+                        className="insert-btn"
+                        onClick={handleInsertAutoSuggested}
+                      >
+                        📄 Use This Image
+                      </button>
+                      <button 
+                        className="cancel-btn"
+                        onClick={() => setAutoSuggestedImage(null)}
+                      >
+                        Find Different
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          ) : (
+          ) : activeTab === 'generate' ? (
             <div className="generate-tab">
               <div className="prompt-section">
                 <label htmlFor="image-prompt">Describe the image you want:</label>
@@ -348,6 +494,155 @@ const ImageModal: React.FC<ImageModalProps> = ({
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="unsplash-tab">
+              <div className="unsplash-search-section">
+                <div className="search-input-group">
+                  <input
+                    type="text"
+                    value={unsplashQuery}
+                    onChange={(e) => setUnsplashQuery(e.target.value)}
+                    placeholder="Search for free photos..."
+                    onKeyPress={(e) => e.key === 'Enter' && searchUnsplashImages()}
+                    disabled={isSearchingUnsplash}
+                  />
+                  <button 
+                    className="search-btn"
+                    onClick={() => searchUnsplashImages()}
+                    disabled={isSearchingUnsplash || !unsplashQuery.trim()}
+                  >
+                    {isSearchingUnsplash ? '🔄' : '🔍'}
+                  </button>
+                </div>
+                
+                <div className="quick-search-tags">
+                  <span className="tag-label">Popular:</span>
+                  <button 
+                    className="tag-btn"
+                    onClick={() => handleUnsplashQuickSearch('technology')}
+                  >
+                    Technology
+                  </button>
+                  <button 
+                    className="tag-btn"
+                    onClick={() => handleUnsplashQuickSearch('business')}
+                  >
+                    Business
+                  </button>
+                  <button 
+                    className="tag-btn"
+                    onClick={() => handleUnsplashQuickSearch('writing')}
+                  >
+                    Writing
+                  </button>
+                  <button 
+                    className="tag-btn"
+                    onClick={() => handleUnsplashQuickSearch('blockchain')}
+                  >
+                    Blockchain
+                  </button>
+                  <button 
+                    className="tag-btn"
+                    onClick={() => handleUnsplashQuickSearch('nature')}
+                  >
+                    Nature
+                  </button>
+                  <button 
+                    className="tag-btn"
+                    onClick={() => handleUnsplashQuickSearch('abstract')}
+                  >
+                    Abstract
+                  </button>
+                </div>
+              </div>
+
+              {unsplashImages.length > 0 && (
+                <div className="unsplash-results">
+                  <div className="unsplash-grid">
+                    {unsplashImages.map((image) => (
+                      <div 
+                        key={image.id} 
+                        className={`unsplash-image-item ${selectedUnsplashImage?.id === image.id ? 'selected' : ''}`}
+                        onClick={() => setSelectedUnsplashImage(image)}
+                      >
+                        <img 
+                          src={image.urls.small} 
+                          alt={image.alt_description || image.description || 'Unsplash photo'} 
+                        />
+                        <div className="image-overlay">
+                          <div className="image-info">
+                            <span className="photographer">📷 {image.user.name}</span>
+                            <span className="image-size">{image.width} × {image.height}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {unsplashImages.length >= 12 && (
+                    <div className="load-more-section">
+                      <button 
+                        className="load-more-btn"
+                        onClick={loadMoreUnsplashImages}
+                        disabled={isSearchingUnsplash}
+                      >
+                        {isSearchingUnsplash ? 'Loading...' : 'Load More Images'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {selectedUnsplashImage && (
+                <div className="unsplash-preview">
+                  <div className="selected-image-preview">
+                    <img 
+                      src={selectedUnsplashImage.urls.regular} 
+                      alt={selectedUnsplashImage.alt_description || 'Selected photo'} 
+                    />
+                    <div className="image-details">
+                      <p className="image-description">
+                        {selectedUnsplashImage.description || selectedUnsplashImage.alt_description || 'Beautiful photo'}
+                      </p>
+                      <p className="photographer-credit">
+                        Photo by <strong>{selectedUnsplashImage.user.name}</strong> on Unsplash
+                      </p>
+                    </div>
+                  </div>
+                  <div className="unsplash-actions">
+                    <button 
+                      className="insert-btn"
+                      onClick={handleInsertUnsplash}
+                    >
+                      📄 Insert Image
+                    </button>
+                    <button 
+                      className="cancel-btn"
+                      onClick={() => setSelectedUnsplashImage(null)}
+                    >
+                      Cancel Selection
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {!isSearchingUnsplash && unsplashImages.length === 0 && unsplashQuery && (
+                <div className="no-results">
+                  <div className="no-results-icon">🔍</div>
+                  <p>No images found for "{unsplashQuery}"</p>
+                  <p>Try a different search term or browse popular categories above.</p>
+                </div>
+              )}
+
+              {!unsplashQuery && unsplashImages.length === 0 && (
+                <div className="unsplash-placeholder">
+                  <div className="placeholder-icon">📸</div>
+                  <h3>Search Unsplash</h3>
+                  <p>Find beautiful, free photos from the world's largest photography community</p>
+                  <p className="attribution">All photos are provided by <strong>Unsplash</strong> photographers</p>
                 </div>
               )}
             </div>
