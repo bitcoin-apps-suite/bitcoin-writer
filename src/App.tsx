@@ -476,6 +476,161 @@ function App() {
               </div>
 
         </header>
+
+        {/* Click overlay to close dropdowns */}
+        {(showUserDropdown || showMobileMenu || showBitcoinMenu || showWriterMenu) && (
+          <div 
+            className="overlay" 
+            onClick={() => {
+              setShowUserDropdown(false);
+              setShowMobileMenu(false);
+              setShowBitcoinMenu(false);
+              setShowWriterMenu(false);
+            }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: showMobileMenu ? 999 : 100,
+              background: showMobileMenu ? 'rgba(0, 0, 0, 0.8)' : 'transparent'
+            }}
+          />
+        )}
+
+        {/* Mobile Menu Overlay */}
+        {showMobileMenu && (
+          <div className="mobile-menu-overlay">
+            <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-menu-header">
+                <h3>Platform Features</h3>
+                <button 
+                  className="close-mobile-menu"
+                  onClick={() => setShowMobileMenu(false)}
+                  aria-label="Close menu"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="mobile-menu-content">
+                {isAuthenticated && (
+                  <>
+                    <div className="mobile-menu-section">
+                      <h4>My Documents</h4>
+                      <button 
+                        className="mobile-menu-item"
+                        onClick={() => {
+                          setCurrentDocument(null);
+                          setShowExchange(false);
+                          setShowMobileMenu(false);
+                        }}
+                      >
+                        📄 New Document
+                      </button>
+                      <DocumentSidebar
+                        documentService={documentService}
+                        isAuthenticated={isAuthenticated}
+                        onDocumentSelect={(doc) => {
+                          setCurrentDocument(doc);
+                          setShowMobileMenu(false);
+                        }}
+                        onNewDocument={() => {
+                          setCurrentDocument(null);
+                          setShowExchange(false);
+                          setShowMobileMenu(false);
+                          setSidebarRefresh(prev => prev + 1);
+                        }}
+                        onPublishDocument={(doc) => {
+                          setPublishedDocuments(prev => {
+                            if (prev.some(d => d.id === doc.id)) {
+                              console.log('Document already published');
+                              return prev;
+                            }
+                            console.log('Publishing document to exchange:', doc);
+                            return [...prev, doc];
+                          });
+                          setShowMobileMenu(false);
+                        }}
+                        currentDocumentId={currentDocument?.id}
+                        isMobile={true}
+                        refreshTrigger={sidebarRefresh}
+                      />
+                    </div>
+
+                    <div className="mobile-menu-section">
+                      <h4>Document Actions</h4>
+                      <button className="mobile-menu-item">
+                        💾 Save to Blockchain
+                      </button>
+                      <button className="mobile-menu-item">
+                        🌍 Publish Document
+                      </button>
+                    </div>
+
+                    <div className="mobile-menu-section">
+                      <h4>Security & Monetization</h4>
+                      <button className="mobile-menu-item">
+                        🔒 Encrypt Document
+                      </button>
+                      <button className="mobile-menu-item">
+                        💰 Set Price to Unlock
+                      </button>
+                      <button className="mobile-menu-item">
+                        🎨 Save as Bitcoin OS Asset
+                      </button>
+                      <button className="mobile-menu-item">
+                        📈 Issue File Shares
+                      </button>
+                    </div>
+
+                    <div className="mobile-menu-section">
+                      <h4>Blockchain Storage</h4>
+                      <button className="mobile-menu-item">
+                        ⚡ OP_RETURN (Fast)
+                      </button>
+                      <button className="mobile-menu-item">
+                        🔐 OP_PUSHDATA4 (Secure)
+                      </button>
+                      <button className="mobile-menu-item">
+                        🧩 Multisig P2SH
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                <div className="mobile-menu-section">
+                  <h4>Help & Info</h4>
+                  <button className="mobile-menu-item">
+                    ❓ How It Works
+                  </button>
+                  <button className="mobile-menu-item">
+                    💡 Storage Options Guide
+                  </button>
+                  <button className="mobile-menu-item">
+                    📊 Pricing Calculator
+                  </button>
+                </div>
+
+                {!isAuthenticated && (
+                  <div className="mobile-menu-section">
+                    <button 
+                      className="mobile-menu-login"
+                      onClick={() => {
+                        handcashService.login();
+                        setShowMobileMenu(false);
+                      }}
+                    >
+                      🔑 Sign in with HandCash
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="app-container">
             {!isMobile && !isInOS && <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />}
             {location.pathname === '/' && (

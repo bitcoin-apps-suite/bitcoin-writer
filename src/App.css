@@ -39,6 +39,10 @@
   .App {
     padding-top: 100px; /* Taskbar (32px) + POC banner (68px) on very small screens */
   }
+  
+  .App-header {
+    margin-top: 100px; /* Account for smaller mobile taskbar + POC banner */
+  }
 }
 
 /* macOS-style taskbar */
@@ -273,6 +277,7 @@
     justify-content: center;
     flex-direction: column;
     gap: 16px;
+    margin-top: 104px; /* Account for mobile taskbar (32px) + mobile POC banner (72px) */
   }
   
   .App-header h1 {
@@ -355,6 +360,7 @@ main {
   justify-content: flex-end;
   align-items: center;
   min-height: 96px;
+  margin-top: 72px; /* Account for CleanTaskbar (32px) + POC banner (40px) */
 }
 
 .App-header h1 {
