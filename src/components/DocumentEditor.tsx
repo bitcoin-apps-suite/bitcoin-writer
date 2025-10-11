@@ -33,7 +33,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   onAuthRequired,
   currentDocument: propDocument,
   onDocumentUpdate,
-  onDocumentSaved 
+  onDocumentSaved
 }) => {
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
   const [localDocumentId, setLocalDocumentId] = useState<string | null>(null);
