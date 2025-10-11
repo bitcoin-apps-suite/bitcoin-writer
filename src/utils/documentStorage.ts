@@ -22,9 +22,13 @@ export class LocalDocumentStorage {
   private static readonly MAX_DOCUMENTS = 50; // Limit to prevent localStorage overflow
 
   /**
-   * Initialize default example documents if none exist
+   * Initialize default example documents if none exist - DISABLED to prevent auto-creation
    */
   static initializeDefaultDocuments(): void {
+    // Disabled automatic MAIP document creation
+    // Users should create their own documents
+    return;
+    
     const stored = localStorage.getItem(this.STORAGE_KEY);
     if (!stored || stored === '[]') {
       const maipDoc: LocalDocument = {
