@@ -14,7 +14,6 @@ import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
 import CryptoJS from 'crypto-js';
 import QuillEditor from './QuillEditor';
 import './QuillEditor.css';
-import DragDropZone from './DragDropZone';
 import AIChatWindow from './AIChatWindow';
 import { AIService } from '../services/AIService';
 
@@ -1263,11 +1262,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           />
         )}
         
-        <DragDropZone
-          onFileDrop={handleFileDrop}
-          isAuthenticated={isAuthenticated}
-          onAuthRequired={onAuthRequired || (() => {})}
-        />
       </div>
 
       <div className="status-bar">
