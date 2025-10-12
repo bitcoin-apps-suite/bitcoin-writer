@@ -907,18 +907,20 @@ function App() {
                   />
                 )}
               </main>
-              {!isMobile && (
-                <TickerSidebar 
-                  userHandle={currentUser?.handle}
-                  currentJobToken={undefined} // TODO: Pass current job token when available
-                />
-              )}
             </div>
             <Footer />
           </div>
         )}
       />
       </Routes>
+      
+      {/* TickerSidebar - Show on all pages for desktop */}
+      {!isMobile && !isInOS && (
+        <TickerSidebar 
+          userHandle={currentUser?.handle}
+          currentJobToken={undefined} // TODO: Pass current job token when available
+        />
+      )}
       
       {/* Minimal Status Bar - Show on all pages when not running in Bitcoin OS */}
       {!isInOS && <MinimalDock />}
