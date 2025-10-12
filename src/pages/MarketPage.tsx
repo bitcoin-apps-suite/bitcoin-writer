@@ -5,7 +5,6 @@ import { getAuthorSlugFromName } from '../utils/authorUtils';
 import WeatherWidget from '../components/WeatherWidget';
 import StockTickerCard from '../components/StockTickerCard';
 import AdCard from '../components/AdCard';
-import TickerSidebar from '../components/TickerSidebar';
 import './MarketBodyPage.css';
 
 interface FeaturedContent {
@@ -530,10 +529,10 @@ const MarketPage: React.FC = () => {
         </div>
       </header>
       
-      {/* Main content layout */}
-      <div className="market-body-layout" style={{ display: 'flex', gap: '20px' }}>
+      {/* Main content layout without sidebar constraints */}
+      <div className="market-body-layout">
         {/* Left side - Article content */}
-        <div className="market-body-content" style={{ flex: '1' }}>
+        <div className="market-body-content">
           {/* Featured Content Section */}
           <section className="featured-section">
             <div className="content-grid">
@@ -581,8 +580,8 @@ const MarketPage: React.FC = () => {
 
         </div>
 
-        {/* Center - Widget sidebar */}
-        <div className="market-body-sidebar" style={{ width: '300px', flexShrink: 0 }}>
+        {/* Right side - Widget sidebar */}
+        <div className="market-body-sidebar">
             <div className="widget-item">
               <WeatherWidget />
             </div>
@@ -754,14 +753,6 @@ const MarketPage: React.FC = () => {
                 sponsored={true}
               />
             </div>
-        </div>
-
-        {/* Right side - TickerSidebar from landing page */}
-        <div style={{ width: '300px', flexShrink: 0 }}>
-          <TickerSidebar 
-            userHandle={undefined} // TODO: Pass user handle when available
-            currentJobToken={undefined} // TODO: Pass current job token when available
-          />
         </div>
       </div>
     </div>
