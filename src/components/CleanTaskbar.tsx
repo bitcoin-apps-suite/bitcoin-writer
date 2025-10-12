@@ -6,6 +6,7 @@ import StorageCalculatorModal from './modals/StorageCalculatorModal';
 import KeyboardShortcutsModal from './modals/KeyboardShortcutsModal';
 import APIDocumentationModal from './modals/APIDocumentationModal';
 import { HandCashService } from '../services/HandCashService';
+import UnifiedAuth from './UnifiedAuth';
 
 interface MenuItem {
   label?: string;
@@ -30,6 +31,9 @@ interface TaskbarProps {
   onOpenTwitterModal?: () => void;
   documentService?: any;
   onToggleAIChat?: () => void;
+  googleUser?: any;
+  setGoogleUser?: (user: any) => void;
+  handcashService?: any;
 }
 
 const CleanTaskbar: React.FC<TaskbarProps> = ({ 
@@ -41,7 +45,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   onOpenTokenizeModal,
   onOpenTwitterModal,
   documentService,
-  onToggleAIChat
+  onToggleAIChat,
+  googleUser,
+  setGoogleUser,
+  handcashService
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
@@ -1236,39 +1243,18 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
 
         </div>
 
-        {/* Authentication Status - Clickable to open HandCash connection */}
-        <button
-          onClick={() => {
-            const handcashService = new HandCashService();
-            handcashService.login();
-          }}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: 'inherit',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            transition: 'background 0.2s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-          }}
-          title={isAuthenticated ? 'Manage HandCash connection' : 'Connect with HandCash'}
-        >
-          <span>{isAuthenticated && currentUser ? (currentUser.handle || 'Connected') : (
-            isMobile ? '' : 'Not Connected'
-          )}</span>
-          <span style={{ color: isAuthenticated ? '#00ff88' : '#ff4444', opacity: isAuthenticated ? 1 : 0.6 }}>
-            {!isAuthenticated && isMobile ? '✕' : '●'}
-          </span>
-        </button>
+        {/* Authentication - UnifiedAuth component */}
+        <div style={{ fontSize: '14px' }}>
+          <UnifiedAuth
+            googleUser={googleUser}
+            setGoogleUser={setGoogleUser}
+            isHandCashAuthenticated={isAuthenticated}
+            currentHandCashUser={currentUser}
+            handcashService={handcashService}
+            onHandCashLogin={() => handcashService?.login()}
+            onHandCashLogout={onLogout}
+          />
+        </div>
       </div>
     </div>
     
