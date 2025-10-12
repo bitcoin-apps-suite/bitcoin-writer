@@ -1176,6 +1176,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </svg>
               Post to Twitter
             </button>
+            
+            <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
+            
             <input
               type="file"
               ref={imageInputRef}
@@ -1186,9 +1191,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           </div>
           
           <div className="toolbar-center">
-            <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
-              {isDarkMode ? '☀️' : '🌙'}
-            </button>
           </div>
           
           <div className="toolbar-right">
