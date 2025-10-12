@@ -94,8 +94,6 @@ The future of writing is here. Own your words, own your future.
       publishDate: 'October 12, 2025',
       readTime: '15 min read',
       content: `
-# Bitcoin Writer: The Uberfication of Writing
-
 @b0ase
 
 Anna Iversen's "Uberfication—Entropy Dressed in the Language of the Gig Economy" reads like a lament for a world that's gone — a eulogy for craftsmanship. It's elegant prose, but it's full of misconceptions, errors, and in the end, it misses the point entirely. And since I actually drove Uber in London for seven years and racked up over eleven thousand trips, I think I know what I'm talking about.
