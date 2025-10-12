@@ -316,8 +316,8 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
           )}
         </div>
         <span>
-          {hasFullAuth ? 'Manage Connections' : 
-           hasGoogle || hasHandCash || hasTwitter ? 'Add More' : 'Sign In'}
+          {hasFullAuth ? 'Connections' : 
+           hasGoogle || hasHandCash || hasTwitter ? 'Connections' : 'Sign In'}
         </span>
       </button>
 
