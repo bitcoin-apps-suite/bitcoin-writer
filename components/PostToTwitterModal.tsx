@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { TwitterAuthService, TwitterUser } from '../services/TwitterAuthService';
+import { TwitterAuthService, TwitterUser } from '../lib/TwitterAuthService';
 
 interface PostToTwitterModalProps {
   isOpen: boolean;

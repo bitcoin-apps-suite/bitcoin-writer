@@ -39,28 +39,36 @@ export class HandCashAuthService {
       appId: process.env.REACT_APP_HANDCASH_APP_ID || '',
       appSecret: process.env.REACT_APP_HANDCASH_APP_SECRET,
       redirectUrl: process.env.REACT_APP_HANDCASH_REDIRECT_URL || 
-                   (process.env.NODE_ENV === 'production' ? window.location.origin + '/' : 'http://localhost:3000/'),
+                   (process.env.NODE_ENV === 'production' ? 
+                     (typeof window !== 'undefined' ? window.location.origin + '/' : 'https://bitcoin-writer.vercel.app/') : 
+                     'http://localhost:3000/'),
       environment: process.env.NODE_ENV === 'production' ? 'production' : 'development'
     };
 
     // Debug log to verify environment variables are loaded (only once)
-    if (!(window as any).handcashConfigLogged) {
-      console.log('=== HandCash Configuration ===');
-      console.log('App ID configured:', this.config.appId ? 'Yes' : 'No');
-      console.log('App ID length:', this.config.appId?.length || 0);
-      console.log('Redirect URL:', this.config.redirectUrl);
-      console.log('Environment:', this.config.environment);
-      console.log('==============================');
-      (window as any).handcashConfigLogged = true;
+    if (typeof window !== 'undefined') {
+      if (!(window as any).handcashConfigLogged) {
+        console.log('=== HandCash Configuration ===');
+        console.log('App ID configured:', this.config.appId ? 'Yes' : 'No');
+        console.log('App ID length:', this.config.appId?.length || 0);
+        console.log('Redirect URL:', this.config.redirectUrl);
+        console.log('Environment:', this.config.environment);
+        console.log('==============================');
+        (window as any).handcashConfigLogged = true;
+      }
     }
 
-    // Load existing session if available
-    this.loadSession();
+    // Load existing session if available (only on client side)
+    if (typeof window !== 'undefined') {
+      this.loadSession();
+    }
   }
 
   // Load session from localStorage
   private loadSession(): void {
     try {
+      if (typeof window === 'undefined') return;
+      
       const savedTokens = localStorage.getItem('handcash_tokens');
       const savedUser = localStorage.getItem('handcash_user');
       
@@ -109,6 +117,8 @@ export class HandCashAuthService {
 
   // Save session to localStorage
   public saveSession(): void {
+    if (typeof window === 'undefined') return;
+    
     if (this.tokens) {
       localStorage.setItem('handcash_tokens', JSON.stringify(this.tokens));
       localStorage.setItem('handcash_tokens_saved_at', Date.now().toString());
@@ -122,6 +132,9 @@ export class HandCashAuthService {
   private clearSession(): void {
     this.tokens = null;
     this.currentUser = null;
+    
+    if (typeof window === 'undefined') return;
+    
     localStorage.removeItem('handcash_tokens');
     localStorage.removeItem('handcash_tokens_saved_at');
     localStorage.removeItem('handcash_user');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HandCashService } from '../services/HandCashService';
+import { HandCashService } from '../lib/HandCashService';
 
 interface HandCashMagicAuthProps {
   onAuthComplete?: (user: any) => void;

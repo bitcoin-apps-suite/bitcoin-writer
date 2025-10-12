@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AISettingsModal.css';
-import { AIService } from '../services/AIService';
-import { HandCashService } from '../services/HandCashService';
+import { AIService } from '../lib/AIService';
+import { HandCashService } from '../lib/HandCashService';
 
 interface AISettingsModalProps {
   isOpen: boolean;

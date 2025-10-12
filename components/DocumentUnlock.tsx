@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { EncryptionService } from '../utils/encryptionUtils';
-import { NoteSVEncryption } from '../services/NoteSVEncryption';
-import BSVStorageService from '../services/BSVStorageService';
+import { NoteSVEncryption } from '../lib/NoteSVEncryption';
+import BSVStorageService from '../lib/BSVStorageService';
 import './DocumentUnlock.css';
 
 interface DocumentUnlockProps {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { DocumentInscriptionService } from '../services/DocumentInscriptionService';
+import { DocumentInscriptionService } from '../lib/DocumentInscriptionService';
 import { 
   DocumentInscription, 
   DocumentVersionChain, 

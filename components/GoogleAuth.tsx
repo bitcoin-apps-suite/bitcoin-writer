@@ -32,9 +32,11 @@ const GoogleAuthButton: React.FC<GoogleAuthProps> = ({
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || '';
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('googleUser');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('googleUser');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
     }
   }, []);
 
@@ -63,14 +65,19 @@ const GoogleAuthButton: React.FC<GoogleAuthProps> = ({
     try {
       const decoded = jwtDecode<GoogleUser>(credentialResponse.credential);
       setUser(decoded);
-      localStorage.setItem('googleUser', JSON.stringify(decoded));
-      localStorage.setItem('googleCredential', credentialResponse.credential);
+      
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('googleUser', JSON.stringify(decoded));
+        localStorage.setItem('googleCredential', credentialResponse.credential);
+      }
       
       if (onAuthSuccess) {
         onAuthSuccess(decoded);
       }
       // Refresh the page to update the UI
-      window.location.reload();
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
     } catch (error) {
       console.error('Failed to decode JWT:', error);
       if (onAuthFailure) {
@@ -82,8 +89,10 @@ const GoogleAuthButton: React.FC<GoogleAuthProps> = ({
   const handleLogout = () => {
     googleLogout();
     setUser(null);
-    localStorage.removeItem('googleUser');
-    localStorage.removeItem('googleCredential');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('googleUser');
+      localStorage.removeItem('googleCredential');
+    }
   };
 
   if (user) {
@@ -149,9 +158,11 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   }
 
   if (!clientId || clientId === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
-    console.error('⚠️ Google Client ID not configured properly!');
-    console.error('Current value:', clientId || 'empty');
-    console.error('Please ensure REACT_APP_GOOGLE_CLIENT_ID is set in Vercel environment variables');
+    console.warn('⚠️ Google Client ID not configured - Google auth will be disabled');
+    console.warn('Current value:', clientId || 'empty');
+    console.warn('To enable Google auth, set REACT_APP_GOOGLE_CLIENT_ID in environment variables');
+    
+    // Return children without Google auth when not configured
     return <>{children}</>;
   }
 

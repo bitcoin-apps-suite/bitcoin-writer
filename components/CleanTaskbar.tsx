@@ -5,7 +5,7 @@ import EncryptionSettingsModal from './modals/EncryptionSettingsModal';
 import StorageCalculatorModal from './modals/StorageCalculatorModal';
 import KeyboardShortcutsModal from './modals/KeyboardShortcutsModal';
 import APIDocumentationModal from './modals/APIDocumentationModal';
-import { HandCashService } from '../services/HandCashService';
+import { HandCashService } from '../lib/HandCashService';
 
 interface MenuItem {
   label?: string;

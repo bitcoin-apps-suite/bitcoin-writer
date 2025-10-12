@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './AIChatWindow.css';
-import { AIService } from '../services/AIService';
-import { HandCashService } from '../services/HandCashService';
+import { AIService } from '../lib/AIService';
+import { HandCashService } from '../lib/HandCashService';
 import AISettingsModal from './AISettingsModal';
 
 interface Message {

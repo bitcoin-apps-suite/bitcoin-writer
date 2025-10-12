@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HandCashService } from '../services/HandCashService';
+import { HandCashService } from '../lib/HandCashService';
 
 const HandCashCallback: React.FC = () => {
   const [error, setError] = useState<string | null>(null);

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import './ProofOfConceptBanner.css';
-import { HandCashService } from '../services/HandCashService';
+import { HandCashService } from '../lib/HandCashService';
 
 const ProofOfConceptBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   if (!isVisible) return null;
 
   const handleNavigation = (path: string) => {
-    navigate(path);
+    router.push(path);
   };
 
   return (

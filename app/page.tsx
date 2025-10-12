@@ -6,7 +6,12 @@
 // This software can only be used on BSV blockchains
 
 import React, { useState, useEffect } from 'react';
-import DocumentEditor from '../components/DocumentEditor';
+import dynamic from 'next/dynamic';
+
+const DocumentEditor = dynamic(() => import('../src/components/DocumentEditor'), { 
+  ssr: false,
+  loading: () => <div>Loading editor...</div>
+});
 import DocumentSidebar from '../components/DocumentSidebar';
 import { BlockchainDocumentService, BlockchainDocument } from '../lib/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from '../lib/HandCashService';
@@ -36,13 +41,7 @@ export default function Home() {
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [showAIChat, setShowAIChat] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [showLoadingDoor, setShowLoadingDoor] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hasShownDoor = sessionStorage.getItem('hasShownLoadingDoor');
-      return !hasShownDoor;
-    }
-    return false;
-  });
+  const [showLoadingDoor, setShowLoadingDoor] = useState(false);
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -73,6 +72,16 @@ export default function Home() {
       };
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  // Handle loading door logic on client side only
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hasShownDoor = sessionStorage.getItem('hasShownLoadingDoor');
+      if (!hasShownDoor) {
+        setShowLoadingDoor(true);
+      }
     }
   }, []);
 
