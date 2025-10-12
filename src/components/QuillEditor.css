@@ -375,6 +375,70 @@
   color: #fff;
 }
 
+/* Ensure all toolbar buttons and elements have white text in dark mode */
+.dark-mode .quill-editor .ql-toolbar button {
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker {
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-label {
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-label::before {
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-formats {
+  border-right-color: #555;
+}
+
+/* Font and style dropdown text */
+.dark-mode .quill-editor .ql-toolbar .ql-font .ql-picker-label,
+.dark-mode .quill-editor .ql-toolbar .ql-size .ql-picker-label,
+.dark-mode .quill-editor .ql-toolbar .ql-header .ql-picker-label,
+.dark-mode .quill-editor .ql-toolbar .ql-color .ql-picker-label,
+.dark-mode .quill-editor .ql-toolbar .ql-background .ql-picker-label,
+.dark-mode .quill-editor .ql-toolbar .ql-align .ql-picker-label {
+  color: #fff !important;
+}
+
+/* Dropdown options */
+.dark-mode .quill-editor .ql-toolbar .ql-picker-options .ql-picker-item {
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar .ql-picker-options .ql-picker-item:hover {
+  background: #444 !important;
+  color: #fff !important;
+}
+
+/* Button icons */
+.dark-mode .quill-editor .ql-toolbar button .ql-stroke {
+  stroke: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar button .ql-fill {
+  fill: #fff !important;
+}
+
+/* Active button states */
+.dark-mode .quill-editor .ql-toolbar button.ql-active {
+  background: #444 !important;
+  color: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar button.ql-active .ql-stroke {
+  stroke: #fff !important;
+}
+
+.dark-mode .quill-editor .ql-toolbar button.ql-active .ql-fill {
+  fill: #fff !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .quill-editor .ql-editor {

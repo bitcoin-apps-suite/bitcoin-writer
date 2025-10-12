@@ -30,6 +30,7 @@ const ArticlePage: React.FC = () => {
   const [article, setArticle] = useState<ArticleContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLightTheme, setIsLightTheme] = useState(false);
 
   useEffect(() => {
     if (!slug) {
@@ -130,99 +131,100 @@ The revolution has begun—the question is not whether blockchain will transform
       },
       '2': {
         id: '2',
-        title: 'Anna Iverson\'s "Uberfication"—A Response from 11,000 Trips',
-        description: 'A response to Anna Iverson\'s critique of the gig economy from someone who actually drove for seven years',
-        content: `# Anna Iverson's "Uberfication"—A Response from 11,000 Trips
+        title: 'Bitcoin Writer: The Uberfication of Writing',
+        description: 'A response to the critique of gig economy platforms and the future of decentralized work.',
+        content: `# Bitcoin Writer: The Uberfication of Writing
 
-Anna Iverson's *"Uberfication—Entropy Dressed in the Language of the Gig Economy"* reads like a lament for a world that's gone—a eulogy for craftsmanship. It's elegant, but it misses the point entirely: technology didn't kill dignity; bad incentives did.
+@b0ase
 
-It's easy for me to dismiss Anna Iverson's latest article as garbage. I drove Uber for seven years and racked up over eleven thousand trips. So let's be generous: she took a swing at me and *Bitcoin Writer* as "The Uberfication of Writing," presumably, since that is precisely how I described it in yesterday's vlog, which I sent her—kindly, I thought—to introduce her to what I think is a pretty damn good idea.
+Anna Iverson's "Uberfication—Entropy Dressed in the Language of the Gig Economy" reads like a lament for a world that's gone — a eulogy for craftsmanship. It's elegant prose, but it's full of misconceptions, errors, and in the end, it misses the point entirely. And since I actually drove Uber in London for seven years and racked up over eleven thousand trips, I think I know what I'm talking about.
 
-Having worked as an Uber driver, I know how convenient, how easy, how enjoyable it is to work that way. I value the chance to be valuable, to take people where they need to go, to be of service, and I valued not having to waste considerable amounts of time and money learning *The Knowledge*, which London black cab drivers still do, at a price tag of around £50k over two years. Nice if you can afford it, but frankly a massive racket run by TfL in an age where GPS is ubiquitous, accurate, and traceable.
+It's actually a little too easy for me to tear Anna Iverson's latest article limb from limb for being lazy and convenient — which is a shame, since I shared my vision of Uberfying writing with her in *Bitcoin Writer* two days ago, and her apparent response was to tear it down immediately, despite the fact that it employs the very technology she supports — Bitcoin — and could revolutionize the writing industry in a way I think is actually pretty cool, and for someone like me, welcome.
 
-## Who Is Anna Iverson?
+And so, while it's difficult to be nice to her, let's at least be generous: she took a swing at *Bitcoin Writer* as "The Uberfication of Writing." Now it's my turn to dismantle her ideas.
 
-So who the hell is Iverson, precisely? She's obviously a Tominaga fan of some description, making allusions to the problem of money, but she seems to have missed the point about tokenized equity and remuneration in the gig economy, which is precisely what *Bitcoin Writer* is seeking to address. And so, while it would be straightforward to dismantle her ideas, I'll try to be kind, since Bitcoin is in some ways a complex topic—but I do so with reluctance. Every writer chafes at the idea of having to pull their punches, and I'm no exception.
+Having worked as an Uber driver, I know how convenient, how easy, how enjoyable it is to work that way. I valued the chance to be valuable — to take people where they needed to go, to be of service — and I valued not having to waste considerable amounts of time and money learning "The Knowledge," which London black cab drivers still do, at a price tag of around £50k over two years. Nice if you can afford it, but frankly, a massive racket run by TfL in an age where GPS is ubiquitous, accurate, and, you know, traceable.
 
-First off, let's put the idea to bed that Uber drivers in London are having a bad time of it. The reality is that most are immigrants, driving very comfortable, modern cars in what is pretty much "the lap of luxury" for all intents and purposes. I'll get onto the specifics of why that is later, but suffice to say for now that left-wing journalism about Uber drivers is usually coming from a place of liberal guilt and, in some ways, does more harm than good.
+So who exactly is Iverson? She's obviously a Tominaga fan of some description, making allusions to the problem of money, but she seems to have missed the point about tokenized equity and remuneration in the gig economy — which is precisely what *bWriter* (Bitcoin Writer) is seeking to address. And while it's straightforward to dismantle her ideas, I'll try to be kind — since Bitcoin is, in some ways, a complex topic — but I do so with reluctance. Every writer chafes at the idea of pulling their punches, and I'm no exception.
 
-## The Employee Classification Problem
+## The Uber Driver Reality
 
-Case in point: the left rallied hard to make Uber drivers employees of Uber, which we didn't want to be, affected the timetabling and scheduling, and actually was kind of a pain. It was classic liberal concern trolling at its finest, and in my estimation, wasn't at all motivated by sympathy for Uber drivers, but by anger at capitalism generally ("how dare the CEO earn so much off of poor Uber drivers' backs?"). Yes! True, how dare Travis Kalanick make so much money off me, bastard! But at the same time, you have to understand, those guys and girls in the C-Suite—they've already won. The money's offshore, protected. If you attack the company itself, you're actually just sticking up for the entrenched, corrupt taxi cartel that already has Londoners by the throat—which is exactly what Iverson is doing in her latest piece.
+First off, let's put to bed the idea that Uber drivers in London are having a bad time of it. The reality is that most are immigrants, driving very comfortable, modern cars in what is, for all intents and purposes, the lap of luxury. I'll get into why that is later, but suffice it to say for now that left-wing journalism about Uber drivers usually comes from a place of liberal guilt — and in some ways, it does more harm than good.
 
-Why? She frames taxis in some nostalgic "old-timey" way—the "handsome cab" fantasy (for those who can afford such luxuries), clearly trying to balance her despair and cynicism after years working in the City of London with her liberal guilt and the political exhaustion that comes from taking so many quick, cheap, comfortable Uber rides—all summoned with a tap on her iPhone and driven by cheerful, relaxed Pakistanis who know gold when they've struck it.
+Case in point: the left rallied hard to make Uber drivers employees of Uber — which we didn't want to be. It affected timetabling, scheduling, and was, frankly, a pain. Classic liberal concern-trolling at its finest. In my estimation, it wasn't motivated by sympathy for Uber drivers, but by anger at capitalism itself ("How dare the CEO earn so much off poor Uber drivers' backs?"). Yes, true — how dare Travis Kalanick make so much money off me, the bastard! But you have to understand: those guys and girls in the C-suite have already won. The money's offshore, protected. If you attack the company itself, you're actually just sticking up for the entrenched, corrupt taxi cartel that already has Londoners by the throat — which is exactly what Iverson is doing in her latest piece.
 
-## The Integrity Myth
+Why? Because she frames taxis in some nostalgic "old-timey" way — the "handsome cab" fantasy (for those who can afford such luxuries) — clearly trying to balance her despair and cynicism after years in the City with her liberal guilt and the exhaustion that comes from taking so many quick, cheap, comfortable Uber rides. All summoned with a tap on her iPhone, driven by cheerful, relaxed Pakistanis who know gold when they've struck it.
 
-Sorry if that sounds harsh, but the outrage is manufactured. Newsflash: journalists LOVE taking Ubers. Everyone does! Fast, cheap, comfortable. What's not to love? But according to Anna the sage, Uber drivers are no longer judged by integrity or mastery—but that's simply not true. In fact, it's precisely the reverse. That's exactly what they're judged on, and rated for, and the best ones survive a long time because they're careful and good at their jobs. They're conscientious.
+Sorry if that sounds harsh, but the outrage is manufactured. Newsflash: journalists *love* taking Ubers. Everyone does. Fast, cheap, comfortable — what's not to love? But according to Anna the sage, Uber drivers are no longer judged by integrity or mastery — which is simply untrue. In fact, it's precisely the reverse. That's exactly what they're judged on and rated for, and the best ones survive a long time because they're careful, professional, and conscientious.
 
-"Autonomy becomes an illusion," she writes, but that simply isn't true. As an Uber driver, you've got all the autonomy. You can go anywhere. Work anytime. Clock off when you want. Refuse jobs all day long.
+## The Autonomy Question
 
-The reality is that you're more free as an Uber driver than just about anything else I can think of. If it wasn't that way, I simply would not have done it for so long. I genuinely value my freedom and autonomy, and Uber genuinely let me have it, which is why I genuinely despair when I read screeds like Iverson's.
+"Autonomy becomes an illusion," she writes. No, it doesn't. As an Uber driver, you've got all the autonomy you could want. You can go anywhere, work anytime, clock off when you please, and refuse jobs all day long if that's what you want.
 
-## The Journey Choice Fallacy
+The reality is you're freer as an Uber driver than in almost any other job I can think of. If it weren't that way, I wouldn't have done it for so long. I genuinely value my freedom and autonomy, and Uber genuinely gave me both — which is why I despair when I read screeds like Iverson's.
 
-She goes on: "The driver cannot choose his journeys." Well, I've dealt with this already. Yes, they can. Categorically. But it's not like drivers were ever in control of where their passengers wanted to go in any previous taxi paradigm either. I had a very straightforward philosophy when I was driving: I was either working and I'd take you where you wanted to go, or I was going home. And that was that.
+She goes on: "The driver cannot choose his journeys." Well, I've dealt with this already. Yes, they can. Categorically. But it's not like drivers were ever in control of where their passengers wanted to go under any previous taxi paradigm either. My philosophy when I was driving was simple: I was either working — and I'd take you where you wanted to go — or I was going home. That was that.
 
-The wonderful thing about Uber and modern satnav and radar, etc., was also that, yes, I could set my tools to take me to my destination (usually home) and pick up passengers on the way. Which just makes Iverson's commentary all the worse for its careless assumptions and lack of knowledge about the tools which Uber drivers use… every single day.
+The wonderful thing about Uber and modern satnav and radar was that I could set my tools to take me home and pick up passengers on the way. Which just makes Iverson's commentary all the worse for its careless assumptions and lack of knowledge about the tools Uber drivers use — every single day.
 
-## What She Misses About Equity
+## What Iverson Misses
 
 So does Iverson get anything right? Hard to say.
 
-She doesn't land the ultimate punch: that Uber drivers could receive equity in Uber Inc. for completing trips, and that equity could be tokenized on-chain. That's a major omission, and possibly her worst offence. Because she takes aim at (of all things) the velocity of money, hinting only at the issue of inflation, and never directly confronts the reality that Uber (and Travis et al.) had EVERY opportunity to reward their drivers with company equity on the blockchain, and never even once took the idea seriously. They never even hinted at it, which is just pure greed.
+She doesn't land the ultimate punch: that Uber drivers could receive equity in Uber Inc. for completing trips — and that equity could be tokenized on-chain. That's a major omission, and possibly her worst offence. Because she takes aim at (of all things) the *velocity of money*, hinting only at inflation, and never confronts the reality that Uber (and Travis et al.) had *every* opportunity to reward drivers with company equity on the blockchain — and never once took it seriously. They never even hinted at it, which is pure greed.
 
-Maybe she's a hard-liner for the number 21M, I don't know, and don't get me wrong—I'm all for "number go up." But I'm also a keen advocate of, you know, number not going down drastically when I'm about to buy my coffee in the morning. So while hard money is certainly nice some of the time, soft money sure has its place too. Generally speaking, I'm a fan of both kinds—and I rather cherish little features like price stability. (Call me old-fashioned.)
+Maybe she's a hardliner for the number 21M — I don't know. Don't get me wrong, I'm all for "number go up." But I'm also a keen advocate of, you know, number not go *down* drastically when I'm about to buy coffee in the morning. So while hard money is nice some of the time, soft money sure has its place too. Generally speaking, I'm a fan of both kinds — and I rather cherish little features like price stability. (Call me old-fashioned.)
 
-## Desktop Publishing and Dishwashers
+## The Desktop Publishing Analogy
 
-But Anna won't budge. Desktop publishing didn't free mothers to work from home; instead, it chained them to their desks, babies screaming at their ankles. Just like the oft-repeated Twitter idea that women want AI to do the dishes, not write their poetry. Never mind that dishwashers—a hundred-year-old invention—already freed women from that task and gave them the time to write poetry… until, presumably, they decided dishwashers were the "Uberfication of crockery" and took a stand against them too.
+But Anna won't budge. Desktop publishing didn't free mothers to work from home — it chained them to their desks, babies screaming at their ankles. Just like the oft-repeated Twitter line that women want AI to do the dishes, not write their poetry. Never mind that dishwashers — a hundred-year-old invention — already freed women from that task and gave them time to write poetry… until, presumably, they decided dishwashers were the "Uberfication of crockery" and took a stand against them too.
 
-Anyway, according to Iverson, being a cab driver was an art form—not, as cab drivers would tell you, a fucking nightmare. The same drunk, abusive, smelly locals wanting a ride home from the pub every damn night, paying in filthy, crumpled notes if they paid at all, and worst of all—wanting to get to know you.
+Anyway, according to Iverson, being a cab driver was an art form — not, as cab drivers would tell you, a bloody nightmare. The same drunk, abusive, smelly locals wanting a ride home from the pub every damn night, paying in filthy crumpled notes if they paid at all, and worst of all — wanting to *get to know you.*
 
 Yeah. No thanks, mate. You can keep your cigarette breath and Tennents Pilsner to yourself.
 
-## The Reality of Modern Platform Work
+## The Reality of Platform Work
 
-Yes, yes—Uber is "placeless, faceless, and generic," but in practice it's bliss. It means that as an Uber driver you're constantly meeting fascinating, tidy, polite (young) professionals from all over the world, and having fantastic, interesting conversations with them. And—joy of joys—moving on! You can make twenty best friends a day, play therapist, confidant, tour guide, and teacher (or student), and payment is instant, automatic, and perfectly logged and tracked.
+Yes, yes — Uber is "placeless, faceless, and generic." But in practice, it's bliss. It means that as an Uber driver you're constantly meeting fascinating, tidy, polite (young) professionals from all over the world, having fantastic, interesting conversations with them — and then, joy of joys, moving on! You can make twenty best friends a day, play therapist, confidant, tour guide, and teacher (or student), and payment is instant, automatic, perfectly logged, and tracked.
 
-A mutual rating system means—lo and behold—drivers can choose not to pick up shitty passengers because they can see their ratings in advance, and Uber can see it too, which further destroys Iverson's preconceptions. She's not just wrong; she's profoundly wrong.
+And the mutual rating system means — lo and behold — drivers can choose not to pick up unpleasant passengers because they can see their ratings in advance. Uber can see it too, which further destroys Iverson's preconceptions. She's not just wrong — she's profoundly wrong.
 
-The reality is that drivers (just like every worker) are judged by their craft, care, attentiveness, cleanliness, punctuality, speed, and skill. Not sometimes. All the time. And it makes for conscientious drivers, which again is a very good thing. You want drivers to be careful, conscientious, and good. And if (dear reader) you are so worried about Uber drivers' wages, it's worth remembering that tipping is the passengers' responsibility and prerogative. It's not against the law to tip, yet it's simply not done in the UK (unlike in the US).
+The reality is that drivers, like every worker, are judged by their craft, care, attentiveness, cleanliness, punctuality, speed, and skill — not *sometimes*, but *all the time.* And that makes for conscientious drivers — which is a very good thing. You want drivers to be careful, attentive, and good. And if you, dear reader, are so worried about Uber drivers' wages, it's worth remembering that tipping is the passenger's prerogative. It's not against the law to tip — it's just not done in the UK (unlike in the US).
 
 ## The Multi-Platform Reality
 
 Moving on to her criticism of the gig economy in general, her concerns are again misplaced and totally out of touch with reality. Why? Because workers in the gig economy don't "just" drive for one platform anymore. Most work across multiple apps. That's why Uber drivers also drive for Lyft and Bolt, and passengers have choices too.
 
-Sometimes platforms pay more—like when Bolt raised rates to lure drivers from Uber. That's the beauty of the free market: competition. Drivers are self-employed and free to be entrepreneurial. Most long-term Uber drivers collect cars and rent them out until they've built their own fleets. That's how it works. You get entrepreneurial. You have to.
+Sometimes platforms pay more — like when Bolt raised rates to lure drivers from Uber. That's the beauty of the free market: competition. Drivers are self-employed and free to be entrepreneurial. Most long-term Uber drivers collect cars and rent them out until they've built their own fleets. That's how it works. You get entrepreneurial. You have to.
 
 ## The Depth Fallacy
 
-Yet Iverson continues laboring under a slew of misapprehensions: "Uber teaches us to value immediacy over depth," as if we ever relied on taxi drivers for depth. The idea is comical. A chauffeur? Perhaps. A therapist? Yes. But a cab driver? Are you serious? Taxis are for speed and convenience, not depth.
+Yet Iverson continues labouring under a slew of misapprehensions: "Uber teaches us to value immediacy over depth," she says — as if we ever relied on taxi drivers for *depth.* The idea is comical. A chauffeur? Perhaps. A therapist? Maybe. But a cab driver? Please. Taxis are for speed and convenience, not depth.
 
-If you want reflection and refinement, as Iverson says she does, taxis aren't actually in that business. It's not the Orient Express. It's Uber. It's in the name. And Uber was born because Travis Kalanick couldn't get a taxi in Paris in the rain, in the middle of the night, because he didn't speak French, had no cab numbers, and couldn't hail one. It was borne of necessity, technology, and opportunity—which is nothing without execution and drive. It didn't just happen by accident, and he didn't just get lucky. It takes brains, skill, and hard work to build something like Uber… but anyway, I digress. I've laid out my criticisms of Kalanick already.
+If you want reflection and refinement, as Iverson claims she does, taxis aren't in that business. It's not the *Orient Express.* It's Uber. It's in the name. Uber was born because Travis Kalanick couldn't get a taxi in Paris in the rain, in the middle of the night — because he didn't speak French, had no cab numbers, and couldn't hail one. It was born of necessity, technology, and opportunity — which are nothing without execution and drive. It didn't just happen "by accident," and he didn't just "get lucky." It takes brains, skill, and hard work to build something like Uber. But anyway, I digress. I've laid out my criticisms of Kalanick already.
 
 ## The Substack Irony
 
-So Iverson's "origin story" is inaccurate at best, and a nebulous (and I think misguided) criticism of late-stage capitalism at worst. But what is oddly ironic to me is that it's delivered on Substack—the very platform which provoked me into creating *Bitcoin Writer*.
+So Iverson's "origin story" is inaccurate at best and a misguided criticism of late-stage capitalism at worst. What's oddly ironic to me is that it's delivered on *Substack* — the very platform that provoked me into creating *Bitcoin Writer.*
 
-*bWriter* is intended, in the fullness of time, to become "the Uber of Writing." If built correctly and methodically, it will let writers publish their work directly on-chain as encrypted documents, let them issue shares in their works' royalties, and even let them trade them. It will allow them to charge micropayments in paywalls, accept cash instantly, offer contracts to publishers, accept commissions, and provide a steady work queue so they can actually write the things that publishers will pay for and readers will pay to read on the regular—just like an Uber driver.
+*bWriter* is intended, in time, to become the "Uber of Writing." If built correctly and methodically, it will let writers publish their work directly on-chain as encrypted documents, issue shares in their work's royalties, and even trade them. It will allow them to charge micropayments, accept cash instantly, offer contracts to publishers, accept commissions, and provide a steady work queue — so they can actually write the things publishers will pay for and readers will pay to read. Just like an Uber driver.
 
-## The Blockchain Reality
+## The Blockchain Insight
 
-And that's the beauty of blockchain. Micropayments alone will not save the world. This is like imagining YouTube will save us from state-run propaganda, or TikTok will save us from boredom. The reality, as we've seen, is profoundly messy. Solana and Ethereum have shown the way: tokenized equity, startups on-chain, financial chaos, hacks, collapses, and yes, financial crime galore—it's the Wild West.
+And that's the beauty of blockchain. Micropayments alone won't save the world. That's like imagining YouTube will save us from state propaganda, or TikTok will save us from boredom. The reality, as we've seen, is profoundly messy. Solana and Ethereum have shown the way: tokenized equity, startups on-chain, financial chaos, hacks, collapses, and yes, financial crime galore — it's the Wild West.
 
-The market has gone wild with naïve implementations (and often not-so-naïve ones) that destroy user privacy. But even good implementations for wallets and on-chain privacy won't stop the same kind of chaos we find on TikTok, on Solana.
+The market has gone wild with naïve implementations (and often not-so-naïve ones) that destroy user privacy. But even good implementations for wallets and on-chain privacy won't stop the same kind of chaos we find on TikTok or Solana.
 
-## The Real Solution
+The real insight — the one Iverson misses — is that the Uberfication of everything, from driving to writing, isn't just capitalism eating itself; it's shareholder capitalism distributing equity to those who do the work. If done right, blockchain doesn't destroy labour — it formalizes it. It turns effort into tradable value. It creates new forms of ownership, accountability, and yes, risk — but also freedom.
 
-The real insight—the one Iverson misses—is that the Uberfication of everything, from driving to writing, isn't just capitalism eating itself; it's shareholder capitalism distributing equity to those who do the work. If done right, blockchain doesn't destroy labour; it formalizes it. It turns effort into tradable value. It creates new forms of ownership, accountability, and yes, risk—but also freedom.
+## The Bitcoin Writer Vision
 
-So *Bitcoin Writer* isn't just about paying writers. It's about turning writers' contributions into a real stake in a real economy. It's about hashing every word into an "asset tree," a work tree, and turning every participant into a valuable shareholder in their own creative economy.
+So *Bitcoin Writer* isn't just about paying writers. It's about turning writers' contributions into a real stake in a real economy. It's about hashing every word into an "asset tree" — a work tree — and turning every participant into a shareholder in their own creative economy.
 
-Iverson dresses up nostalgia as philosophy. She's not entirely wrong to criticize the massive centralization of power in a few hands, but she misses the crucial point. Yes, *Bitcoin Writer* is the "Uberisation of Writing," but it's also the democratization of stakeholder capitalism. It will enfranchise writers, not destroy them. It will make work more pleasurable, less worrisome. Iverson makes the mistake of thinking coherence comes from slowing things down, rather than aligning incentives properly, and the blockchain doesn't dissolve meaning; it measures it. Equity on-chain, transparent ownership, and automated rewards are coherence—not entropy.
+Iverson dresses up nostalgia as philosophy. She's not entirely wrong to criticise the massive centralisation of power in a few hands — but she misses the crucial point. Yes, *Bitcoin Writer* is the "Uberisation of Writing," but it's also the democratisation of stakeholder capitalism. It will enfranchise writers, not destroy them. It will make work more pleasurable, less worrisome. Iverson makes the mistake of thinking coherence comes from slowing things down, rather than aligning incentives properly. The blockchain doesn't dissolve meaning; it measures it. Equity on-chain, transparent ownership, and automated rewards are coherence — not entropy.
 
-And that's the part most people still can't see: blockchain isn't about money. It's about work.
+And that's the part most people still can't see: that blockchain isn't about money.
+It's about work.
 
 *Published on Bitcoin Writer - Own your words, own your future.*`,
         author: 'b0ase',
@@ -231,7 +233,7 @@ And that's the part most people still can't see: blockchain isn't about money. I
         category: 'Economics',
         readTime: 15,
         engagement: 3420,
-        thumbnail: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop&crop=center',
+        thumbnail: '/uber-driving.jpg',
         price: 0.012,
         isTokenized: true,
         trending: true,
@@ -380,15 +382,25 @@ The question isn't whether to embrace or reject the digital economy, but how to 
   }
 
   return (
-    <div className="article-page">
+    <div className={`article-page ${isLightTheme ? 'light-theme' : ''}`}>
       <div className="article-header">
         <button onClick={handleBackToMarket} className="back-btn">
           ← Back to Market
         </button>
         
-        <div className="article-badges">
-          {article.trending && <span className="badge trending">🔥 Trending</span>}
-          {article.isTokenized && <span className="badge tokenized">₿ NFT Article</span>}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="article-badges">
+            {article.trending && <span className="badge trending">🔥 Trending</span>}
+            {article.isTokenized && <span className="badge tokenized">₿ NFT Article</span>}
+          </div>
+          
+          <button 
+            onClick={() => setIsLightTheme(!isLightTheme)} 
+            className="theme-toggle"
+            title="Toggle light/dark theme"
+          >
+            {isLightTheme ? '🌙 Dark' : '☀️ Light'}
+          </button>
         </div>
       </div>
 
