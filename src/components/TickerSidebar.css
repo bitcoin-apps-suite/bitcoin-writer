@@ -1,6 +1,6 @@
 /* Ticker Sidebar Styles */
 .ticker-sidebar {
-  width: 320px; /* Reduced from 400px */
+  width: 280px; /* Reduced from 320px */
   background: #0d0d0d;
   border-left: 1px solid #222;
   display: flex;
