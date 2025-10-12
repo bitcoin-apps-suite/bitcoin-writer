@@ -13,7 +13,7 @@ const ArticlePage: React.FC<ArticlePageProps> = () => {
     title: 'Revolutionizing Writing with Bitcoin Writer',
     author: 'b0ase',
     authorHandle: '@b0ase',
-    publishDate: 'December 2024',
+    publishDate: 'October 12, 2025',
     readTime: '12 min read',
     content: `
 # Revolutionizing Writing with Bitcoin Writer
@@ -91,7 +91,7 @@ The future of writing is here. Own your words, own your future.
       title: 'Bitcoin Writer: The Uberfication of Writing',
       author: 'b0ase',
       authorHandle: '@b0ase',
-      publishDate: 'December 2024',
+      publishDate: 'October 12, 2025',
       readTime: '15 min read',
       content: `
 # Bitcoin Writer: The Uberfication of Writing
@@ -196,7 +196,7 @@ It's about work.
       title: 'Bridging the Gap: Technology, Work, and Human Dignity',
       author: 'b0ase',
       authorHandle: '@b0ase',
-      publishDate: 'December 2024',
+      publishDate: 'October 12, 2025',
       readTime: '10 min read',
       content: `
 # Bridging the Gap: Technology, Work, and Human Dignity
@@ -211,7 +211,7 @@ A thoughtful examination of Anna Iversen's concerns about modern work platforms 
       title: 'Ideological Oversimplification: Dissecting Iversen\'s Shallow Critique of Debt and Money',
       author: 'b0ase',
       authorHandle: '@b0ase',
-      publishDate: 'December 2024',
+      publishDate: 'October 12, 2025',
       readTime: '18 min read',
       content: `
 # Ideological Oversimplification: Dissecting Iversen's Shallow Critique of Debt and Money
