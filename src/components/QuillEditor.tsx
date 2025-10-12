@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import EditorRulers from './EditorRulers';
+import AnimatedPlaceholder from './AnimatedPlaceholder';
 import mammoth from 'mammoth';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
-import AnimatedPlaceholder from './AnimatedPlaceholder';
 import ImportSourcesModal from './ImportSourcesModal';
-import EditorRulers from './EditorRulers';
 
 interface QuillEditorProps {
   content: string;
@@ -24,9 +24,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   onTwitterShare
 }) => {
   const quillRef = useRef<ReactQuill>(null);
-  const [isReady, setIsReady] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
   const [showRulers, setShowRulers] = useState(true);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [isEmpty, setIsEmpty] = useState(() => {
     // Check if initial content is empty
     const tempDiv = document.createElement('div');
@@ -35,8 +34,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
     return text.trim().length === 0;
   });
 
-  // Quill modules configuration - comprehensive Word-like toolbar
-  const modules = useMemo(() => ({
+  // Quill modules configuration
+  const modules = {
     toolbar: {
       container: [
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -57,10 +56,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         ['link', 'image', 'video', 'formula'],
         
         ['clean']
-      ],
-      handlers: {
-        // Custom handlers can be added here
-      }
+      ]
     },
     clipboard: {
       matchVisual: false,
@@ -70,9 +66,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       maxStack: 500,
       userOnly: true
     }
-  }), []);
+  };
 
-  // Quill formats
   const formats = [
     'header', 'font', 'size',
     'bold', 'italic', 'underline', 'strike',
@@ -84,21 +79,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
     'link', 'image', 'video', 'formula'
   ];
 
-  useEffect(() => {
-    if (quillRef.current) {
-      setIsReady(true);
-    }
-  }, []);
-
-  // Update isEmpty when content changes from outside
-  useEffect(() => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    const text = tempDiv.textContent || tempDiv.innerText || '';
-    setIsEmpty(text.trim().length === 0);
-  }, [content]);
-
-  const handleChange = (value: string, delta: any, source: string, editor: any) => {
+  const handleContentChange = (value: string, delta: any, source: string, editor: any) => {
     onChange(value);
     const text = editor.getText();
     setIsEmpty(text.trim().length === 0);
@@ -211,7 +192,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   };
 
   return (
-    <div className="quill-editor-container">
+    <div className="test-editor-container">
       <div className="quill-toolbar-extra">
         <input
           type="file"
@@ -396,11 +377,11 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           ref={quillRef}
           theme="snow"
           value={content}
-          onChange={handleChange}
+          onChange={handleContentChange}
           modules={modules}
           formats={formats}
           placeholder="" // Disable default placeholder when using animated one
-          className={`quill-editor ${showRulers ? 'with-rulers' : ''}`}
+          className={`test-quill-editor ${showRulers ? 'with-rulers' : ''}`}
         />
         <EditorRulers showRulers={showRulers} />
         {isEmpty && <AnimatedPlaceholder />}

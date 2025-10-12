@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import ReactQuill from 'react-quill';
 import { BlockchainDocumentService, DocumentData, BlockchainDocument } from '../services/BlockchainDocumentService';
 import PricingDisplay from './PricingDisplay';
 import PublishSettingsModal, { PublishSettings } from './PublishSettingsModal';
@@ -35,6 +36,50 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   onDocumentUpdate,
   onDocumentSaved
 }) => {
+  // Quill modules configuration
+  const modules = {
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': [] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'direction': 'rtl' }],
+        
+        [{ 'align': [] }],
+        ['blockquote', 'code-block'],
+        
+        ['link', 'image', 'video', 'formula'],
+        
+        ['clean']
+      ]
+    },
+    clipboard: {
+      matchVisual: false,
+    },
+    history: {
+      delay: 1000,
+      maxStack: 500,
+      userOnly: true
+    }
+  };
+
+  const formats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'script',
+    'list', 'bullet', 'check',
+    'indent', 'direction', 'align',
+    'blockquote', 'code-block',
+    'link', 'image', 'video', 'formula'
+  ];
   const [currentDocument, setCurrentDocument] = useState<DocumentData | null>(null);
   const [localDocumentId, setLocalDocumentId] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -1202,63 +1247,57 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             title={currentDocument.title}
           />
         ) : (
-          <QuillEditor
-            content={quillContent || editorContent}
-            onChange={(content) => {
+          <ReactQuill
+            theme="snow"
+            value={quillContent || editorContent}
+            onChange={(content: string, delta: any, source: string, editor: any) => {
               setQuillContent(content);
               setEditorContent(content);
-              // Auto-save for Quill
-              if (localDocumentId) {
-                const text = content.replace(/<[^>]*>/g, '');
-                const firstLine = text.split('\n')[0]?.trim() || 'Untitled Document';
-                const title = firstLine.substring(0, 100);
-                LocalDocumentStorage.autoSave(localDocumentId, content, title);
-              }
-            }}
-            onTextChange={(text) => {
+              
+              const text = editor.getText();
               const words = text.trim() ? text.trim().split(/\s+/).length : 0;
               const chars = text.length;
               setWordCount(words);
               setCharCount(chars);
               
-              // Update price display based on character count for real-time updates
+              // Auto-save
+              if (localDocumentId) {
+                const firstLine = text.split('\n')[0]?.trim() || 'Untitled Document';
+                const title = firstLine.substring(0, 100);
+                LocalDocumentStorage.autoSave(localDocumentId, content, title);
+              }
+              
+              // Update price display
               if (chars > 0) {
-                // Use character count for more granular pricing
-                // Approximate 1 byte per character for real-time display
                 const bytes = chars;
-                const satsPerByte = 0.05; // From BSVStorageService
+                const satsPerByte = 0.05;
                 const minerFeeSats = bytes * satsPerByte;
-                const totalFeeSats = minerFeeSats * 2; // 2x markup
-                const bsvPriceUsd = 60; // From BSVStorageService
+                const totalFeeSats = minerFeeSats * 2;
+                const bsvPriceUsd = 60;
                 const satsPerBsv = 100_000_000;
                 const totalUSD = (totalFeeSats / satsPerBsv) * bsvPriceUsd;
                 
                 setEstimatedCost(totalUSD);
-                
-                // Format cost for display in dollars - show 8 decimal places
-                const formattedPrice = `$${totalUSD.toFixed(8)}`;
-                setCurrentPrice(formattedPrice);
+                setCurrentPrice(`$${totalUSD.toFixed(8)}`);
               } else {
                 setCurrentPrice('$0.00000000');
                 setEstimatedCost(0);
               }
             }}
             placeholder="Start writing your document..."
-            onTwitterShare={() => {
-              if (!isAuthenticated) {
-                setShowSaveBlockchainModal(true);
-              } else {
-                setShowTwitterModal(true);
-              }
-            }}
+            className="test-quill-editor"
+            modules={modules}
+            formats={formats}
           />
         )}
         
+{/* DragDropZone temporarily removed - it was blocking typing 
         <DragDropZone
           onFileDrop={handleFileDrop}
           isAuthenticated={isAuthenticated}
           onAuthRequired={onAuthRequired || (() => {})}
         />
+        */}
       </div>
 
       <div className="status-bar">

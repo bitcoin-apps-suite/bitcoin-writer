@@ -6,6 +6,17 @@
   flex-direction: column;
 }
 
+/* Test Editor Container - Override margins for homepage editor */
+.test-editor-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: -200px; /* Pull editor left to reduce empty space */
+  margin-right: auto;
+  max-width: calc(100vw - 320px); /* Limit max width to prevent overflow */
+}
+
 /* Quill Editor Styles */
 .quill-editor-container {
   display: flex;
@@ -49,7 +60,7 @@
 .quill-editor {
   flex: 1;
   position: relative;
-  z-index: 10001;
+  z-index: 1;
   display: flex;
   flex-direction: column;
 }
@@ -114,10 +125,9 @@
 }
 
 .quill-editor .ql-editor {
-  padding: 38px 75px;
-  width: calc(100% - 40px); /* Responsive width with margin */
-  max-width: 900px; /* Reduced from 1190px to bring right edge left */
-  margin: 18px 20px 0 20px; /* Keep original margins for ruler alignment */
+  padding: 38px 75px 38px 20px; /* Reduced left padding to minimize empty space */
+  width: 900px; /* Fixed width to bring right edge left */
+  margin: 18px 0 0 0; /* Remove auto margins, align to left */
 }
 
 
@@ -128,7 +138,6 @@
   color: #000000;
   caret-color: #000000;
   text-align: left;
-  overflow-x: hidden !important;
   word-wrap: break-word;
   box-shadow: 0 0 0 1px #666666;
   overflow-wrap: break-word;
@@ -166,7 +175,6 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
-  overflow-x: hidden;
   box-sizing: border-box;
 }
 
@@ -370,29 +378,28 @@
 /* Responsive */
 @media (max-width: 768px) {
   .quill-editor .ql-editor {
+    width: 100%;
+    max-width: 100%;
     padding: 20px;
+    margin: 10px 0 0 0;
   }
   
   .quill-toolbar-extra {
     flex-wrap: wrap;
   }
   
-  /* Adjust for smaller drop pad on mobile (80px width + 20px right margin + 10px buffer) */
   .quill-editor-container {
-    width: calc(100vw - 110px);
-    max-width: calc(100vw - 110px);
+    flex: 1;
   }
 }
 
 /* Critical fix to prevent horizontal overflow and layout issues */
-.quill-editor,
-.quill-editor *,
-.ql-editor,
-.ql-editor *,
-.ql-container,
-.ql-container * {
+.quill-editor .ql-editor img,
+.quill-editor .ql-editor video,
+.quill-editor .ql-editor iframe,
+.quill-editor .ql-editor canvas,
+.quill-editor .ql-editor table {
   max-width: 100% !important;
-  overflow-x: hidden !important;
   box-sizing: border-box !important;
   word-wrap: break-word !important;
   word-break: break-word !important;
@@ -402,9 +409,7 @@
 /* Ensure editor container has proper boundaries and doesn't overlap drop zone */
 .quill-editor-container {
   position: relative;
-  /* Calculate width to leave space for drop pad: 100vw - drop pad width - margins - buffer */
-  width: calc(100vw - 170px);
-  max-width: calc(100vw - 170px);
+  flex: 1;
   overflow: hidden;
   border: none !important;
 }
