@@ -193,21 +193,6 @@ It's about work.
     },
     '3': {
       id: '3',
-      title: 'Bridging the Gap: Technology, Work, and Human Dignity',
-      author: 'b0ase',
-      authorHandle: '@b0ase',
-      publishDate: 'October 12, 2025',
-      readTime: '10 min read',
-      content: `
-# Bridging the Gap: Technology, Work, and Human Dignity
-
-A thoughtful examination of Anna Iversen's concerns about modern work platforms and the role of technology in preserving human agency and meaning in work.
-
-*Published on Bitcoin Writer - Own your words, own your future.*
-      `
-    },
-    '4': {
-      id: '4',
       title: 'Ideological Oversimplification: Dissecting Iversen\'s Shallow Critique of Debt and Money',
       author: 'b0ase',
       authorHandle: '@b0ase',
