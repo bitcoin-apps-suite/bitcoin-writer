@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { 
   Code, 
   GitBranch, 
@@ -30,7 +31,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     return saved !== null ? saved === 'true' : true;
   });
   const [issueCount, setIssueCount] = useState<number>(0);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     localStorage.setItem('devSidebarCollapsed', isCollapsed.toString());
@@ -128,7 +129,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
           }
 
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
+          const isActive = pathname === item.path;
 
           if (item.external) {
             return (
@@ -154,7 +155,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
           return (
             <Link
               key={`${item.path}-${index}`}
-              to={item.path || '/'}
+              href={item.path || '/'}
               className={`dev-sidebar-item ${isActive ? 'active' : ''}`}
               title={isCollapsed ? item.label : undefined}
             >

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HandCashService, HandCashUser } from '../services/HandCashService';
+import { HandCashService, HandCashUser } from '../lib/HandCashService';
 
 interface LoginProps {
   onLogin: (user: HandCashUser) => void;

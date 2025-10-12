@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
+import { BlockchainDocumentService, BlockchainDocument } from '../lib/BlockchainDocumentService';
 import { formatUSD } from '../utils/pricingCalculator';
 import { LocalDocumentStorage } from '../utils/documentStorage';
 

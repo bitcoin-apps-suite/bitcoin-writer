@@ -13,11 +13,15 @@ const nextConfig = {
         os: require.resolve('os-browserify'),
         path: require.resolve('path-browserify'),
         vm: require.resolve('vm-browserify'),
+        events: require.resolve('events'),
       };
     }
 
+
     return config;
   },
+  // Disable React strict mode to prevent findDOMNode warnings with react-quill
+  reactStrictMode: false,
   env: {
     REACT_APP_HANDCASH_APP_ID: process.env.REACT_APP_HANDCASH_APP_ID,
     REACT_APP_HANDCASH_APP_SECRET: process.env.REACT_APP_HANDCASH_APP_SECRET,

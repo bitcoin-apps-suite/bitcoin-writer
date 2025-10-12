@@ -5,7 +5,7 @@ import {
   PricingBreakdown 
 } from '../utils/pricingCalculator';
 import StorageOptionsModal from './StorageOptionsModal';
-import BSVStorageService, { StorageQuote } from '../services/BSVStorageService';
+import BSVStorageService, { StorageQuote } from '../lib/BSVStorageService';
 import BudgetPrompt from './BudgetPrompt';
 
 interface PricingDisplayProps {

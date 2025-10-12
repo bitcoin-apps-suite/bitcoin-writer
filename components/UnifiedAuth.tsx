@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import GoogleAuthButton from './GoogleAuth';
-import { HandCashService } from '../services/HandCashService';
+import { HandCashService } from '../lib/HandCashService';
 import AuthModal from './AuthModal';
 import './UnifiedAuth.css';
 

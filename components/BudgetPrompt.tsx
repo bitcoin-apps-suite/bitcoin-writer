@@ -1,5 +1,5 @@
 import React from 'react';
-import BSVStorageService from '../services/BSVStorageService';
+import BSVStorageService from '../lib/BSVStorageService';
 
 interface BudgetPromptProps {
   isOpen: boolean;

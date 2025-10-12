@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AIChatWindow from './AIChatWindow';
-import { AIService } from '../services/AIService';
-import { HandCashService } from '../services/HandCashService';
+import { AIService } from '../lib/AIService';
+import { HandCashService } from '../lib/HandCashService';
 import './AIChatPopup.css';
 
 // This component renders in the popup window

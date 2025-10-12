@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DocumentExchangeView.css';
-import { HandCashItemsService } from '../services/HandCashItemsService';
-import { HandCashService } from '../services/HandCashService';
+import { HandCashItemsService } from '../lib/HandCashItemsService';
+import { HandCashService } from '../lib/HandCashService';
 import NFTDocumentReader from './modals/NFTDocumentReader';
 
 // Use the same interfaces from DocumentExchange

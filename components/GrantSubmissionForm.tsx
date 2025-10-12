@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Download, Upload, FileText, AlertCircle, CheckCircle } from 'lucide-react';
-import { GrantSubmissionService, GrantApplicationData } from '../services/GrantSubmissionService';
+import { GrantSubmissionService, GrantApplicationData } from '../lib/GrantSubmissionService';
 import { GrantSubmission } from '../types/NFTTypes';
 
 interface GrantSubmissionFormProps {
