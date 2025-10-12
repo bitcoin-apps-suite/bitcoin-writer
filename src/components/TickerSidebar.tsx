@@ -28,6 +28,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   const [prices, setPrices] = useState<TokenPrice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     // Generate trending gig tokens with contract IDs
@@ -184,85 +185,98 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   };
 
   return (
-    <div className="ticker-sidebar">
+    <div className={`ticker-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="ticker-header">
         <h3>$bWriter Market</h3>
-        <span className="ticker-update-time" title={`Last updated: ${formatTime(lastUpdate)}`}>
-          🔄
-        </span>
+        <div className="ticker-header-controls">
+          <span className="ticker-update-time" title={`Last updated: ${formatTime(lastUpdate)}`}>
+            🔄
+          </span>
+          <button 
+            className="ticker-toggle"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            title={isCollapsed ? 'Expand ticker' : 'Collapse ticker'}
+          >
+            {isCollapsed ? '→' : '←'}
+          </button>
+        </div>
       </div>
 
-      {isLoading ? (
-        <div className="ticker-loading">Loading prices...</div>
-      ) : (
-        <div className="ticker-list">
-          {prices.map((token, index) => {
-            // Add divider after last special token
-            const showDivider = token.isSpecial && 
-              index < prices.length - 1 && 
-              !prices[index + 1].isSpecial;
-            
-            return (
-              <React.Fragment key={token.symbol}>
-                <div className={`ticker-item ${token.isSpecial ? 'special' : ''} ${token.isGig ? 'gig' : ''}`}>
-              <div className="ticker-symbol-row">
-                <span className="ticker-symbol">${token.symbol}</span>
-                <span className={`ticker-change ${token.change24h >= 0 ? 'positive' : 'negative'}`}>
-                  {token.change24h >= 0 ? '↑' : '↓'} {Math.abs(token.changePercent).toFixed(2)}%
-                </span>
-              </div>
-              
-              <div className="ticker-name">
-                {token.name}
-                {token.category && (
-                  <span className="ticker-category"> • {token.category}</span>
+      {!isCollapsed && (
+        <>
+          {isLoading ? (
+            <div className="ticker-loading">Loading prices...</div>
+          ) : (
+            <div className="ticker-list">
+              {prices.map((token, index) => {
+                // Add divider after last special token
+                const showDivider = token.isSpecial && 
+                  index < prices.length - 1 && 
+                  !prices[index + 1].isSpecial;
+                
+                return (
+                  <React.Fragment key={token.symbol}>
+                    <div className={`ticker-item ${token.isSpecial ? 'special' : ''} ${token.isGig ? 'gig' : ''}`}>
+                  <div className="ticker-symbol-row">
+                    <span className="ticker-symbol">${token.symbol}</span>
+                    <span className={`ticker-change ${token.change24h >= 0 ? 'positive' : 'negative'}`}>
+                      {token.change24h >= 0 ? '↑' : '↓'} {Math.abs(token.changePercent).toFixed(2)}%
+                    </span>
+                  </div>
+                  
+                  <div className="ticker-name">
+                    {token.name}
+                    {token.category && (
+                      <span className="ticker-category"> • {token.category}</span>
+                    )}
+                  </div>
+                  
+                  <div className="ticker-price-row">
+                    <span className="ticker-price">{formatPrice(token.price)}</span>
+                    {token.contractId && (
+                      <span className="ticker-contract-id">#{token.contractId}</span>
+                    )}
+                  </div>
+                  
+                  <div className="ticker-stats">
+                    {token.volume_24h && (
+                      <span className="ticker-volume">
+                        Vol: {formatVolume(token.volume_24h)}
+                      </span>
+                    )}
+                    {token.liquidity !== undefined && (
+                      <span 
+                        className="ticker-liquidity"
+                        style={{ color: getLiquidityColor(token.liquidity) }}
+                      >
+                        {formatLiquidity(token.liquidity)}
+                      </span>
+                    )}
+                    {token.holders !== undefined && (
+                      <span className="ticker-holders">
+                        {token.holders} holders
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {showDivider && (
+                  <div className="ticker-divider">
+                    <span>Active Jobs</span>
+                  </div>
                 )}
-              </div>
-              
-              <div className="ticker-price-row">
-                <span className="ticker-price">{formatPrice(token.price)}</span>
-                {token.contractId && (
-                  <span className="ticker-contract-id">#{token.contractId}</span>
-                )}
-              </div>
-              
-              <div className="ticker-stats">
-                {token.volume_24h && (
-                  <span className="ticker-volume">
-                    Vol: {formatVolume(token.volume_24h)}
-                  </span>
-                )}
-                {token.liquidity !== undefined && (
-                  <span 
-                    className="ticker-liquidity"
-                    style={{ color: getLiquidityColor(token.liquidity) }}
-                  >
-                    {formatLiquidity(token.liquidity)}
-                  </span>
-                )}
-                {token.holders !== undefined && (
-                  <span className="ticker-holders">
-                    {token.holders} holders
-                  </span>
-                )}
-              </div>
+              </React.Fragment>
+              );
+            })}
             </div>
-            {showDivider && (
-              <div className="ticker-divider">
-                <span>Active Jobs</span>
-              </div>
-            )}
-          </React.Fragment>
-          );
-        })}
-        </div>
-      )}
+          )}
 
-      <div className="ticker-footer">
-        <div className="ticker-disclaimer">
-          Prices update every 30s
-        </div>
-      </div>
+          <div className="ticker-footer">
+            <div className="ticker-disclaimer">
+              Prices update every 30s
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
