@@ -712,7 +712,7 @@ main {
 
 .header-right {
   position: absolute;
-  right: 24px;
+  right: 450px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
