@@ -94,7 +94,7 @@ The future of writing is here. Own your words, own your future.
       content: `
 @b0ase
 
-Anna Iversen's "Uberfication—Entropy Dressed in the Language of the Gig Economy" reads like a lament for a world that's gone — a eulogy for craftsmanship. It's elegant prose, but it's full of misconceptions, errors, and in the end, it misses the point entirely. And since I actually drove Uber in London for seven years and racked up over eleven thousand trips, I think I know what I'm talking about.
+Anna Iversen's <a href="https://annaiversen.substack.com/p/uberfication?r=1cmcgf&utm_campaign=post&utm_medium=web&triedRedirect=true" target="_blank" rel="noopener noreferrer" style="color: #ff9500; text-decoration: underline;">"Uberfication—Entropy Dressed in the Language of the Gig Economy"</a> reads like a lament for a world that's gone — a eulogy for craftsmanship. It's elegant prose, but it's full of misconceptions, errors, and in the end, it misses the point entirely. And since I actually drove Uber in London for seven years and racked up over eleven thousand trips, I think I know what I'm talking about.
 
 It's actually a little too easy for me to tear Anna Iversen's latest article limb from limb for being lazy and convenient — which is a shame, since I shared my vision of Uberfying writing with her in *Bitcoin Writer* two days ago, and her apparent response was to tear it down immediately, despite the fact that it employs the very technology she supports — Bitcoin — and could revolutionize the writing industry in a way I think is actually pretty cool, and for someone like me, welcome.
 
@@ -110,7 +110,7 @@ First off, let's put to bed the idea that Uber drivers in London are having a ba
 
 Case in point: the left rallied hard to make Uber drivers employees of Uber — which we didn't want to be. It affected timetabling, scheduling, and was, frankly, a pain. Classic liberal concern-trolling at its finest. In my estimation, it wasn't motivated by sympathy for Uber drivers, but by anger at capitalism itself ("How dare the CEO earn so much off poor Uber drivers' backs?"). Yes, true — how dare Travis Kalanick make so much money off me, the bastard! But you have to understand: those guys and girls in the C-suite have already won. The money's offshore, protected. If you attack the company itself, you're actually just sticking up for the entrenched, corrupt taxi cartel that already has Londoners by the throat — which is exactly what Iversen is doing in her latest piece.
 
-Why? Because she frames taxis in some nostalgic "old-timey" way — the "handsome cab" fantasy (for those who can afford such luxuries) — clearly trying to balance her despair and cynicism after years in the City with her liberal guilt and the exhaustion that comes from taking so many quick, cheap, comfortable Uber rides. All summoned with a tap on her iPhone, driven by cheerful, relaxed Pakistanis who know gold when they've struck it.
+Why? Because she frames taxis in some nostalgic "old-timey" way — the "handsome cab" fantasy (for those who can afford such luxuries) — perhaps trying to balance her despair and cynicism after years in the City with her liberal guilt and the exhaustion that comes from taking so many quick, cheap, comfortable Uber rides. All summoned with a tap on her iPhone, driven by cheerful, relaxed Pakistanis who know gold when they've struck it.
 
 Sorry if that sounds harsh, but the outrage is manufactured. Newsflash: journalists *love* taking Ubers. Everyone does. Fast, cheap, comfortable — what's not to love? But according to Anna the sage, Uber drivers are no longer judged by integrity or mastery — which is simply untrue. In fact, it's precisely the reverse. That's exactly what they're judged on and rated for, and the best ones survive a long time because they're careful, professional, and conscientious.
 
@@ -349,6 +349,19 @@ She successfully reframes a technical reality (high PoW cost) as a philosophical
 
         <article>
           <header style={{ marginBottom: '30px', borderBottom: '1px solid #333', paddingBottom: '20px' }}>
+            {article.id === '2' && (
+              <img 
+                src="/uber-driving.jpg" 
+                alt="Uber driver view from inside car"
+                style={{
+                  width: '100%',
+                  height: '300px',
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                  marginBottom: '20px'
+                }}
+              />
+            )}
             <h1 style={{ fontSize: '2.5em', marginBottom: '10px', color: '#fff' }}>
               {article.title}
             </h1>
