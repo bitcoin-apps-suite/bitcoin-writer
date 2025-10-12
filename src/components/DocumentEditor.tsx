@@ -1176,11 +1176,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </svg>
               Post to Twitter
             </button>
-            <div className="word-counter" style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
-              <span>{wordCount} words</span>
-              <span style={{ margin: '0 8px' }}>•</span>
-              <span>{charCount} characters</span>
-            </div>
             <input
               type="file"
               ref={imageInputRef}
@@ -1259,6 +1254,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               }
             }}
             placeholder="Start writing your document..."
+            wordCount={wordCount}
+            charCount={charCount}
           />
         )}
         
