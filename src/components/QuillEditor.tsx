@@ -13,13 +13,17 @@ interface QuillEditorProps {
   onChange: (content: string) => void;
   onTextChange?: (text: string) => void;
   placeholder?: string;
+  wordCount?: number;
+  charCount?: number;
 }
 
 const QuillEditor: React.FC<QuillEditorProps> = ({
   content,
   onChange,
   onTextChange,
-  placeholder = 'Start writing your document...'
+  placeholder = 'Start writing your document...',
+  wordCount = 0,
+  charCount = 0
 }) => {
   const quillRef = useRef<ReactQuill>(null);
   const [isReady, setIsReady] = useState(false);
@@ -364,6 +368,12 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           </svg>
           Rulers
         </button>
+        
+        <div className="word-counter" style={{ fontSize: '11px', color: '#888', marginLeft: '16px', display: 'flex', alignItems: 'center' }}>
+          <span>{wordCount} words</span>
+          <span style={{ margin: '0 8px' }}>•</span>
+          <span>{charCount} characters</span>
+        </div>
       </div>
       
       {showImportModal && (
