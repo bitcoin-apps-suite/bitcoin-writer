@@ -208,6 +208,12 @@
   font-size: 1rem;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.author-name:hover {
+  color: #f7931a;
 }
 
 .author-handle {
@@ -301,7 +307,7 @@
 
 /* Article Body - Clean Typography */
 .article-body {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   line-height: 1.7;
   color: #e0e0e0;
 }

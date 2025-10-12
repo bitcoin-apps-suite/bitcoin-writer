@@ -2,6 +2,7 @@
 .editor-container {
   position: relative;
   flex: 1;
+  height: calc(100vh - 140px); /* Full height minus toolbars */
   display: flex;
   flex-direction: column;
 }
@@ -59,6 +60,7 @@
 /* Quill Editor Customization */
 .quill-editor {
   flex: 1;
+  height: 100%;
   position: relative;
   z-index: 1;
   display: flex;
@@ -113,6 +115,7 @@
 
 .quill-editor .ql-container {
   flex: 1;
+  height: calc(100vh - 140px); /* Stretch to fill available space minus toolbars */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
   border: none;

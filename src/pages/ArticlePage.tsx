@@ -227,7 +227,7 @@ And that's the part most people still can't see: that blockchain isn't about mon
 It's about work.
 
 *Published on Bitcoin Writer - Own your words, own your future.*`,
-        author: 'b0ase',
+        author: '@b0ase',
         authorHandle: '@b0ase',
         platform: 'Bitcoin Writer',
         category: 'Economics',
@@ -320,7 +320,7 @@ Bitcoin Writer represents one attempt to build technology that enhances rather t
 The question isn't whether to embrace or reject the digital economy, but how to shape it in ways that honor both innovation and humanity.
 
 *Published on Bitcoin Writer - Technology in service of human creativity.*`,
-        author: 'b0ase',
+        author: '@b0ase',
         authorHandle: '@b0ase',
         platform: 'Bitcoin Writer',
         category: 'Economics',
@@ -416,7 +416,14 @@ The question isn't whether to embrace or reject the digital economy, but how to 
         <div className="article-meta">
           <div className="author-info">
             <div className="author-details">
-              <span className="author-name">{article.author}</span>
+              <a 
+                href="https://x.com/b0ase" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="author-name"
+              >
+                {article.author}
+              </a>
               <span className="author-handle">{article.authorHandle}</span>
             </div>
             <div className="article-stats">

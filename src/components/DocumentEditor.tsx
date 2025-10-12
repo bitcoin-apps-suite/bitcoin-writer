@@ -962,7 +962,19 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
                 <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
               </svg>
-              Save {wordCount > 0 && `(${currentPrice})`}
+              Save {wordCount > 0 && (
+                <span style={{ 
+                  fontSize: '11px', 
+                  color: '#f7931a',
+                  fontWeight: '600',
+                  marginLeft: '6px',
+                  backgroundColor: 'rgba(247, 147, 26, 0.15)',
+                  padding: '1px 4px',
+                  borderRadius: '3px'
+                }}>
+                  {currentPrice}
+                </span>
+              )}
             </button>
             
             <div className="mobile-dropdown-container">
@@ -1108,12 +1120,16 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               Save
               {wordCount > 0 && (
                 <span style={{ 
-                  fontSize: '11px', 
-                  color: estimatedCost > 0.01 ? '#ff9900' : '#00ff00',
-                  fontWeight: 'normal',
-                  opacity: 0.9,
+                  fontSize: '12px', 
+                  color: '#f7931a',
+                  fontWeight: '600',
+                  opacity: 1,
                   minWidth: '85px',
-                  textAlign: 'right'
+                  textAlign: 'right',
+                  marginLeft: '8px',
+                  backgroundColor: 'rgba(247, 147, 26, 0.1)',
+                  padding: '2px 6px',
+                  borderRadius: '4px'
                 }}>
                   {currentPrice}
                 </span>
