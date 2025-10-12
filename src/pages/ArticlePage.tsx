@@ -16,8 +16,6 @@ const ArticlePage: React.FC<ArticlePageProps> = () => {
     publishDate: 'October 12, 2025',
     readTime: '12 min read',
     content: `
-# Revolutionizing Writing with Bitcoin Writer
-
 Bitcoin Writer represents a paradigm shift in how we think about content creation, ownership, and monetization. Built on the Bitcoin blockchain, this platform transforms traditional writing into a new form of digital asset creation.
 
 ## The Problem with Traditional Publishing
@@ -197,8 +195,6 @@ It's about work.
       publishDate: 'October 12, 2025',
       readTime: '18 min read',
       content: `
-# Ideological Oversimplification: Dissecting Iversen's Shallow Critique of Debt and Money
-
 This analysis is not a critique of the technical architecture of Wright's version of Bitcoin, which I agree is the correct protocol for a scalable digital commodity. Rather, it is a critique of Iversen's rhetorical framework, which relies on flawed economic analogies and conceptual inconsistencies to brand her favourite tech-stack as "coherent" by misrepresenting the nature of debt in the traditional financial system.
 
 ## The Closed-Loop Farmer Fallacy (Failing Basic Economics)
