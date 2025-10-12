@@ -1079,38 +1079,9 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           <div className="toolbar-left">
             {/* Save button - always saves locally, optionally to blockchain */}
             <button 
-              onClick={() => {
-                // On first save for a document, show the Save to Blockchain modal
-                if (isFirstSave && wordCount > 0) {
-                  setShowSaveBlockchainModal(true);
-                  setIsFirstSave(false);
-                  return;
-                }
-                
-                // Otherwise do normal save
-                saveToLocalStorage();
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('en-US', { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                });
-                setAutoSaveStatus(`✓ Saved at ${timeString}`);
-                setLastSaveTime(now);
-                setUnsavedChanges(false);
-                setTimeout(() => setAutoSaveStatus(''), 5000);
-                
-                // If authenticated, also save to blockchain
-                if (isAuthenticated) {
-                  hashDocument();
-                  setAutoSaveStatus(`⛓️ Saving to blockchain...`);
-                  setTimeout(() => {
-                    setAutoSaveStatus(`✓ Saved to blockchain at ${timeString}`);
-                    setTimeout(() => setAutoSaveStatus(''), 5000);
-                  }, 1000);
-                }
-              }} 
-              disabled={isLoading || wordCount === 0} 
-              title={wordCount === 0 ? "Start typing to save" : isFirstSave ? "Save to blockchain" : "Save changes"}
+              onClick={saveDocument} 
+              disabled={isLoading} 
+              title={isAuthenticated ? "Save to Blockchain" : "Save (Sign in for blockchain)"}
               className={wordCount > 0 ? 'save-btn-active' : 'save-btn-inactive'}
               style={{ display: 'flex', alignItems: 'center', gap: '6px', marginRight: '20px' }}
             >
