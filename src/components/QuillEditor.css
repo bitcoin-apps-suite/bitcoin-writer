@@ -129,13 +129,9 @@
 
 .quill-editor .ql-editor {
   padding: 38px 75px 38px 20px; /* Reduced left padding to minimize empty space */
-  width: 900px; /* Fixed width to bring right edge left */
-  margin: 18px 0 0 0; /* Remove auto margins, align to left */
-}
-
-
-
-.quill-editor .ql-editor {
+  width: calc(100% - 40px); /* Responsive width with margin */
+  max-width: 1190px; /* Maximum A4 width */
+  margin: 18px 20px 0 20px; /* Equal margins on both sides */
   min-height: calc(100vh - 300px);
   background: #ffffff;
   color: #000000;
@@ -473,12 +469,14 @@
   overflow-wrap: break-word !important;
 }
 
-/* Ensure editor container has proper boundaries and doesn't overlap drop zone */
+/* Ensure editor container has proper boundaries */
 .quill-editor-container {
   position: relative;
   flex: 1;
   overflow: hidden;
   border: none !important;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Remove any borders that might be causing layout issues */
