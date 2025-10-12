@@ -1247,7 +1247,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         <div style={{ fontSize: '14px' }}>
           <UnifiedAuth
             googleUser={googleUser}
-            setGoogleUser={setGoogleUser}
+            setGoogleUser={setGoogleUser || (() => {})}
             isHandCashAuthenticated={isAuthenticated}
             currentHandCashUser={currentUser}
             handcashService={handcashService}
