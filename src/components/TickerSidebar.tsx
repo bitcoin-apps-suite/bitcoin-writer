@@ -189,9 +189,6 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
       <div className="ticker-header">
         <h3>$bWriter Market</h3>
         <div className="ticker-header-controls">
-          <span className="ticker-update-time" title={`Last updated: ${formatTime(lastUpdate)}`}>
-            🔄
-          </span>
           <button 
             className="ticker-toggle"
             onClick={() => setIsCollapsed(!isCollapsed)}
