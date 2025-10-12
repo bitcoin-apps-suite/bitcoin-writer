@@ -16,7 +16,7 @@ const ArticlePage: React.FC<ArticlePageProps> = () => {
     publishDate: 'October 12, 2025',
     readTime: '25 min read',
     content: `
-Bitcoin Writer is not just another writing platform—it's a revolutionary paradigm shift that fundamentally transforms how writers create, own, distribute, and monetize their content. Built on the rock-solid foundation of the Bitcoin SV blockchain, this platform represents the convergence of traditional publishing excellence with cutting-edge blockchain technology, creating an entirely new ecosystem where writers become true digital entrepreneurs.
+Bitcoin Writer is not just another writing platform—it's a revolutionary paradigm shift that fundamentally transforms how writers create, own, distribute, and monetize their content. Built on the rock-solid foundation of the Bitcoin blockchain, this platform represents the convergence of traditional publishing excellence with cutting-edge blockchain technology, creating an entirely new ecosystem where writers become true digital entrepreneurs.
 
 ## The Publishing Industry's Fundamental Flaws
 
@@ -36,7 +36,7 @@ Bitcoin Writer fundamentally reimagines content creation by placing writers at t
 
 ### 1. Immutable Content Ownership Through Blockchain Technology
 
-Every document created in Bitcoin Writer is cryptographically hashed and permanently recorded on the Bitcoin SV blockchain. This isn't just storage—it's irrefutable proof of authorship and ownership that can never be altered, deleted, or disputed. When you publish on Bitcoin Writer, you're creating an immutable timestamp that proves you created specific content at a specific moment.
+Every document created in Bitcoin Writer is cryptographically hashed and permanently recorded on the Bitcoin blockchain. This isn't just storage—it's irrefutable proof of authorship and ownership that can never be altered, deleted, or disputed. When you publish on Bitcoin Writer, you're creating an immutable timestamp that proves you created specific content at a specific moment.
 
 **How It Works**: Our system generates a unique SHA-256 hash of your document's content, metadata, and timestamp. This hash is then inscribed into a Bitcoin transaction using OP_RETURN outputs, creating a permanent, searchable record that can be verified by anyone, anywhere in the world. Unlike traditional copyright registration, which can take months and costs hundreds of dollars, blockchain registration happens instantly and costs mere cents.
 
@@ -118,17 +118,17 @@ Bitcoin Writer isn't just a publishing platform—it's a community-building tool
 
 **Social Proof Integration**: Display blockchain-verified download counts, earnings, and reader engagement metrics to build credibility and social proof for your work.
 
-## Technical Architecture: Building on Bitcoin SV's Unlimited Potential
+## Technical Architecture: Building on Bitcoin's Unlimited Potential
 
-Bitcoin Writer leverages Bitcoin SV's massive scaling capabilities and powerful scripting language to create features impossible on other blockchains.
+Bitcoin Writer leverages Bitcoin's massive scaling capabilities and powerful scripting language to create features impossible on other blockchains.
 
-**Unlimited Block Size**: Bitcoin SV's removal of artificial block size limits means we can store entire documents on-chain without worrying about space constraints. This enables true permanence and accessibility for your content.
+**Unlimited Block Size**: Bitcoin's removal of artificial block size limits means we can store entire documents on-chain without worrying about space constraints. This enables true permanence and accessibility for your content.
 
-**Advanced Script Capabilities**: Bitcoin SV's restoration of Bitcoin's original scripting language allows for sophisticated smart contracts, multi-signature controls, and complex conditional access systems that protect both creators and consumers.
+**Advanced Script Capabilities**: Bitcoin's restoration of the original scripting language allows for sophisticated smart contracts, multi-signature controls, and complex conditional access systems that protect both creators and consumers.
 
-**Micropayment Infrastructure**: With transaction fees measured in fractions of a cent, Bitcoin SV makes micropayments economically viable, enabling entirely new monetization models for digital content.
+**Micropayment Infrastructure**: With transaction fees measured in fractions of a cent, Bitcoin makes micropayments economically viable, enabling entirely new monetization models for digital content.
 
-**Enterprise Scalability**: Bitcoin SV can handle millions of transactions per second, ensuring that Bitcoin Writer can scale to serve global publishing markets without performance degradation.
+**Enterprise Scalability**: Bitcoin can handle millions of transactions per second, ensuring that Bitcoin Writer can scale to serve global publishing markets without performance degradation.
 
 ## The Economics of Digital Content Ownership
 
@@ -163,7 +163,7 @@ Our analytics dashboard provides actionable insights for optimizing your content
 
 ## The Future is Already Here
 
-Bitcoin Writer isn't a promise of what might be possible—it's a working platform that's already revolutionizing how writers think about their craft. We're not waiting for blockchain technology to mature; we're using Bitcoin SV's existing capabilities to solve real problems that writers face today.
+Bitcoin Writer isn't a promise of what might be possible—it's a working platform that's already revolutionizing how writers think about their craft. We're not waiting for blockchain technology to mature; we're using Bitcoin's existing capabilities to solve real problems that writers face today.
 
 Writers who adopt Bitcoin Writer early aren't just getting access to better tools—they're positioning themselves at the forefront of a fundamental shift in how digital content is created, owned, and monetized. The traditional publishing industry's gatekeepers are becoming irrelevant, and creators who understand this transition will have enormous advantages over those who don't.
 
@@ -499,8 +499,8 @@ She successfully reframes a technical reality (high PoW cost) as a philosophical
             dangerouslySetInnerHTML={{ 
               __html: article.content
                 .replace(/^# (.*$)/gm, '<h1 style="color: #ff9500; font-size: 2em; margin: 30px 0 20px 0;">$1</h1>')
-                .replace(/^## (.*$)/gm, '<h2 style="color: #fff; font-size: 1.5em; margin: 25px 0 15px 0;">$1</h2>')
-                .replace(/^### (.*$)/gm, '<h3 style="color: #fff; font-size: 1.2em; margin: 20px 0 10px 0;">$1</h3>')
+                .replace(/^## (.*$)/gm, '<h2 style="color: #ff9500; font-size: 1.5em; margin: 25px 0 15px 0;">$1</h2>')
+                .replace(/^### (.*$)/gm, '<h3 style="color: #ff9500; font-size: 1.2em; margin: 20px 0 10px 0;">$1</h3>')
                 .replace(/^\- (.*$)/gm, '<li style="margin: 8px 0;">$1</li>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #fff;">$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
