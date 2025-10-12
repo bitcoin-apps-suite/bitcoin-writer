@@ -106,16 +106,17 @@ const MarketPage: React.FC = () => {
     },
     {
       id: '4',
-      title: 'Newsletter Growth Strategies',
-      description: 'Proven tactics to grow your newsletter audience and increase engagement',
-      author: 'Emma Wilson',
-      authorHandle: '@emmawilson',
-      platform: 'Substack',
-      category: 'Marketing',
-      readTime: 10,
+      title: 'Ideological Oversimplification: Dissecting Iversen\'s Shallow Critique of Debt and Money',
+      description: 'A critique of Iversen\'s rhetorical framework which relies on flawed economic analogies to misrepresent the nature of debt in traditional financial systems',
+      author: 'b0ase',
+      authorHandle: '@b0ase',
+      platform: 'Bitcoin Writer',
+      category: 'Economics',
+      readTime: 18,
       engagement: 1780,
       thumbnail: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=250&fit=crop&crop=center',
-      isTokenized: false,
+      price: 0.01,
+      isTokenized: true,
       trending: true
     },
     {
@@ -536,85 +537,43 @@ const MarketPage: React.FC = () => {
           <section className="featured-section">
             <div className="content-grid">
               {trendingContent.map(content => (
-                content.id === '2' ? (
-                  <a 
-                    key={content.id} 
-                    href="https://bitcoin-writer.vercel.app/market/article/2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="content-card trending"
-                  >
-                    <div className="content-thumbnail">
-                      <img src={content.thumbnail} alt={content.title} />
-                      <div className="content-badges">
-                        {content.trending && <span className="badge trending">🔥 Trending</span>}
-                        {content.isTokenized && <span className="badge tokenized">₿ Tokenized</span>}
-                      </div>
+                <Link 
+                  key={content.id} 
+                  to={`/market/article/${content.id}`}
+                  className="content-card trending"
+                >
+                  <div className="content-thumbnail">
+                    <img src={content.thumbnail} alt={content.title} />
+                    <div className="content-badges">
+                      {content.trending && <span className="badge trending">🔥 Trending</span>}
+                      {content.isTokenized && <span className="badge tokenized">₿ Tokenized</span>}
                     </div>
-                    <div className="content-info">
-                      <h3>{content.title}</h3>
-                      <p>{content.description}</p>
-                      <div className="content-meta">
-                        <Link 
-                          to={`/authors/${getAuthorSlugFromName(content.author)}`} 
-                          className="author-link"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {content.author}
-                        </Link>
-                        <span className="platform">{content.platform}</span>
-                        <span className="read-time">{content.readTime} min read</span>
-                      </div>
-                      <div className="content-stats">
-                        <span className="engagement">👁 {content.engagement}</span>
-                        {content.price && (
-                          <div className="price-display">
-                            <span className="price-usd">${content.price?.toFixed(2) || '0.01'}</span>
-                            <span className="price-bsv">₿ {formatBSVAmount(content.price || 0.01)} BSV</span>
-                          </div>
-                        )}
-                      </div>
+                  </div>
+                  <div className="content-info">
+                    <h3>{content.title}</h3>
+                    <p>{content.description}</p>
+                    <div className="content-meta">
+                      <Link 
+                        to={`/authors/${getAuthorSlugFromName(content.author)}`} 
+                        className="author-link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {content.author}
+                      </Link>
+                      <span className="platform">{content.platform}</span>
+                      <span className="read-time">{content.readTime} min read</span>
                     </div>
-                  </a>
-                ) : (
-                  <Link 
-                    key={content.id} 
-                    to={`/market/article/${content.id}`}
-                    className="content-card trending"
-                  >
-                    <div className="content-thumbnail">
-                      <img src={content.thumbnail} alt={content.title} />
-                      <div className="content-badges">
-                        {content.trending && <span className="badge trending">🔥 Trending</span>}
-                        {content.isTokenized && <span className="badge tokenized">₿ Tokenized</span>}
-                      </div>
+                    <div className="content-stats">
+                      <span className="engagement">👁 {content.engagement}</span>
+                      {content.price && (
+                        <div className="price-display">
+                          <span className="price-usd">${content.price?.toFixed(2) || '0.01'}</span>
+                          <span className="price-bsv">₿ {formatBSVAmount(content.price || 0.01)} BSV</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="content-info">
-                      <h3>{content.title}</h3>
-                      <p>{content.description}</p>
-                      <div className="content-meta">
-                        <Link 
-                          to={`/authors/${getAuthorSlugFromName(content.author)}`} 
-                          className="author-link"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {content.author}
-                        </Link>
-                        <span className="platform">{content.platform}</span>
-                        <span className="read-time">{content.readTime} min read</span>
-                      </div>
-                      <div className="content-stats">
-                        <span className="engagement">👁 {content.engagement}</span>
-                        {content.price && (
-                          <div className="price-display">
-                            <span className="price-usd">${content.price?.toFixed(2) || '0.01'}</span>
-                            <span className="price-bsv">₿ {formatBSVAmount(content.price || 0.01)} BSV</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                )
+                  </div>
+                </Link>
               ))}
             </div>
           </section>
