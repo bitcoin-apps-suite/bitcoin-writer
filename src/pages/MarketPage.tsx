@@ -507,7 +507,7 @@ const MarketPage: React.FC = () => {
               }}
               title="Return to main view"
             >
-              <span style={{color: '#ff9500'}}>Bitcoin</span> Writer
+              <span style={{color: '#ff9500'}}>Bitcoin</span> Writer Market
             </h1>
           </div>
           <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
