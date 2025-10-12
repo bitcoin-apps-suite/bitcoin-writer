@@ -30,8 +30,8 @@
 
 .ticker-toggle {
   background: none;
-  border: 1px solid #444;
-  color: #ccc;
+  border: 1px solid #ff9500;
+  color: #ff9500;
   padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
@@ -40,9 +40,9 @@
 }
 
 .ticker-toggle:hover {
-  background: #333;
-  color: #fff;
-  border-color: #666;
+  background: #ff9500;
+  color: #000;
+  border-color: #ff9500;
 }
 
 /* Collapsed state */

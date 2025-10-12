@@ -194,7 +194,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
             onClick={() => setIsCollapsed(!isCollapsed)}
             title={isCollapsed ? 'Expand ticker' : 'Collapse ticker'}
           >
-            {isCollapsed ? '→' : '←'}
+            {isCollapsed ? '←' : '→'}
           </button>
         </div>
       </div>
