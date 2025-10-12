@@ -91,7 +91,7 @@ const MarketPage: React.FC = () => {
     },
     {
       id: '3',
-      title: 'Ideological Oversimplification: Dissecting Iversen\'s Shallow Critique of Debt and Money',
+      title: 'Ideological Oversimplification: Dissecting a Shallow Critique of Debt and Money',
       description: 'A critique of Iversen\'s rhetorical framework which relies on flawed economic analogies to misrepresent the nature of debt in traditional financial systems',
       author: 'b0ase',
       authorHandle: '@b0ase',
