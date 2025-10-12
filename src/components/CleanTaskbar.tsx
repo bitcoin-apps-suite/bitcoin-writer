@@ -73,6 +73,10 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Content Market', action: () => {
           window.location.href = '/market';
         }},
+        { label: 'Exchange', action: () => {
+          const event = new CustomEvent('openDocumentExchange');
+          window.dispatchEvent(event);
+        }},
         { divider: true },
         { label: 'About Bitcoin Writer', action: () => alert('Bitcoin Writer v2.0\n\nDecentralized document writing on Bitcoin SV\n\n© 2025 The Bitcoin Corporation LTD\nRegistered in England and Wales • Company No. 16735102\nAll rights reserved\n\nBuilt with HandCash integration') },
         { label: 'Features', action: () => {
@@ -152,11 +156,6 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'Set Paywall', action: () => (document.querySelector('[title*="Set price"]') as HTMLElement)?.click() },
         { label: 'Set Timelock', action: () => console.log('Set timelock') },
         { label: 'Set Multisig', action: () => console.log('Set multisig') },
-        { divider: true },
-        { label: 'Exchange', action: () => {
-          const event = new CustomEvent('openDocumentExchange');
-          window.dispatchEvent(event);
-        }},
         { divider: true },
         { label: 'Publish to Chain', action: () => (document.querySelector('[title*="Publish"]') as HTMLElement)?.click() },
         { label: 'View on Explorer', href: 'https://whatsonchain.com' }

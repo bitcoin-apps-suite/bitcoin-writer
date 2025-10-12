@@ -195,7 +195,7 @@ It's about work.
       publishDate: 'October 12, 2025',
       readTime: '18 min read',
       content: `
-This analysis is not a critique of the technical architecture of Wright's version of Bitcoin, which I agree is the correct protocol for a scalable digital commodity. Rather, it is a critique of Iversen's rhetorical framework, which relies on flawed economic analogies and conceptual inconsistencies to brand her favourite tech-stack as "coherent" by misrepresenting the nature of debt in the traditional financial system.
+This analysis is not a critique of the technical architecture of Wright's version of Bitcoin, which I agree is the correct protocol for a scalable digital commodity. Rather, it is a critique of Iversen's rhetorical framework in her article <a href="https://annaiversen.substack.com/p/finance-as-the-archetype-of-entropy" target="_blank" rel="noopener noreferrer" style="color: #ff9500; text-decoration: underline;">"Finance as the Archetype of Entropy,"</a> which relies on flawed economic analogies and conceptual inconsistencies to brand her favourite tech-stack as "coherent" by misrepresenting the nature of debt in the traditional financial system.
 
 ## The Closed-Loop Farmer Fallacy (Failing Basic Economics)
 
