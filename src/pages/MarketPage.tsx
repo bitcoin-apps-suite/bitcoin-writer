@@ -84,7 +84,7 @@ const MarketPage: React.FC = () => {
       category: 'Technology',
       readTime: 5,
       engagement: 2150,
-      thumbnail: '/article3-image.jpg',
+      thumbnail: '/uber-driving.jpg',
       price: 0.01,
       isTokenized: true,
       trending: true
@@ -99,7 +99,7 @@ const MarketPage: React.FC = () => {
       category: 'Economics',
       readTime: 18,
       engagement: 1780,
-      thumbnail: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=250&fit=crop&crop=center',
+      thumbnail: '/corn.jpg',
       price: 0.01,
       isTokenized: true,
       trending: true

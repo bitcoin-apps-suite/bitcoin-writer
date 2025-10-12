@@ -362,6 +362,19 @@ She successfully reframes a technical reality (high PoW cost) as a philosophical
                 }}
               />
             )}
+            {article.id === '3' && (
+              <img 
+                src="/corn.jpg" 
+                alt="Corn field representing agricultural economics"
+                style={{
+                  width: '100%',
+                  height: '300px',
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                  marginBottom: '20px'
+                }}
+              />
+            )}
             <h1 style={{ fontSize: '2.5em', marginBottom: '10px', color: '#fff' }}>
               {article.title}
             </h1>
