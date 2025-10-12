@@ -349,6 +349,9 @@ function App() {
               }}
               documentService={documentService}
               onToggleAIChat={() => setShowAIChat(!showAIChat)}
+              googleUser={googleUser}
+              setGoogleUser={setGoogleUser}
+              handcashService={handcashService}
             />}
           </>
         )}
@@ -655,17 +658,8 @@ function App() {
                 <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
               </div>
               
-              {/* Auth and mobile menu on the right */}
+              {/* Mobile menu on the right */}
               <div className="header-right">
-                <UnifiedAuth
-                  googleUser={googleUser}
-                  setGoogleUser={setGoogleUser}
-                  isHandCashAuthenticated={isAuthenticated}
-                  currentHandCashUser={currentUser}
-                  handcashService={handcashService}
-                  onHandCashLogin={() => handcashService.login()}
-                  onHandCashLogout={handleLogout}
-                />
                 <button 
                   className="mobile-menu-toggle"
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
