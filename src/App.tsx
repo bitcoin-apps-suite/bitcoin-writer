@@ -38,6 +38,8 @@ import DocumentSidebar from './components/DocumentSidebar';
 import HandCashCallback from './components/HandCashCallback';
 import BapPage from './pages/BapPage';
 import MAIPPage from './pages/MAIPPage';
+import MarketPage from './pages/MarketPage';
+import ArticlePage from './pages/ArticlePage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
@@ -354,6 +356,8 @@ function App() {
         <Routes>
       <Route path="/auth/handcash/callback" element={<HandCashCallback />} />
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
+      <Route path="/market" element={<MarketPage />} />
+      <Route path="/market/article/:id" element={<ArticlePage />} />
       <Route path="/features" element={<FeaturesPage />} />
       <Route path="/jobs-queue" element={<JobsQueuePage />} />
       <Route path="/bwriter-pro" element={<BWriterProPage />} />
@@ -427,6 +431,12 @@ function App() {
                           setShowBitcoinMenu(false);
                         }}>
                           <span>📝</span> Bitcoin Writer
+                        </div>
+                        <div className="menu-item" onClick={() => {
+                          window.location.href = '/market';
+                          setShowBitcoinMenu(false);
+                        }}>
+                          <span>🏪</span> Content Market
                         </div>
                         <div className="menu-separator" />
                         <div className="menu-item" onClick={() => {
@@ -905,12 +915,13 @@ function App() {
               )}
             </div>
             <Footer />
-            {/* Minimal Status Bar - Only show when not running in Bitcoin OS */}
-            {!isInOS && <MinimalDock />}
           </div>
         )}
       />
       </Routes>
+      
+      {/* Minimal Status Bar - Show on all pages when not running in Bitcoin OS */}
+      {!isInOS && <MinimalDock />}
     </GoogleAuthProvider>
 
     {/* Payment Modals */}

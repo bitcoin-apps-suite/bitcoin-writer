@@ -1,0 +1,418 @@
+.market-body-page {
+  min-height: 100vh;
+  background: #2a2a2a;
+  color: #ffffff;
+  padding: 2rem; /* Clean padding without sidebar constraints */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Main layout - two columns without sidebar constraints */
+.market-body-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px; /* Generous sidebar width */
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.market-body-content {
+  min-width: 0; /* Prevents overflow */
+}
+
+.market-body-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem; /* Moved sidebar up since no header to clear */
+  height: calc(100vh + 120rem); /* Extended to align with Market Insights section */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 0.5rem; /* Space for scrollbar */
+}
+
+.market-body-sidebar .widget-item {
+  width: 100%;
+  height: auto; /* Natural height */
+  min-height: auto; /* No forced minimum height */
+}
+
+/* Custom scrollbar styling for sidebar */
+.market-body-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.market-body-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.market-body-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 149, 0, 0.6);
+  border-radius: 4px;
+}
+
+.market-body-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 149, 0, 0.8);
+}
+
+/* Content Grid - 3 columns for articles */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always 3 columns */
+  gap: 1.5rem; /* Generous gap */
+  margin-bottom: 1.5rem;
+}
+
+.content-card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #333;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.content-card:hover {
+  transform: translateY(-4px);
+  border-color: #ff9500;
+  box-shadow: 0 8px 24px rgba(255, 149, 0, 0.2);
+}
+
+.content-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.content-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-badges {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.badge.trending {
+  background: rgba(255, 107, 0, 0.9);
+  color: #fff;
+}
+
+.badge.tokenized {
+  background: rgba(255, 149, 0, 0.9);
+  color: #fff;
+}
+
+.tokenized-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255, 149, 0, 0.8), rgba(255, 107, 0, 0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.token-price-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.token-price-usd {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.token-price-bsv {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  margin-top: 2px;
+}
+
+.content-info {
+  padding: 1rem;
+}
+
+.content-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.content-info p {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.content-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.content-meta span {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.author-link {
+  color: #ff9500 !important;
+  text-decoration: none;
+  font-weight: 500;
+  background: rgba(255, 149, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+.author-link:hover {
+  background: rgba(255, 149, 0, 0.2);
+  border-color: rgba(255, 149, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.content-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.engagement {
+  color: #888;
+}
+
+/* Price display styles */
+.price-display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price-usd {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+.price-bsv {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+.purchase-info {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.purchase-text {
+  font-size: 0.8rem;
+  color: #ff9500;
+  font-style: italic;
+}
+
+/* Section Styles */
+section {
+  margin-bottom: 3rem;
+}
+
+section h2 {
+  font-size: 1.8rem;
+  color: #ff9500;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255, 149, 0, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+/* Featured section header spans full width */
+.featured-section h2 {
+  position: relative;
+  left: calc(-2rem);
+  width: calc(100% + 300px + 4rem);
+  text-align: center;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: -0.75rem; /* Move up by about half an inch */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: 3rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.action-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.action-card:hover {
+  border-color: #ff9500;
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.action-card h3 {
+  color: #fff;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+.action-card p {
+  color: #ccc;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.action-btn {
+  background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+}
+
+/* Market Insights */
+.market-insights {
+  margin-bottom: 3rem;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.insight-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.insight-card h4 {
+  color: #ff9500;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.insight-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.insight-card li {
+  padding: 0.5rem 0;
+  color: #ccc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+.insight-card li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .market-body-layout {
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .market-body-page {
+    padding: 1rem;
+  }
+
+  .market-body-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .market-body-sidebar {
+    order: -1; /* Move sidebar above content on mobile */
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
