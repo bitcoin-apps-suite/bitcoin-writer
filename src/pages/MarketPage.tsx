@@ -67,9 +67,9 @@ const MarketPage: React.FC = () => {
       authorHandle: '@b0ase',
       platform: 'Bitcoin Writer',
       category: 'Technology',
-      readTime: 12,
+      readTime: 25,
       engagement: 2890,
-      thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center',
+      thumbnail: '/bitcoin-writer-intro.jpg',
       price: 0.01,
       isTokenized: true,
       trending: true

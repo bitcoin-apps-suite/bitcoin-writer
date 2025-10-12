@@ -14,74 +14,164 @@ const ArticlePage: React.FC<ArticlePageProps> = () => {
     author: 'b0ase',
     authorHandle: '@b0ase',
     publishDate: 'October 12, 2025',
-    readTime: '12 min read',
+    readTime: '25 min read',
     content: `
-Bitcoin Writer represents a paradigm shift in how we think about content creation, ownership, and monetization. Built on the Bitcoin blockchain, this platform transforms traditional writing into a new form of digital asset creation.
+Bitcoin Writer is not just another writing platform—it's a revolutionary paradigm shift that fundamentally transforms how writers create, own, distribute, and monetize their content. Built on the rock-solid foundation of the Bitcoin SV blockchain, this platform represents the convergence of traditional publishing excellence with cutting-edge blockchain technology, creating an entirely new ecosystem where writers become true digital entrepreneurs.
 
-## The Problem with Traditional Publishing
+## The Publishing Industry's Fundamental Flaws
 
-Traditional publishing platforms have several fundamental issues:
+The traditional publishing landscape is broken, and writers have been paying the price for decades. Consider the stark reality: when you publish on Medium, Substack, or any conventional platform, you're essentially renting space on someone else's digital real estate. You pour your creativity, expertise, and time into crafting compelling content, yet the platform maintains ultimate control over distribution, monetization, and even the continued existence of your work.
 
-- **Centralized Control**: Platform owners control distribution and monetization
-- **Limited Ownership**: Writers don't truly own their content once published
-- **Revenue Sharing**: Platforms take significant cuts of earnings
-- **Lack of Transparency**: Opaque algorithms determine reach and engagement
+**Centralized Control and Censorship**: Platform owners wield absolute power over what gets published, promoted, or removed. Your carefully crafted article can disappear overnight due to algorithmic changes, policy shifts, or corporate decisions that have nothing to do with content quality. Writers live in constant fear of de-platforming, shadow-banning, or arbitrary content removal.
 
-## The Bitcoin Writer Solution
+**Exploitative Revenue Models**: Most platforms operate on a parasitic model where they extract 30-50% of writer earnings while providing minimal value in return. Substack takes a 10% cut, Medium's Partner Program keeps the majority of subscription revenue, and traditional publishers often retain rights indefinitely while paying authors pennies per word.
 
-Bitcoin Writer addresses these issues through blockchain technology:
+**Lack of True Ownership**: When you publish content on traditional platforms, you're granting them extensive licenses to your intellectual property. Many writers don't realize they're signing away fundamental rights to their own creations. Your words become part of their content library, used to attract and retain subscribers who may never directly compensate you.
 
-### 1. True Content Ownership
-Every document is hashed and stored on the Bitcoin blockchain, creating an immutable record of ownership. Writers retain full control over their intellectual property.
+**Opaque Monetization**: Traditional platforms use black-box algorithms to determine reach, engagement, and earnings. Writers have no insight into how their content performs financially, why certain pieces succeed while others fail, or how platform changes affect their income streams.
 
-### 2. Tokenized Equity
-Content can be tokenized, allowing writers to:
-- Issue shares in their work's future royalties
-- Create new revenue streams through equity ownership
-- Enable community investment in promising content
+## The Bitcoin Writer Revolution: A Comprehensive Platform Overview
 
-### 3. Encrypted Publishing
-Writers can:
-- Encrypt their content before publishing
-- Set micropayment prices for access
-- Control who can read their work
+Bitcoin Writer fundamentally reimagines content creation by placing writers at the center of their own digital economy. Rather than being tenants on someone else's platform, writers become sovereign operators of their own content businesses, with blockchain technology providing the infrastructure for true ownership, transparent monetization, and global distribution.
 
-### 4. Direct Monetization
-No intermediaries between writers and readers:
-- Instant Bitcoin payments
-- Micropayments as low as 1 cent
-- 100% of payments go to content creators
+### 1. Immutable Content Ownership Through Blockchain Technology
 
-## Technical Implementation
+Every document created in Bitcoin Writer is cryptographically hashed and permanently recorded on the Bitcoin SV blockchain. This isn't just storage—it's irrefutable proof of authorship and ownership that can never be altered, deleted, or disputed. When you publish on Bitcoin Writer, you're creating an immutable timestamp that proves you created specific content at a specific moment.
 
-Bitcoin Writer leverages several key technologies:
+**How It Works**: Our system generates a unique SHA-256 hash of your document's content, metadata, and timestamp. This hash is then inscribed into a Bitcoin transaction using OP_RETURN outputs, creating a permanent, searchable record that can be verified by anyone, anywhere in the world. Unlike traditional copyright registration, which can take months and costs hundreds of dollars, blockchain registration happens instantly and costs mere cents.
 
-- **OP_RETURN**: For fast, lightweight content hashing
-- **OP_PUSHDATA4**: For secure, larger content storage
-- **Multisig P2SH**: For collaborative content ownership
-- **HandCash Integration**: For seamless payment processing
+**Legal Implications**: This blockchain record serves as admissible evidence in intellectual property disputes. Courts worldwide are increasingly recognizing blockchain timestamps as valid proof of creation and ownership. You're not just protecting your content—you're building a bulletproof legal foundation for your intellectual property portfolio.
 
-## The Future of Writing
+### 2. Revolutionary Tokenization and Equity Distribution
 
-This platform represents the "Uberfication of Writing" - transforming writing from a traditional craft into a modern, technology-enabled profession where:
+Bitcoin Writer introduces the concept of **Content Equity**—the ability to issue tradeable shares in your work's future revenue streams. This transforms writing from a one-time transaction into an ongoing investment opportunity for both creators and their communities.
 
-- Writers have multiple revenue streams
-- Content becomes tradeable assets
-- Community ownership drives engagement
-- Blockchain ensures transparency and trust
+**Share Issuance Mechanics**: Writers can tokenize any piece of content by creating digital shares that represent ownership stakes in future earnings. These shares can be sold to readers, investors, or collaborators, creating immediate funding for content creation while providing ongoing revenue sharing for stakeholders.
 
-## Getting Started
+**Smart Contract Integration**: Our platform uses sophisticated smart contracts to automatically distribute revenue to share holders based on predetermined algorithms. Every time someone purchases access to your content, pays for premium features, or engages with monetized elements, the revenue is automatically split among shareholders according to their ownership percentages.
 
-Ready to revolutionize your writing career? Bitcoin Writer makes it simple:
+**Secondary Markets**: Token holders can trade their shares on decentralized exchanges, creating a liquid market for content investments. This means your most valuable pieces can appreciate over time, and early supporters of your work can profit from your success while you retain control over the underlying content.
 
-1. **Sign up** with HandCash for instant Bitcoin payments
-2. **Create** your first encrypted document
-3. **Publish** with custom pricing and access controls
-4. **Tokenize** successful content for ongoing revenue
+**Collaborative Content Creation**: Multiple writers can collaborate on projects with automatic equity distribution. Smart contracts handle complex revenue sharing between co-authors, editors, researchers, and other contributors without requiring trust or intermediaries.
 
-The future of writing is here. Own your words, own your future.
+### 3. Advanced Encryption and Access Control Systems
 
-*Ready to get started? Visit [Bitcoin Writer](/) and begin your journey into blockchain-powered publishing.*
+Bitcoin Writer's encryption system provides military-grade content protection while maintaining user-friendly accessibility for legitimate purchasers. This isn't just basic password protection—it's a sophisticated key management system that ensures only paying customers can access your premium content.
+
+**Multi-Layer Encryption**: Content is encrypted using AES-256 encryption with unique keys generated for each document. These keys are then encrypted using Bitcoin's elliptic curve cryptography and stored on the blockchain. This dual-layer approach means that even if someone gains access to our servers, they cannot decrypt your content without the blockchain-stored keys.
+
+**Granular Access Controls**: Writers can create complex access hierarchies with different pricing tiers for different sections of content. For example, you might offer a free introduction, charge $1 for the full article, $5 for exclusive bonus content, and $10 for access to source materials and references.
+
+**Time-Based Access**: Implement time locks on content, allowing you to create scarcity and urgency. Content can be released on specific dates, granted access for limited time periods, or unlocked based on reader engagement metrics.
+
+**Conditional Access**: Set complex conditions for content access, such as requiring readers to own specific tokens, complete certain actions, or maintain subscription levels. This enables sophisticated membership and community-building strategies.
+
+### 4. Sophisticated Monetization Architecture
+
+Bitcoin Writer provides multiple revenue streams that can operate simultaneously, creating diverse income opportunities that far exceed traditional platform limitations.
+
+**Micropayment Infrastructure**: Our integration with HandCash and other Bitcoin payment processors enables frictionless micropayments starting at just one satoshi (approximately $0.0001). Readers can pay per paragraph, per article, or per word, creating granular monetization opportunities that were impossible with traditional payment systems.
+
+**Subscription Models**: Create traditional subscription services with blockchain-verified access. Subscribers receive cryptographic keys that unlock your content library, with automatic renewal and payment processing handled transparently on the blockchain.
+
+**Pay-Per-View Analytics**: Detailed analytics show exactly how much revenue each piece of content generates, which sections readers find most valuable, and where engagement drops off. This data helps optimize both content and pricing strategies.
+
+**Dynamic Pricing**: Implement dynamic pricing models where content costs adjust based on demand, reader engagement, or time since publication. Popular articles can automatically increase in price, while older content can become more accessible.
+
+**Affiliate and Referral Programs**: Built-in referral tracking allows readers to earn commissions by promoting your content. Every referral is tracked on the blockchain, ensuring transparent and automatic payment distribution.
+
+### 5. Advanced Content Management and Distribution Tools
+
+Bitcoin Writer provides professional-grade tools for content creation, management, and distribution that rival traditional publishing software while adding blockchain-specific capabilities.
+
+**Rich Text Editor**: Our editor supports full markdown, LaTeX for mathematical expressions, code syntax highlighting, embedded media, interactive elements, and direct blockchain integration. You can write, format, and publish professional-quality content without leaving the platform.
+
+**Version Control**: Every edit is tracked on the blockchain, creating an immutable history of your content's evolution. This provides both backup security and proof of ongoing creative work for intellectual property purposes.
+
+**Multi-Platform Publishing**: Content can be simultaneously published to multiple platforms while maintaining Bitcoin Writer as the canonical source. This allows you to leverage existing audiences while building your blockchain-native presence.
+
+**SEO Optimization**: Built-in SEO tools help optimize content for search engines while maintaining blockchain verifiability. Meta tags, structured data, and social media previews are automatically generated and can be customized for maximum reach.
+
+**Content Analytics**: Comprehensive analytics track reader engagement, payment patterns, geographic distribution, referral sources, and revenue optimization opportunities. Unlike traditional platforms, all data belongs to you and can be exported or integrated with other tools.
+
+### 6. HandCash Integration and Seamless Payment Processing
+
+Our deep integration with HandCash provides enterprise-grade payment processing with consumer-friendly user experience. Readers don't need to understand blockchain technology to purchase and access content—they simply click, pay, and read.
+
+**Instant Payments**: Transactions settle in seconds, not days. When someone purchases your content, you receive payment immediately, improving cash flow and reducing transaction costs compared to traditional payment processors.
+
+**Global Accessibility**: Bitcoin payments work worldwide without currency conversion, international transaction fees, or banking restrictions. Your content can be monetized in markets that traditional payment systems can't reach.
+
+**Micro-Transaction Viability**: Traditional payment processors charge fixed fees that make small transactions uneconomical. Bitcoin's low transaction costs make it profitable to charge for individual paragraphs, allowing entirely new monetization strategies.
+
+**Automatic Currency Conversion**: For users who prefer traditional currencies, our system automatically converts Bitcoin payments to dollars, euros, or other fiat currencies while maintaining the benefits of blockchain settlement.
+
+### 7. Community Building and Social Features
+
+Bitcoin Writer isn't just a publishing platform—it's a community-building tool that helps writers develop sustainable relationships with their audiences.
+
+**Reader Engagement Tools**: Built-in commenting, discussion forums, and reader feedback systems help build engaged communities around your content. All interactions are logged on the blockchain, creating permanent engagement records.
+
+**Creator Collaboration**: Connect with other writers for joint projects, cross-promotion, and collaborative content creation. Smart contracts handle complex collaboration agreements automatically.
+
+**Audience Analytics**: Understand your readership through detailed demographic and engagement analytics. See which content resonates with different audience segments and optimize your content strategy accordingly.
+
+**Social Proof Integration**: Display blockchain-verified download counts, earnings, and reader engagement metrics to build credibility and social proof for your work.
+
+## Technical Architecture: Building on Bitcoin SV's Unlimited Potential
+
+Bitcoin Writer leverages Bitcoin SV's massive scaling capabilities and powerful scripting language to create features impossible on other blockchains.
+
+**Unlimited Block Size**: Bitcoin SV's removal of artificial block size limits means we can store entire documents on-chain without worrying about space constraints. This enables true permanence and accessibility for your content.
+
+**Advanced Script Capabilities**: Bitcoin SV's restoration of Bitcoin's original scripting language allows for sophisticated smart contracts, multi-signature controls, and complex conditional access systems that protect both creators and consumers.
+
+**Micropayment Infrastructure**: With transaction fees measured in fractions of a cent, Bitcoin SV makes micropayments economically viable, enabling entirely new monetization models for digital content.
+
+**Enterprise Scalability**: Bitcoin SV can handle millions of transactions per second, ensuring that Bitcoin Writer can scale to serve global publishing markets without performance degradation.
+
+## The Economics of Digital Content Ownership
+
+Bitcoin Writer represents more than a technological upgrade—it's an economic revolution that redistributes value from platform owners to content creators.
+
+**True Creator Economy**: Instead of platforms extracting value from creators, Bitcoin Writer's tokenization system allows creators to build lasting equity in their work. Your content library becomes a valuable asset portfolio that can appreciate over time.
+
+**Investment Opportunities**: Readers can invest in creators they believe in, sharing in the success of quality content while providing upfront funding for ambitious projects. This creates aligned incentives between creators and consumers.
+
+**Market-Driven Pricing**: Content prices are determined by market demand rather than platform algorithms. High-quality, valuable content can command premium prices, while creators can experiment with different pricing strategies to maximize both reach and revenue.
+
+**Global Market Access**: Bitcoin's borderless nature means your content can reach global markets without payment processing restrictions, currency conversion fees, or regional platform limitations.
+
+## Getting Started: Your Journey to Content Sovereignty
+
+Beginning your Bitcoin Writer journey is designed to be as simple as opening a traditional social media account, while providing access to revolutionary publishing capabilities.
+
+**Step 1: Account Setup and Authentication**
+Creating your Bitcoin Writer account takes less than five minutes. You can authenticate using HandCash for immediate Bitcoin integration, Google for familiar OAuth experience, or GitHub for developer-focused workflows. Each authentication method provides the same full feature access while maintaining security best practices.
+
+**Step 2: Creating Your First Document**
+Our intuitive editor feels familiar to anyone who's used Google Docs or Medium, but with powerful blockchain integration features. Start writing immediately, knowing that every keystroke is being automatically backed up and versioned. When you're ready to publish, our one-click blockchain integration handles all the technical complexity behind the scenes.
+
+**Step 3: Monetization Configuration**
+Set your pricing strategy using our guided wizard. Whether you want to offer free content with premium upgrades, implement subscription models, or experiment with dynamic pricing, our tools make complex monetization strategies accessible to non-technical users.
+
+**Step 4: Community Building**
+Use our built-in social features to connect with readers, collaborate with other creators, and build sustainable audience relationships. Every interaction is transparently recorded on the blockchain, creating verifiable engagement metrics that you own and control.
+
+**Step 5: Revenue Optimization**
+Our analytics dashboard provides actionable insights for optimizing your content strategy. See which topics perform best, what pricing strategies maximize revenue, and where your audience comes from. Unlike traditional platforms, all this data belongs to you and can be exported for further analysis.
+
+## The Future is Already Here
+
+Bitcoin Writer isn't a promise of what might be possible—it's a working platform that's already revolutionizing how writers think about their craft. We're not waiting for blockchain technology to mature; we're using Bitcoin SV's existing capabilities to solve real problems that writers face today.
+
+Writers who adopt Bitcoin Writer early aren't just getting access to better tools—they're positioning themselves at the forefront of a fundamental shift in how digital content is created, owned, and monetized. The traditional publishing industry's gatekeepers are becoming irrelevant, and creators who understand this transition will have enormous advantages over those who don't.
+
+The future of writing is already here. The only question is whether you'll be part of creating it or watching from the sidelines.
+
+**Ready to begin?** Your transformation from traditional writer to blockchain-powered content entrepreneur starts now. Welcome to Bitcoin Writer—where your words become your wealth.
+
+*Join the revolution at [Bitcoin Writer](/) and discover what true content ownership feels like.*
     `
     },
     '2': {
@@ -219,7 +309,7 @@ This selective focus on the $10 cost while ignoring the $900+ gain is a rhetoric
 
 ## The Coherence-Debt Switcheroo: Structural Debt in PoW
 
-Iversen attempts to define the most occluded bitcoin fork as the ultimate expression of "coherence"—a value-based commodity that multiplies "without depletion" that is not debt-based. However, the mechanism used to secure this commodity, Proof-of-Work (PoW), immediately introduces a profound structural debt by default and by design. Her argument merely trades one form of debt (fiat's inflationary/monetary debt) for another, embracing a massive operational/capital debt.
+Iversen attempts to define the most occluded bitcoin fork as the ultimate expression of "coherence"—a value-based commodity that multiplies "without depletion" that is not debt-based, as detailed in her <a href="https://annaiversen.substack.com/p/bitcoin-satoshi-vision" target="_blank" rel="noopener noreferrer" style="color: #ff9500; text-decoration: underline;">"Bitcoin Satoshi Vision"</a> article. However, the mechanism used to secure this commodity, Proof-of-Work (PoW), immediately introduces a profound structural debt by default and by design. Her argument merely trades one form of debt (fiat's inflationary/monetary debt) for another, embracing a massive operational/capital debt.
 
 The security and existence of the Bitcoin ledger are fundamentally reliant on three forms of continuous obligation:
 
@@ -349,6 +439,20 @@ She successfully reframes a technical reality (high PoW cost) as a philosophical
 
         <article>
           <header style={{ marginBottom: '30px', borderBottom: '1px solid #333', paddingBottom: '20px' }}>
+            {article.id === '1' && (
+              <img 
+                src="/bitcoin-writer-intro.jpg" 
+                alt="Bitcoin Writer platform introduction"
+                style={{
+                  width: '100%',
+                  height: '300px',
+                  objectFit: 'cover',
+                  objectPosition: 'center 20%',
+                  borderRadius: '8px',
+                  marginBottom: '20px'
+                }}
+              />
+            )}
             {article.id === '2' && (
               <img 
                 src="/uber-driving.jpg" 
