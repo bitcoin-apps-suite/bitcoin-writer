@@ -5,25 +5,23 @@
 
 /* Single Sign In Button */
 .sign-in-btn {
-  padding: 8px 20px;
-  background: linear-gradient(135deg, #ff9500, #ff7300);
-  color: white;
+  padding: 4px 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .sign-in-btn:hover {
-  background: linear-gradient(135deg, #ff7300, #ff9500);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 /* Auth Modal */
