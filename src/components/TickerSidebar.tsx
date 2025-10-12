@@ -310,7 +310,49 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
 
       {!isCollapsed && (
         <div className="ticker-content">
-          <div className="ticker-loading">Market data temporarily disabled</div>
+          {isLoading ? (
+            <div className="ticker-loading">Loading market data...</div>
+          ) : (
+            <>
+              <div className="ticker-list">
+                {prices.map((token, index) => (
+                  <div 
+                    key={`${token.symbol}-${index}`} 
+                    className={`ticker-item ${token.isSpecial ? 'special' : ''} ${token.isGig ? 'gig' : ''}`}
+                  >
+                    <div className="ticker-symbol-row">
+                      <span className="ticker-symbol">{token.symbol}</span>
+                      <span className={`ticker-change ${token.changePercent >= 0 ? 'positive' : 'negative'}`}>
+                        {token.changePercent >= 0 ? '+' : ''}{token.changePercent.toFixed(2)}%
+                      </span>
+                    </div>
+                    <div className="ticker-name">{token.name}</div>
+                    <div className="ticker-price">{formatPrice(token.price)}</div>
+                    <div className="ticker-stats">
+                      <div className="ticker-volume">Vol: {formatVolume(token.volume_24h)}</div>
+                      {token.liquidity !== undefined && (
+                        <div 
+                          className="ticker-liquidity" 
+                          style={{ color: getLiquidityColor(token.liquidity) }}
+                        >
+                          {formatLiquidity(token.liquidity)}
+                        </div>
+                      )}
+                      {token.holders && (
+                        <div className="ticker-holders">{token.holders} holders</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="ticker-footer">
+                <div className="ticker-disclaimer">
+                  Last updated: {formatTime(lastUpdate)}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
