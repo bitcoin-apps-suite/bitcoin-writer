@@ -105,6 +105,21 @@ const MarketPage: React.FC = () => {
       trending: true
     },
     {
+      id: '4',
+      title: 'How to Build the \'bOS\': A Pragmatic Strategic Plan for Decentralized Finance',
+      description: 'A comprehensive strategic plan for building the Bitcoin Operating System (bOS) as a scalable, self-governing computational infrastructure that rewards service providers with direct payment and corporate equity',
+      author: 'b0ase',
+      authorHandle: '@b0ase',
+      platform: 'Bitcoin Writer',
+      category: 'Technology',
+      readTime: 20,
+      engagement: 1560,
+      thumbnail: '/bitcoin-os-header.jpg',
+      price: 0.01,
+      isTokenized: true,
+      trending: true
+    },
+    {
       id: '5',
       title: 'Decentralized Content Networks',
       description: 'Understanding the infrastructure behind Web3 publishing platforms',
