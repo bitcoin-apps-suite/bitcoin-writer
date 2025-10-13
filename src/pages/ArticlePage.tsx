@@ -342,7 +342,7 @@ She successfully reframes a technical reality (high PoW cost) as a philosophical
     },
     '4': {
       id: '4',
-      title: 'How to Build the \'bOS\': A Pragmatic Strategic Plan for Decentralized Finance',
+      title: 'How to Build a \'bOS\': A Pragmatic Strategic Plan for Decentralized Finance',
       author: 'b0ase',
       authorHandle: '@b0ase',
       publishDate: 'October 13, 2025',
