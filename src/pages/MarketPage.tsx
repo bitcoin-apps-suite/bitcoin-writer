@@ -106,7 +106,7 @@ const MarketPage: React.FC = () => {
     },
     {
       id: '4',
-      title: 'How to Build the \'bOS\': A Pragmatic Strategic Plan for Decentralized Finance',
+      title: 'How to Build a \'bOS\': A Pragmatic Strategic Plan for Decentralized Finance',
       description: 'A comprehensive strategic plan for building the Bitcoin Operating System (bOS) as a scalable, self-governing computational infrastructure that rewards service providers with direct payment and corporate equity',
       author: 'b0ase',
       authorHandle: '@b0ase',
