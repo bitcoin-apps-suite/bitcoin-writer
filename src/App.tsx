@@ -61,6 +61,7 @@ import JobsQueuePage from './pages/JobsQueuePage';
 import BWriterProPage from './pages/BWriterProPage';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
+import MinimalDock from './components/MinimalDock';
 import SubscriptionModal from './components/SubscriptionModal';
 import TopUpModal from './components/TopUpModal';
 
@@ -919,6 +920,8 @@ function App() {
         />
       )}
       
+      {/* Minimal Status Bar - Show on all pages when not running in Bitcoin OS */}
+      {!isInOS && <MinimalDock />}
     </GoogleAuthProvider>
 
     {/* Payment Modals */}
