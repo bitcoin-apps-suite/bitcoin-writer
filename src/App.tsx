@@ -40,6 +40,7 @@ import BapPage from './pages/BapPage';
 import MAIPPage from './pages/MAIPPage';
 import MarketPage from './pages/MarketPage';
 import ArticlePage from './pages/ArticlePage';
+import BlogPage from './pages/BlogPage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
 import { GoogleAuthProvider } from './components/GoogleAuth';
@@ -361,6 +362,7 @@ function App() {
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/market" element={<MarketPage />} />
       <Route path="/market/article/:id" element={<ArticlePage />} />
+      <Route path="/blog" element={<BlogPage />} />
       <Route path="/features" element={<FeaturesPage />} />
       <Route path="/jobs-queue" element={<JobsQueuePage />} />
       <Route path="/bwriter-pro" element={<BWriterProPage />} />
