@@ -8,6 +8,7 @@ import BProtocolService, { BProtocolResult, BProtocolOptions } from './BProtocol
 import DProtocolService, { DocumentIndex, DocumentIndexEntry } from './DProtocolService';
 import BcatProtocolService, { BcatResult, BcatOptions } from './BcatProtocolService';
 import BicoMediaService, { BicoMediaOptions } from './BicoMediaService';
+import UHRPService, { type UHRPFileMetadata } from './UHRPService';
 
 export interface DocumentData {
   id: string;
@@ -43,9 +44,10 @@ export interface BlockchainDocument {
   blockchain_tx?: string;
   storage_cost?: number;
   // BSV Protocol fields
-  protocol?: 'B' | 'D' | 'Bcat' | 'legacy';
-  protocol_reference?: string; // B:// URL, D:// URL, or Bcat TX ID
+  protocol?: 'B' | 'D' | 'Bcat' | 'UHRP' | 'legacy';
+  protocol_reference?: string; // B:// URL, D:// URL, Bcat TX ID, or UHRP URL
   bico_url?: string; // Bico.Media CDN URL
+  uhrp_url?: string; // UHRP content addressing URL
 }
 
 export class BlockchainDocumentService {
@@ -61,6 +63,7 @@ export class BlockchainDocumentService {
   private dProtocolService: DProtocolService;
   private bcatProtocolService: BcatProtocolService;
   private bicoMediaService: BicoMediaService;
+  private uhrpService: typeof UHRPService;
 
   constructor(handcashService: HandCashService) {
     this.handcashService = handcashService;
@@ -72,6 +75,7 @@ export class BlockchainDocumentService {
     this.dProtocolService = new DProtocolService(handcashService, this.bProtocolService);
     this.bcatProtocolService = new BcatProtocolService(handcashService, this.bProtocolService);
     this.bicoMediaService = new BicoMediaService();
+    this.uhrpService = UHRPService;
     
     this.initialize();
   }
@@ -143,13 +147,13 @@ export class BlockchainDocumentService {
     content: string,
     title: string,
     options: {
-      protocol?: 'auto' | 'B' | 'D' | 'Bcat';
+      protocol?: 'auto' | 'B' | 'D' | 'Bcat' | 'UHRP';
       encrypt?: boolean;
       compress?: boolean;
       enableTemplating?: boolean;
     } = {}
   ): Promise<{
-    protocol: 'B' | 'D' | 'Bcat';
+    protocol: 'B' | 'D' | 'Bcat' | 'UHRP';
     reference: string;
     bicoUrl: string;
     cost: number;
@@ -213,6 +217,31 @@ export class BlockchainDocumentService {
           bicoUrl = bContentResult.bicoUrl;
           break;
 
+        case 'UHRP':
+          // Set identity key from user authentication
+          if (this.currentUser) {
+            this.uhrpService.setIdentityKey(this.currentUser.handle);
+          }
+          
+          const uhrpResult = await this.uhrpService.uploadDocument(
+            content,
+            `${title}.html`,
+            10080 // 7 days retention
+          );
+          
+          if (!uhrpResult.success || !uhrpResult.uhrpUrl) {
+            throw new Error(uhrpResult.error || 'UHRP upload failed');
+          }
+          
+          storageResult = {
+            txId: `uhrp_${Date.now()}`,
+            cost: { totalUSD: 0.005 }, // Estimated UHRP cost
+            uhrpUrl: uhrpResult.uhrpUrl
+          };
+          protocolReference = uhrpResult.uhrpUrl;
+          bicoUrl = uhrpResult.uhrpUrl; // Use UHRP URL as reference
+          break;
+
         default:
           throw new Error(`Unsupported protocol: ${selectedProtocol}`);
       }
@@ -229,12 +258,13 @@ export class BlockchainDocumentService {
         encrypted: options.encrypt || false,
         word_count: this.countWords(content),
         character_count: content.length,
-        storage_method: 'bsv_protocol',
+        storage_method: selectedProtocol === 'UHRP' ? 'uhrp' : 'bsv_protocol',
         blockchain_tx: storageResult.txId,
         storage_cost: storageResult.cost?.totalUSD || 0,
         protocol: selectedProtocol,
         protocol_reference: protocolReference,
-        bico_url: bicoUrl
+        bico_url: bicoUrl,
+        uhrp_url: selectedProtocol === 'UHRP' ? protocolReference : undefined
       };
 
       // Store for persistence
@@ -293,6 +323,12 @@ export class BlockchainDocumentService {
         throw new Error('D:// reference could not be resolved');
       } else if (reference.startsWith('bcat://')) {
         return await this.bcatProtocolService.retrieveLargeContent(reference);
+      } else if (reference.startsWith('uhrp://')) {
+        const downloadResult = await this.uhrpService.downloadDocument(reference);
+        if (!downloadResult.success || !downloadResult.content) {
+          throw new Error(downloadResult.error || 'UHRP download failed');
+        }
+        return downloadResult.content;
       } else {
         // Try Bico.Media direct retrieval
         const bicoResult = await this.bicoMediaService.retrieveContent(reference);
@@ -311,13 +347,15 @@ export class BlockchainDocumentService {
     b: { cost: number; supported: boolean };
     bcat: { cost: number; supported: boolean };
     d: { cost: number; supported: boolean };
-    recommended: 'B' | 'Bcat' | 'D';
+    uhrp: { cost: number; supported: boolean };
+    recommended: 'B' | 'Bcat' | 'D' | 'UHRP';
   }> {
     const estimates = {
       b: { cost: 0, supported: true },
       bcat: { cost: 0, supported: true },
       d: { cost: 0, supported: true },
-      recommended: 'B' as 'B' | 'Bcat' | 'D'
+      uhrp: { cost: 0.005, supported: true }, // Fixed UHRP cost estimate
+      recommended: 'B' as 'B' | 'Bcat' | 'D' | 'UHRP'
     };
 
     try {
@@ -396,13 +434,18 @@ export class BlockchainDocumentService {
    */
   private selectOptimalProtocol(
     content: string,
-    preferredProtocol?: 'auto' | 'B' | 'D' | 'Bcat'
-  ): 'B' | 'D' | 'Bcat' {
+    preferredProtocol?: 'auto' | 'B' | 'D' | 'Bcat' | 'UHRP'
+  ): 'B' | 'D' | 'Bcat' | 'UHRP' {
     if (preferredProtocol && preferredProtocol !== 'auto') {
       return preferredProtocol;
     }
 
     const contentSize = Buffer.from(content, 'utf-8').length;
+
+    // Use UHRP for very large content (10MB+)
+    if (contentSize > 10000000) {
+      return 'UHRP';
+    }
 
     // Use Bcat for large content
     if (contentSize > 100000) {
@@ -1165,6 +1208,47 @@ export class BlockchainDocumentService {
     return this.bsvStorage;
   }
 
+  // Get UHRP service
+  public getUHRPService(): typeof UHRPService {
+    return this.uhrpService;
+  }
+
+  // Resolve UHRP URL to downloadable content URL
+  public async resolveUHRPUrl(uhrpUrl: string): Promise<string | null> {
+    try {
+      if (!this.uhrpService.isValidUHRPUrl(uhrpUrl)) {
+        throw new Error('Invalid UHRP URL format');
+      }
+
+      return await this.uhrpService.resolveUHRPUrl(uhrpUrl);
+    } catch (error) {
+      console.error('Failed to resolve UHRP URL:', error);
+      return null;
+    }
+  }
+
+  // Get UHRP file metadata
+  public async getUHRPMetadata(uhrpUrl: string): Promise<UHRPFileMetadata | null> {
+    try {
+      const findResult = await this.uhrpService.findFile(uhrpUrl);
+      
+      if (findResult.status === 'success' && findResult.data) {
+        return {
+          name: findResult.data.name,
+          size: findResult.data.size,
+          mimeType: findResult.data.mimeType,
+          expiryTime: findResult.data.expiryTime,
+          uhrpUrl: uhrpUrl
+        };
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Failed to get UHRP metadata:', error);
+      return null;
+    }
+  }
+
   // Get real-time storage quote
   public async getStorageQuoteRealTime(wordCount: number, encrypted: boolean = false): Promise<StorageQuote> {
     return await this.bsvStorage.calculateStorageCostRealTime(wordCount, encrypted);
@@ -1293,6 +1377,13 @@ export class BlockchainDocumentService {
           return this.dProtocolService.getProtocolBadge(document.protocol_reference);
         case 'Bcat':
           return this.bcatProtocolService.getProtocolBadge(document.protocol_reference);
+        case 'UHRP':
+          return {
+            name: 'UHRP',
+            description: 'Unified Hash Resolution Protocol - Content-addressed storage',
+            color: '#8b5cf6',
+            icon: '🔗'
+          };
       }
     }
     
@@ -1327,6 +1418,10 @@ export class BlockchainDocumentService {
     }
     
     if (url.startsWith('bcat://')) {
+      return url.substring(7);
+    }
+    
+    if (url.startsWith('uhrp://')) {
       return url.substring(7);
     }
     

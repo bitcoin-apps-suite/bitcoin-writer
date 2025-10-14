@@ -41,9 +41,10 @@ export interface DocumentInscriptionMetadata {
   publicKey?: string;       // Author's public key for verification
   
   // Blockchain integration
-  blockchainProtocol?: 'B' | 'D' | 'Bcat';
-  blockchainReference?: string;  // B://, D://, or Bcat URL
+  blockchainProtocol?: 'B' | 'D' | 'Bcat' | 'UHRP';
+  blockchainReference?: string;  // B://, D://, Bcat URL, or UHRP URL
   bicoUrl?: string;             // Bico.Media CDN URL
+  uhrpUrl?: string;             // UHRP content addressing URL
   storageCost?: number;         // USD cost for blockchain storage
 }
 

@@ -281,13 +281,15 @@ export class IntegratedWorkTreeService extends EventEmitter {
     b: { cost: number; supported: boolean };
     bcat: { cost: number; supported: boolean };
     d: { cost: number; supported: boolean };
-    recommended: 'B' | 'Bcat' | 'D';
+    uhrp: { cost: number; supported: boolean };
+    recommended: 'B' | 'Bcat' | 'D' | 'UHRP';
   }> {
     if (!this.blockchainService.isReady()) {
       return {
         b: { cost: 0, supported: false },
         bcat: { cost: 0, supported: false },
         d: { cost: 0, supported: false },
+        uhrp: { cost: 0, supported: false },
         recommended: 'B'
       };
     }
