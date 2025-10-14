@@ -3,7 +3,7 @@
   position: fixed;
   left: 0;
   top: 72px; /* Below POC banner (40px) and taskbar (32px) */
-  bottom: 0;
+  bottom: 32px; /* Above MinimalDock (32px height) */
   width: 260px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.1);

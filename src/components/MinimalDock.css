@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 12px;
+  padding: 0 12px 0 0; /* Remove left padding to stretch to far left edge */
 }
 
 .minimal-dock-apps {
@@ -26,7 +26,7 @@
   gap: 6px;
   overflow-x: auto;
   flex: 0 1 auto;
-  padding-right: 12px;
+  padding: 0 12px 0 6px; /* Add small left padding for first icon */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -99,7 +99,7 @@
 .minimal-dock-status {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -139,6 +139,50 @@
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
   font-weight: 400;
   font-size: 11px;
+}
+
+/* Right side mini apps - now inside status */
+.minimal-dock-right-apps {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Expand toggle - now inside status */
+.minimal-dock-expand-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.minimal-dock-app-mini {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.minimal-dock-app-mini:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.minimal-dock-icon-mini {
+  width: 12px;
+  height: 12px;
+  transition: filter 0.2s ease;
+}
+
+.minimal-dock-app-mini:hover .minimal-dock-icon-mini {
+  filter: brightness(1.2);
 }
 
 /* Responsive adjustments */
