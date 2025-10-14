@@ -40,6 +40,7 @@ import BapPage from './pages/BapPage';
 import MAIPPage from './pages/MAIPPage';
 import MarketPage from './pages/MarketPage';
 import ArticlePage from './pages/ArticlePage';
+import AuthorPage from './pages/AuthorPage';
 import BlogPage from './pages/BlogPage';
 import { BlockchainDocumentService, BlockchainDocument } from './services/BlockchainDocumentService';
 import { HandCashService, HandCashUser } from './services/HandCashService';
@@ -60,7 +61,6 @@ import JobsQueuePage from './pages/JobsQueuePage';
 import BWriterProPage from './pages/BWriterProPage';
 import ServiceWorkerRegistration from './components/ServiceWorkerRegistration';
 import LoadingDoor from './components/LoadingDoor';
-import MinimalDock from './components/MinimalDock';
 import SubscriptionModal from './components/SubscriptionModal';
 import TopUpModal from './components/TopUpModal';
 
@@ -362,6 +362,7 @@ function App() {
       <Route path="/bitcoin-writer/bap" element={<BapPage />} />
       <Route path="/market" element={<MarketPage />} />
       <Route path="/market/article/:id" element={<ArticlePage />} />
+      <Route path="/authors/:slug" element={<AuthorPage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/features" element={<FeaturesPage />} />
       <Route path="/jobs-queue" element={<JobsQueuePage />} />
@@ -918,8 +919,6 @@ function App() {
         />
       )}
       
-      {/* Minimal Status Bar - Show on all pages when not running in Bitcoin OS */}
-      {!isInOS && <MinimalDock />}
     </GoogleAuthProvider>
 
     {/* Payment Modals */}

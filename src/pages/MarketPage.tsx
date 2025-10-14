@@ -75,36 +75,6 @@ const MarketPage: React.FC = () => {
       trending: true
     },
     {
-      id: '2',
-      title: 'Bitcoin Writer: The Uberfication of Writing',
-      description: 'A thoughtful examination and response to Anna Iversen\'s concerns about modern work platforms, from the perspective of a 7-year Uber driver who built Bitcoin Writer',
-      author: 'b0ase',
-      authorHandle: '@b0ase',
-      platform: 'Bitcoin Writer',
-      category: 'Technology',
-      readTime: 5,
-      engagement: 2150,
-      thumbnail: '/uber-driving.jpg',
-      price: 0.01,
-      isTokenized: true,
-      trending: true
-    },
-    {
-      id: '3',
-      title: 'Ideological Oversimplification: Dissecting a Shallow Critique of Debt and Money',
-      description: 'A critique of Iversen\'s rhetorical framework which relies on flawed economic analogies to misrepresent the nature of debt in traditional financial systems',
-      author: 'b0ase',
-      authorHandle: '@b0ase',
-      platform: 'Bitcoin Writer',
-      category: 'Economics',
-      readTime: 18,
-      engagement: 1780,
-      thumbnail: '/corn.jpg',
-      price: 0.01,
-      isTokenized: true,
-      trending: true
-    },
-    {
       id: '4',
       title: 'How to Build a \'bOS\': A Pragmatic Strategic Plan for Decentralized Finance',
       description: 'A comprehensive strategic plan for building the Bitcoin Operating System (bOS) as a scalable, self-governing computational infrastructure that rewards service providers with direct payment and corporate equity',
