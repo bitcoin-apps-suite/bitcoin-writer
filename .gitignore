@@ -9,6 +9,7 @@ api/node_modules
 
 # Production
 /build
+/.next
 
 # misc
 .DS_Store
