@@ -630,8 +630,10 @@ html, body {
   line-height: 1.8 !important;
   min-height: 600px !important;
   max-width: 850px !important;
-  margin: 35px 0 0 0 !important;
+  margin: 45px 0 0 0 !important;
   margin-left: 65px !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .ql-editor:focus {
