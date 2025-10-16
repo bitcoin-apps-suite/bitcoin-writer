@@ -137,7 +137,7 @@ This app integrates with HandCash using:
 
 ## License
 
-This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0) - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0) - see the [LICENSE](LICENSE) file for details. For commercial inquiries, contact richardwboase@gmail.com.
 
 ### What this means:
 - ✅ **You CAN**: Use, modify, and distribute this software

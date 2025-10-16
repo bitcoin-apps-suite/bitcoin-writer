@@ -1,0 +1,947 @@
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#__next {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main app wrapper to account for top bars */
+.app-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 0; /* POC bar and taskbar are fixed positioned */
+}
+
+/* App Header */
+.app-header {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+  padding: 20px 24px;
+  text-align: center;
+  height: auto;
+  margin-top: 62px; /* Account for POC bar (40px) + Taskbar (22px) */
+  position: relative;
+  z-index: 10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, #f7931a, #ff8c00);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(247, 147, 26, 0.3);
+}
+
+.logo-text {
+  color: #f7931a;
+  font-weight: 300;
+  font-style: italic;
+  text-shadow: 0 0 10px rgba(247, 147, 26, 0.3);
+}
+
+.logo-writer {
+  color: #fff;
+  font-weight: 300;
+}
+
+.header-tagline {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  white-space: nowrap;
+}
+
+/* Main Layout Container - defined below with responsive rules */
+
+/* Main content area - clean version */
+.main-content {
+  transition: margin-left 0.3s ease;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.main-content.sidebar-expanded {
+  margin-left: 260px !important; /* Full DevSidebar width */
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 60px !important; /* Collapsed DevSidebar width */
+}
+
+/* Ensure app-wrapper and all child elements are responsive */
+.app-wrapper {
+  width: 100%;
+  margin-left: 0 !important;
+}
+
+/* Make the main-container responsive to the available width */
+.main-container {
+  display: flex;
+  min-height: 100vh;
+  background: #000;
+  position: relative;
+  margin-left: 0;
+  width: 100% !important; /* Force full width of parent */
+}
+
+/* Ensure editor container takes full available width */
+.editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  min-height: 100%;
+  overflow: visible;
+  min-width: 0; /* Allow flex shrinking */
+}
+
+/* Make document editor responsive */
+.document-editor-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  position: relative;
+  width: 100%;
+}
+
+/* Move the paper content right so left edge is visible */
+.quill-container,
+.quill-editor-wrapper {
+  margin-left: 0; /* Remove left margin */
+  margin-right: 20px; /* Add space on the right */
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Ensure the editor content has proper spacing */
+.ql-container {
+  margin-left: 0 !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Remove debug styling */
+
+/* Mobile responsive - no sidebar margin on mobile */
+@media (max-width: 768px) {
+  .main-content,
+  .main-content.sidebar-expanded,
+  .main-content.sidebar-collapsed {
+    margin-left: 0 !important;
+  }
+}
+
+/* Sidebar Container - My Docs sidebar */
+.sidebar-container {
+  width: 280px;
+  height: 100vh;
+  min-height: 100vh;
+  background: #1a1a1a;
+  border-right: 1px solid #333;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 9990; /* Higher than dev sidebar (9989) */
+  transition: width 0.3s ease;
+}
+
+/* When sidebar is collapsed, show just the button */
+.sidebar-container.collapsed {
+  width: 40px !important;
+  min-width: 40px !important;
+  overflow: visible !important;
+  border-right: 1px solid #333 !important;
+}
+
+/* Ensure collapsed button is visible */
+.document-sidebar.collapsed .sidebar-header {
+  padding: 15px 8px;
+  justify-content: center;
+  min-height: 56px;
+  width: 40px;
+}
+
+.document-sidebar.collapsed .collapse-btn {
+  transform: rotate(180deg);
+  margin: 0;
+  display: block;
+}
+
+/* Hide other elements when collapsed */
+.document-sidebar.collapsed .sidebar-content,
+.document-sidebar.collapsed .sidebar-title,
+.document-sidebar.collapsed .new-document-button,
+.document-sidebar.collapsed .document-search,
+.document-sidebar.collapsed .sidebar-title-area,
+.document-sidebar.collapsed .view-toggle {
+  display: none;
+}
+
+/* Editor Container */
+.editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  min-height: 100vh;
+  overflow: visible;
+  position: relative;
+}
+
+/* Document Editor Container */
+.document-editor-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  position: relative;
+  width: 100%;
+}
+
+/* Document Editor Toolbar */
+.toolbar {
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  padding: 0;
+  min-height: auto;
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.toolbar-desktop {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar-mobile {
+  display: none;
+}
+
+/* Toolbar Row 1 - Tabs and Main Actions */
+.toolbar-row-1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.document-tabs {
+  display: flex;
+  gap: 0;
+  margin-right: 20px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-bottom: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  border-radius: 4px 4px 0 0;
+  margin-right: 2px;
+}
+
+.tab-button.active {
+  background: #333;
+  color: #f7931a;
+  border-color: #444;
+}
+
+.tab-button:hover:not(.active) {
+  background: #333;
+  color: #ccc;
+}
+
+/* Toolbar Row 2 - Action Buttons */
+.toolbar-row-2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+  flex-wrap: wrap;
+}
+
+.button-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.button-divider {
+  width: 1px;
+  height: 20px;
+  background: #333;
+  margin: 0 8px;
+}
+
+/* Toolbar Row 3 - Formatting */
+.toolbar-row-3 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #0a0a0a;
+  border-bottom: 1px solid #333;
+}
+
+.format-button {
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+}
+
+.format-button:hover {
+  background: #2a2a2a;
+  border-color: #333;
+}
+
+.format-button.active {
+  background: #333;
+  border-color: #f7931a;
+  color: #f7931a;
+}
+
+.format-dropdown {
+  padding: 4px 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.format-dropdown:hover {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+/* Toolbar Buttons */
+.action-button {
+  padding: 6px 12px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.action-button:hover:not(:disabled) {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-button.primary {
+  background: #f7931a;
+  border-color: #f7931a;
+  color: #000;
+  font-weight: 600;
+}
+
+.action-button.primary:hover:not(:disabled) {
+  background: #e8850f;
+  border-color: #e8850f;
+}
+
+.action-button.success {
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.action-button.warning {
+  border-color: #fbbf24;
+  color: #fbbf24;
+}
+
+/* Save Button States */
+.save-btn-active {
+  background: #f7931a !important;
+  border-color: #f7931a !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.save-btn-active:hover {
+  background: #e8850f !important;
+}
+
+.save-btn-inactive {
+  opacity: 0.6;
+}
+
+/* Price Display */
+.toolbar .price-display {
+  background: rgba(247, 147, 26, 0.1);
+  border: 1px solid #f7931a;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #f7931a;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Editor Actions Row 2 */
+.editor-actions-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Status Messages */
+.toolbar .status-message {
+  margin-left: auto;
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Document Title Input */
+.document-title {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.document-title input {
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  outline: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.document-title input:focus {
+  border-color: #f7931a;
+  background: #333;
+}
+
+.document-title input::placeholder {
+  color: #666;
+}
+
+/* Document Stats Bar */
+.document-stats {
+  background: rgba(26, 26, 26, 0.8);
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #888;
+  border-top: 1px solid #333;
+}
+
+.stats-group {
+  display: flex;
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-item strong {
+  color: #ccc;
+}
+
+/* Editor Content */
+.editor-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #000;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Quill Container */
+.quill-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.quill-editor-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Quill Toolbar Dark Mode */
+.ql-toolbar.ql-snow {
+  background: #1a1a1a !important;
+  border: none !important;
+  border-bottom: 1px solid #333 !important;
+  padding: 10px !important;
+}
+
+.ql-toolbar.ql-snow .ql-stroke {
+  stroke: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-fill,
+.ql-toolbar.ql-snow .ql-stroke.ql-fill {
+  fill: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker {
+  color: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-options {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-item {
+  color: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-item:hover {
+  color: #f7931a !important;
+  background: #2a2a2a !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover,
+.ql-toolbar.ql-snow button:hover {
+  color: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-stroke {
+  stroke: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-fill,
+.ql-toolbar.ql-snow button:hover .ql-stroke.ql-fill {
+  fill: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+  stroke: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-fill,
+.ql-toolbar.ql-snow button.ql-active .ql-stroke.ql-fill {
+  fill: #f7931a !important;
+}
+
+/* Quill Editor Dark Mode */
+.ql-container.ql-snow {
+  border: none !important;
+  background: #000 !important;
+  flex: 1;
+  overflow-y: visible;
+  min-height: 100%;
+}
+
+.ql-editor {
+  background: #000 !important;
+  color: #fff !important;
+  padding: 40px 60px !important;
+  font-family: Georgia, serif !important;
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+  min-height: 1400px !important; /* Extended for full page height */
+  max-width: 850px !important;
+  margin: 50px 0 100px 30px !important; /* Reset margin - ruler should show with its own positioning */
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.ql-editor:focus {
+  outline: none !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: #666 !important;
+  font-style: normal !important;
+  content: 'Start writing...' !important;
+  left: 60px !important;
+  right: 60px !important;
+}
+
+.ql-editor h1 {
+  color: #fff !important;
+  font-size: 2em !important;
+  margin: 0.67em 0 !important;
+}
+
+.ql-editor h2 {
+  color: #fff !important;
+  font-size: 1.5em !important;
+  margin: 0.75em 0 !important;
+}
+
+.ql-editor h3 {
+  color: #fff !important;
+  font-size: 1.17em !important;
+  margin: 0.83em 0 !important;
+}
+
+.ql-editor p {
+  margin: 1em 0 !important;
+}
+
+.ql-editor a {
+  color: #f7931a !important;
+}
+
+.ql-editor blockquote {
+  border-left: 4px solid #333 !important;
+  padding-left: 16px !important;
+  color: #aaa !important;
+  margin: 1em 0 !important;
+}
+
+.ql-editor pre {
+  background: #1a1a1a !important;
+  color: #fff !important;
+  padding: 10px !important;
+  border-radius: 4px !important;
+  overflow-x: auto !important;
+}
+
+.ql-editor code {
+  background: #1a1a1a !important;
+  color: #f7931a !important;
+  padding: 2px 6px !important;
+  border-radius: 3px !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+/* Quill Snow Theme Overrides for Dark Mode */
+.ql-snow .ql-tooltip {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5) !important;
+}
+
+.ql-snow .ql-tooltip input[type="text"] {
+  background: #2a2a2a !important;
+  border: 1px solid #444 !important;
+  color: #fff !important;
+}
+
+.ql-snow .ql-tooltip a.ql-preview {
+  color: #f7931a !important;
+}
+
+.ql-snow .ql-tooltip a.ql-action::after {
+  border-right-color: #f7931a !important;
+}
+
+.ql-snow .ql-tooltip a.ql-remove::before {
+  border-left-color: #f7931a !important;
+}
+
+/* Mobile Styles */
+.mobile-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  z-index: 1000;
+  background: #f7931a;
+  border: none;
+  color: #000;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mobile-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+@media (max-width: 768px) {
+  .mobile-sidebar-toggle {
+    display: block;
+    top: 90px;
+  }
+
+  .main-container {
+    margin-left: 0;
+  }
+
+  .sidebar-container {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar-container.mobile-visible {
+    transform: translateX(0);
+  }
+
+  .mobile-sidebar-overlay {
+    display: block;
+  }
+
+  .app-header h1 {
+    font-size: 24px;
+  }
+
+  .ql-editor {
+    padding: 20px !important;
+    font-size: 16px !important;
+  }
+
+  .toolbar-desktop {
+    display: none;
+  }
+
+  .toolbar-mobile {
+    display: block;
+  }
+}
+
+
+/* Loading State */
+.editor-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #666;
+}
+
+/* Error State */
+.editor-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #ff4444;
+  text-align: center;
+  padding: 20px;
+}
+
+.error-message {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.error-details {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Selection */
+::selection {
+  background: #f7931a;
+  color: #000;
+}
+
+::-moz-selection {
+  background: #f7931a;
+  color: #000;
+}
+
+/* Dropdown Menus */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 4px;
+  margin-top: 4px;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.dropdown-item svg {
+  margin-right: 8px;
+}
+
+/* Auto-save Status */
+.auto-save-status {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: rgba(0,255,0,0.1);
+  border: 1px solid rgba(0,255,0,0.3);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #00ff00;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hide the floating status bar */
+.status-bar {
+  display: none !important;
+}
