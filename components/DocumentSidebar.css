@@ -2,7 +2,8 @@
 
 .document-sidebar {
   width: 100%; /* Use full width of parent container */
-  height: 100%;
+  height: calc(100vh - 60px); /* Account for footer */
+  min-height: calc(100vh - 60px);
   background: #1a1a1a;
   border-right: 1px solid #333;
   display: flex;
