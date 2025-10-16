@@ -1,0 +1,129 @@
+/* Professional macOS-style Taskbar */
+.pro-taskbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: rgba(22, 22, 22, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  user-select: none;
+  z-index: 10000;
+}
+
+/* Bitcoin Logo */
+.taskbar-bitcoin {
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff9500;
+  opacity: 0.9;
+}
+
+/* Menu Container */
+.taskbar-menus {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Menu Item */
+.menu-item {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 9px;
+  cursor: default;
+  transition: background 0.1s;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.menu-item.active {
+  background: #006aff;
+}
+
+.menu-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.menu-item.active .menu-title {
+  color: white;
+}
+
+/* Dropdown Menu */
+.menu-dropdown {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  min-width: 240px;
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 5px 0;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Dropdown Item */
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 20px;
+  min-height: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: default;
+}
+
+.dropdown-item:hover {
+  background: #006aff;
+  color: white;
+}
+
+/* Keyboard Shortcut */
+.shortcut {
+  margin-left: 40px;
+  font-size: 13px;
+  opacity: 0.6;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dropdown-item:hover .shortcut {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Divider */
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 5px 0;
+}
+
+/* Status Area */
+.taskbar-status {
+  margin-left: auto;
+  padding-right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-user {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}

@@ -12,10 +12,22 @@ import { HandCashItemsService } from '../services/HandCashItemsService';
 import { HandCashService } from '../services/HandCashService';
 import { LocalDocumentStorage, LocalDocument } from '../utils/documentStorage';
 import CryptoJS from 'crypto-js';
-import QuillEditor from './QuillEditor';
 import './QuillEditor.css';
 import AIChatWindow from './AIChatWindow';
 import { AIService } from '../services/AIService';
+
+// Check if we're in Next.js environment
+const isNextJs = typeof window !== 'undefined' && !!(window as any).next;
+
+// Import the appropriate editor based on environment
+let QuillEditor: any;
+if (isNextJs) {
+  // Use SimpleEditor for Next.js to avoid ReactQuill issues
+  QuillEditor = require('./SimpleEditor').default;
+} else {
+  // Use original for React
+  QuillEditor = require('./QuillEditor').default;
+}
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;

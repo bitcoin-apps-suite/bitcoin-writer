@@ -1,0 +1,79 @@
+.animated-placeholder {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.placeholder-text {
+  color: rgba(170, 170, 170, 0.6);
+  font-size: 15px;
+  line-height: 1.75;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-style: normal;
+  font-family: inherit;
+  max-width: 600px;
+}
+
+.placeholder-text.visible {
+  opacity: 1;
+}
+
+/* Removed glow animation for cleaner look */
+
+.placeholder-indicators {
+  margin-top: 8px;
+  display: flex;
+  gap: 5px;
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+  pointer-events: all;
+}
+
+.animated-placeholder:hover .placeholder-indicators {
+  opacity: 0.6;
+}
+
+.indicator {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(170, 170, 170, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: rgba(170, 170, 170, 0.6);
+  width: 16px;
+  border-radius: 2px;
+}
+
+.indicator:hover {
+  background: rgba(170, 170, 170, 0.5);
+  transform: scale(1.1);
+}
+
+/* Hide on mobile for better UX */
+@media (max-width: 768px) {
+  .animated-placeholder {
+    display: none;
+  }
+}
+
+/* Integration with Quill editor - simplified visibility control */
+.quill-editor-wrapper .animated-placeholder {
+  display: block;
+}
+
+/* For regular contenteditable div */
+.editor-content:focus + .animated-placeholder,
+.editor-content:not(:empty) + .animated-placeholder {
+  display: none;
+}
+
+.editor-content:empty:not(:focus) + .animated-placeholder {
+  display: block;
+}
