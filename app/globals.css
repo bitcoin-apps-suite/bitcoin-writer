@@ -610,12 +610,15 @@ html, body {
   min-height: 0;
 }
 
-/* Quill Toolbar Dark Mode */
+/* Quill Toolbar - The main formatting toolbar */
 .ql-toolbar.ql-snow {
   background: #1a1a1a !important;
   border: none !important;
   border-bottom: 1px solid #333 !important;
-  padding: 10px !important;
+  padding: 8px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
 }
 
 .ql-toolbar.ql-snow .ql-stroke {

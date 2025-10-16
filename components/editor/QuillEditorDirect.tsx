@@ -36,12 +36,17 @@ const QuillEditorDirect: React.FC<QuillEditorProps> = ({
         const Quill = (await import('quill')).default;
         await import('quill/dist/quill.snow.css');
 
-        // Initialize Quill without its own toolbar (we use custom toolbar)
+        // Initialize Quill with minimal formatting toolbar
         const quill = new Quill(editorRef.current, {
           theme: 'snow',
           placeholder: '',
           modules: {
-            toolbar: false
+            toolbar: [
+              ['bold', 'italic', 'underline'],
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+              [{ 'header': [1, 2, 3, false] }],
+              [{ 'align': [] }]
+            ]
           }
         });
 
