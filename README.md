@@ -137,9 +137,22 @@ This app integrates with HandCash using:
 
 ## License
 
-This project is licensed under the Open BSV License version 5 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0) - see the [LICENSE](LICENSE) file for details.
 
-Copyright © 2025 The Bitcoin Corporation LTD  
+### What this means:
+- ✅ **You CAN**: Use, modify, and distribute this software
+- ✅ **You CAN**: Use it for commercial purposes  
+- ⚠️ **You MUST**: Share any modifications under AGPL-3.0
+- ⚠️ **You MUST**: Provide source code to users of network services
+- ⚠️ **You MUST**: Include copyright and license notices
+
+### Commercial Licensing
+For organizations requiring proprietary modifications, white-label solutions, or private deployment without source disclosure, please contact The Bitcoin Corporation LTD for commercial licensing options.
+
+### Third-Party Licenses
+This project uses dependencies under various open-source licenses including MIT and BSD. See `package.json` for details.
+
+Copyright © 2024-2025 The Bitcoin Corporation LTD  
 Registered in England and Wales • Company No. 16735102
 
 ## Support
