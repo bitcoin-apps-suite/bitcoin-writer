@@ -610,9 +610,12 @@ html, body {
   min-height: 0;
 }
 
-/* Quill Toolbar - Hidden since we use custom toolbar */
+/* Quill Toolbar Dark Mode */
 .ql-toolbar.ql-snow {
-  display: none !important;  /* Hide Quill's built-in toolbar */
+  background: #1a1a1a !important;
+  border: none !important;
+  border-bottom: 1px solid #333 !important;
+  padding: 10px !important;
 }
 
 .ql-toolbar.ql-snow .ql-stroke {
