@@ -3,6 +3,9 @@ node_modules
 api/node_modules
 **/node_modules
 
+# Ignore old Express API directory (using Next.js API routes instead)
+api/
+
 # Build outputs
 dist
 build
