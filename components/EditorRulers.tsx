@@ -42,6 +42,34 @@ const EditorRulers: React.FC<EditorRulersProps> = ({ showRulers }) => {
           ))}
         </div>
       </div>
+      
+      {/* Vertical Ruler */}
+      <div className="editor-vertical-ruler">
+        <div className="ruler-marks-container">
+          {[...Array(12)].map((_, i) => (
+            <React.Fragment key={i}>
+              <div 
+                className="ruler-mark inch" 
+                style={{ top: `${18 + i * 112}px` }}
+              >
+                <span className="ruler-mark-label">{i}"</span>
+              </div>
+              <div 
+                className="ruler-mark half-inch" 
+                style={{ top: `${18 + i * 112 + 56}px` }}
+              />
+              <div 
+                className="ruler-mark quarter-inch" 
+                style={{ top: `${18 + i * 112 + 28}px` }}
+              />
+              <div 
+                className="ruler-mark quarter-inch" 
+                style={{ top: `${18 + i * 112 + 84}px` }}
+              />
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
     </>
   );
 };
