@@ -128,7 +128,7 @@ html, body {
 /* Make the main-container responsive to the available width */
 .main-container {
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh + 500px); /* Extend beyond viewport to include footer */
   background: #000;
   position: relative;
   margin-left: 0;
@@ -167,9 +167,9 @@ html, body {
 
 /* Ensure the editor content has proper spacing */
 .ql-container {
-  margin-left: 0 !important;
-  width: 100%;
-  max-width: 100%;
+  margin-left: 80px !important; /* Move container to the right */
+  width: calc(100% - 80px);
+  max-width: calc(100% - 80px);
 }
 
 /* Remove debug styling */
@@ -186,15 +186,16 @@ html, body {
 /* Sidebar Container - My Docs sidebar */
 .sidebar-container {
   width: 280px;
+  position: sticky;
+  top: 0;
   height: 100vh;
-  min-height: 100vh;
   background: #1a1a1a;
   border-right: 1px solid #333;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  position: relative;
   z-index: 9990; /* Higher than dev sidebar (9989) */
   transition: width 0.3s ease;
 }
@@ -646,7 +647,7 @@ html, body {
   line-height: 1.8 !important;
   min-height: 1400px !important; /* Extended for full page height */
   max-width: 850px !important;
-  margin: 50px 0 100px 30px !important; /* Reset margin - ruler should show with its own positioning */
+  margin: 50px 0 100px 80px !important; /* Move paper to the right */
   position: relative !important;
   z-index: 1 !important;
 }

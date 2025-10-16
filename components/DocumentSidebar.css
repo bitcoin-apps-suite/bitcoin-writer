@@ -2,8 +2,7 @@
 
 .document-sidebar {
   width: 100%; /* Use full width of parent container */
-  height: 100vh;
-  min-height: 100vh;
+  height: 100vh; /* Full viewport height for sticky sidebar */
   background: #1a1a1a;
   border-right: 1px solid #333;
   display: flex;
