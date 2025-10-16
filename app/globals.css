@@ -161,11 +161,15 @@ html, body {
 .quill-editor-wrapper {
   margin-left: 0; /* Remove left margin */
   margin-right: 20px; /* Add space on the right */
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Ensure the editor content has proper spacing */
 .ql-container {
   margin-left: 0 !important;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Remove debug styling */
@@ -230,17 +234,19 @@ html, body {
   display: flex;
   flex-direction: column;
   background: #000;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow: visible;
+  position: relative;
 }
 
 /* Document Editor Container */
 .document-editor-container {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   background: #000;
   position: relative;
+  width: 100%;
 }
 
 /* Document Editor Toolbar */
@@ -534,7 +540,8 @@ html, body {
 /* Editor Content */
 .editor-content {
   flex: 1;
-  overflow-y: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: #000;
   display: flex;
   flex-direction: column;
@@ -632,8 +639,7 @@ html, body {
   line-height: 1.8 !important;
   min-height: 1100px !important; /* Full page height */
   max-width: 850px !important;
-  margin: 50px 0 50px 0 !important;
-  margin-left: 65px !important;
+  margin: 50px 0 50px 35px !important; /* Left margin for ruler visibility */
   position: relative !important;
   z-index: 1 !important;
 }
