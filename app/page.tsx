@@ -46,14 +46,17 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="app-wrapper">
       {/* App Header */}
       <div className="app-header">
-        <h1>
-          <span style={{ fontSize: '36px' }}>✏️</span>
-          Bitcoin Writer
-        </h1>
-        <p className="tagline">Encrypt, publish and sell shares in your work</p>
+        <div className="header-content">
+          <div className="header-logo">
+            <span className="logo-icon">✏️</span>
+            <span className="logo-text">Bitcoin</span>
+            <span className="logo-writer">Writer</span>
+          </div>
+          <p className="header-tagline">Encrypt, publish and sell shares in your work</p>
+        </div>
       </div>
       
       <div className="main-container">
@@ -98,6 +101,6 @@ export default function Home() {
         />
       </div>
       </div>
-    </>
+    </div>
   );
 }
