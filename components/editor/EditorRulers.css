@@ -1,7 +1,7 @@
 /* Editor Rulers Styles */
 .editor-horizontal-ruler {
   position: absolute;
-  top: 120px; /* Position closer to paper */
+  top: 90px; /* Position at paper edge */
   left: 0;
   right: 0;
   height: 30px;
@@ -13,10 +13,10 @@
 
 .editor-vertical-ruler {
   position: absolute;
-  top: 150px; /* Align with horizontal ruler intersection */
+  top: 120px; /* Align with horizontal ruler intersection */
   left: 0;
   width: 30px;
-  height: calc(100% - 150px);
+  height: calc(100% - 120px);
   background: linear-gradient(to bottom, #2a2a2a 0%, #333333 50%, #2a2a2a 100%);
   z-index: 99;
   box-shadow: 2px 0 4px rgba(0,0,0,0.3);
