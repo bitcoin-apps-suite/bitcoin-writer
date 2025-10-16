@@ -18,7 +18,7 @@
     "@scure/btc-signer": "^2.0.1",
     "@stripe/stripe-js": "^8.0.0",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^27.5.2",
