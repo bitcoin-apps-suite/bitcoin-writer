@@ -31,12 +31,19 @@ const QuillEditorDirect: React.FC<QuillEditorProps> = ({
     if (typeof window === 'undefined' || !editorRef.current || isInitialized) return;
 
     const initQuill = async () => {
+      // Clean up any existing toolbar first
+      const existingToolbar = editorRef.current.parentElement?.querySelector('.ql-toolbar');
+      if (existingToolbar) {
+        console.log('Removing existing toolbar');
+        existingToolbar.remove();
+      }
       try {
         // Dynamically import Quill to avoid SSR issues
         const Quill = (await import('quill')).default;
         await import('quill/dist/quill.snow.css');
 
         // Initialize Quill with minimal formatting toolbar
+        console.log('Initializing Quill editor...');
         const quill = new Quill(editorRef.current, {
           theme: 'snow',
           placeholder: '',
