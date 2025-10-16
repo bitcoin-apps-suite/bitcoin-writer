@@ -188,16 +188,40 @@ html, body {
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
-  z-index: 10;
+  z-index: 9990; /* Higher than dev sidebar (9989) */
   transition: width 0.3s ease;
 }
 
-/* When sidebar is collapsed, hide it completely */
+/* When sidebar is collapsed, show just the button */
 .sidebar-container.collapsed {
-  width: 0 !important;
-  min-width: 0 !important;
-  overflow: hidden !important;
-  border-right: none !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  overflow: visible !important;
+  border-right: 1px solid #333 !important;
+}
+
+/* Ensure collapsed button is visible */
+.document-sidebar.collapsed .sidebar-header {
+  padding: 15px 8px;
+  justify-content: center;
+  min-height: 56px;
+  width: 40px;
+}
+
+.document-sidebar.collapsed .collapse-btn {
+  transform: rotate(180deg);
+  margin: 0;
+  display: block;
+}
+
+/* Hide other elements when collapsed */
+.document-sidebar.collapsed .sidebar-content,
+.document-sidebar.collapsed .sidebar-title,
+.document-sidebar.collapsed .new-document-button,
+.document-sidebar.collapsed .document-search,
+.document-sidebar.collapsed .sidebar-title-area,
+.document-sidebar.collapsed .view-toggle {
+  display: none;
 }
 
 /* Editor Container */
