@@ -186,8 +186,8 @@ html, body {
 /* Sidebar Container - My Docs sidebar */
 .sidebar-container {
   width: 280px;
-  height: calc(100vh - 60px);
-  min-height: calc(100vh - 60px);
+  height: 100vh;
+  min-height: 100vh;
   background: #1a1a1a;
   border-right: 1px solid #333;
   overflow: hidden;
@@ -646,7 +646,7 @@ html, body {
   line-height: 1.8 !important;
   min-height: 1400px !important; /* Extended for full page height */
   max-width: 850px !important;
-  margin: 50px 0 100px 45px !important; /* Increased left margin for ruler visibility */
+  margin: 50px 0 100px 60px !important; /* Further increased left margin for ruler visibility */
   position: relative !important;
   z-index: 1 !important;
 }
