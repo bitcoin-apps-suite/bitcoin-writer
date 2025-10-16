@@ -13,10 +13,10 @@
 
 .editor-vertical-ruler {
   position: absolute;
-  top: 0;
+  top: 96px; /* Moved down by ~1 inch */
   left: 0;
   width: 30px;
-  height: 100%;
+  height: calc(100% - 96px);
   background: linear-gradient(to bottom, #2a2a2a 0%, #333333 50%, #2a2a2a 100%);
   z-index: 99;
   box-shadow: 2px 0 4px rgba(0,0,0,0.3);
