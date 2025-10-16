@@ -1,7 +1,7 @@
 .animated-placeholder {
   position: absolute !important;
-  top: 25px !important;
-  left: 120px !important;
+  top: 155px !important;
+  left: 140px !important;
   z-index: 999 !important;
   pointer-events: none;
 }
@@ -9,8 +9,8 @@
 /* Position it correctly within the Quill editor */
 .quill-editor-wrapper .animated-placeholder {
   position: absolute !important;
-  top: 25px !important;
-  left: 120px !important;
+  top: 155px !important;
+  left: 140px !important;
   z-index: 999 !important;
 }
 
