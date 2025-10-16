@@ -186,8 +186,8 @@ html, body {
 /* Sidebar Container - My Docs sidebar */
 .sidebar-container {
   width: 280px;
-  height: 200vh;
-  min-height: 200vh;
+  height: 100vh;
+  min-height: 100vh;
   background: #1a1a1a;
   border-right: 1px solid #333;
   overflow: hidden;
