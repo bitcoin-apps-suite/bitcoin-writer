@@ -118,7 +118,7 @@
   padding: 38px 75px;
   width: 1190px; /* Scale up A4: 8.27" * 150px/inch = 1240px - 75px padding each side */
   max-width: 1190px;
-  margin: 18px 0 0 20px; /* Move paper down */
+  margin: 18px 0 0 80px; /* Move paper down and right */
   min-height: calc(100vh - 300px);
   background: #ffffff;
   color: #000000;
