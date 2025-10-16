@@ -1,0 +1,326 @@
+/* Ticker Sidebar Styles */
+.ticker-sidebar {
+  width: 280px; /* Reduced from 320px */
+  background: #0d0d0d;
+  border-left: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 72px; /* Below taskbar */
+  right: 0;
+  z-index: 100;
+  padding-right: 10px;
+  transition: width 0.3s ease;
+}
+
+.ticker-header {
+  padding: 12px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+}
+
+.ticker-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ticker-toggle {
+  background: none;
+  border: 1px solid #ff9500;
+  color: #ff9500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.ticker-toggle:hover {
+  background: #ff9500;
+  color: #000;
+  border-color: #ff9500;
+}
+
+/* Collapsed state */
+.ticker-sidebar.collapsed {
+  width: 60px;
+  transition: width 0.3s ease;
+}
+
+.ticker-sidebar.collapsed .ticker-header h3 {
+  display: none;
+}
+
+.ticker-sidebar.collapsed .ticker-header {
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+.ticker-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #F7931A;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.ticker-update-time {
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ticker-loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.ticker-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  position: relative;
+}
+
+/* Divider between special tokens and gigs */
+.ticker-divider {
+  margin: 15px 0;
+  padding: 8px 0;
+  text-align: center;
+  position: relative;
+}
+
+.ticker-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #444, transparent);
+  transform: translateY(-50%);
+}
+
+.ticker-divider span {
+  background: #0d0d0d;
+  padding: 0 12px;
+  position: relative;
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.ticker-item {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  position: relative;
+}
+
+/* Special tokens (BWRITER, BSV, Author) */
+.ticker-item.special {
+  background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
+  border: 2px solid #F7931A;
+  box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
+}
+
+.ticker-item.special::before {
+  content: '⭐';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+/* Gig tokens */
+.ticker-item.gig {
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  opacity: 0.95;
+}
+
+.ticker-item.gig:hover {
+  opacity: 1;
+  background: #1a1a1a;
+}
+
+.ticker-item:hover {
+  background: #222;
+  border-color: #444;
+  transform: translateX(-2px);
+  box-shadow: -2px 0 8px rgba(247, 147, 26, 0.1);
+}
+
+.ticker-symbol-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ticker-symbol {
+  font-size: 14px;
+  font-weight: bold;
+  color: #F7931A;
+}
+
+.ticker-change {
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ticker-change.positive {
+  color: #4CAF50;
+}
+
+.ticker-change.negative {
+  color: #f44336;
+}
+
+.ticker-name {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ticker-category {
+  font-size: 10px;
+  color: #666;
+  font-style: italic;
+}
+
+.ticker-price-row {
+  margin-bottom: 4px;
+}
+
+.ticker-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.ticker-contract-id {
+  font-size: 9px;
+  color: #555;
+  margin-left: 8px;
+  font-family: monospace;
+  background: #1a1a1a;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid #333;
+}
+
+.ticker-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #2a2a2a;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ticker-volume {
+  font-size: 10px;
+  color: #666;
+}
+
+.ticker-liquidity {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ticker-holders {
+  font-size: 10px;
+  color: #777;
+  font-style: italic;
+}
+
+.ticker-footer {
+  padding: 10px;
+  border-top: 1px solid #222;
+  background: #1a1a1a;
+}
+
+.ticker-disclaimer {
+  font-size: 10px;
+  color: #666;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Dark mode already applied */
+
+/* Scrollbar styling */
+.ticker-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ticker-list::-webkit-scrollbar-track {
+  background: #0d0d0d;
+}
+
+.ticker-list::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
+
+.ticker-list::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Responsive - hide on smaller screens */
+@media (max-width: 1200px) {
+  .ticker-sidebar {
+    display: none;
+  }
+}
+
+/* Animation for price updates */
+@keyframes priceUpdate {
+  0% {
+    background-color: rgba(247, 147, 26, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.ticker-item.price-updated {
+  animation: priceUpdate 1s ease-out;
+}
