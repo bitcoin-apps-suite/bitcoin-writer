@@ -186,10 +186,13 @@ html, body {
 /* Sidebar Container - My Docs sidebar */
 .sidebar-container {
   width: 280px;
-  height: 100%;
+  height: 100vh;
+  min-height: 100vh;
   background: #1a1a1a;
   border-right: 1px solid #333;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
   position: relative;
   z-index: 9990; /* Higher than dev sidebar (9989) */
