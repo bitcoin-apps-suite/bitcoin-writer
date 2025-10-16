@@ -24,10 +24,17 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
 import { HandCashService } from '../services/HandCashService';
+import LoadingDoor from '../components/LoadingDoor';
 
 // Dynamic imports for client-side components
-const DocumentEditor = dynamic(() => import('../components/editor/DocumentEditor'), { ssr: false });
-const DocumentSidebar = dynamic(() => import('../components/editor/DocumentSidebar'), { ssr: false });
+const DocumentEditor = dynamic(() => import('../components/editor/DocumentEditor'), { 
+  ssr: false,
+  loading: () => <div className="editor-skeleton" />
+});
+const DocumentSidebar = dynamic(() => import('../components/editor/DocumentSidebar'), { 
+  ssr: false,
+  loading: () => <div className="sidebar-skeleton" />
+});
 
 export default function Home() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -36,6 +43,7 @@ export default function Home() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Initialize services
@@ -67,62 +75,68 @@ export default function Home() {
   };
 
   return (
-    <div className="app-wrapper">
-      {/* App Header */}
-      <div className="app-header">
-        <div className="header-content">
-          <div className="header-logo">
-            <span className="logo-icon">✏️</span>
-            <span className="logo-text">Bitcoin</span>
-            <span className="logo-writer">Writer</span>
+    <>
+      {/* Loading Door Animation - overlays content */}
+      {isLoading && <LoadingDoor onComplete={() => setIsLoading(false)} />}
+      
+      {/* Main app content - visible immediately, revealed by sliding door */}
+      <div className="app-wrapper">
+        {/* App Header */}
+        <div className="app-header">
+          <div className="header-content">
+            <div className="header-logo">
+              <span className="logo-icon">✏️</span>
+              <span className="logo-text">Bitcoin</span>
+              <span className="logo-writer">Writer</span>
+            </div>
+            <p className="header-tagline">Encrypt, publish and sell shares in your work</p>
           </div>
-          <p className="header-tagline">Encrypt, publish and sell shares in your work</p>
+        </div>
+        
+        <div className="main-container">
+          {/* Mobile Sidebar Toggle */}
+          <button 
+            className="mobile-sidebar-toggle"
+            onClick={() => setShowMobileSidebar(!showMobileSidebar)}
+            aria-label="Toggle sidebar"
+          >
+            ☰
+          </button>
+
+          {/* Mobile Sidebar Overlay */}
+          {showMobileSidebar && (
+            <div 
+              className="mobile-sidebar-overlay"
+              onClick={() => setShowMobileSidebar(false)}
+            />
+          )}
+
+          {/* Document Sidebar */}
+          <div className={`sidebar-container ${showMobileSidebar ? 'mobile-visible' : ''} ${sidebarCollapsed ? 'collapsed' : ''}`}>
+            <DocumentSidebar
+              documentService={documentService}
+              isAuthenticated={isAuthenticated}
+              onDocumentSelect={handleDocumentSelect}
+              onNewDocument={handleNewDocument}
+              onPublishDocument={handlePublishDocument}
+              currentDocumentId={currentDocument?.id}
+              refreshTrigger={refreshTrigger}
+              onCollapsedChange={setSidebarCollapsed}
+            />
+          </div>
+
+          {/* Document Editor */}
+          <div className="editor-container">
+            <DocumentEditor
+              documentService={documentService}
+              isAuthenticated={isAuthenticated}
+              currentDocument={currentDocument}
+              onDocumentUpdate={setCurrentDocument}
+              onDocumentSaved={handleDocumentSaved}
+            />
+          </div>
         </div>
       </div>
-      
-      <div className="main-container">
-        {/* Mobile Sidebar Toggle */}
-        <button 
-        className="mobile-sidebar-toggle"
-        onClick={() => setShowMobileSidebar(!showMobileSidebar)}
-        aria-label="Toggle sidebar"
-      >
-        ☰
-      </button>
-
-      {/* Mobile Sidebar Overlay */}
-      {showMobileSidebar && (
-        <div 
-          className="mobile-sidebar-overlay"
-          onClick={() => setShowMobileSidebar(false)}
-        />
-      )}
-
-      {/* Document Sidebar */}
-      <div className={`sidebar-container ${showMobileSidebar ? 'mobile-visible' : ''} ${sidebarCollapsed ? 'collapsed' : ''}`}>
-        <DocumentSidebar
-          documentService={documentService}
-          isAuthenticated={isAuthenticated}
-          onDocumentSelect={handleDocumentSelect}
-          onNewDocument={handleNewDocument}
-          onPublishDocument={handlePublishDocument}
-          currentDocumentId={currentDocument?.id}
-          refreshTrigger={refreshTrigger}
-          onCollapsedChange={setSidebarCollapsed}
-        />
-      </div>
-
-      {/* Document Editor */}
-      <div className="editor-container">
-        <DocumentEditor
-          documentService={documentService}
-          isAuthenticated={isAuthenticated}
-          currentDocument={currentDocument}
-          onDocumentUpdate={setCurrentDocument}
-          onDocumentSaved={handleDocumentSaved}
-        />
-      </div>
-      </div>
-    </div>
+    </>
   );
 }
