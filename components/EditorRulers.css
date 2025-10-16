@@ -12,11 +12,12 @@
 }
 
 .editor-vertical-ruler {
-  position: absolute;
+  position: fixed;
   top: 82px; /* Below toolbar and horizontal ruler - moved down slightly */
   left: 0;
   width: 30px;
-  bottom: 0;
+  height: calc(100vh - 82px);
+  min-height: 1200px;
   background: linear-gradient(to bottom, #2a2a2a 0%, #333333 50%, #2a2a2a 100%);
   z-index: 99;
   box-shadow: 2px 0 4px rgba(0,0,0,0.3);
