@@ -4,6 +4,7 @@
   color: #ffffff;
   padding: 2rem 4rem; /* Increased horizontal padding */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow-y: auto; /* Ensure page can scroll */
 }
 
 /* Main layout - two columns without sidebar constraints */
@@ -24,7 +25,8 @@
   flex-direction: column;
   gap: 1.5rem;
   margin-top: 2rem; /* Moved sidebar up since no header to clear */
-  height: calc(100vh + 120rem); /* Extended to align with Market Insights section */
+  height: auto; /* Let sidebar height adjust naturally */
+  max-height: calc(100vh - 4rem); /* Prevent sidebar from being too tall */
   overflow-y: auto; /* Enable vertical scrolling */
   padding-right: 0.5rem; /* Space for scrollbar */
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useIntegratedWorkTree } from '../../src/hooks/useIntegratedWorkTree';
+import { useIntegratedWorkTree } from '../../utils/useIntegratedWorkTree';
 import { BlockchainDocumentService } from '../../services/BlockchainDocumentService';
 import WorkTreeCanvas from '../WorkTreeCanvas';
 import './DocumentVersioningModal.css';

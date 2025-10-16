@@ -15,6 +15,7 @@ export default function Home() {
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     // Initialize services
@@ -78,7 +79,7 @@ export default function Home() {
       )}
 
       {/* Document Sidebar */}
-      <div className={`sidebar-container ${showMobileSidebar ? 'mobile-visible' : ''}`}>
+      <div className={`sidebar-container ${showMobileSidebar ? 'mobile-visible' : ''} ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <DocumentSidebar
           documentService={documentService}
           isAuthenticated={isAuthenticated}
@@ -87,6 +88,7 @@ export default function Home() {
           onPublishDocument={handlePublishDocument}
           currentDocumentId={currentDocument?.id}
           refreshTrigger={refreshTrigger}
+          onCollapsedChange={setSidebarCollapsed}
         />
       </div>
 
