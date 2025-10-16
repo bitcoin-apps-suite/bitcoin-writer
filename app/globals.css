@@ -128,7 +128,7 @@ html, body {
 /* Make the main-container responsive to the available width */
 .main-container {
   display: flex;
-  min-height: calc(100vh - 162px);
+  min-height: 100vh;
   background: #000;
   position: relative;
   margin-left: 0;
@@ -234,14 +234,14 @@ html, body {
   display: flex;
   flex-direction: column;
   background: #000;
-  min-height: calc(100vh - 100px);
+  min-height: 100vh;
   overflow: visible;
   position: relative;
 }
 
 /* Document Editor Container */
 .document-editor-container {
-  min-height: calc(100vh - 60px);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #000;
@@ -544,7 +544,7 @@ html, body {
   overflow-x: hidden;
   background: #000;
   display: flex;
-  min-height: calc(100vh - 200px);
+  min-height: 100vh;
   flex-direction: column;
   min-height: 100vh;
 }
@@ -638,9 +638,9 @@ html, body {
   font-family: Georgia, serif !important;
   font-size: 16px !important;
   line-height: 1.8 !important;
-  min-height: 1100px !important; /* Full page height */
+  min-height: 1400px !important; /* Extended for full page height */
   max-width: 850px !important;
-  margin: 50px 0 50px 35px !important; /* Left margin for ruler visibility */
+  margin: 50px 0 100px 35px !important; /* Added bottom margin */
   position: relative !important;
   z-index: 1 !important;
 }
