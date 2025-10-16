@@ -631,7 +631,7 @@ html, body {
   min-height: 600px !important;
   max-width: 850px !important;
   margin: 20px 0 0 0 !important;
-  margin-left: -48px !important;
+  margin-left: 70px !important;
 }
 
 .ql-editor:focus {
