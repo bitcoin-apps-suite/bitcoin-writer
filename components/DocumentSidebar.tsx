@@ -14,6 +14,7 @@ interface DocumentSidebarProps {
   currentDocumentId?: string;
   isMobile?: boolean;
   refreshTrigger?: number;
+  onCollapsedChange?: (collapsed: boolean) => void;
 }
 
 const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
@@ -24,7 +25,8 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   onPublishDocument,
   currentDocumentId,
   isMobile = false,
-  refreshTrigger
+  refreshTrigger,
+  onCollapsedChange
 }) => {
   const [documents, setDocuments] = useState<BlockchainDocument[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +36,11 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const [isResizing, setIsResizing] = useState(false);
   const [viewMode, setViewMode] = useState<'documents' | 'gigs'>('gigs');
+
+  // Notify parent when collapse state changes
+  useEffect(() => {
+    onCollapsedChange?.(isCollapsed);
+  }, [isCollapsed, onCollapsedChange]);
 
   const loadDocuments = useCallback(async () => {
     setIsLoading(true);
@@ -313,7 +320,7 @@ const DocumentSidebar: React.FC<DocumentSidebarProps> = ({
   return (
     <div 
       className={`document-sidebar ${isCollapsed ? 'collapsed' : ''}`}
-      style={{ width: isCollapsed ? '50px' : `${sidebarWidth}px` }}
+      // Width controlled by parent .sidebar-container via CSS
     >
       <div className="sidebar-header">
         <button 

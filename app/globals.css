@@ -7,11 +7,10 @@
 
 html, body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
   background: #0a0a0a;
   color: #fff;
-  overflow: hidden;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -19,7 +18,7 @@ html, body {
 }
 
 #__next {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -102,26 +101,84 @@ html, body {
   white-space: nowrap;
 }
 
-/* Main Layout Container */
+/* Main Layout Container - defined below with responsive rules */
+
+/* Main content area - clean version */
+.main-content {
+  transition: margin-left 0.3s ease;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.main-content.sidebar-expanded {
+  margin-left: 260px !important; /* Full DevSidebar width */
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 60px !important; /* Collapsed DevSidebar width */
+}
+
+/* Ensure app-wrapper and all child elements are responsive */
+.app-wrapper {
+  width: 100%;
+  margin-left: 0 !important;
+}
+
+/* Make the main-container responsive to the available width */
 .main-container {
   display: flex;
-  height: calc(100vh - 162px); /* Account for header + POC bar + taskbar */
+  height: calc(100vh - 162px);
   background: #000;
   position: relative;
-  margin-left: 0; /* Default no margin */
-  transition: margin-left 0.3s ease;
+  margin-left: 0;
+  width: 100% !important; /* Force full width of parent */
 }
 
-/* Adjust main container when dev sidebar is present */
-body:has(.dev-sidebar:not(.collapsed)) .main-container {
-  margin-left: 260px;
+/* Ensure editor container takes full available width */
+.editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  height: 100%;
+  overflow: hidden;
+  min-width: 0; /* Allow flex shrinking */
 }
 
-body:has(.dev-sidebar.collapsed) .main-container {
-  margin-left: 60px;
+/* Make document editor responsive */
+.document-editor-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  position: relative;
+  width: 100%;
 }
 
-/* Sidebar Container */
+/* Move the paper content right so left edge is visible */
+.quill-container,
+.quill-editor-wrapper {
+  margin-left: 40px; /* Add space on the left */
+  margin-right: 20px; /* Add space on the right */
+}
+
+/* Ensure the editor content has proper spacing */
+.ql-container {
+  margin-left: 20px !important;
+}
+
+/* Remove debug styling */
+
+/* Mobile responsive - no sidebar margin on mobile */
+@media (max-width: 768px) {
+  .main-content,
+  .main-content.sidebar-expanded,
+  .main-content.sidebar-collapsed {
+    margin-left: 0 !important;
+  }
+}
+
+/* Sidebar Container - My Docs sidebar */
 .sidebar-container {
   width: 280px;
   height: 100%;
@@ -131,6 +188,13 @@ body:has(.dev-sidebar.collapsed) .main-container {
   flex-shrink: 0;
   position: relative;
   z-index: 10;
+  transition: width 0.3s ease;
+}
+
+/* When sidebar is collapsed, make it narrower */
+.sidebar-container.collapsed {
+  width: 60px !important;
+  min-width: 60px !important;
 }
 
 /* Editor Container */

@@ -23,6 +23,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
+  
+  // Debug: log when state changes
+  useEffect(() => {
+    console.log('DevSidebar collapsed state changed to:', devSidebarCollapsed);
+  }, [devSidebarCollapsed]);
   const [isMobile, setIsMobile] = useState(false);
   
   // Check if mobile

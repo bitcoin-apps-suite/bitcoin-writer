@@ -56,8 +56,14 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
   }
 
   useEffect(() => {
+    console.log('DevSidebar: isCollapsed changed to:', isCollapsed);
     localStorage.setItem('devSidebarCollapsed', isCollapsed.toString());
-    onCollapsedChange?.(isCollapsed);
+    if (onCollapsedChange) {
+      console.log('DevSidebar: calling onCollapsedChange with:', isCollapsed);
+      onCollapsedChange(isCollapsed);
+    } else {
+      console.log('DevSidebar: onCollapsedChange is not provided');
+    }
   }, [isCollapsed, onCollapsedChange]);
 
   useEffect(() => {
@@ -129,7 +135,10 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
         )}
         <button 
           className="dev-sidebar-toggle"
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={() => {
+            console.log('DevSidebar: Toggle button clicked! Current state:', isCollapsed);
+            setIsCollapsed(!isCollapsed);
+          }}
           aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}

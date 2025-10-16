@@ -1,7 +1,7 @@
 /* Document Sidebar - Left Column for Saved Documents */
 
 .document-sidebar {
-  width: 280px;
+  width: 100%; /* Use full width of parent container */
   height: 100%;
   background: #1a1a1a;
   border-right: 1px solid #333;
@@ -12,7 +12,7 @@
 }
 
 .document-sidebar.collapsed {
-  width: 50px;
+  /* Width controlled by parent .sidebar-container */
 }
 
 .sidebar-header {
