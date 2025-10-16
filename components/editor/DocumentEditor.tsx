@@ -1007,6 +1007,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         {/* Desktop Layout */}
         <div className="toolbar-desktop">
           <div className="toolbar-left">
+            {/* First row of buttons */}
+            <div className="toolbar-row-1">
             {/* Save button - always saves locally, optionally to blockchain */}
             <button 
               onClick={() => {
@@ -1106,7 +1108,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </svg>
               Work Tree
             </button>
+            </div>
             
+            {/* Second row of buttons */}
+            <div className="toolbar-row-2">
             {/* Encrypt on chain - saves with encryption */}
             <button 
               onClick={() => {
@@ -1199,10 +1204,18 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </svg>
               Post to Twitter
             </button>
+            </div>
             
-            <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
-              {isDarkMode ? '☀️' : '🌙'}
-            </button>
+            {/* Third row with utility buttons */}
+            <div className="toolbar-row-3">
+              <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
+                {isDarkMode ? '☀️' : '🌙'}
+              </button>
+              
+              <button onClick={toggleFullscreen} title="Toggle Fullscreen">
+                ⛶
+              </button>
+            </div>
             
             <input
               type="file"
@@ -1214,12 +1227,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           </div>
           
           <div className="toolbar-center">
-          </div>
-          
-          <div className="toolbar-right">
-            <button onClick={toggleFullscreen} title="Toggle Fullscreen">
-              ⛶
-            </button>
           </div>
         </div>
       </div>

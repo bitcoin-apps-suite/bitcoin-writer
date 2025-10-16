@@ -274,12 +274,26 @@ html, body {
 
 .toolbar-left {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  flex-wrap: wrap;
+  flex-direction: column;
   background: #1a1a1a;
   border-bottom: 1px solid #333;
+}
+
+.toolbar-row-1,
+.toolbar-row-2,
+.toolbar-row-3 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 4px 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.toolbar-row-1,
+.toolbar-row-2 {
+  border-bottom: 1px solid #2a2a2a;
 }
 
 .toolbar-left button {
