@@ -1,0 +1,645 @@
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+}
+
+#__next {
+  height: 100%;
+}
+
+/* App Header */
+.app-header {
+  background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+  border-bottom: 2px solid #f7931a;
+  padding: 15px 20px;
+  text-align: center;
+  height: 80px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.app-header .tagline {
+  margin: 5px 0 0 0;
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 400;
+}
+
+/* Main Layout Container */
+.main-container {
+  display: flex;
+  height: calc(100vh - 80px);
+  background: #000;
+  position: relative;
+  margin-left: 60px; /* Account for developer sidebar if present */
+}
+
+/* Sidebar Container */
+.sidebar-container {
+  width: 280px;
+  height: 100%;
+  background: #1a1a1a;
+  border-right: 1px solid #333;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* Editor Container */
+.editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Document Editor Container */
+.document-editor-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+/* Document Editor Toolbar */
+.toolbar {
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  padding: 8px 15px;
+  min-height: auto;
+  flex-shrink: 0;
+}
+
+.toolbar-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toolbar-mobile {
+  display: none;
+}
+
+/* Toolbar Rows */
+.toolbar-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* Toolbar Buttons */
+.toolbar button {
+  padding: 6px 12px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.toolbar button:hover:not(:disabled) {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+.toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar button svg {
+  margin-right: 6px;
+}
+
+/* Save Button States */
+.save-btn-active {
+  background: #f7931a !important;
+  border-color: #f7931a !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.save-btn-active:hover {
+  background: #e8850f !important;
+}
+
+.save-btn-inactive {
+  opacity: 0.6;
+}
+
+/* Price Display */
+.toolbar .price-display {
+  background: rgba(247, 147, 26, 0.1);
+  border: 1px solid #f7931a;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #f7931a;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Editor Actions Row 2 */
+.editor-actions-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Status Messages */
+.toolbar .status-message {
+  margin-left: auto;
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Document Title Input */
+.document-title {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.document-title input {
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  outline: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.document-title input:focus {
+  border-color: #f7931a;
+  background: #333;
+}
+
+.document-title input::placeholder {
+  color: #666;
+}
+
+/* Document Stats Bar */
+.document-stats {
+  background: rgba(26, 26, 26, 0.8);
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #888;
+  border-top: 1px solid #333;
+}
+
+.stats-group {
+  display: flex;
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-item strong {
+  color: #ccc;
+}
+
+/* Editor Content */
+.editor-content {
+  flex: 1;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Quill Container */
+.quill-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.quill-editor-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Quill Toolbar Dark Mode */
+.ql-toolbar.ql-snow {
+  background: #1a1a1a !important;
+  border: none !important;
+  border-bottom: 1px solid #333 !important;
+  padding: 10px !important;
+}
+
+.ql-toolbar.ql-snow .ql-stroke {
+  stroke: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-fill,
+.ql-toolbar.ql-snow .ql-stroke.ql-fill {
+  fill: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker {
+  color: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-options {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-item {
+  color: #ccc !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-item:hover {
+  color: #f7931a !important;
+  background: #2a2a2a !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover,
+.ql-toolbar.ql-snow button:hover {
+  color: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-stroke {
+  stroke: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-fill,
+.ql-toolbar.ql-snow button:hover .ql-stroke.ql-fill {
+  fill: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+  stroke: #f7931a !important;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-fill,
+.ql-toolbar.ql-snow button.ql-active .ql-stroke.ql-fill {
+  fill: #f7931a !important;
+}
+
+/* Quill Editor Dark Mode */
+.ql-container.ql-snow {
+  border: none !important;
+  background: #000 !important;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ql-editor {
+  background: #000 !important;
+  color: #fff !important;
+  padding: 40px 60px !important;
+  font-family: Georgia, serif !important;
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+  min-height: calc(100vh - 200px) !important;
+  max-width: 850px !important;
+  margin: 0 auto !important;
+}
+
+.ql-editor:focus {
+  outline: none !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: #666 !important;
+  font-style: normal !important;
+  content: 'Start writing...' !important;
+  left: 60px !important;
+  right: 60px !important;
+}
+
+.ql-editor h1 {
+  color: #fff !important;
+  font-size: 2em !important;
+  margin: 0.67em 0 !important;
+}
+
+.ql-editor h2 {
+  color: #fff !important;
+  font-size: 1.5em !important;
+  margin: 0.75em 0 !important;
+}
+
+.ql-editor h3 {
+  color: #fff !important;
+  font-size: 1.17em !important;
+  margin: 0.83em 0 !important;
+}
+
+.ql-editor p {
+  margin: 1em 0 !important;
+}
+
+.ql-editor a {
+  color: #f7931a !important;
+}
+
+.ql-editor blockquote {
+  border-left: 4px solid #333 !important;
+  padding-left: 16px !important;
+  color: #aaa !important;
+  margin: 1em 0 !important;
+}
+
+.ql-editor pre {
+  background: #1a1a1a !important;
+  color: #fff !important;
+  padding: 10px !important;
+  border-radius: 4px !important;
+  overflow-x: auto !important;
+}
+
+.ql-editor code {
+  background: #1a1a1a !important;
+  color: #f7931a !important;
+  padding: 2px 6px !important;
+  border-radius: 3px !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+/* Quill Snow Theme Overrides for Dark Mode */
+.ql-snow .ql-tooltip {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5) !important;
+}
+
+.ql-snow .ql-tooltip input[type="text"] {
+  background: #2a2a2a !important;
+  border: 1px solid #444 !important;
+  color: #fff !important;
+}
+
+.ql-snow .ql-tooltip a.ql-preview {
+  color: #f7931a !important;
+}
+
+.ql-snow .ql-tooltip a.ql-action::after {
+  border-right-color: #f7931a !important;
+}
+
+.ql-snow .ql-tooltip a.ql-remove::before {
+  border-left-color: #f7931a !important;
+}
+
+/* Mobile Styles */
+.mobile-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  z-index: 1000;
+  background: #f7931a;
+  border: none;
+  color: #000;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mobile-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+@media (max-width: 768px) {
+  .mobile-sidebar-toggle {
+    display: block;
+    top: 90px;
+  }
+
+  .main-container {
+    margin-left: 0;
+  }
+
+  .sidebar-container {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar-container.mobile-visible {
+    transform: translateX(0);
+  }
+
+  .mobile-sidebar-overlay {
+    display: block;
+  }
+
+  .app-header h1 {
+    font-size: 24px;
+  }
+
+  .ql-editor {
+    padding: 20px !important;
+    font-size: 16px !important;
+  }
+
+  .toolbar-desktop {
+    display: none;
+  }
+
+  .toolbar-mobile {
+    display: block;
+  }
+}
+
+
+/* Loading State */
+.editor-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #666;
+}
+
+/* Error State */
+.editor-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #ff4444;
+  text-align: center;
+  padding: 20px;
+}
+
+.error-message {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.error-details {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Selection */
+::selection {
+  background: #f7931a;
+  color: #000;
+}
+
+::-moz-selection {
+  background: #f7931a;
+  color: #000;
+}
+
+/* Dropdown Menus */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 4px;
+  margin-top: 4px;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.dropdown-item svg {
+  margin-right: 8px;
+}
+
+/* Auto-save Status */
+.auto-save-status {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: rgba(0,255,0,0.1);
+  border: 1px solid rgba(0,255,0,0.3);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #00ff00;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
