@@ -4,7 +4,7 @@ import {
   StorageOption,
   PricingBreakdown 
 } from '../utils/pricingCalculator';
-import StorageOptionsModal from './StorageOptionsModal';
+import StorageOptionsModal from './modals/StorageOptionsModal';
 import BSVStorageService, { StorageQuote } from '../services/BSVStorageService';
 import BudgetPrompt from './BudgetPrompt';
 
