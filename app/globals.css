@@ -284,11 +284,13 @@ html, body {
 .toolbar-row-3 {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start !important;
   gap: 8px;
   padding: 4px 12px;
   flex-wrap: wrap;
   width: 100%;
+  margin: 0 !important;
+  text-align: left !important;
 }
 
 .toolbar-row-1,
@@ -300,15 +302,17 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 12px;
+  padding: 6px 10px;
   background: #2a2a2a;
   border: 1px solid #333;
   color: #ccc;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   transition: all 0.2s;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .toolbar-left button:hover:not(:disabled) {
