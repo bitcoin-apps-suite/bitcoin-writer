@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import '../../src/pages/TokenPage.css';
+// import '../../src/pages/TokenPage.css'; // TODO: Create new CSS file
 import Footer from '../../components/Footer';
 
 export default function TokenPage() {
