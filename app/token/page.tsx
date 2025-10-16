@@ -2,7 +2,7 @@
 
 import React from 'react';
 // import '../../src/pages/TokenPage.css'; // TODO: Create new CSS file
-import Footer from '../../components/Footer';
+import Footer from '../../components/ui/Footer';
 
 export default function TokenPage() {
   return (

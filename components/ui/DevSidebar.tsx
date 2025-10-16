@@ -16,23 +16,9 @@ import {
   Flower2,
   Wrench
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import '../DevSidebar.css';
-
-// Check if we're using Next.js or React Router
-const isNextJs = typeof window !== 'undefined' && !!(window as any).next;
-
-// Conditionally import React Router components
-let Link: any;
-let useLocation: any;
-if (!isNextJs) {
-  try {
-    const routerModule = require('react-router-dom');
-    Link = routerModule.Link;
-    useLocation = routerModule.useLocation;
-  } catch {
-    // React Router not available
-  }
-}
 
 interface DevSidebarProps {
   onCollapsedChange?: (collapsed: boolean) => void;
@@ -46,14 +32,8 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
   });
   const [issueCount, setIssueCount] = useState<number>(0);
   
-  // Get current path based on environment
-  let currentPath = '/';
-  if (!isNextJs && useLocation) {
-    const location = useLocation();
-    currentPath = location.pathname;
-  } else if (typeof window !== 'undefined') {
-    currentPath = window.location.pathname;
-  }
+  // Get current path using Next.js navigation
+  const currentPath = usePathname() || '/';
 
   useEffect(() => {
     console.log('DevSidebar: isCollapsed changed to:', isCollapsed);
@@ -183,42 +163,23 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
             );
           }
 
-          // Use Link component for React Router, regular anchor for Next.js
-          if (!isNextJs && Link) {
-            return (
-              <Link
-                key={`${item.path}-${index}`}
-                to={item.path || '/'}
-                className={`dev-sidebar-item ${isActive ? 'active' : ''}`}
-                title={isCollapsed ? item.label : undefined}
-              >
-                <Icon size={20} />
-                {!isCollapsed && (
-                  <>
-                    <span className="dev-sidebar-label">{item.label}</span>
-                    {item.badge && <span className="dev-sidebar-badge">{item.badge}</span>}
-                  </>
-                )}
-              </Link>
-            );
-          } else {
-            return (
-              <a
-                key={`${item.path}-${index}`}
-                href={item.path || '/'}
-                className={`dev-sidebar-item ${isActive ? 'active' : ''}`}
-                title={isCollapsed ? item.label : undefined}
-              >
-                <Icon size={20} />
-                {!isCollapsed && (
-                  <>
-                    <span className="dev-sidebar-label">{item.label}</span>
-                    {item.badge && <span className="dev-sidebar-badge">{item.badge}</span>}
-                  </>
-                )}
-              </a>
-            );
-          }
+          // Use Next.js Link component
+          return (
+            <Link
+              key={`${item.path}-${index}`}
+              href={item.path || '/'}
+              className={`dev-sidebar-item ${isActive ? 'active' : ''}`}
+              title={isCollapsed ? item.label : undefined}
+            >
+              <Icon size={20} />
+              {!isCollapsed && (
+                <>
+                  <span className="dev-sidebar-label">{item.label}</span>
+                  {item.badge && <span className="dev-sidebar-badge">{item.badge}</span>}
+                </>
+              )}
+            </Link>
+          );
         })}
       </nav>
     </div>

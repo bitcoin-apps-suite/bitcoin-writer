@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Flower2, DollarSign, Cpu, GraduationCap, Users, Wrench, Zap } from 'lucide-react';
 // import '../../src/pages/GrantsPage.css'; // TODO: Create new CSS file
-import Footer from '../../components/Footer';
+import Footer from '../../components/ui/Footer';
 
 export default function GrantsPage() {
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {

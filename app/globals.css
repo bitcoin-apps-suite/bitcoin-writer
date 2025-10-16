@@ -167,9 +167,11 @@ html, body {
 
 /* Ensure the editor content has proper spacing */
 .ql-container {
-  margin-left: 80px !important; /* Move container to the right */
-  width: calc(100% - 80px);
-  max-width: calc(100% - 80px);
+  font-family: inherit !important;
+  font-size: 16px !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-left: 40px !important; /* Reduced left margin */
 }
 
 /* Remove debug styling */
@@ -189,6 +191,7 @@ html, body {
   position: sticky;
   top: 0;
   height: 100vh;
+  min-height: calc(100vh + 500px); /* Extend to footer */
   background: #1a1a1a;
   border-right: 1px solid #333;
   overflow-y: auto;
@@ -647,7 +650,7 @@ html, body {
   line-height: 1.8 !important;
   min-height: 1400px !important; /* Extended for full page height */
   max-width: 850px !important;
-  margin: 50px 0 100px 80px !important; /* Move paper to the right */
+  margin: 50px 20px 100px 40px !important; /* Reduced margins for better visibility */
   position: relative !important;
   z-index: 1 !important;
 }

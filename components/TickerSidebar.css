@@ -5,10 +5,11 @@
   border-left: 1px solid #222;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 72px); /* Full height minus taskbar */
   position: fixed;
   top: 72px; /* Below taskbar */
   right: 0;
+  bottom: 0; /* Extend to bottom */
   z-index: 100;
   padding-right: 10px;
   transition: width 0.3s ease;
