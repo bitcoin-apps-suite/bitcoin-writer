@@ -1,7 +1,7 @@
 /* Editor Rulers Styles */
 .editor-horizontal-ruler {
   position: absolute;
-  top: 48px; /* Position below Quill toolbar - moved down 6px */
+  top: 70px; /* Position closer to paper */
   left: 0;
   right: 0;
   height: 30px;
