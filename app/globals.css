@@ -721,13 +721,15 @@ html, body {
   outline: none !important;
 }
 
+/* Hide any Quill default placeholder text */
 .ql-editor.ql-blank::before {
-  color: #666 !important;
-  font-style: normal !important;
-  content: 'Start writing...' !important;
-  left: 60px !important;
-  right: 60px !important;
+  display: none !important;
 }
+
+.ql-editor[data-placeholder]::before {
+  display: none !important;
+}
+
 
 .ql-editor h1 {
   color: #fff !important;

@@ -1,9 +1,17 @@
 .animated-placeholder {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 1;
+  position: absolute !important;
+  top: 25px !important;
+  left: 120px !important;
+  z-index: 999 !important;
   pointer-events: none;
+}
+
+/* Position it correctly within the Quill editor */
+.quill-editor-wrapper .animated-placeholder {
+  position: absolute !important;
+  top: 25px !important;
+  left: 120px !important;
+  z-index: 999 !important;
 }
 
 .placeholder-text {
@@ -63,17 +71,4 @@
   }
 }
 
-/* Integration with Quill editor - simplified visibility control */
-.quill-editor-wrapper .animated-placeholder {
-  display: block;
-}
-
-/* For regular contenteditable div */
-.editor-content:focus + .animated-placeholder,
-.editor-content:not(:empty) + .animated-placeholder {
-  display: none;
-}
-
-.editor-content:empty:not(:focus) + .animated-placeholder {
-  display: block;
-}
+/* Visibility is now controlled by React state instead of CSS */
