@@ -13,7 +13,7 @@
 
 .editor-vertical-ruler {
   position: absolute;
-  top: 78px; /* Below toolbar and horizontal ruler - adjusted for new ruler position */
+  top: 82px; /* Below toolbar and horizontal ruler - moved down slightly */
   left: 0;
   width: 30px;
   bottom: 0;
