@@ -273,6 +273,7 @@ html, body {
 .toolbar-row-1 {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0;
   padding: 8px 12px;
   background: #1a1a1a;
@@ -313,6 +314,7 @@ html, body {
 .toolbar-row-2 {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   padding: 8px 12px;
   background: #1a1a1a;
@@ -337,6 +339,7 @@ html, body {
 .toolbar-row-3 {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 4px;
   padding: 6px 12px;
   background: #0a0a0a;
