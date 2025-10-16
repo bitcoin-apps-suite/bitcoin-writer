@@ -272,6 +272,42 @@ html, body {
   flex-direction: column;
 }
 
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  flex-wrap: wrap;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.toolbar-left button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.toolbar-left button:hover:not(:disabled) {
+  background: #333;
+  border-color: #444;
+  color: #fff;
+}
+
+.toolbar-left button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .toolbar-mobile {
   display: none;
 }
@@ -574,12 +610,9 @@ html, body {
   min-height: 0;
 }
 
-/* Quill Toolbar Dark Mode */
+/* Quill Toolbar - Hidden since we use custom toolbar */
 .ql-toolbar.ql-snow {
-  background: #1a1a1a !important;
-  border: none !important;
-  border-bottom: 1px solid #333 !important;
-  padding: 10px !important;
+  display: none !important;  /* Hide Quill's built-in toolbar */
 }
 
 .ql-toolbar.ql-snow .ql-stroke {
