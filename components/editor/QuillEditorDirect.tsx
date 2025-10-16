@@ -77,7 +77,7 @@ const QuillEditorDirect: React.FC<QuillEditorProps> = ({
         console.log('Initializing Quill editor...');
         const quill = new Quill(editorRef.current, {
           theme: 'snow',
-          placeholder: '',
+          placeholder: '', // Remove static placeholder - we use AnimatedPlaceholder instead
           modules: {
             toolbar: [
               ['bold', 'italic', 'underline'],

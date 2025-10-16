@@ -122,8 +122,8 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         // First time user - don't create anything, just show empty editor
         setLocalDocumentId(null);
         setCurrentDocument(null);
-        setQuillContent('<p>Start writing...</p>');
-        setEditorContent('<p>Start writing...</p>');
+        setQuillContent('');
+        setEditorContent('');
         return;
       } else {
         // Has existing docs but no current one set - use the most recent
@@ -345,7 +345,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     const text = content.replace(/<[^>]*>/g, '');
     
     // Only save if there's actual content (not just placeholder text)
-    if (!text || text.trim() === '' || content === '<p>Start writing...</p>' || content === '<p><br></p>') {
+    if (!text || text.trim() === '' || content === '<p><br></p>') {
       return;
     }
     
@@ -399,7 +399,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
     if (localDocumentId) {
       const content = quillContent || editorContent;
       const text = content.replace(/<[^>]*>/g, '').trim();
-      if (text && text !== '' && text !== 'Start writing...') {
+      if (text && text !== '') {
         saveToLocalStorage();
       }
     }
@@ -634,7 +634,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       // Auto-save to local storage for ALL users
       if (localDocumentId) {
         const content = quillContent || editorContent;
-        if (content && content !== '<p>Start writing...</p>') {
+        if (content && content !== '<p><br></p>') {
           saveToLocalStorage();
           
           // Update status with timestamp
