@@ -192,10 +192,12 @@ html, body {
   transition: width 0.3s ease;
 }
 
-/* When sidebar is collapsed, make it narrower */
+/* When sidebar is collapsed, hide it completely */
 .sidebar-container.collapsed {
-  width: 60px !important;
-  min-width: 60px !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  border-right: none !important;
 }
 
 /* Editor Container */
