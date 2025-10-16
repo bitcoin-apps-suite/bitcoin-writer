@@ -13,7 +13,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+import CleanTaskbar from "../components/ui/CleanTaskbar";
  *
  * For commercial licensing options, please contact The Bitcoin Corporation LTD.
  */
@@ -31,11 +31,11 @@ import dynamic from 'next/dynamic';
 
 // Dynamic imports for components to avoid SSR issues
 const ProofOfConceptBanner = dynamic(() => import('../components/ProofOfConceptBanner'), { ssr: false });
-const CleanTaskbar = dynamic(() => import('../components/CleanTaskbar'), { ssr: false });
-const DevSidebar = dynamic(() => import('../components/DevSidebar'), { ssr: false });
-const TickerSidebar = dynamic(() => import('../components/TickerSidebar'), { ssr: false });
-const MinimalDock = dynamic(() => import('../components/MinimalDock'), { ssr: false });
-const Footer = dynamic(() => import('../components/Footer'), { ssr: false });
+const CleanTaskbar = dynamic(() => import('../components/ui/CleanTaskbar'), { ssr: false });
+const DevSidebar = dynamic(() => import('../components/ui/DevSidebar'), { ssr: false });
+const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { ssr: false });
+const MinimalDock = dynamic(() => import('../components/ui/MinimalDock'), { ssr: false });
+const Footer = dynamic(() => import('../components/ui/Footer'), { ssr: false });
 
 export default function RootLayout({
   children,

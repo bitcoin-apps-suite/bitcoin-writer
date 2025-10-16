@@ -2,33 +2,14 @@ import React, { useState } from 'react';
 import './ProofOfConceptBanner.css';
 import { HandCashService } from '../services/HandCashService';
 
-// Check if we're using Next.js or React Router
-const isNextJs = typeof window !== 'undefined' && !!(window as any).next;
-
 const ProofOfConceptBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   
-  // Use conditional navigation based on environment
-  let navigate: any;
-  if (!isNextJs) {
-    try {
-      const routerModule = require('react-router-dom');
-      navigate = routerModule.useNavigate();
-    } catch {
-      // React Router not available
-    }
-  }
-
   if (!isVisible) return null;
 
   const handleNavigation = (path: string) => {
-    if (isNextJs || !navigate) {
-      // Use window.location for Next.js or when React Router is not available
-      window.location.href = path;
-    } else {
-      // Use React Router navigation
-      navigate(path);
-    }
+    // Use window.location for navigation in Next.js
+    window.location.href = path;
   };
 
   return (

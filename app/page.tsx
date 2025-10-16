@@ -26,8 +26,8 @@ import { BlockchainDocumentService, BlockchainDocument } from '../services/Block
 import { HandCashService } from '../services/HandCashService';
 
 // Dynamic imports for client-side components
-const DocumentEditor = dynamic(() => import('../components/DocumentEditor'), { ssr: false });
-const DocumentSidebar = dynamic(() => import('../components/DocumentSidebar'), { ssr: false });
+const DocumentEditor = dynamic(() => import('../components/editor/DocumentEditor'), { ssr: false });
+const DocumentSidebar = dynamic(() => import('../components/editor/DocumentSidebar'), { ssr: false });
 
 export default function Home() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
