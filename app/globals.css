@@ -128,7 +128,7 @@ html, body {
 /* Make the main-container responsive to the available width */
 .main-container {
   display: flex;
-  height: calc(100vh - 162px);
+  min-height: calc(100vh - 162px);
   background: #000;
   position: relative;
   margin-left: 0;
@@ -141,14 +141,14 @@ html, body {
   display: flex;
   flex-direction: column;
   background: #000;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow: visible;
   min-width: 0; /* Allow flex shrinking */
 }
 
 /* Make document editor responsive */
 .document-editor-container {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   background: #000;
@@ -534,10 +534,11 @@ html, body {
 /* Editor Content */
 .editor-content {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: visible;
   background: #000;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Quill Container */
@@ -618,7 +619,8 @@ html, body {
   border: none !important;
   background: #000 !important;
   flex: 1;
-  overflow-y: auto;
+  overflow-y: visible;
+  min-height: 100%;
 }
 
 .ql-editor {
@@ -628,9 +630,9 @@ html, body {
   font-family: Georgia, serif !important;
   font-size: 16px !important;
   line-height: 1.8 !important;
-  min-height: 600px !important;
+  min-height: 1100px !important; /* Full page height */
   max-width: 850px !important;
-  margin: 50px 0 0 0 !important;
+  margin: 50px 0 50px 0 !important;
   margin-left: 65px !important;
   position: relative !important;
   z-index: 1 !important;
