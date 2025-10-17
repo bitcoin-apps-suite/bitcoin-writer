@@ -266,6 +266,31 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+/* Liquidity level color classes */
+.ticker-liquidity.very-high {
+  color: #4CAF50;
+}
+
+.ticker-liquidity.high {
+  color: #8BC34A;
+}
+
+.ticker-liquidity.medium {
+  color: #FFC107;
+}
+
+.ticker-liquidity.fair {
+  color: #FF9800;
+}
+
+.ticker-liquidity.low {
+  color: #f44336;
+}
+
+.ticker-liquidity.none {
+  color: #666;
+}
+
 .ticker-holders {
   font-size: 10px;
   color: #777;

@@ -111,7 +111,7 @@ html, body {
 
 /* Main content area - clean version */
 .main-content {
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease, margin-right 0.3s ease;
   width: 100%;
   min-height: 100vh;
 }
@@ -122,6 +122,36 @@ html, body {
 
 .main-content.sidebar-collapsed {
   margin-left: 60px !important; /* Collapsed DevSidebar width */
+}
+
+/* Ticker sidebar responsive content */
+.main-content.ticker-expanded {
+  margin-right: 280px; /* Full TickerSidebar width */
+}
+
+.main-content.ticker-collapsed {
+  margin-right: 60px; /* Collapsed TickerSidebar width */
+}
+
+/* Combined states for both sidebars */
+.main-content.sidebar-expanded.ticker-expanded {
+  margin-left: 260px;
+  margin-right: 280px;
+}
+
+.main-content.sidebar-expanded.ticker-collapsed {
+  margin-left: 260px;
+  margin-right: 60px;
+}
+
+.main-content.sidebar-collapsed.ticker-expanded {
+  margin-left: 60px;
+  margin-right: 280px;
+}
+
+.main-content.sidebar-collapsed.ticker-collapsed {
+  margin-left: 60px;
+  margin-right: 60px;
 }
 
 /* Ensure app-wrapper and all child elements are responsive */
@@ -185,8 +215,11 @@ html, body {
 @media (max-width: 768px) {
   .main-content,
   .main-content.sidebar-expanded,
-  .main-content.sidebar-collapsed {
+  .main-content.sidebar-collapsed,
+  .main-content.ticker-expanded,
+  .main-content.ticker-collapsed {
     margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 

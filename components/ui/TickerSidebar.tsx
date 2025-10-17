@@ -19,16 +19,26 @@ interface TickerSidebarProps {
     symbol: string;
     name: string;
   };
+  isEditorMode?: boolean;
+  compactMode?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
 }
 
 const TickerSidebar: React.FC<TickerSidebarProps> = ({
   userHandle,
-  currentJobToken
+  currentJobToken,
+  onCollapsedChange
 }) => {
   const [prices, setPrices] = useState<TokenPrice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleToggleCollapsed = () => {
+    const newCollapsed = !isCollapsed;
+    setIsCollapsed(newCollapsed);
+    onCollapsedChange?.(newCollapsed);
+  };
 
   useEffect(() => {
     // Generate trending gig tokens with contract IDs
@@ -167,13 +177,13 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
     return 'Low';
   };
 
-  const getLiquidityColor = (liquidity?: number): string => {
-    if (!liquidity) return '#666';
-    if (liquidity >= 100000) return '#4CAF50';
-    if (liquidity >= 50000) return '#8BC34A';
-    if (liquidity >= 10000) return '#FFC107';
-    if (liquidity >= 5000) return '#FF9800';
-    return '#f44336';
+  const getLiquidityColorClass = (liquidity?: number): string => {
+    if (!liquidity) return 'none';
+    if (liquidity >= 100000) return 'very-high';
+    if (liquidity >= 50000) return 'high';
+    if (liquidity >= 10000) return 'medium';
+    if (liquidity >= 5000) return 'fair';
+    return 'low';
   };
 
   const formatTime = (date: Date): string => {
@@ -190,8 +200,9 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
         <h3>$bWriter Market</h3>
         <div className="ticker-header-controls">
           <button 
+            type="button"
             className="ticker-toggle"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={handleToggleCollapsed}
             title={isCollapsed ? 'Expand ticker' : 'Collapse ticker'}
           >
             {isCollapsed ? '←' : '→'}
@@ -243,8 +254,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
                     )}
                     {token.liquidity !== undefined && (
                       <span 
-                        className="ticker-liquidity"
-                        style={{ color: getLiquidityColor(token.liquidity) }}
+                        className={`ticker-liquidity ${getLiquidityColorClass(token.liquidity)}`}
                       >
                         {formatLiquidity(token.liquidity)}
                       </span>

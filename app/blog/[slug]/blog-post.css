@@ -1,0 +1,287 @@
+/* Individual Blog Post Styles */
+.blog-post-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  padding: 2rem 0;
+}
+
+.post-navigation {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #F7931A;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: #ff9500;
+}
+
+/* Article Styles */
+.blog-post {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.post-header-full {
+  padding: 3rem 3rem 2rem;
+  border-bottom: 1px solid #333;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+.post-title-full {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #F7931A;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.post-meta-full {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.meta-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #999;
+  font-size: 1rem;
+}
+
+.post-author {
+  color: #F7931A;
+  font-weight: 600;
+}
+
+.meta-separator {
+  color: #666;
+}
+
+.post-stats-full {
+  display: flex;
+  gap: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.post-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-stat svg {
+  opacity: 0.7;
+}
+
+.post-tags-full {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.post-tag {
+  background: #2a2a2a;
+  color: #F7931A;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid #444;
+  font-weight: 500;
+}
+
+/* Content Styles */
+.post-content-full {
+  padding: 3rem;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.post-content-full h2 {
+  color: #F7931A;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #333;
+}
+
+.post-content-full h3 {
+  color: #ff9500;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.post-content-full p {
+  margin-bottom: 1.5rem;
+  color: #e0e0e0;
+}
+
+.post-content-full ul,
+.post-content-full ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.post-content-full li {
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.post-content-full li strong {
+  color: #F7931A;
+}
+
+.post-content-full blockquote {
+  background: #2a2a2a;
+  border-left: 4px solid #F7931A;
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #f0f0f0;
+  position: relative;
+}
+
+.post-content-full blockquote p {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.post-content-full code {
+  background: #2a2a2a;
+  color: #F7931A;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Lucida Console', monospace;
+  font-size: 0.9rem;
+}
+
+.post-content-full pre {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.post-content-full pre code {
+  background: none;
+  padding: 0;
+  color: #e0e0e0;
+}
+
+/* Footer Styles */
+.post-footer-full {
+  padding: 2rem 3rem 3rem;
+  border-top: 1px solid #333;
+}
+
+.post-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.post-actions .btn-secondary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.author-info {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.author-info h3 {
+  color: #F7931A;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.author-info p {
+  color: #ccc;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.author-info strong {
+  color: #F7931A;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 0 1rem;
+  }
+
+  .post-header-full {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .post-title-full {
+    font-size: 2rem;
+  }
+
+  .post-meta-full {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .post-stats-full {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-content-full {
+    padding: 2rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .post-content-full h2 {
+    font-size: 1.5rem;
+  }
+
+  .post-content-full h3 {
+    font-size: 1.3rem;
+  }
+
+  .post-footer-full {
+    padding: 1.5rem;
+  }
+
+  .post-actions {
+    flex-direction: column;
+  }
+
+  .author-info {
+    padding: 1.5rem;
+  }
+}
