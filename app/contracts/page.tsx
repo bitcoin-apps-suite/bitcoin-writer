@@ -84,32 +84,60 @@ const ContractsPage: React.FC = () => {
   const loadSampleContracts = () => {
     const sampleContracts: Contract[] = [
       {
-        id: 'contract-1',
-        githubIssueNumber: 123,
-        githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/123',
-        title: 'Implement OAuth Integration for Google Sign-In',
-        description: 'Add Google OAuth2 authentication flow to the login system with proper error handling and user profile management.',
-        reward: '5,000 BWRITER',
-        estimatedHours: 16,
+        id: 'contract-47',
+        githubIssueNumber: 47,
+        githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/47',
+        title: '🟠 Implement MAIP (Multi-Authoring in Public) Foundation',
+        description: 'Revolutionary collaborative writing system where multiple authors work together in real-time on the blockchain, with every contribution tracked and rewarded through micropayments.',
+        reward: '8,000 BWRITER (0.8%)',
+        estimatedHours: 320, // 8 weeks * 40 hours
         priority: 'High',
         status: 'available',
         category: 'developer',
-        skills: ['TypeScript', 'React', 'OAuth', 'Google APIs'],
-        deliverables: ['OAuth flow implementation', 'Error handling', 'User profile integration', 'Tests']
+        skills: ['TypeScript', 'React', 'Real-time collaboration', 'BSV Blockchain', 'AI Integration', 'Smart Contracts'],
+        deliverables: ['Collaborative infrastructure', 'AI valuation system', 'Payment automation', 'Public collaboration features']
       },
       {
-        id: 'contract-2',
-        githubIssueNumber: 124,
-        githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/124',
-        title: 'Technical Documentation for BSV Integration',
-        description: 'Create comprehensive documentation for developers on how to integrate BSV blockchain features into their applications.',
-        reward: '3,000 BWRITER',
-        estimatedHours: 12,
+        id: 'contract-45',
+        githubIssueNumber: 45,
+        githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/45',
+        title: '🔴 Enhance Document Persistence - Users Cannot Access Published Documents',
+        description: 'Users cannot see their published documents when they log back into Bitcoin Writer. Need to implement proper document persistence across sessions.',
+        reward: '3,000 BWRITER (0.3%)',
+        estimatedHours: 24,
+        priority: 'Critical',
+        status: 'available',
+        category: 'developer',
+        skills: ['TypeScript', 'LocalStorage', 'Blockchain Storage', 'Document Management'],
+        deliverables: ['Enhanced document retrieval', 'Cross-session persistence', 'UI indicators', 'Sync functionality']
+      },
+      {
+        id: 'contract-44',
+        githubIssueNumber: 44,
+        githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/44',
+        title: 'Replace deprecated execCommand with modern alternatives',
+        description: 'Replace all deprecated document.execCommand calls with modern alternatives for better browser support and future compatibility.',
+        reward: '1,500 BWRITER (0.15%)',
+        estimatedHours: 16,
         priority: 'Medium',
         status: 'available',
-        category: 'writing',
-        skills: ['Technical Writing', 'BSV', 'API Documentation'],
-        deliverables: ['Integration guide', 'Code examples', 'API reference', 'Best practices']
+        category: 'developer',
+        skills: ['JavaScript', 'DOM APIs', 'Browser Compatibility', 'Text Editing'],
+        deliverables: ['Modern API implementation', 'Browser testing', 'Backward compatibility', 'Documentation']
+      },
+      {
+        id: 'contract-43',
+        githubIssueNumber: 43,
+        githubIssueUrl: 'https://github.com/bitcoin-apps-suite/bitcoin-writer/issues/43',
+        title: 'Implement Google Drive OAuth Integration',
+        description: 'Enable users to save and load documents directly from their Google Drive, providing seamless cloud storage integration alongside blockchain storage.',
+        reward: '2,000 BWRITER (0.2%)',
+        estimatedHours: 20,
+        priority: 'Medium',
+        status: 'available',
+        category: 'developer',
+        skills: ['OAuth 2.0', 'Google Drive API', 'Cloud Storage', 'File Management'],
+        deliverables: ['OAuth authentication flow', 'Google Drive API integration', 'File picker UI', 'Save/Load functionality']
       },
       {
         id: 'contract-3',
@@ -245,7 +273,7 @@ const ContractsPage: React.FC = () => {
             <h1><span style={{color: '#f7931a'}}>Bitcoin Writer</span> <span style={{color: '#ffffff'}}>Contracts</span></h1>
             <p className="contracts-tagline">
               {activeTab === 'developer' 
-                ? 'Claim contracts, deliver code, earn BWRITER tokens'
+                ? 'Real GitHub issues as paid contracts. Claim tasks, submit PRs, earn BWRITER tokens.'
                 : 'Create content, fulfill contracts, get paid in BWRITER'}
             </p>
             <div className="contracts-badge">CONTRACTS</div>
