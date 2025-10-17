@@ -38,6 +38,8 @@ const QuillEditor = dynamic(() => import('./QuillEditorDirect'), { ssr: false })
 import './QuillEditor.css';
 import AIChatWindow from '../AIChatWindow';
 import { AIService } from '../../services/AIService';
+import DocumentEditorToolbar from './DocumentEditorToolbar';
+import ImportSourcesModal from '../modals/ImportSourcesModal';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -94,6 +96,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [showTokenizeModal, setShowTokenizeModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [showVersioningModal, setShowVersioningModal] = useState(false);
+  const [showImportSourcesModal, setShowImportSourcesModal] = useState(false);
   const [bsvService] = useState(() => new BSVStorageService(documentService?.handcashService || undefined));
   // Always use Quill editor
   const [quillContent, setQuillContent] = useState('');
@@ -558,6 +561,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
 
     } catch (error) {
       console.error('Error saving to blockchain:', error);
+          setErrorMessage('Failed to save to blockchain. Please try again.');
       setAutoSaveStatus('❌ Failed to save');
       alert('Failed to save to blockchain. Please try again.');
     } finally {
@@ -1208,8 +1212,88 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
             </button>
             </div>
             
-            {/* Third row with utility buttons */}
+            {/* Third row with import/export and utility buttons */}
             <div className="toolbar-row-3">
+              {/* Import buttons */}
+              <button 
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = '.docx,.doc';
+                  input.onchange = (e: any) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      alert('Word import functionality coming soon!');
+                    }
+                  };
+                  input.click();
+                }}
+                title="Import Word Document"
+              >
+                📥 Import Word
+              </button>
+              
+              <button 
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = '.txt,.md,.rtf';
+                  input.onchange = (e: any) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        const content = event.target?.result as string;
+                        setEditorContent(content);
+                        setQuillContent(content);
+                      };
+                      reader.readAsText(file);
+                    }
+                  };
+                  input.click();
+                }}
+                title="Import Text File"
+              >
+                📄 Import Text
+              </button>
+              
+              <button onClick={() => alert('Google Docs integration coming soon!')} title="Import from Google Docs">
+                📑 Google Docs
+              </button>
+              
+              <button onClick={() => alert('Notion integration coming soon!')} title="Import from Notion">
+                📝 Notion
+              </button>
+              
+              <button onClick={() => setShowImportSourcesModal(true)} title="Import from Other Apps">
+                ⚡ Other Apps
+              </button>
+              
+              {/* Export buttons */}
+              <button onClick={() => alert('Word export functionality coming soon!')} title="Export as Word">
+                📤 Export Word
+              </button>
+              
+              <button 
+                onClick={() => {
+                  const element = document.createElement('a');
+                  const file = new Blob([editorContent], { type: 'text/html' });
+                  element.href = URL.createObjectURL(file);
+                  element.download = `${currentDocument?.title || 'document'}.html`;
+                  document.body.appendChild(element);
+                  element.click();
+                  document.body.removeChild(element);
+                }}
+                title="Export as HTML"
+              >
+                🌐 Export HTML
+              </button>
+              
+              <button onClick={() => alert('Rulers functionality coming soon!')} title="Toggle Rulers">
+                📏 Rulers
+              </button>
+              
+              {/* Utility buttons */}
               <button onClick={toggleDarkMode} title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}>
                 {isDarkMode ? '☀️' : '🌙'}
               </button>
@@ -1232,6 +1316,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           </div>
         </div>
       </div>
+
 
       <div className="editor-container">
         {currentDocument?.metadata && (currentDocument.metadata as any).isPdf ? (
@@ -1365,6 +1450,18 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         onContentRestore={(content) => {
           setQuillContent(content);
           setEditorContent(content);
+        }}
+      />
+
+      <ImportSourcesModal
+        isOpen={showImportSourcesModal}
+        onClose={() => setShowImportSourcesModal(false)}
+        onImport={(source, data) => {
+          if (data.content) {
+            setEditorContent(data.content);
+            setQuillContent(data.content);
+          }
+          setShowImportSourcesModal(false);
         }}
       />
       

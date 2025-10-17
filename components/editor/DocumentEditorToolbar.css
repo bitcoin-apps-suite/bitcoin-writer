@@ -1,0 +1,221 @@
+/* DocumentEditorToolbar Styles */
+.document-editor-toolbar {
+  background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  position: relative;
+  z-index: 5;
+}
+
+.toolbar-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Document Title */
+.document-title {
+  margin-bottom: 8px;
+}
+
+.document-title input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 300px;
+  font-family: inherit;
+}
+
+.document-title input:focus {
+  outline: none;
+  border-color: #f7931a;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.document-title input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Toolbar Rows */
+.toolbar-row-1,
+.toolbar-row-2,
+.toolbar-row-3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Document Tabs */
+.document-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 16px;
+}
+
+.tab-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tab-button.active {
+  background: #f7931a;
+  border-color: #f7931a;
+  color: #000;
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Action Buttons */
+.action-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.action-button.primary {
+  background: #f7931a;
+  border-color: #f7931a;
+  color: #000;
+  font-weight: 600;
+}
+
+.action-button.primary:hover {
+  background: #ff8c00;
+  border-color: #ff8c00;
+}
+
+/* Button Dividers */
+.button-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 8px;
+}
+
+/* Price Display */
+.price-display {
+  font-size: 11px;
+  color: #f7931a;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+/* Word Count Display */
+.toolbar-row-3 {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .toolbar-desktop {
+    display: none;
+  }
+  
+  .document-editor-toolbar {
+    padding: 8px 12px;
+  }
+  
+  .document-title input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  
+  .toolbar-row-1,
+  .toolbar-row-2,
+  .toolbar-row-3 {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  
+  .action-button {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-width: fit-content;
+  }
+  
+  .button-divider {
+    display: none;
+  }
+}
+
+/* Dark mode adjustments */
+.dark-mode .document-editor-toolbar {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+}
+
+.dark-mode .action-button {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .action-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animation for unsaved changes indicator */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.unsaved-indicator {
+  animation: pulse 1.5s infinite;
+  color: #f7931a;
+  margin-left: 4px;
+}

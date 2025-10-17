@@ -65,6 +65,8 @@ export default function RootLayout({
       <head>
         <title>Bitcoin Writer</title>
         <meta name="description" content="Encrypt, publish and sell shares in your work" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="alternate icon" type="image/svg+xml" href="/logo.svg" />
       </head>
       <body>
         <div className="App">
