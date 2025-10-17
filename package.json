@@ -45,12 +45,12 @@
     "uuid": "^13.0.0"
   },
   "scripts": {
-    "dev": "PORT=2999 next dev",
+    "dev": "PORT=3000 next dev",
     "build": "next build",
-    "start": "PORT=2999 next start",
+    "start": "PORT=3000 next start",
     "next:build": "next build",
-    "next:dev": "PORT=2999 next dev",
-    "next:start": "PORT=2999 next start",
+    "next:dev": "PORT=3000 next dev",
+    "next:start": "PORT=3000 next start",
     "api": "API_PORT=3001 node api/server.js",
     "kill:all": "for port in {3000..3010}; do lsof -ti:$port | xargs kill -9 2>/dev/null || true; done"
   },

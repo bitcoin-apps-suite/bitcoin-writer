@@ -1,0 +1,346 @@
+/* API Page Styles */
+.api-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.api-page.with-sidebar-expanded {
+  margin-left: 280px;
+}
+
+.api-page.with-sidebar-collapsed {
+  margin-left: 80px;
+}
+
+.api-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Hero Section */
+.api-hero {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);
+  border-radius: 20px;
+  margin-bottom: 4rem;
+}
+
+.api-hero h1 {
+  font-size: 3.5rem;
+  font-weight: 200;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #f7931a, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.api-tagline {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.api-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f7931a, #ff6b35);
+  color: #000;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Navigation */
+.api-nav-section {
+  margin-bottom: 3rem;
+}
+
+.api-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.api-nav button {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.api-nav button:hover {
+  border-color: #f7931a;
+  color: #f7931a;
+  transform: translateY(-2px);
+}
+
+.api-nav button.active {
+  background: linear-gradient(135deg, #f7931a, #ff6b35);
+  border-color: transparent;
+  color: #000;
+  font-weight: 600;
+}
+
+/* API Sections */
+.api-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.api-section h2 {
+  color: #f7931a;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.api-section p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* API Endpoints */
+.api-endpoint {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.method {
+  padding: 0.25rem 0.75rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.method.get {
+  background: #4CAF50;
+  color: white;
+}
+
+.method.post {
+  background: #2196F3;
+  color: white;
+}
+
+.method.put {
+  background: #FF9800;
+  color: white;
+}
+
+.method.delete {
+  background: #F44336;
+  color: white;
+}
+
+.endpoint-url {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  color: #f7931a;
+  font-weight: 500;
+}
+
+.endpoint-description {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.code-block {
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+/* Rate Limits Section */
+.rate-limits {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rate-limits h2 {
+  color: #f7931a;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.rate-limits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.rate-limit-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.rate-limit-card:hover {
+  transform: translateY(-5px);
+  border-color: #f7931a;
+}
+
+.rate-limit-card h3 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.rate-limit-card p {
+  color: #f7931a;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* SDKs Section */
+.sdks-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sdks-section h2 {
+  color: #f7931a;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.sdks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.sdk-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.sdk-card:hover {
+  transform: translateY(-5px);
+  border-color: #f7931a;
+}
+
+.sdk-card h3 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.sdk-card .code-block {
+  margin: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .api-page.with-sidebar-expanded,
+  .api-page.with-sidebar-collapsed {
+    margin-left: 0;
+  }
+  
+  .api-container {
+    padding: 1rem;
+  }
+  
+  .api-hero {
+    padding: 2rem 1rem;
+  }
+  
+  .api-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .api-nav {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .api-nav button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .endpoint-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .rate-limits-grid,
+  .sdks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .api-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .api-section {
+    padding: 1rem;
+  }
+  
+  .api-endpoint {
+    padding: 1rem;
+  }
+}
