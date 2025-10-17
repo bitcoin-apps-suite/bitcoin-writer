@@ -104,7 +104,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   const fetchNftDocuments = async () => {
     setIsLoadingNfts(true);
     try {
-      const response = await fetch(`${process.env.NODE_ENV === 'production' ? '' : 'http://localhost:4000'}/api/marketplace`, {
+      const response = await fetch(`${process.env.NODE_ENV === 'production' ? '' : 'http://localhost:2999'}/api/marketplace`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1840,7 +1840,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
       const combinedListings = [...userListings, ...contentData, ...nftListings].filter(w => w.authorType === authorType);
       setWritings(combinedListings);
     }
-  }, [activeView, authorType, activeMarket, authorCategory, userDocuments, nftDocuments]);
+  }, [activeView, authorType, activeMarket, authorCategory]);
 
   const filteredWritings = writings
     .filter(writing => 
