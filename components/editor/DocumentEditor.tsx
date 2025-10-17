@@ -1011,40 +1011,15 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         {/* Desktop Layout */}
         <div className="toolbar-desktop">
           <div className="toolbar-left">
-            {/* First row of buttons */}
+            {/* First row - empty or could have other controls */}
             <div className="toolbar-row-1">
+            </div>
+            
+            {/* Second row - Save, Work Tree, and Blockchain actions */}
+            <div className="toolbar-row-2">
             {/* Save button - always saves locally, optionally to blockchain */}
             <button 
-              onClick={() => {
-                // On first save for a document, show the Save to Blockchain modal
-                if (isFirstSave && wordCount > 0) {
-                  setShowSaveBlockchainModal(true);
-                  setIsFirstSave(false);
-                  return;
-                }
-                
-                // Otherwise do normal save
-                saveToLocalStorage();
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('en-US', { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                });
-                setAutoSaveStatus(`✓ Saved at ${timeString}`);
-                setLastSaveTime(now);
-                setUnsavedChanges(false);
-                setTimeout(() => setAutoSaveStatus(''), 5000);
-                
-                // If authenticated, also save to blockchain
-                if (isAuthenticated) {
-                  hashDocument();
-                  setAutoSaveStatus(`⛓️ Saving to blockchain...`);
-                  setTimeout(() => {
-                    setAutoSaveStatus(`✓ Saved to blockchain at ${timeString}`);
-                    setTimeout(() => setAutoSaveStatus(''), 5000);
-                  }, 1000);
-                }
-              }} 
+              onClick={saveDocument}
               disabled={isLoading || wordCount === 0} 
               title={wordCount === 0 ? "Start typing to save" : isFirstSave ? "Save to blockchain" : "Save changes"}
               className={wordCount > 0 ? 'save-btn-active' : 'save-btn-inactive'}
@@ -1053,7 +1028,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
                 <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
               </svg>
-              Save
+              💾 Save
               {wordCount > 0 && (
                 <span style={{ 
                   fontSize: '11px', 
@@ -1084,10 +1059,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </svg>
               Work Tree
             </button>
-            </div>
             
-            {/* Second row of buttons */}
-            <div className="toolbar-row-2">
             {/* Encrypt on chain - saves with encryption */}
             <button 
               onClick={() => {
