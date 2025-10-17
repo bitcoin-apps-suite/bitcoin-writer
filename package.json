@@ -6,9 +6,12 @@
   "author": "The Bitcoin Corporation LTD",
   "private": true,
   "dependencies": {
+    "@babbage/escrow": "^0.1.0",
     "@bsv/auth-express-middleware": "^1.2.3",
+    "@bsv/gasp": "^1.2.0",
     "@bsv/payment-express-middleware": "^1.2.3",
-    "@bsv/sdk": "^1.8.2",
+    "@bsv/sdk": "^1.8.3",
+    "@bsv/spv-wallet-js-client": "^1.0.0-beta.36",
     "@bsv/wallet-toolbox": "^1.6.26",
     "@bsv/wallet-toolbox-client": "^1.6.26",
     "@handcash/handcash-connect": "^0.8.11",
@@ -22,6 +25,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "axios": "^1.12.2",
+    "bsv": "^2.0.10",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "docx": "^9.5.1",
@@ -40,6 +44,7 @@
     "react-draggable": "^4.5.0",
     "react-quill": "^2.0.0",
     "stripe": "^19.1.0",
+    "tokens-topic-manager": "^1.1.5",
     "twitter-api-v2": "^1.27.0",
     "typescript": "^4.9.0",
     "uuid": "^13.0.0"
@@ -52,7 +57,9 @@
     "next:dev": "PORT=3000 next dev",
     "next:start": "PORT=3000 next start",
     "api": "API_PORT=3001 node api/server.js",
-    "kill:all": "for port in {3000..3010}; do lsof -ti:$port | xargs kill -9 2>/dev/null || true; done"
+    "kill:all": "for port in {3000..3010}; do lsof -ti:$port | xargs kill -9 2>/dev/null || true; done",
+    "deploy-token": "ts-node scripts/deploy-bwriter-token.ts",
+    "deploy-token:founder": "ts-node scripts/deploy-bwriter-token.ts"
   },
   "eslintConfig": {
     "extends": [
