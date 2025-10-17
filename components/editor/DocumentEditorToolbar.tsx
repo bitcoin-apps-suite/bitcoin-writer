@@ -1,4 +1,5 @@
 import React from 'react';
+import './DocumentEditorToolbar.css';
 
 interface ToolbarProps {
   // Row 1 - Tabs
@@ -71,7 +72,7 @@ const DocumentEditorToolbar: React.FC<ToolbarProps> = ({
   onTitleChange
 }) => {
   return (
-    <div className="toolbar">
+    <div className="document-editor-toolbar">
       <div className="toolbar-desktop">
         {/* Document Title Input */}
         <div className="document-title">
