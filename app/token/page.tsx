@@ -1,53 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './TokenPage.css';
 import Footer from '../../components/ui/Footer';
 
 export default function TokenPage() {
-  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('devSidebarCollapsed');
-      return saved === 'true';
-    }
-    return false;
-  });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // Set initial mobile state
-    setIsMobile(window.innerWidth <= 768);
-    
-    // Listen for storage changes to detect sidebar collapse state
-    const handleStorageChange = () => {
-      const saved = localStorage.getItem('devSidebarCollapsed');
-      setDevSidebarCollapsed(saved === 'true');
-    };
-    
-    // Handle window resize
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('resize', handleResize);
-    
-    // Check for sidebar state changes via polling
-    const checkSidebarState = setInterval(() => {
-      const saved = localStorage.getItem('devSidebarCollapsed');
-      setDevSidebarCollapsed(saved === 'true');
-    }, 100);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('resize', handleResize);
-      clearInterval(checkSidebarState);
-    };
-  }, []);
-
   return (
     <div className="App">
-      <div className={`token-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
+      <div className="token-page">
       <div className="token-container">
         {/* Hero Section */}
         <section className="token-hero">

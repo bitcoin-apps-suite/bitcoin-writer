@@ -8,12 +8,6 @@
   font-weight: 300;
 }
 
-/* Remove sidebar positioning - content should not shift */
-.token-page.with-sidebar-expanded,
-.token-page.with-sidebar-collapsed {
-  margin-left: 0 !important;
-}
-
 .token-container {
   max-width: 1200px;
   margin: 0 auto;
