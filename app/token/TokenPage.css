@@ -597,6 +597,365 @@ section h2 {
   height: 16px;
 }
 
+/* Tokenomics Section */
+.tokenomics-section {
+  background: #0a0a0a;
+}
+
+.tokenomics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tokenomics-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+}
+
+.tokenomics-card h3 {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+  color: #ffa500;
+}
+
+.big-number {
+  font-size: 36px;
+  font-weight: 200;
+  color: #ffffff;
+  margin: 20px 0;
+  letter-spacing: -1px;
+}
+
+.tokenomics-card p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.distribution-list {
+  text-align: left;
+}
+
+.distribution-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.distribution-item:last-child {
+  border-bottom: none;
+}
+
+.distribution-item span:last-child {
+  color: #ffa500;
+  font-weight: 500;
+}
+
+.tokenomics-card ul {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tokenomics-card li {
+  padding: 8px 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.tokenomics-card li::before {
+  content: '•';
+  color: #ffa500;
+  position: absolute;
+  left: 0;
+}
+
+/* How It Works Section */
+.how-works-section {
+  background: #0a0a0a;
+}
+
+.how-works-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.step-card {
+  text-align: center;
+  padding: 30px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(90deg, #ffa500, #ffcd00);
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 auto 20px;
+}
+
+.step-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 0 15px 0;
+  color: #ffffff;
+}
+
+.step-card p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Value Section */
+.value-section {
+  background: #0a0a0a;
+}
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.value-card {
+  text-align: center;
+  padding: 30px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.value-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.value-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 0 15px 0;
+  color: #ffa500;
+}
+
+.value-card p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Roadmap Section */
+.roadmap-section {
+  background: #0a0a0a;
+}
+
+.roadmap-timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.roadmap-timeline::before {
+  content: '';
+  position: absolute;
+  left: 25px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 40px 70px;
+  margin-bottom: 30px;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background: #ffa500;
+  border-radius: 50%;
+  border: 3px solid #0a0a0a;
+}
+
+.timeline-item.completed .timeline-marker {
+  background: #4CAF50;
+}
+
+.timeline-item.current .timeline-marker {
+  background: #ffa500;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+}
+
+.timeline-content h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+}
+
+.timeline-content p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+}
+
+.timeline-status {
+  font-size: 14px;
+  color: #ffa500;
+  font-weight: 500;
+}
+
+/* Contributors Section */
+.contributors-section {
+  background: #0a0a0a;
+}
+
+.contributors-section > p {
+  text-align: center;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 auto 40px;
+  max-width: 600px;
+}
+
+.contributors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contributor-card {
+  text-align: center;
+  padding: 30px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.contributor-avatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(90deg, #ffa500, #ffcd00);
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 auto 20px;
+}
+
+.contributor-card h4 {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.contributor-card p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 15px 0;
+}
+
+.contribution-badge {
+  display: inline-block;
+  background: rgba(255, 165, 0, 0.1);
+  color: #ffa500;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 165, 0, 0.3);
+}
+
+/* Get Started Section */
+.get-started-section {
+  background: #0a0a0a;
+  text-align: center;
+}
+
+.get-started-section p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 40px 0;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #ffa500, #ffcd00);
+  color: #000;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 165, 0, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #ffa500;
+  border: 2px solid #ffa500;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 165, 0, 0.1);
+}
+
 /* Typography Refinements */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
