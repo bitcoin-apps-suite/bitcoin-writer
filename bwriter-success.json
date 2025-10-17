@@ -1,0 +1,39 @@
+{
+  "status": "BWRITER_DEPLOYED_SUCCESS",
+  "service": "1sat.market",
+  "timestamp": "2025-10-17T21:10:00.000Z",
+  "deployment_tx": "cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4",
+  "token": {
+    "symbol": "bWriter",
+    "total_supply": "1000000000",
+    "decimals": "0",
+    "protocol": "BSV-20",
+    "current_holder": "1suhQEFh1k6sezyvcbWQattPLtzGy3uMa"
+  },
+  "deployment_data": {
+    "p": "bsv-20",
+    "op": "deploy",
+    "tick": "bWriter",
+    "max": "1000000000",
+    "lim": "1000000",
+    "dec": "0"
+  },
+  "founder": {
+    "address": "1HNcvDZNosbxWeB9grD769u3bAKYNKRHTs",
+    "allocation": "30000000",
+    "percentage": "3.0%",
+    "status": "pending_transfer"
+  },
+  "verification": {
+    "deployment": "https://whatsonchain.com/tx/cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4",
+    "market": "https://1sat.market/market/bsv21/cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4_1",
+    "explorer": "https://whatsonchain.com/tx/cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4"
+  },
+  "tokenomics": {
+    "total_supply": 1000000000,
+    "founder_allocation": 30000000,
+    "bounty_allocation": 400000000,
+    "treasury_allocation": 300000000,
+    "community_allocation": 270000000
+  }
+}
