@@ -2,18 +2,12 @@
 
 import React from 'react';
 import DocumentExchangeView from '../../components/editor/DocumentExchangeView';
-import Link from 'next/link';
 import './exchange.css';
 
 const ExchangePage: React.FC = () => {
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#0a0a0a',
-      color: '#ffffff',
-      fontFamily: "'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif"
-    }}>
-      {/* Header matching the main site */}
+    <div className="app-wrapper">
+      {/* App Header */}
       <div className="app-header">
         <div className="header-content">
           <div className="header-logo">
@@ -31,34 +25,20 @@ const ExchangePage: React.FC = () => {
                 </defs>
               </svg>
             </div>
-            <Link href="/" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <span className="logo-text">Bitcoin</span>
-            </Link>
+            <span className="logo-text">Bitcoin</span>
             <span className="logo-writer">Writer</span>
-            <span style={{ color: '#fff', marginLeft: '0.5rem' }}>Exchange</span>
           </div>
+          <p className="header-tagline">Encrypt, publish and sell shares in your work</p>
         </div>
       </div>
-
+      
       <div style={{
-        maxWidth: '1600px',
-        margin: '0 auto',
+        marginLeft: '20px',
+        marginRight: '20px',
         padding: '1rem 2rem',
         paddingTop: '1rem'
       }}
       className="exchange-main-container">
-        {/* Navigation */}
-        <nav style={{
-          marginBottom: '2rem',
-          padding: '1rem',
-          background: 'rgba(255, 255, 255, 0.05)',
-          borderRadius: '8px',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-          <Link href="/" style={{ color: '#f7931a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>
-            ← Back to Home
-          </Link>
-        </nav>
 
         {/* Exchange View Container */}
         <div className="exchange-page-container">

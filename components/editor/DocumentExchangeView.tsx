@@ -1868,7 +1868,6 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   return (
     <div className="exchange-view">
       <div className="exchange-view-header">
-        <h1>📈 <span className="title-bitcoin-writer">Bitcoin Writer</span> <span className="title-exchange">Exchange</span></h1>
         <div className="author-type-toggle">
           <button
             className={`toggle-btn ${authorType === 'human' ? 'active' : ''}`}
