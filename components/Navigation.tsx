@@ -11,6 +11,7 @@ const Navigation: React.FC = () => {
 
   const navigation = [
     { href: '/', label: 'Editor', icon: '📝' },
+    { href: '/blog', label: 'Blog', icon: '📰' },
     { href: '/features', label: 'Features', icon: '⚡' },
     { href: '/exchange', label: 'Exchange', icon: '💱' },
     { href: '/token', label: 'Token', icon: '🪙' },

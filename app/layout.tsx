@@ -44,6 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
+  const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(false);
   
   // Debug: log when state changes
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function RootLayout({
           )}
           
           {/* Main Content */}
-          <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
+          <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'} ${tickerSidebarCollapsed ? 'ticker-collapsed' : 'ticker-expanded'}`}>
             {children}
           </div>
           
@@ -95,6 +96,7 @@ export default function RootLayout({
             <TickerSidebar 
               isEditorMode={false}
               compactMode={false}
+              onCollapsedChange={setTickerSidebarCollapsed}
             />
           )}
           
