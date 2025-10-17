@@ -104,7 +104,7 @@ const DocumentExchangeView: React.FC<DocumentExchangeViewProps> = ({
   const fetchNftDocuments = async () => {
     setIsLoadingNfts(true);
     try {
-      const response = await fetch(`${process.env.NODE_ENV === 'production' ? '' : 'http://localhost:2999'}/api/marketplace`, {
+      const response = await fetch(`${process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000'}/api/marketplace`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
