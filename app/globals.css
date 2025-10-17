@@ -1018,3 +1018,70 @@ html, body {
 .status-bar {
   display: none !important;
 }
+
+/* Article Content Styles - exact match to React project .editor class */
+.article-content {
+  width: 100%;
+  height: 100%;
+  padding: 32px 40px;
+  outline: none;
+  border: none;
+  background: #000;
+  color: #ffffff;
+  font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Article content paragraph styles - same as editor */
+.article-content p {
+  margin: 0 0 8px 0;
+  min-height: 1.2em;
+  color: #ffffff;
+}
+
+.article-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Subtitle styling for sections */
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ff9500;
+  margin: 2rem 0 1rem 0;
+  line-height: 1.3;
+}
+
+/* Image styling */
+.article-image {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 2rem 0;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.article-content::selection {
+  background-color: rgba(247, 147, 26, 0.3);
+  color: #ffffff;
+}
+
+/* Mobile responsive text */
+@media (max-width: 768px) {
+  .article-content {
+    font-size: 14px;
+    padding: 20px;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+}
