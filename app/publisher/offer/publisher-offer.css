@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .publisher-offer-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .publisher-offer-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .publisher-offer-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .publisher-offer-page.with-sidebar-expanded .publisher-offer-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .publisher-offer-page.with-sidebar-collapsed .publisher-offer-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .publisher-offer-page.with-sidebar-expanded .publisher-offer-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .publisher-offer-page.with-sidebar-collapsed .publisher-offer-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Hero Section - Full Width Black */
@@ -296,29 +282,16 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .publisher-offer-container {
     padding: 0 20px;
-  }
   
-  .publisher-offer-hero {
     padding: 40px 20px;
     min-height: 30vh;
-  }
   
-  .publisher-offer-hero h1 {
     font-size: 32px;
-  }
   
-  .publisher-form-card {
     padding: 25px;
-  }
   
-  .form-row,
-  .currency-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .publisher-info-grid {
+  .form-row {
     grid-template-columns: 1fr;
   }
 }

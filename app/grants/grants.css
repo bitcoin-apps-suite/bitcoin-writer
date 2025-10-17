@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .grants-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .grants-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .grants-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .grants-page.with-sidebar-expanded .grants-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .grants-page.with-sidebar-collapsed .grants-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .grants-page.with-sidebar-expanded .grants-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .grants-page.with-sidebar-collapsed .grants-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Hero Section - Full Width Black */
@@ -494,9 +480,6 @@ section h2 {
 @media (max-width: 768px) {
   .grants-page {
     padding-top: 120px;
-  }
-  
-  .grants-container {
     padding: 0 20px;
   }
   
@@ -508,28 +491,15 @@ section h2 {
     font-size: 16px;
   }
   
-  .mission-pillars {
+  .grants-grid,
+  .benefits-grid,
+  .categories-grid,
+  .application-steps {
     grid-template-columns: 1fr;
   }
   
-  .focus-areas {
-    grid-template-columns: 1fr;
-  }
-  
-  .categories-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .impact-points {
-    grid-template-columns: 1fr;
-  }
-  
-  .cta-buttons {
+  .category-card {
     flex-direction: column;
     align-items: center;
-  }
-  
-  .cta-button {
-    width: 200px;
   }
 }

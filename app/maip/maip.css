@@ -12,11 +12,11 @@
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
   .maip-page.with-sidebar-expanded {
-    margin-left: 260px;
+    margin-left: 40px;
   }
   
   .maip-page.with-sidebar-collapsed {
-    margin-left: 60px;
+    margin-left: 20px;
   }
 }
 

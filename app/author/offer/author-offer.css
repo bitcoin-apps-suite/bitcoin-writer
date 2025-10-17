@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .author-offers-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .author-offers-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .author-offers-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .author-offers-page.with-sidebar-expanded .author-offers-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .author-offers-page.with-sidebar-collapsed .author-offers-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .author-offers-page.with-sidebar-expanded .author-offers-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .author-offers-page.with-sidebar-collapsed .author-offers-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Hero Section - Full Width Black */
@@ -372,31 +358,19 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .author-offers-container {
     padding: 0 20px;
-  }
   
-  .author-offers-hero {
     padding: 40px 20px;
     min-height: 30vh;
-  }
   
-  .author-offers-hero h1 {
     font-size: 32px;
-  }
   
-  .author-offers-grid {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
   
-  .category-filter {
     overflow-x: auto;
     justify-content: flex-start;
     padding-bottom: 10px;
-  }
   
-  .author-offers-cta {
     padding: 40px 20px;
-  }
 }

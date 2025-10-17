@@ -12,11 +12,11 @@
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
   .bwriter-contributions-page.with-sidebar-expanded {
-    margin-left: 260px;
+    margin-left: 40px;
   }
   
   .bwriter-contributions-page.with-sidebar-collapsed {
-    margin-left: 60px;
+    margin-left: 20px;
   }
 }
 
@@ -39,14 +39,7 @@
     padding: 96px 3rem 3rem;
   }
   
-  /* Adjust content width when sidebar is present */
-  .bwriter-contributions-page.with-sidebar-expanded {
-    max-width: calc(100vw - 260px);
-  }
-  
-  .bwriter-contributions-page.with-sidebar-collapsed {
-    max-width: calc(100vw - 60px);
-  }
+  /* Remove overly restrictive width constraints */
 }
 
 @media (min-width: 1440px) {
