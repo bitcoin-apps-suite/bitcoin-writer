@@ -15,6 +15,7 @@ const Navigation: React.FC = () => {
     { href: '/exchange', label: 'Exchange', icon: '💱' },
     { href: '/token', label: 'Token', icon: '🪙' },
     { href: '/grants', label: 'Grants', icon: '🌸' },
+    { href: '/changelog', label: 'Changelog', icon: '📋' },
   ];
 
   return (
