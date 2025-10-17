@@ -1,0 +1,202 @@
+/* Exchange Page Styles - Standalone Version */
+.exchange-page-container {
+  background: #0d0d0d;
+  border-radius: 12px;
+  border: 1px solid #333;
+  min-height: 900px;
+  height: calc(100vh - 200px);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: none;
+}
+
+/* Override exchange view header for standalone page */
+.exchange-page-container .exchange-view-header {
+  background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+  border-bottom: 2px solid #333;
+  padding: 25px 35px;
+}
+
+.exchange-page-container .exchange-view-header h1 {
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
+}
+
+/* Enhance the exchange view for full page display */
+.exchange-page-container .exchange-view {
+  height: 800px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Make table more spacious for standalone view */
+.exchange-page-container .exchange-table th {
+  padding: 15px 12px;
+  font-size: 11px;
+}
+
+.exchange-page-container .exchange-table td {
+  padding: 15px 12px;
+  font-size: 14px;
+}
+
+/* Enhanced controls for standalone view */
+.exchange-page-container .exchange-controls {
+  padding: 20px 35px;
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+}
+
+.exchange-page-container .exchange-search {
+  width: 350px;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.exchange-page-container .exchange-sort {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+/* Enhanced view tabs for standalone */
+.exchange-page-container .view-tabs {
+  padding: 0 35px;
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+}
+
+.exchange-page-container .view-tab {
+  padding: 16px 28px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* Enhanced market tabs */
+.exchange-page-container .market-tabs {
+  padding: 0 35px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+}
+
+.exchange-page-container .market-tab {
+  padding: 14px 24px;
+  font-size: 14px;
+}
+
+/* Enhanced author category tabs */
+.exchange-page-container .author-category-tabs {
+  padding: 15px 35px;
+}
+
+.exchange-page-container .author-tab {
+  padding: 10px 20px;
+  margin: 6px;
+}
+
+/* Enhanced action buttons for standalone view */
+.exchange-page-container .btn-buy,
+.exchange-page-container .btn-read {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* Ensure action column has enough space */
+.exchange-page-container .col-actions {
+  width: 160px;
+  min-width: 160px;
+}
+
+/* Ensure table doesn't overflow */
+.exchange-page-container .exchange-table-wrapper {
+  overflow-x: auto;
+}
+
+.exchange-page-container .exchange-table {
+  min-width: 1200px;
+  width: 100%;
+}
+
+/* Enhanced rank badges for standalone view */
+.exchange-page-container .rank-badge {
+  width: 35px;
+  height: 35px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Enhanced NFT badges for standalone view */
+.exchange-page-container .nft-badge {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 400;
+  margin-left: 10px;
+}
+
+/* Enhanced trending badges */
+.exchange-page-container .trending-badge {
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+/* Enhanced verified badges */
+.exchange-page-container .verified-badge {
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+/* Responsive adjustments for standalone page */
+@media (max-width: 1400px) {
+  .exchange-page-container {
+    margin: 0 1rem;
+  }
+}
+
+/* Adjust for ticker sidebar */
+@media (min-width: 769px) {
+  .exchange-page-container {
+    margin-left: 0; /* Container itself doesn't need margin since parent has it */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Remove left margin on mobile since ticker sidebar is hidden */
+  .exchange-main-container {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+  
+  .exchange-page-container {
+    margin: 0 0.5rem;
+    border-radius: 8px;
+  }
+  
+  .exchange-page-container .exchange-view {
+    height: 600px;
+  }
+  
+  .exchange-page-container .exchange-view-header {
+    padding: 20px;
+  }
+  
+  .exchange-page-container .exchange-view-header h1 {
+    font-size: 24px;
+  }
+  
+  .exchange-page-container .exchange-controls {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .exchange-page-container .exchange-search {
+    width: 100%;
+  }
+  
+  .exchange-page-container .view-tabs,
+  .exchange-page-container .market-tabs,
+  .exchange-page-container .author-category-tabs {
+    padding: 0 20px;
+  }
+}
