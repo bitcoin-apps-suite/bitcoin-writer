@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .offers-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .offers-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .offers-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .offers-page.with-sidebar-expanded .offers-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .offers-page.with-sidebar-collapsed .offers-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .offers-page.with-sidebar-expanded .offers-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .offers-page.with-sidebar-collapsed .offers-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Hero Section - Full Width Black */
@@ -459,38 +445,24 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .offers-container {
     padding: 0 20px;
-  }
   
-  .offers-hero {
     padding: 40px 20px;
     min-height: 30vh;
-  }
   
-  .offers-hero h1 {
     font-size: 32px;
-  }
   
-  .offers-grid {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
   
-  .category-filter {
     overflow-x: auto;
     justify-content: flex-start;
     padding-bottom: 10px;
-  }
   
-  .publisher-cta-compact {
     flex-direction: column;
     gap: 10px;
     text-align: center;
-  }
   
-  .offer-details-grid {
     grid-template-columns: 1fr;
     gap: 10px;
-  }
 }

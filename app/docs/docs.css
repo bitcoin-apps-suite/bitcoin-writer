@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .docs-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .docs-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .docs-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .docs-page.with-sidebar-expanded .docs-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .docs-page.with-sidebar-collapsed .docs-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .docs-page.with-sidebar-expanded .docs-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .docs-page.with-sidebar-collapsed .docs-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Docs Hero - Full Width Black */
@@ -734,13 +720,9 @@ p {
 
 /* Responsive - Mobile Compact */
 @media (max-width: 768px) {
-  .docs-hero h1 {
     font-size: 32px;
-  }
   
-  .docs-tagline {
     font-size: 14px;
-  }
   
   section h2 {
     font-size: 24px;
@@ -749,30 +731,7 @@ p {
   .getting-started-points,
   .feature-streams,
   .blockchain-steps,
-  .monetization-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .blockchain-examples ul {
-    grid-template-columns: 1fr;
-  }
-  
-  .flow-diagram {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .flow-item {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .endpoint-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .faq-grid,
-  .support-grid {
+  .faq-grid {
     grid-template-columns: 1fr;
   }
 }

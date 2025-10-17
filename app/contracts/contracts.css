@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .contracts-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .contracts-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .contracts-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .contracts-page.with-sidebar-expanded .contracts-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .contracts-page.with-sidebar-collapsed .contracts-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .contracts-page.with-sidebar-expanded .contracts-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .contracts-page.with-sidebar-collapsed .contracts-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Contracts Hero - Full Width Black */
@@ -682,31 +668,17 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .contracts-container {
     padding: 0 20px;
-  }
 
-  .contracts-hero h1 {
     font-size: 32px;
-  }
 
-  .contracts-grid {
     grid-template-columns: 1fr;
-  }
 
-  .contracts-stats {
     grid-template-columns: repeat(2, 1fr);
-  }
 
-  .contract-actions {
     flex-direction: column;
-  }
 
-  .contract-modal-content {
     padding: 30px 20px;
-  }
 
-  .claim-modal-content {
     padding: 30px 20px;
-  }
 }

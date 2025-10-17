@@ -11,13 +11,9 @@
 
 /* Adjust for DevSidebar on desktop */
 @media (min-width: 769px) {
-  .status-page.with-sidebar-expanded {
-    margin-left: 260px;
-  }
+    margin-left: 40px;
   
-  .status-page.with-sidebar-collapsed {
-    margin-left: 60px;
-  }
+    margin-left: 20px;
 }
 
 .status-container {
@@ -28,23 +24,13 @@
 
 /* Adjust container width when sidebar is present */
 @media (min-width: 769px) {
-  .status-page.with-sidebar-expanded .status-container {
-    max-width: calc(100vw - 260px - 80px);
-  }
   
-  .status-page.with-sidebar-collapsed .status-container {
-    max-width: calc(100vw - 60px - 80px);
-  }
 }
 
 @media (min-width: 1440px) {
-  .status-page.with-sidebar-expanded .status-container {
     max-width: min(1200px, calc(100vw - 260px - 160px));
-  }
   
-  .status-page.with-sidebar-collapsed .status-container {
     max-width: min(1200px, calc(100vw - 60px - 160px));
-  }
 }
 
 /* Hero Section - Full Width Black */
@@ -557,27 +543,14 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .status-page {
     padding-top: 120px;
-  }
   
-  .status-container {
     padding: 0 20px;
-  }
   
-  .status-hero h1 {
     font-size: 32px;
-  }
   
   .services-grid,
-  .metrics-grid,
-  .uptime-grid {
+  .metrics-grid {
     grid-template-columns: 1fr;
-  }
-  
-  .incident-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
   }
 }
