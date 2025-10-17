@@ -1,23 +1,29 @@
 .market-body-page {
   min-height: 100vh;
-  background: #2a2a2a;
+  background: #0a0a0a;
   color: #ffffff;
-  padding: 2rem 4rem; /* Increased horizontal padding */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  overflow-y: auto; /* Ensure page can scroll */
+  padding: 0;
+  font-family: 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Main layout - two columns without sidebar constraints */
 .market-body-layout {
   display: grid;
-  grid-template-columns: 1fr 300px; /* Generous sidebar width */
+  grid-template-columns: 1fr 300px;
   gap: 2rem;
   max-width: 1400px;
   margin: 0 auto;
+  padding: 2rem 4rem;
+  position: relative;
+  padding-top: 0;
 }
 
 .market-body-content {
   min-width: 0; /* Prevents overflow */
+  margin-top: 2rem; /* Push articles down from header */
 }
 
 .market-body-sidebar {
@@ -54,6 +60,31 @@
 
 .market-body-sidebar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 149, 0, 0.8);
+}
+
+/* Loading states for better UX */
+.widget-loading {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Content Grid - 3 columns for articles */

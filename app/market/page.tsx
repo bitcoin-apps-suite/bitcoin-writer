@@ -1,15 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import './MarketBodyPage.css';
 
-// Components (will need to be created/copied)
-const WeatherWidget = dynamic(() => import('../../components/WeatherWidget'), { ssr: false });
-const StockTickerCard = dynamic(() => import('../../components/StockTickerCard'), { ssr: false });
-const AdCard = dynamic(() => import('../../components/AdCard'), { ssr: false });
-
-import dynamic from 'next/dynamic';
+// Lazy load components for better performance
+const WeatherWidget = dynamic(() => import('../../components/WeatherWidget'), { 
+  ssr: false,
+  loading: () => <div className="widget-loading">Loading weather...</div>
+});
+const StockTickerCard = dynamic(() => import('../../components/StockTickerCard'), { 
+  ssr: false,
+  loading: () => <div className="widget-loading">Loading stocks...</div>
+});
+const AdCard = dynamic(() => import('../../components/AdCard'), { 
+  ssr: false,
+  loading: () => <div className="widget-loading">Loading ad...</div>
+});
 
 interface FeaturedContent {
   id: string;
@@ -62,11 +70,13 @@ const MarketPage: React.FC = () => {
     return authorNameToSlug[authorName] || authorName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   };
 
-  // Fetch real BSV price from CoinGecko
+  // Fetch real BSV price from CoinGecko with optimized caching
   useEffect(() => {
     const fetchBSVPrice = async () => {
       try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin-sv&vs_currencies=usd');
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin-sv&vs_currencies=usd', {
+          next: { revalidate: 300 } // Cache for 5 minutes
+        });
         const data = await response.json();
         if (data['bitcoin-sv'] && data['bitcoin-sv'].usd) {
           setBsvPrice(data['bitcoin-sv'].usd);
@@ -82,16 +92,15 @@ const MarketPage: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Calculate BSV amount from USD price
-  const calculateBSVAmount = (usdPrice: number): number => {
+  // Memoized calculations for better performance
+  const calculateBSVAmount = useCallback((usdPrice: number): number => {
     return usdPrice / bsvPrice;
-  };
+  }, [bsvPrice]);
 
-  // Format BSV amount for display
-  const formatBSVAmount = (usdPrice: number): string => {
+  const formatBSVAmount = useCallback((usdPrice: number): string => {
     const bsvAmount = calculateBSVAmount(usdPrice);
     return bsvAmount.toFixed(6);
-  };
+  }, [calculateBSVAmount]);
 
   const featuredContent: FeaturedContent[] = [
     {
@@ -441,44 +450,45 @@ const MarketPage: React.FC = () => {
     }
   ];
 
-  const trendingContent = featuredContent.filter(content => content.trending);
+  // Memoize trending content to prevent unnecessary re-renders
+  const trendingContent = useMemo(() => 
+    featuredContent.filter(content => content.trending),
+    [featuredContent]
+  );
 
   return (
     <div className="market-body-page">
-      {/* Header from landing page */}
-      <header className="App-header" style={{ marginTop: '72px' }}>
-        {/* Logo and title in center */}
-        <div className="title-section">
-          <div className="app-title-container">
-            <img 
-              src="/logo.svg" 
-              alt="Bitcoin Writer Logo" 
-              className="app-logo"
-              style={{
-                width: '32px',
-                height: '32px',
-                marginRight: '16px',
-                marginTop: '4px',
-                verticalAlign: 'baseline'
-              }}
-            />
-            <h1 
-              onClick={() => {
-                window.location.href = '/';
-              }}
-              style={{
-                cursor: 'pointer',
-                paddingTop: '10px',
-                marginLeft: '-12px'
-              }}
+      {/* App Header - matches landing page */}
+      <div className="app-header">
+        <div className="header-content">
+          <div className="header-logo">
+            <div className="logo-icon">
+              <svg width="32" height="32" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="200" rx="40" fill="url(#gradient)"/>
+                <path d="M50 150 Q80 40 150 50 Q120 80 100 120 L90 130 Q70 140 50 150 Z" fill="#2D3748" stroke="#2D3748" strokeWidth="2"/>
+                <path d="M70 100 Q90 80 110 90" stroke="#2D3748" strokeWidth="1.5" fill="none"/>
+                <path d="M80 120 Q95 105 115 110" stroke="#2D3748" strokeWidth="1.5" fill="none"/>
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{stopColor:"#FF8C00", stopOpacity:1}} />
+                    <stop offset="100%" style={{stopColor:"#FF6B35", stopOpacity:1}} />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <span 
+              className="logo-text"
+              onClick={() => window.location.href = '/'}
+              style={{ cursor: 'pointer' }}
               title="Return to main view"
             >
-              <span style={{color: '#ff9500'}}>Bitcoin</span> Writer Market
-            </h1>
+              Bitcoin
+            </span>
+            <span className="logo-writer">Writer Market</span>
           </div>
-          <p className="app-subtitle">Encrypt, publish and sell shares in your work</p>
+          <p className="header-tagline">Encrypt, publish and sell shares in your work</p>
         </div>
-      </header>
+      </div>
       
       {/* Main content layout without sidebar constraints */}
       <div className="market-body-layout">
@@ -494,7 +504,12 @@ const MarketPage: React.FC = () => {
                   className="content-card trending"
                 >
                   <div className="content-thumbnail">
-                    <img src={content.thumbnail} alt={content.title} />
+                    <img 
+                      src={content.thumbnail} 
+                      alt={content.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div className="content-badges">
                       {content.trending && <span className="badge trending">🔥 Trending</span>}
                       {content.isTokenized && <span className="badge tokenized">₿ Tokenized</span>}
