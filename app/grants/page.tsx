@@ -3,25 +3,22 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Flower2, DollarSign, Cpu, GraduationCap, Users, Wrench, Zap } from 'lucide-react';
-// import '../../src/pages/GrantsPage.css'; // TODO: Create new CSS file
+import './grants.css';
 import Footer from '../../components/ui/Footer';
 
 export default function GrantsPage() {
-  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('devSidebarCollapsed');
-      return saved === 'true';
-    }
-    return false;
-  });
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth <= 768;
-    }
-    return false;
-  });
+  const [mounted, setMounted] = useState(false);
+  const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
+    // Initialize state after mounting
+    const saved = localStorage.getItem('devSidebarCollapsed');
+    setDevSidebarCollapsed(saved === 'true');
+    setIsMobile(window.innerWidth <= 768);
+
     const handleStorageChange = () => {
       const saved = localStorage.getItem('devSidebarCollapsed');
       setDevSidebarCollapsed(saved === 'true');
@@ -48,7 +45,7 @@ export default function GrantsPage() {
 
   return (
     <div className="App">
-      <div className={`grants-page ${!isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${!isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
+      <div className={`grants-page ${mounted && !isMobile && !devSidebarCollapsed ? 'with-sidebar-expanded' : ''} ${mounted && !isMobile && devSidebarCollapsed ? 'with-sidebar-collapsed' : ''}`}>
         <div className="grants-container">
           {/* Hero Section */}
           <section className="grants-hero">

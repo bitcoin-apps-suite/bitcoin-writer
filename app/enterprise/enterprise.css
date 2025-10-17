@@ -1,0 +1,428 @@
+/* Enterprise Page - Custom Platform Style */
+.enterprise-page {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 96px;
+  font-weight: 300;
+  transition: margin-left 0.3s ease;
+  padding: 96px 2rem 2rem;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .enterprise-page.with-sidebar-expanded {
+    margin-left: 260px;
+  }
+  
+  .enterprise-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
+}
+
+.enterprise-page > * {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Adjust container width when sidebar is present */
+@media (min-width: 769px) {
+  .enterprise-page.with-sidebar-expanded > * {
+    max-width: calc(100vw - 260px - 80px);
+  }
+  
+  .enterprise-page.with-sidebar-collapsed > * {
+    max-width: calc(100vw - 60px - 80px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .enterprise-page.with-sidebar-expanded > * {
+    max-width: min(1200px, calc(100vw - 260px - 160px));
+  }
+  
+  .enterprise-page.with-sidebar-collapsed > * {
+    max-width: min(1200px, calc(100vw - 60px - 160px));
+  }
+}
+
+.enterprise-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(247, 147, 26, 0.2);
+}
+
+.enterprise-header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #f7931a 0%, #ff6b35 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 200;
+  letter-spacing: -1px;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  font-weight: 300;
+}
+
+.enterprise-section {
+  margin-bottom: 4rem;
+}
+
+.enterprise-section h2 {
+  font-size: 2rem;
+  color: #f7931a;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(247, 147, 26, 0.3);
+  padding-bottom: 0.5rem;
+  font-weight: 200;
+  letter-spacing: -0.5px;
+}
+
+.enterprise-section p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+/* Enterprise Benefits Grid */
+.enterprise-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.benefit {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.benefit:hover {
+  transform: translateY(-4px);
+  border-color: rgba(247, 147, 26, 0.4);
+  background: rgba(247, 147, 26, 0.05);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.benefit h3 {
+  color: #f7931a;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+
+.benefit p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-weight: 300;
+  opacity: 1;
+}
+
+/* Implementation Grid */
+.implementation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.step {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-4px);
+  border-color: #f7931a;
+  background: rgba(247, 147, 26, 0.05);
+}
+
+.step-number {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  background: linear-gradient(135deg, #f7931a 0%, #ff6b35 100%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.step h3 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+
+.step p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-weight: 300;
+  opacity: 1;
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(247, 147, 26, 0.2);
+}
+
+.feature:hover {
+  border-color: rgba(247, 147, 26, 0.4);
+  transform: translateY(-2px);
+  background: rgba(247, 147, 26, 0.05);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.feature h3 {
+  color: #f7931a;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+
+.feature p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-weight: 300;
+  opacity: 1;
+}
+
+/* Industry Solutions */
+.industry-solutions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.industry {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 4px solid #f7931a;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border-radius: 0 8px 8px 0;
+}
+
+.industry:hover {
+  background: rgba(247, 147, 26, 0.05);
+  transform: translateX(4px);
+}
+
+.industry h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+
+.industry p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.05rem;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Technical Specifications */
+.tech-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.spec-category {
+  background: rgba(247, 147, 26, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(247, 147, 26, 0.2);
+}
+
+.spec-category h3 {
+  color: #f7931a;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+
+.spec-category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spec-category li {
+  padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.spec-category li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #f7931a;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  border: 1px solid rgba(247, 147, 26, 0.3);
+}
+
+.cta-section h2 {
+  border: none;
+  margin-bottom: 0.5rem;
+}
+
+.cta-section p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.cta-button.primary {
+  background: linear-gradient(135deg, #f7931a 0%, #ff6b35 100%);
+  color: #000;
+}
+
+.cta-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 147, 26, 0.4);
+}
+
+.cta-button.secondary {
+  background: transparent;
+  color: #f7931a;
+  border: 2px solid #f7931a;
+}
+
+.cta-button.secondary:hover {
+  background: rgba(247, 147, 26, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .enterprise-page {
+    padding: 96px 1rem 2rem;
+  }
+
+  .enterprise-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+  }
+
+  .implementation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .enterprise-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .industry-solutions {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-specs {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-button {
+    width: 100%;
+  }
+}

@@ -31,6 +31,7 @@ import dynamic from 'next/dynamic';
 
 // Dynamic imports for components to avoid SSR issues
 const ProofOfConceptBanner = dynamic(() => import('../components/ProofOfConceptBanner'), { ssr: false });
+const Navigation = dynamic(() => import('../components/Navigation'), { ssr: false });
 const CleanTaskbar = dynamic(() => import('../components/ui/CleanTaskbar'), { ssr: false });
 const DevSidebar = dynamic(() => import('../components/ui/DevSidebar'), { ssr: false });
 const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { ssr: false });
