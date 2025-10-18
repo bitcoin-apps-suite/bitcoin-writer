@@ -473,6 +473,297 @@
   margin: 0;
 }
 
+/* Writer Benefits */
+.writer-benefits {
+  padding: 100px 0;
+  background: #0a0a0a;
+}
+
+.publisher-benefits {
+  padding: 100px 0;
+  background: #000000;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.benefits-grid.reverse {
+  grid-template-areas: "visual content";
+}
+
+.benefits-grid.reverse .benefits-visual {
+  grid-area: visual;
+}
+
+.benefits-grid.reverse .benefits-content {
+  grid-area: content;
+}
+
+.benefits-content h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 40px 0;
+  letter-spacing: -1px;
+}
+
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.benefit-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.benefit-icon {
+  font-size: 24px;
+  line-height: 1;
+  min-width: 24px;
+}
+
+.benefit-item h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.benefit-item p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.benefits-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.benefits-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.benefits-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  color: #FF6B35;
+}
+
+.contract-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.contract-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contract-item:last-child {
+  border-bottom: none;
+}
+
+.contract-item span:first-child {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.contract-item span:last-child {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.payment-amount {
+  color: #4CAF50 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #FF6B35, #F7931A);
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.apply-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+}
+
+.publisher-dashboard {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.publisher-dashboard h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  color: #FF6B35;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.dashboard-stat {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dashboard-stat .stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #FF6B35;
+  margin-bottom: 4px;
+}
+
+.dashboard-stat .stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recent-contracts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contract-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contract-row span:first-child {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status.completed {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status.in-progress {
+  background: rgba(255, 193, 7, 0.2);
+  color: #FFC107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+/* Ecosystem Stats */
+.ecosystem-stats {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  text-align: center;
+}
+
+.ecosystem-stats h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 60px 0;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(255, 107, 53, 0.15);
+  border-color: rgba(255, 107, 53, 0.4);
+}
+
+.stat-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #FF6B35;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
 /* CTA Section */
 .cta-section {
   padding: 120px 0;
@@ -603,6 +894,36 @@
   .tech-grid {
     grid-template-columns: 1fr;
   }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .benefits-grid.reverse {
+    grid-template-areas: "content" "visual";
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .benefits-card,
+  .publisher-dashboard {
+    max-width: none;
+    margin: 0 auto;
+  }
+  
+  .benefits-content h2,
+  .ecosystem-stats h2 {
+    font-size: 36px;
+  }
 
   .cta-buttons {
     flex-direction: column;
@@ -611,5 +932,30 @@
   .cta-graphic {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .hero-title {
+    font-size: 36px;
+  }
+  
+  .benefits-content h2,
+  .ecosystem-stats h2,
+  .cta-content h2 {
+    font-size: 28px;
+  }
+  
+  .stat-card {
+    padding: 24px 16px;
+  }
+  
+  .stat-number {
+    font-size: 28px;
   }
 }
