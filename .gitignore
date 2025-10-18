@@ -23,8 +23,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment files
+# Environment files - NEVER commit these!
+.env
+.env.*
 .env*
+*.env
+.env copy.local
+.env.deployment
 
 # Old Electron files
 electron-backup/
