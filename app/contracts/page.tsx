@@ -39,7 +39,7 @@ const ContractsPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
   const [showClaimModal, setShowClaimModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<'developer' | 'writing'>('developer');
+  const [activeTab, setActiveTab] = useState<'developer' | 'writing' | 'contributors' | 'tokenomics'>('developer');
   
   const [claimForm, setClaimForm] = useState({
     githubUsername: '',
@@ -47,12 +47,62 @@ const ContractsPage: React.FC = () => {
     estimatedDays: 7
   });
 
+  // Token distribution tracking
+  const TOTAL_TOKENS = 1000000000; // 1 billion tokens
+  const [tokenDistribution, setTokenDistribution] = useState({
+    allocated: 10.125, // 7.8% initial + 2.325% for completed tasks by @b0ase
+    reserved: 0,
+    available: 89.875
+  });
+
+  // Contributors state
+  const [contributors, setContributors] = useState<any[]>([]);
+
+  // Completed tasks by @b0ase - total 10.125% allocation
+  const completedTasksByFounder = [
+    { task: 'Initial React app setup & configuration', allocation: 0.2 },
+    { task: 'HandCash authentication integration', allocation: 0.4 },
+    { task: 'Document editor with Quill.js', allocation: 0.5 },
+    { task: 'BSV blockchain storage service', allocation: 0.3 },
+    { task: 'NFT tokenization system', allocation: 0.4 },
+    { task: 'Document exchange marketplace', allocation: 0.3 },
+    { task: 'Clean taskbar navigation system', allocation: 0.2 },
+    { task: 'GitHub OAuth authentication', allocation: 0.3 },
+    { task: 'AI Chat Assistant with multiple providers', allocation: 0.6 },
+    { task: 'Document versioning with Ordinals', allocation: 0.4 },
+    { task: 'Features marketing page', allocation: 0.2 },
+    { task: 'Token page & tokenomics design', allocation: 0.3 },
+    { task: 'Contributions page & task system', allocation: 0.5 },
+    { task: 'Smart contract integration', allocation: 0.4 },
+    { task: 'Proof of concept banner', allocation: 0.1 },
+    { task: 'Mobile responsive design', allocation: 0.3 },
+    { task: 'Document encryption system', allocation: 0.3 },
+    { task: 'Storage options (IPFS, Cloud)', allocation: 0.4 },
+    { task: 'Social media integrations', allocation: 0.3 },
+    { task: 'API documentation', allocation: 0.2 },
+    { task: 'Testing & bug fixes', allocation: 0.5 },
+    { task: 'Deployment configuration', allocation: 0.3 },
+    { task: '✅ Document Persistence Bug Fix (#45)', allocation: 0.3 }
+  ];
+
   useEffect(() => {
     setMounted(true);
     
     const saved = localStorage.getItem('devSidebarCollapsed');
     setDevSidebarCollapsed(saved === 'true');
     setIsMobile(window.innerWidth <= 768);
+
+    // Handle hash-based navigation
+    const hash = window.location.hash.slice(1);
+    if (hash === 'contributors') {
+      setActiveTab('contributors');
+    } else if (hash === 'tokenomics') {
+      setActiveTab('tokenomics');
+    } else if (hash === 'writing') {
+      setActiveTab('writing');
+    } else if (hash === 'developer') {
+      setActiveTab('developer');
+    }
 
     const handleStorageChange = () => {
       const saved = localStorage.getItem('devSidebarCollapsed');
@@ -897,45 +947,73 @@ const ContractsPage: React.FC = () => {
             <div className="contracts-tabs">
               <button 
                 className={activeTab === 'developer' ? 'active' : ''}
-                onClick={() => setActiveTab('developer')}
+                onClick={() => {
+                  setActiveTab('developer');
+                  window.history.pushState({}, '', '/contracts#developer');
+                }}
               >
                 Developer Contracts
               </button>
               <button 
                 className={activeTab === 'writing' ? 'active' : ''}
-                onClick={() => setActiveTab('writing')}
+                onClick={() => {
+                  setActiveTab('writing');
+                  window.history.pushState({}, '', '/contracts#writing');
+                }}
               >
                 Writing Contracts
+              </button>
+              <button 
+                className={activeTab === 'contributors' ? 'active' : ''}
+                onClick={() => {
+                  setActiveTab('contributors');
+                  window.history.pushState({}, '', '/contracts#contributors');
+                }}
+              >
+                Contributors
+              </button>
+              <button 
+                className={activeTab === 'tokenomics' ? 'active' : ''}
+                onClick={() => {
+                  setActiveTab('tokenomics');
+                  window.history.pushState({}, '', '/contracts#tokenomics');
+                }}
+              >
+                Tokenomics
               </button>
             </div>
           </section>
 
-          {/* Stats Cards */}
-          <div className="contracts-stats">
-            <div className="stat-card">
-              <span className="stat-value">{filteredContracts.filter(c => c.status === 'available').length}</span>
-              <span className="stat-label">Available</span>
+          {/* Stats Cards - only show for contracts tabs */}
+          {(activeTab === 'developer' || activeTab === 'writing') && (
+            <div className="contracts-stats">
+              <div className="stat-card">
+                <span className="stat-value">{filteredContracts.filter(c => c.status === 'available').length}</span>
+                <span className="stat-label">Available</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-value">{filteredContracts.filter(c => c.status === 'in_progress' || c.status === 'claimed').length}</span>
+                <span className="stat-label">In Progress</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-value">{filteredContracts.filter(c => c.status === 'submitted').length}</span>
+                <span className="stat-label">Under Review</span>
+              </div>
+              <div className="stat-card">
+                <span className="stat-value">{filteredContracts.filter(c => c.status === 'completed').length}</span>
+                <span className="stat-label">Completed</span>
+              </div>
             </div>
-            <div className="stat-card">
-              <span className="stat-value">{filteredContracts.filter(c => c.status === 'in_progress' || c.status === 'claimed').length}</span>
-              <span className="stat-label">In Progress</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-value">{filteredContracts.filter(c => c.status === 'submitted').length}</span>
-              <span className="stat-label">Under Review</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-value">{filteredContracts.filter(c => c.status === 'completed').length}</span>
-              <span className="stat-label">Completed</span>
-            </div>
-          </div>
+          )}
 
-          {/* Contracts Grid */}
-          {loading ? (
-            <div className="contracts-loading">Loading contracts...</div>
-          ) : (
-            <div className="contracts-grid">
-              {filteredContracts.map(contract => (
+          {/* Contracts Grid - only show for contracts tabs */}
+          {(activeTab === 'developer' || activeTab === 'writing') && (
+            <>
+              {loading ? (
+                <div className="contracts-loading">Loading contracts...</div>
+              ) : (
+                <div className="contracts-grid">
+                  {filteredContracts.map(contract => (
                 <div 
                   key={contract.id} 
                   className={`contract-card ${contract.status !== 'available' ? 'contract-unavailable' : ''}`}
@@ -986,7 +1064,115 @@ const ContractsPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-              ))}
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Contributors Tab Content */}
+          {activeTab === 'contributors' && (
+            <div className="contributors-section">
+              <div className="contributors-header">
+                <h2>Contributors & Token Allocation</h2>
+                <p>Track contributor progress and token distribution for Bitcoin Writer development</p>
+              </div>
+              
+              <div className="token-stats">
+                <div className="stat-card">
+                  <span className="stat-value">{tokenDistribution.allocated.toFixed(3)}%</span>
+                  <span className="stat-label">Allocated</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{tokenDistribution.reserved.toFixed(3)}%</span>
+                  <span className="stat-label">Reserved</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{tokenDistribution.available.toFixed(3)}%</span>
+                  <span className="stat-label">Available</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-value">{completedTasksByFounder.length}</span>
+                  <span className="stat-label">Tasks Completed</span>
+                </div>
+              </div>
+
+              <div className="completed-tasks">
+                <h3>Completed Tasks by Founder (@b0ase)</h3>
+                <div className="tasks-grid">
+                  {completedTasksByFounder.map((task, index) => (
+                    <div key={index} className="task-card completed">
+                      <div className="task-content">
+                        <h4>{task.task}</h4>
+                        <div className="task-meta">
+                          <span className="task-allocation">{task.allocation}% allocation</span>
+                          <span className="task-status">✅ Completed</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Tokenomics Tab Content */}
+          {activeTab === 'tokenomics' && (
+            <div className="tokenomics-section">
+              <div className="tokenomics-header">
+                <h2>BWRITER Token Distribution</h2>
+                <p>Transparent allocation of 1 billion BWRITER tokens across the ecosystem</p>
+              </div>
+
+              <div className="token-overview">
+                <div className="total-supply">
+                  <h3>Total Supply: 1,000,000,000 BWRITER</h3>
+                </div>
+                
+                <div className="distribution-chart">
+                  <div className="distribution-item">
+                    <div className="distribution-bar">
+                      <div 
+                        className="distribution-fill allocated" 
+                        style={{ width: `${tokenDistribution.allocated}%` }}
+                      ></div>
+                    </div>
+                    <div className="distribution-label">
+                      <span className="label">Allocated ({tokenDistribution.allocated.toFixed(3)}%)</span>
+                      <span className="amount">{(TOTAL_TOKENS * tokenDistribution.allocated / 100).toLocaleString()} tokens</span>
+                    </div>
+                  </div>
+                  
+                  <div className="distribution-item">
+                    <div className="distribution-bar">
+                      <div 
+                        className="distribution-fill available" 
+                        style={{ width: `${tokenDistribution.available}%` }}
+                      ></div>
+                    </div>
+                    <div className="distribution-label">
+                      <span className="label">Available for Contributors ({tokenDistribution.available.toFixed(3)}%)</span>
+                      <span className="amount">{(TOTAL_TOKENS * tokenDistribution.available / 100).toLocaleString()} tokens</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="allocation-breakdown">
+                <h3>Allocation Breakdown</h3>
+                <div className="breakdown-grid">
+                  <div className="breakdown-card">
+                    <h4>Founder Development</h4>
+                    <p>Initial platform development and setup</p>
+                    <span className="breakdown-percentage">10.125%</span>
+                  </div>
+                  <div className="breakdown-card">
+                    <h4>Community Contributors</h4>
+                    <p>Open source development and improvements</p>
+                    <span className="breakdown-percentage">89.875%</span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
