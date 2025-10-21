@@ -90,7 +90,7 @@ export default function AMLCompliancePage() {
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />
-                  <span>Bitcoin Writer Inc.</span>
+                  <span>The Bitcoin Corporation LTD</span>
                 </div>
               </div>
             </div>
@@ -101,7 +101,7 @@ export default function AMLCompliancePage() {
               <div>
                 <h3>Compliance Framework</h3>
                 <p>
-                  Bitcoin Writer Inc. maintains a comprehensive Anti-Money Laundering (AML) program in compliance 
+                  The Bitcoin Corporation LTD maintains a comprehensive Anti-Money Laundering (AML) program in compliance 
                   with the Bank Secrecy Act, USA PATRIOT Act, and applicable international AML regulations. 
                   All investors are subject to these compliance requirements.
                 </p>
@@ -115,7 +115,7 @@ export default function AMLCompliancePage() {
                 <div className="subsection">
                   <h3>1.1 Policy Statement</h3>
                   <p>
-                    Bitcoin Writer Inc. is committed to preventing the use of our platform and token offerings 
+                    The Bitcoin Corporation LTD is committed to preventing the use of our platform and token offerings 
                     for money laundering, terrorist financing, and other illicit activities. Our AML program 
                     is designed to detect, prevent, and report suspicious activities in accordance with 
                     applicable laws and regulations.

@@ -87,7 +87,7 @@ export default function TermSheetPage() {
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />
-                  <span>Bitcoin Writer Inc.</span>
+                  <span>The Bitcoin Corporation LTD</span>
                 </div>
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function TermSheetPage() {
                 <tbody>
                   <tr>
                     <td><strong>Company:</strong></td>
-                    <td>Bitcoin Writer Inc. (Delaware Corporation)</td>
+                    <td>The Bitcoin Corporation LTD (England & Wales, Co. No. 16735102)</td>
                   </tr>
                   <tr>
                     <td><strong>Token:</strong></td>
@@ -136,7 +136,7 @@ export default function TermSheetPage() {
                 <div className="subsection">
                   <h3>1.1 Token Sale Structure</h3>
                   <p>
-                    Bitcoin Writer Inc. is conducting a private token sale of $BWRITER utility tokens to 
+                    The Bitcoin Corporation LTD is conducting a private token sale of $BWRITER utility tokens to 
                     accredited investors. The tokens provide utility rights within the Bitcoin Writer platform 
                     ecosystem and governance participation rights.
                   </p>

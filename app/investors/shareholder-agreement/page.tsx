@@ -87,7 +87,7 @@ export default function ShareholderAgreementPage() {
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />
-                  <span>Bitcoin Writer Inc.</span>
+                  <span>The Bitcoin Corporation LTD</span>
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function ShareholderAgreementPage() {
                 <div className="definitions-box">
                   <dl>
                     <dt>Company</dt>
-                    <dd>Bitcoin Writer Inc., a Delaware corporation</dd>
+                    <dd>The Bitcoin Corporation LTD, a company incorporated in England and Wales (Company No. 16735102)</dd>
                     
                     <dt>Tokens</dt>
                     <dd>$BWRITER utility tokens issued on the Bitcoin SV blockchain</dd>
@@ -345,8 +345,8 @@ export default function ShareholderAgreementPage() {
                 <div className="subsection">
                   <h3>8.2 Legal Disputes</h3>
                   <p>
-                    Other disputes shall be resolved through binding arbitration under Delaware Arbitration Rules, 
-                    with proceedings conducted in Delaware.
+                    Other disputes shall be resolved through binding arbitration under English Arbitration Rules, 
+                    with proceedings conducted in England.
                   </p>
                 </div>
               </section>
