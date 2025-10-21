@@ -113,20 +113,20 @@ export default function ShareholderAgreementPage() {
                     <dt>Company</dt>
                     <dd>The Bitcoin Corporation LTD, a company incorporated in England and Wales (Company No. 16735102)</dd>
                     
-                    <dt>Shares</dt>
-                    <dd>Ordinary shares in The Bitcoin Corporation LTD</dd>
+                    <dt>bWriter Shares</dt>
+                    <dd>A specific class of shares in The Bitcoin Corporation LTD that provide rights related to the Bitcoin Writer platform</dd>
                     
-                    <dt>Shareholder</dt>
-                    <dd>Any person or entity holding ordinary shares in the Company</dd>
+                    <dt>bWriter Shareholder</dt>
+                    <dd>Any person or entity holding bWriter Shares in the Company</dd>
                     
                     <dt>Board</dt>
                     <dd>Board of Directors of The Bitcoin Corporation LTD</dd>
                     
                     <dt>Voting Rights</dt>
-                    <dd>Rights to vote on company matters proportional to shareholding</dd>
+                    <dd>Rights to vote on Bitcoin Writer platform matters proportional to bWriter shareholding</dd>
                     
-                    <dt>Dividend Distribution</dt>
-                    <dd>Distribution of company profits to shareholders as declared by the Board</dd>
+                    <dt>Revenue Distribution</dt>
+                    <dd>Distribution of Bitcoin Writer platform profits to bWriter shareholders as declared by the Board</dd>
                   </dl>
                 </div>
               </section>
@@ -134,28 +134,28 @@ export default function ShareholderAgreementPage() {
               <section className="legal-section">
                 <h2>2. GOVERNANCE STRUCTURE</h2>
                 <div className="subsection">
-                  <h3>2.1 Corporate Governance</h3>
+                  <h3>2.1 Bitcoin Writer Platform Governance</h3>
                   <p>
                     The Company operates under standard English company law governance structures. 
-                    Shareholders participate in company governance through voting at general meetings 
-                    and through elected board representation.
+                    bWriter shareholders participate in Bitcoin Writer platform governance through voting at 
+                    platform-specific meetings and through elected representation on platform advisory committees.
                   </p>
                 </div>
 
                 <div className="subsection">
-                  <h3>2.2 Voting Rights</h3>
-                  <p>Shareholders receive voting rights proportional to their shareholding according to the following structure:</p>
+                  <h3>2.2 bWriter Voting Rights</h3>
+                  <p>bWriter shareholders receive voting rights proportional to their shareholding according to the following structure:</p>
                   <ul>
-                    <li>1 ordinary share = 1 vote on company resolutions</li>
-                    <li>Minimum holding of 1% required to submit shareholder resolutions</li>
+                    <li>1 bWriter share = 1 vote on Bitcoin Writer platform resolutions</li>
+                    <li>Minimum holding of 1% of bWriter shares required to submit platform resolutions</li>
                     <li>Voting by proxy permitted with proper authorization</li>
-                    <li>Special resolutions require 75% majority vote</li>
+                    <li>Special platform resolutions require 75% majority vote of bWriter shareholders</li>
                   </ul>
                 </div>
 
                 <div className="subsection">
-                  <h3>2.3 Governance Proposals</h3>
-                  <p>Token holders may vote on the following categories of proposals:</p>
+                  <h3>2.3 Bitcoin Writer Governance Proposals</h3>
+                  <p>bWriter shareholders may vote on the following categories of Bitcoin Writer platform proposals:</p>
                   <table className="legal-table">
                     <thead>
                       <tr>
@@ -191,46 +191,48 @@ export default function ShareholderAgreementPage() {
               </section>
 
               <section className="legal-section">
-                <h2>3. SHAREHOLDER RIGHTS</h2>
+                <h2>3. bWRITER SHAREHOLDER RIGHTS</h2>
                 <div className="subsection">
                   <h3>3.1 Economic Rights</h3>
-                  <p>$BWRITER token holders are entitled to the following economic benefits:</p>
+                  <p>bWriter shareholders are entitled to the following economic benefits from the Bitcoin Writer platform:</p>
                   <ul>
-                    <li><strong>Revenue Sharing:</strong> Quarterly distribution of 25% of net platform revenue</li>
-                    <li><strong>Staking Rewards:</strong> Additional tokens for participating in network security</li>
-                    <li><strong>Fee Discounts:</strong> Reduced transaction fees for platform usage</li>
-                    <li><strong>Premium Access:</strong> Enhanced features and priority support</li>
+                    <li><strong>Revenue Sharing:</strong> Quarterly distribution of 25% of net Bitcoin Writer platform revenue</li>
+                    <li><strong>Platform Benefits:</strong> Priority access to Bitcoin Writer premium features and services</li>
+                    <li><strong>Fee Discounts:</strong> Reduced transaction fees for Bitcoin Writer platform usage</li>
+                    <li><strong>Premium Support:</strong> Enhanced customer support and platform access</li>
                   </ul>
                 </div>
 
                 <div className="subsection">
                   <h3>3.2 Information Rights</h3>
-                  <p>Token holders holding 1% or more of outstanding tokens are entitled to:</p>
+                  <p>bWriter shareholders holding 1% or more of outstanding bWriter shares are entitled to:</p>
                   <ul>
-                    <li>Quarterly financial reports and platform metrics</li>
-                    <li>Annual audited financial statements</li>
-                    <li>Access to board meeting minutes (non-confidential portions)</li>
-                    <li>Material contract and partnership information</li>
-                    <li>Technology roadmap and development updates</li>
+                    <li>Quarterly Bitcoin Writer financial reports and platform metrics</li>
+                    <li>Annual audited financial statements related to Bitcoin Writer operations</li>
+                    <li>Access to platform advisory committee meeting minutes (non-confidential portions)</li>
+                    <li>Material contract and partnership information affecting Bitcoin Writer</li>
+                    <li>Bitcoin Writer technology roadmap and development updates</li>
                   </ul>
                 </div>
 
                 <div className="subsection">
                   <h3>3.3 Inspection Rights</h3>
                   <p>
-                    Major token holders (5% or more) may inspect Company books and records upon reasonable 
-                    notice and for proper business purposes, subject to confidentiality agreements.
+                    Major bWriter shareholders (5% or more) may inspect Company books and records related to 
+                    Bitcoin Writer operations upon reasonable notice and for proper business purposes, 
+                    subject to confidentiality agreements.
                   </p>
                 </div>
               </section>
 
               <section className="legal-section">
-                <h2>4. TRANSFER RESTRICTIONS</h2>
+                <h2>4. bWRITER SHARE TRANSFER RESTRICTIONS</h2>
                 <div className="subsection">
                   <h3>4.1 General Transfer Rights</h3>
                   <p>
-                    $BWRITER tokens are generally transferable on secondary markets and decentralized exchanges, 
-                    subject to applicable securities laws and the restrictions outlined in this Agreement.
+                    bWriter shares are generally transferable subject to applicable securities laws and 
+                    the restrictions outlined in this Agreement. Transfers must comply with English company law 
+                    and may be subject to board approval for certain transactions.
                   </p>
                 </div>
 
