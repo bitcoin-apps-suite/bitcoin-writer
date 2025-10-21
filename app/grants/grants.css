@@ -388,6 +388,54 @@ section h2 {
   margin: 0;
 }
 
+/* Discovery Section */
+.discovery-section {
+  text-align: center;
+  padding: 60px 20px;
+  margin: 60px 0;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, rgba(0, 0, 0, 0.8) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.discovery-section h2 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.discovery-content p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.gallery-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: rgba(255, 107, 53, 0.1);
+  border: 2px solid #FF6B35;
+  border-radius: 12px;
+  color: #FF6B35;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.gallery-link:hover {
+  background: rgba(255, 107, 53, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+}
+
 /* CTA Section */
 .cta-section {
   background: #0d0d0d;
