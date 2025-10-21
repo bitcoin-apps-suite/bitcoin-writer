@@ -58,8 +58,16 @@ export default function InvestorsPage() {
 
   const legalDocuments = [
     {
+      title: 'Cap Table',
+      description: 'Current ownership structure and equity distribution',
+      icon: <TrendingUp size={24} />,
+      href: '/captable',
+      status: 'Overview',
+      color: '#f7931a'
+    },
+    {
       title: 'Subscription Agreement',
-      description: 'Investment terms and conditions for purchasing $BWRITER tokens',
+      description: 'Investment terms and conditions for purchasing bWriter Shares',
       icon: <FileText size={24} />,
       href: '/investors/subscription-agreement',
       status: 'Required',
@@ -67,7 +75,7 @@ export default function InvestorsPage() {
     },
     {
       title: 'Shareholder Agreement',
-      description: 'Rights and obligations of token holders and governance structure',
+      description: 'Rights and obligations of shareholders and governance structure',
       icon: <Users size={24} />,
       href: '/investors/shareholder-agreement',
       status: 'Required',
@@ -101,24 +109,24 @@ export default function InvestorsPage() {
 
   const investmentHighlights = [
     {
-      metric: '$BWRITER',
-      value: 'Native Token',
-      description: 'Utility token for content monetization'
+      metric: 'bWriter Shares',
+      value: 'Equity Investment',
+      description: 'Direct ownership in Bitcoin Writer platform'
     },
     {
-      metric: 'BSV',
-      value: 'Blockchain',
-      description: 'Built on Bitcoin SV infrastructure'
+      metric: '10%',
+      value: 'Equity Offering',
+      description: '$10,000 for 100M shares ($0.0001/share)'
     },
     {
       metric: 'Revenue',
       value: 'Share Model',
-      description: 'Token holders receive dividend distributions'
+      description: 'Shareholders receive 25% of net platform revenue'
     },
     {
       metric: 'Governance',
-      value: 'Token Voting',
-      description: 'Participate in platform decisions'
+      value: 'Voting Rights',
+      description: 'Participate in platform decisions and governance'
     }
   ];
 
@@ -144,8 +152,8 @@ export default function InvestorsPage() {
             <div className="overview-content">
               <p className="overview-description">
                 Bitcoin Writer represents a paradigm shift in content monetization, combining blockchain technology 
-                with innovative revenue-sharing models. Our $BWRITER token provides investors with exposure to the 
-                growing decentralized publishing ecosystem while participating in platform governance and revenue distribution.
+                with innovative revenue-sharing models. Our bWriter Shares provide investors with direct equity ownership 
+                in the Bitcoin Writer platform, including governance rights and 25% of net platform revenue distribution.
               </p>
               
               <div className="investment-highlights">
@@ -228,7 +236,7 @@ export default function InvestorsPage() {
                 <div className="step-number">4</div>
                 <div className="step-content">
                   <h4>Fund Investment</h4>
-                  <p>Transfer investment amount to designated BSV wallet address and receive $BWRITER tokens</p>
+                  <p>Transfer investment amount via bank transfer or BSV payment and receive bWriter Shares allocation</p>
                 </div>
               </div>
             </div>
@@ -243,8 +251,8 @@ export default function InvestorsPage() {
                 <div>
                   <h4>Investment Risk Warning</h4>
                   <p>
-                    Cryptocurrency and token investments carry significant risks including potential total loss of capital. 
-                    The value of $BWRITER tokens may fluctuate substantially and past performance does not guarantee future results.
+                    Equity investments in technology companies carry significant risks including potential total loss of capital. 
+                    The value of bWriter Shares may fluctuate substantially and past performance does not guarantee future results.
                   </p>
                 </div>
               </div>
