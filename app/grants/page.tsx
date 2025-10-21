@@ -230,6 +230,21 @@ export default function GrantsPage() {
             </div>
           </section>
 
+          {/* Discovery Gallery */}
+          <section className="discovery-section">
+            <h2>Discover Active Projects</h2>
+            <div className="discovery-content">
+              <p>
+                Browse all submitted grant applications in our public discovery gallery. Find projects seeking funding, 
+                connect with innovative builders, and discover opportunities for collaboration.
+              </p>
+              <Link href="/grants/gallery" className="gallery-link">
+                <Flower2 size={24} />
+                <span>Explore Grant Gallery →</span>
+              </Link>
+            </div>
+          </section>
+
           {/* Call to Action */}
           <section className="cta-section">
             <div className="cta-content">
