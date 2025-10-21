@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Flower2, DollarSign, Cpu, GraduationCap, Users, Wrench, Zap } from 'lucide-react';
 import './grants.css';
-import Footer from '../../components/ui/Footer';
 
 export default function GrantsPage() {
   const [mounted, setMounted] = useState(false);
@@ -264,7 +263,6 @@ export default function GrantsPage() {
             </p>
           </section>
         </div>
-        <Footer />
       </div>
     </div>
   );
