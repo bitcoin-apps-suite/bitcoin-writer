@@ -104,6 +104,14 @@ export default function InvestorsPage() {
       href: '/investors/aml-compliance',
       status: 'Mandatory',
       color: '#ef4444'
+    },
+    {
+      title: 'Contracts Gallery',
+      description: 'View all active smart contracts and GitHub integration bounties',
+      icon: <Briefcase size={24} />,
+      href: '/contracts',
+      status: 'Reference',
+      color: '#6b7280'
     }
   ];
 

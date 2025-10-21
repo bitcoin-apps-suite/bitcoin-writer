@@ -161,10 +161,11 @@ export default function CapTablePage() {
         <div className="captable-page">
           <div className="captable-container">
             <section className="captable-hero">
-              <h1>$BWRITER <span style={{color: '#F7931E'}}>Cap Table</span></h1>
+              <h1>bWriter Shares <span style={{color: '#F7931E'}}>Cap Table</span></h1>
               <p className="captable-tagline">
-                Transparent token distribution and equity allocation
+                Equity ownership and share distribution for Bitcoin Writer platform
               </p>
+              <div className="captable-badge">LIVE EQUITY STRUCTURE</div>
             </section>
           </div>
         </div>
@@ -186,28 +187,37 @@ export default function CapTablePage() {
           </section>
 
           {/* Token Metrics */}
-          {tokenMetrics && (
-            <section className="token-metrics">
-              <div className="metrics-grid">
-                <div className="metric-card">
-                  <span className="metric-value">{formatNumber(tokenMetrics.totalSupply)}</span>
-                  <span className="metric-label">Authorized Shares</span>
-                </div>
-                <div className="metric-card">
-                  <span className="metric-value">{formatNumber(tokenMetrics.allocatedTokens)}</span>
-                  <span className="metric-label">Issued Shares</span>
-                </div>
+          {(() => {
+            const displayMetrics = tokenMetrics || {
+              totalSupply: 1000000000,
+              circulatingSupply: 0,
+              allocatedTokens: 900000000,
+              treasuryBalance: 0,
+              bountyPoolBalance: 100000000
+            };
+            return (
+              <section className="token-metrics">
+                <div className="metrics-grid">
+                  <div className="metric-card">
+                    <span className="metric-value">{formatNumber(displayMetrics.totalSupply)}</span>
+                    <span className="metric-label">Authorized Shares</span>
+                  </div>
+                  <div className="metric-card">
+                    <span className="metric-value">{formatNumber(displayMetrics.allocatedTokens)}</span>
+                    <span className="metric-label">Issued Shares</span>
+                  </div>
                 <div className="metric-card">
                   <span className="metric-value">$0.0001</span>
                   <span className="metric-label">Price per Share</span>
                 </div>
-                <div className="metric-card">
-                  <span className="metric-value">$100K</span>
-                  <span className="metric-label">Post-Money Valuation</span>
+                  <div className="metric-card">
+                    <span className="metric-value">$100K</span>
+                    <span className="metric-label">Post-Money Valuation</span>
+                  </div>
                 </div>
-              </div>
-            </section>
-          )}
+              </section>
+            );
+          })()}
 
           {/* Tab Navigation */}
           <section className="captable-tabs-section">
@@ -250,7 +260,30 @@ export default function CapTablePage() {
                   <div className="col-status">Status</div>
                 </div>
                 
-                {capTable.map((entry, index) => (
+                {(capTable.length > 0 ? capTable : [
+                  {
+                    holderAddress: '@b0ase',
+                    holderName: 'Platform Founder',
+                    currentBalance: 900000000,
+                    totalAllocated: 900000000,
+                    percentage: 90.0,
+                    category: 'Founder',
+                    firstAllocation: '2025-10-21T00:00:00.000Z',
+                    lastUpdate: '2025-10-21T00:00:00.000Z',
+                    isFounder: true
+                  },
+                  {
+                    holderAddress: 'seed_investors',
+                    holderName: 'Seed Investors (Tranche 1)',
+                    currentBalance: 0,
+                    totalAllocated: 100000000,
+                    percentage: 10.0,
+                    category: 'Investment',
+                    firstAllocation: 'TBD',
+                    lastUpdate: 'TBD',
+                    isFounder: false
+                  }
+                ]).map((entry, index) => (
                   <div key={index} className="table-row">
                     <div className="col-holder">
                       <div className="holder-info">

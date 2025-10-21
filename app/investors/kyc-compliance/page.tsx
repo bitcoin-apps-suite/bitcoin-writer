@@ -68,11 +68,11 @@ export default function KYCCompliancePage() {
             </Link>
             
             <div className="document-actions">
-              <button className="action-btn">
+              <a href="/api/pdf/kyc-compliance" className="action-btn" target="_blank">
                 <Download size={18} />
                 <span>Download PDF</span>
-              </button>
-              <button className="action-btn">
+              </a>
+              <button className="action-btn" onClick={() => window.print()}>
                 <Printer size={18} />
                 <span>Print</span>
               </button>

@@ -67,10 +67,10 @@ export default function AMLCompliancePage() {
             </Link>
             
             <div className="document-actions">
-              <button className="action-btn">
+              <a href="/api/pdf/aml-compliance" className="action-btn" target="_blank">
                 <Download size={18} />
                 <span>Download PDF</span>
-              </button>
+              </a>
               <button className="action-btn">
                 <Printer size={18} />
                 <span>Print</span>
