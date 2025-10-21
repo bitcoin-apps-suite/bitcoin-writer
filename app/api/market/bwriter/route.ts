@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     // Real BWRITER token data from BSV blockchain
     const tokenData = {
       symbol: 'bWriter',
-      deploymentTx: 'cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4',
+      deploymentTx: 'acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3',
       totalSupply: '1000000000',
       decimals: 0,
       price: 0.000001, // 1 satoshi per token (estimated)
