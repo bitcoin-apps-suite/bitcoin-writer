@@ -2,7 +2,6 @@
 
 import React from 'react';
 import './maip.css';
-import Footer from '../../components/ui/Footer';
 
 export default function MAIPPage() {
   return (
@@ -193,7 +192,6 @@ export default function MAIPPage() {
             </div>
           </section>
         </div>
-        <Footer />
       </div>
     </div>
   );
