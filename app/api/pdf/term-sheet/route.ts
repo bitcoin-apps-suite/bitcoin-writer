@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generatePDF } from '../../../../utils/pdfGenerator';
+import { generateSimplePDF } from '../../../../utils/simplePdfGenerator';
 
 export async function GET(request: NextRequest) {
   try {
@@ -262,17 +262,16 @@ export async function GET(request: NextRequest) {
       </div>
     `;
 
-    const pdfBuffer = await generatePDF({
+    const htmlContent = generateSimplePDF({
       title: 'bWriter Investment Term Sheet',
       content,
       filename: 'bitcoin-writer-term-sheet.pdf'
     });
 
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(htmlContent, {
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="bitcoin-writer-term-sheet.pdf"',
-        'Content-Length': pdfBuffer.length.toString(),
+        'Content-Type': 'text/html',
+        'Cache-Control': 'no-store',
       },
     });
   } catch (error) {
