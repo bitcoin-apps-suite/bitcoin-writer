@@ -968,3 +968,86 @@ p {
     justify-content: center;
   }
 }
+
+/* Contract Information Section */
+.contract-info {
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 40px;
+}
+
+.contract-details h3 {
+  color: #f7931a;
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.contract-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+}
+
+.contract-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.contract-item strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.contract-item span {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'SF Mono', Menlo, monospace;
+  font-size: 14px;
+  text-align: right;
+  flex: 1;
+  margin-left: 16px;
+}
+
+.contract-id {
+  word-break: break-all;
+  font-size: 12px !important;
+  line-height: 1.3;
+}
+
+.contract-link {
+  color: #f7931a !important;
+  text-decoration: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.contract-link:hover {
+  color: #ffcd00 !important;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .contract-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .contract-item span {
+    text-align: left;
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .contract-id {
+    font-size: 11px !important;
+  }
+}

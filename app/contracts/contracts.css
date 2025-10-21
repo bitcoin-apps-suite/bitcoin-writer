@@ -958,3 +958,90 @@
     font-size: 24px;
   }
 }
+
+/* Contract Information Section */
+.contract-info-section {
+  margin-top: 40px;
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 30px;
+}
+
+.contract-info-section h3 {
+  color: #f7931a;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.contract-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.contract-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contract-info-item:last-child {
+  border-bottom: none;
+}
+
+.contract-info-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.contract-info-value {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'SF Mono', Menlo, monospace;
+  font-size: 14px;
+  text-align: right;
+  flex: 1;
+  margin-left: 16px;
+}
+
+.contract-info-value.contract-id {
+  word-break: break-all;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.contract-info-link {
+  color: #f7931a !important;
+  text-decoration: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.contract-info-link:hover {
+  color: #ffcd00 !important;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .contract-info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .contract-info-value {
+    text-align: left;
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .contract-info-value.contract-id {
+    font-size: 11px;
+  }
+}

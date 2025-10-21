@@ -269,6 +269,40 @@ export default function GrantsPage() {
             </div>
           </section>
 
+          {/* Token Contract Information */}
+          <section className="contract-info-section">
+            <h2>$BWRITER Token Contract</h2>
+            <div className="contract-details">
+              <div className="contract-item">
+                <strong>Contract ID:</strong>
+                <span className="contract-id">acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1</span>
+              </div>
+              <div className="contract-item">
+                <strong>Symbol:</strong>
+                <span>$bWriter</span>
+              </div>
+              <div className="contract-item">
+                <strong>Blockchain:</strong>
+                <span>Bitcoin SV (BSV-20)</span>
+              </div>
+              <div className="contract-item">
+                <strong>Total Supply:</strong>
+                <span>1,000,000,000</span>
+              </div>
+              <div className="contract-item">
+                <strong>1sat Market:</strong>
+                <a 
+                  href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="contract-link"
+                >
+                  View on 1sat Market
+                </a>
+              </div>
+            </div>
+          </section>
+
           {/* Footer Note */}
           <section className="footer-note">
             <p>
