@@ -83,7 +83,7 @@ export default function TermSheetPage() {
               <div className="document-meta">
                 <div className="meta-item">
                   <Calendar size={16} />
-                  <span>Effective Date: January 15, 2025</span>
+                  <span>Effective Date: October 21, 2025</span>
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />
@@ -118,8 +118,12 @@ export default function TermSheetPage() {
                     <td>1,000,000,000 $BWRITER</td>
                   </tr>
                   <tr>
+                    <td><strong>Founder Allocation:</strong></td>
+                    <td>10.125% (101,250,000 tokens to @b0ase)</td>
+                  </tr>
+                  <tr>
                     <td><strong>Current Valuation:</strong></td>
-                    <td>$50,000,000 USD</td>
+                    <td>$0 USD (Pre-token sale)</td>
                   </tr>
                 </tbody>
               </table>
@@ -339,22 +343,22 @@ export default function TermSheetPage() {
                   <tbody>
                     <tr>
                       <td>Term Sheet Execution</td>
-                      <td>January 2025</td>
+                      <td>November 2025</td>
                       <td>Finalize investment terms</td>
                     </tr>
                     <tr>
                       <td>Due Diligence</td>
-                      <td>February 2025</td>
+                      <td>December 2025</td>
                       <td>Investor KYC and legal review</td>
                     </tr>
                     <tr>
                       <td>Legal Documentation</td>
-                      <td>March 2025</td>
+                      <td>January 2026</td>
                       <td>Execute subscription agreements</td>
                     </tr>
                     <tr>
                       <td>Token Issuance</td>
-                      <td>April 2025</td>
+                      <td>February 2026</td>
                       <td>Deploy smart contracts and distribute tokens</td>
                     </tr>
                   </tbody>

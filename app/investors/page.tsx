@@ -131,7 +131,7 @@ export default function InvestorsPage() {
             <div className="investors-hero-icon">
               <TrendingUp size={64} />
             </div>
-            <h1>Bitcoin Writer <span style={{color: '#3b82f6'}}>Investor Center</span></h1>
+            <h1><span style={{color: '#ffffff'}}>Bitcoin Writer</span> <span style={{color: '#f7931a'}}>Investor Center</span></h1>
             <p className="investors-tagline">
               Investment opportunities in the future of decentralized content monetization and blockchain publishing
             </p>

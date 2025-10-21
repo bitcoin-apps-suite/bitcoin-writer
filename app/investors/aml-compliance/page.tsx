@@ -86,7 +86,7 @@ export default function AMLCompliancePage() {
               <div className="document-meta">
                 <div className="meta-item">
                   <Calendar size={16} />
-                  <span>Updated: January 15, 2025</span>
+                  <span>Updated: October 21, 2025</span>
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />

@@ -83,7 +83,7 @@ export default function SubscriptionAgreementPage() {
               <div className="document-meta">
                 <div className="meta-item">
                   <Calendar size={16} />
-                  <span>Effective Date: January 15, 2025</span>
+                  <span>Effective Date: October 21, 2025</span>
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />

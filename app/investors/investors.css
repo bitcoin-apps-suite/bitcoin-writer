@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: #000;
   color: #fff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   transition: all 0.3s ease;
 }
 
@@ -25,9 +26,9 @@
   text-align: center;
   margin-bottom: 80px;
   padding: 80px 20px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
   border-radius: 20px;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(247, 147, 26, 0.2);
 }
 
 .investors-hero-icon {
@@ -36,18 +37,19 @@
   justify-content: center;
   width: 140px;
   height: 140px;
-  background: rgba(59, 130, 246, 0.1);
-  border: 2px solid rgba(59, 130, 246, 0.3);
+  background: rgba(247, 147, 26, 0.1);
+  border: 2px solid rgba(247, 147, 26, 0.3);
   border-radius: 50%;
   margin-bottom: 40px;
-  color: #3b82f6;
+  color: #f7931a;
 }
 
 .investors-hero h1 {
   font-size: 4rem;
-  font-weight: 300;
+  font-weight: 200;
   margin-bottom: 25px;
   line-height: 1.1;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .investors-tagline {
@@ -62,9 +64,9 @@
 
 .investors-badge {
   display: inline-block;
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid #3b82f6;
-  color: #3b82f6;
+  background: linear-gradient(90deg, #ffcd00, #ffa500);
+  border: 1px solid #f7931a;
+  color: #000;
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 0.9rem;
@@ -113,15 +115,15 @@
 }
 
 .highlight-card:hover {
-  border-color: #3b82f6;
-  background: rgba(59, 130, 246, 0.05);
+  border-color: #f7931a;
+  background: rgba(247, 147, 26, 0.05);
   transform: translateY(-5px);
 }
 
 .highlight-metric {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #3b82f6;
+  color: #f7931a;
   margin-bottom: 8px;
 }
 
@@ -179,10 +181,10 @@
 }
 
 .document-card:hover {
-  border-color: #3b82f6;
-  background: rgba(59, 130, 246, 0.05);
+  border-color: #f7931a;
+  background: rgba(247, 147, 26, 0.05);
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 10px 25px rgba(247, 147, 26, 0.1);
 }
 
 .document-header {
@@ -230,7 +232,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #3b82f6;
+  color: #f7931a;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -269,7 +271,7 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  background: #3b82f6;
+  background: #f7931a;
   color: #fff;
   border-radius: 50%;
   font-size: 1.2rem;
@@ -397,7 +399,7 @@
 }
 
 .contact-item svg {
-  color: #3b82f6;
+  color: #f7931a;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -432,11 +434,11 @@
   padding: 60px 40px;
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   border-radius: 20px;
-  border: 1px solid #3b82f6;
+  border: 1px solid #f7931a;
 }
 
 .investors-cta svg {
-  color: #3b82f6;
+  color: #f7931a;
   margin-bottom: 20px;
 }
 
@@ -478,23 +480,24 @@
 }
 
 .cta-btn.primary {
-  background: #3b82f6;
-  color: #fff;
+  background: linear-gradient(90deg, #f7931a, #ffcd00);
+  color: #000;
+  font-weight: 600;
 }
 
 .cta-btn.primary:hover {
-  background: #2563eb;
+  background: linear-gradient(90deg, #ffcd00, #ffa500);
   transform: translateY(-2px);
 }
 
 .cta-btn.secondary {
   background: transparent;
-  color: #3b82f6;
-  border-color: #3b82f6;
+  color: #f7931a;
+  border-color: #f7931a;
 }
 
 .cta-btn.secondary:hover {
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(247, 147, 26, 0.1);
   transform: translateY(-2px);
 }
 
