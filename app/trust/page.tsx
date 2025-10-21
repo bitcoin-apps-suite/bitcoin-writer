@@ -21,7 +21,7 @@ export default function TrustPage() {
           <div className="trust-buttons">
             <button 
               className="btn-primary" 
-              onClick={() => window.open('https://1sat.market/market/bsv21/cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4_1', '_blank')}
+              onClick={() => window.open('https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1', '_blank')}
             >
               <span>View on 1Sat Market</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -97,7 +97,7 @@ export default function TrustPage() {
                 </div>
                 <div className="token-id">
                   <span>Token ID:</span>
-                  <span className="token-hash">cff66b3f...130ddae4_1</span>
+                  <span className="token-hash">acc6543e...0d979d3_1</span>
                 </div>
                 <div className="token-details">
                   <div className="detail-row">
@@ -259,7 +259,7 @@ export default function TrustPage() {
             <div className="cta-buttons">
               <button 
                 className="btn-primary" 
-                onClick={() => window.open('https://1sat.market/market/bsv21/cff66b3f44c6a31a0b3f09d24785b1baa87e96bd1fb0d6c4d2fb6158130ddae4_1', '_blank')}
+                onClick={() => window.open('https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1', '_blank')}
               >
                 Buy $bWriter Trust Tokens
               </button>
