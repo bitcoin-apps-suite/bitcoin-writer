@@ -237,6 +237,9 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
                     {token.category && (
                       <span className="ticker-category"> • {token.category}</span>
                     )}
+                    {token.isGig && (
+                      <span className="ticker-demo-badge">DEMO</span>
+                    )}
                   </div>
                   
                   <div className="ticker-price-row">
