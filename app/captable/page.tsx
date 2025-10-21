@@ -82,69 +82,47 @@ export default function CapTablePage() {
     // Initial cap table based on token deployment
     const initialCapTable: CapTableEntry[] = [
       {
-        holderAddress: '1HNcvDZNosbxWeB9grD769u3bAKYNKRHTs',
+        holderAddress: '@b0ase',
         holderName: 'Platform Founder',
-        currentBalance: 30000000,
-        totalAllocated: 30000000,
-        percentage: 3.0,
+        currentBalance: 900000000,
+        totalAllocated: 900000000,
+        percentage: 90.0,
         category: 'Founder',
-        firstAllocation: '2025-10-17T19:30:35.552Z',
-        lastUpdate: '2025-10-17T19:30:35.552Z',
+        firstAllocation: '2025-10-21T00:00:00.000Z',
+        lastUpdate: '2025-10-21T00:00:00.000Z',
         isFounder: true
       },
       {
-        holderAddress: 'bounty_pool',
-        holderName: 'Developer Bounty Pool',
-        currentBalance: 400000000,
-        totalAllocated: 400000000,
-        percentage: 40.0,
-        category: 'Bounty Pool',
-        firstAllocation: '2025-10-17T19:30:35.551Z',
-        lastUpdate: '2025-10-17T19:30:35.551Z',
-        isFounder: false
-      },
-      {
-        holderAddress: 'treasury',
-        holderName: 'Platform Treasury',
-        currentBalance: 300000000,
-        totalAllocated: 300000000,
-        percentage: 30.0,
-        category: 'Treasury',
-        firstAllocation: '2025-10-17T19:30:35.551Z',
-        lastUpdate: '2025-10-17T19:30:35.551Z',
-        isFounder: false
-      },
-      {
-        holderAddress: 'community_pool',
-        holderName: 'Community Rewards',
-        currentBalance: 270000000,
-        totalAllocated: 270000000,
-        percentage: 27.0,
-        category: 'Community',
-        firstAllocation: '2025-10-17T19:30:35.551Z',
-        lastUpdate: '2025-10-17T19:30:35.551Z',
+        holderAddress: 'seed_investors',
+        holderName: 'Seed Investors (Tranche 1)',
+        currentBalance: 0,
+        totalAllocated: 100000000,
+        percentage: 10.0,
+        category: 'Investment',
+        firstAllocation: 'TBD',
+        lastUpdate: 'TBD',
         isFounder: false
       }
     ];
 
     const metrics: TokenMetrics = {
       totalSupply: 1000000000,
-      circulatingSupply: 30000000, // Only founder allocation circulating
-      allocatedTokens: 1000000000,
-      treasuryBalance: 300000000,
-      bountyPoolBalance: 400000000
+      circulatingSupply: 0, // No shares circulating yet
+      allocatedTokens: 900000000,
+      treasuryBalance: 0,
+      bountyPoolBalance: 100000000 // Reserved for seed round
     };
 
     const allocations: TokenAllocation[] = [
       {
-        recipientAddress: '1HNcvDZNosbxWeB9grD769u3bAKYNKRHTs',
+        recipientAddress: '@b0ase',
         recipientName: 'Platform Founder',
-        amount: 30000000,
-        percentage: 3.0,
+        amount: 900000000,
+        percentage: 90.0,
         category: 'founder',
-        reason: 'Platform development, blockchain infrastructure, and core feature implementation',
-        txId: '2af7cc345b97f87ad6b587e1a3a6b3ce589510bc103d3915cc083556574873d5',
-        allocatedAt: '2025-10-17T19:30:35.552Z'
+        reason: 'Founder equity allocation in bWriter Shares with 48-month vesting, 12-month cliff',
+        txId: 'Equity-based allocation',
+        allocatedAt: '2025-10-21T00:00:00.000Z'
       }
     ];
 
@@ -200,11 +178,11 @@ export default function CapTablePage() {
         <div className="captable-container">
           {/* Hero Section */}
           <section className="captable-hero">
-            <h1>$BWRITER <span style={{color: '#F7931E'}}>Cap Table</span></h1>
+            <h1>bWriter Shares <span style={{color: '#F7931E'}}>Cap Table</span></h1>
             <p className="captable-tagline">
-              Transparent token distribution and equity allocation
+              Equity ownership and share distribution for Bitcoin Writer platform
             </p>
-            <div className="captable-badge">BLOCKCHAIN VERIFIED</div>
+            <div className="captable-badge">LIVE EQUITY STRUCTURE</div>
           </section>
 
           {/* Token Metrics */}
@@ -213,19 +191,19 @@ export default function CapTablePage() {
               <div className="metrics-grid">
                 <div className="metric-card">
                   <span className="metric-value">{formatNumber(tokenMetrics.totalSupply)}</span>
-                  <span className="metric-label">Total Supply</span>
+                  <span className="metric-label">Authorized Shares</span>
                 </div>
                 <div className="metric-card">
-                  <span className="metric-value">{formatNumber(tokenMetrics.circulatingSupply)}</span>
-                  <span className="metric-label">Circulating</span>
+                  <span className="metric-value">{formatNumber(tokenMetrics.allocatedTokens)}</span>
+                  <span className="metric-label">Issued Shares</span>
                 </div>
                 <div className="metric-card">
-                  <span className="metric-value">{formatNumber(tokenMetrics.bountyPoolBalance)}</span>
-                  <span className="metric-label">Bounty Pool</span>
+                  <span className="metric-value">$0.0001</span>
+                  <span className="metric-label">Price per Share</span>
                 </div>
                 <div className="metric-card">
-                  <span className="metric-value">{formatNumber(tokenMetrics.treasuryBalance)}</span>
-                  <span className="metric-label">Treasury</span>
+                  <span className="metric-value">$100K</span>
+                  <span className="metric-label">Post-Money Valuation</span>
                 </div>
               </div>
             </section>
@@ -238,19 +216,19 @@ export default function CapTablePage() {
                 className={activeTab === 'overview' ? 'active' : ''}
                 onClick={() => setActiveTab('overview')}
               >
-                Cap Table Overview
+                Ownership Overview
               </button>
               <button 
                 className={activeTab === 'allocations' ? 'active' : ''}
                 onClick={() => setActiveTab('allocations')}
               >
-                Recent Allocations
+                Share Details
               </button>
               <button 
                 className={activeTab === 'transactions' ? 'active' : ''}
                 onClick={() => setActiveTab('transactions')}
               >
-                Blockchain Transactions
+                Valuation & Metrics
               </button>
             </div>
           </section>
@@ -259,16 +237,16 @@ export default function CapTablePage() {
           {activeTab === 'overview' && (
             <section className="cap-table-section">
               <div className="cap-table-header">
-                <h2>Token Distribution</h2>
-                <p>Real-time allocation of all $BWRITER tokens</p>
+                <h2>Current Ownership Structure</h2>
+                <p>Real-time distribution of bWriter Shares in The Bitcoin Corporation LTD</p>
               </div>
               
               <div className="cap-table">
                 <div className="table-header">
-                  <div className="col-holder">Holder</div>
-                  <div className="col-balance">Balance</div>
-                  <div className="col-percentage">Percentage</div>
-                  <div className="col-category">Category</div>
+                  <div className="col-holder">Shareholder</div>
+                  <div className="col-balance">Shares Held</div>
+                  <div className="col-percentage">Ownership %</div>
+                  <div className="col-category">Value</div>
                   <div className="col-status">Status</div>
                 </div>
                 
@@ -282,22 +260,17 @@ export default function CapTablePage() {
                     </div>
                     <div className="col-balance">
                       <span className="balance-amount">{formatNumber(entry.currentBalance)}</span>
-                      <span className="balance-symbol">BWRITER</span>
+                      <span className="balance-symbol">bWriter Shares</span>
                     </div>
                     <div className="col-percentage">
                       <span className="percentage-value">{formatPercentage(entry.percentage)}</span>
                     </div>
                     <div className="col-category">
-                      <span 
-                        className="category-badge"
-                        style={{ backgroundColor: getCategoryColor(entry.category) }}
-                      >
-                        {entry.category}
-                      </span>
+                      <span className="value-amount">${(entry.currentBalance * 0.0001).toLocaleString()}</span>
                     </div>
                     <div className="col-status">
-                      <span className={`status-badge ${entry.isFounder ? 'allocated' : 'reserved'}`}>
-                        {entry.isFounder ? 'Allocated' : 'Reserved'}
+                      <span className={`status-badge ${entry.isFounder ? 'vesting' : 'reserved'}`}>
+                        {entry.isFounder ? 'Vesting' : 'Reserved'}
                       </span>
                     </div>
                   </div>
@@ -306,89 +279,127 @@ export default function CapTablePage() {
             </section>
           )}
 
-          {/* Recent Allocations */}
+          {/* Share Details */}
           {activeTab === 'allocations' && (
             <section className="allocations-section">
               <div className="allocations-header">
-                <h2>Recent Token Allocations</h2>
-                <p>Latest token distributions and equity grants</p>
+                <h2>Share Class Details</h2>
+                <p>Comprehensive breakdown of bWriter Shares structure</p>
               </div>
               
-              <div className="allocations-list">
-                {recentAllocations.map((allocation, index) => (
-                  <div key={index} className="allocation-card">
-                    <div className="allocation-header">
-                      <span className="allocation-recipient">{allocation.recipientName}</span>
-                      <span className="allocation-amount">
-                        {formatNumber(allocation.amount)} BWRITER
-                      </span>
-                    </div>
-                    <div className="allocation-details">
-                      <p className="allocation-reason">{allocation.reason}</p>
-                      <div className="allocation-meta">
-                        <span className={`allocation-category category-${allocation.category}`}>
-                          {allocation.category.toUpperCase()}
-                        </span>
-                        <span className="allocation-date">
-                          {new Date(allocation.allocatedAt).toLocaleDateString()}
-                        </span>
-                        <span className="allocation-percentage">
-                          {formatPercentage(allocation.percentage)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="allocation-proof">
-                      <a 
-                        href={`https://whatsonchain.com/tx/${allocation.txId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="proof-link"
-                      >
-                        View Blockchain Proof →
-                      </a>
-                    </div>
+              <div className="share-class-card">
+                <h3>bWriter Shares</h3>
+                <div className="share-details-grid">
+                  <div className="detail-item">
+                    <span className="detail-label">Share Class:</span>
+                    <span className="detail-value">bWriter Shares</span>
                   </div>
-                ))}
+                  <div className="detail-item">
+                    <span className="detail-label">Rights:</span>
+                    <span className="detail-value">Bitcoin Writer platform revenue, governance, premium features</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Voting Rights:</span>
+                    <span className="detail-value">1 vote per share on platform matters</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Dividend Rights:</span>
+                    <span className="detail-value">25% of net Bitcoin Writer platform revenue</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Transfer Restrictions:</span>
+                    <span className="detail-value">Subject to vesting schedules and right of first refusal</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Liquidation Preference:</span>
+                    <span className="detail-value">Pro-rata distribution upon liquidation</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="vesting-schedule">
+                <h3>Vesting Schedule</h3>
+                <div className="vesting-grid">
+                  <div className="vesting-item">
+                    <span className="vesting-label">Founder Shares:</span>
+                    <span className="vesting-value">48 months vesting, 12 month cliff</span>
+                  </div>
+                  <div className="vesting-item">
+                    <span className="vesting-label">Investor Shares:</span>
+                    <span className="vesting-value">24 months vesting, 6 month cliff</span>
+                  </div>
+                </div>
               </div>
             </section>
           )}
 
-          {/* Blockchain Transactions */}
+          {/* Valuation & Metrics */}
           {activeTab === 'transactions' && (
             <section className="transactions-section">
               <div className="transactions-header">
-                <h2>Blockchain Transactions</h2>
-                <p>All token operations recorded on BSV blockchain</p>
+                <h2>Valuation & Financial Metrics</h2>
+                <p>Current valuation and share pricing information</p>
               </div>
               
-              <div className="transaction-list">
-                <div className="transaction-card completed">
-                  <div className="tx-header">
-                    <span className="tx-type">Token Deployment</span>
-                    <span className="tx-status success">✅ Confirmed</span>
+              <div className="valuation-cards">
+                <div className="valuation-card">
+                  <h3>Current Round (Seed Tranche 1)</h3>
+                  <div className="valuation-details">
+                    <div className="valuation-item">
+                      <span className="valuation-label">Pre-Money Valuation:</span>
+                      <span className="valuation-value">$90,000</span>
+                    </div>
+                    <div className="valuation-item">
+                      <span className="valuation-label">Investment Amount:</span>
+                      <span className="valuation-value">$10,000</span>
+                    </div>
+                    <div className="valuation-item">
+                      <span className="valuation-label">Post-Money Valuation:</span>
+                      <span className="valuation-value">$100,000</span>
+                    </div>
+                    <div className="valuation-item">
+                      <span className="valuation-label">Price per Share:</span>
+                      <span className="valuation-value">$0.0001</span>
+                    </div>
+                    <div className="valuation-item">
+                      <span className="valuation-label">Shares Offered:</span>
+                      <span className="valuation-value">100,000,000 (10%)</span>
+                    </div>
                   </div>
-                  <div className="tx-details">
-                    <p><strong>Contract ID:</strong> acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1</p>
-                    <p><strong>Symbol:</strong> $bWriter</p>
-                    <p><strong>Blockchain:</strong> Bitcoin SV (BSV-20)</p>
-                    <p><strong>Total Supply:</strong> 1,000,000,000 BWRITER</p>
-                    <p><strong>1sat Market:</strong> <a href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" target="_blank" rel="noopener noreferrer" style={{color: '#F7931E'}}>View Contract</a></p>
-                  </div>
-                  <a href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" target="_blank" className="tx-link">View on 1sat Market →</a>
                 </div>
-                
-                <div className="transaction-card completed">
-                  <div className="tx-header">
-                    <span className="tx-type">Founder Allocation</span>
-                    <span className="tx-status success">✅ Confirmed</span>
+
+                <div className="valuation-card">
+                  <h3>Share Allocation Breakdown</h3>
+                  <div className="allocation-chart">
+                    <div className="allocation-item">
+                      <div className="allocation-bar">
+                        <div className="allocation-fill founder" style={{width: '90%'}}></div>
+                      </div>
+                      <span className="allocation-label">Founder: 90% (900M shares)</span>
+                    </div>
+                    <div className="allocation-item">
+                      <div className="allocation-bar">
+                        <div className="allocation-fill investor" style={{width: '10%'}}></div>
+                      </div>
+                      <span className="allocation-label">Seed Round: 10% (100M shares)</span>
+                    </div>
                   </div>
-                  <div className="tx-details">
-                    <p><strong>Transaction ID:</strong> 2af7cc345b97f87ad6b587e1a3a6b3ce589510bc103d3915cc083556574873d5</p>
-                    <p><strong>Block Height:</strong> 820156</p>
-                    <p><strong>Recipient:</strong> 1HNcvDZNosbxWeB9grD769u3bAKYNKRHTs</p>
-                    <p><strong>Amount:</strong> 30,000,000 BWRITER (3.0%)</p>
-                  </div>
-                  <a href="https://whatsonchain.com/tx/2af7cc345b97f87ad6b587e1a3a6b3ce589510bc103d3915cc083556574873d5" target="_blank" className="tx-link">View on Blockchain →</a>
+                </div>
+              </div>
+
+              <div className="investment-summary">
+                <h3>Investment Opportunity</h3>
+                <p>
+                  The Bitcoin Corporation LTD is offering 10% of bWriter Shares (100,000,000 shares) 
+                  at $0.0001 per share, raising $10,000 for Bitcoin Writer platform development.
+                </p>
+                <div className="investment-actions">
+                  <a href="/investors" className="investment-btn primary">
+                    View Investor Information
+                  </a>
+                  <a href="/investors/term-sheet" className="investment-btn secondary">
+                    Download Term Sheet
+                  </a>
                 </div>
               </div>
             </section>
@@ -397,17 +408,20 @@ export default function CapTablePage() {
           {/* Footer */}
           <section className="captable-footer">
             <div className="footer-content">
-              <h3>Transparency Commitment</h3>
-              <p>All $BWRITER token allocations are recorded on the BSV blockchain for complete transparency and immutability.</p>
+              <h3>Legal Structure</h3>
+              <p>
+                bWriter Shares represent equity ownership in The Bitcoin Corporation LTD (Company No. 16735102), 
+                specifically tied to the Bitcoin Writer platform's performance and governance.
+              </p>
               <div className="footer-links">
-                <a href="/contracts" className="footer-link">
-                  View Contracts
+                <a href="/investors/shareholder-agreement" className="footer-link">
+                  Shareholder Agreement
                 </a>
-                <a href="/contributions" className="footer-link">
-                  Earn Tokens
+                <a href="/investors/subscription-agreement" className="footer-link">
+                  Subscription Agreement
                 </a>
-                <a href="https://whatsonchain.com" target="_blank" rel="noopener noreferrer" className="footer-link">
-                  BSV Explorer
+                <a href="/token" className="footer-link">
+                  View $BWRITER Token
                 </a>
               </div>
             </div>
