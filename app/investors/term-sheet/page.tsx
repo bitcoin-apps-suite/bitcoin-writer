@@ -64,11 +64,17 @@ export default function TermSheetPage() {
             </Link>
             
             <div className="document-actions">
-              <button className="action-btn">
+              <button 
+                className="action-btn"
+                onClick={() => window.open('/api/pdf/term-sheet', '_blank')}
+              >
                 <Download size={18} />
                 <span>Download PDF</span>
               </button>
-              <button className="action-btn">
+              <button 
+                className="action-btn"
+                onClick={() => window.print()}
+              >
                 <Printer size={18} />
                 <span>Print</span>
               </button>
