@@ -150,7 +150,7 @@ export default function TokenPage() {
                   <span className="arrow">→</span>
                 </div>
                 <div className="flow-item">
-                  <span>Revenue to Bitcoin Software Ltd</span>
+                  <span>Revenue to The Bitcoin Corporation LTD</span>
                   <span className="arrow">→</span>
                 </div>
                 <div className="flow-item">

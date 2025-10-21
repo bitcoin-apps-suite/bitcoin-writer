@@ -87,7 +87,7 @@ export default function SubscriptionAgreementPage() {
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />
-                  <span>Bitcoin Writer Inc.</span>
+                  <span>The Bitcoin Corporation LTD</span>
                 </div>
               </div>
             </div>
@@ -109,8 +109,8 @@ export default function SubscriptionAgreementPage() {
               <section className="legal-section">
                 <h2>1. PARTIES</h2>
                 <p>
-                  This Subscription Agreement ("Agreement") is entered into between <strong>Bitcoin Writer Inc.</strong>, 
-                  a corporation organized under the laws of Delaware ("Company"), and the individual or entity 
+                  This Subscription Agreement ("Agreement") is entered into between <strong>The Bitcoin Corporation LTD</strong>, 
+                  a company incorporated in England and Wales with company number 16735102 ("Company"), and the individual or entity 
                   executing this Agreement ("Subscriber" or "Investor").
                 </p>
               </section>
@@ -164,7 +164,7 @@ export default function SubscriptionAgreementPage() {
                   <h3>3.2 Company Representations</h3>
                   <p>The Company represents and warrants that:</p>
                   <ul>
-                    <li>It is duly organized and validly existing under Delaware law</li>
+                    <li>It is duly incorporated and validly existing under the laws of England and Wales</li>
                     <li>It has full corporate power and authority to issue the Tokens</li>
                     <li>The execution and delivery of this Agreement has been duly authorized</li>
                     <li>All material information has been disclosed to the Subscriber</li>
@@ -242,8 +242,8 @@ export default function SubscriptionAgreementPage() {
                 <div className="subsection">
                   <h3>7.1 Governing Law</h3>
                   <p>
-                    This Agreement shall be governed by and construed in accordance with the laws of the State 
-                    of Delaware, without regard to its conflict of laws principles.
+                    This Agreement shall be governed by and construed in accordance with the laws of 
+                    England and Wales, without regard to its conflict of laws principles.
                   </p>
                 </div>
 
@@ -294,11 +294,11 @@ export default function SubscriptionAgreementPage() {
               
               <div className="signature-blocks">
                 <div className="signature-block">
-                  <h4>BITCOIN WRITER INC.</h4>
+                  <h4>THE BITCOIN CORPORATION LTD</h4>
                   <div className="signature-line">
                     <p>By: _________________________________</p>
-                    <p>Name: [Chief Executive Officer]</p>
-                    <p>Title: Chief Executive Officer</p>
+                    <p>Name: [Director]</p>
+                    <p>Title: Director</p>
                     <p>Date: _________________________________</p>
                   </div>
                 </div>

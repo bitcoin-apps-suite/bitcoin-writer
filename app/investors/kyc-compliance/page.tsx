@@ -91,7 +91,7 @@ export default function KYCCompliancePage() {
                 </div>
                 <div className="meta-item">
                   <Building2 size={16} />
-                  <span>Bitcoin Writer Inc.</span>
+                  <span>The Bitcoin Corporation LTD</span>
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function KYCCompliancePage() {
                   <p>
                     Know Your Customer (KYC) procedures are mandatory compliance requirements designed to verify 
                     investor identity, assess risk profiles, and ensure compliance with applicable financial regulations. 
-                    Bitcoin Writer Inc. implements comprehensive KYC procedures in accordance with:
+                    The Bitcoin Corporation LTD implements comprehensive KYC procedures in accordance with:
                   </p>
                   <ul>
                     <li>Bank Secrecy Act (BSA) requirements</li>
@@ -393,7 +393,7 @@ export default function KYCCompliancePage() {
                 <div className="subsection">
                   <h3>7.2 Information Updates</h3>
                   <p>
-                    Investors must promptly notify Bitcoin Writer of any material changes:
+                    Investors must promptly notify The Bitcoin Corporation LTD of any material changes:
                   </p>
                   <ul>
                     <li>Changes in personal information (address, name, etc.)</li>
