@@ -116,22 +116,27 @@ export default function SubscriptionAgreementPage() {
               </section>
 
               <section className="legal-section">
-                <h2>2. SUBSCRIPTION FOR ORDINARY SHARES</h2>
+                <h2>2. SUBSCRIPTION FOR bWRITER SHARES</h2>
                 <div className="subsection">
-                  <h3>2.1 Share Subscription</h3>
+                  <h3>2.1 bWriter Share Subscription</h3>
                   <p>
                     Subject to the terms and conditions of this Agreement, the Subscriber hereby subscribes for 
-                    and agrees to purchase ordinary shares ("Shares") from the Company at $0.0001 per share 
+                    and agrees to purchase bWriter Shares ("bWriter Shares") from the Company at $0.0001 per share 
                     in accordance with the pricing and allocation terms set forth in the Term Sheet.
+                  </p>
+                  <p>
+                    <strong>Share Class Definition:</strong> bWriter Shares represent a specific class of shares in 
+                    The Bitcoin Corporation LTD that provide rights related to the Bitcoin Writer platform, including 
+                    revenue sharing, governance participation, and platform-specific benefits.
                   </p>
                 </div>
                 
                 <div className="subsection">
                   <h3>2.2 Purchase Price</h3>
                   <p>
-                    The purchase price for the Shares is $0.0001 per share as outlined in the Term Sheet. 
+                    The purchase price for the bWriter Shares is $0.0001 per share as outlined in the Term Sheet. 
                     Payment shall be made in GBP, USD, or Bitcoin SV (BSV) as specified by the Company. 
-                    Minimum investment is $250 USD (2,500,000 shares).
+                    Minimum investment is $250 USD (2,500,000 bWriter shares).
                   </p>
                 </div>
 
@@ -139,7 +144,7 @@ export default function SubscriptionAgreementPage() {
                   <h3>2.3 Payment Terms</h3>
                   <p>
                     Payment must be made in full upon execution of this Agreement via bank transfer to the Company's 
-                    designated account or BSV wallet address. Share certificates will be issued within 48 hours of confirmed 
+                    designated account or BSV wallet address. bWriter share certificates will be issued within 48 hours of confirmed 
                     payment receipt and completion of all compliance requirements.
                   </p>
                 </div>

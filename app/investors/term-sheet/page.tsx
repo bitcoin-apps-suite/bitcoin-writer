@@ -103,23 +103,23 @@ export default function TermSheetPage() {
                   </tr>
                   <tr>
                     <td><strong>Security Type:</strong></td>
-                    <td>Ordinary Shares</td>
+                    <td>bWriter Shares</td>
                   </tr>
                   <tr>
                     <td><strong>Share Class:</strong></td>
-                    <td>Ordinary Shares (voting)</td>
+                    <td>bWriter Shares (product-specific voting rights)</td>
                   </tr>
                   <tr>
-                    <td><strong>Total Authorized Shares:</strong></td>
-                    <td>1,000,000,000 shares</td>
+                    <td><strong>Total Authorized bWriter Shares:</strong></td>
+                    <td>1,000,000,000 bWriter shares</td>
                   </tr>
                   <tr>
                     <td><strong>Founder Ownership:</strong></td>
-                    <td>90% (900,000,000 shares to @b0ase)</td>
+                    <td>90% (900,000,000 bWriter shares to @b0ase)</td>
                   </tr>
                   <tr>
                     <td><strong>Offering:</strong></td>
-                    <td>10% (100,000,000 shares) for $10,000</td>
+                    <td>10% (100,000,000 bWriter shares) for $10,000</td>
                   </tr>
                   <tr>
                     <td><strong>Post-Money Valuation:</strong></td>
@@ -134,11 +134,17 @@ export default function TermSheetPage() {
               <section className="legal-section">
                 <h2>1. OFFERING OVERVIEW</h2>
                 <div className="subsection">
-                  <h3>1.1 Equity Offering Structure</h3>
+                  <h3>1.1 bWriter Share Offering Structure</h3>
                   <p>
-                    The Bitcoin Corporation LTD is conducting a private placement of ordinary shares to 
-                    qualified investors. This seed round offers 10% equity (100,000,000 shares) at $0.0001 per share, 
-                    raising a total of $10,000 for early-stage development and operations.
+                    The Bitcoin Corporation LTD is conducting a private placement of bWriter Shares to 
+                    qualified investors. This seed round offers 10% of bWriter Shares (100,000,000 shares) at $0.0001 per share, 
+                    raising a total of $10,000 for Bitcoin Writer platform development and operations.
+                  </p>
+                  <p>
+                    <strong>Share Class Definition:</strong> bWriter Shares represent a specific class of shares in 
+                    The Bitcoin Corporation LTD that provide rights related to the Bitcoin Writer platform. 
+                    The Bitcoin Corporation LTD may issue other share classes for other products, but bWriter Shares 
+                    are specifically tied to Bitcoin Writer's performance and governance.
                   </p>
                 </div>
 
@@ -156,7 +162,7 @@ export default function TermSheetPage() {
               </section>
 
               <section className="legal-section">
-                <h2>2. EQUITY OFFERING STRUCTURE</h2>
+                <h2>2. bWRITER SHARE OFFERING STRUCTURE</h2>
                 <table className="legal-table">
                   <thead>
                     <tr>
@@ -173,7 +179,7 @@ export default function TermSheetPage() {
                       <td>Seed Round (Tranche 1)</td>
                       <td>$0.0001 USD</td>
                       <td>10%</td>
-                      <td>100,000,000 shares</td>
+                      <td>100,000,000 bWriter shares</td>
                       <td>$10,000 USD</td>
                       <td>$250 USD</td>
                     </tr>
@@ -189,35 +195,37 @@ export default function TermSheetPage() {
                 </table>
                 
                 <div className="subsection">
-                  <h3>2.1 Share Structure</h3>
-                  <p>The Company has authorized 1,000,000,000 ordinary shares with the following allocation:</p>
+                  <h3>2.1 bWriter Share Structure</h3>
+                  <p>The Company has authorized 1,000,000,000 bWriter Shares with the following allocation:</p>
                   <ul>
-                    <li><strong>Founder (b0ase):</strong> 900,000,000 shares (90%)</li>
-                    <li><strong>Seed Round Tranche 1:</strong> 100,000,000 shares (10%) - $10,000 total</li>
-                    <li><strong>Share Price:</strong> $0.0001 per share (1/100th of a penny)</li>
+                    <li><strong>Founder (b0ase):</strong> 900,000,000 bWriter shares (90%)</li>
+                    <li><strong>Seed Round Tranche 1:</strong> 100,000,000 bWriter shares (10%) - $10,000 total</li>
+                    <li><strong>Share Price:</strong> $0.0001 per bWriter share (1/100th of a penny)</li>
                   </ul>
                 </div>
               </section>
 
               <section className="legal-section">
-                <h2>3. SHAREHOLDER RIGHTS AND GOVERNANCE</h2>
+                <h2>3. bWRITER SHAREHOLDER RIGHTS AND GOVERNANCE</h2>
                 <div className="subsection">
-                  <h3>3.1 Ordinary Share Rights</h3>
-                  <p>Shareholders receive the following rights:</p>
+                  <h3>3.1 bWriter Share Rights</h3>
+                  <p>bWriter shareholders receive the following rights specific to the Bitcoin Writer platform:</p>
                   <ul>
-                    <li><strong>Dividend Rights:</strong> Pro-rata distribution of declared dividends</li>
-                    <li><strong>Voting Rights:</strong> One vote per share on company matters</li>
-                    <li><strong>Information Rights:</strong> Access to annual financial statements</li>
-                    <li><strong>Pre-emption Rights:</strong> Right to participate in future equity rounds</li>
-                    <li><strong>Liquidation Rights:</strong> Pro-rata distribution upon liquidation</li>
+                    <li><strong>Revenue Sharing:</strong> Pro-rata distribution of Bitcoin Writer platform revenue</li>
+                    <li><strong>Voting Rights:</strong> One vote per bWriter share on Bitcoin Writer governance matters</li>
+                    <li><strong>Information Rights:</strong> Access to Bitcoin Writer financial statements and metrics</li>
+                    <li><strong>Pre-emption Rights:</strong> Right to participate in future bWriter share rounds</li>
+                    <li><strong>Platform Rights:</strong> Priority access to Bitcoin Writer premium features</li>
                   </ul>
                 </div>
 
                 <div className="subsection">
-                  <h3>3.2 Governance Structure</h3>
+                  <h3>3.2 Bitcoin Writer Governance Structure</h3>
                   <p>
-                    The Company operates under standard English company law governance. Major decisions 
-                    require shareholder approval, with voting power proportional to shareholding percentage.
+                    bWriter shareholders participate in Bitcoin Writer platform governance under English company law. 
+                    Major platform decisions require bWriter shareholder approval, with voting power proportional 
+                    to bWriter shareholding percentage. This includes platform features, revenue distribution, 
+                    and strategic partnerships specific to Bitcoin Writer.
                   </p>
                 </div>
               </section>
