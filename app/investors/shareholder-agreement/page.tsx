@@ -113,20 +113,20 @@ export default function ShareholderAgreementPage() {
                     <dt>Company</dt>
                     <dd>The Bitcoin Corporation LTD, a company incorporated in England and Wales (Company No. 16735102)</dd>
                     
-                    <dt>Tokens</dt>
-                    <dd>$BWRITER utility tokens issued on the Bitcoin SV blockchain</dd>
+                    <dt>Shares</dt>
+                    <dd>Ordinary shares in The Bitcoin Corporation LTD</dd>
                     
                     <dt>Shareholder</dt>
-                    <dd>Any person or entity holding $BWRITER tokens</dd>
+                    <dd>Any person or entity holding ordinary shares in the Company</dd>
                     
-                    <dt>DAO</dt>
-                    <dd>Decentralized Autonomous Organization governance structure</dd>
+                    <dt>Board</dt>
+                    <dd>Board of Directors of The Bitcoin Corporation LTD</dd>
                     
-                    <dt>Governance Rights</dt>
-                    <dd>Voting and decision-making rights proportional to token holdings</dd>
+                    <dt>Voting Rights</dt>
+                    <dd>Rights to vote on company matters proportional to shareholding</dd>
                     
-                    <dt>Revenue Distribution</dt>
-                    <dd>Quarterly distribution of platform revenue to token holders</dd>
+                    <dt>Dividend Distribution</dt>
+                    <dd>Distribution of company profits to shareholders as declared by the Board</dd>
                   </dl>
                 </div>
               </section>
@@ -134,22 +134,22 @@ export default function ShareholderAgreementPage() {
               <section className="legal-section">
                 <h2>2. GOVERNANCE STRUCTURE</h2>
                 <div className="subsection">
-                  <h3>2.1 Decentralized Governance</h3>
+                  <h3>2.1 Corporate Governance</h3>
                   <p>
-                    The Company operates under a hybrid governance model combining traditional corporate 
-                    governance with decentralized autonomous organization (DAO) principles. $BWRITER token 
-                    holders participate in platform governance through on-chain voting mechanisms.
+                    The Company operates under standard English company law governance structures. 
+                    Shareholders participate in company governance through voting at general meetings 
+                    and through elected board representation.
                   </p>
                 </div>
 
                 <div className="subsection">
                   <h3>2.2 Voting Rights</h3>
-                  <p>Token holders receive voting rights proportional to their token holdings according to the following structure:</p>
+                  <p>Shareholders receive voting rights proportional to their shareholding according to the following structure:</p>
                   <ul>
-                    <li>1 $BWRITER token = 1 vote on governance proposals</li>
-                    <li>Minimum holding of 1,000 tokens required to submit proposals</li>
-                    <li>Voting power delegable to other token holders</li>
-                    <li>Quadratic voting may apply to certain proposal categories</li>
+                    <li>1 ordinary share = 1 vote on company resolutions</li>
+                    <li>Minimum holding of 1% required to submit shareholder resolutions</li>
+                    <li>Voting by proxy permitted with proper authorization</li>
+                    <li>Special resolutions require 75% majority vote</li>
                   </ul>
                 </div>
 
