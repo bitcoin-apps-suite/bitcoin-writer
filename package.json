@@ -32,6 +32,7 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "file-saver": "^2.0.5",
+    "js-1sat-ord": "^0.1.82",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.544.0",
     "mammoth": "^1.10.0",
