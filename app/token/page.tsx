@@ -208,6 +208,43 @@ export default function TokenPage() {
           </div>
         </section>
 
+        {/* Contract Information Section */}
+        <section className="stats-section">
+          <h2>Contract Information</h2>
+          <div className="contract-info">
+            <div className="contract-details">
+              <h3>$bWriter Token Contract</h3>
+              <div className="contract-item">
+                <strong>Contract ID:</strong>
+                <span className="contract-id">acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1</span>
+              </div>
+              <div className="contract-item">
+                <strong>Symbol:</strong>
+                <span>$$bWriter</span>
+              </div>
+              <div className="contract-item">
+                <strong>Blockchain:</strong>
+                <span>Bitcoin SV (BSV-20)</span>
+              </div>
+              <div className="contract-item">
+                <strong>Decimals:</strong>
+                <span>0</span>
+              </div>
+              <div className="contract-item">
+                <strong>1sat Market:</strong>
+                <a 
+                  href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="contract-link"
+                >
+                  View on 1sat Market
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Token Stats Section */}
         <section className="stats-section">
           <h2>Token Statistics</h2>

@@ -1173,6 +1173,45 @@ const ContractsPage: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="contract-info-section">
+                <h3>Token Contract Information</h3>
+                <div className="contract-info-grid">
+                  <div className="contract-info-item">
+                    <span className="contract-info-label">Contract ID:</span>
+                    <span className="contract-info-value contract-id">
+                      acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1
+                    </span>
+                  </div>
+                  <div className="contract-info-item">
+                    <span className="contract-info-label">Symbol:</span>
+                    <span className="contract-info-value">$$bWriter</span>
+                  </div>
+                  <div className="contract-info-item">
+                    <span className="contract-info-label">Blockchain:</span>
+                    <span className="contract-info-value">Bitcoin SV (BSV-20)</span>
+                  </div>
+                  <div className="contract-info-item">
+                    <span className="contract-info-label">Decimals:</span>
+                    <span className="contract-info-value">0</span>
+                  </div>
+                  <div className="contract-info-item">
+                    <span className="contract-info-label">Total Supply:</span>
+                    <span className="contract-info-value">1,000,000,000</span>
+                  </div>
+                  <div className="contract-info-item">
+                    <span className="contract-info-label">1sat Market:</span>
+                    <a 
+                      href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="contract-info-link"
+                    >
+                      View on 1sat Market
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 

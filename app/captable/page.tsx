@@ -368,12 +368,13 @@ export default function CapTablePage() {
                     <span className="tx-status success">✅ Confirmed</span>
                   </div>
                   <div className="tx-details">
-                    <p><strong>Transaction ID:</strong> f3aef54490331015e3e88bef6413930afff8d80b55cb67168449d420ad193ca9</p>
-                    <p><strong>Block Height:</strong> 820152</p>
-                    <p><strong>Timestamp:</strong> 2025-10-17T19:30:35.551Z</p>
+                    <p><strong>Contract ID:</strong> acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1</p>
+                    <p><strong>Symbol:</strong> $bWriter</p>
+                    <p><strong>Blockchain:</strong> Bitcoin SV (BSV-20)</p>
                     <p><strong>Total Supply:</strong> 1,000,000,000 BWRITER</p>
+                    <p><strong>1sat Market:</strong> <a href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" target="_blank" rel="noopener noreferrer" style={{color: '#F7931E'}}>View Contract</a></p>
                   </div>
-                  <a href="https://whatsonchain.com/tx/f3aef54490331015e3e88bef6413930afff8d80b55cb67168449d420ad193ca9" target="_blank" className="tx-link">View on Blockchain →</a>
+                  <a href="https://1sat.market/market/bsv21/acc6543efc620d40895004acaefecbad7cabe9dc447a84342e149eac30d979d3_1" target="_blank" className="tx-link">View on 1sat Market →</a>
                 </div>
                 
                 <div className="transaction-card completed">
