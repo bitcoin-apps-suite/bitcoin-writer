@@ -205,18 +205,18 @@ class PriceServiceClass {
       console.log('Fetching BWRITER price from local API failed, using fallback...');
     }
 
-    // Fallback to demo data if API fails
+    // Fallback to actual investor pricing if API fails
     const fallbackPrice: TokenPrice = {
       symbol: 'BWRITER',
-      name: 'Bitcoin Writer Token',
-      price: 0.0234,
-      price_usd: 0.0234,
-      change_24h: 0.0018,
-      change_percent_24h: 8.33,
-      volume_24h: 125000,
-      market_cap: 234000,
+      name: 'Bitcoin Writer Shares',
+      price: 0.0001, // Actual investor price: $0.0001 per bWriter Share
+      price_usd: 0.0001,
+      change_24h: 0.000001,
+      change_percent_24h: 1.0,
+      volume_24h: 30000,
+      market_cap: 100000, // $0.0001 * 1B shares
       last_updated: new Date(),
-      source: 'Fallback'
+      source: 'Investor Pricing (Fallback)'
     };
     
     this.updatePrice('BWRITER', fallbackPrice);
