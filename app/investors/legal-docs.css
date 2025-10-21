@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: #000;
   color: #fff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   transition: all 0.3s ease;
 }
 
@@ -34,7 +35,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #3b82f6;
+  color: #f7931a;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -42,7 +43,7 @@
 }
 
 .back-link:hover {
-  color: #2563eb;
+  color: #ffcd00;
   transform: translateX(-2px);
 }
 
@@ -67,7 +68,7 @@
 
 .action-btn:hover {
   background: #2a2a2a;
-  border-color: #3b82f6;
+  border-color: #f7931a;
 }
 
 /* Document Content */
@@ -87,15 +88,16 @@
 }
 
 .document-title svg {
-  color: #3b82f6;
+  color: #f7931a;
   margin-bottom: 15px;
 }
 
 .document-title h1 {
   font-size: 2.5rem;
-  font-weight: 300;
+  font-weight: 200;
   margin-bottom: 15px;
   color: #fff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .document-meta {
@@ -114,7 +116,7 @@
 }
 
 .meta-item svg {
-  color: #3b82f6;
+  color: #f7931a;
 }
 
 /* Legal Notice */
@@ -160,7 +162,7 @@
 .legal-section h2 {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #3b82f6;
+  color: #f7931a;
   margin-bottom: 20px;
   padding-bottom: 8px;
   border-bottom: 1px solid #333;
@@ -240,7 +242,7 @@
 .signature-section h2 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #3b82f6;
+  color: #f7931a;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -269,7 +271,7 @@
 .signature-block h4 {
   font-size: 1rem;
   font-weight: 600;
-  color: #3b82f6;
+  color: #f7931a;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -316,23 +318,24 @@
 }
 
 .nav-btn.primary {
-  background: #3b82f6;
-  color: #fff;
+  background: linear-gradient(90deg, #f7931a, #ffcd00);
+  color: #000;
+  font-weight: 600;
 }
 
 .nav-btn.primary:hover {
-  background: #2563eb;
+  background: linear-gradient(90deg, #ffcd00, #ffa500);
   transform: translateY(-2px);
 }
 
 .nav-btn.secondary {
   background: transparent;
-  color: #3b82f6;
-  border: 1px solid #3b82f6;
+  color: #f7931a;
+  border: 1px solid #f7931a;
 }
 
 .nav-btn.secondary:hover {
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(247, 147, 26, 0.1);
   transform: translateY(-2px);
 }
 
@@ -355,7 +358,7 @@
 
 .legal-table th {
   background: #2a2a2a;
-  color: #3b82f6;
+  color: #f7931a;
   font-weight: 600;
 }
 
@@ -365,15 +368,15 @@
 
 /* Definitions Box */
 .definitions-box {
-  background: rgba(59, 130, 246, 0.05);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid rgba(247, 147, 26, 0.2);
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
 }
 
 .definitions-box h3 {
-  color: #3b82f6;
+  color: #f7931a;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 15px;

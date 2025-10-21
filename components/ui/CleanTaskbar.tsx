@@ -1129,6 +1129,34 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             ₿
           </a>
 
+          {/* Investors Icon */}
+          <a
+            href="/investors"
+            style={{
+              color: 'rgba(255, 255, 255, 0.8)',
+              textDecoration: 'none',
+              padding: '4px',
+              borderRadius: '4px',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '12px',
+              fontWeight: '500'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.currentTarget.style.color = '#ffffff';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
+            }}
+          >
+            <svg height="16" width="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+            </svg>
+          </a>
+
           {/* Tasks Icon */}
           <a
             href="http://localhost:2010/contributions#tasks"
