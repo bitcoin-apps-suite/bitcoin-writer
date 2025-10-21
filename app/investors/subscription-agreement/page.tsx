@@ -116,30 +116,30 @@ export default function SubscriptionAgreementPage() {
               </section>
 
               <section className="legal-section">
-                <h2>2. SUBSCRIPTION FOR BWRITER TOKENS</h2>
+                <h2>2. SUBSCRIPTION FOR ORDINARY SHARES</h2>
                 <div className="subsection">
-                  <h3>2.1 Token Subscription</h3>
+                  <h3>2.1 Share Subscription</h3>
                   <p>
                     Subject to the terms and conditions of this Agreement, the Subscriber hereby subscribes for 
-                    and agrees to purchase $BWRITER utility tokens ("Tokens") from the Company in accordance 
-                    with the pricing and allocation terms set forth in the Term Sheet.
+                    and agrees to purchase ordinary shares ("Shares") from the Company at $0.0001 per share 
+                    in accordance with the pricing and allocation terms set forth in the Term Sheet.
                   </p>
                 </div>
                 
                 <div className="subsection">
                   <h3>2.2 Purchase Price</h3>
                   <p>
-                    The purchase price for the Tokens shall be determined based on the current market valuation 
-                    and pricing structure as outlined in the accompanying Term Sheet, payable in Bitcoin SV (BSV) 
-                    or other acceptable digital assets as specified by the Company.
+                    The purchase price for the Shares is $0.0001 per share as outlined in the Term Sheet. 
+                    Payment shall be made in GBP, USD, or Bitcoin SV (BSV) as specified by the Company. 
+                    Minimum investment is $250 USD (2,500,000 shares).
                   </p>
                 </div>
 
                 <div className="subsection">
                   <h3>2.3 Payment Terms</h3>
                   <p>
-                    Payment must be made in full upon execution of this Agreement via transfer to the Company's 
-                    designated BSV wallet address. Token allocation will be processed within 48 hours of confirmed 
+                    Payment must be made in full upon execution of this Agreement via bank transfer to the Company's 
+                    designated account or BSV wallet address. Share certificates will be issued within 48 hours of confirmed 
                     payment receipt and completion of all compliance requirements.
                   </p>
                 </div>
@@ -194,27 +194,27 @@ export default function SubscriptionAgreementPage() {
               </section>
 
               <section className="legal-section">
-                <h2>5. TOKEN RIGHTS AND RESTRICTIONS</h2>
+                <h2>5. SHARE RIGHTS AND RESTRICTIONS</h2>
                 <div className="subsection">
-                  <h3>5.1 Utility Rights</h3>
+                  <h3>5.1 Shareholder Rights</h3>
                   <p>
-                    $BWRITER tokens provide holders with utility rights within the Bitcoin Writer platform, 
-                    including but not limited to:
+                    Ordinary shares provide holders with standard equity rights, including but not limited to:
                   </p>
                   <ul>
-                    <li>Platform governance voting rights</li>
-                    <li>Revenue sharing distributions</li>
-                    <li>Access to premium platform features</li>
-                    <li>Content monetization capabilities</li>
+                    <li>Voting rights (one vote per share)</li>
+                    <li>Dividend distribution rights</li>
+                    <li>Pre-emption rights on future equity raises</li>
+                    <li>Information rights and access to company records</li>
+                    <li>Liquidation distribution rights</li>
                   </ul>
                 </div>
 
                 <div className="subsection">
                   <h3>5.2 Transfer Restrictions</h3>
                   <p>
-                    Tokens may be subject to transfer restrictions and lock-up periods as specified in the 
+                    Shares may be subject to transfer restrictions and lock-up periods as specified in the 
                     Shareholder Agreement. Any transfers must comply with applicable securities laws and 
-                    platform governance requirements.
+                    require board approval for transfers exceeding 1% of issued share capital.
                   </p>
                 </div>
               </section>
@@ -227,11 +227,11 @@ export default function SubscriptionAgreementPage() {
                     The Subscriber acknowledges and accepts the following risks:
                   </p>
                   <ul>
-                    <li><strong>Volatility Risk:</strong> Token values may fluctuate significantly</li>
-                    <li><strong>Technology Risk:</strong> Smart contract and blockchain technology risks</li>
-                    <li><strong>Regulatory Risk:</strong> Potential changes in cryptocurrency regulations</li>
-                    <li><strong>Liquidity Risk:</strong> Limited secondary markets for tokens</li>
-                    <li><strong>Platform Risk:</strong> Success dependent on platform adoption</li>
+                    <li><strong>Early Stage Risk:</strong> Company is in early development stage</li>
+                    <li><strong>Market Risk:</strong> Technology platform success dependent on market adoption</li>
+                    <li><strong>Regulatory Risk:</strong> Changes in software and blockchain regulations</li>
+                    <li><strong>Liquidity Risk:</strong> No public market for shares; limited exit opportunities</li>
+                    <li><strong>Dilution Risk:</strong> Future fundraising may dilute shareholding percentage</li>
                     <li><strong>Total Loss Risk:</strong> Investment may result in total loss of capital</li>
                   </ul>
                 </div>

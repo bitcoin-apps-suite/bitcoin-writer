@@ -102,28 +102,28 @@ export default function TermSheetPage() {
                     <td>The Bitcoin Corporation LTD (England & Wales, Co. No. 16735102)</td>
                   </tr>
                   <tr>
-                    <td><strong>Token:</strong></td>
-                    <td>$BWRITER Utility Token</td>
+                    <td><strong>Security Type:</strong></td>
+                    <td>Ordinary Shares</td>
                   </tr>
                   <tr>
-                    <td><strong>Blockchain:</strong></td>
-                    <td>Bitcoin SV (BSV)</td>
+                    <td><strong>Share Class:</strong></td>
+                    <td>Ordinary Shares (voting)</td>
                   </tr>
                   <tr>
-                    <td><strong>Token Type:</strong></td>
-                    <td>Utility Token with Governance Rights</td>
+                    <td><strong>Total Authorized Shares:</strong></td>
+                    <td>1,000,000,000 shares</td>
                   </tr>
                   <tr>
-                    <td><strong>Total Supply:</strong></td>
-                    <td>1,000,000,000 $BWRITER</td>
+                    <td><strong>Founder Ownership:</strong></td>
+                    <td>90% (900,000,000 shares to @b0ase)</td>
                   </tr>
                   <tr>
-                    <td><strong>Founder Allocation:</strong></td>
-                    <td>10.125% (101,250,000 tokens to @b0ase)</td>
+                    <td><strong>Offering:</strong></td>
+                    <td>10% (100,000,000 shares) for $10,000</td>
                   </tr>
                   <tr>
-                    <td><strong>Current Valuation:</strong></td>
-                    <td>$0 USD (Pre-token sale)</td>
+                    <td><strong>Post-Money Valuation:</strong></td>
+                    <td>$100,000 USD</td>
                   </tr>
                 </tbody>
               </table>
@@ -134,11 +134,11 @@ export default function TermSheetPage() {
               <section className="legal-section">
                 <h2>1. OFFERING OVERVIEW</h2>
                 <div className="subsection">
-                  <h3>1.1 Token Sale Structure</h3>
+                  <h3>1.1 Equity Offering Structure</h3>
                   <p>
-                    The Bitcoin Corporation LTD is conducting a private token sale of $BWRITER utility tokens to 
-                    accredited investors. The tokens provide utility rights within the Bitcoin Writer platform 
-                    ecosystem and governance participation rights.
+                    The Bitcoin Corporation LTD is conducting a private placement of ordinary shares to 
+                    qualified investors. This seed round offers 10% equity (100,000,000 shares) at $0.0001 per share, 
+                    raising a total of $10,000 for early-stage development and operations.
                   </p>
                 </div>
 
@@ -156,65 +156,74 @@ export default function TermSheetPage() {
               </section>
 
               <section className="legal-section">
-                <h2>2. PRICING AND ALLOCATION</h2>
+                <h2>2. EQUITY OFFERING STRUCTURE</h2>
                 <table className="legal-table">
                   <thead>
                     <tr>
                       <th>Round</th>
-                      <th>Price per Token</th>
-                      <th>Allocation</th>
+                      <th>Price per Share</th>
+                      <th>Equity Percentage</th>
+                      <th>Total Shares</th>
+                      <th>Total Raise</th>
                       <th>Minimum Investment</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Seed Round</td>
-                      <td>$0.025 USD</td>
-                      <td>100,000,000 tokens</td>
-                      <td>$25,000 USD</td>
+                      <td>Seed Round (Tranche 1)</td>
+                      <td>$0.0001 USD</td>
+                      <td>10%</td>
+                      <td>100,000,000 shares</td>
+                      <td>$10,000 USD</td>
+                      <td>$250 USD</td>
                     </tr>
                     <tr>
-                      <td>Series A</td>
-                      <td>$0.050 USD</td>
-                      <td>200,000,000 tokens</td>
-                      <td>$50,000 USD</td>
-                    </tr>
-                    <tr>
-                      <td>Public Sale</td>
-                      <td>$0.100 USD</td>
-                      <td>300,000,000 tokens</td>
-                      <td>$1,000 USD</td>
+                      <td>Future Rounds</td>
+                      <td>TBD</td>
+                      <td>TBD</td>
+                      <td>TBD</td>
+                      <td>TBD</td>
+                      <td>TBD</td>
                     </tr>
                   </tbody>
                 </table>
+                
+                <div className="subsection">
+                  <h3>2.1 Share Structure</h3>
+                  <p>The Company has authorized 1,000,000,000 ordinary shares with the following allocation:</p>
+                  <ul>
+                    <li><strong>Founder (b0ase):</strong> 900,000,000 shares (90%)</li>
+                    <li><strong>Seed Round Tranche 1:</strong> 100,000,000 shares (10%) - $10,000 total</li>
+                    <li><strong>Share Price:</strong> $0.0001 per share (1/100th of a penny)</li>
+                  </ul>
+                </div>
               </section>
 
               <section className="legal-section">
-                <h2>3. TOKEN RIGHTS AND GOVERNANCE</h2>
+                <h2>3. SHAREHOLDER RIGHTS AND GOVERNANCE</h2>
                 <div className="subsection">
-                  <h3>3.1 Utility Rights</h3>
-                  <p>$BWRITER token holders receive the following platform utility rights:</p>
+                  <h3>3.1 Ordinary Share Rights</h3>
+                  <p>Shareholders receive the following rights:</p>
                   <ul>
-                    <li><strong>Revenue Sharing:</strong> Quarterly distribution of 25% of platform revenue</li>
-                    <li><strong>Governance Voting:</strong> Participation in platform governance decisions</li>
-                    <li><strong>Premium Features:</strong> Access to advanced platform functionalities</li>
-                    <li><strong>Content Monetization:</strong> Enhanced content creation and monetization tools</li>
-                    <li><strong>Staking Rewards:</strong> Additional rewards for token staking participation</li>
+                    <li><strong>Dividend Rights:</strong> Pro-rata distribution of declared dividends</li>
+                    <li><strong>Voting Rights:</strong> One vote per share on company matters</li>
+                    <li><strong>Information Rights:</strong> Access to annual financial statements</li>
+                    <li><strong>Pre-emption Rights:</strong> Right to participate in future equity rounds</li>
+                    <li><strong>Liquidation Rights:</strong> Pro-rata distribution upon liquidation</li>
                   </ul>
                 </div>
 
                 <div className="subsection">
                   <h3>3.2 Governance Structure</h3>
                   <p>
-                    Token holders participate in platform governance through a decentralized autonomous 
-                    organization (DAO) structure. Voting power is proportional to token holdings, with 
-                    proposals requiring a minimum 25% quorum and 51% approval threshold.
+                    The Company operates under standard English company law governance. Major decisions 
+                    require shareholder approval, with voting power proportional to shareholding percentage.
                   </p>
                 </div>
               </section>
 
               <section className="legal-section">
-                <h2>4. VESTING AND LOCK-UP TERMS</h2>
+                <h2>4. VESTING AND TRANSFER RESTRICTIONS</h2>
                 <table className="legal-table">
                   <thead>
                     <tr>
