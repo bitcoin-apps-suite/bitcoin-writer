@@ -65,24 +65,16 @@ class PriceServiceClass {
    * Fetch BSV price from CoinGecko API
    */
   private async fetchBSVPrice() {
-    // In browser environment, skip API calls that don't support CORS
-    if (typeof window !== 'undefined') {
-      // Use fallback price immediately in browser
-      const fallbackPrice: TokenPrice = {
-        symbol: 'BSV',
-        name: 'Bitcoin SV',
-        price: 51.23,
-        price_usd: 51.23,
-        price_btc: 0.00053,
-        change_24h: 1.42,
-        change_percent_24h: 2.85,
-        volume_24h: 28500000,
-        market_cap: 1014000000,
-        last_updated: new Date(),
-        source: 'Demo Data'
-      };
-      this.updatePrice('BSV', fallbackPrice);
-      return;
+    try {
+      // Try CoinGecko first (works with CORS in browser)
+      const response = await fetch('/api/prices/bsv');
+      if (response.ok) {
+        const data = await response.json();
+        this.updatePrice('BSV', data);
+        return;
+      }
+    } catch (error) {
+      console.log('Fetching BSV price from local API failed, trying external sources...');
     }
     
     try {
@@ -186,33 +178,48 @@ class PriceServiceClass {
   }
 
   /**
-   * Fetch BWRITER token price
-   * This would connect to a DEX or custom price oracle
+   * Fetch BWRITER token price from 1sat market API
    */
   private async fetchBWriterPrice() {
     try {
-      // For now, we'll use a mock endpoint
-      // In production, this would connect to a DEX API or price oracle
-      const mockPrice: TokenPrice = {
-        symbol: 'BWRITER',
-        name: 'Bitcoin Writer',
-        price: 0.0234,
-        price_usd: 0.0234,
-        change_24h: 0.0018,
-        change_percent_24h: 8.33,
-        volume_24h: 125000,
-        market_cap: 234000,
-        last_updated: new Date(),
-        source: 'Mock DEX'
-      };
-      
-      // TODO: Replace with real DEX API call
-      // const response = await fetch('https://api.dex.bsv/tokens/BWRITER');
-      
-      this.updatePrice('BWRITER', mockPrice);
+      // Try local API endpoint first
+      const response = await fetch('/api/prices/bwriter');
+      if (response.ok) {
+        const data = await response.json();
+        const price: TokenPrice = {
+          symbol: data.symbol,
+          name: data.name,
+          price: data.price,
+          price_usd: data.price_usd,
+          change_24h: data.change_24h,
+          change_percent_24h: data.change_percent_24h,
+          volume_24h: data.volume_24h,
+          market_cap: data.market_cap,
+          last_updated: new Date(data.last_updated),
+          source: data.source
+        };
+        this.updatePrice('BWRITER', price);
+        return;
+      }
     } catch (error) {
-      console.error('Failed to fetch BWRITER price:', error);
+      console.log('Fetching BWRITER price from local API failed, using fallback...');
     }
+
+    // Fallback to demo data if API fails
+    const fallbackPrice: TokenPrice = {
+      symbol: 'BWRITER',
+      name: 'Bitcoin Writer Token',
+      price: 0.0234,
+      price_usd: 0.0234,
+      change_24h: 0.0018,
+      change_percent_24h: 8.33,
+      volume_24h: 125000,
+      market_cap: 234000,
+      last_updated: new Date(),
+      source: 'Fallback'
+    };
+    
+    this.updatePrice('BWRITER', fallbackPrice);
   }
 
   /**
