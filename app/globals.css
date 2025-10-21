@@ -111,47 +111,49 @@ html, body {
 
 /* Main content area - clean version */
 .main-content {
-  transition: margin-left 0.3s ease, margin-right 0.3s ease;
+  transition: padding-left 0.3s ease, padding-right 0.3s ease;
   width: 100%;
   min-height: 100vh;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .main-content.sidebar-expanded {
-  margin-left: 260px !important; /* Full DevSidebar width */
+  padding-left: 260px !important; /* Full DevSidebar width */
 }
 
 .main-content.sidebar-collapsed {
-  margin-left: 60px !important; /* Collapsed DevSidebar width */
+  padding-left: 60px !important; /* Collapsed DevSidebar width */
 }
 
 /* Ticker sidebar responsive content */
 .main-content.ticker-expanded {
-  margin-right: 280px; /* Full TickerSidebar width */
+  padding-right: 280px; /* Full TickerSidebar width */
 }
 
 .main-content.ticker-collapsed {
-  margin-right: 60px; /* Collapsed TickerSidebar width */
+  padding-right: 60px; /* Collapsed TickerSidebar width */
 }
 
 /* Combined states for both sidebars */
 .main-content.sidebar-expanded.ticker-expanded {
-  margin-left: 260px;
-  margin-right: 280px;
+  padding-left: 260px;
+  padding-right: 280px;
 }
 
 .main-content.sidebar-expanded.ticker-collapsed {
-  margin-left: 260px;
-  margin-right: 60px;
+  padding-left: 260px;
+  padding-right: 60px;
 }
 
 .main-content.sidebar-collapsed.ticker-expanded {
-  margin-left: 60px;
-  margin-right: 280px;
+  padding-left: 60px;
+  padding-right: 280px;
 }
 
 .main-content.sidebar-collapsed.ticker-collapsed {
-  margin-left: 60px;
-  margin-right: 60px;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 /* Ensure app-wrapper and all child elements are responsive */
@@ -211,15 +213,15 @@ html, body {
 
 /* Remove debug styling */
 
-/* Mobile responsive - no sidebar margin on mobile */
+/* Mobile responsive - no sidebar padding on mobile */
 @media (max-width: 768px) {
   .main-content,
   .main-content.sidebar-expanded,
   .main-content.sidebar-collapsed,
   .main-content.ticker-expanded,
   .main-content.ticker-collapsed {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
