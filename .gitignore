@@ -31,6 +31,16 @@ yarn-error.log*
 .env copy.local
 .env.deployment
 
+# Token deployment scripts and sensitive data
+token-deployment-scripts/
+*private*key*
+*privatekey*
+*private_key*
+*-execution-ready.json
+*-final-deployment.json
+bwriter-execution-ready.json
+bwriter-final-deployment.json
+
 # Old Electron files
 electron-backup/
 main.js
