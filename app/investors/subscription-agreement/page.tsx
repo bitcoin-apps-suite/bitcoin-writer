@@ -163,7 +163,7 @@ export default function SubscriptionAgreementPage() {
                   <p>The Subscriber represents and warrants that:</p>
                   <ul>
                     <li>They have full legal capacity and authority to enter into this Agreement</li>
-                    <li>They are an accredited investor as defined under applicable securities laws</li>
+                    <li>They are a sophisticated investor as defined under UK FCA regulations</li>
                     <li>They have conducted their own due diligence regarding the investment</li>
                     <li>They understand the risks associated with cryptocurrency investments</li>
                     <li>They are not a resident of any jurisdiction where token sales are prohibited</li>
@@ -197,9 +197,9 @@ export default function SubscriptionAgreementPage() {
                 <div className="subsection">
                   <h3>4.2 Securities Law Compliance</h3>
                   <p>
-                    This offering is intended to comply with applicable securities laws. The Tokens are being 
-                    offered and sold in reliance on exemptions from registration under the Securities Act of 1933 
-                    and applicable state securities laws.
+                    This offering is intended to comply with applicable UK securities laws. The bWriter Shares are being 
+                    offered and sold in compliance with the Financial Services and Markets Act 2000 (FSMA) and 
+                    applicable FCA regulations for private company equity offerings.
                   </p>
                 </div>
               </section>
@@ -262,8 +262,8 @@ export default function SubscriptionAgreementPage() {
                   <h3>7.2 Arbitration</h3>
                   <p>
                     Any disputes arising under this Agreement shall be resolved through binding arbitration 
-                    administered by the American Arbitration Association in accordance with its Commercial 
-                    Arbitration Rules.
+                    administered by the London Court of International Arbitration (LCIA) in accordance with the 
+                    LCIA Arbitration Rules.
                   </p>
                 </div>
               </section>

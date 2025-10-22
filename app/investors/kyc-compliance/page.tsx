@@ -121,10 +121,10 @@ export default function KYCCompliancePage() {
                     The Bitcoin Corporation LTD implements comprehensive KYC procedures in accordance with:
                   </p>
                   <ul>
-                    <li>Bank Secrecy Act (BSA) requirements</li>
-                    <li>Securities and Exchange Commission (SEC) regulations</li>
-                    <li>Financial Crimes Enforcement Network (FinCEN) guidelines</li>
-                    <li>State securities law compliance requirements</li>
+                    <li>Financial Conduct Authority (FCA) regulations</li>
+                    <li>Money Laundering, Terrorist Financing and Transfer of Funds Regulations 2017</li>
+                    <li>Proceeds of Crime Act 2002</li>
+                    <li>Financial Services and Markets Act 2000 (FSMA)</li>
                     <li>International anti-money laundering (AML) standards</li>
                   </ul>
                 </div>
@@ -172,7 +172,7 @@ export default function KYCCompliancePage() {
                       <tr>
                         <td>Accredited Investor</td>
                         <td>Financial statements, CPA letter</td>
-                        <td>Meeting SEC accreditation criteria</td>
+                        <td>Meeting FCA sophisticated investor criteria</td>
                       </tr>
                     </tbody>
                   </table>
@@ -285,7 +285,7 @@ export default function KYCCompliancePage() {
                   <h3>4.2 Net Worth-Based Qualification</h3>
                   <p>
                     Individuals with net worth exceeding $1,000,000 (excluding primary residence) 
-                    may qualify as accredited investors.
+                    may qualify as sophisticated investors under FCA regulations.
                   </p>
                   <p><strong>Required Documentation:</strong></p>
                   <ul>
@@ -300,7 +300,7 @@ export default function KYCCompliancePage() {
                 <div className="subsection">
                   <h3>4.3 Professional Qualifications</h3>
                   <p>
-                    Individuals holding certain professional certifications may qualify as accredited investors:
+                    Individuals holding certain professional certifications may qualify as sophisticated investors:
                   </p>
                   <ul>
                     <li>Series 7, 65, or 82 securities licenses</li>
@@ -397,7 +397,7 @@ export default function KYCCompliancePage() {
                   </p>
                   <ul>
                     <li>Changes in personal information (address, name, etc.)</li>
-                    <li>Changes in accredited investor status</li>
+                    <li>Changes in sophisticated investor status</li>
                     <li>Changes in beneficial ownership (corporate accounts)</li>
                     <li>Changes in control or management (institutional accounts)</li>
                   </ul>

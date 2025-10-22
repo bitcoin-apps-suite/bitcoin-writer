@@ -302,7 +302,7 @@ export default function InvestorsPage() {
               
               <div className="contact-disclaimer">
                 <p>
-                  <strong>Legal Disclaimer:</strong> This information is for accredited investors only and does not 
+                  <strong>Legal Disclaimer:</strong> This information is for sophisticated investors only and does not 
                   constitute an offer to sell securities. All investments are subject to applicable securities laws 
                   and regulations. Please consult with qualified legal and financial advisors.
                 </p>
