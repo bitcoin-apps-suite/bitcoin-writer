@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import { Github, Twitter, MessageCircle } from 'lucide-react';
 import '../Footer.css';
 
 const Footer: React.FC = () => {
@@ -48,9 +49,24 @@ const Footer: React.FC = () => {
         <div className="footer-section">
           <h4>Community</h4>
           <ul>
-            <li><a href="https://github.com/bitcoin-apps-suite/bitcoin-writer" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            <li><a href="https://twitter.com/bitcoin_writer" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-            <li><a href="https://discord.gg/xBB8r8dj" target="_blank" rel="noopener noreferrer">Discord</a></li>
+            <li>
+              <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer" target="_blank" rel="noopener noreferrer" className="social-link">
+                <Github size={18} />
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/bitcoin_writer" target="_blank" rel="noopener noreferrer" className="social-link">
+                <Twitter size={18} />
+                Twitter/X
+              </a>
+            </li>
+            <li>
+              <a href="https://discord.gg/xBB8r8dj" target="_blank" rel="noopener noreferrer" className="social-link">
+                <MessageCircle size={18} />
+                Discord
+              </a>
+            </li>
             <li><a href="/token">$BWRITER Token</a></li>
           </ul>
         </div>
