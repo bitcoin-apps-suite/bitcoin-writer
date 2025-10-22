@@ -149,3 +149,19 @@
     gap: 2rem;
   }
 }
+
+/* Social Links */
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.social-link svg {
+  color: #ff9500;
+  flex-shrink: 0;
+}
+
+.social-link:hover svg {
+  color: #ffa500;
+}
