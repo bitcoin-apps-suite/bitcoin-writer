@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
       <p>The Subscriber represents and warrants that:</p>
       <ul>
         <li>They have full legal capacity and authority to enter into this Agreement</li>
-        <li>They are an accredited investor as defined under applicable securities laws</li>
+        <li>They are a sophisticated investor as defined under UK FCA regulations</li>
         <li>They have conducted their own due diligence regarding the investment</li>
         <li>They understand the risks associated with cryptocurrency investments</li>
         <li>They are not a resident of any jurisdiction where token sales are prohibited</li>
@@ -101,8 +101,9 @@ export async function GET(request: NextRequest) {
 
       <h2>4.2 Securities Law Compliance</h2>
       <p>
-        This offering is intended to comply with applicable securities laws. The Tokens are being 
-        offered and sold in reliance on exemptions from registration under applicable securities laws.
+        This offering is intended to comply with applicable UK securities laws. The bWriter Shares are being 
+        offered and sold in compliance with the Financial Services and Markets Act 2000 (FSMA) and 
+        applicable FCA regulations for private company equity offerings.
       </p>
 
       <h1>5. bWRITER SHARE RIGHTS AND RESTRICTIONS</h1>
