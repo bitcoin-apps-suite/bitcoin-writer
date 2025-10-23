@@ -1,5 +1,5 @@
 /* macOS-style Dock */
-.bitcoin-dock {
+.dock {
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -96,19 +96,19 @@
   transform: none;
 }
 
-.dock-app-icon {
+.dock-icon {
   width: 36px;
   height: 36px;
   transition: filter 0.2s ease;
 }
 
-.dock-app:hover:not(.disabled) .dock-app-icon {
+.dock-app:hover:not(.disabled) .dock-icon {
   filter: brightness(1.2);
 }
 
-.dock-app-image {
-  width: 100%;
-  height: 100%;
+.dock-icon-image {
+  width: 36px;
+  height: 36px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -134,24 +134,34 @@
   }
 }
 
+/* Special apps section */
+.dock-special-apps {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dock-app-special {
+  width: 32px;
+  height: 32px;
+}
+
+.dock-app-special .dock-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /* Dock status section */
 .dock-status {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 8px;
-  font-size: 13px;
+  gap: 8px;
+  padding: 0 6px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.8);
 }
 
-.dock-divider {
-  width: 1px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.15);
-  margin: 0 8px;
-}
-
-.status-button {
+.dock-status-button {
   background: transparent;
   border: none;
   padding: 4px;
@@ -162,40 +172,71 @@
   transition: background 0.2s ease;
 }
 
-.status-button:hover {
+.dock-status-button:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.status-icon {
-  width: 16px;
-  height: 16px;
+.dock-status-icon {
+  width: 14px;
+  height: 14px;
   color: rgba(255, 255, 255, 0.6);
   transition: color 0.2s ease;
 }
 
-.status-button:hover .status-icon {
+.dock-status-button:hover .dock-status-icon {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.status-icon.connected {
+.dock-status-icon.connected {
   color: #10b981;
 }
 
-.status-time {
+.dock-status-time {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   cursor: default;
 }
 
-.status-time span {
+.dock-status-time span {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
   font-weight: 400;
+  font-size: 11px;
+}
+
+/* Minimize section */
+.dock-minimize {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.dock-app-control {
+  width: 28px;
+  height: 28px;
+  opacity: 0.6;
+}
+
+.dock-app-control:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dock-app-control .dock-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.dock-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 8px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .bitcoin-dock {
+  .dock {
     bottom: 10px;
     padding: 6px;
     border-radius: 16px;
@@ -219,7 +260,7 @@
     height: 44px;
   }
   
-  .dock-app-icon {
+  .dock-icon {
     width: 32px;
     height: 32px;
   }
@@ -230,7 +271,7 @@
 }
 
 @media (max-width: 480px) {
-  .bitcoin-dock {
+  .dock {
     width: calc(100% - 20px);
     bottom: 5px;
     left: 10px;

@@ -1,0 +1,481 @@
+/* Engineers Page Styles */
+.engineers-page {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.engineers-page.with-sidebar-expanded {
+  padding-left: 0;
+}
+
+.engineers-page.with-sidebar-collapsed {
+  padding-left: 0;
+}
+
+.engineers-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px 60px;
+}
+
+/* Hero Section */
+.engineers-hero {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, rgba(247, 147, 26, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(247, 147, 26, 0.2);
+}
+
+.engineers-hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: rgba(247, 147, 26, 0.1);
+  border: 2px solid rgba(247, 147, 26, 0.3);
+  border-radius: 50%;
+  margin-bottom: 30px;
+  color: #f7931a;
+}
+
+.engineers-hero h1 {
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.engineers-tagline {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.engineers-badge {
+  display: inline-block;
+  background: rgba(247, 147, 26, 0.2);
+  border: 1px solid #f7931a;
+  color: #f7931a;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation */
+.engineers-nav-section {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.engineers-nav {
+  display: inline-flex;
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 8px;
+  gap: 4px;
+  border: 1px solid #333;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.engineers-nav button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  color: #888;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.engineers-nav button:hover {
+  background: #2a2a2a;
+  color: #ccc;
+}
+
+.engineers-nav button.active {
+  background: #f7931a;
+  color: #000;
+  font-weight: 600;
+}
+
+/* Section Styles */
+.engineers-section {
+  margin-bottom: 60px;
+  background: #0a0a0a;
+  border-radius: 12px;
+  padding: 40px;
+  border: 1px solid #1a1a1a;
+}
+
+.engineers-section h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.engineers-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 30px 0 16px 0;
+  color: #f7931a;
+}
+
+.engineers-section h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 20px 0 12px 0;
+  color: #fff;
+}
+
+.engineers-section p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+}
+
+.engineers-section ul {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+.engineers-section li {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+}
+
+/* System Architecture */
+.system-architecture {
+  margin: 40px 0;
+}
+
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.arch-component {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.arch-component:hover {
+  border-color: #f7931a;
+  background: rgba(247, 147, 26, 0.05);
+}
+
+.arch-component svg {
+  color: #f7931a;
+  margin-bottom: 16px;
+}
+
+.arch-component h4 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.arch-component p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* Key Principles */
+.key-principles {
+  margin: 40px 0;
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 30px;
+}
+
+.key-principles h3 {
+  color: #f7931a;
+  margin-bottom: 20px;
+}
+
+.key-principles ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.key-principles li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.key-principles li:last-child {
+  border-bottom: none;
+}
+
+/* Code Blocks */
+.code-block {
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  font-family: 'Courier New', Monaco, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #f8f8f2;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Schema Sections */
+.schema-section,
+.calculation-section,
+.implementation-section {
+  margin: 40px 0;
+  padding: 30px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.schema-overview,
+.calculation-overview,
+.implementation-overview {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(247, 147, 26, 0.05);
+  border-left: 4px solid #f7931a;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Formula Block */
+.formula-block {
+  background: #1a1a1a;
+  border: 2px solid #f7931a;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  text-align: center;
+}
+
+.formula {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.formula code {
+  background: rgba(247, 147, 26, 0.1);
+  color: #f7931a;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Courier New', Monaco, monospace;
+}
+
+/* API Endpoints */
+.api-endpoint {
+  margin: 30px 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.endpoint-header {
+  background: #2a2a2a;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #333;
+}
+
+.method {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  min-width: 60px;
+  text-align: center;
+}
+
+.method.get {
+  background: #4ade80;
+  color: #000;
+}
+
+.method.post {
+  background: #f7931a;
+  color: #000;
+}
+
+.endpoint-url {
+  font-family: 'Courier New', Monaco, monospace;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.endpoint-description {
+  padding: 16px 24px;
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid #333;
+}
+
+.response-example {
+  padding: 16px 24px;
+}
+
+.response-example h4 {
+  margin: 0 0 12px 0;
+  color: #f7931a;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Links */
+.quick-links {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.quick-links h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.quick-link:hover {
+  border-color: #f7931a;
+  background: rgba(247, 147, 26, 0.05);
+  transform: translateY(-2px);
+}
+
+.quick-link svg {
+  color: #f7931a;
+  flex-shrink: 0;
+}
+
+.quick-link span {
+  flex: 1;
+  font-weight: 500;
+}
+
+/* Footer Note */
+.footer-note {
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.footer-note p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .engineers-container {
+    padding: 40px 16px;
+  }
+
+  .engineers-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .engineers-tagline {
+    font-size: 1.1rem;
+  }
+
+  .engineers-nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .engineers-nav button {
+    justify-content: center;
+  }
+
+  .engineers-section {
+    padding: 24px;
+  }
+
+  .engineers-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .arch-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .code-block {
+    padding: 16px;
+  }
+
+  .code-block pre {
+    font-size: 12px;
+  }
+}
