@@ -64,13 +64,15 @@ export default function ShareholderAgreementPage() {
             </Link>
             
             <div className="document-actions">
-              <button 
+              <a 
+                href="/api/pdf/shareholder-agreement"
+                download="bitcoin-writer-shareholder-agreement.pdf"
                 className="action-btn"
-                onClick={() => window.open('/api/pdf/shareholder-agreement', '_blank')}
+                style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
               >
                 <Download size={18} />
                 <span>Download PDF</span>
-              </button>
+              </a>
               <button 
                 className="action-btn"
                 onClick={() => window.print()}

@@ -7,13 +7,20 @@ interface DockManagerProps {
 }
 
 const DockManager: React.FC<DockManagerProps> = ({ currentApp = 'bitcoin-writer' }) => {
-  const [dockStyle, setDockStyle] = useState<'minimal' | 'large'>('minimal');
+  // Initialize from localStorage if available, otherwise default to minimal
+  const [dockStyle, setDockStyle] = useState<'minimal' | 'large'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('dockStyle');
+      if (saved === 'large') return 'large';
+    }
+    return 'minimal';
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     
-    // Get initial dock style from localStorage
+    // Get initial dock style from localStorage (redundant but kept for safety)
     const savedDockStyle = localStorage.getItem('dockStyle') as 'minimal' | 'large' | null;
     if (savedDockStyle && (savedDockStyle === 'minimal' || savedDockStyle === 'large')) {
       setDockStyle(savedDockStyle);

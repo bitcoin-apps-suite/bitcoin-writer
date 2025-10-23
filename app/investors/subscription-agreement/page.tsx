@@ -64,13 +64,15 @@ export default function SubscriptionAgreementPage() {
             </Link>
             
             <div className="document-actions">
-              <button 
+              <a 
+                href="/api/pdf/subscription-agreement"
+                download="bitcoin-writer-subscription-agreement.pdf"
                 className="action-btn"
-                onClick={() => window.open('/api/pdf/subscription-agreement', '_blank')}
+                style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
               >
                 <Download size={18} />
                 <span>Download PDF</span>
-              </button>
+              </a>
               <button 
                 className="action-btn"
                 onClick={() => window.print()}
