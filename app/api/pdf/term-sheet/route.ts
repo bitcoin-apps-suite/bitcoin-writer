@@ -1,8 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSimplePDF } from '../../../../utils/simplePdfGenerator';
+import fs from 'fs';
+import path from 'path';
 
 export async function GET(request: NextRequest) {
   try {
+    const pdfPath = path.join(process.cwd(), 'pdf-contracts', 'bitcoin-writer-term-sheet.pdf');
+    
+    // Check if file exists
+    if (!fs.existsSync(pdfPath)) {
+      return NextResponse.json(
+        { error: 'PDF file not found' },
+        { status: 404 }
+      );
+    }
+    
+    // Read the PDF file
+    const pdfBuffer = fs.readFileSync(pdfPath);
+    
+    // Return the PDF with proper headers
+    return new NextResponse(pdfBuffer, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="bitcoin-writer-term-sheet.pdf"',
+        'Cache-Control': 'no-store',
+      },
+    });
+    
+    /* Original HTML generation code - kept for reference
     const content = `
       <h1>Investment Term Sheet</h1>
       <p><strong>Effective Date:</strong> October 21, 2025</p>
@@ -261,19 +285,7 @@ export async function GET(request: NextRequest) {
         </div>
       </div>
     `;
-
-    const htmlContent = generateSimplePDF({
-      title: 'bWriter Investment Term Sheet',
-      content,
-      filename: 'bitcoin-writer-term-sheet.pdf'
-    });
-
-    return new NextResponse(htmlContent, {
-      headers: {
-        'Content-Type': 'text/html',
-        'Cache-Control': 'no-store',
-      },
-    });
+    */
   } catch (error) {
     console.error('Error generating term sheet PDF:', error);
     return NextResponse.json(

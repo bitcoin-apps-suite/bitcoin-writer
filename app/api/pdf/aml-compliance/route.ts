@@ -1,8 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSimplePDF } from '../../../../utils/simplePdfGenerator';
+import fs from 'fs';
+import path from 'path';
 
 export async function GET(request: NextRequest) {
   try {
+    // Check if PDF file exists
+    const pdfPath = path.join(process.cwd(), 'pdf-contracts', 'bitcoin-writer-aml-compliance.pdf');
+    
+    if (fs.existsSync(pdfPath)) {
+      const pdfBuffer = fs.readFileSync(pdfPath);
+      return new NextResponse(pdfBuffer, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="bitcoin-writer-aml-compliance.pdf"',
+          'Cache-Control': 'no-store',
+        },
+      });
+    }
+    
+    // Fallback to HTML generation if PDF doesn't exist
     const content = `
       <div class="legal-notice">
         <h3>Anti-Money Laundering (AML) Compliance</h3>
