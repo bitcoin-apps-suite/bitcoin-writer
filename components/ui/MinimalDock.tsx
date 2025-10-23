@@ -13,9 +13,15 @@ interface DockApp {
   isImage?: boolean;
 }
 
-const MinimalDock: React.FC = () => {
+interface MinimalDockProps {
+  currentApp?: string;
+}
+
+const MinimalDock: React.FC<MinimalDockProps> = ({ currentApp = 'bitcoin-writer' }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [mounted, setMounted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [expandTimeout, setExpandTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -75,7 +81,7 @@ const MinimalDock: React.FC = () => {
     { name: 'Bitcoin Wallet', icon: Wallet, color: 'rainbow', url: 'https://bitcoin-wallet-sable.vercel.app' },
     { name: 'Bitcoin Email', icon: Mail, color: 'rainbow', url: 'https://bitcoin-email.vercel.app' },
     { name: 'Bitcoin Music', icon: Music, color: 'rainbow', url: 'https://bitcoin-music.vercel.app' },
-    { name: 'Bitcoin Writer', icon: FileText, color: 'rainbow', url: 'https://bitcoin-writer.vercel.app', current: true },
+    { name: 'Bitcoin Writer', icon: FileText, color: 'rainbow', url: 'https://bitcoin-writer.vercel.app', current: currentApp === 'bitcoin-writer' },
     { name: 'Bitcoin Code', icon: Code2, color: 'rainbow', url: 'https://bitcoin-code.vercel.app' },
     { name: 'Bitcoin Drive', icon: HardDrive, color: 'rainbow', url: 'https://bitcoin-drive.vercel.app' },
     { name: 'Bitcoin Calendar', icon: Calendar, color: 'rainbow', url: 'https://bitcoin-calendar.vercel.app' },
@@ -119,8 +125,33 @@ const MinimalDock: React.FC = () => {
     window.dispatchEvent(new CustomEvent('dockStyleChanged', { detail: newDockStyle }));
   };
 
+  const handleMouseEnter = () => {
+    if (expandTimeout) {
+      clearTimeout(expandTimeout);
+      setExpandTimeout(null);
+    }
+    setIsHovered(true);
+    // Expand after 150ms of hovering
+    const timeout = setTimeout(() => {
+      toggleDockSize();
+    }, 150);
+    setExpandTimeout(timeout);
+  };
+
+  const handleMouseLeave = () => {
+    if (expandTimeout) {
+      clearTimeout(expandTimeout);
+      setExpandTimeout(null);
+    }
+    setIsHovered(false);
+  };
+
   return (
-    <div className="minimal-dock">
+    <div 
+      className={`minimal-dock ${isHovered ? 'hovered' : ''}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="minimal-dock-container">
         {/* All apps on the left */}
         <div className="minimal-dock-apps">

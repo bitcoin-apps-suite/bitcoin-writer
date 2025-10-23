@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Wallet, Mail, Music, FileText, HardDrive, Calendar, Search, Table, Share2, Briefcase, Store, Wifi, Volume2, Battery, Clock, TrendingUp, Building2, Shield, Video, Code2, Camera, MapPin, MessageCircle, Users, Gamepad2, BookOpen, Globe, Box } from 'lucide-react';
+import { Wallet, Mail, Music, FileText, HardDrive, Calendar, Search, Table, Share2, Briefcase, Store, Wifi, Volume2, Battery, Clock, TrendingUp, Building2, Shield, Video, Code2, Camera, MapPin, MessageCircle, Users, Gamepad2, BookOpen, Globe, Box, Monitor, GraduationCap, Paintbrush, UserCheck, Minimize2, Sparkles } from 'lucide-react';
 import '../Dock.css';
 
 interface DockApp {
@@ -13,9 +13,14 @@ interface DockApp {
   isImage?: boolean;
 }
 
-const Dock: React.FC = () => {
+interface DockProps {
+  currentApp?: string;
+}
+
+const Dock: React.FC<DockProps> = ({ currentApp = 'bitcoin-writer' }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [mounted, setMounted] = useState(false);
+  const [minimizeTimeout, setMinimizeTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -69,11 +74,12 @@ const Dock: React.FC = () => {
   };
 
   const dockApps: DockApp[] = [
+    { id: 'bitcoin-os', name: 'Bitcoin OS', icon: Monitor, color: 'rainbow', url: 'https://bitcoin-os.vercel.app/' },
     { id: 'bapps-store', name: 'Bitcoin Apps Store', icon: Store, color: 'rainbow', url: 'https://www.bitcoinapps.store/', isImage: true },
     { name: 'Bitcoin Wallet', icon: Wallet, color: 'rainbow', url: 'https://bitcoin-wallet-sable.vercel.app' },
     { name: 'Bitcoin Email', icon: Mail, color: 'rainbow', url: 'https://bitcoin-email.vercel.app' },
     { name: 'Bitcoin Music', icon: Music, color: 'rainbow', url: 'https://bitcoin-music.vercel.app' },
-    { name: 'Bitcoin Writer', icon: FileText, color: 'rainbow', url: 'https://bitcoin-writer.vercel.app', current: true },
+    { name: 'Bitcoin Writer', icon: FileText, color: 'rainbow', url: 'https://bitcoin-writer.vercel.app', current: currentApp === 'bitcoin-writer' },
     { name: 'Bitcoin Code', icon: Code2, color: 'rainbow', url: 'https://bitcoin-code.vercel.app' },
     { name: 'Bitcoin Drive', icon: HardDrive, color: 'rainbow', url: 'https://bitcoin-drive.vercel.app' },
     { name: 'Bitcoin Calendar', icon: Calendar, color: 'rainbow', url: 'https://bitcoin-calendar.vercel.app' },
@@ -88,8 +94,20 @@ const Dock: React.FC = () => {
     { name: 'Bitcoin Games', icon: Gamepad2, color: 'rainbow', url: 'https://bitcoin-gaming.vercel.app' },
     { name: 'Bitcoin Books', icon: BookOpen, color: 'rainbow', url: 'https://bitcoin-books-bay.vercel.app' },
     { name: 'Bitcoin Domains', icon: Globe, color: 'rainbow', url: 'https://bitcoin-dns.vercel.app' },
-    { name: 'Bitcoin 3D', icon: Box, color: 'text-pink-500', url: 'https://bitcoin-3d.vercel.app' },
+    { name: 'Bitcoin 3D', icon: Box, color: 'rainbow', url: 'https://bitcoin-3d.vercel.app' },
     { name: 'Bitcoin Jobs', icon: Briefcase, color: 'rainbow', url: 'https://bitcoin-jobs.vercel.app/' },
+    { name: 'Bitcoin Education', icon: GraduationCap, color: 'rainbow', url: 'https://bitcoin-education-theta.vercel.app' },
+    { name: 'Bitcoin Paint', icon: Paintbrush, color: 'rainbow', url: 'https://bitcoin-paint.vercel.app/' },
+    { name: 'Bitcoin Identity', icon: UserCheck, color: 'rainbow', url: 'https://bitcoin-identity.vercel.app/' },
+  ];
+
+  const specialApps: DockApp[] = [
+    { id: 'corp', name: 'Corp', icon: Building2, color: 'text-bitcoin-orange', url: 'https://bitcoin-corp.vercel.app/' },
+    { id: 'trust', name: 'Trust', icon: Shield, color: 'text-blue-500', url: 'https://bitcoin-corp.vercel.app/trust' },
+    { id: 'bapps-mini', name: 'BAPPS', icon: Store, color: 'text-orange-500', url: 'https://www.bitcoinapps.store/' },
+    { id: 'cashboard', name: 'CashBoard', icon: 'custom', color: 'text-white', url: 'https://www.cashboard.website/' },
+    { id: 'senseii', name: 'Senseii', icon: 'custom', color: 'text-red-500', url: 'https://senseii-zeta.vercel.app/' },
+    { id: 'npg', name: 'NPG', icon: Sparkles, color: 'text-pink-500', url: 'https://www.ninjapunkgirls.website' },
   ];
 
   const handleAppClick = (app: DockApp) => {
@@ -98,64 +116,132 @@ const Dock: React.FC = () => {
     }
   };
 
+  const toggleDockSize = () => {
+    const newDockStyle = 'minimal';
+    localStorage.setItem('dockStyle', newDockStyle);
+    window.dispatchEvent(new CustomEvent('dockStyleChanged', { detail: newDockStyle }));
+  };
+
+  const handleMouseLeave = () => {
+    if (minimizeTimeout) {
+      clearTimeout(minimizeTimeout);
+    }
+    // Minimize after 300ms of not hovering
+    const timeout = setTimeout(() => {
+      toggleDockSize();
+    }, 300);
+    setMinimizeTimeout(timeout);
+  };
+
+  const handleMouseEnter = () => {
+    if (minimizeTimeout) {
+      clearTimeout(minimizeTimeout);
+      setMinimizeTimeout(null);
+    }
+  };
+
   return (
-    <div className="bitcoin-dock">
+    <div 
+      className="dock" 
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="dock-container">
-        {/* App icons on the left */}
+        {/* Main apps */}
         <div className="dock-apps">
           {dockApps.map((app, index) => {
-          const Icon = app.icon;
-          return (
-            <button
-              key={app.name}
-              className={`dock-app ${app.current ? 'active' : ''} ${app.disabled ? 'disabled' : ''}`}
-              onClick={() => handleAppClick(app)}
-              title={app.name}
-              disabled={app.disabled}
-            >
-              {app.id === 'bapps-store' ? (
-                <div className="dock-app-icon">
-                  <img src="/bapps-icon.jpg" alt="BAPPS" className="dock-app-image" />
-                </div>
-              ) : (
-                <Icon className="dock-app-icon" style={{ color: getIconColor(app.color, index) }} />
-              )}
-              {app.current && <span className="dock-indicator" />}
-            </button>
-          );
-        })}
+            const Icon = app.icon;
+            return (
+              <button
+                key={app.name}
+                className={`dock-app ${app.current ? 'active' : ''} ${app.disabled ? 'disabled' : ''}`}
+                onClick={() => handleAppClick(app)}
+                title={app.name}
+                disabled={app.disabled}
+              >
+                {app.id === 'bapps-store' ? (
+                  <img src="/bapps-icon.jpg" alt="BAPPS" className="dock-icon-image" />
+                ) : app.id === 'cashboard' ? (
+                  <svg className="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ color: getIconColor(app.color, index) }}>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M15.5 9.5C14.815 8.574 13.743 8 12.5 8c-2.21 0-4 1.79-4 4s1.79 4 4 4c1.243 0 2.315-.574 3-1.5" />
+                  </svg>
+                ) : app.id === 'senseii' ? (
+                  <svg className="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ color: getIconColor(app.color, index) }}>
+                    <path d="M3 5h18" />
+                    <path d="M6 5v14" />
+                    <path d="M18 5v14" />
+                    <path d="M3 9h18" />
+                  </svg>
+                ) : (
+                  <Icon className="dock-icon" style={{ color: getIconColor(app.color, index) }} />
+                )}
+                {app.current && <span className="dock-indicator" />}
+              </button>
+            );
+          })}
         </div>
-        
-        {/* Status icons on the right */}
+
+        {/* Divider */}
+        <div className="dock-divider" />
+
+        {/* Special apps */}
+        <div className="dock-special-apps">
+          {specialApps.map((app, index) => {
+            const Icon = app.icon;
+            return (
+              <button
+                key={app.name}
+                className="dock-app dock-app-special"
+                onClick={() => handleAppClick(app)}
+                title={app.name}
+              >
+                {app.id === 'cashboard' ? (
+                  <svg className="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ color: getIconColor(app.color, index) }}>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M15.5 9.5C14.815 8.574 13.743 8 12.5 8c-2.21 0-4 1.79-4 4s1.79 4 4 4c1.243 0 2.315-.574 3-1.5" />
+                  </svg>
+                ) : app.id === 'senseii' ? (
+                  <svg className="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ color: getIconColor(app.color, index) }}>
+                    <path d="M3 5h18" />
+                    <path d="M6 5v14" />
+                    <path d="M18 5v14" />
+                    <path d="M3 9h18" />
+                  </svg>
+                ) : (
+                  <Icon className="dock-icon" style={{ color: getIconColor(app.color, index) }} />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* System status */}
         <div className="dock-status">
-          <div className="dock-divider" />
-          <button 
-            className="status-button" 
-            title="Bitcoin Corporation"
-            onClick={() => window.location.href = 'https://bitcoin-corp.vercel.app/'}
-          >
-            <Building2 className="status-icon" style={{ color: '#f7931a' }} />
+          <button className="dock-status-button" title="Connected">
+            <Wifi className="dock-status-icon connected" />
           </button>
-          <button 
-            className="status-button" 
-            title="Trust"
-            onClick={() => window.location.href = 'https://bitcoin-corp.vercel.app/trust'}
-          >
-            <Shield className="status-icon" style={{ color: '#3b82f6' }} />
+          <button className="dock-status-button" title="Volume">
+            <Volume2 className="dock-status-icon" />
           </button>
-          <button className="status-button" title="Connected">
-            <Wifi className="status-icon connected" />
+          <button className="dock-status-button" title="Battery: 100%">
+            <Battery className="dock-status-icon connected" />
           </button>
-          <button className="status-button" title="Volume">
-            <Volume2 className="status-icon" />
-          </button>
-          <button className="status-button" title="Battery: 100%">
-            <Battery className="status-icon connected" />
-          </button>
-          <div className="status-time" title={mounted ? currentTime.toLocaleDateString() : ''}>
-            <Clock className="status-icon" />
-            <span>{mounted ? currentTime.toLocaleTimeString() : '12:00:00 AM'}</span>
+          <div className="dock-status-time" title={mounted ? currentTime.toLocaleDateString() : ''}>
+            <Clock className="dock-status-icon" />
+            <span>{mounted ? currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '12:00'}</span>
           </div>
+        </div>
+
+        {/* Minimize button */}
+        <div className="dock-minimize">
+          <button 
+            className="dock-app dock-app-control" 
+            title="Switch to Minimal Dock" 
+            onClick={toggleDockSize}
+          >
+            <Minimize2 className="dock-icon" style={{ color: '#6b7280' }} />
+          </button>
         </div>
       </div>
     </div>

@@ -14,7 +14,8 @@ import {
   Terminal,
   Activity,
   Flower2,
-  Wrench
+  Wrench,
+  Database
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -88,6 +89,7 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     { path: '/developer/offer', icon: Zap, label: 'Create Service Offer' },
     { path: '/contracts', icon: Terminal, label: 'Find Work', badge: issueCount > 0 ? String(issueCount) : '0' },
     { path: '/contributions', icon: Users, label: 'Contributors', badge: '2' },
+    { path: '/engineers', icon: Database, label: 'Engineers Spec', badge: 'TECH' },
     
     // System
     { divider: true },

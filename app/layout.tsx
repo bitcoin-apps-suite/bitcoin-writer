@@ -35,7 +35,7 @@ const Navigation = dynamic(() => import('../components/Navigation'), { ssr: fals
 const CleanTaskbar = dynamic(() => import('../components/ui/CleanTaskbar'), { ssr: false });
 const DevSidebar = dynamic(() => import('../components/ui/DevSidebar'), { ssr: false });
 const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { ssr: false });
-const MinimalDock = dynamic(() => import('../components/ui/MinimalDock'), { ssr: false });
+const DockManager = dynamic(() => import('../components/ui/DockManager'), { ssr: false });
 const Footer = dynamic(() => import('../components/ui/Footer'), { ssr: false });
 
 export default function RootLayout({
@@ -100,8 +100,8 @@ export default function RootLayout({
             />
           )}
           
-          {/* Minimal Dock */}
-          <MinimalDock />
+          {/* Dock Manager */}
+          <DockManager currentApp="bitcoin-writer" />
         </div>
       </body>
     </html>
