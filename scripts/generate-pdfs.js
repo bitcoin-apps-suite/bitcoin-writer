@@ -205,6 +205,18 @@ function generateKYCCompliance() {
      .text('• You understand the compliance requirements', 70, doc.y + 5)
      .text('• You consent to verification procedures', 70, doc.y + 5);
   
+  doc.moveDown()
+     .fontSize(14)
+     .fillColor('#f7931a')
+     .text('7. CONTACT INFORMATION')
+     .fontSize(11)
+     .fillColor('#333333')
+     .text('For KYC compliance inquiries:', 50, doc.y + 10)
+     .text('The Bitcoin Corporation LTD', 70, doc.y + 5)
+     .text('Email: info@thebitcoincorporation.website', 70, doc.y + 5)
+     .text('Phone: +44 07412 922 288', 70, doc.y + 5)
+     .text('Website: https://thebitcoincorporation.website', 70, doc.y + 5);
+  
   doc.end();
   console.log('✅ Generated: bitcoin-writer-kyc-compliance.pdf');
 }
@@ -297,8 +309,8 @@ function generateAMLCompliance() {
      .text('Money Laundering Reporting Officer (MLRO):', 50, doc.y + 10)
      .text('The Bitcoin Corporation LTD', 70, doc.y + 5)
      .text('Compliance Department', 70, doc.y + 5)
-     .text('Email: compliance@bitcoinwriter.io', 70, doc.y + 5)
-     .text('Phone: +44 20 XXXX XXXX', 70, doc.y + 5);
+     .text('Email: info@thebitcoincorporation.website', 70, doc.y + 5)
+     .text('Phone: +44 07412 922 288', 70, doc.y + 5);
   
   doc.end();
   console.log('✅ Generated: bitcoin-writer-aml-compliance.pdf');
