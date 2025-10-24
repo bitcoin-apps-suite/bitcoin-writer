@@ -91,8 +91,8 @@ export class BWRITERTokenService {
   async deployBWRITERToken(): Promise<BWRITERToken> {
     const tokenMetadata: TokenMetadata = {
       description: "Official token of the Bitcoin Writer platform - a decentralized writing and publishing ecosystem built on BSV blockchain",
-      website: "https://bitcoin-writer.vercel.app",
-      logo: "https://bitcoin-writer.vercel.app/bitcoin-writer-logo.jpg",
+      website: "https://thebitcoincorporation.website",
+      logo: "https://thebitcoincorporation.website/bitcoin-writer-logo.jpg",
       social: {
         twitter: "https://x.com/bitcoin_writer",
         discord: "https://discord.gg/xBB8r8dj",
