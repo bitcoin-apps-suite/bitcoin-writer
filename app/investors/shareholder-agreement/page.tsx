@@ -66,7 +66,12 @@ export default function ShareholderAgreementPage() {
             <div className="document-actions">
               <button 
                 className="action-btn"
-                onClick={() => window.open('/api/pdf/shareholder-agreement', '_blank')}
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/pdf/bitcoin-writer-shareholder-agreement.pdf';
+                  link.download = 'bitcoin-writer-shareholder-agreement.pdf';
+                  link.click();
+                }}
               >
                 <Download size={18} />
                 <span>Download PDF</span>

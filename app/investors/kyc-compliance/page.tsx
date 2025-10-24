@@ -68,10 +68,18 @@ export default function KYCCompliancePage() {
             </Link>
             
             <div className="document-actions">
-              <a href="/api/pdf/kyc-compliance" className="action-btn" target="_blank">
+              <button 
+                className="action-btn"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/pdf/bitcoin-writer-kyc-compliance.pdf';
+                  link.download = 'bitcoin-writer-kyc-compliance.pdf';
+                  link.click();
+                }}
+              >
                 <Download size={18} />
                 <span>Download PDF</span>
-              </a>
+              </button>
               <button className="action-btn" onClick={() => window.print()}>
                 <Printer size={18} />
                 <span>Print</span>

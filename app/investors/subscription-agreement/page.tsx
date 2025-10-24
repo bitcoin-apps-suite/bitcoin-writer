@@ -66,7 +66,12 @@ export default function SubscriptionAgreementPage() {
             <div className="document-actions">
               <button 
                 className="action-btn"
-                onClick={() => window.open('/api/pdf/subscription-agreement', '_blank')}
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/pdf/bitcoin-writer-subscription-agreement.pdf';
+                  link.download = 'bitcoin-writer-subscription-agreement.pdf';
+                  link.click();
+                }}
               >
                 <Download size={18} />
                 <span>Download PDF</span>
