@@ -2,494 +2,443 @@
 
 import React from 'react';
 import './prd.css';
-import Footer from '../../components/ui/Footer';
 
 export default function PRDPage() {
   return (
-    <div className="prd-page">
-      {/* Header */}
-      <header className="prd-header">
-        <div className="container">
-          <div className="header-content">
-            <h1>Bitcoin Writer</h1>
-            <p className="subtitle">Product Requirements Document</p>
-            <div className="version-info">
-              <span>Version 1.0</span>
-              <span>•</span>
-              <span>October 29, 2025</span>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="App">
+      <div className="prd-page">
+        <div className="prd-container">
+          {/* Hero Section */}
+          <section className="prd-hero">
+            <h1><span style={{color: '#ffffff'}}>Bitcoin Writer</span> <span style={{color: '#f7931a'}}>Product Requirements</span></h1>
+            <p className="prd-tagline">
+              Comprehensive product specification for the decentralized writing platform
+            </p>
+            <div className="prd-badge">PRD v1.0</div>
+          </section>
 
-      {/* Navigation */}
-      <nav className="prd-nav">
-        <div className="container">
-          <ul className="nav-links">
-            <li><a href="#overview">Overview</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#personas">Users</a></li>
-            <li><a href="#revenue">Revenue</a></li>
-            <li><a href="#roadmap">Roadmap</a></li>
-          </ul>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main className="prd-content">
-        <div className="container">
+          {/* Main Content */}
           
           {/* Executive Summary */}
-          <section id="overview" className="section">
+          <section className="overview-section">
             <h2>Executive Summary</h2>
-            <div className="summary-grid">
-              <div className="summary-card">
-                <h3>Vision</h3>
-                <p>Create the world's first blockchain-native writing platform where creators own their content, get paid instantly, and build sustainable revenue streams without intermediaries.</p>
-              </div>
-              <div className="summary-card">
-                <h3>Mission</h3>
-                <p>Empower writers globally by providing professional tools, permanent content ownership, and direct monetization through Bitcoin's micropayment infrastructure.</p>
-              </div>
-              <div className="summary-card">
-                <h3>Market</h3>
-                <p>Professional freelance writers, content creators, publishers, and blockchain enthusiasts seeking decentralized content creation and monetization.</p>
+            <div className="overview-content">
+              <p>
+                Bitcoin Writer is a <strong>blockchain-integrated writing platform</strong> developed by The Bitcoin Corporation LTD that enables content creators to write, 
+                collaborate, and monetize their work using Bitcoin blockchain technology. The platform provides professional 
+                writing tools, automatic content hashing for proof of authorship, smart contract-based publishing agreements, 
+                and instant micropayment capabilities.
+              </p>
+              <p>
+                Our vision is to create a comprehensive blockchain-native writing platform where creators can prove ownership 
+                of their content, get paid instantly through Bitcoin, and build sustainable revenue streams with reduced platform fees.
+              </p>
+              <div className="overview-points">
+                <div className="point">
+                  <h3>Vision</h3>
+                  <p>Blockchain-integrated platform for content creation and monetization</p>
+                </div>
+                <div className="point">
+                  <h3>Mission</h3>
+                  <p>Empower writers with professional tools and direct monetization</p>
+                </div>
+                <div className="point">
+                  <h3>Company</h3>
+                  <p>Product of The Bitcoin Corporation LTD, building on Bitcoin infrastructure</p>
+                </div>
               </div>
             </div>
           </section>
 
           {/* Core Features */}
-          <section id="features" className="section">
+          <section className="features-section">
             <h2>Core Features</h2>
-            <div className="features-grid">
+            <div className="feature-model">
               
-              <div className="feature-group">
-                <h3>📝 Document Creation</h3>
+              <div className="model-card">
+                <h3>Document Creation & Management</h3>
                 <ul>
-                  <li><strong>Rich Text Editor</strong> - Quill-based WYSIWYG with advanced formatting</li>
-                  <li><strong>Auto-save</strong> - Real-time saving with blockchain hashing</li>
-                  <li><strong>Version Control</strong> - Git-style Work Tree functionality</li>
-                  <li><strong>Multi-format Support</strong> - Import/export Word, HTML, Markdown, PDF</li>
-                  <li><strong>Collaborative Editing</strong> - Multi-author document support</li>
+                  <li>
+                    <strong>Rich Text Editor:</strong> Quill-based WYSIWYG editor with advanced formatting, 
+                    auto-save functionality, and real-time collaboration
+                  </li>
+                  <li>
+                    <strong>Version Control:</strong> Git-style Work Tree functionality with document 
+                    versioning and rollback capabilities
+                  </li>
+                  <li>
+                    <strong>Multi-format Support:</strong> Import/export Word, HTML, Markdown, PDF 
+                    with seamless conversion
+                  </li>
+                  <li>
+                    <strong>Image Management:</strong> Inline image insertion with blockchain storage 
+                    and cost optimization
+                  </li>
                 </ul>
               </div>
 
-              <div className="feature-group">
-                <h3>⛓️ Blockchain Integration</h3>
+              <div className="model-card">
+                <h3>Blockchain Integration</h3>
                 <ul>
-                  <li><strong>Content Hashing</strong> - SHA-256 hashing for proof of authorship</li>
-                  <li><strong>Smart Storage</strong> - BSV, encrypted, scheduled publication options</li>
-                  <li><strong>Permanent Storage</strong> - Immutable content on Bitcoin blockchain</li>
-                  <li><strong>Cost Estimation</strong> - Real-time pricing (~$0.00000001-0.01)</li>
+                  <li>
+                    <strong>Content Hashing:</strong> Automatic SHA-256 hashing to Bitcoin for 
+                    permanent proof of authorship and timestamping
+                  </li>
+                  <li>
+                    <strong>Smart Storage:</strong> Multiple storage options including BSV blockchain, 
+                    encrypted content, and scheduled publication
+                  </li>
+                  <li>
+                    <strong>Cost Estimation:</strong> Real-time pricing based on content size 
+                    (~$0.00000001-0.01 per document)
+                  </li>
+                  <li>
+                    <strong>Permanent Storage:</strong> Immutable content preservation on Bitcoin 
+                    blockchain with global accessibility
+                  </li>
                 </ul>
               </div>
 
-              <div className="feature-group">
-                <h3>💰 Monetization</h3>
+              <div className="model-card">
+                <h3>Monetization Features</h3>
                 <ul>
-                  <li><strong>Smart Contracts</strong> - Publisher-writer escrow system</li>
-                  <li><strong>Micropayments</strong> - Pay-per-read with instant settlements</li>
-                  <li><strong>NFT Creation</strong> - Convert documents to Bitcoin OS assets</li>
-                  <li><strong>Royalty System</strong> - Ongoing revenue from resales</li>
-                  <li><strong>Grant System</strong> - Community-funded opportunities</li>
-                </ul>
-              </div>
-
-              <div className="feature-group">
-                <h3>🤖 AI Integration</h3>
-                <ul>
-                  <li><strong>Writing Assistant</strong> - Gemini AI integration</li>
-                  <li><strong>Content Enhancement</strong> - AI-powered editing suggestions</li>
-                  <li><strong>Research Tools</strong> - AI-assisted fact-checking</li>
-                  <li><strong>Translation</strong> - Multi-language support</li>
-                </ul>
-              </div>
-
-              <div className="feature-group">
-                <h3>🏪 Marketplace</h3>
-                <ul>
-                  <li><strong>Contract Creation</strong> - Publishers create writing jobs</li>
-                  <li><strong>Bid System</strong> - Writers apply with proposals</li>
-                  <li><strong>Escrow System</strong> - Automatic payment holding/release</li>
-                  <li><strong>Quality Assurance</strong> - Review and approval workflows</li>
-                </ul>
-              </div>
-
-              <div className="feature-group">
-                <h3>🔐 Authentication</h3>
-                <ul>
-                  <li><strong>HandCash Integration</strong> - Primary wallet authentication</li>
-                  <li><strong>Guest Mode</strong> - Local storage for unregistered users</li>
-                  <li><strong>Profile Management</strong> - Writer reputation and stats</li>
-                  <li><strong>Paymail Integration</strong> - Bitcoin address identity</li>
+                  <li>
+                    <strong>Smart Contracts:</strong> Publisher-writer contract system with automatic 
+                    escrow and payment release upon completion
+                  </li>
+                  <li>
+                    <strong>Micropayments:</strong> Pay-per-read content monetization with instant 
+                    Bitcoin settlements and reader analytics
+                  </li>
+                  <li>
+                    <strong>NFT Creation:</strong> Convert documents to tradeable Bitcoin OS assets 
+                    with built-in royalty mechanisms
+                  </li>
+                  <li>
+                    <strong>Grant System:</strong> Community-funded writing opportunities with 
+                    transparent allocation and tracking
+                  </li>
                 </ul>
               </div>
             </div>
           </section>
 
           {/* Technical Architecture */}
-          <section id="architecture" className="section">
+          <section className="architecture-section">
             <h2>Technical Architecture</h2>
-            <div className="architecture-grid">
-              <div className="arch-card">
-                <h3>Frontend Stack</h3>
-                <ul>
-                  <li>Next.js 15.5.5 with React 18</li>
-                  <li>Custom CSS with responsive design</li>
-                  <li>Quill.js rich text editor</li>
-                  <li>React hooks and context</li>
-                </ul>
-              </div>
-              <div className="arch-card">
-                <h3>Blockchain Layer</h3>
-                <ul>
-                  <li>Bitcoin SV (BSV) for content storage</li>
-                  <li>HandCash API for micropayments</li>
-                  <li>B://, BCAT, D:// protocols</li>
-                  <li>AES-256 with RSA encryption</li>
-                </ul>
-              </div>
-              <div className="arch-card">
-                <h3>Backend Services</h3>
-                <ul>
-                  <li>HandCash OAuth and JWT auth</li>
-                  <li>BSV blockchain with local caching</li>
-                  <li>Stripe payment integration</li>
-                  <li>Gemini AI API integration</li>
-                </ul>
-              </div>
-              <div className="arch-card">
-                <h3>Storage Architecture</h3>
-                <ul>
-                  <li>Browser localStorage for drafts</li>
-                  <li>BSV blockchain permanent storage</li>
-                  <li>~$0.05 per KB with 2x markup</li>
-                  <li>Real-time cost calculation</li>
-                </ul>
+            <div className="architecture-content">
+              <p className="intro">
+                Bitcoin Writer is built on a modern technology stack that combines traditional web development 
+                practices with cutting-edge blockchain integration for permanent content storage and micropayments.
+              </p>
+
+              <div className="architecture-model">
+                <h3>Technology Stack</h3>
+                <div className="tech-streams">
+                  <div className="stream">
+                    <h4>Frontend</h4>
+                    <p>Next.js 15.5.5 with React 18</p>
+                    <p className="tech-detail">Quill.js Editor</p>
+                  </div>
+                  <div className="stream featured">
+                    <h4>Blockchain</h4>
+                    <p>Bitcoin SV (BSV) for storage</p>
+                    <p className="tech-detail">HandCash Integration</p>
+                  </div>
+                  <div className="stream">
+                    <h4>Backend</h4>
+                    <p>Node.js with Express</p>
+                    <p className="tech-detail">AI Service APIs</p>
+                  </div>
+                </div>
+                
+                <h3 style={{marginTop: '40px'}}>Storage & Costs</h3>
+                <div className="tech-streams">
+                  <div className="stream">
+                    <h4>Local Storage</h4>
+                    <p>Browser localStorage for drafts</p>
+                    <p className="tech-detail">Free</p>
+                  </div>
+                  <div className="stream featured">
+                    <h4>Blockchain Storage</h4>
+                    <p>Permanent BSV storage</p>
+                    <p className="tech-detail">~$0.05/KB</p>
+                  </div>
+                  <div className="stream">
+                    <h4>Encrypted Storage</h4>
+                    <p>AES-256 encrypted content</p>
+                    <p className="tech-detail">+10% premium</p>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
 
           {/* User Personas */}
-          <section id="personas" className="section">
-            <h2>User Personas</h2>
-            <div className="personas-grid">
-              <div className="persona-card primary">
-                <h3>🖋️ Professional Freelance Writer</h3>
-                <div className="persona-details">
-                  <p><strong>Age:</strong> 25-45</p>
-                  <p><strong>Background:</strong> Experienced content creator, familiar with traditional publishing</p>
-                  <p><strong>Goals:</strong> Secure payment, protect IP, find consistent work</p>
-                  <p><strong>Pain Points:</strong> Payment delays, content theft, platform fees</p>
-                  <p><strong>Use Cases:</strong> Contract fulfillment, content monetization, portfolio building</p>
-                </div>
+          <section className="personas-section">
+            <h2>Target Users</h2>
+            <div className="personas-steps">
+              <div className="step">
+                <div className="step-number">1</div>
+                <h3>Professional Writers</h3>
+                <p>Freelance writers seeking secure payments, content ownership, and new revenue streams</p>
               </div>
-              
-              <div className="persona-card secondary">
-                <h3>🏢 Content Publisher</h3>
-                <div className="persona-details">
-                  <p><strong>Age:</strong> 30-55</p>
-                  <p><strong>Background:</strong> Content manager, agency owner, publication editor</p>
-                  <p><strong>Goals:</strong> Find quality writers, manage projects, control costs</p>
-                  <p><strong>Pain Points:</strong> Writer reliability, payment disputes, content quality</p>
-                  <p><strong>Use Cases:</strong> Contract creation, writer management, content acquisition</p>
-                </div>
+              <div className="step">
+                <div className="step-number">2</div>
+                <h3>Content Publishers</h3>
+                <p>Agencies and publications looking for quality writers with transparent project management</p>
               </div>
-              
-              <div className="persona-card tertiary">
-                <h3>⚡ Blockchain Enthusiast</h3>
-                <div className="persona-details">
-                  <p><strong>Age:</strong> 20-40</p>
-                  <p><strong>Background:</strong> Early adopter, crypto-native, tech-savvy</p>
-                  <p><strong>Goals:</strong> Experiment with Web3, earn crypto, support decentralization</p>
-                  <p><strong>Pain Points:</strong> Complex interfaces, high fees, limited utility</p>
-                  <p><strong>Use Cases:</strong> NFT creation, micropayment experimentation, community participation</p>
-                </div>
+              <div className="step">
+                <div className="step-number">3</div>
+                <h3>Blockchain Enthusiasts</h3>
+                <p>Early adopters experimenting with Web3 content creation and micropayment systems</p>
               </div>
+              <div className="step">
+                <div className="step-number">4</div>
+                <h3>Content Creators</h3>
+                <p>Artists and creators wanting to tokenize their work and build sustainable income</p>
+              </div>
+            </div>
+
+            <div className="persona-examples">
+              <h3>User Journey Examples</h3>
+              <ul>
+                <li>✅ Freelance writer completes $500 contract, gets paid instantly</li>
+                <li>✅ Publisher finds verified writer, project completed on-time</li>
+                <li>✅ Creator tokenizes popular article, earns ongoing royalties</li>
+                <li>✅ Reader pays $0.01 to unlock premium content via micropayment</li>
+                <li>✅ Collaborative document with 3 authors, revenue auto-split</li>
+                <li>✅ Academic paper timestamped on blockchain for IP protection</li>
+              </ul>
             </div>
           </section>
 
           {/* Revenue Model */}
-          <section id="revenue" className="section">
-            <h2>Revenue Model</h2>
-            <div className="revenue-grid">
-              <div className="revenue-streams">
-                <h3>Primary Revenue Streams</h3>
-                <div className="revenue-item">
-                  <span className="revenue-percentage">40%</span>
-                  <div>
-                    <strong>Transaction Fees</strong>
-                    <p>2x markup on blockchain storage costs</p>
+          <section className="revenue-section">
+            <h2>The Bitcoin Writer Business Model</h2>
+            <div className="revenue-content">
+              <p className="intro">
+                Our revenue model balances platform sustainability with creator value, ensuring writers 
+                keep the majority of their earnings while supporting ongoing development and infrastructure.
+              </p>
+
+              <div className="revenue-model">
+                <h3>Revenue Streams</h3>
+                <div className="revenue-streams">
+                  <div className="stream">
+                    <h4>Storage Fees</h4>
+                    <p>2x markup on blockchain costs</p>
+                    <p className="price">40% of revenue</p>
+                  </div>
+                  <div className="stream featured">
+                    <h4>Contract Fees</h4>
+                    <p>5% commission on completed work</p>
+                    <p className="price">25% of revenue</p>
+                  </div>
+                  <div className="stream">
+                    <h4>Premium Features</h4>
+                    <p>AI tools, analytics, priority support</p>
+                    <p className="price">20% of revenue</p>
                   </div>
                 </div>
-                <div className="revenue-item">
-                  <span className="revenue-percentage">25%</span>
-                  <div>
-                    <strong>Contract Commissions</strong>
-                    <p>5% fee on completed contracts</p>
+                
+                <h3 style={{marginTop: '40px'}}>Marketplace Revenue</h3>
+                <div className="revenue-streams">
+                  <div className="stream">
+                    <h4>NFT Sales</h4>
+                    <p>Document tokenization marketplace</p>
+                    <p className="price">2.5% fee</p>
+                  </div>
+                  <div className="stream featured">
+                    <h4>Micropayments</h4>
+                    <p>Pay-per-read content processing</p>
+                    <p className="price">1% fee</p>
+                  </div>
+                  <div className="stream">
+                    <h4>Enterprise</h4>
+                    <p>Custom solutions & white-label</p>
+                    <p className="price">Custom pricing</p>
                   </div>
                 </div>
-                <div className="revenue-item">
-                  <span className="revenue-percentage">20%</span>
-                  <div>
-                    <strong>Premium Features</strong>
-                    <p>Advanced AI tools, analytics, priority support</p>
-                  </div>
-                </div>
-                <div className="revenue-item">
-                  <span className="revenue-percentage">10%</span>
-                  <div>
-                    <strong>NFT Marketplace</strong>
-                    <p>2.5% commission on asset sales</p>
-                  </div>
-                </div>
-                <div className="revenue-item">
-                  <span className="revenue-percentage">5%</span>
-                  <div>
-                    <strong>Enterprise Solutions</strong>
-                    <p>Custom contracts for organizations</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="cost-structure">
-                <h3>Cost Structure</h3>
-                <ul>
-                  <li><strong>Blockchain Storage:</strong> ~$0.05 per KB (passed to users with markup)</li>
-                  <li><strong>AI API Costs:</strong> Variable based on usage</li>
-                  <li><strong>Infrastructure:</strong> Cloud hosting and CDN</li>
-                  <li><strong>Development:</strong> Ongoing feature development</li>
-                </ul>
               </div>
             </div>
           </section>
 
           {/* Development Roadmap */}
-          <section id="roadmap" className="section">
+          <section className="roadmap-section">
             <h2>Development Roadmap</h2>
             <div className="roadmap-timeline">
-              <div className="phase current">
-                <div className="phase-header">
+              <div className="timeline-item completed">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
                   <h3>Phase 1: Core Platform</h3>
-                  <span className="phase-status current">Current</span>
+                  <p>Document editor with blockchain storage, HandCash authentication, basic contract system, micropayment integration, and NFT asset creation.</p>
+                  <div className="timeline-status">✅ Completed</div>
                 </div>
-                <ul>
-                  <li>✅ Document editor with blockchain storage</li>
-                  <li>✅ HandCash authentication</li>
-                  <li>✅ Basic contract system</li>
-                  <li>✅ Micropayment integration</li>
-                  <li>✅ NFT asset creation</li>
-                </ul>
               </div>
               
-              <div className="phase upcoming">
-                <div className="phase-header">
+              <div className="timeline-item current">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
                   <h3>Phase 2: Enhanced Features</h3>
-                  <span className="phase-status upcoming">Q1 2025</span>
+                  <p>Advanced collaboration tools, mobile application, enhanced AI integration, analytics dashboard, and enterprise features.</p>
+                  <div className="timeline-status">🚧 Q1 2025</div>
                 </div>
-                <ul>
-                  <li>Advanced collaboration tools</li>
-                  <li>Mobile application</li>
-                  <li>Enhanced AI integration</li>
-                  <li>Analytics dashboard</li>
-                  <li>Enterprise features</li>
-                </ul>
               </div>
               
-              <div className="phase future">
-                <div className="phase-header">
+              <div className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
                   <h3>Phase 3: Ecosystem Expansion</h3>
-                  <span className="phase-status future">Q2 2025</span>
+                  <p>Multi-blockchain support, advanced publishing tools, community governance, plugin ecosystem, and international expansion.</p>
+                  <div className="timeline-status">📅 Q2 2025</div>
                 </div>
-                <ul>
-                  <li>Multi-blockchain support</li>
-                  <li>Advanced publishing tools</li>
-                  <li>Community governance</li>
-                  <li>Plugin ecosystem</li>
-                  <li>International expansion</li>
-                </ul>
               </div>
               
-              <div className="phase future">
-                <div className="phase-header">
+              <div className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
                   <h3>Phase 4: Platform Maturity</h3>
-                  <span className="phase-status future">Q3-Q4 2025</span>
+                  <p>Advanced analytics, ML recommendations, institutional partnerships, regulatory compliance tools, and global scaling.</p>
+                  <div className="timeline-status">🎯 Q3-Q4 2025</div>
                 </div>
-                <ul>
-                  <li>Advanced analytics</li>
-                  <li>ML recommendations</li>
-                  <li>Institutional partnerships</li>
-                  <li>Regulatory compliance tools</li>
-                  <li>Global scaling</li>
-                </ul>
               </div>
             </div>
           </section>
 
           {/* Success Metrics */}
-          <section className="section">
+          <section className="metrics-section">
             <h2>Success Metrics</h2>
             <div className="metrics-grid">
-              <div className="metric-group">
-                <h3>User Acquisition</h3>
-                <ul>
-                  <li>Monthly Active Users (MAU)</li>
-                  <li>New writer registrations</li>
-                  <li>Publisher onboarding rate</li>
-                  <li>Organic vs. paid acquisition cost</li>
-                </ul>
+              <div className="stat">
+                <h3>Users</h3>
+                <p className="stat-value">10K+</p>
+                <p className="stat-label">Monthly Active Writers</p>
               </div>
-              <div className="metric-group">
-                <h3>Engagement</h3>
-                <ul>
-                  <li>Documents created per user</li>
-                  <li>Average session duration</li>
-                  <li>Content published to blockchain</li>
-                  <li>Contract completion rate</li>
-                </ul>
-              </div>
-              <div className="metric-group">
+              <div className="stat">
                 <h3>Revenue</h3>
-                <ul>
-                  <li>Monthly Recurring Revenue (MRR)</li>
-                  <li>Average Revenue Per User (ARPU)</li>
-                  <li>Contract transaction volume</li>
-                  <li>NFT marketplace activity</li>
-                </ul>
+                <p className="stat-value">$50K</p>
+                <p className="stat-label">Monthly platform revenue</p>
               </div>
-              <div className="metric-group">
-                <h3>Platform Health</h3>
-                <ul>
-                  <li>Writer retention rate</li>
-                  <li>Publisher satisfaction scores</li>
-                  <li>Payment processing success rate</li>
-                  <li>Content quality ratings</li>
-                </ul>
+              <div className="stat">
+                <h3>Content</h3>
+                <p className="stat-value">25K</p>
+                <p className="stat-label">Documents on blockchain</p>
+              </div>
+              <div className="stat">
+                <h3>Contracts</h3>
+                <p className="stat-value">95%</p>
+                <p className="stat-label">Completion rate</p>
               </div>
             </div>
           </section>
 
           {/* Competitive Analysis */}
-          <section className="section">
+          <section className="competitive-section">
             <h2>Competitive Analysis</h2>
-            <div className="competitive-grid">
-              <div className="competitor-card">
-                <h3>Medium</h3>
-                <p className="competitor-type">Direct Competitor</p>
-                <div className="pros-cons">
-                  <div className="pros">
-                    <h4>Strengths</h4>
-                    <ul>
-                      <li>Large user base</li>
-                      <li>Simple interface</li>
-                      <li>SEO optimized</li>
-                    </ul>
+            <div class="competitive-content">
+              <p class="intro">
+                Bitcoin Writer differentiates from traditional platforms by leveraging Bitcoin blockchain for content 
+                timestamping, instant micropayments, and reduced platform fees compared to centralized alternatives.
+              </p>
+              
+              <div class="competitive-model">
+                <h3>Traditional Platforms vs Bitcoin Writer</h3>
+                <div class="comparison-streams">
+                  <div class="stream">
+                    <h4>Medium</h4>
+                    <p>Centralized, limited monetization</p>
+                    <p class="comparison-detail">No ownership</p>
                   </div>
-                  <div className="cons">
-                    <h4>Weaknesses</h4>
-                    <ul>
-                      <li>Centralized platform</li>
-                      <li>Limited monetization</li>
-                      <li>No content ownership</li>
-                    </ul>
+                  <div class="stream">
+                    <h4>Substack</h4>
+                    <p>Newsletter-focused, subscriptions</p>
+                    <p class="comparison-detail">Platform dependent</p>
+                  </div>
+                  <div class="stream featured">
+                    <h4>Bitcoin Writer</h4>
+                    <p>Blockchain ownership, instant payments</p>
+                    <p class="comparison-detail">True ownership</p>
                   </div>
                 </div>
               </div>
               
-              <div className="competitor-card">
-                <h3>Substack</h3>
-                <p className="competitor-type">Direct Competitor</p>
-                <div className="pros-cons">
-                  <div className="pros">
-                    <h4>Strengths</h4>
-                    <ul>
-                      <li>Newsletter focus</li>
-                      <li>Subscription model</li>
-                      <li>Creator-friendly</li>
-                    </ul>
-                  </div>
-                  <div className="cons">
-                    <h4>Weaknesses</h4>
-                    <ul>
-                      <li>Platform dependency</li>
-                      <li>Limited to newsletters</li>
-                      <li>Traditional payments</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="advantage-card">
-                <h3>🚀 Our Competitive Advantages</h3>
+              <div class="advantages">
+                <h3>Our Competitive Advantages</h3>
                 <ul>
-                  <li><strong>True Content Ownership</strong> - Blockchain-based proof of authorship</li>
-                  <li><strong>Instant Global Payments</strong> - Bitcoin micropayments without intermediaries</li>
-                  <li><strong>Transparent Contracts</strong> - Smart contract escrow and automation</li>
-                  <li><strong>Permanent Storage</strong> - Immutable content preservation</li>
-                  <li><strong>Multi-Revenue Streams</strong> - Contracts, micropayments, NFTs, royalties</li>
+                  <li>✅ <strong>Blockchain Timestamping:</strong> Proof of authorship and creation date on Bitcoin</li>
+                  <li>✅ <strong>Instant Bitcoin Payments:</strong> Direct writer payments via HandCash integration</li>
+                  <li>✅ <strong>Smart Contract Escrow:</strong> Automated payment release for completed work</li>
+                  <li>✅ <strong>Permanent Content Storage:</strong> Optional blockchain storage for important documents</li>
+                  <li>✅ <strong>Multiple Revenue Streams:</strong> Contracts, micropayments, NFTs, royalties</li>
                 </ul>
               </div>
             </div>
           </section>
 
           {/* Risk Assessment */}
-          <section className="section">
+          <section className="risks-section">
             <h2>Risk Assessment & Mitigation</h2>
-            <div className="risks-grid">
-              <div className="risk-category">
-                <h3>⚙️ Technical Risks</h3>
-                <div className="risk-item">
-                  <strong>Blockchain Scalability</strong>
-                  <p><span className="risk-level medium">Medium</span> BSV transaction capacity limitations</p>
-                  <p className="mitigation"><strong>Mitigation:</strong> Multi-blockchain architecture for scalability</p>
-                </div>
-                <div className="risk-item">
-                  <strong>Cost Volatility</strong>
-                  <p><span className="risk-level medium">Medium</span> Bitcoin price fluctuations affecting storage costs</p>
-                  <p className="mitigation"><strong>Mitigation:</strong> Transparent pricing with cost predictions</p>
-                </div>
+            <div class="risks-content">
+              <div class="model-card">
+                <h3>Technical Risks</h3>
+                <ul>
+                  <li>
+                    <strong>Blockchain Scalability:</strong> BSV transaction capacity limitations could 
+                    affect platform growth. Mitigation: Multi-blockchain architecture for scalability.
+                  </li>
+                  <li>
+                    <strong>Cost Volatility:</strong> Bitcoin price fluctuations affecting storage costs. 
+                    Mitigation: Transparent pricing with real-time cost predictions.
+                  </li>
+                  <li>
+                    <strong>Integration Complexity:</strong> Third-party API dependencies may create 
+                    service disruptions. Mitigation: Redundant service providers and local caching.
+                  </li>
+                </ul>
               </div>
               
-              <div className="risk-category">
-                <h3>📈 Market Risks</h3>
-                <div className="risk-item">
-                  <strong>Adoption Barriers</strong>
-                  <p><span className="risk-level high">High</span> Cryptocurrency learning curve for users</p>
-                  <p className="mitigation"><strong>Mitigation:</strong> User education and simplified onboarding</p>
-                </div>
-                <div className="risk-item">
-                  <strong>Regulatory Changes</strong>
-                  <p><span className="risk-level medium">Medium</span> Potential restrictions on blockchain applications</p>
-                  <p className="mitigation"><strong>Mitigation:</strong> Regulatory compliance monitoring</p>
-                </div>
+              <div class="model-card warning">
+                <h3>Market & Regulatory Risks</h3>
+                <ul>
+                  <li>
+                    <strong>Adoption Barriers:</strong> Cryptocurrency learning curve for traditional users. 
+                    Mitigation: Simplified onboarding and guest mode functionality.
+                  </li>
+                  <li>
+                    <strong>Regulatory Changes:</strong> Potential restrictions on blockchain applications. 
+                    Mitigation: Compliance monitoring and legal framework adherence.
+                  </li>
+                  <li>
+                    <strong>Competition:</strong> Large platforms adding similar blockchain features. 
+                    Mitigation: Continuous innovation and first-mover advantages.
+                  </li>
+                </ul>
               </div>
             </div>
           </section>
 
-          {/* Conclusion */}
-          <section className="section conclusion">
-            <h2>Conclusion</h2>
-            <div className="conclusion-content">
-              <p>
-                Bitcoin Writer represents a paradigm shift in content creation and monetization, 
-                leveraging Bitcoin's unique capabilities to solve real problems faced by writers and publishers. 
-                The platform's combination of professional tools, blockchain permanence, and instant payments 
-                creates a compelling value proposition for the global writing community.
-              </p>
-              <p>
-                The product is positioned to capture the growing Web3 content creation market while remaining 
-                accessible to traditional writers through its intuitive interface and optional blockchain features. 
-                With strong technical foundations and clear monetization strategies, Bitcoin Writer is well-positioned 
-                for sustainable growth and market leadership in the decentralized content space.
-              </p>
+          {/* CTA Section */}
+          <section className="cta-section">
+            <h2>Ready to Build the Future of Writing?</h2>
+            <div className="cta-buttons">
+              <a 
+                href="/" 
+                className="cta-btn primary"
+              >
+                Start Writing Now
+              </a>
+              <a 
+                href="/features" 
+                className="cta-btn secondary"
+              >
+                Explore Features
+              </a>
             </div>
           </section>
 
         </div>
-      </main>
-
-      <Footer />
+      </div>
     </div>
   );
 }
