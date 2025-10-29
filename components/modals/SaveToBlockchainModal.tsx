@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SaveToBlockchainModal.css';
+import './ModalStyles.css';
 
 export interface UnlockConditions {
   method: 'immediate' | 'timed' | 'priced' | 'timedAndPriced';

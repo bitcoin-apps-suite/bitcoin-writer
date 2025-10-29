@@ -9,16 +9,21 @@ import {
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
 
-// Import micro-ordinals when ready
-// import { createInscription } from 'micro-ordinals';
+import { MicroOrdinalsService } from './MicroOrdinalsService';
+import { HandCashService } from './HandCashService';
 
 export class DocumentInscriptionService extends EventEmitter {
   private config: InscriptionConfig;
   private versionChains: Map<string, DocumentVersionChain> = new Map();
+  private microOrdinalsService: MicroOrdinalsService;
 
-  constructor(config: InscriptionConfig) {
+  constructor(config: InscriptionConfig, handcashService: HandCashService) {
     super();
     this.config = config;
+    this.microOrdinalsService = new MicroOrdinalsService(
+      handcashService, 
+      config.network === 'mainnet' ? 'mainnet' : 'testnet'
+    );
   }
 
   /**
@@ -80,8 +85,7 @@ export class DocumentInscriptionService extends EventEmitter {
     } as InscriptionProgress);
 
     try {
-      // TODO: Implement actual inscription using micro-ordinals
-      // For now, simulate the process
+      // Use actual micro-ordinals implementation
       const result = await this.performInscription(inscription, privateKey);
       
       inscription.inscriptionId = result.inscriptionId;
@@ -246,24 +250,17 @@ export class DocumentInscriptionService extends EventEmitter {
   }
 
   /**
-   * Estimate the cost to inscribe content
+   * Estimate the cost to inscribe content using micro-ordinals
    */
   private async estimateInscriptionFee(inscription: DocumentInscription): Promise<number> {
-    // Basic estimation - actual implementation would use micro-ordinals
     const contentSize = new TextEncoder().encode(inscription.content).length;
-    const metadataSize = new TextEncoder().encode(JSON.stringify(inscription.metadata)).length;
-    const totalSize = contentSize + metadataSize;
     
-    // Estimate: base fee + (size * fee rate) + margin
-    const baseFee = 546; // Dust limit
-    const sizeFee = totalSize * this.config.feeRate;
-    const margin = sizeFee * 0.1; // 10% margin
-    
-    return Math.ceil(baseFee + sizeFee + margin);
+    // Use micro-ordinals service for more accurate fee estimation
+    return this.microOrdinalsService.estimateInscriptionFee(contentSize);
   }
 
   /**
-   * Perform the actual inscription (placeholder for micro-ordinals integration)
+   * Perform the actual inscription using micro-ordinals
    */
   private async performInscription(
     inscription: DocumentInscription, 
@@ -276,28 +273,45 @@ export class DocumentInscriptionService extends EventEmitter {
     fee: number;
   }> {
     
-    // Simulate inscription process
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Prepare content for inscription
+    const content = inscription.content;
+    const contentType = inscription.metadata.contentType || 'text/plain';
     
-    // TODO: Replace with actual micro-ordinals implementation
-    /*
-    const result = await createInscription({
-      content: inscription.content,
-      contentType: inscription.metadata.contentType,
-      metadata: inscription.metadata,
-      privateKey,
-      feeRate: this.config.feeRate,
-      network: this.config.network
-    });
-    */
+    // Create inscription using micro-ordinals
+    const result = await this.microOrdinalsService.createInscription(
+      content,
+      {
+        contentType,
+        metadata: {
+          title: inscription.metadata.title,
+          author: inscription.metadata.author,
+          version: inscription.metadata.version,
+          previousInscriptionId: inscription.metadata.previousInscriptionId,
+          genesisInscriptionId: inscription.metadata.genesisInscriptionId,
+          wordCount: inscription.metadata.wordCount,
+          characterCount: inscription.metadata.characterCount,
+          created: inscription.metadata.createdAt
+        },
+        network: this.config.network === 'mainnet' ? 'mainnet' : 'testnet'
+      },
+      // Progress callback to relay to event listeners
+      (progress) => {
+        this.emit('progress', {
+          stage: progress.stage,
+          progress: progress.progress,
+          message: progress.message,
+          txId: progress.txId
+        } as InscriptionProgress);
+      }
+    );
 
-    // Mock result for now
+    // Convert micro-ordinals result to expected format
     return {
-      inscriptionId: `mock_${inscription.localId}i0`,
-      txId: `mock_tx_${Date.now()}`,
-      ordinalNumber: Math.floor(Math.random() * 1000000),
-      satoshiNumber: Math.floor(Math.random() * 2100000000000000),
-      fee: inscription.estimatedFee || 1000
+      inscriptionId: result.inscriptionId,
+      txId: result.txId,
+      ordinalNumber: Number(result.ordinalNumber || 0),
+      satoshiNumber: Number(result.satoshiNumber || 0),
+      fee: result.fee
     };
   }
 

@@ -34,7 +34,6 @@ const ProofOfConceptBanner = dynamic(() => import('../components/ProofOfConceptB
 const Navigation = dynamic(() => import('../components/Navigation'), { ssr: false });
 const CleanTaskbar = dynamic(() => import('../components/ui/CleanTaskbar'), { ssr: false });
 const DevSidebar = dynamic(() => import('../components/ui/DevSidebar'), { ssr: false });
-const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { ssr: false });
 const DockManager = dynamic(() => import('../components/ui/DockManager'), { ssr: false });
 const Footer = dynamic(() => import('../components/ui/Footer'), { ssr: false });
 
@@ -44,7 +43,6 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
-  const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(false);
   
   // Debug: log when state changes
   useEffect(() => {
@@ -84,21 +82,12 @@ export default function RootLayout({
           )}
           
           {/* Main Content */}
-          <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'} ${tickerSidebarCollapsed ? 'ticker-collapsed' : 'ticker-expanded'}`}>
+          <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
             {children}
           </div>
           
           {/* Footer */}
           <Footer />
-          
-          {/* Ticker Sidebar (desktop only) */}
-          {!isMobile && (
-            <TickerSidebar 
-              isEditorMode={false}
-              compactMode={false}
-              onCollapsedChange={setTickerSidebarCollapsed}
-            />
-          )}
           
           {/* Dock Manager */}
           <DockManager currentApp="bitcoin-writer" />

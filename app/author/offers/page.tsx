@@ -180,7 +180,10 @@ const AuthorOffersPage: React.FC = () => {
             {filteredOffers.map(offer => (
               <div key={offer.id} className="author-offer-card">
                 <div className="author-header">
-                  <div className="author-info">
+                  <div 
+                    className="author-info clickable"
+                    onClick={() => router.push(`/author/${offer.name.toLowerCase().replace(' ', '-')}`)}
+                  >
                     <h3>{offer.name}</h3>
                     <div className="author-stats">
                       <span className="rating">⭐ {offer.rating}</span>
@@ -202,12 +205,21 @@ const AuthorOffersPage: React.FC = () => {
 
                 <div className="author-footer">
                   <div className="rate">{offer.rate}</div>
-                  <button 
-                    className="hire-author-button"
-                    onClick={() => handleContactAuthor(offer.name, offer.id)}
-                  >
-                    Hire This Writer →
-                  </button>
+                  <div className="author-buttons">
+                    <button 
+                      type="button"
+                      className="view-profile-button"
+                      onClick={() => router.push(`/author/${offer.name.toLowerCase().replace(' ', '-')}`)}
+                    >
+                      View Offers
+                    </button>
+                    <button 
+                      className="hire-author-button"
+                      onClick={() => handleContactAuthor(offer.name, offer.id)}
+                    >
+                      Hire Writer →
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

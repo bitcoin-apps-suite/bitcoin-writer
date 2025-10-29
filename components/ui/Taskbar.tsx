@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../Taskbar.css';
+import { ModernEditorCommands } from '../../utils/modernEditorCommands';
 
 interface DropdownItem {
   label?: string;
@@ -133,34 +134,34 @@ const Taskbar: React.FC<TaskbarProps> = ({
         { 
           label: 'Undo', 
           shortcut: '⌘Z', 
-          action: () => document.execCommand('undo') 
+          action: () => ModernEditorCommands.undo() 
         },
         { 
           label: 'Redo', 
           shortcut: '⇧⌘Z', 
-          action: () => document.execCommand('redo') 
+          action: () => ModernEditorCommands.redo() 
         },
         { divider: true },
         { 
           label: 'Cut', 
           shortcut: '⌘X', 
-          action: () => document.execCommand('cut') 
+          action: () => ModernEditorCommands.cut() 
         },
         { 
           label: 'Copy', 
           shortcut: '⌘C', 
-          action: () => document.execCommand('copy') 
+          action: () => ModernEditorCommands.copy() 
         },
         { 
           label: 'Paste', 
           shortcut: '⌘V', 
-          action: () => document.execCommand('paste') 
+          action: () => ModernEditorCommands.paste() 
         },
         { divider: true },
         { 
           label: 'Select All', 
           shortcut: '⌘A', 
-          action: () => document.execCommand('selectAll') 
+          action: () => ModernEditorCommands.selectAll() 
         },
         { 
           label: 'Find...', 
@@ -180,17 +181,17 @@ const Taskbar: React.FC<TaskbarProps> = ({
         { 
           label: 'Bold', 
           shortcut: '⌘B', 
-          action: () => document.execCommand('bold') 
+          action: () => ModernEditorCommands.applyFormat('bold') 
         },
         { 
           label: 'Italic', 
           shortcut: '⌘I', 
-          action: () => document.execCommand('italic') 
+          action: () => ModernEditorCommands.applyFormat('italic') 
         },
         { 
           label: 'Underline', 
           shortcut: '⌘U', 
-          action: () => document.execCommand('underline') 
+          action: () => ModernEditorCommands.applyFormat('underline') 
         }
       ]
     },

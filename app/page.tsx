@@ -35,6 +35,9 @@ const DocumentSidebar = dynamic(() => import('../components/editor/DocumentSideb
   ssr: false,
   loading: () => <div className="sidebar-skeleton" />
 });
+const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { 
+  ssr: false
+});
 
 export default function Home() {
   const [documentService, setDocumentService] = useState<BlockchainDocumentService | null>(null);
@@ -43,7 +46,19 @@ export default function Home() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     // Initialize services
@@ -148,6 +163,17 @@ export default function Home() {
               onDocumentSaved={handleDocumentSaved}
             />
           </div>
+
+          {/* Ticker Sidebar (desktop only) */}
+          {!isMobile && (
+            <div className={`ticker-container ${tickerSidebarCollapsed ? 'collapsed' : ''}`}>
+              <TickerSidebar 
+                isEditorMode={true}
+                compactMode={false}
+                onCollapsedChange={setTickerSidebarCollapsed}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

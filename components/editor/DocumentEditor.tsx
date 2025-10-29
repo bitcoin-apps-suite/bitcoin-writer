@@ -40,6 +40,7 @@ import AIChatWindow from '../AIChatWindow';
 import { AIService } from '../../services/AIService';
 import DocumentEditorToolbar from './DocumentEditorToolbar';
 import ImportSourcesModal from '../modals/ImportSourcesModal';
+import { ModernEditorCommands } from '../../utils/modernEditorCommands';
 
 interface DocumentEditorProps {
   documentService: BlockchainDocumentService | null;
@@ -559,6 +560,9 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
         alert(`Payment address for readers: ${result.paymentAddress}`);
       }
 
+      // Reset unsaved changes after successful blockchain save
+      setUnsavedChanges(false);
+
     } catch (error) {
       console.error('Error saving to blockchain:', error);
           setErrorMessage('Failed to save to blockchain. Please try again.');
@@ -649,7 +653,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           });
           setAutoSaveStatus(`✓ Auto-saved at ${timeString}`);
           setLastSaveTime(now);
-          setUnsavedChanges(false);
+          // Don't reset unsavedChanges here - let manual save handle that
           setTimeout(() => setAutoSaveStatus(''), 5000);
         }
       }
@@ -756,7 +760,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
       toggleFullscreen();
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      document.execCommand('insertText', false, '    ');
+      ModernEditorCommands.insertText('    ');
     }
   };
 
@@ -832,7 +836,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
     const text = e.clipboardData.getData('text/plain');
-    document.execCommand('insertText', false, text);
+    ModernEditorCommands.insertText(text);
   };
 
   const showNotification = (message: string, type: 'success' | 'error' = 'success') => {

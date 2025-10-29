@@ -67,6 +67,68 @@ export const useIntegratedWorkTree = (documentId: string, blockchainService: Blo
         if (existingChain.versions.length > 0) {
           setCurrentHead(existingChain.versions[existingChain.versions.length - 1]);
         }
+      } else {
+        // For testing: Create some demo versions if none exist
+        console.log('No existing version chain found, creating demo versions for testing...');
+        
+        // Create demo versions to test checkout functionality
+        try {
+          console.log('🌳 Creating demo version 1...');
+          const v1Content = 'This is version 1 of the document. Initial draft with basic content.';
+          const v1 = await service.createVersionWithBlockchain(
+            documentId,
+            v1Content,
+            {
+              title: 'Demo Document v1',
+              description: 'Initial version',
+              author: 'demo-user',
+              authorHandle: 'demo'
+            },
+            { storeOnBlockchain: false }
+          );
+          console.log('🌳 Demo v1 created:', { content: v1.inscription.content, length: v1.inscription.content?.length });
+
+          console.log('🌳 Creating demo version 2...');
+          const v2Content = 'This is version 2 of the document. Added more content and improved structure. Now we have multiple paragraphs and better formatting.';
+          const v2 = await service.createVersionWithBlockchain(
+            documentId,
+            v2Content,
+            {
+              title: 'Demo Document v2',
+              description: 'Added improvements',
+              author: 'demo-user',
+              authorHandle: 'demo'
+            },
+            { storeOnBlockchain: false }
+          );
+          console.log('🌳 Demo v2 created:', { content: v2.inscription.content, length: v2.inscription.content?.length });
+
+          console.log('🌳 Creating demo version 3...');
+          const v3Content = 'This is version 3 of the document. Final version with comprehensive content and formatting. This version includes multiple sections:\n\n1. Introduction\n2. Main content\n3. Conclusion\n\nThis demonstrates the full work tree functionality.';
+          const v3 = await service.createVersionWithBlockchain(
+            documentId,
+            v3Content,
+            {
+              title: 'Demo Document v3',
+              description: 'Final polished version',
+              author: 'demo-user',
+              authorHandle: 'demo'
+            },
+            { storeOnBlockchain: false }
+          );
+          console.log('🌳 Demo v3 created:', { content: v3.inscription.content, length: v3.inscription.content?.length });
+
+          // Load the updated chain
+          const updatedChain = service.getVersionChain(documentId);
+          if (updatedChain) {
+            setVersionChain(updatedChain);
+            setCurrentHead(updatedChain.versions[updatedChain.versions.length - 1]);
+          }
+
+          console.log('Demo versions created successfully!');
+        } catch (error) {
+          console.error('Failed to create demo versions:', error);
+        }
       }
 
       setIsInitialized(true);
@@ -136,6 +198,50 @@ export const useIntegratedWorkTree = (documentId: string, blockchainService: Blo
       setProgress(null);
     }
   }, [documentId]);
+
+  // Create a new branch
+  const createBranch = useCallback(async (
+    documentId: string,
+    branchName: string,
+    content: string,
+    metadata: {
+      title: string;
+      description?: string;
+      author: string;
+      authorHandle?: string;
+      branchName?: string;
+    }
+  ) => {
+    if (!serviceRef.current) {
+      throw new Error('Work Tree service not initialized');
+    }
+
+    setIsOperating(true);
+    setError(null);
+    setProgress(null);
+
+    try {
+      const result = await serviceRef.current.createBranch(
+        documentId,
+        branchName,
+        content,
+        metadata
+      );
+
+      // Update version chain
+      const updatedChain = serviceRef.current.getVersionChain(documentId);
+      if (updatedChain) {
+        setVersionChain(updatedChain);
+        // Update HEAD to the new branch
+        setCurrentHead(result);
+      }
+
+      return result;
+    } finally {
+      setIsOperating(false);
+      setProgress(null);
+    }
+  }, []);
 
   // Checkout a specific version
   const checkoutVersion = useCallback(async (versionNumber: number) => {
@@ -237,6 +343,7 @@ export const useIntegratedWorkTree = (documentId: string, blockchainService: Blo
     currentHead,
     setCurrentHead,
     createVersion,
+    createBranch,
     checkoutVersion,
     getChainStats,
     verifyChain,

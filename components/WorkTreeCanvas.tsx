@@ -50,6 +50,13 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
   const [currentHash, setCurrentHash] = useState<string>('');
   const [lastClickTime, setLastClickTime] = useState<number>(0);
   const [lastClickedNode, setLastClickedNode] = useState<CanvasNode | null>(null);
+  
+  // Zoom functionality
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [zoomCenter, setZoomCenter] = useState({ x: 0, y: 0 });
+  const minZoom = 0.25;
+  const maxZoom = 3.0;
+  const zoomStep = 0.1;
 
   // Branch colors for different branches
   const branchColors = [
@@ -118,8 +125,22 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     const rootNodes: CanvasNode[] = [];
 
     sortedVersions.forEach((version, index) => {
-      const branchIndex = version.localId ? 
-        Math.abs(version.localId.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % branchColors.length : 0;
+      // Debug logging
+      console.log(`Processing version ${version.metadata.version}:`, {
+        localId: version.localId,
+        inscriptionId: version.inscriptionId,
+        previousInscriptionId: version.metadata.previousInscriptionId,
+        title: version.metadata.title
+      });
+
+      // Determine branch color based on branch name or fall back to version-based color
+      let branchIndex = 0;
+      if (version.metadata.branchName) {
+        // Use consistent color for same branch name
+        branchIndex = Math.abs(version.metadata.branchName.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % branchColors.length;
+      } else if (version.localId) {
+        branchIndex = Math.abs(version.localId.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % branchColors.length;
+      }
       
       const node: CanvasNode = {
         x: 0, // Will be calculated later
@@ -141,12 +162,15 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
           n.version.inscriptionId === parentId || n.version.localId === parentId
         );
         if (parent) {
+          console.log(`Found parent for version ${version.metadata.version}: parent version ${parent.version.metadata.version}`);
           node.parent = parent;
           parent.children.push(node);
         } else {
+          console.log(`No parent found for version ${version.metadata.version} with parentId: ${parentId}`);
           rootNodes.push(node);
         }
       } else {
+        console.log(`Version ${version.metadata.version} has no previousInscriptionId - treating as root`);
         rootNodes.push(node);
       }
     });
@@ -246,9 +270,12 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Apply view offset
+    // Apply view offset and zoom
     ctx.save();
     ctx.translate(viewOffset.x, viewOffset.y);
+    ctx.translate(zoomCenter.x, zoomCenter.y);
+    ctx.scale(zoomLevel, zoomLevel);
+    ctx.translate(-zoomCenter.x, -zoomCenter.y);
 
     // Draw connections first (behind nodes) - curved for branches
     nodes.forEach(node => {
@@ -325,6 +352,15 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.fillText(node.currentHash, node.x + radius + 8, node.y);
+      }
+
+      // Show branch name for branch commits
+      if (node.version.metadata.branchName) {
+        ctx.fillStyle = node.branchColor;
+        ctx.font = 'bold 9px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText(node.version.metadata.branchName, node.x, node.y + radius + 25);
       }
 
       // HEAD pointer visualization
@@ -412,8 +448,11 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left - viewOffset.x;
-    const y = e.clientY - rect.top - viewOffset.y;
+    // Account for zoom when calculating mouse coordinates
+    const mouseX = (e.clientX - rect.left - viewOffset.x - zoomCenter.x) / zoomLevel + zoomCenter.x;
+    const mouseY = (e.clientY - rect.top - viewOffset.y - zoomCenter.y) / zoomLevel + zoomCenter.y;
+    const x = mouseX;
+    const y = mouseY;
 
     // Check if clicking on a node
     const clickedNode = nodes.find(node => {
@@ -422,15 +461,18 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     });
 
     if (clickedNode) {
+      console.log(`Clicked on node: version ${clickedNode.version.metadata.version}`);
       const now = Date.now();
       const isDoubleClick = 
         lastClickedNode === clickedNode && 
-        now - lastClickTime < 500; // 500ms double-click threshold
+        now - lastClickTime < 800; // 800ms double-click threshold (more generous)
 
       if (isDoubleClick && onVersionCheckout) {
+        console.log(`Double-click detected: checking out version ${clickedNode.version.metadata.version}`);
         // Double-click: checkout/restore this version
         onVersionCheckout(clickedNode.version);
       } else {
+        console.log(`Single-click detected: selecting version ${clickedNode.version.metadata.version}`);
         // Single click: select version
         if (onVersionSelect) {
           onVersionSelect(clickedNode.version);
@@ -439,6 +481,7 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
         setLastClickedNode(clickedNode);
       }
     } else {
+      console.log(`Click at coordinates (${x}, ${y}) - no node found`);
       // Start dragging
       setIsDragging(true);
       setDragStart({ x: e.clientX - viewOffset.x, y: e.clientY - viewOffset.y });
@@ -463,17 +506,136 @@ const WorkTreeCanvas: React.FC<WorkTreeCanvasProps> = ({
     setIsDragging(false);
   };
 
+  // Handle mouse wheel for zooming
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Determine zoom direction and amount
+    const delta = e.deltaY > 0 ? -zoomStep : zoomStep;
+    const newZoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel + delta));
+    
+    if (newZoomLevel !== zoomLevel) {
+      // Update zoom center to mouse position for intuitive zooming
+      setZoomCenter({ x: mouseX, y: mouseY });
+      setZoomLevel(newZoomLevel);
+    }
+  };
+
+  // Zoom control functions
+  const zoomIn = () => {
+    const newZoomLevel = Math.min(maxZoom, zoomLevel + zoomStep);
+    if (newZoomLevel !== zoomLevel) {
+      setZoomLevel(newZoomLevel);
+    }
+  };
+
+  const zoomOut = () => {
+    const newZoomLevel = Math.max(minZoom, zoomLevel - zoomStep);
+    if (newZoomLevel !== zoomLevel) {
+      setZoomLevel(newZoomLevel);
+    }
+  };
+
+  const resetZoom = () => {
+    setZoomLevel(1);
+    setZoomCenter({ x: canvasSize.width / 2, y: canvasSize.height / 2 });
+    setViewOffset({ x: 0, y: 0 });
+  };
+
   return (
-    <canvas
-      ref={canvasRef}
-      className="worktree-canvas"
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
-      width={canvasSize.width}
-      height={canvasSize.height}
-    />
+    <div className="worktree-container" style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <canvas
+        ref={canvasRef}
+        className="worktree-canvas"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onWheel={handleWheel}
+        width={canvasSize.width}
+        height={canvasSize.height}
+      />
+      
+      {/* Zoom Controls */}
+      <div className="zoom-controls" style={{
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5px',
+        background: 'rgba(0, 0, 0, 0.7)',
+        borderRadius: '8px',
+        padding: '8px'
+      }}>
+        <button
+          onClick={zoomIn}
+          disabled={zoomLevel >= maxZoom}
+          style={{
+            background: zoomLevel >= maxZoom ? 'rgba(255, 149, 0, 0.3)' : '#ff9500',
+            color: zoomLevel >= maxZoom ? 'rgba(255, 255, 255, 0.5)' : '#000',
+            border: 'none',
+            borderRadius: '4px',
+            padding: '6px 10px',
+            cursor: zoomLevel >= maxZoom ? 'not-allowed' : 'pointer',
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }}
+        >
+          +
+        </button>
+        
+        <div style={{
+          color: '#fff',
+          fontSize: '10px',
+          textAlign: 'center',
+          fontFamily: 'monospace',
+          minWidth: '40px'
+        }}>
+          {Math.round(zoomLevel * 100)}%
+        </div>
+        
+        <button
+          onClick={zoomOut}
+          disabled={zoomLevel <= minZoom}
+          style={{
+            background: zoomLevel <= minZoom ? 'rgba(255, 149, 0, 0.3)' : '#ff9500',
+            color: zoomLevel <= minZoom ? 'rgba(255, 255, 255, 0.5)' : '#000',
+            border: 'none',
+            borderRadius: '4px',
+            padding: '6px 10px',
+            cursor: zoomLevel <= minZoom ? 'not-allowed' : 'pointer',
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }}
+        >
+          −
+        </button>
+        
+        <button
+          onClick={resetZoom}
+          style={{
+            background: 'rgba(255, 255, 255, 0.1)',
+            color: '#fff',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '4px',
+            padding: '4px 8px',
+            cursor: 'pointer',
+            fontSize: '10px',
+            fontWeight: 'normal'
+          }}
+        >
+          Reset
+        </button>
+      </div>
+    </div>
   );
 };
 

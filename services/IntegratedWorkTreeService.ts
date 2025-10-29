@@ -35,7 +35,7 @@ export class IntegratedWorkTreeService extends EventEmitter {
       defaultShareCount: 1000
     };
     
-    this.inscriptionService = new DocumentInscriptionService(defaultConfig);
+    this.inscriptionService = new DocumentInscriptionService(defaultConfig, blockchainService.handcashService);
     
     // Forward events from inscription service
     this.inscriptionService.on('progress', (progress) => this.emit('progress', progress));
@@ -95,11 +95,25 @@ export class IntegratedWorkTreeService extends EventEmitter {
       : undefined;
 
     // Create Work Tree version
+    console.log('🌳 IntegratedWorkTreeService: Creating inscription with content:', {
+      contentLength: content.length,
+      contentPreview: content.substring(0, 50) + '...',
+      hasCurrentHead: !!currentHead,
+      currentHeadVersion: currentHead?.metadata.version
+    });
+    
     const inscription = await this.inscriptionService.createDocumentInscription(
       content,
       metadata,
       currentHead
     );
+    
+    console.log('🌳 IntegratedWorkTreeService: Created inscription:', {
+      localId: inscription.localId,
+      contentLength: inscription.content?.length,
+      contentPreview: inscription.content?.substring(0, 50) + '...',
+      version: inscription.metadata.version
+    });
 
     // Store on blockchain if requested
     let blockchainResult;
@@ -249,12 +263,14 @@ export class IntegratedWorkTreeService extends EventEmitter {
     const chain = this.getVersionChain(documentId);
     const currentHead = chain?.versions[chain.versions.length - 1];
     
-    // Create branch metadata
+    // Create branch metadata with proper parent relationship
     const branchMetadata = {
       ...metadata,
       branchName,
       parentVersion: currentHead?.metadata.version,
-      isBranch: true
+      isBranch: true,
+      // Ensure the new branch version points to the current HEAD as its parent
+      previousInscriptionId: currentHead?.inscriptionId || currentHead?.localId
     };
 
     const result = await this.createVersionWithBlockchain(
@@ -364,7 +380,18 @@ export class IntegratedWorkTreeService extends EventEmitter {
   private persistVersionChain(documentId: string, chain: DocumentVersionChain): void {
     try {
       const key = `worktree_chain_${documentId}`;
+      console.log('🌳 Persisting version chain:', {
+        key,
+        totalVersions: chain.totalVersions,
+        versionsCount: chain.versions?.length,
+        versions: chain.versions?.map(v => ({
+          version: v.metadata.version,
+          hasContent: !!v.content,
+          contentLength: v.content?.length
+        }))
+      });
       localStorage.setItem(key, JSON.stringify(chain));
+      console.log('🌳 Successfully persisted to localStorage');
     } catch (error) {
       console.error('Failed to persist version chain:', error);
     }

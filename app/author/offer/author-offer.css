@@ -356,21 +356,309 @@
   cursor: pointer;
 }
 
+/* Contract Sections */
+.contracts-section {
+  margin-top: 40px;
+}
+
+.contracts-section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 12px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.contracts-section p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 30px;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+/* Requirements Section */
+.requirements-section {
+  margin: 20px 0;
+}
+
+.requirements-section h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.requirements-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirements-section li {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.requirements-section li::before {
+  content: "•";
+  color: #FF6B35;
+  position: absolute;
+  left: 0;
+}
+
+.expertise-tag.category {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+}
+
+/* Writer Form Container */
+.writer-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.form-header h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 12px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.form-header p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+/* Form Styles */
+.writer-offer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(255, 107, 53, 0.5);
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Expertise Grid */
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.expertise-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.expertise-checkbox:hover {
+  background: rgba(255, 107, 53, 0.05);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.expertise-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #FF6B35;
+}
+
+.expertise-checkbox span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300;
+}
+
+/* Deliverables Section */
+.deliverables-section {
+  margin-top: 8px;
+}
+
+.deliverable-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+/* Author Contact Section */
+.author-contact-section {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.author-contact-section h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+
+/* Form small text */
+.form-group small {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+  display: block;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cancel-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
+  .author-offers-container {
     padding: 0 20px;
+  }
   
+  .author-offers-hero {
     padding: 40px 20px;
     min-height: 30vh;
+  }
   
+  .author-offers-hero h1 {
     font-size: 32px;
+  }
   
+  .author-offers-grid {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
   
+  .category-filter {
     overflow-x: auto;
     justify-content: flex-start;
     padding-bottom: 10px;
+  }
   
+  .author-offers-cta {
     padding: 40px 20px;
+  }
+
+  .writer-form-container {
+    padding: 30px 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .expertise-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
 }
