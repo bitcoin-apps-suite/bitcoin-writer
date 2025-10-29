@@ -1,0 +1,407 @@
+/* Author Profile Page */
+.author-profile-page {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 96px;
+  font-weight: 300;
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust for DevSidebar on desktop */
+@media (min-width: 769px) {
+  .author-profile-page.with-sidebar-expanded {
+    margin-left: 240px;
+  }
+  
+  .author-profile-page.with-sidebar-collapsed {
+    margin-left: 60px;
+  }
+}
+
+/* Author Profile Header */
+.author-profile-header {
+  background: #000000;
+  padding: 60px 40px;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-top: -24px;
+  width: 100vw;
+  position: relative;
+}
+
+.author-info-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.author-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 600;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.author-details {
+  flex: 1;
+}
+
+.author-details h1 {
+  font-size: 36px;
+  font-weight: 200;
+  margin: 0 0 8px 0;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: #ffffff;
+}
+
+.author-username {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 16px 0;
+  font-weight: 300;
+}
+
+.author-bio {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  font-weight: 300;
+}
+
+.author-stats {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 500;
+  color: #FF6B35;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.author-expertise {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.expertise-tag {
+  padding: 6px 16px;
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 20px;
+  font-size: 12px;
+  color: #FF6B35;
+  font-weight: 400;
+}
+
+.author-contact {
+  margin-top: 20px;
+}
+
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Profile Container */
+.author-profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* Offers Section */
+.offers-filters {
+  margin-bottom: 40px;
+}
+
+.offers-filters h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 20px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.category-filter {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.filter-button:hover {
+  background: rgba(255, 107, 53, 0.05);
+  border-color: rgba(255, 107, 53, 0.3);
+  color: #FF6B35;
+}
+
+.filter-button.active {
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  color: #000;
+  border-color: transparent;
+  font-weight: 500;
+}
+
+/* Offers Grid */
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+}
+
+.offer-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.offer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.offer-header h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+  flex: 1;
+  margin-right: 16px;
+}
+
+.offer-category {
+  padding: 4px 12px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 20px;
+  font-size: 11px;
+  color: #4CAF50;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.offer-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.offer-deliverables {
+  margin-bottom: 20px;
+}
+
+.offer-deliverables h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.offer-deliverables ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.offer-deliverables li {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.offer-deliverables li::before {
+  content: "✓";
+  color: #4CAF50;
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+}
+
+.offer-timeline {
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.offer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+}
+
+.offer-price {
+  font-size: 18px;
+  font-weight: 500;
+  color: #FF6B35;
+  letter-spacing: -0.3px;
+}
+
+.purchase-button {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.purchase-button:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+}
+
+/* No Offers State */
+.no-offers {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+}
+
+.no-offers h3 {
+  font-size: 24px;
+  font-weight: 200;
+  margin-bottom: 12px;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.no-offers p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .author-profile-header {
+    padding: 40px 20px;
+  }
+
+  .author-info-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .author-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+  }
+
+  .author-details h1 {
+    font-size: 28px;
+  }
+
+  .author-stats {
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .contact-info {
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .author-profile-container {
+    padding: 20px;
+  }
+
+  .offers-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .category-filter {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .offer-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .offer-header h3 {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}

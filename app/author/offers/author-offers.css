@@ -161,12 +161,30 @@
   margin-bottom: 20px;
 }
 
+.author-info {
+  cursor: default;
+}
+
+.author-info.clickable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.author-info.clickable:hover {
+  color: #FF6B35;
+}
+
+.author-info.clickable:hover h3 {
+  color: #FF6B35;
+}
+
 .author-info h3 {
   font-size: 20px;
   font-weight: 400;
   color: #ffffff;
   margin-bottom: 8px;
   letter-spacing: -0.3px;
+  transition: color 0.3s ease;
 }
 
 .author-stats {
@@ -244,6 +262,30 @@
   font-weight: 400;
   color: #ffffff;
   letter-spacing: -0.3px;
+}
+
+.author-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.view-profile-button {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-profile-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .hire-author-button {

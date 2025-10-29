@@ -3,6 +3,7 @@ import { useIntegratedWorkTree } from '../../utils/useIntegratedWorkTree';
 import { BlockchainDocumentService } from '../../services/BlockchainDocumentService';
 import WorkTreeCanvas from '../WorkTreeCanvas';
 import './DocumentVersioningModal.css';
+import './ModalStyles.css';
 
 interface DocumentVersioningModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
     error,
     createVersion,
     checkoutVersion,
+    createBranch,
     getChainStats,
     verifyChain,
     getLatestVersion,
@@ -47,32 +49,54 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
   const chainStats = getChainStats();
   const latestVersion = getLatestVersion();
 
-  const [activeTab, setActiveTab] = useState<'create' | 'history' | 'stats'>('create');
+  const [activeTab, setActiveTab] = useState<'create' | 'history' | 'stats' | 'branches'>('create');
   const [selectedVersion, setSelectedVersion] = useState(latestVersion);
+  const [newBranchName, setNewBranchName] = useState('');
+  const [isCreatingBranch, setIsCreatingBranch] = useState(false);
 
   // Handle version checkout (git checkout equivalent)
   const handleVersionCheckout = useCallback(async (version: any) => {
+    console.log('🌳 Work Tree: Attempting to checkout version:', version);
+    console.log('🌳 Work Tree: Version content preview:', version.content?.substring(0, 50) + '...');
+    
     if (version.localId === 'current') {
       // Can't checkout current - it's already current
+      console.log('🌳 Work Tree: Cannot checkout current version');
       return;
     }
 
     try {
+      console.log('🌳 Work Tree: Checking out version', version.metadata.version);
+      console.log('🌳 Work Tree: Available versions in chain:', versionChain?.versions.map(v => ({ 
+        version: v.metadata.version, 
+        contentLength: v.content?.length || 0,
+        hasContent: !!v.content 
+      })));
+      
       // Use integrated checkout which handles blockchain retrieval
       const result = await checkoutVersion(version.metadata.version);
+      
+      console.log('🌳 Work Tree: Checkout result:', {
+        contentLength: result.content?.length || 0,
+        hasContent: !!result.content,
+        preview: result.content?.substring(0, 100) + '...'
+      });
       
       // Restore content to this version for editing
       if (onContentRestore) {
         onContentRestore(result.content);
+        console.log('🌳 Work Tree: Content restored to editor');
+      } else {
+        console.warn('🌳 Work Tree: No onContentRestore callback provided');
       }
       
       // Show feedback but don't close modal so user can see the tree update
-      alert(`Checked out version ${version.metadata.version} - content restored`);
+      alert(`✅ Checked out version ${version.metadata.version} - content restored`);
     } catch (error) {
-      console.error('Failed to checkout version:', error);
-      alert(`Failed to checkout version ${version.metadata.version}`);
+      console.error('🌳 Work Tree: Failed to checkout version:', error);
+      alert(`❌ Failed to checkout version ${version.metadata.version}: ${error.message}`);
     }
-  }, [onContentRestore, checkoutVersion]);
+  }, [onContentRestore, checkoutVersion, versionChain]);
   const [isCreatingVersion, setIsCreatingVersion] = useState(false);
   const [costEstimates, setCostEstimates] = useState<any>(null);
   const [versionMetadata, setVersionMetadata] = useState({
@@ -114,6 +138,36 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
       }
     }
   }, [isOpen, currentContent, getCostEstimates]);
+
+  const handleCreateBranch = async () => {
+    if (!currentContent.trim() || !newBranchName.trim()) {
+      alert('Cannot create branch with empty content or name');
+      return;
+    }
+
+    setIsCreatingBranch(true);
+    try {
+      const metadata = {
+        title: `${documentTitle} - ${newBranchName}`,
+        description: versionMetadata.description || `Branch: ${newBranchName}`,
+        author: authorAddress,
+        authorHandle,
+        branchName: newBranchName
+      };
+
+      const inscription = await createBranch(documentId, newBranchName, currentContent, metadata);
+      
+      alert(`✅ Branch "${newBranchName}" created successfully!`);
+      setNewBranchName('');
+      setVersionMetadata(prev => ({ ...prev, description: '' }));
+      
+    } catch (error) {
+      console.error('Failed to create branch:', error);
+      alert('Failed to create branch. Please try again.');
+    } finally {
+      setIsCreatingBranch(false);
+    }
+  };
 
   const handleCreateVersion = async () => {
     if (!currentContent.trim()) {
@@ -241,6 +295,12 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
                 onClick={() => setActiveTab('stats')}
               >
                 Chain Stats
+              </button>
+              <button 
+                className={`tab ${activeTab === 'branches' ? 'active' : ''}`}
+                onClick={() => setActiveTab('branches')}
+              >
+                Branches
               </button>
             </div>
 
@@ -531,6 +591,57 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
                 <button onClick={verifyChain} className="btn-verify">
                   🔍 Verify Chain Integrity
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Branches Tab */}
+        {activeTab === 'branches' && (
+          <div className="tab-content">
+            <div className="branch-management">
+              <h3>Create New Branch</h3>
+              <div className="branch-form">
+                <div className="form-group">
+                  <label>Branch Name</label>
+                  <input
+                    type="text"
+                    value={newBranchName}
+                    onChange={(e) => setNewBranchName(e.target.value)}
+                    placeholder="feature/new-chapter, fix/typos, etc."
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Branch Description</label>
+                  <textarea
+                    value={versionMetadata.description}
+                    onChange={(e) => setVersionMetadata(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Describe what this branch is for..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="action-buttons">
+                  <button 
+                    onClick={handleCreateBranch}
+                    disabled={isCreatingBranch || !newBranchName.trim() || !currentContent.trim()}
+                    className="btn-create"
+                  >
+                    {isCreatingBranch ? 'Creating Branch...' : 'Create Branch from Current Content'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="branch-info">
+                <h4>About Branches</h4>
+                <p>Branches allow you to:</p>
+                <ul>
+                  <li>Work on different features simultaneously</li>
+                  <li>Experiment without affecting the main timeline</li>
+                  <li>Collaborate on different aspects of your document</li>
+                  <li>Merge changes back to main when ready</li>
+                </ul>
               </div>
             </div>
           </div>

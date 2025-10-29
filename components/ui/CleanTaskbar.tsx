@@ -7,6 +7,7 @@ import KeyboardShortcutsModal from '../modals/KeyboardShortcutsModal';
 import APIDocumentationModal from '../modals/APIDocumentationModal';
 import { HandCashService } from '../../services/HandCashService';
 import UnifiedAuth from '../auth/UnifiedAuth';
+import { ModernEditorCommands } from '../../utils/modernEditorCommands';
 
 interface MenuItem {
   label?: string;
@@ -119,13 +120,13 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Edit',
       items: [
-        { label: 'Undo', shortcut: '⌘Z', action: () => document.execCommand('undo') },
-        { label: 'Redo', shortcut: '⇧⌘Z', action: () => document.execCommand('redo') },
+        { label: 'Undo', shortcut: '⌘Z', action: () => ModernEditorCommands.undo() },
+        { label: 'Redo', shortcut: '⇧⌘Z', action: () => ModernEditorCommands.redo() },
         { divider: true },
-        { label: 'Cut', shortcut: '⌘X', action: () => document.execCommand('cut') },
-        { label: 'Copy', shortcut: '⌘C', action: () => document.execCommand('copy') },
-        { label: 'Paste', shortcut: '⌘V', action: () => document.execCommand('paste') },
-        { label: 'Select All', shortcut: '⌘A', action: () => document.execCommand('selectAll') },
+        { label: 'Cut', shortcut: '⌘X', action: () => ModernEditorCommands.cut() },
+        { label: 'Copy', shortcut: '⌘C', action: () => ModernEditorCommands.copy() },
+        { label: 'Paste', shortcut: '⌘V', action: () => ModernEditorCommands.paste() },
+        { label: 'Select All', shortcut: '⌘A', action: () => ModernEditorCommands.selectAll() },
         { divider: true },
         { label: 'Find...', shortcut: '⌘F', action: () => console.log('Find') }
       ]
@@ -133,14 +134,14 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'Format',
       items: [
-        { label: 'Bold', shortcut: '⌘B', action: () => document.execCommand('bold') },
-        { label: 'Italic', shortcut: '⌘I', action: () => document.execCommand('italic') },
-        { label: 'Underline', shortcut: '⌘U', action: () => document.execCommand('underline') },
+        { label: 'Bold', shortcut: '⌘B', action: () => ModernEditorCommands.applyFormat('bold') },
+        { label: 'Italic', shortcut: '⌘I', action: () => ModernEditorCommands.applyFormat('italic') },
+        { label: 'Underline', shortcut: '⌘U', action: () => ModernEditorCommands.applyFormat('underline') },
         { divider: true },
-        { label: 'Align Left', action: () => document.execCommand('justifyLeft') },
-        { label: 'Align Center', action: () => document.execCommand('justifyCenter') },
-        { label: 'Align Right', action: () => document.execCommand('justifyRight') },
-        { label: 'Justify', action: () => document.execCommand('justifyFull') }
+        { label: 'Align Left', action: () => ModernEditorCommands.applyFormat('justifyLeft') },
+        { label: 'Align Center', action: () => ModernEditorCommands.applyFormat('justifyCenter') },
+        { label: 'Align Right', action: () => ModernEditorCommands.applyFormat('justifyRight') },
+        { label: 'Justify', action: () => ModernEditorCommands.applyFormat('justifyFull') }
       ]
     },
     {

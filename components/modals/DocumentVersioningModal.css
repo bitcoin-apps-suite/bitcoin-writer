@@ -1011,6 +1011,52 @@
   }
 }
 
+/* Branch Management Styles */
+.branch-management {
+  padding: 20px;
+}
+
+.branch-management h3 {
+  color: #ff9500;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.branch-form {
+  background: rgba(255, 149, 0, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 149, 0, 0.15);
+  margin-bottom: 20px;
+}
+
+.branch-info {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #ff9500;
+}
+
+.branch-info h4 {
+  color: #ff9500;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.branch-info p {
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.branch-info ul {
+  color: #aaa;
+  margin-left: 20px;
+}
+
+.branch-info li {
+  margin-bottom: 5px;
+}
+
 /* Operation Progress */
 .operation-progress {
   background: linear-gradient(135deg, #1a1a1a 0%, #151515 100%);

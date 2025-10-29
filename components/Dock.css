@@ -142,13 +142,13 @@
 }
 
 .dock-app-special {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .dock-app-special .dock-icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 /* Dock status section */

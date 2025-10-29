@@ -3,25 +3,40 @@
 import React, { useState, useEffect } from 'react';
 import './author-offer.css';
 
-interface AuthorOffer {
-  id: string;
-  name: string;
+interface WritingOfferFormData {
+  title: string;
+  description: string;
+  category: string;
+  deliverables: string[];
+  timeline: string;
+  priceInBWRITER: string;
+  authorName: string;
+  authorEmail: string;
+  githubUsername: string;
+  handCashHandle: string;
+  samples: string;
   expertise: string[];
-  rate: string;
-  availability: string;
-  portfolio: string;
-  rating: number;
-  completedProjects: number;
-  bio: string;
 }
 
 const AuthorOfferPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [contactModalOpen, setContactModalOpen] = useState(false);
-  const [selectedAuthor, setSelectedAuthor] = useState<{ name: string; id: string } | null>(null);
+  const [showOfferForm, setShowOfferForm] = useState(true);
+  const [formData, setFormData] = useState<WritingOfferFormData>({
+    title: '',
+    description: '',
+    category: '',
+    deliverables: [],
+    timeline: '',
+    priceInBWRITER: '',
+    authorName: '',
+    authorEmail: '',
+    githubUsername: '',
+    handCashHandle: '',
+    samples: '',
+    expertise: []
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -55,97 +70,84 @@ const AuthorOfferPage: React.FC = () => {
     };
   }, []);
 
-  const authorOffers: AuthorOffer[] = [
-    {
-      id: '1',
-      name: 'Sarah Chen',
-      expertise: ['Technical Writing', 'API Documentation', 'Tutorials'],
-      rate: '150 $BWRITER/hour',
-      availability: 'Available Now',
-      portfolio: 'https://portfolio.example.com/sarah',
-      rating: 4.9,
-      completedProjects: 47,
-      bio: 'Specializing in developer documentation and technical content for blockchain projects.'
-    },
-    {
-      id: '2',
-      name: 'Michael Torres',
-      expertise: ['White Papers', 'Research', 'Academic Writing'],
-      rate: '200 $BWRITER/hour',
-      availability: '2 days',
-      portfolio: 'https://portfolio.example.com/michael',
-      rating: 4.8,
-      completedProjects: 32,
-      bio: 'PhD in Computer Science. Expert in blockchain technology and distributed systems.'
-    },
-    {
-      id: '3',
-      name: 'Emily Rodriguez',
-      expertise: ['Blog Posts', 'SEO Content', 'Marketing Copy'],
-      rate: '100 $BWRITER/hour',
-      availability: 'Available Now',
-      portfolio: 'https://portfolio.example.com/emily',
-      rating: 4.7,
-      completedProjects: 89,
-      bio: 'Creating engaging content that drives traffic and converts readers into users.'
-    },
-    {
-      id: '4',
-      name: 'David Kim',
-      expertise: ['Smart Contracts', 'Code Documentation', 'Technical Guides'],
-      rate: '250 $BWRITER/hour',
-      availability: '1 week',
-      portfolio: 'https://portfolio.example.com/david',
-      rating: 5.0,
-      completedProjects: 23,
-      bio: 'Solidity developer turned technical writer. Making complex code understandable.'
-    },
-    {
-      id: '5',
-      name: 'Jessica Wang',
-      expertise: ['Case Studies', 'User Stories', 'Product Documentation'],
-      rate: '120 $BWRITER/hour',
-      availability: 'Available Now',
-      portfolio: 'https://portfolio.example.com/jessica',
-      rating: 4.6,
-      completedProjects: 55,
-      bio: 'Telling your product\'s story through compelling narratives and clear documentation.'
-    },
-    {
-      id: '6',
-      name: 'Robert Martinez',
-      expertise: ['Grant Proposals', 'Business Plans', 'Pitch Decks'],
-      rate: '180 $BWRITER/hour',
-      availability: '3 days',
-      portfolio: 'https://portfolio.example.com/robert',
-      rating: 4.9,
-      completedProjects: 41,
-      bio: 'Helping startups secure funding with persuasive proposals and presentations.'
-    }
+
+  const categoryOptions = [
+    'Technical Writing',
+    'API Documentation', 
+    'Marketing Copy',
+    'User Documentation',
+    'Academic Writing',
+    'Blog Posts',
+    'White Papers',
+    'Case Studies',
+    'Tutorials',
+    'Grant Proposals',
+    'Press Releases',
+    'Product Descriptions',
+    'Website Copy',
+    'Social Media Content'
   ];
 
-  const categories = [
-    { value: 'all', label: 'All Writers' },
-    { value: 'technical', label: 'Technical Writing' },
-    { value: 'marketing', label: 'Marketing & SEO' },
-    { value: 'academic', label: 'Academic & Research' },
-    { value: 'business', label: 'Business Writing' }
+  const timelineOptions = [
+    '1-2 days',
+    '3-5 days', 
+    '1 week',
+    '2 weeks',
+    '3-4 weeks',
+    '1-2 months',
+    '3+ months'
   ];
 
-  const filteredOffers = selectedCategory === 'all' 
-    ? authorOffers 
-    : authorOffers.filter(offer => {
-        if (selectedCategory === 'technical') return offer.expertise.some(e => e.includes('Technical') || e.includes('API') || e.includes('Code'));
-        if (selectedCategory === 'marketing') return offer.expertise.some(e => e.includes('Blog') || e.includes('SEO') || e.includes('Marketing'));
-        if (selectedCategory === 'academic') return offer.expertise.some(e => e.includes('Research') || e.includes('Academic') || e.includes('White'));
-        if (selectedCategory === 'business') return offer.expertise.some(e => e.includes('Grant') || e.includes('Business') || e.includes('Pitch'));
-        return false;
-      });
-
-  const handleContactAuthor = (authorName: string, authorId: string) => {
-    setSelectedAuthor({ name: authorName, id: authorId });
-    setContactModalOpen(true);
+  const handleDeliverablesChange = (deliverable: string) => {
+    setFormData(prev => ({
+      ...prev,
+      deliverables: prev.deliverables.includes(deliverable)
+        ? prev.deliverables.filter(d => d !== deliverable)
+        : [...prev.deliverables, deliverable]
+    }));
   };
+
+  const handleSubmitOffer = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!formData.title || !formData.description || !formData.category || !formData.authorName || !formData.authorEmail || !formData.priceInBWRITER) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Store writing offer (mock implementation)
+    const writingOffer = {
+      ...formData,
+      id: `offer_${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      status: 'active'
+    };
+
+    // Save to localStorage (in production this would go to a database)
+    const existingOffers = JSON.parse(localStorage.getItem('writing_offers') || '[]');
+    existingOffers.push(writingOffer);
+    localStorage.setItem('writing_offers', JSON.stringify(existingOffers));
+
+    alert('Your writing offer has been submitted! Potential clients can now see and purchase your specific writing service.');
+    
+    // Reset form
+    setFormData({
+      title: '',
+      description: '',
+      category: '',
+      deliverables: [],
+      timeline: '',
+      priceInBWRITER: '',
+      authorName: '',
+      authorEmail: '',
+      githubUsername: '',
+      handCashHandle: '',
+      samples: '',
+      expertise: []
+    });
+  };
+
 
   return (
     <div className="app-wrapper">
@@ -153,85 +155,168 @@ const AuthorOfferPage: React.FC = () => {
         
         {/* Hero Section */}
         <div className="author-offers-hero">
-          <h1>Find Professional Writers</h1>
-          <p>Connect with experienced writers ready to work on your blockchain projects</p>
-          <div className="author-offers-badge">12 WRITERS AVAILABLE</div>
+          <h1>Create Writing Offer</h1>
+          <p>Offer a specific writing service on a particular subject that clients can purchase</p>
+          <div className="author-offers-badge">OFFER YOUR EXPERTISE</div>
         </div>
 
         <div className="author-offers-container">
-          {/* Filters */}
-          <div className="author-offers-filters">
-            <div className="category-filter">
-              {categories.map(cat => (
-                <button
-                  key={cat.value}
-                  className={`filter-button ${selectedCategory === cat.value ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(cat.value)}
-                >
-                  {cat.label}
-                </button>
-              ))}
+          <div className="writer-form-container">
+            <div className="form-header">
+              <h2>Create Your Writing Offer</h2>
+              <p>Define a specific writing service you want to offer to potential clients</p>
             </div>
-          </div>
 
-          {/* Authors Grid */}
-          <div className="author-offers-grid">
-            {filteredOffers.map(offer => (
-              <div key={offer.id} className="author-offer-card">
-                <div className="author-header">
-                  <div className="author-info">
-                    <h3>{offer.name}</h3>
-                    <div className="author-stats">
-                      <span className="rating">⭐ {offer.rating}</span>
-                      <span className="projects">{offer.completedProjects} projects</span>
+              <form onSubmit={handleSubmitOffer} className="writer-offer-form">
+                <div className="form-group">
+                  <label>Offer Title *</label>
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    placeholder="e.g., 'I will write a comprehensive blockchain whitepaper' or 'I will create API documentation for your project'"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Detailed Description *</label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    placeholder="Describe exactly what you will write, the subject matter, your approach, and what makes your offer unique..."
+                    rows={6}
+                    required
+                  />
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Category *</label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({...formData, category: e.target.value})}
+                      required
+                    >
+                      <option value="">Select category</option>
+                      {categoryOptions.map(category => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Timeline *</label>
+                    <select
+                      value={formData.timeline}
+                      onChange={(e) => setFormData({...formData, timeline: e.target.value})}
+                      required
+                    >
+                      <option value="">Select timeline</option>
+                      {timelineOptions.map(timeline => (
+                        <option key={timeline} value={timeline}>{timeline}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>What You'll Deliver</label>
+                  <div className="deliverables-section">
+                    <div className="deliverable-options">
+                      {['Written Document', 'Research & Sources', 'Revisions Included', 'SEO Optimization', 'Graphics/Charts', 'Executive Summary'].map(deliverable => (
+                        <label key={deliverable} className="expertise-checkbox">
+                          <input
+                            type="checkbox"
+                            checked={formData.deliverables.includes(deliverable)}
+                            onChange={() => handleDeliverablesChange(deliverable)}
+                          />
+                          <span>{deliverable}</span>
+                        </label>
+                      ))}
                     </div>
                   </div>
-                  <div className={`availability ${offer.availability === 'Available Now' ? 'available' : 'busy'}`}>
-                    {offer.availability === 'Available Now' ? 'AVAILABLE' : 'IN ' + offer.availability.toUpperCase()}
+                </div>
+
+                <div className="form-group">
+                  <label>Price in $BWRITER Tokens *</label>
+                  <input
+                    type="number"
+                    value={formData.priceInBWRITER}
+                    onChange={(e) => setFormData({...formData, priceInBWRITER: e.target.value})}
+                    placeholder="5000"
+                    required
+                  />
+                  <small>Fixed price for this specific writing service</small>
+                </div>
+
+                <div className="form-group">
+                  <label>Writing Samples/Portfolio</label>
+                  <textarea
+                    value={formData.samples}
+                    onChange={(e) => setFormData({...formData, samples: e.target.value})}
+                    placeholder="Provide links to relevant writing samples or describe your relevant experience..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="author-contact-section">
+                  <h3>Contact Information</h3>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Your Name *</label>
+                      <input
+                        type="text"
+                        value={formData.authorName}
+                        onChange={(e) => setFormData({...formData, authorName: e.target.value})}
+                        placeholder="Your full name"
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Email *</label>
+                      <input
+                        type="email"
+                        value={formData.authorEmail}
+                        onChange={(e) => setFormData({...formData, authorEmail: e.target.value})}
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>GitHub Username</label>
+                      <input
+                        type="text"
+                        value={formData.githubUsername}
+                        onChange={(e) => setFormData({...formData, githubUsername: e.target.value})}
+                        placeholder="your-github-username"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>HandCash Handle</label>
+                      <input
+                        type="text"
+                        value={formData.handCashHandle}
+                        onChange={(e) => setFormData({...formData, handCashHandle: e.target.value})}
+                        placeholder="$yourhandle"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <p className="author-bio">{offer.bio}</p>
-
-                <div className="expertise-tags">
-                  {offer.expertise.map((skill, index) => (
-                    <span key={index} className="expertise-tag">{skill}</span>
-                  ))}
-                </div>
-
-                <div className="author-footer">
-                  <div className="rate">{offer.rate}</div>
-                  <button 
-                    className="hire-author-button"
-                    onClick={() => handleContactAuthor(offer.name, offer.id)}
-                  >
-                    Hire This Writer →
+                <div className="form-actions">
+                  <button type="button" className="cancel-btn" onClick={() => window.history.back()}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="submit-btn">
+                    Create Writing Offer →
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA Section */}
-          <div className="author-offers-cta">
-            <h2>Looking to Offer Your Writing Services?</h2>
-            <p>Join our network of professional writers and connect with publishers looking for quality content.</p>
-            <button className="create-offer-button" onClick={() => window.location.href = '/author/offer'}>
-              Create Your Writer Profile →
-            </button>
-          </div>
-        </div>
-        
-        {/* Simple Modal (replacing ContactAuthorModal for now) */}
-        {contactModalOpen && selectedAuthor && (
-          <div className="modal-overlay" onClick={() => setContactModalOpen(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h3>Contact {selectedAuthor.name}</h3>
-              <p>Feature coming soon! You'll be able to send messages directly to writers.</p>
-              <button onClick={() => setContactModalOpen(false)}>Close</button>
+              </form>
             </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
