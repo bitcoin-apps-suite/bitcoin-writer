@@ -10,7 +10,7 @@ export default function PRDPage() {
         <div className="prd-container">
           {/* Hero Section */}
           <section className="prd-hero">
-            <h1><span style={{color: '#ffffff'}}>Bitcoin Writer</span> <span style={{color: '#f7931a'}}>Product Requirements</span></h1>
+            <h1><span style={{color: '#ffffff'}}>Bitcoin Writer</span> <span style={{color: '#ffffff'}}>Product Requirements Document</span></h1>
             <p className="prd-tagline">
               Comprehensive product specification for the decentralized writing platform
             </p>
