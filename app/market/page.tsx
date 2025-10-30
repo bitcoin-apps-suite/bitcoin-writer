@@ -447,6 +447,21 @@ const MarketPage: React.FC = () => {
       thumbnail: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=250&fit=crop&crop=center',
       isTokenized: false,
       trending: true
+    },
+    {
+      id: '27',
+      title: 'From Vision to Action: The bCorp Development Trust and Bitcoin Operating System',
+      description: 'How the bCorp Development Trust bridges the gap between Bitcoin\'s theoretical potential and practical implementation through the bOS framework and bApps ecosystem',
+      author: 'b0ase',
+      authorHandle: '@b0ase',
+      platform: 'Bitcoin Writer',
+      category: 'Technology',
+      readTime: 18,
+      engagement: 3420,
+      thumbnail: '/bitcoin-os-header.jpg',
+      price: 0.01,
+      isTokenized: true,
+      trending: true
     }
   ];
 
