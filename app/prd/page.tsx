@@ -78,23 +78,23 @@ export default function PRDPage() {
               </div>
 
               <div className="model-card">
-                <h3>Blockchain Integration</h3>
+                <h3>Multi-Provider Storage Integration</h3>
                 <ul>
                   <li>
-                    <strong>Content Hashing:</strong> Automatic SHA-256 hashing to Bitcoin for 
-                    permanent proof of authorship and timestamping
+                    <strong>Content Hashing:</strong> Automatic SHA-256 hashing of all content with 
+                    hash commitment to Bitcoin blockchain for proof of existence and timestamping
                   </li>
                   <li>
-                    <strong>Smart Storage:</strong> Multiple storage options including BSV blockchain, 
-                    encrypted content, and scheduled publication
+                    <strong>Storage Provider Options:</strong> Local browser storage, AWS S3, Google Cloud Storage, 
+                    Cloudflare R2, IPFS, and Bitcoin blockchain - all connected via cryptographic hashes
                   </li>
                   <li>
-                    <strong>Cost Estimation:</strong> Real-time pricing based on content size 
-                    (~$0.00000001-0.01 per document)
+                    <strong>Provider-Agnostic Architecture:</strong> Content can be moved between storage 
+                    providers while maintaining blockchain-verified integrity through hash anchoring
                   </li>
                   <li>
-                    <strong>Permanent Storage:</strong> Immutable content preservation on Bitcoin 
-                    blockchain with global accessibility
+                    <strong>Cost Optimization:</strong> Dynamic storage selection based on content importance, 
+                    access patterns, and cost preferences (free local to premium on-chain)
                   </li>
                 </ul>
               </div>
@@ -128,12 +128,13 @@ export default function PRDPage() {
             <h2>Technical Architecture</h2>
             <div className="architecture-content">
               <p className="intro">
-                Bitcoin Writer is built on a modern technology stack that combines traditional web development 
-                practices with cutting-edge blockchain integration for permanent content storage and micropayments.
+                Bitcoin Writer is built on a multi-provider storage architecture where all content - whether stored 
+                locally, on external providers, or on-chain - is connected to Bitcoin blockchain via cryptographic hashes 
+                for verification and provenance tracking.
               </p>
 
               <div className="architecture-model">
-                <h3>Technology Stack</h3>
+                <h3>Core Technology Stack</h3>
                 <div className="tech-streams">
                   <div className="stream">
                     <h4>Frontend</h4>
@@ -141,33 +142,52 @@ export default function PRDPage() {
                     <p className="tech-detail">Quill.js Editor</p>
                   </div>
                   <div className="stream featured">
-                    <h4>Blockchain</h4>
-                    <p>Bitcoin SV (BSV) for storage</p>
-                    <p className="tech-detail">HandCash Integration</p>
+                    <h4>Blockchain Layer</h4>
+                    <p>Bitcoin for hash anchoring</p>
+                    <p className="tech-detail">HandCash Payments</p>
                   </div>
                   <div className="stream">
-                    <h4>Backend</h4>
+                    <h4>Backend APIs</h4>
                     <p>Node.js with Express</p>
-                    <p className="tech-detail">AI Service APIs</p>
+                    <p className="tech-detail">Provider Integrations</p>
                   </div>
                 </div>
                 
-                <h3 style={{marginTop: '40px'}}>Storage & Costs</h3>
+                <h3 style={{marginTop: '40px'}}>Multi-Provider Storage Architecture</h3>
                 <div className="tech-streams">
                   <div className="stream">
                     <h4>Local Storage</h4>
-                    <p>Browser localStorage for drafts</p>
+                    <p>Browser localStorage, IndexedDB</p>
                     <p className="tech-detail">Free</p>
                   </div>
+                  <div className="stream">
+                    <h4>External Providers</h4>
+                    <p>AWS S3, Google Cloud, Cloudflare</p>
+                    <p className="tech-detail">$0.01-0.10/GB</p>
+                  </div>
                   <div className="stream featured">
-                    <h4>Blockchain Storage</h4>
-                    <p>Permanent BSV storage</p>
+                    <h4>On-Chain Storage</h4>
+                    <p>Bitcoin blockchain (BSV)</p>
                     <p className="tech-detail">~$0.05/KB</p>
                   </div>
+                </div>
+                
+                <h3 style={{marginTop: '40px'}}>Hash-Based Chain Connectivity</h3>
+                <div className="tech-streams">
                   <div className="stream">
-                    <h4>Encrypted Storage</h4>
-                    <p>AES-256 encrypted content</p>
-                    <p className="tech-detail">+10% premium</p>
+                    <h4>Content Hashing</h4>
+                    <p>SHA-256 fingerprinting</p>
+                    <p className="tech-detail">All Providers</p>
+                  </div>
+                  <div className="stream featured">
+                    <h4>Blockchain Anchoring</h4>
+                    <p>Hash commitment to Bitcoin</p>
+                    <p className="tech-detail">Proof of Existence</p>
+                  </div>
+                  <div className="stream">
+                    <h4>Provider Agnostic</h4>
+                    <p>Content portable across storage</p>
+                    <p className="tech-detail">Hash Verification</p>
                   </div>
                 </div>
               </div>
@@ -272,7 +292,7 @@ export default function PRDPage() {
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
                   <h3>Phase 1: Core Platform</h3>
-                  <p>Document editor with blockchain storage, HandCash authentication, basic contract system, micropayment integration, and NFT asset creation.</p>
+                  <p>Document editor with blockchain hashing, HandCash authentication, basic contract system, micropayment integration, and local storage.</p>
                   <div className="timeline-status">✅ Completed</div>
                 </div>
               </div>
@@ -280,8 +300,8 @@ export default function PRDPage() {
               <div className="timeline-item current">
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
-                  <h3>Phase 2: Enhanced Features</h3>
-                  <p>Advanced collaboration tools, mobile application, enhanced AI integration, analytics dashboard, and enterprise features.</p>
+                  <h3>Phase 2: Multi-Provider Integration</h3>
+                  <p>AWS S3, Google Cloud, Cloudflare R2 integration, advanced collaboration tools, mobile application, and enhanced AI features.</p>
                   <div className="timeline-status">🚧 Q1 2025</div>
                 </div>
               </div>
@@ -289,8 +309,8 @@ export default function PRDPage() {
               <div className="timeline-item">
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
-                  <h3>Phase 3: Ecosystem Expansion</h3>
-                  <p>Multi-blockchain support, advanced publishing tools, community governance, plugin ecosystem, and international expansion.</p>
+                  <h3>Phase 3: Enterprise & CDN Integration</h3>
+                  <p>Enterprise storage solutions, global CDN integration, advanced publishing workflows, analytics dashboard, and API ecosystem.</p>
                   <div className="timeline-status">📅 Q2 2025</div>
                 </div>
               </div>
@@ -298,8 +318,8 @@ export default function PRDPage() {
               <div className="timeline-item">
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
-                  <h3>Phase 4: Platform Maturity</h3>
-                  <p>Advanced analytics, ML recommendations, institutional partnerships, regulatory compliance tools, and global scaling.</p>
+                  <h3>Phase 4: Global Infrastructure</h3>
+                  <p>Multi-region deployment, advanced analytics, ML recommendations, institutional partnerships, and regulatory compliance tools.</p>
                   <div className="timeline-status">🎯 Q3-Q4 2025</div>
                 </div>
               </div>
@@ -384,16 +404,16 @@ export default function PRDPage() {
                 <h3>Technical Risks</h3>
                 <ul>
                   <li>
-                    <strong>Blockchain Scalability:</strong> BSV transaction capacity limitations could 
-                    affect platform growth. Mitigation: Multi-blockchain architecture for scalability.
+                    <strong>Provider Dependencies:</strong> Reliance on external storage providers (AWS, Cloudflare) 
+                    could create service disruptions. Mitigation: Multi-provider redundancy and local fallbacks.
                   </li>
                   <li>
                     <strong>Cost Volatility:</strong> Bitcoin price fluctuations affecting storage costs. 
                     Mitigation: Transparent pricing with real-time cost predictions.
                   </li>
                   <li>
-                    <strong>Integration Complexity:</strong> Third-party API dependencies may create 
-                    service disruptions. Mitigation: Redundant service providers and local caching.
+                    <strong>Integration Complexity:</strong> Managing multiple storage provider APIs (AWS, Google Cloud, 
+                    Cloudflare) increases technical complexity. Mitigation: Unified abstraction layer and comprehensive testing.
                   </li>
                 </ul>
               </div>
