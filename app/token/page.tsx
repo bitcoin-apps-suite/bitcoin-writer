@@ -287,11 +287,6 @@ export default function TokenPage() {
               market to provide liquidity and price discovery for contributors' work.
             </p>
             <p>
-              <strong>$BSHARE Fundraising:</strong> The Bitcoin Corporation LTD intends to issue $BSHARE 
-              tokens as a fundraising mechanism. These tokens will represent participation in the platform's 
-              success and may be offered through appropriate channels.
-            </p>
-            <p>
               By participating in the token ecosystem, you acknowledge that token allocation is discretionary, 
               regulatory frameworks may evolve, and you should conduct your own due diligence regarding 
               tax and legal implications in your jurisdiction.
