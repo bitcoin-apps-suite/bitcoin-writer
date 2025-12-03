@@ -13,6 +13,7 @@ const Navigation: React.FC = () => {
     { href: '/', label: 'Editor', icon: '📝' },
     { href: '/blog', label: 'Blog', icon: '📰' },
     { href: '/features', label: 'Features', icon: '⚡' },
+    { href: '/proof-of-work-paradigm', label: 'PoW Paradigm', icon: '⛏️' },
     { href: '/exchange', label: 'Exchange', icon: '💱' },
     { href: '/token', label: 'Token', icon: '🪙' },
     { href: '/trust', label: 'Trust', icon: '🏛️' },

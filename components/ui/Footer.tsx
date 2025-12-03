@@ -41,6 +41,7 @@ const Footer: React.FC = () => {
           <ul>
             <li><a href="/platform">About</a></li>
             <li><a href="/features">Features</a></li>
+            <li><a href="/proof-of-work-paradigm">PoW Paradigm</a></li>
             <li><a href="/docs">Documentation</a></li>
             <li><a href="/signup">Sign Up</a></li>
           </ul>
