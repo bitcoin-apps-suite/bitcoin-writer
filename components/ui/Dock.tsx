@@ -102,8 +102,8 @@ const Dock: React.FC<DockProps> = ({ currentApp = 'bitcoin-writer' }) => {
   ];
 
   const specialApps: DockApp[] = [
-    { id: 'corp', name: 'Corp', icon: Building2, color: 'text-bitcoin-orange', url: 'https://bitcoin-corp.vercel.app/' },
-    { id: 'trust', name: 'Trust', icon: Shield, color: 'text-blue-500', url: 'https://bitcoin-corp.vercel.app/trust' },
+    { id: 'corp', name: 'Corp', icon: Building2, color: 'text-bitcoin-orange', url: 'https://www.thebitcoincorporation.website/' },
+    { id: 'trust', name: 'Trust', icon: Shield, color: 'text-blue-500', url: 'https://www.thebitcoincorporation.website/trust' },
     { id: 'bapps-mini', name: 'BAPPS', icon: Store, color: 'text-orange-500', url: 'https://www.bitcoinapps.store/' },
     { id: 'cashboard', name: 'CashBoard', icon: 'custom', color: 'text-white', url: 'https://www.cashboard.website/' },
     { id: 'senseii', name: 'Senseii', icon: 'custom', color: 'text-red-500', url: 'https://senseii-zeta.vercel.app/' },
