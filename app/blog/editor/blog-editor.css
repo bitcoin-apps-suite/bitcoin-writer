@@ -339,3 +339,106 @@
     margin-left: 0;
   }
 }
+
+/* Settings Panel */
+.settings-panel {
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  padding: 1rem;
+}
+
+.toggle-settings-btn {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: 1px solid #666;
+  color: #999;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-settings-btn:hover {
+  border-color: #F7931A;
+  color: #F7931A;
+}
+
+/* Save button */
+.save-btn {
+  padding: 0.75rem 1.5rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Documents list */
+.documents-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Quill editor styles for dark theme */
+.ql-container {
+  min-height: 400px;
+  font-size: 16px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #e0e0e0;
+}
+
+.ql-editor {
+  min-height: 400px;
+}
+
+.ql-toolbar {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-bottom: none;
+}
+
+.ql-toolbar button {
+  color: #999;
+}
+
+.ql-toolbar button:hover,
+.ql-toolbar button.ql-active {
+  color: #F7931A;
+}
+
+.ql-toolbar .ql-stroke {
+  stroke: #999;
+}
+
+.ql-toolbar button:hover .ql-stroke,
+.ql-toolbar button.ql-active .ql-stroke {
+  stroke: #F7931A;
+}
+
+.ql-toolbar .ql-fill {
+  fill: #999;
+}
+
+.ql-toolbar button:hover .ql-fill,
+.ql-toolbar button.ql-active .ql-fill {
+  fill: #F7931A;
+}
+
+.ql-editor.ql-blank::before {
+  color: #666;
+}

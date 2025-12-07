@@ -1,0 +1,46 @@
+{
+  "name": "bitcoin-writer-metanet",
+  "version": "2.0.0",
+  "description": "Bitcoin Writer for Metanet Desktop App Store",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "cd .. && npm run build && cp -r .next metanet-app/",
+    "package": "npm run build && zip -r bitcoin-writer-metanet.zip .",
+    "test": "node test-integration.js"
+  },
+  "keywords": [
+    "bitcoin",
+    "bsv",
+    "writing",
+    "blockchain",
+    "metanet",
+    "kvstore",
+    "bwriter"
+  ],
+  "author": "The Bitcoin Corporation LTD",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "babbage-kvstore": "^2.0.1",
+    "kvstore-topic-manager": "^0.1.2",
+    "kvstore-lookup-service": "^0.1.1",
+    "@bsv/sdk": "^1.8.3",
+    "bsv": "^2.0.10"
+  },
+  "metanet": {
+    "appId": "com.bitcoincorp.writer",
+    "displayName": "Bitcoin Writer",
+    "category": "Productivity",
+    "icon": "./icon.png",
+    "permissions": [
+      "wallet",
+      "kvstore",
+      "network"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

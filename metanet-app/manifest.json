@@ -1,0 +1,134 @@
+{
+  "name": "Bitcoin Writer",
+  "id": "com.bitcoincorp.writer",
+  "version": "2.0.0",
+  "description": "Professional blockchain-based writing platform with KVStore integration",
+  "author": {
+    "name": "The Bitcoin Corporation LTD",
+    "email": "support@bitcoincorp.com",
+    "url": "https://www.bitcoin-writer.com"
+  },
+  "categories": ["Productivity", "Writing", "Blockchain"],
+  "icon": "/icons/bitcoin-writer-icon.png",
+  "screenshots": [
+    "/screenshots/editor.png",
+    "/screenshots/marketplace.png",
+    "/screenshots/exchange.png"
+  ],
+  "permissions": [
+    "wallet:read",
+    "wallet:write",
+    "kvstore:read",
+    "kvstore:write",
+    "network:access",
+    "storage:local"
+  ],
+  "wallet_integration": {
+    "enabled": true,
+    "protocols": ["BRC100", "1Sat Ordinals"],
+    "features": [
+      "payment_processing",
+      "token_management",
+      "signature_verification"
+    ]
+  },
+  "api_endpoints": {
+    "json_api": {
+      "port": 3321,
+      "enabled": true,
+      "endpoints": [
+        "/api/balance",
+        "/api/deploy-bwriter",
+        "/api/marketplace",
+        "/api/grants",
+        "/api/exchange"
+      ]
+    },
+    "wallet_wire": {
+      "port": 3301,
+      "enabled": false
+    }
+  },
+  "kvstore_integration": {
+    "enabled": true,
+    "topics": [
+      "blog-posts",
+      "quill-documents",
+      "article-drafts",
+      "user-settings"
+    ],
+    "features": [
+      "auto_save",
+      "encrypted_storage",
+      "call_operations",
+      "topic_management"
+    ]
+  },
+  "ui": {
+    "type": "web",
+    "framework": "Next.js",
+    "responsive": true,
+    "themes": ["dark", "light"],
+    "entry_point": "/index.html"
+  },
+  "dependencies": {
+    "bsv": "^2.0.10",
+    "babbage-kvstore": "^2.0.1",
+    "kvstore-topic-manager": "^0.1.2",
+    "kvstore-lookup-service": "^0.1.1",
+    "@bsv/sdk": "^1.8.3"
+  },
+  "features": {
+    "blog_editor": {
+      "enabled": true,
+      "description": "Rich text editor with blockchain publishing",
+      "quill_integration": true,
+      "kvstore_save": true
+    },
+    "marketplace": {
+      "enabled": true,
+      "description": "Buy and sell articles with $bWriter tokens",
+      "payment_methods": ["BSV", "bWriter"]
+    },
+    "exchange": {
+      "enabled": true,
+      "description": "Trade $bWriter tokens",
+      "pairs": ["bWriter/BSV", "bWriter/USD"]
+    },
+    "grants": {
+      "enabled": true,
+      "description": "Submit and manage grant proposals",
+      "categories": ["Author", "Developer", "Publisher"]
+    },
+    "token_management": {
+      "enabled": true,
+      "symbol": "bWriter",
+      "total_supply": 10000000,
+      "decimals": 8
+    }
+  },
+  "launch_settings": {
+    "auto_start": false,
+    "minimize_to_tray": true,
+    "start_minimized": false,
+    "single_instance": true
+  },
+  "update_policy": {
+    "auto_update": true,
+    "update_channel": "stable",
+    "check_interval": 86400
+  },
+  "license": "AGPL-3.0",
+  "repository": "https://github.com/bitcoin-apps-suite/bitcoin-writer",
+  "support": {
+    "email": "support@bitcoincorp.com",
+    "discord": "https://discord.gg/bitcoin-writer",
+    "documentation": "https://docs.bitcoin-writer.com"
+  },
+  "minimum_requirements": {
+    "metanet_desktop": "0.1.0",
+    "node": "16.0.0",
+    "memory": "512MB",
+    "storage": "100MB"
+  }
+}
