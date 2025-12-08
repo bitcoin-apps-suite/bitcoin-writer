@@ -1,0 +1,563 @@
+/* Bitcoin Writer - Microsoft Word Dark Theme Style */
+
+:root {
+  --bg-primary: #1b1b1b;
+  --bg-secondary: #2d2d30;
+  --bg-tertiary: #252526;
+  --bg-document: #2d2d30;
+  --bg-page: #1e1e1e;
+  --text-primary: #cccccc;
+  --text-secondary: #969696;
+  --text-muted: #6e6e6e;
+  --border-color: #3e3e42;
+  --accent-orange: #f7931a;
+  --accent-orange-hover: #e6851a;
+  --ribbon-bg: #2d2d30;
+  --tab-active: #1b1b1b;
+  --button-hover: #3e3e42;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  user-select: none;
+}
+
+.desktop-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* Title Bar */
+.title-bar-wrapper {
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border-color);
+  -webkit-app-region: drag;
+}
+
+.title-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 80px; /* Fixed width for traffic light buttons */
+}
+
+/* Quick Access Toolbar */
+.quick-access-toolbar-wrapper {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 32px;
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-primary);
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-app-region: no-drag;
+}
+
+.toolbar-btn:hover {
+  background: var(--button-hover);
+  border-color: var(--border-color);
+}
+
+.toolbar-btn:active {
+  background: var(--accent-orange);
+  color: white;
+  border-color: var(--accent-orange-hover);
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 20px;
+  background: var(--border-color);
+  margin: 0 4px;
+}
+
+.search-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.search-input {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  width: 150px;
+  -webkit-app-region: no-drag;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-orange);
+}
+
+.theme-toggle {
+  font-size: 12px;
+}
+
+.title-bar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.document-title {
+  color: var(--text-primary);
+  font-size: 12px;
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 2px;
+  outline: none;
+  text-align: center;
+  -webkit-app-region: no-drag;
+}
+
+.document-title:hover {
+  background: var(--button-hover);
+}
+
+.document-title:focus {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--accent-orange);
+}
+
+.title-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 80px; /* Match left side width for symmetry */
+  justify-content: flex-end;
+  -webkit-app-region: no-drag;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0 8px;
+  height: 24px;
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  outline: none;
+  width: 200px;
+  font-size: 12px;
+}
+
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.share-button {
+  background: var(--accent-orange);
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.share-button:hover {
+  background: var(--accent-orange-hover);
+}
+
+/* Ribbon Tabs */
+.ribbon-tabs {
+  background: var(--ribbon-bg);
+  display: flex;
+  align-items: flex-end;
+  height: 30px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ribbon-tab {
+  padding: 6px 12px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.ribbon-tab:hover {
+  color: var(--text-primary);
+  background: var(--button-hover);
+}
+
+.ribbon-tab.active {
+  background: var(--tab-active);
+  color: var(--accent-orange);
+  border: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--tab-active);
+}
+
+/* Ribbon Content */
+.ribbon-content {
+  background: var(--tab-active);
+  border-bottom: 1px solid var(--border-color);
+  height: 90px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 1px;
+}
+
+.ribbon-section {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color);
+  padding: 0 12px;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.ribbon-section:last-child {
+  border-right: none;
+}
+
+.section-content {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex: 1;
+}
+
+.section-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Ribbon Buttons */
+.ribbon-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 3px;
+  min-width: 40px;
+  height: 60px;
+  gap: 2px;
+}
+
+.ribbon-button:hover {
+  background: var(--button-hover);
+  border-color: var(--border-color);
+}
+
+.ribbon-button.active,
+.format-btn.active {
+  background: var(--accent-orange);
+  color: white;
+  border-color: var(--accent-orange-hover);
+}
+
+.ribbon-button.large {
+  min-width: 50px;
+  font-size: 24px;
+}
+
+.ribbon-button .icon {
+  font-size: 20px;
+}
+
+.ribbon-button .label {
+  font-size: 11px;
+}
+
+.ribbon-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 12px;
+  height: 28px;
+}
+
+.ribbon-dropdown:hover {
+  background: var(--button-hover);
+}
+
+/* Styles Gallery */
+.styles-gallery {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  height: 64px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted) transparent;
+}
+
+.styles-gallery::-webkit-scrollbar {
+  height: 6px;
+}
+
+.styles-gallery::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 0 4px;
+}
+
+.styles-gallery::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.styles-gallery::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.style-item {
+  min-width: 80px;
+  height: 52px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.style-item:hover {
+  border-color: var(--accent-orange);
+  color: var(--text-primary);
+}
+
+.style-item.active {
+  border-color: var(--accent-orange);
+  background: var(--button-hover);
+}
+
+/* Document Area */
+.document-container {
+  flex: 1;
+  background: linear-gradient(135deg, #2d2d30 0%, #3a2f2a 50%, #2d2d30 100%);
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.page-wrapper {
+  background: var(--bg-page);
+  width: 816px;
+  min-height: 1056px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  border: 1px solid var(--border-color);
+  padding: 96px;
+  margin: 0 auto 20px;
+}
+
+.editor {
+  min-height: 864px;
+  font-family: 'Calibri', 'Times New Roman', serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Quill Dark Theme Overrides */
+.ql-container {
+  border: none !important;
+  font-size: 11pt !important;
+}
+
+.ql-editor {
+  padding: 0 !important;
+  min-height: 864px;
+  color: var(--text-primary);
+}
+
+.ql-editor.ql-blank::before {
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.ql-snow .ql-tooltip {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+/* Status Bar */
+.status-bar {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zoom-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zoom-slider {
+  width: 100px;
+  height: 4px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Hide old elements */
+.menubar,
+.main-toolbar {
+  display: none;
+}
+
+/* Selection Color */
+::selection {
+  background: var(--accent-orange);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--accent-orange);
+  color: white;
+}
+
+/* Quill Font Styles */
+.ql-font-calibri {
+  font-family: 'Calibri', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.ql-font-arial {
+  font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.ql-font-times-new-roman {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.ql-font-segoe-ui {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.ql-font-georgia {
+  font-family: 'Georgia', 'Times New Roman', Times, serif;
+}
+
+.ql-font-verdana {
+  font-family: 'Verdana', 'Geneva', 'DejaVu Sans', sans-serif;
+}

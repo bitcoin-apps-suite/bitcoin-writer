@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Writer</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Word Dark Theme CSS -->
+    <link rel="stylesheet" href="word-dark.css">
+    <link rel="stylesheet" href="lexical-editor.css">
+    <link rel="stylesheet" href="browser-menu.css">
+    
+    <!-- PWA meta tags -->
+    <meta name="theme-color" content="#1b1b1b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body>
+    <div id="app" class="desktop-app browser-version">
+        <!-- Browser Menu Bar -->
+        <div class="browser-menu-bar">
+            <div class="app-brand">
+                <span class="bitcoin-logo">₿</span>
+                <span class="brand-text">Bitcoin Writer</span>
+            </div>
+            <div class="menu-separator-vertical"></div>
+            <div class="menu-item" data-menu="file">
+                <span>File</span>
+                <div class="dropdown-menu">
+                    <div class="menu-option" onclick="window.app.newDocument()">New Document <span class="shortcut">⌘N</span></div>
+                    <div class="menu-option" onclick="window.app.showOpenDialog()">Open... <span class="shortcut">⌘O</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-option" onclick="openBlockchainModal()">Save to Blockchain <span class="shortcut">⌘S</span></div>
+                    <div class="menu-option" onclick="window.app.exportHTML()">Export as HTML...</div>
+                    <div class="menu-option" onclick="window.app.exportTXT()">Export as Text...</div>
+                    <div class="menu-option" onclick="window.print()">Print... <span class="shortcut">⌘P</span></div>
+                </div>
+            </div>
+            <div class="menu-item" data-menu="edit">
+                <span>Edit</span>
+                <div class="dropdown-menu">
+                    <div class="menu-option" onclick="document.execCommand('undo')">Undo <span class="shortcut">⌘Z</span></div>
+                    <div class="menu-option" onclick="document.execCommand('redo')">Redo <span class="shortcut">⌘⇧Z</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-option" onclick="document.execCommand('cut')">Cut <span class="shortcut">⌘X</span></div>
+                    <div class="menu-option" onclick="document.execCommand('copy')">Copy <span class="shortcut">⌘C</span></div>
+                    <div class="menu-option" onclick="document.execCommand('paste')">Paste <span class="shortcut">⌘V</span></div>
+                    <div class="menu-option" onclick="document.execCommand('selectAll')">Select All <span class="shortcut">⌘A</span></div>
+                </div>
+            </div>
+            <div class="menu-item" data-menu="format">
+                <span>Format</span>
+                <div class="dropdown-menu">
+                    <div class="menu-option" onclick="document.execCommand('bold')">Bold <span class="shortcut">⌘B</span></div>
+                    <div class="menu-option" onclick="document.execCommand('italic')">Italic <span class="shortcut">⌘I</span></div>
+                    <div class="menu-option" onclick="document.execCommand('underline')">Underline <span class="shortcut">⌘U</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-option" onclick="document.execCommand('justifyLeft')">Align Left</div>
+                    <div class="menu-option" onclick="document.execCommand('justifyCenter')">Align Center</div>
+                    <div class="menu-option" onclick="document.execCommand('justifyRight')">Align Right</div>
+                    <div class="menu-option" onclick="document.execCommand('justifyFull')">Justify</div>
+                </div>
+            </div>
+            <div class="menu-item" data-menu="view">
+                <span>View</span>
+                <div class="dropdown-menu">
+                    <div class="menu-option" onclick="window.app.toggleTheme()">Toggle Dark Mode <span class="shortcut">⌘⇧D</span></div>
+                    <div class="menu-option" onclick="toggleFullscreen()">Fullscreen <span class="shortcut">F11</span></div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-option" onclick="zoomIn()">Zoom In <span class="shortcut">⌘+</span></div>
+                    <div class="menu-option" onclick="zoomOut()">Zoom Out <span class="shortcut">⌘-</span></div>
+                    <div class="menu-option" onclick="zoomReset()">Actual Size <span class="shortcut">⌘0</span></div>
+                </div>
+            </div>
+            <div class="menu-item" data-menu="blockchain">
+                <span>Blockchain</span>
+                <div class="dropdown-menu">
+                    <div class="menu-option" onclick="openBlockchainModal()">Save to Blockchain <span class="shortcut">⌘⇧B</span></div>
+                    <div class="menu-option" onclick="window.open('https://whatsonchain.com', '_blank')">View on WhatsOnChain</div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-option" onclick="window.blockchainIntegration.initializeKVStore()">Connect Wallet</div>
+                </div>
+            </div>
+            <div class="menu-item" data-menu="help">
+                <span>Help</span>
+                <div class="dropdown-menu">
+                    <div class="menu-option" onclick="window.open('https://bitcoin-writer.com/help', '_blank')">Bitcoin Writer Help</div>
+                    <div class="menu-option" onclick="window.open('https://github.com/bitcoin-writer', '_blank')">View on GitHub</div>
+                    <div class="menu-separator"></div>
+                    <div class="menu-option" onclick="window.open('https://github.com/bitcoin-writer/issues', '_blank')">Report an Issue</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Title Bar -->
+        <div class="title-bar-wrapper">
+            <div class="title-bar-left">
+                <!-- Empty left side -->
+            </div>
+            <div class="title-bar-center">
+                <input type="text" class="document-title" value="Document1" />
+            </div>
+            <div class="title-bar-right">
+                <!-- Empty right side for balance -->
+            </div>
+        </div>
+
+        <!-- Quick Access Toolbar -->
+        <div class="quick-access-toolbar-wrapper">
+            <div class="toolbar-left">
+                <button class="toolbar-btn" onclick="openBlockchainModal()" title="Save to Blockchain">
+                    <span>💾</span>
+                </button>
+                <button class="toolbar-btn" id="undoBtn" title="Undo">
+                    <span>↶</span>
+                </button>
+                <button class="toolbar-btn" id="redoBtn" title="Redo">
+                    <span>↷</span>
+                </button>
+                <div class="toolbar-separator"></div>
+                <button class="toolbar-btn" onclick="window.app.newDocument()" title="New Document">
+                    <span>📄</span>
+                </button>
+                <button class="toolbar-btn" onclick="window.app.showOpenDialog()" title="Open">
+                    <span>📁</span>
+                </button>
+            </div>
+            <div class="toolbar-right">
+                <div class="search-toolbar">
+                    <input type="text" placeholder="Search document..." class="search-input" />
+                    <button class="toolbar-btn" title="Find">
+                        <span>🔍</span>
+                    </button>
+                    <button class="toolbar-btn" title="Find & Replace">
+                        <span>🔄</span>
+                    </button>
+                </div>
+                <div class="toolbar-separator"></div>
+                <button class="share-button">Share</button>
+                <button class="toolbar-btn theme-toggle" title="Toggle Theme">
+                    <span>🌙</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Ribbon Tabs -->
+        <div class="ribbon-tabs">
+            <button class="ribbon-tab active">Home</button>
+            <button class="ribbon-tab">Insert</button>
+            <button class="ribbon-tab">Design</button>
+            <button class="ribbon-tab">Layout</button>
+            <button class="ribbon-tab">References</button>
+            <button class="ribbon-tab">Mailings</button>
+            <button class="ribbon-tab">Review</button>
+            <button class="ribbon-tab">View</button>
+        </div>
+
+        <!-- Ribbon Content -->
+        <div class="ribbon-content" id="ribbonContent">
+            <!-- Clipboard Section -->
+            <div class="ribbon-section">
+                <div class="section-content">
+                    <button class="ribbon-button large" id="pasteBtn">
+                        <span class="icon">📋</span>
+                        <span class="label">Paste</span>
+                    </button>
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <button class="ribbon-button" id="cutBtn" style="height: 28px; min-width: 30px;">
+                            <span style="font-size: 14px;">✂️</span>
+                        </button>
+                        <button class="ribbon-button" id="copyBtn" style="height: 28px; min-width: 30px;">
+                            <span style="font-size: 14px;">📄</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="section-label">Clipboard</div>
+            </div>
+
+            <!-- Font Section -->
+            <div class="ribbon-section" style="min-width: 240px;">
+                <div class="section-content" style="flex-direction: column; gap: 4px;">
+                    <div style="display: flex; gap: 4px; width: 100%;">
+                        <select class="ribbon-dropdown" id="fontFamily" style="flex: 1;">
+                            <option value="Calibri">Calibri</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Segoe UI">Segoe UI</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Courier New">Courier New</option>
+                        </select>
+                        <select class="ribbon-dropdown" id="fontSize" style="width: 60px;">
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option selected>11</option>
+                            <option>12</option>
+                            <option>14</option>
+                            <option>16</option>
+                            <option>18</option>
+                            <option>20</option>
+                            <option>24</option>
+                            <option>28</option>
+                            <option>36</option>
+                            <option>48</option>
+                            <option>72</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 2px;">
+                        <button class="ribbon-button format-btn" id="boldBtn" style="min-width: 24px; height: 24px; font-weight: bold;">B</button>
+                        <button class="ribbon-button format-btn" id="italicBtn" style="min-width: 24px; height: 24px; font-style: italic;">I</button>
+                        <button class="ribbon-button format-btn" id="underlineBtn" style="min-width: 24px; height: 24px; text-decoration: underline;">U</button>
+                        <button class="ribbon-button format-btn" id="strikeBtn" style="min-width: 24px; height: 24px;">S̶</button>
+                        <button class="ribbon-button format-btn" id="subBtn" style="min-width: 24px; height: 24px;">x₂</button>
+                        <button class="ribbon-button format-btn" id="superBtn" style="min-width: 24px; height: 24px;">x²</button>
+                        <button class="ribbon-button" id="textColorBtn" style="min-width: 30px; height: 24px;">🎨</button>
+                        <button class="ribbon-button" id="highlightBtn" style="min-width: 30px; height: 24px;">🖍️</button>
+                    </div>
+                </div>
+                <div class="section-label">Font</div>
+            </div>
+
+            <!-- Paragraph Section -->
+            <div class="ribbon-section" style="min-width: 200px;">
+                <div class="section-content" style="flex-direction: column; gap: 4px;">
+                    <div style="display: flex; gap: 2px;">
+                        <button class="ribbon-button" id="bulletListBtn" style="min-width: 24px; height: 24px;">•</button>
+                        <button class="ribbon-button" id="numberListBtn" style="min-width: 24px; height: 24px;">1.</button>
+                        <button class="ribbon-button" id="checkListBtn" style="min-width: 24px; height: 24px;">☑</button>
+                        <button class="ribbon-button" id="outdentBtn" style="min-width: 24px; height: 24px;">←</button>
+                        <button class="ribbon-button" id="indentBtn" style="min-width: 24px; height: 24px;">→</button>
+                    </div>
+                    <div style="display: flex; gap: 2px;">
+                        <button class="ribbon-button" id="alignLeftBtn" style="min-width: 24px; height: 24px;">☰</button>
+                        <button class="ribbon-button" id="alignCenterBtn" style="min-width: 24px; height: 24px;">≡</button>
+                        <button class="ribbon-button" id="alignRightBtn" style="min-width: 24px; height: 24px;">☰</button>
+                        <button class="ribbon-button" id="alignJustifyBtn" style="min-width: 24px; height: 24px;">≣</button>
+                        <button class="ribbon-button" id="lineSpacingBtn" style="min-width: 30px; height: 24px;">↕</button>
+                    </div>
+                </div>
+                <div class="section-label">Paragraph</div>
+            </div>
+
+            <!-- Styles Section -->
+            <div class="ribbon-section" style="min-width: 300px;">
+                <div class="section-content">
+                    <div class="styles-gallery">
+                        <div class="style-item active" data-style="normal">Normal</div>
+                        <div class="style-item" data-style="h1">Heading 1</div>
+                        <div class="style-item" data-style="h2">Heading 2</div>
+                        <div class="style-item" data-style="h3">Heading 3</div>
+                        <div class="style-item" data-style="title">Title</div>
+                        <div class="style-item" data-style="subtitle">Subtitle</div>
+                        <div class="style-item" data-style="quote">Quote</div>
+                        <div class="style-item" data-style="code">Code</div>
+                    </div>
+                </div>
+                <div class="section-label">Styles</div>
+            </div>
+
+            <!-- Insert Section (Tables, Images, etc) -->
+            <div class="ribbon-section">
+                <div class="section-content" style="gap: 4px;">
+                    <button class="ribbon-button" id="insertTableBtn">
+                        <span class="icon">⊞</span>
+                        <span class="label">Table</span>
+                    </button>
+                    <button class="ribbon-button" id="insertImageBtn">
+                        <span class="icon">🖼️</span>
+                        <span class="label">Picture</span>
+                    </button>
+                    <button class="ribbon-button" id="insertLinkBtn">
+                        <span class="icon">🔗</span>
+                        <span class="label">Link</span>
+                    </button>
+                </div>
+                <div class="section-label">Insert</div>
+            </div>
+
+        </div>
+
+        <!-- Document Container -->
+        <div class="document-container">
+            <div class="page-wrapper">
+                <div id="editor" class="editor lexical-editor"></div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <div class="status-item">
+                    <span>Page 1 of 1</span>
+                </div>
+                <div class="status-item" id="wordCount">
+                    <span>0 words</span>
+                </div>
+                <div class="status-item" id="charCount">
+                    <span>0 characters</span>
+                </div>
+                <div class="status-item">
+                    <span>English (United States)</span>
+                </div>
+            </div>
+            <div class="status-right">
+                <div class="zoom-control">
+                    <button id="zoomOut" style="background: none; border: none; color: var(--text-secondary); cursor: pointer;">−</button>
+                    <input type="range" class="zoom-slider" id="zoomSlider" min="10" max="500" value="100" />
+                    <span id="zoomValue">100%</span>
+                    <button id="zoomIn" style="background: none; border: none; color: var(--text-secondary); cursor: pointer;">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Scripts -->
+    <script src="app-browser.js"></script>
+    <script src="blockchain-integration.js"></script>
+</body>
+</html>

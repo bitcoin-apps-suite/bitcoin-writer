@@ -1,0 +1,161 @@
+/* Browser Menu Bar Styles */
+.browser-menu-bar {
+    display: flex;
+    background: var(--bg-secondary, #2b2b2b);
+    border-bottom: 1px solid var(--border-color, #404040);
+    height: 28px;
+    padding: 0 8px;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+    position: relative;
+    z-index: 1000;
+}
+
+/* App Branding in Menu Bar */
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+}
+
+.bitcoin-logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FF8C00;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.brand-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary, #e0e0e0);
+    white-space: nowrap;
+}
+
+.menu-separator-vertical {
+    width: 1px;
+    height: 20px;
+    background: var(--border-color, #404040);
+    margin: 0 8px;
+}
+
+/* Hide browser menu bar in Electron app */
+.desktop-app:not(.browser-version) .browser-menu-bar {
+    display: none;
+}
+
+.menu-item {
+    position: relative;
+    padding: 4px 12px;
+    cursor: pointer;
+    color: var(--text-primary, #e0e0e0);
+    font-size: 13px;
+    transition: background 0.2s;
+    border-radius: 3px;
+}
+
+.menu-item:hover {
+    background: var(--hover-bg, #3a3a3a);
+}
+
+.menu-item.active {
+    background: var(--hover-bg, #3a3a3a);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary, #1b1b1b);
+    border: 1px solid var(--border-color, #404040);
+    border-radius: 4px;
+    min-width: 200px;
+    padding: 4px 0;
+    margin-top: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1001;
+}
+
+.menu-item.active .dropdown-menu {
+    display: block;
+}
+
+.menu-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var(--text-primary, #e0e0e0);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.menu-option:hover {
+    background: var(--hover-bg, #3a3a3a);
+}
+
+.menu-option .shortcut {
+    opacity: 0.6;
+    font-size: 12px;
+    margin-left: 32px;
+}
+
+.menu-separator {
+    height: 1px;
+    background: var(--border-color, #404040);
+    margin: 4px 0;
+}
+
+
+/* Adjust layout for browser version */
+.browser-version .title-bar-wrapper {
+    border-top: none;
+}
+
+/* Light theme support */
+.light-theme .browser-menu-bar {
+    background: #f3f3f3;
+    border-bottom-color: #d0d0d0;
+}
+
+.light-theme .bitcoin-logo {
+    color: #FF8C00;
+}
+
+.light-theme .brand-text {
+    color: #333;
+}
+
+.light-theme .menu-separator-vertical {
+    background: #d0d0d0;
+}
+
+.light-theme .menu-item {
+    color: #333;
+}
+
+.light-theme .menu-item:hover {
+    background: #e5e5e5;
+}
+
+.light-theme .dropdown-menu {
+    background: #fff;
+    border-color: #d0d0d0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .menu-option {
+    color: #333;
+}
+
+.light-theme .menu-option:hover {
+    background: #f0f0f0;
+}
+
+.light-theme .menu-separator {
+    background: #d0d0d0;
+}

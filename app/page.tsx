@@ -118,6 +118,35 @@ export default function Home() {
               <span className="logo-writer">Writer</span>
             </div>
             <p className="header-tagline">Encrypt, publish and sell shares in your work</p>
+            <a 
+              href="/editor" 
+              className="launch-editor-btn"
+              style={{
+                marginLeft: 'auto',
+                padding: '10px 20px',
+                background: 'linear-gradient(135deg, #FF8C00, #FF6B35)',
+                color: 'white',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: 'bold',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                boxShadow: '0 2px 8px rgba(255,140,0,0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(255,140,0,0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(255,140,0,0.3)';
+              }}
+            >
+              <span>✨</span> Launch Standalone Editor
+            </a>
           </div>
         </div>
         
