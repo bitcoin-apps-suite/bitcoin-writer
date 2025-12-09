@@ -2,13 +2,16 @@
 .browser-menu-bar {
     display: flex;
     background: var(--bg-secondary, #2b2b2b);
-    border-bottom: 1px solid var(--border-color, #404040);
+    border-top: 1px solid var(--border-color, #404040);
     height: 28px;
     padding: 0 8px;
     align-items: center;
     user-select: none;
     -webkit-user-select: none;
-    position: relative;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
 }
 
@@ -119,7 +122,7 @@
 /* Light theme support */
 .light-theme .browser-menu-bar {
     background: #f3f3f3;
-    border-bottom-color: #d0d0d0;
+    border-top-color: #d0d0d0;
 }
 
 .light-theme .bitcoin-logo {

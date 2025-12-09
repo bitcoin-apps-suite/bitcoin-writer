@@ -39,6 +39,7 @@ body {
   background: var(--bg-primary);
   padding-top: 35px; /* Add space for browser taskbar */
   padding-left: 25px; /* Add space for left sidebar */
+  padding-bottom: 28px; /* Add space for browser menu bar at bottom */
 }
 
 /* Title Bar */
@@ -418,6 +419,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 20px 0;
+  padding-bottom: 44px; /* Add extra padding for status bar (24px) + spacing */
 }
 
 .page-wrapper {
@@ -472,6 +474,11 @@ body {
   height: 24px;
   font-size: 11px;
   color: var(--text-secondary);
+  position: fixed;
+  bottom: 28px; /* Position above browser menu bar */
+  left: 25px; /* Account for left padding */
+  right: 0;
+  z-index: 999;
 }
 
 .status-left {
