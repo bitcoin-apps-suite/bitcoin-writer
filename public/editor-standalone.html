@@ -12,6 +12,80 @@
     <link rel="stylesheet" href="word-dark.css">
     <link rel="stylesheet" href="lexical-editor.css">
     <link rel="stylesheet" href="browser-menu.css">
+    <style>
+        /* Animated Placeholder Styles */
+        .animated-placeholder {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            pointer-events: auto;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            width: 80%;
+            max-width: 600px;
+        }
+        
+        .animated-placeholder.hide {
+            opacity: 0;
+        }
+        
+        .placeholder-text {
+            font-size: 18px;
+            color: rgba(247, 147, 26, 0.6);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInOut 4s ease-in-out;
+            min-height: 30px;
+        }
+        
+        .placeholder-text.visible {
+            opacity: 1;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        
+        .placeholder-indicators {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 16px;
+        }
+        
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator:hover {
+            background: rgba(247, 147, 26, 0.4);
+            transform: scale(1.2);
+        }
+        
+        .indicator.active {
+            background: rgba(247, 147, 26, 0.8);
+            width: 24px;
+            border-radius: 4px;
+        }
+        
+        .editor:focus + .animated-placeholder,
+        .editor:not(:empty) + .animated-placeholder {
+            display: none;
+        }
+    </style>
     
     <!-- PWA meta tags -->
     <meta name="theme-color" content="#1b1b1b">
@@ -286,6 +360,11 @@
         <div class="document-container">
             <div class="page-wrapper">
                 <div id="editor" class="editor lexical-editor"></div>
+                <!-- Animated Placeholder -->
+                <div id="animatedPlaceholder" class="animated-placeholder">
+                    <div class="placeholder-text" id="placeholderText">Start writing here...</div>
+                    <div class="placeholder-indicators" id="placeholderIndicators"></div>
+                </div>
             </div>
         </div>
 
@@ -440,6 +519,109 @@
         
         // Make sure function is available globally
         console.log('Document management initialized, window.app.newDocument:', window.app.newDocument);
+    </script>
+    
+    <!-- Animated Placeholder Script -->
+    <script>
+        (function() {
+            const messages = [
+                "Start writing here...",
+                "Bitcoin Writer auto-hashes your writing to chain whenever you stop typing...",
+                "Each new hash contains the previous hash, creating a chain of value...",
+                "Your document becomes a 'coin' that accretes in value as a UTXO...",
+                "Every word you write is permanently secured on the blockchain...",
+                "Building the future of decentralized publishing, one hash at a time...",
+                "Your thoughts become immutable history on Bitcoin SV...",
+                "Write once, preserved forever on the timechain...",
+                "Oh look, a shiny thing! ✨",
+                "Start writing here..."
+            ];
+            
+            let currentIndex = 0;
+            let isVisible = true;
+            let isPaused = false;
+            let intervalId = null;
+            
+            const placeholderContainer = document.getElementById('animatedPlaceholder');
+            const placeholderText = document.getElementById('placeholderText');
+            const placeholderIndicators = document.getElementById('placeholderIndicators');
+            const editor = document.getElementById('editor');
+            
+            if (!placeholderContainer || !placeholderText || !placeholderIndicators || !editor) {
+                return;
+            }
+            
+            // Create indicators
+            messages.forEach((_, index) => {
+                const indicator = document.createElement('span');
+                indicator.className = 'indicator' + (index === 0 ? ' active' : '');
+                indicator.onclick = () => {
+                    setMessage(index);
+                };
+                placeholderIndicators.appendChild(indicator);
+            });
+            
+            const indicators = placeholderIndicators.querySelectorAll('.indicator');
+            
+            function setMessage(index) {
+                currentIndex = index;
+                placeholderText.classList.remove('visible');
+                
+                setTimeout(() => {
+                    placeholderText.textContent = messages[currentIndex];
+                    placeholderText.classList.add('visible');
+                    
+                    // Update indicators
+                    indicators.forEach((ind, i) => {
+                        if (i === currentIndex) {
+                            ind.classList.add('active');
+                        } else {
+                            ind.classList.remove('active');
+                        }
+                    });
+                }, 300);
+            }
+            
+            function nextMessage() {
+                if (!isPaused) {
+                    setMessage((currentIndex + 1) % messages.length);
+                }
+            }
+            
+            // Start the animation
+            placeholderText.textContent = messages[0];
+            placeholderText.classList.add('visible');
+            
+            intervalId = setInterval(nextMessage, 4000);
+            
+            // Pause on hover
+            placeholderContainer.addEventListener('mouseenter', () => {
+                isPaused = true;
+            });
+            
+            placeholderContainer.addEventListener('mouseleave', () => {
+                isPaused = false;
+            });
+            
+            // Hide when editor has content or is focused
+            function checkEditorState() {
+                const hasContent = editor.textContent.trim().length > 0;
+                const isFocused = document.activeElement === editor;
+                
+                if (hasContent || isFocused) {
+                    placeholderContainer.classList.add('hide');
+                } else {
+                    placeholderContainer.classList.remove('hide');
+                }
+            }
+            
+            editor.addEventListener('focus', checkEditorState);
+            editor.addEventListener('blur', checkEditorState);
+            editor.addEventListener('input', checkEditorState);
+            
+            // Initial check
+            setTimeout(checkEditorState, 100);
+        })();
     </script>
 </body>
 </html>
