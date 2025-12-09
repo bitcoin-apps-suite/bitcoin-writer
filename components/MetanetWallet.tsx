@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { metanetIntegration } from '../lib/metanet-integration';
+import MetanetModal from './MetanetModal';
 
 interface MetanetWalletProps {
   onWalletConnected?: (publicKey: string) => void;
@@ -19,6 +20,7 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<string>('');
   const [showMetanetFeatures, setShowMetanetFeatures] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   // Initialize wallet on component mount
   useEffect(() => {
@@ -54,14 +56,19 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
         setPublicKey(result.publicKey || '');
         setStatus('Wallet connected successfully!');
         onWalletConnected?.(result.publicKey || '');
+        setShowModal(false);
         
         // Auto-register app after wallet connection
         await registerOnMetanet();
       } else {
-        setStatus('Failed to connect wallet. Please install Metanet Desktop.');
+        // Show the compelling modal if wallet connection fails
+        setShowModal(true);
+        setStatus('');
       }
     } catch (error) {
-      setStatus('Error connecting wallet. Make sure Metanet Desktop is running.');
+      // Show the compelling modal if there's an error
+      setShowModal(true);
+      setStatus('');
     } finally {
       setIsLoading(false);
     }
@@ -118,7 +125,20 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
     }
   };
 
+  const handleSetupIdentity = () => {
+    // Open Metanet Desktop download page
+    window.open('https://metanet.bsvb.tech/', '_blank');
+    setShowModal(false);
+  };
+
   return (
+    <>
+    <MetanetModal 
+      isOpen={showModal}
+      onClose={() => setShowModal(false)}
+      onSetupIdentity={handleSetupIdentity}
+    />
+    
     <div style={{
       position: 'fixed',
       top: '80px',
@@ -293,6 +313,7 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
         }
       `}</style>
     </div>
+    </>
   );
 };
 
