@@ -4,9 +4,14 @@
 
 // Set flag to detect if script loaded
 window.appBrowserLoaded = true;
+console.log('app-browser.js loaded');
+
+// Track document count globally
+let documentCount = 1;
 
 // Wait for DOM
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, initializing app...');
   
   // Initialize menu bar
   initializeMenuBar();
@@ -229,12 +234,20 @@ document.addEventListener('DOMContentLoaded', function() {
     URL.revokeObjectURL(url);
   };
 
-  // Export functions
-  window.app = {
+  // Export functions - Don't overwrite existing window.app
+  window.app = window.app || {
     newDocument: function() {
+      console.log('New document clicked, current count:', documentCount);
       if (confirm('Create new document? Any unsaved changes will be lost.')) {
-        editor.innerHTML = '<p>Start typing...</p>';
-        document.querySelector('.document-title').value = 'Document1';
+        documentCount++;
+        console.log('Creating document', documentCount);
+        if (editor) {
+          editor.innerHTML = '<p>Start typing...</p>';
+        }
+        const titleInput = document.querySelector('.document-title');
+        if (titleInput) {
+          titleInput.value = 'Document' + documentCount;
+        }
         updateWordCount();
       }
     },
@@ -295,10 +308,36 @@ document.addEventListener('DOMContentLoaded', function() {
       URL.revokeObjectURL(url);
     }
   };
+  
+  console.log('window.app initialized:', window.app);
+  
+  // Now attach New Document event listeners after window.app is defined
+  const newDocBtn = document.getElementById('newDocumentBtn');
+  console.log('Setting up New Document menu button:', newDocBtn);
+  if (newDocBtn) {
+    newDocBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      console.log('New Document menu button clicked!');
+      window.app.newDocument();
+    });
+    console.log('New Document menu button listener attached');
+  }
+  
+  const newDocToolbarBtn = document.getElementById('newDocToolbarBtn');
+  console.log('Setting up New Document toolbar button:', newDocToolbarBtn);
+  if (newDocToolbarBtn) {
+    newDocToolbarBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('New Document toolbar button clicked!');
+      window.app.newDocument();
+    });
+    console.log('New Document toolbar button listener attached');
+  }
 });
 
 // Menu bar functionality
 function initializeMenuBar() {
+  console.log('Initializing menu bar');
   const menuItems = document.querySelectorAll('.menu-item');
   
   menuItems.forEach(item => {
@@ -324,17 +363,23 @@ function initializeMenuBar() {
     });
   });
   
-  // Prevent menu options from closing menu
+  // Prevent menu options from closing menu but allow their onclick to execute
   const menuOptions = document.querySelectorAll('.menu-option');
+  console.log('Found menu options:', menuOptions.length);
   menuOptions.forEach(option => {
     option.addEventListener('click', function(e) {
       e.stopPropagation();
+      console.log('Menu option clicked:', option.textContent);
       // Close menu after selection
-      menuItems.forEach(item => {
-        item.classList.remove('active');
-      });
+      setTimeout(() => {
+        menuItems.forEach(item => {
+          item.classList.remove('active');
+        });
+      }, 100);
     });
   });
+  
+  // New Document buttons will be handled after window.app is initialized
 }
 
 // Zoom functions for menu

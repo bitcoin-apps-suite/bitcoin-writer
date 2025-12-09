@@ -34,6 +34,7 @@ const ProofOfConceptBanner = dynamic(() => import('../components/ProofOfConceptB
 const Navigation = dynamic(() => import('../components/Navigation'), { ssr: false });
 const CleanTaskbar = dynamic(() => import('../components/ui/CleanTaskbar'), { ssr: false });
 const DevSidebar = dynamic(() => import('../components/ui/DevSidebar'), { ssr: false });
+const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { ssr: false });
 const DockManager = dynamic(() => import('../components/ui/DockManager'), { ssr: false });
 const Footer = dynamic(() => import('../components/ui/Footer'), { ssr: false });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
+  const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(true);
   
   // Debug: log when state changes
   useEffect(() => {
@@ -74,11 +76,16 @@ export default function RootLayout({
           <ProofOfConceptBanner />
           
           {/* Clean Taskbar */}
-          <CleanTaskbar />
+          <CleanTaskbar tickerCollapsed={tickerSidebarCollapsed} />
           
           {/* Dev Sidebar (desktop only) */}
           {!isMobile && (
             <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />
+          )}
+          
+          {/* Ticker Sidebar (desktop only) */}
+          {!isMobile && (
+            <TickerSidebar onCollapsedChange={setTickerSidebarCollapsed} />
           )}
           
           {/* Main Content */}

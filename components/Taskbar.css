@@ -12,9 +12,9 @@
   color: rgba(255, 255, 255, 0.9);
   user-select: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 40px; /* Below POC banner */
+  left: 60px; /* Start after DevSidebar collapsed width */
+  right: 280px; /* End before TickerSidebar full width */
   z-index: 10000;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
 }

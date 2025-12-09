@@ -35,6 +35,7 @@ interface TaskbarProps {
   googleUser?: any;
   setGoogleUser?: (user: any) => void;
   handcashService?: any;
+  tickerCollapsed?: boolean;
 }
 
 const CleanTaskbar: React.FC<TaskbarProps> = ({ 
@@ -49,7 +50,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   onToggleAIChat,
   googleUser,
   setGoogleUser,
-  handcashService
+  handcashService,
+  tickerCollapsed = true
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
@@ -99,8 +101,37 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
     {
       label: 'File',
       items: [
-        { label: 'New Document', shortcut: '⌘N', action: onNewDocument || (() => console.log('New')) },
-        { label: 'Open...', shortcut: '⌘O', action: () => console.log('Open') },
+        { label: 'New Document', shortcut: '⌘N', action: onNewDocument || (() => {
+          // Call the function in the iframe
+          const iframe = document.querySelector('iframe') as HTMLIFrameElement;
+          console.log('Iframe found:', !!iframe);
+          if (iframe && iframe.contentWindow) {
+            console.log('ContentWindow found:', !!iframe.contentWindow);
+            console.log('documentTabsManager:', (iframe.contentWindow as any).documentTabsManager);
+            console.log('app.newDocument:', (iframe.contentWindow as any).app?.newDocument);
+            
+            // Try to use documentTabsManager directly
+            if ((iframe.contentWindow as any).documentTabsManager) {
+              console.log('Creating new document via documentTabsManager');
+              (iframe.contentWindow as any).documentTabsManager.createNewDocument();
+            } else if ((iframe.contentWindow as any).app?.newDocument) {
+              console.log('Creating new document via app.newDocument');
+              (iframe.contentWindow as any).app.newDocument();
+            } else {
+              console.error('Neither documentTabsManager nor app.newDocument available');
+            }
+          } else {
+            console.log('New Document - iframe not accessible');
+          }
+        }) },
+        { label: 'Open...', shortcut: '⌘O', action: () => {
+          const iframe = document.querySelector('iframe') as HTMLIFrameElement;
+          if (iframe && iframe.contentWindow && iframe.contentWindow.app && iframe.contentWindow.app.showOpenDialog) {
+            iframe.contentWindow.app.showOpenDialog();
+          } else {
+            console.log('Open - iframe function not available');
+          }
+        } },
         { label: 'Open Recent', action: () => console.log('Recent') },
         { divider: true },
         { label: 'Close', shortcut: '⌘W', action: () => console.log('Close') },
@@ -393,8 +424,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         userSelect: 'none',
         position: 'fixed',
         top: isMobile ? (window.innerWidth <= 480 ? '68px' : '72px') : '40px', // Responsive positioning
-        left: 0,
-        right: 0,
+        left: '60px', // Start after DevSidebar collapsed width
+        right: tickerCollapsed ? '60px' : '280px', // Stop at TickerSidebar edge
         zIndex: 10000
       }}
     >

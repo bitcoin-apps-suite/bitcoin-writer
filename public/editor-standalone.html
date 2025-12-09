@@ -292,6 +292,9 @@
         <!-- Status Bar -->
         <div class="status-bar">
             <div class="status-left">
+                <div class="status-item document-name" style="color: var(--accent-orange); font-weight: 600;">
+                    <span>📄 Document1</span>
+                </div>
                 <div class="status-item">
                     <span>Page 1 of 1</span>
                 </div>
@@ -317,7 +320,126 @@
     </div>
 
     <!-- App Scripts -->
+    <script src="document-tabs.js"></script>
     <script src="app-browser.js"></script>
     <script src="blockchain-integration.js"></script>
+    
+    <!-- Simple Document Management -->
+    <script>
+        // Check if we're in clean mode (no UI chrome)
+        const urlParams = new URLSearchParams(window.location.search);
+        const isCleanMode = urlParams.get('clean') === 'true';
+        
+        if (isCleanMode) {
+            // Add clean mode styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .desktop-app {
+                    padding: 0 !important;
+                }
+                .browser-menu-bar {
+                    display: none !important;
+                }
+                .title-bar-wrapper {
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+                .quick-access-toolbar-wrapper {
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+                .ribbon-content {
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+                .document-tabs-container {
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+                .status-bar {
+                    left: 0 !important;
+                    right: 0 !important;
+                    bottom: 0 !important;
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                }
+                .document-container {
+                    margin-bottom: 24px !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Add a test function to window for debugging
+        window.testNewDoc = function() {
+            console.log('testNewDoc called from window');
+            if (window.documentTabsManager) {
+                console.log('Using documentTabsManager');
+                window.documentTabsManager.createNewDocument();
+            } else {
+                console.log('documentTabsManager not found');
+            }
+        };
+    </script>
+    
+    <script>
+        // Initialize document management
+        window.documentCount = 1;
+        
+        // Create app object if it doesn't exist
+        window.app = window.app || {};
+        
+        // New Document function - uses documentTabsManager when available
+        window.app.newDocument = function() {
+            console.log('app.newDocument called');
+            
+            // Use documentTabsManager if available (for tabs)
+            if (window.documentTabsManager) {
+                console.log('Using documentTabsManager to create new document');
+                window.documentTabsManager.createNewDocument();
+                return true;
+            }
+            
+            // Fallback to simple version if tabs not available
+            console.log('Fallback: Creating simple new document');
+            window.documentCount++;
+            
+            // Clear the editor
+            const editor = document.getElementById('editor');
+            if (editor) {
+                editor.innerHTML = '<p>Start typing...</p>';
+                editor.focus();
+            }
+            
+            // Update the title
+            const titleInput = document.querySelector('.document-title');
+            if (titleInput) {
+                titleInput.value = 'Document' + window.documentCount;
+            }
+            
+            // Update word counts
+            const wordEl = document.querySelector('#wordCount span');
+            if (wordEl) wordEl.textContent = '0 words';
+            const charEl = document.querySelector('#charCount span');
+            if (charEl) charEl.textContent = '0 characters';
+            
+            return true;
+        };
+        
+        // Track editor changes
+        document.addEventListener('DOMContentLoaded', function() {
+            const editor = document.getElementById('editor');
+            if (editor) {
+                editor.addEventListener('input', function() {
+                    if (window.documentTabsManager && window.documentTabsManager.activeDocumentId) {
+                        window.documentTabsManager.markDocumentModified(window.documentTabsManager.activeDocumentId);
+                    }
+                });
+            }
+        });
+        
+        // Make sure function is available globally
+        console.log('Document management initialized, window.app.newDocument:', window.app.newDocument);
+    </script>
 </body>
 </html>

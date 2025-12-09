@@ -4,14 +4,14 @@
     background: var(--bg-secondary, #2b2b2b);
     border-top: 1px solid var(--border-color, #404040);
     height: 28px;
-    padding: 0 8px;
+    padding: 0 68px 0 68px; /* Add padding for both sidebars */
     align-items: center;
     user-select: none;
     -webkit-user-select: none;
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: 60px; /* Stop at TickerSidebar edge */
     z-index: 1000;
 }
 

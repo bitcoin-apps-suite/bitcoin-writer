@@ -32,13 +32,18 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   const [prices, setPrices] = useState<TokenPrice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true); // Start collapsed
 
   const handleToggleCollapsed = () => {
     const newCollapsed = !isCollapsed;
     setIsCollapsed(newCollapsed);
     onCollapsedChange?.(newCollapsed);
   };
+
+  // Notify parent of initial collapsed state
+  useEffect(() => {
+    onCollapsedChange?.(true); // Start collapsed
+  }, []);
 
   useEffect(() => {
     // Generate trending gig tokens with contract IDs

@@ -37,20 +37,164 @@ body {
   flex-direction: column;
   height: 100vh;
   background: var(--bg-primary);
-  padding-top: 0; /* Remove top padding - not needed */
+  padding-top: 72px; /* Space for POC banner (40px) + CleanTaskbar menu bar (32px) */
   padding-left: 0; /* Remove left padding - will handle differently */
+  padding-right: 60px; /* Space for collapsed TickerSidebar (60px) */
   padding-bottom: 52px; /* Space for status bar (24px) + browser menu bar (28px) */
 }
 
-/* Title Bar */
+/* Title Bar with Document Tabs */
 .title-bar-wrapper {
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   display: flex;
   align-items: center;
   height: 32px;
-  padding: 0 12px;
+  padding: 0 72px 0 72px; /* Add padding for DevSidebar and TickerSidebar */
   border-bottom: 1px solid var(--border-color);
   -webkit-app-region: drag;
+}
+
+/* Document Tabs Container */
+.document-tabs-container {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 72px; /* Padding for both sidebars */
+}
+
+.document-tabs {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  gap: 2px;
+}
+
+.tabs-list {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.document-tab {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  min-width: 120px;
+  max-width: 200px;
+  position: relative;
+  user-select: none;
+  -webkit-app-region: no-drag;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.document-tab:hover {
+  background: var(--button-hover);
+  opacity: 0.9;
+}
+
+.document-tab.active {
+  background: var(--accent-orange);
+  border-color: var(--accent-orange-hover);
+  border-bottom-color: var(--accent-orange);
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(247, 147, 26, 0.3);
+  z-index: 10;
+}
+
+.document-tab.active .tab-title {
+  color: #1b1b1b;
+  font-weight: 600;
+}
+
+.document-tab.active .tab-close {
+  color: #1b1b1b;
+  opacity: 0.8;
+}
+
+.document-tab.active .tab-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.tab-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.tab-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  margin-right: 6px;
+  display: none;
+}
+
+.document-tab.modified:not(.active) .tab-indicator {
+  display: block;
+}
+
+.document-tab.active.modified .tab-indicator {
+  display: block;
+  background: #1b1b1b;
+}
+
+.tab-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.tab-close:hover {
+  opacity: 1;
+  color: var(--text-primary);
+}
+
+.new-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+.new-tab-btn:hover {
+  background: var(--button-hover);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.tab-rename-input {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--accent-orange);
+  color: var(--text-primary);
+  padding: 2px 4px;
+  font-size: 12px;
+  outline: none;
 }
 
 .title-bar-left {
@@ -64,7 +208,7 @@ body {
 .quick-access-toolbar-wrapper {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
-  padding: 6px 12px;
+  padding: 6px 72px 6px 72px; /* Add padding for both sidebars */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -261,7 +405,7 @@ body {
   height: 90px;
   display: flex;
   align-items: center;
-  padding: 8px 12px 8px 72px; /* Add left padding to account for DevSidebar */
+  padding: 8px 72px 8px 72px; /* Add padding for both sidebars */
   gap: 1px;
 }
 
@@ -476,7 +620,7 @@ body {
 .status-bar {
   background: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
-  padding: 0 12px 0 72px; /* Add left padding to account for DevSidebar */
+  padding: 0 72px 0 72px; /* Add padding for both sidebars */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -486,7 +630,7 @@ body {
   position: fixed;
   bottom: 28px; /* Position above browser menu bar */
   left: 0;
-  right: 0;
+  right: 60px; /* Stop at TickerSidebar edge */
   z-index: 999;
 }
 

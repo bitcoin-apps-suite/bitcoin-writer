@@ -2,7 +2,7 @@
 .dev-sidebar {
   position: fixed;
   left: 0;
-  top: 72px; /* Below POC banner (40px) and taskbar (32px) */
+  top: 40px; /* Below POC banner only - forms left wall */
   bottom: 32px; /* Above MinimalDock (32px height) */
   width: 260px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  z-index: 9989; /* Below taskbar (10000) and PoC banner (10001) */
+  z-index: 10001; /* Above menu bar (10000) */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
 }
 
