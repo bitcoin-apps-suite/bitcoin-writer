@@ -99,6 +99,9 @@ export default function RootLayout({
             {children}
           </div>
           
+          {/* Dock - hide on /write page */}
+          {!isWritePage && <DockManager currentApp="bitcoin-writer" />}
+          
           {/* Footer - hide on /write page */}
           {!isWritePage && <Footer />}
         </div>
