@@ -4,6 +4,7 @@ import GoogleAuthButton from './GoogleAuth';
 import { HandCashService } from '../../services/HandCashService';
 import AuthModal from './AuthModal';
 import MetanetModal from '../MetanetModal';
+import { metanetIntegration } from '../../lib/metanet-integration';
 import '../UnifiedAuth.css';
 
 interface UnifiedAuthProps {
@@ -489,30 +490,30 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
       <MetanetModal 
         isOpen={showMetanetModal}
         onClose={() => setShowMetanetModal(false)}
-        onSetupIdentity={() => {
+        onSetupIdentity={async () => {
           setShowMetanetModal(false);
-          // Find and click the MetanetWallet component's connect button
-          const allButtons = document.querySelectorAll('button');
-          let metanetMinimizedButton: HTMLButtonElement | null = null;
           
-          allButtons.forEach(button => {
-            if (button.textContent?.includes('🔗') && button.textContent?.includes('MetaNet')) {
-              metanetMinimizedButton = button;
+          // Try to connect to Metanet wallet directly
+          try {
+            const result = await metanetIntegration.initializeWallet();
+            
+            if (result.success) {
+              console.log('✅ Connected to Metanet Client:', result.publicKey);
+              
+              // Auto-register the app after connection
+              const registerResult = await metanetIntegration.registerApp();
+              
+              if (registerResult.success) {
+                console.log('✅ Bitcoin Writer registered on Metanet!', registerResult.txid);
+                alert(`Bitcoin Writer has been registered on the Metanet App Catalog!\nTransaction ID: ${registerResult.txid}`);
+              }
+            } else {
+              console.error('Failed to connect to Metanet Client');
+              alert('Could not connect to Metanet Client. Make sure it is running on your desktop.');
             }
-          });
-          
-          if (metanetMinimizedButton) {
-            // Click to expand the minimized button
-            metanetMinimizedButton.click();
-            // After expanding, try to click connect
-            setTimeout(() => {
-              const buttons = document.querySelectorAll('button');
-              buttons.forEach(button => {
-                if (button.textContent?.includes('Connect BRC100 Wallet')) {
-                  (button as HTMLButtonElement).click();
-                }
-              });
-            }, 100);
+          } catch (error) {
+            console.error('Error connecting to Metanet:', error);
+            alert('Error connecting to Metanet Client. Make sure it is running on your desktop.');
           }
         }}
       />

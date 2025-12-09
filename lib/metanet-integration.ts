@@ -3,7 +3,7 @@
  * BRC100 compliant implementation for publishing to Metanet App Catalog
  */
 
-import { createAction, encrypt, decrypt, getPublicKey } from '@babbage/wrapped-sdk';
+import { createAction, encrypt, decrypt, getPublicKey } from '@babbage/sdk';
 
 export class MetanetIntegration {
   private appName = 'Bitcoin Writer';
