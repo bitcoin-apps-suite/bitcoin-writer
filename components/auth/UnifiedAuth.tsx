@@ -490,9 +490,30 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
         isOpen={showMetanetModal}
         onClose={() => setShowMetanetModal(false)}
         onSetupIdentity={() => {
-          // Open Metanet docs/download page
-          window.open('https://docs.metanet.app/', '_blank');
           setShowMetanetModal(false);
+          // Find and click the MetanetWallet component's connect button
+          const allButtons = document.querySelectorAll('button');
+          let metanetMinimizedButton: HTMLButtonElement | null = null;
+          
+          allButtons.forEach(button => {
+            if (button.textContent?.includes('🔗') && button.textContent?.includes('MetaNet')) {
+              metanetMinimizedButton = button;
+            }
+          });
+          
+          if (metanetMinimizedButton) {
+            // Click to expand the minimized button
+            metanetMinimizedButton.click();
+            // After expanding, try to click connect
+            setTimeout(() => {
+              const buttons = document.querySelectorAll('button');
+              buttons.forEach(button => {
+                if (button.textContent?.includes('Connect BRC100 Wallet')) {
+                  (button as HTMLButtonElement).click();
+                }
+              });
+            }, 100);
+          }
         }}
       />
     </div>

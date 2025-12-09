@@ -127,9 +127,9 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
   };
 
   const handleSetupIdentity = () => {
-    // Open Metanet docs page
-    window.open('https://docs.metanet.app/', '_blank');
+    // Try to connect to the local Metanet Client
     setShowModal(false);
+    connectWallet();
   };
 
   // Show minimized button if not expanded

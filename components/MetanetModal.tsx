@@ -273,7 +273,7 @@ export const MetanetModal: React.FC<MetanetModalProps> = ({
               }}
             >
               <span style={{ position: 'relative', zIndex: 1 }}>
-                Set Up MetaNet Identity →
+                Connect to Metanet Client →
               </span>
               {/* Shine effect */}
               <div style={{
