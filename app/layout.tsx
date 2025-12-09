@@ -21,6 +21,7 @@ import CleanTaskbar from "../components/ui/CleanTaskbar";
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import './globals.css';
 import '../components/ProofOfConceptBanner.css';
 import '../components/DevSidebar.css';
@@ -43,20 +44,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname();
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
   const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(true);
-  const [isWritePage, setIsWritePage] = useState(false);
+  const isWritePage = pathname === '/write';
   
   // Debug: log when state changes
   useEffect(() => {
     console.log('DevSidebar collapsed state changed to:', devSidebarCollapsed);
   }, [devSidebarCollapsed]);
   const [isMobile, setIsMobile] = useState(false);
-  
-  // Check if we're on the /write page
-  useEffect(() => {
-    setIsWritePage(window.location.pathname === '/write');
-  }, []);
   
   // Check if mobile
   useEffect(() => {
