@@ -89,6 +89,20 @@
         .page-wrapper {
             position: relative;
         }
+        
+        /* Remove orange focus outline from editor */
+        #editor:focus {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Also remove outline from any contenteditable element */
+        [contenteditable]:focus {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
     </style>
     
     <!-- PWA meta tags -->
