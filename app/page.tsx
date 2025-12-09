@@ -5,9 +5,17 @@
 
 'use client';
 
-'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+  
+  useEffect(() => {
+    // Automatically forward to /write page
+    router.push('/write');
+  }, [router]);
+  
   return (
     <div style={{ 
       width: '100vw', 
@@ -17,20 +25,19 @@ export default function Home() {
       overflow: 'hidden',
       position: 'fixed',
       top: 0,
-      left: 0
+      left: 0,
+      background: '#1b1b1b',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
     }}>
-      <iframe 
-        src="/editor-standalone.html"
-        style={{ 
-          width: '100%', 
-          height: '100%', 
-          border: 'none',
-          margin: 0,
-          padding: 0,
-          backgroundColor: '#1b1b1b'
-        }}
-        title="Bitcoin Writer"
-      />
+      <div style={{
+        color: '#ff9500',
+        fontSize: '16px',
+        fontWeight: '600'
+      }}>
+        Redirecting to Bitcoin Writer...
+      </div>
     </div>
   );
 }
