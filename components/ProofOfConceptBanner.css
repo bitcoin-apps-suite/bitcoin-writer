@@ -2,7 +2,7 @@
 .poc-banner {
   position: fixed;
   top: 0; /* Position at very top, above taskbar */
-  left: 60px; /* Account for collapsed DevSidebar */
+  left: 0;
   right: 0;
   z-index: 10001; /* Above taskbar (10000) */
   background: linear-gradient(135deg, #FF6B35, #F7931E);
@@ -15,12 +15,6 @@
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   animation: slideDown 0.3s ease-out;
-  transition: left 0.3s ease;
-}
-
-/* Adjust POC banner position when DevSidebar is expanded */
-.dev-sidebar-expanded .poc-banner {
-  left: 260px; /* Full DevSidebar width */
 }
 
 .poc-banner-mobile-container {
@@ -171,9 +165,7 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .poc-banner,
-  .dev-sidebar-expanded .poc-banner {
-    left: 0; /* Full width on mobile */
+  .poc-banner {
     padding: 6px 16px;
     height: auto;
     min-height: 72px;
