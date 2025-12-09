@@ -27,10 +27,6 @@ import { HandCashService } from '../services/HandCashService';
 import LoadingDoor from '../components/LoadingDoor';
 
 // Dynamic imports for client-side components
-const DocumentEditor = dynamic(() => import('../components/editor/DocumentEditor'), { 
-  ssr: false,
-  loading: () => <div className="editor-skeleton" />
-});
 const DocumentSidebar = dynamic(() => import('../components/editor/DocumentSidebar'), { 
   ssr: false,
   loading: () => <div className="sidebar-skeleton" />
@@ -45,8 +41,8 @@ export default function Home() {
   const [currentDocument, setCurrentDocument] = useState<BlockchainDocument | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // Start collapsed
+  const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(true); // Start collapsed
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -182,14 +178,19 @@ export default function Home() {
             />
           </div>
 
-          {/* Document Editor */}
+          {/* Document Editor - Using our standalone browser version */}
           <div className="editor-container">
-            <DocumentEditor
-              documentService={documentService}
-              isAuthenticated={isAuthenticated}
-              currentDocument={currentDocument}
-              onDocumentUpdate={setCurrentDocument}
-              onDocumentSaved={handleDocumentSaved}
+            <iframe 
+              src="/editor-standalone.html"
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                border: 'none',
+                margin: 0,
+                padding: 0,
+                backgroundColor: '#1b1b1b'
+              }}
+              title="Bitcoin Writer Editor"
             />
           </div>
 
