@@ -37,9 +37,9 @@ body {
   flex-direction: column;
   height: 100vh;
   background: var(--bg-primary);
-  padding-top: 35px; /* Add space for browser taskbar */
-  padding-left: 25px; /* Add space for left sidebar */
-  padding-bottom: 28px; /* Add space for browser menu bar at bottom */
+  padding-top: 0; /* Remove top padding - not needed */
+  padding-left: 0; /* Remove left padding - will handle differently */
+  padding-bottom: 52px; /* Space for status bar (24px) + browser menu bar (28px) */
 }
 
 /* Title Bar */
@@ -419,7 +419,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 20px 0;
-  padding-bottom: 44px; /* Add extra padding for status bar (24px) + spacing */
+  margin-bottom: 0; /* Remove bottom margin */
 }
 
 .page-wrapper {
@@ -463,6 +463,15 @@ body {
   color: var(--text-primary);
 }
 
+/* Browser version specific adjustments */
+.browser-version {
+  padding-bottom: 52px !important; /* Space for both bars */
+}
+
+.browser-version .document-container {
+  height: calc(100vh - 52px) !important; /* Account for bottom bars */
+}
+
 /* Status Bar */
 .status-bar {
   background: var(--bg-secondary);
@@ -476,7 +485,7 @@ body {
   color: var(--text-secondary);
   position: fixed;
   bottom: 28px; /* Position above browser menu bar */
-  left: 25px; /* Account for left padding */
+  left: 0;
   right: 0;
   z-index: 999;
 }
