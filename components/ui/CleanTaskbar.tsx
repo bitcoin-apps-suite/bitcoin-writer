@@ -471,6 +471,36 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
             padding: '8px 0',
             zIndex: 1000
           }}>
+            {/* Bitcoin OS Link */}
+            <a
+              href="https://bitcoin-os.website"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                padding: '8px 16px',
+                fontSize: '13px',
+                color: '#F7931A',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: '2px solid rgba(247, 147, 26, 0.3)',
+                marginBottom: '8px',
+                cursor: 'pointer',
+                textAlign: 'left',
+                fontWeight: '600',
+                textDecoration: 'none',
+                transition: 'background 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(247, 147, 26, 0.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+              onClick={() => setShowBitcoinSuite(false)}
+            >
+              <span style={{ marginRight: '8px', fontSize: '16px' }}>🌐</span>
+              Bitcoin-OS.website
+            </a>
+            
             <button
               onClick={() => {
                 // Trigger event to load Bitcoin Apps content in document editor
