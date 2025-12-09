@@ -81,9 +81,13 @@
             border-radius: 4px;
         }
         
-        .editor:focus + .animated-placeholder,
-        .editor:not(:empty) + .animated-placeholder {
-            display: none;
+        #editor:focus .animated-placeholder {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .page-wrapper {
+            position: relative;
         }
     </style>
     
@@ -359,11 +363,12 @@
         <!-- Document Container -->
         <div class="document-container">
             <div class="page-wrapper">
-                <div id="editor" class="editor lexical-editor"></div>
-                <!-- Animated Placeholder -->
-                <div id="animatedPlaceholder" class="animated-placeholder">
-                    <div class="placeholder-text" id="placeholderText">Start writing here...</div>
-                    <div class="placeholder-indicators" id="placeholderIndicators"></div>
+                <div id="editor" class="editor lexical-editor">
+                    <!-- Animated Placeholder -->
+                    <div id="animatedPlaceholder" class="animated-placeholder">
+                        <div class="placeholder-text" id="placeholderText">Start writing here...</div>
+                        <div class="placeholder-indicators" id="placeholderIndicators"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -605,22 +610,43 @@
             
             // Hide when editor has content or is focused
             function checkEditorState() {
-                const hasContent = editor.textContent.trim().length > 0;
-                const isFocused = document.activeElement === editor;
+                // Check if editor has any actual content (not just the placeholder)
+                const hasContent = editor.children.length > 1 || 
+                    (editor.textContent.trim().length > 0 && !editor.querySelector('#animatedPlaceholder'));
+                const isFocused = document.activeElement === editor || editor.contains(document.activeElement);
                 
                 if (hasContent || isFocused) {
-                    placeholderContainer.classList.add('hide');
+                    placeholderContainer.style.opacity = '0';
+                    placeholderContainer.style.pointerEvents = 'none';
                 } else {
-                    placeholderContainer.classList.remove('hide');
+                    placeholderContainer.style.opacity = '1';
+                    placeholderContainer.style.pointerEvents = 'auto';
                 }
             }
             
-            editor.addEventListener('focus', checkEditorState);
-            editor.addEventListener('blur', checkEditorState);
+            editor.addEventListener('focus', () => {
+                placeholderContainer.style.opacity = '0';
+                placeholderContainer.style.pointerEvents = 'none';
+            });
+            
+            editor.addEventListener('blur', () => {
+                setTimeout(checkEditorState, 100);
+            });
+            
             editor.addEventListener('input', checkEditorState);
             
+            // Check on click anywhere in editor
+            editor.addEventListener('click', () => {
+                placeholderContainer.style.opacity = '0';
+                placeholderContainer.style.pointerEvents = 'none';
+            });
+            
             // Initial check
-            setTimeout(checkEditorState, 100);
+            setTimeout(() => {
+                checkEditorState();
+                // Make sure editor is contenteditable
+                editor.contentEditable = true;
+            }, 500);
         })();
     </script>
 </body>
