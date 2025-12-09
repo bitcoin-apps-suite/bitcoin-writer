@@ -21,10 +21,11 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
   const [status, setStatus] = useState<string>('');
   const [showMetanetFeatures, setShowMetanetFeatures] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(true);
 
-  // Initialize wallet on component mount
+  // Don't auto-check wallet on mount - let users choose to connect
   useEffect(() => {
-    checkWalletConnection();
+    // checkWalletConnection(); // Commented out - optional connection
   }, []);
 
   const checkWalletConnection = async () => {
@@ -131,6 +132,45 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
     setShowModal(false);
   };
 
+  // Show minimized button if not expanded
+  if (isMinimized) {
+    return (
+      <button
+        onClick={() => setIsMinimized(false)}
+        style={{
+          position: 'fixed',
+          top: '80px',
+          right: '20px',
+          background: 'linear-gradient(135deg, #F7931A, #FF6B35)',
+          border: 'none',
+          borderRadius: '12px',
+          padding: '10px 16px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          boxShadow: '0 4px 12px rgba(247, 147, 26, 0.3)',
+          transition: 'all 0.3s ease',
+          zIndex: 10000
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(247, 147, 26, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(247, 147, 26, 0.3)';
+        }}
+      >
+        <span>🔗</span>
+        MetaNet
+      </button>
+    );
+  }
+
   return (
     <>
     <MetanetModal 
@@ -170,15 +210,42 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
           <span>🔗</span>
           Metanet Integration
         </h3>
-        {isConnected && (
-          <span style={{
-            width: '10px',
-            height: '10px',
-            background: '#4CAF50',
-            borderRadius: '50%',
-            animation: 'pulse 2s infinite'
-          }} />
-        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {isConnected && (
+            <span style={{
+              width: '10px',
+              height: '10px',
+              background: '#4CAF50',
+              borderRadius: '50%',
+              animation: 'pulse 2s infinite'
+            }} />
+          )}
+          <button
+            onClick={() => setIsMinimized(true)}
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: 'none',
+              color: '#fff',
+              fontSize: '18px',
+              width: '24px',
+              height: '24px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+            }}
+          >
+            −
+          </button>
+        </div>
       </div>
 
       {!isConnected ? (

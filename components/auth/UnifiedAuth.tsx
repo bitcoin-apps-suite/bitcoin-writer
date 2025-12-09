@@ -27,7 +27,6 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [twitterUser, setTwitterUser] = useState<any>(null);
-  const [showSubstackModal, setShowSubstackModal] = useState(false);
 
   useEffect(() => {
     // Check for stored Twitter user
@@ -181,22 +180,43 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   
                   
                   <button 
-                    className="substack-login-btn full-width"
+                    className="metanet-login-btn full-width"
                     onClick={() => {
-                      setShowSubstackModal(true);
+                      setShowAuthModal(false);
+                      // Trigger Metanet wallet connection
+                      const metanetButton = document.querySelector('[style*="Metanet Integration"]')?.parentElement?.querySelector('button');
+                      if (metanetButton) {
+                        (metanetButton as HTMLButtonElement).click();
+                      } else {
+                        // If no wallet component, open Metanet Desktop page
+                        window.open('https://metanet.bsvb.tech/', '_blank');
+                      }
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #F7931A, #FF6B35)',
+                      color: '#fff',
+                      border: 'none',
+                      padding: '12px 20px',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      marginTop: '12px'
                     }}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" style={{ marginRight: '8px' }}>
-                      <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-                    </svg>
-                    Connect Substack
+                    <span style={{ marginRight: '8px', fontSize: '18px' }}>🔗</span>
+                    Connect MetaNet (Optional)
                   </button>
                 </div>
                 
                 <div className="auth-benefits">
                   <h3>Why connect?</h3>
                   <p className="simple-explanation">
-                    Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter and Substack, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. Subscribe to top-up with monthly bitcoin straight to your HandCash wallet or directly to your Bitcoin Writer wallet.
+                    Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. MetaNet integration enables advanced blockchain features and app publishing.
                   </p>
                   
                   {!process.env.REACT_APP_GOOGLE_CLIENT_ID || process.env.REACT_APP_GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE' ? (
@@ -250,31 +270,6 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
               </div>
         </AuthModal>
         
-        {/* Substack Modal */}
-        {showSubstackModal && (
-          <>
-            <div className="auth-modal-overlay" onClick={() => setShowSubstackModal(false)} />
-            <div className="substack-modal">
-              <div className="substack-modal-header">
-                <h2>😅 Oops!</h2>
-                <button className="modal-close" onClick={() => setShowSubstackModal(false)}>×</button>
-              </div>
-              <div className="substack-modal-content">
-                <div className="substack-message">
-                  <h3>Substack doesn't do OAuth, sucker!</h3>
-                  <p>They keep their API locked up tighter than Fort Knox. 🔒</p>
-                  <p>But hey, you can still copy/paste your articles manually like it's 1999! 📋</p>
-                  <button 
-                    className="substack-ok-btn"
-                    onClick={() => setShowSubstackModal(false)}
-                  >
-                    Thanks for Nothing, Substack
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
       </div>
     );
   }
@@ -422,22 +417,42 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                 )}
                 
                 <button 
-                  className="substack-login-btn full-width"
+                  className="metanet-login-btn full-width"
                   onClick={() => {
-                    setShowSubstackModal(true);
+                    setShowAuthModal(false);
+                    // Trigger Metanet wallet connection
+                    const metanetButton = document.querySelector('[style*="Metanet Integration"]')?.parentElement?.querySelector('button');
+                    if (metanetButton) {
+                      (metanetButton as HTMLButtonElement).click();
+                    } else {
+                      // If no wallet component, open Metanet Desktop page
+                      window.open('https://metanet.bsvb.tech/', '_blank');
+                    }
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #F7931A, #FF6B35)',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%'
                   }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" style={{ marginRight: '8px' }}>
-                    <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-                  </svg>
-                  Connect Substack
+                  <span style={{ marginRight: '8px', fontSize: '18px' }}>🔗</span>
+                  Connect MetaNet (Optional)
                 </button>
               </div>
               
               <div className="auth-benefits">
                 <h3>Why connect?</h3>
                 <p className="simple-explanation">
-                  Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter and Substack, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. Subscribe to top-up with monthly bitcoin straight to your HandCash wallet or directly to your Bitcoin Writer wallet.
+                  Bitcoin Writer allows you to write documents directly on the blockchain, encrypt, timelock, publish, charge for access, post to Twitter, and backup to Google Drive or send via Gmail. Connect your HandCash wallet to receive payments, tokenize your documents and issue dividend bearing shares in the revenue they generate that can be independently traded on decentralized exchanges. MetaNet integration enables advanced blockchain features and app publishing.
                 </p>
                 
                 <div className="topup-buttons-section">
@@ -481,33 +496,6 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
               </div>
             </div>
       </AuthModal>
-      
-      {/* Substack Modal */}
-      {showSubstackModal && ReactDOM.createPortal(
-        <>
-          <div className="auth-modal-overlay" onClick={() => setShowSubstackModal(false)} />
-          <div className="substack-modal">
-            <div className="substack-modal-header">
-              <h2>😅 Oops!</h2>
-              <button className="modal-close" onClick={() => setShowSubstackModal(false)}>×</button>
-            </div>
-            <div className="substack-modal-content">
-              <div className="substack-message">
-                <h3>Substack doesn't do OAuth, sucker!</h3>
-                <p>They keep their API locked up tighter than Fort Knox. 🔒</p>
-                <p>But hey, you can still copy/paste your articles manually like it's 1999! 📋</p>
-                <button 
-                  className="substack-ok-btn"
-                  onClick={() => setShowSubstackModal(false)}
-                >
-                  Thanks for Nothing, Substack
-                </button>
-              </div>
-            </div>
-          </div>
-        </>,
-        document.body
-      )}
     </div>
   );
 };
