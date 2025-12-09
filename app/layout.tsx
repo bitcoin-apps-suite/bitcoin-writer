@@ -92,8 +92,8 @@ export default function RootLayout({
             <TickerSidebar onCollapsedChange={setTickerSidebarCollapsed} />
           )}
           
-          {/* Metanet Wallet Integration */}
-          {!isWritePage && <MetanetWallet />}
+          {/* Metanet Wallet Integration - available on all pages */}
+          <MetanetWallet />
           
           {/* Main Content */}
           <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
