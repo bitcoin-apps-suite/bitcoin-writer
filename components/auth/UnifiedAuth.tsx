@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import GoogleAuthButton from './GoogleAuth';
 import { HandCashService } from '../../services/HandCashService';
 import AuthModal from './AuthModal';
+import MetanetModal from '../MetanetModal';
 import '../UnifiedAuth.css';
 
 interface UnifiedAuthProps {
@@ -26,6 +27,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showMetanetModal, setShowMetanetModal] = useState(false);
   const [twitterUser, setTwitterUser] = useState<any>(null);
 
   useEffect(() => {
@@ -183,39 +185,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                     className="metanet-login-btn full-width"
                     onClick={() => {
                       setShowAuthModal(false);
-                      // Find all buttons and check for MetaNet button
-                      const allButtons = document.querySelectorAll('button');
-                      let metanetMinimizedButton: HTMLButtonElement | null = null;
-                      let metanetConnectButton: HTMLButtonElement | null = null;
-                      
-                      allButtons.forEach(button => {
-                        if (button.textContent?.includes('🔗') && button.textContent?.includes('MetaNet')) {
-                          metanetMinimizedButton = button;
-                        }
-                        if (button.textContent?.includes('Connect BRC100 Wallet')) {
-                          metanetConnectButton = button;
-                        }
-                      });
-                      
-                      if (metanetMinimizedButton) {
-                        // Click to expand the minimized button
-                        metanetMinimizedButton.click();
-                        // After expanding, try to click connect
-                        setTimeout(() => {
-                          const buttons = document.querySelectorAll('button');
-                          buttons.forEach(button => {
-                            if (button.textContent?.includes('Connect BRC100 Wallet')) {
-                              (button as HTMLButtonElement).click();
-                            }
-                          });
-                        }, 100);
-                      } else if (metanetConnectButton) {
-                        // Already expanded, just click connect
-                        metanetConnectButton.click();
-                      } else {
-                        // As fallback, open Metanet docs
-                        window.open('https://docs.metanet.app/', '_blank');
-                      }
+                      setShowMetanetModal(true);
                     }}
                     style={{
                       background: 'linear-gradient(135deg, #F7931A, #FF6B35)',
@@ -445,39 +415,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   className="metanet-login-btn full-width"
                   onClick={() => {
                     setShowAuthModal(false);
-                    // Find all buttons and check for MetaNet button
-                    const allButtons = document.querySelectorAll('button');
-                    let metanetMinimizedButton: HTMLButtonElement | null = null;
-                    let metanetConnectButton: HTMLButtonElement | null = null;
-                    
-                    allButtons.forEach(button => {
-                      if (button.textContent?.includes('🔗') && button.textContent?.includes('MetaNet')) {
-                        metanetMinimizedButton = button;
-                      }
-                      if (button.textContent?.includes('Connect BRC100 Wallet')) {
-                        metanetConnectButton = button;
-                      }
-                    });
-                    
-                    if (metanetMinimizedButton) {
-                      // Click to expand the minimized button
-                      metanetMinimizedButton.click();
-                      // After expanding, try to click connect
-                      setTimeout(() => {
-                        const buttons = document.querySelectorAll('button');
-                        buttons.forEach(button => {
-                          if (button.textContent?.includes('Connect BRC100 Wallet')) {
-                            (button as HTMLButtonElement).click();
-                          }
-                        });
-                      }, 100);
-                    } else if (metanetConnectButton) {
-                      // Already expanded, just click connect
-                      metanetConnectButton.click();
-                    } else {
-                      // As fallback, open Metanet docs
-                      window.open('https://docs.metanet.app/', '_blank');
-                    }
+                    setShowMetanetModal(true);
                   }}
                   style={{
                     background: 'linear-gradient(135deg, #F7931A, #FF6B35)',
@@ -546,6 +484,17 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
               </div>
             </div>
       </AuthModal>
+      
+      {/* MetaNet Modal */}
+      <MetanetModal 
+        isOpen={showMetanetModal}
+        onClose={() => setShowMetanetModal(false)}
+        onSetupIdentity={() => {
+          // Open Metanet docs/download page
+          window.open('https://docs.metanet.app/', '_blank');
+          setShowMetanetModal(false);
+        }}
+      />
     </div>
   );
 };
