@@ -230,7 +230,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                         console.log('Opening $5 BSV top-up');
                       }}>
                         <svg width="16" height="16" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '6px' }}>
-                          <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                          <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                         </svg>
                         $5
                       </button>
@@ -238,7 +238,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                         console.log('Opening $10 BSV top-up');
                       }}>
                         <svg width="16" height="16" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '6px' }}>
-                          <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                          <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                         </svg>
                         $10
                       </button>
@@ -246,7 +246,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                         console.log('Opening $50 BSV top-up');
                       }}>
                         <svg width="16" height="16" viewBox="0 0 32 32" fill="#FFD700" style={{ marginRight: '6px' }}>
-                          <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                          <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                         </svg>
                         $50
                       </button>
@@ -450,7 +450,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                       console.log('Opening $5 BSV top-up');
                     }}>
                       <svg width="20" height="20" viewBox="0 0 32 32" style={{ marginRight: '6px' }}>
-                        <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                        <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                       </svg>
                       $5
                     </button>
@@ -458,7 +458,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                       console.log('Opening $10 BSV top-up');
                     }}>
                       <svg width="20" height="20" viewBox="0 0 32 32" style={{ marginRight: '6px' }}>
-                        <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                        <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                       </svg>
                       $10
                     </button>
@@ -466,7 +466,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                       console.log('Opening $50 BSV top-up');
                     }}>
                       <svg width="20" height="20" viewBox="0 0 32 32" style={{ marginRight: '6px' }}>
-                        <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                        <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                       </svg>
                       $50
                     </button>
@@ -477,7 +477,7 @@ const UnifiedAuth: React.FC<UnifiedAuthProps> = ({
                   console.log('Opening premium subscription flow');
                 }}>
                   <svg width="24" height="24" viewBox="0 0 32 32" style={{ marginRight: '8px' }}>
-                    <text x="16" y="26" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFD700" text-anchor="middle">B</text>
+                    <text x="16" y="26" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#FFD700" textAnchor="middle">B</text>
                   </svg>
                   Subscribe Now - $9.99/month
                 </button>
