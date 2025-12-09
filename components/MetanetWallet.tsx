@@ -127,8 +127,8 @@ export const MetanetWallet: React.FC<MetanetWalletProps> = ({
   };
 
   const handleSetupIdentity = () => {
-    // Open Metanet Desktop download page
-    window.open('https://metanet.bsvb.tech/', '_blank');
+    // Open Metanet docs page
+    window.open('https://docs.metanet.app/', '_blank');
     setShowModal(false);
   };
 
