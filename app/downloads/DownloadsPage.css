@@ -1,0 +1,411 @@
+/* Downloads Page - Professional Style */
+.App {
+  background: #0a0a0a !important;
+  min-height: 100vh;
+}
+
+.downloads-page {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 96px; /* 40px POC banner + 32px taskbar + 24px spacing */
+  font-weight: 300;
+}
+
+.downloads-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Downloads Hero - Full Width Black */
+.downloads-hero {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px 40px;
+  text-align: center;
+  margin-bottom: 40px;
+  background: #000000;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-top: -24px;
+  width: 100vw;
+  position: relative;
+  left: 0;
+  right: 0;
+}
+
+.downloads-hero h1 {
+  font-size: 42px;
+  font-weight: 200;
+  margin: 0 0 16px 0;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.downloads-tagline {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.version-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(90deg, #ffa500, #ffcd00);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 20px;
+  color: #000;
+}
+
+/* Sections */
+section {
+  padding: 40px 0;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+section:first-of-type {
+  border-top: none;
+}
+
+section h2 {
+  font-size: 28px;
+  font-weight: 200;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+/* Downloads Grid */
+.downloads-section {
+  background: #0a0a0a;
+}
+
+.downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.download-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.download-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: #f7931a;
+  transform: translateY(-4px);
+}
+
+.platform-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #f7931a 0%, #ffcd00 100%);
+  border-radius: 16px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+
+.platform-icon::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: #0a0a0a;
+  border-radius: 14px;
+}
+
+.download-card h3 {
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+
+.system-requirements {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 24px;
+  min-height: 60px;
+}
+
+.download-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(90deg, #f7931a, #ffcd00);
+  color: #000;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.download-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 147, 26, 0.3);
+}
+
+.file-info {
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* Installation Section */
+.installation-section {
+  background: #0a0a0a;
+}
+
+.installation-card {
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid rgba(247, 147, 26, 0.2);
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.installation-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #f7931a;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.notice-text {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.installation-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.installation-steps li {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16px;
+  padding-left: 30px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.installation-steps li::before {
+  content: counter(step-counter);
+  counter-increment: step-counter;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background: #f7931a;
+  color: #000;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.installation-steps {
+  counter-reset: step-counter;
+}
+
+.terminal-command {
+  display: block;
+  background: #000;
+  color: #f7931a;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-size: 13px;
+  margin: 8px 0;
+  border: 1px solid rgba(247, 147, 26, 0.3);
+}
+
+.notice-subtext {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+/* Features Section */
+.features-section {
+  background: #0a0a0a;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.feature {
+  padding: 24px;
+  border-left: 2px solid #f7931a;
+  padding-left: 24px;
+}
+
+.feature h4 {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+  color: #f7931a;
+}
+
+.feature p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Web Version Section */
+.web-version-section {
+  background: rgba(247, 147, 26, 0.03);
+  border-radius: 12px;
+  padding: 48px;
+  text-align: center;
+  margin: 40px 0;
+}
+
+.web-description {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.web-app-button {
+  display: inline-block;
+  background: transparent;
+  color: #f7931a;
+  text-decoration: none;
+  padding: 12px 32px;
+  border: 2px solid #f7931a;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.web-app-button:hover {
+  background: #f7931a;
+  color: #000;
+}
+
+/* Release Section */
+.release-section {
+  background: #0a0a0a;
+}
+
+.release-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto 32px;
+}
+
+.release-item {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid #f7931a;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+}
+
+.github-link {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.github-link a {
+  color: #f7931a;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.github-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .downloads-container {
+    padding: 0 20px;
+  }
+
+  .downloads-hero h1 {
+    font-size: 32px;
+  }
+
+  .downloads-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .release-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .installation-card {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .downloads-hero {
+    padding: 40px 20px 30px;
+  }
+
+  .downloads-hero h1 {
+    font-size: 28px;
+  }
+
+  section {
+    padding: 30px 0;
+  }
+}
