@@ -38,7 +38,6 @@ const DevSidebar = dynamic(() => import('../components/ui/DevSidebar'), { ssr: f
 const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { ssr: false });
 const DockManager = dynamic(() => import('../components/ui/DockManager'), { ssr: false });
 const Footer = dynamic(() => import('../components/ui/Footer'), { ssr: false });
-const MetanetWallet = dynamic(() => import('../components/MetanetWallet'), { ssr: false });
 
 export default function RootLayout({
   children,
@@ -92,8 +91,6 @@ export default function RootLayout({
             <TickerSidebar onCollapsedChange={setTickerSidebarCollapsed} />
           )}
           
-          {/* Metanet Wallet Integration - available on all pages */}
-          <MetanetWallet />
           
           {/* Main Content */}
           <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
