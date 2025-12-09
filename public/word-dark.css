@@ -37,6 +37,8 @@ body {
   flex-direction: column;
   height: 100vh;
   background: var(--bg-primary);
+  padding-top: 35px; /* Add space for browser taskbar */
+  padding-left: 25px; /* Add space for left sidebar */
 }
 
 /* Title Bar */
