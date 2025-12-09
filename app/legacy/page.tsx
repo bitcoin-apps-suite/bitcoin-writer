@@ -22,16 +22,16 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { BlockchainDocumentService, BlockchainDocument } from '../services/BlockchainDocumentService';
-import { HandCashService } from '../services/HandCashService';
-import LoadingDoor from '../components/LoadingDoor';
+import { BlockchainDocumentService, BlockchainDocument } from '../../services/BlockchainDocumentService';
+import { HandCashService } from '../../services/HandCashService';
+import LoadingDoor from '../../components/LoadingDoor';
 
 // Dynamic imports for client-side components
-const DocumentSidebar = dynamic(() => import('../components/editor/DocumentSidebar'), { 
+const DocumentSidebar = dynamic(() => import('../../components/editor/DocumentSidebar'), { 
   ssr: false,
   loading: () => <div className="sidebar-skeleton" />
 });
-const TickerSidebar = dynamic(() => import('../components/ui/TickerSidebar'), { 
+const TickerSidebar = dynamic(() => import('../../components/ui/TickerSidebar'), { 
   ssr: false
 });
 
