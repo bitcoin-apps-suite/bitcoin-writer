@@ -69,7 +69,7 @@ export default function RootLayout({
         <link rel="alternate icon" type="image/svg+xml" href="/logo.svg" />
       </head>
       <body>
-        <div className="App">
+        <div className={`App ${devSidebarCollapsed ? 'dev-sidebar-collapsed' : 'dev-sidebar-expanded'}`}>
           {/* Proof of Concept Banner */}
           <ProofOfConceptBanner />
           

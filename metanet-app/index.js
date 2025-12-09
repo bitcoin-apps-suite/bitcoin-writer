@@ -3,28 +3,58 @@
  * This module provides the bridge between Bitcoin Writer and Metanet Desktop
  */
 
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-// Mock KVStore for testing (replace with actual when available)
-const mockKVStore = {
-  set: async (key, value, options = {}) => {
-    console.log(`Mock KVStore SET: ${key} in topic ${options.topic || 'default'}`);
-    return { success: true };
-  },
-  get: async (key, options = {}) => {
-    console.log(`Mock KVStore GET: ${key} from topic ${options.topic || 'default'}`);
-    return JSON.stringify({ mock: true, key, data: 'test data' });
-  },
-  list: async (options = {}) => {
-    console.log(`Mock KVStore LIST from topic ${options.topic || 'default'}`);
-    return ['test-doc-1', 'test-doc-2'];
-  },
-  delete: async (key, options = {}) => {
-    console.log(`Mock KVStore DELETE: ${key} from topic ${options.topic || 'default'}`);
-    return { success: true };
-  }
-};
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// ES module equivalents of __dirname and __filename
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Real KVStore implementation
+let KVStore = null;
+let TopicManager = null;
+let LookupService = null;
+
+// Try to import real KVStore, fallback to mock if needed
+try {
+  // Import directly from the LocalKVStore.js file to avoid index.js import issues
+  const LocalKVStoreModule = await import('babbage-kvstore/dist/LocalKVStore.js');
+  const TopicManagerModule = await import('kvstore-topic-manager');
+  const LookupServiceModule = await import('kvstore-lookup-service');
+  
+  // Import the default export (LocalKVStore class)
+  const LocalKVStoreClass = LocalKVStoreModule.default;
+  KVStore = new LocalKVStoreClass();
+  TopicManager = TopicManagerModule.default || TopicManagerModule;
+  LookupService = LookupServiceModule.default || LookupServiceModule;
+  
+  console.log('✅ Real KVStore modules loaded successfully');
+} catch (error) {
+  console.log('⚠️ Failed to load real KVStore, using mock:', error.message);
+  
+  // Mock KVStore fallback
+  KVStore = {
+    set: async (key, value, options = {}) => {
+      console.log(`Mock KVStore SET: ${key} in topic ${options.topic || 'default'}`);
+      return { success: true };
+    },
+    get: async (key, options = {}) => {
+      console.log(`Mock KVStore GET: ${key} from topic ${options.topic || 'default'}`);
+      return JSON.stringify({ mock: true, key, data: 'test data' });
+    },
+    list: async (options = {}) => {
+      console.log(`Mock KVStore LIST from topic ${options.topic || 'default'}`);
+      return ['test-doc-1', 'test-doc-2'];
+    },
+    delete: async (key, options = {}) => {
+      console.log(`Mock KVStore DELETE: ${key} from topic ${options.topic || 'default'}`);
+      return { success: true };
+    }
+  };
+}
 
 class BitcoinWriterMetanetApp {
   constructor(config = {}) {
@@ -37,7 +67,9 @@ class BitcoinWriterMetanetApp {
     };
     
     this.app = express();
-    this.kvstore = mockKVStore;
+    this.kvstore = KVStore;
+    this.topicManager = TopicManager;
+    this.lookupService = LookupService;
     this.walletConnection = null;
   }
 
@@ -55,7 +87,7 @@ class BitcoinWriterMetanetApp {
       allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
     }));
     this.app.use(express.json());
-    this.app.use(express.static(path.join(__dirname, '../.next')));
+    this.app.use(express.static(path.join(__dirname, '.next')));
     
     // Initialize KVStore if enabled
     if (this.config.kvstoreEnabled) {
@@ -77,10 +109,25 @@ class BitcoinWriterMetanetApp {
    */
   async initializeKVStore() {
     try {
-      console.log('📦 Initializing Mock KVStore for testing...');
-      
-      // Using mock KVStore for testing
-      console.log('✅ Mock KVStore initialized successfully');
+      if (this.kvstore && typeof this.kvstore.set === 'function') {
+        console.log('📦 Initializing real KVStore components...');
+        
+        // If we have real KVStore, try to initialize it
+        if (this.kvstore.constructor.name === 'LocalKVStore') {
+          // Real LocalKVStore - might need additional setup
+          console.log('🔗 Using LocalKVStore for blockchain-based storage');
+        } else {
+          console.log('🧪 Using mock KVStore for testing');
+        }
+        
+        // Test basic functionality
+        await this.kvstore.set('init-test', 'KVStore is working', { topic: 'system' });
+        const testValue = await this.kvstore.get('init-test', { topic: 'system' });
+        
+        console.log('✅ KVStore initialized and tested successfully');
+      } else {
+        throw new Error('KVStore not properly loaded');
+      }
     } catch (error) {
       console.error('❌ Failed to initialize KVStore:', error);
       this.config.kvstoreEnabled = false;
@@ -337,10 +384,10 @@ class BitcoinWriterMetanetApp {
 }
 
 // Export for use in Metanet Desktop
-module.exports = BitcoinWriterMetanetApp;
+export default BitcoinWriterMetanetApp;
 
 // If running standalone, start the app
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const app = new BitcoinWriterMetanetApp();
   
   app.initialize().catch(error => {

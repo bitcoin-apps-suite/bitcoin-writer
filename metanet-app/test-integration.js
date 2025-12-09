@@ -5,7 +5,7 @@
  * Validates that all components are working correctly
  */
 
-const BitcoinWriterMetanetApp = require('./index');
+import BitcoinWriterMetanetApp from './index.js';
 
 async function runTests() {
   console.log('🧪 Starting Bitcoin Writer Metanet App Integration Tests\n');

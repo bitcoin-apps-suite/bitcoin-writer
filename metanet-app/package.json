@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Bitcoin Writer for Metanet Desktop App Store",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "build": "cd .. && npm run build && cp -r .next metanet-app/",

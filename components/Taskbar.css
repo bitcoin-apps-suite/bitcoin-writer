@@ -13,10 +13,24 @@
   user-select: none;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 60px; /* Account for collapsed DevSidebar */
   right: 0;
   z-index: 10000;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  transition: left 0.3s ease;
+}
+
+/* Adjust taskbar position when DevSidebar is expanded */
+.dev-sidebar-expanded .bitcoin-writer-taskbar {
+  left: 260px; /* Full DevSidebar width */
+}
+
+/* On mobile, taskbar should be full width */
+@media (max-width: 768px) {
+  .bitcoin-writer-taskbar,
+  .dev-sidebar-expanded .bitcoin-writer-taskbar {
+    left: 0;
+  }
 }
 
 .taskbar-logo {
