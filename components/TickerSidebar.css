@@ -8,7 +8,7 @@
   position: fixed;
   top: 40px; /* Touch POC banner bottom */
   right: 0;
-  bottom: 32px; /* Above MinimalDock */
+  bottom: 0; /* Extend to bottom */
   z-index: 100;
   padding-right: 10px;
   transition: width 0.3s ease;

@@ -1,5 +1,5 @@
 /**
- * Bitcoin Writer - Clean layout for focus mode
+ * Bitcoin Writer - Write layout
  */
 
 export default function WriteLayout({
@@ -7,9 +7,5 @@ export default function WriteLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

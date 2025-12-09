@@ -45,12 +45,18 @@ export default function RootLayout({
 }) {
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
   const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(true);
+  const [isWritePage, setIsWritePage] = useState(false);
   
   // Debug: log when state changes
   useEffect(() => {
     console.log('DevSidebar collapsed state changed to:', devSidebarCollapsed);
   }, [devSidebarCollapsed]);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Check if we're on the /write page
+  useEffect(() => {
+    setIsWritePage(window.location.pathname === '/write');
+  }, []);
   
   // Check if mobile
   useEffect(() => {
@@ -72,19 +78,19 @@ export default function RootLayout({
       </head>
       <body>
         <div className="App">
-          {/* Proof of Concept Banner */}
-          <ProofOfConceptBanner />
+          {/* Proof of Concept Banner - hide on /write page */}
+          {!isWritePage && <ProofOfConceptBanner />}
           
           {/* Clean Taskbar */}
-          <CleanTaskbar tickerCollapsed={tickerSidebarCollapsed} />
+          <CleanTaskbar tickerCollapsed={tickerSidebarCollapsed} isWritePage={isWritePage} />
           
-          {/* Dev Sidebar (desktop only) */}
-          {!isMobile && (
+          {/* Dev Sidebar (desktop only, hide on /write page) */}
+          {!isMobile && !isWritePage && (
             <DevSidebar onCollapsedChange={setDevSidebarCollapsed} />
           )}
           
-          {/* Ticker Sidebar (desktop only) */}
-          {!isMobile && (
+          {/* Ticker Sidebar (desktop only, hide on /write page) */}
+          {!isMobile && !isWritePage && (
             <TickerSidebar onCollapsedChange={setTickerSidebarCollapsed} />
           )}
           
@@ -93,11 +99,8 @@ export default function RootLayout({
             {children}
           </div>
           
-          {/* Footer */}
-          <Footer />
-          
-          {/* Dock Manager */}
-          <DockManager currentApp="bitcoin-writer" />
+          {/* Footer - hide on /write page */}
+          {!isWritePage && <Footer />}
         </div>
       </body>
     </html>

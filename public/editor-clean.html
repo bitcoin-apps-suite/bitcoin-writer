@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Writer</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: #1b1b1b;
+            color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .simple-toolbar {
+            background: #2d2d30;
+            border-bottom: 1px solid #3e3e42;
+            padding: 8px 16px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: #cccccc;
+            padding: 6px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .toolbar-btn:hover {
+            background: #3e3e42;
+            border-color: #4e4e52;
+        }
+
+        .toolbar-btn.active {
+            background: #f7931a;
+            color: #1b1b1b;
+            border-color: #e6851a;
+        }
+
+        .separator {
+            width: 1px;
+            height: 20px;
+            background: #3e3e42;
+        }
+
+        .document-title-input {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            color: #cccccc;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        .document-title-input:focus {
+            outline: none;
+            border-color: #f7931a;
+        }
+
+        .editor-container {
+            flex: 1;
+            background: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .page {
+            background: #252526;
+            width: 100%;
+            max-width: 850px;
+            min-height: 1100px;
+            padding: 96px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid #3e3e42;
+        }
+
+        #editor {
+            min-height: 900px;
+            font-family: 'Calibri', 'Times New Roman', serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #cccccc;
+            outline: none;
+        }
+
+        #editor:focus {
+            outline: none;
+        }
+
+        .status-bar {
+            background: #2d2d30;
+            border-top: 1px solid #3e3e42;
+            padding: 4px 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #969696;
+        }
+
+        .status-left, .status-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        /* Focus mode - even cleaner */
+        body.focus-mode .simple-toolbar {
+            display: none;
+        }
+
+        body.focus-mode .status-bar {
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+
+        body.focus-mode .status-bar:hover {
+            opacity: 1;
+        }
+
+        body.focus-mode .editor-container {
+            padding: 20px;
+        }
+
+        body.focus-mode .page {
+            box-shadow: none;
+            border: none;
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Simple Toolbar -->
+    <div class="simple-toolbar">
+        <div class="toolbar-group">
+            <input type="text" class="document-title-input" value="Untitled Document" />
+        </div>
+        <div class="separator"></div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="format('bold')" title="Bold">B</button>
+            <button class="toolbar-btn" onclick="format('italic')" title="Italic" style="font-style: italic;">I</button>
+            <button class="toolbar-btn" onclick="format('underline')" title="Underline" style="text-decoration: underline;">U</button>
+        </div>
+        <div class="separator"></div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="format('justifyLeft')" title="Align Left">☰</button>
+            <button class="toolbar-btn" onclick="format('justifyCenter')" title="Center">≡</button>
+            <button class="toolbar-btn" onclick="format('justifyRight')" title="Align Right">☰</button>
+        </div>
+        <div class="separator"></div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="save()" title="Save">💾</button>
+            <button class="toolbar-btn" onclick="newDoc()" title="New">📄</button>
+            <button class="toolbar-btn" onclick="toggleFocus()" title="Focus Mode">🎯</button>
+        </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="editor-container">
+        <div class="page">
+            <div id="editor" contenteditable="true">
+                Start writing...
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span id="wordCount">0 words</span>
+            <span id="charCount">0 characters</span>
+        </div>
+        <div class="status-right">
+            <span>Bitcoin Writer</span>
+        </div>
+    </div>
+
+    <script>
+        // Initialize editor
+        const editor = document.getElementById('editor');
+        const titleInput = document.querySelector('.document-title-input');
+        
+        // Format commands
+        function format(command) {
+            document.execCommand(command, false, null);
+            editor.focus();
+        }
+
+        // New document
+        function newDoc() {
+            if (confirm('Create new document? Any unsaved changes will be lost.')) {
+                editor.innerHTML = 'Start writing...';
+                titleInput.value = 'Untitled Document';
+                updateCounts();
+            }
+        }
+
+        // Save (placeholder)
+        function save() {
+            const content = editor.innerHTML;
+            const title = titleInput.value;
+            console.log('Saving:', { title, content });
+            alert('Document saved! (In production, this would save to blockchain)');
+        }
+
+        // Toggle focus mode
+        function toggleFocus() {
+            document.body.classList.toggle('focus-mode');
+        }
+
+        // Update word and character count
+        function updateCounts() {
+            const text = editor.innerText || '';
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+            const wordCount = text.trim() === '' ? 0 : words.length;
+            const charCount = text.length;
+            
+            document.getElementById('wordCount').textContent = `${wordCount} words`;
+            document.getElementById('charCount').textContent = `${charCount} characters`;
+        }
+
+        // Auto-save to localStorage
+        function autoSave() {
+            localStorage.setItem('bitcoin-writer-content', editor.innerHTML);
+            localStorage.setItem('bitcoin-writer-title', titleInput.value);
+        }
+
+        // Load from localStorage
+        function loadSaved() {
+            const savedContent = localStorage.getItem('bitcoin-writer-content');
+            const savedTitle = localStorage.getItem('bitcoin-writer-title');
+            if (savedContent) editor.innerHTML = savedContent;
+            if (savedTitle) titleInput.value = savedTitle;
+            updateCounts();
+        }
+
+        // Event listeners
+        editor.addEventListener('input', () => {
+            updateCounts();
+            autoSave();
+        });
+
+        titleInput.addEventListener('input', autoSave);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 's':
+                        e.preventDefault();
+                        save();
+                        break;
+                    case 'b':
+                        e.preventDefault();
+                        format('bold');
+                        break;
+                    case 'i':
+                        e.preventDefault();
+                        format('italic');
+                        break;
+                    case 'u':
+                        e.preventDefault();
+                        format('underline');
+                        break;
+                }
+            }
+        });
+
+        // Initialize
+        loadSaved();
+        editor.focus();
+    </script>
+</body>
+</html>

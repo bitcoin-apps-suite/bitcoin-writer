@@ -3,7 +3,7 @@
   position: fixed;
   left: 0;
   top: 40px; /* Below POC banner only - forms left wall */
-  bottom: 32px; /* Above MinimalDock (32px height) */
+  bottom: 0; /* Extend to bottom */
   width: 260px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.1);

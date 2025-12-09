@@ -40,7 +40,7 @@ body {
   padding-top: 72px; /* Space for POC banner (40px) + CleanTaskbar menu bar (32px) */
   padding-left: 0; /* Remove left padding - will handle differently */
   padding-right: 60px; /* Space for collapsed TickerSidebar (60px) */
-  padding-bottom: 52px; /* Space for status bar (24px) + browser menu bar (28px) */
+  padding-bottom: 24px; /* Space for status bar (24px) */
 }
 
 /* Title Bar with Document Tabs */
@@ -628,7 +628,7 @@ body {
   font-size: 11px;
   color: var(--text-secondary);
   position: fixed;
-  bottom: 28px; /* Position above browser menu bar */
+  bottom: 0; /* Position at bottom */
   left: 0;
   right: 60px; /* Stop at TickerSidebar edge */
   z-index: 999;

@@ -4,10 +4,22 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function WritePage() {
   const [showBackButton, setShowBackButton] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+    
+    return () => {};
+  }, []);
+  
+  // Don't render until mounted to avoid hydration issues
+  if (!mounted) {
+    return null;
+  }
   
   return (
     <div style={{ 
@@ -15,6 +27,7 @@ export default function WritePage() {
       height: '100vh', 
       margin: 0, 
       padding: 0,
+      paddingTop: '32px', // Space for menubar
       overflow: 'hidden',
       position: 'fixed',
       top: 0,
@@ -23,7 +36,7 @@ export default function WritePage() {
     }}
     onMouseMove={(e) => {
       // Show back button when mouse is near top-left corner
-      setShowBackButton(e.clientX < 100 && e.clientY < 100);
+      setShowBackButton(e.clientX < 100 && e.clientY < 60);
     }}
     >
       {/* Back to full interface button */}

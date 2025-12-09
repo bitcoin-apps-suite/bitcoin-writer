@@ -36,6 +36,7 @@ interface TaskbarProps {
   setGoogleUser?: (user: any) => void;
   handcashService?: any;
   tickerCollapsed?: boolean;
+  isWritePage?: boolean;
 }
 
 const CleanTaskbar: React.FC<TaskbarProps> = ({ 
@@ -51,7 +52,8 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
   googleUser,
   setGoogleUser,
   handcashService,
-  tickerCollapsed = true
+  tickerCollapsed = true,
+  isWritePage = false
 }) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showBitcoinSuite, setShowBitcoinSuite] = useState(false);
@@ -423,9 +425,9 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         color: '#ffffff',
         userSelect: 'none',
         position: 'fixed',
-        top: isMobile ? (window.innerWidth <= 480 ? '68px' : '72px') : '40px', // Responsive positioning
-        left: '60px', // Start after DevSidebar collapsed width
-        right: tickerCollapsed ? '60px' : '280px', // Stop at TickerSidebar edge
+        top: isWritePage ? 0 : (isMobile ? (window.innerWidth <= 480 ? '68px' : '72px') : '40px'), // At top on write page
+        left: isWritePage ? 0 : '60px', // Full width on write page
+        right: isWritePage ? 0 : (tickerCollapsed ? '60px' : '280px'), // Full width on write page
         zIndex: 10000
       }}
     >
