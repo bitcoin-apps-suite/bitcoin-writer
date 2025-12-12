@@ -40,7 +40,7 @@
     "lucide-react": "^0.544.0",
     "mammoth": "^1.10.0",
     "micro-ordinals": "^0.3.0",
-    "next": "^15.5.7",
+    "next": "15.5.9",
     "next-auth": "^4.24.11",
     "pdfkit": "^0.17.2",
     "puppeteer": "^24.26.0",
