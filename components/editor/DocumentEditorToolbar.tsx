@@ -118,8 +118,9 @@ const DocumentEditorToolbar: React.FC<ToolbarProps> = ({
               onClick={onSave}
               disabled={isLoading || wordCount === 0}
               className={`action-button ${wordCount > 0 ? 'primary' : ''}`}
+              title="Save to Chain - Hash your writing to Bitcoin blockchain"
             >
-              💾 Save
+              💾 Save to Chain
             </button>
             {wordCount > 0 && (
               <span className="price-display">

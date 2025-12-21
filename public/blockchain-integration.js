@@ -97,8 +97,11 @@ class BlockchainIntegration {
   }
 
   updateCostEstimate() {
-    const content = this.app.quill.getText();
+    // Get content from the contenteditable editor instead of quill
+    const editor = document.getElementById('editor');
+    const content = editor ? editor.textContent || '' : '';
     const sizeKB = new Blob([content]).size / 1024;
+    const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
     
     let cost = 0;
     switch(this.currentProtocol) {
@@ -123,36 +126,47 @@ class BlockchainIntegration {
 
     // Update UI
     const costElement = document.getElementById('estimatedCost');
-    const usdValue = (cost * 50).toFixed(2); // Assuming $50/BSV
-    costElement.textContent = `~${cost.toFixed(4)} BSV ($${usdValue})`;
+    if (costElement) {
+      const usdValue = (cost * 60).toFixed(2); // Using $60/BSV to match other calculations
+      costElement.textContent = `~${cost.toFixed(4)} BSV ($${usdValue})`;
+      costElement.style.color = cost > 0.01 ? '#ff9900' : '#00ff00';
+    }
 
     // Update document stats
-    document.getElementById('docSize').textContent = `${sizeKB.toFixed(1)} KB`;
-    document.getElementById('docWords').textContent = this.app.wordCount;
+    const docSizeElement = document.getElementById('docSize');
+    const docWordsElement = document.getElementById('docWords');
+    if (docSizeElement) docSizeElement.textContent = `${sizeKB.toFixed(1)} KB`;
+    if (docWordsElement) docWordsElement.textContent = wordCount.toString();
   }
 
   async saveToBlockchain() {
     const saveButton = document.querySelector('.btn-primary');
     const buttonText = document.getElementById('saveButtonText');
-    const spinner = saveButton.querySelector('.spinner');
+    const spinner = saveButton?.querySelector('.spinner');
 
     // Show loading state
-    buttonText.textContent = 'Saving...';
-    spinner.classList.remove('hidden');
-    saveButton.disabled = true;
+    if (buttonText) buttonText.textContent = 'Saving...';
+    if (spinner) spinner.classList.remove('hidden');
+    if (saveButton) saveButton.disabled = true;
 
     try {
-      const content = this.app.quill.root.innerHTML;
-      const plainText = this.app.quill.getText();
-      const delta = this.app.quill.getContents();
+      const editor = document.getElementById('editor');
+      const content = editor ? editor.innerHTML : '';
+      const plainText = editor ? editor.textContent || '' : '';
+      const delta = null; // No delta for contenteditable editor
+
+      // Get document title and word count
+      const titleElement = document.querySelector('.document-title');
+      const documentTitle = titleElement ? titleElement.value || 'Untitled Document' : 'Untitled Document';
+      const wordCount = plainText.trim() ? plainText.trim().split(/\s+/).length : 0;
 
       // Prepare document data
       const documentData = {
-        title: this.app.documentTitle,
+        title: documentTitle,
         content: content,
         plainText: plainText,
         delta: delta,
-        wordCount: this.app.wordCount,
+        wordCount: wordCount,
         timestamp: new Date().toISOString(),
         protocol: this.currentProtocol,
         encryption: this.currentEncryption,
@@ -199,9 +213,9 @@ class BlockchainIntegration {
       alert(`Save failed: ${error.message}`);
     } finally {
       // Reset button state
-      buttonText.textContent = 'Save to Blockchain';
-      spinner.classList.add('hidden');
-      saveButton.disabled = false;
+      if (buttonText) buttonText.textContent = 'Save to Blockchain';
+      if (spinner) spinner.classList.add('hidden');
+      if (saveButton) saveButton.disabled = false;
     }
   }
 

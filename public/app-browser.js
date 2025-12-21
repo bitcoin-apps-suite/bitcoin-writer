@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Update on selection change
   document.addEventListener('selectionchange', updateButtonStates);
 
-  // Word count
+  // Word count and price calculation
   function updateWordCount() {
     const text = editor.textContent || '';
     const words = text.trim().split(/\s+/).filter(w => w.length > 0);
@@ -187,6 +187,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const charEl = document.querySelector('#charCount span');
     if (wordEl) wordEl.textContent = wordCount + ' words';
     if (charEl) charEl.textContent = charCount + ' characters';
+    
+    // Update pricing display in real-time
+    updatePricingDisplay(charCount);
+  }
+
+  // Real-time pricing calculation
+  function updatePricingDisplay(charCount) {
+    const costElement = document.getElementById('estimated-cost');
+    if (!costElement) return;
+    
+    if (charCount > 0) {
+      // Same calculation as in DocumentEditor.tsx
+      const bytes = charCount;
+      const satsPerByte = 0.05; // From BSVStorageService
+      const minerFeeSats = bytes * satsPerByte;
+      const totalFeeSats = minerFeeSats * 2; // 2x markup
+      const bsvPriceUsd = 60; // From BSVStorageService
+      const satsPerBsv = 100_000_000;
+      const totalUSD = (totalFeeSats / satsPerBsv) * bsvPriceUsd;
+      
+      // Format cost for display - show 8 decimal places
+      const formattedPrice = `$${totalUSD.toFixed(8)}`;
+      costElement.textContent = formattedPrice;
+      costElement.style.color = totalUSD > 0.01 ? '#ff9900' : '#00ff00';
+    } else {
+      costElement.textContent = '$0.00000000';
+      costElement.style.color = '#00ff00';
+    }
   }
 
   if (editor) {
