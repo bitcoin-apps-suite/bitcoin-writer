@@ -972,5 +972,93 @@
             color: #f7931a;
         }
     </style>
+
+    <script>
+        // Modal Functions
+        function openBlockchainModal() {
+            const modal = document.getElementById('blockchainSaveModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                updateModalCosts();
+            }
+        }
+
+        function closeBlockchainModal() {
+            const modal = document.getElementById('blockchainSaveModal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function updateModalCosts() {
+            const editor = document.getElementById('editor');
+            if (!editor) return;
+            
+            const text = editor.textContent || editor.innerText || '';
+            const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const sizeKB = (new Blob([text]).size / 1024).toFixed(2);
+            
+            // Update modal display elements
+            document.getElementById('docSize').textContent = sizeKB + ' KB';
+            document.getElementById('docWords').textContent = wordCount;
+            
+            // Calculate cost: 1/10,000th penny per word = $0.000001 per word
+            const costPerWord = 0.000001;
+            const totalUSD = wordCount * costPerWord;
+            
+            // Mock BSV price for display (in real app, fetch from API)
+            const bsvPrice = 40.50;
+            const totalBSV = (totalUSD / bsvPrice).toFixed(6);
+            
+            document.getElementById('estimatedCost').textContent = `~${totalBSV} BSV ($${totalUSD.toFixed(6)})`;
+        }
+
+        function saveToBlockchain() {
+            const editor = document.getElementById('editor');
+            if (!editor) return;
+            
+            const content = editor.textContent || editor.innerText || '';
+            if (!content.trim()) {
+                alert('Please write something before saving to blockchain.');
+                return;
+            }
+            
+            // Get selected options
+            const protocol = document.querySelector('input[name="protocol"]:checked')?.value || 'b';
+            const access = document.querySelector('input[name="access"]:checked')?.value || 'public';
+            const versionMessage = document.getElementById('versionMessage')?.value || '';
+            
+            // Show loading state
+            const saveBtn = document.querySelector('#blockchainSaveModal .btn-primary');
+            const btnText = document.getElementById('saveButtonText');
+            const spinner = document.querySelector('#blockchainSaveModal .spinner');
+            
+            if (saveBtn && btnText && spinner) {
+                saveBtn.disabled = true;
+                btnText.textContent = 'Saving...';
+                spinner.classList.remove('hidden');
+            }
+            
+            // Simulate blockchain save (replace with actual blockchain integration)
+            setTimeout(() => {
+                alert(`Document saved to blockchain!\nProtocol: ${protocol.toUpperCase()}://\nAccess: ${access}\nVersion: ${versionMessage || 'Initial version'}`);
+                
+                // Reset button state
+                if (saveBtn && btnText && spinner) {
+                    saveBtn.disabled = false;
+                    btnText.textContent = 'Save to Blockchain';
+                    spinner.classList.add('hidden');
+                }
+                
+                closeBlockchainModal();
+            }, 2000);
+        }
+
+        // Make functions globally available
+        window.openBlockchainModal = openBlockchainModal;
+        window.closeBlockchainModal = closeBlockchainModal;
+        window.saveToBlockchain = saveToBlockchain;
+        window.updateModalCosts = updateModalCosts;
+    </script>
 </body>
 </html>

@@ -26,7 +26,11 @@ const ArticlePage = () => {
       minHeight: '100vh',
       background: '#0a0a0a',
       color: '#ffffff',
-      fontFamily: "'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif"
+      fontFamily: "'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start'
     }}>
       <style jsx global>{`
         .article-content h2 {
@@ -44,8 +48,10 @@ const ArticlePage = () => {
         }
         
         .article-content p {
-          margin-bottom: 1rem;
-          line-height: 1.7;
+          margin-bottom: 1.5rem;
+          line-height: 1.8;
+          font-size: 1.1rem;
+          text-align: justify;
         }
         
         .article-content ul {
@@ -98,7 +104,13 @@ const ArticlePage = () => {
         }
       `}</style>
       
-      <div className="container mx-auto px-4 py-8" style={{ maxWidth: '800px' }}>
+      <div style={{ 
+        maxWidth: '800px',
+        margin: '0 auto',
+        padding: '2rem 1rem',
+        width: '100%',
+        boxSizing: 'border-box'
+      }}>
         <div style={{ 
           marginBottom: '2rem',
           padding: '1rem 0',
