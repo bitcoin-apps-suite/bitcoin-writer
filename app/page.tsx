@@ -1,5 +1,5 @@
 /**
- * Bitcoin Writer - A blockchain-based writing application
+ * Bitcoin Writer - A blockchain-based writing application  
  * Copyright (C) 2025 The Bitcoin Corporation LTD
  */
 
@@ -13,6 +13,58 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+    
+    // Initialize blockchain services and expose to iframe
+    import('../services/BlockchainDocumentService').then(({ BlockchainDocumentService }) => {
+      import('../services/HandCashService').then(({ HandCashService }) => {
+        const handcashService = new HandCashService();
+        const documentService = new BlockchainDocumentService(handcashService);
+        
+        // Expose services to iframe via window object
+        (window as any).BitcoinWriterServices = {
+          saveDocument: async (documentData: any) => {
+            try {
+              console.log('Saving document with services:', documentData);
+              
+              // Create a document object
+              const document = {
+                id: Date.now().toString(),
+                title: documentData.title,
+                content: documentData.content,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                author: handcashService.getCurrentUser()?.handle || 'anonymous',
+                encrypted: documentData.access !== 'public',
+                word_count: documentData.wordCount || 0,
+                character_count: documentData.content?.length || 0,
+                protocol: documentData.protocol?.toUpperCase() || 'B',
+                storage_method: `${documentData.protocol?.toUpperCase() || 'B'}_PROTOCOL`
+              };
+              
+              // For now, simulate the save process
+              // In a full implementation, this would use documentService.saveDocument()
+              await new Promise(resolve => setTimeout(resolve, 1500));
+              
+              return {
+                success: true,
+                txId: '0x' + Math.random().toString(16).substr(2, 64),
+                cost: (documentData.wordCount * 0.000001 / 40.5).toFixed(8),
+                protocol: documentData.protocol?.toUpperCase() || 'B',
+                document: document
+              };
+            } catch (error) {
+              console.error('Service save error:', error);
+              return {
+                success: false,
+                error: error instanceof Error ? error.message : 'Unknown error'
+              };
+            }
+          }
+        };
+        
+        console.log('Bitcoin Writer services initialized');
+      });
+    });
   }, []);
 
   const handlePopOut = () => {
@@ -67,17 +119,17 @@ export default function Home() {
         title="Bitcoin Writer"
       />
 
-      {/* Header overlay - positioned below iframe's menu bar */}
+      {/* Header overlay - positioned below iframe's toolbar */}
       <div style={{
         position: 'absolute',
-        top: '60px', // Position further below the iframe's internal menu bar
+        top: '140px', // Position below the iframe's menu bar AND toolbar
         left: 0,
         right: 0,
         background: 'linear-gradient(to bottom, rgba(27, 27, 27, 0.95), rgba(27, 27, 27, 0.85))',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '1.25rem 0',
-        zIndex: 1000,
+        padding: '2rem 0',
+        zIndex: 500,
         pointerEvents: 'none' // Allow clicks to pass through to iframe
       }}>
         <div style={{
@@ -91,15 +143,15 @@ export default function Home() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
-              width: '28px',
-              height: '28px',
+              width: '36px',
+              height: '36px',
               background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
-              borderRadius: '6px',
+              borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#2D3748',
-              fontSize: '14px',
+              fontSize: '18px',
               fontWeight: '600'
             }}>
               ₿
@@ -108,7 +160,7 @@ export default function Home() {
               <span 
                 style={{ 
                   color: '#f7931a', 
-                  fontSize: '1.5rem', 
+                  fontSize: '2rem', 
                   fontWeight: '300', // Thin weight
                   letterSpacing: '0.02em',
                   fontFamily: "'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif"
@@ -131,8 +183,8 @@ export default function Home() {
         </div>
         <p style={{ 
           color: '#888', 
-          fontSize: '13px', 
-          margin: '4px 0 0 0',
+          fontSize: '16px', 
+          margin: '8px 0 0 0',
           fontStyle: 'italic',
           textAlign: 'center',
           fontWeight: '300',
@@ -148,7 +200,7 @@ export default function Home() {
         onClick={handlePopOut}
         style={{
           position: 'absolute',
-          top: '140px', // Below the overlay header
+          top: '240px', // Below the moved overlay header
           right: '20px',
           padding: '8px 16px',
           background: '#f7931a',
@@ -158,7 +210,7 @@ export default function Home() {
           fontSize: '14px',
           fontWeight: '600',
           cursor: 'pointer',
-          zIndex: 10000,
+          zIndex: 600,
           opacity: showPopOutButton ? 1 : 0,
           transform: showPopOutButton ? 'translateX(0)' : 'translateX(100px)',
           transition: 'all 0.3s ease',
