@@ -119,10 +119,10 @@ export default function Home() {
         title="Bitcoin Writer"
       />
 
-      {/* Header overlay - positioned below iframe's toolbar */}
+      {/* Header overlay - positioned just below browser menu bar */}
       <div style={{
         position: 'absolute',
-        top: '140px', // Position below the iframe's menu bar AND toolbar
+        top: '60px', // Position a bit more below the browser menu bar
         left: 0,
         right: 0,
         background: 'linear-gradient(to bottom, rgba(27, 27, 27, 0.95), rgba(27, 27, 27, 0.85))',
@@ -170,7 +170,7 @@ export default function Home() {
               </span>
               <span style={{ 
                 color: '#ffffff', 
-                fontSize: '1.5rem', 
+                fontSize: '2rem', 
                 fontWeight: '300', // Thin weight
                 marginLeft: '4px',
                 letterSpacing: '0.02em',
@@ -200,7 +200,7 @@ export default function Home() {
         onClick={handlePopOut}
         style={{
           position: 'absolute',
-          top: '240px', // Below the moved overlay header
+          top: '160px', // Below the header overlay
           right: '20px',
           padding: '8px 16px',
           background: '#f7931a',

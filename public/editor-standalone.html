@@ -103,6 +103,35 @@
             border: none !important;
             box-shadow: none !important;
         }
+        
+        /* Minimal modal styles to avoid conflicts */
+        .modal.hidden {
+            display: none !important;
+        }
+        
+        #blockchainSaveModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        #blockchainSaveModal .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 0;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
     </style>
     
     <!-- PWA meta tags -->
@@ -948,9 +977,6 @@
             to { transform: rotate(360deg); }
         }
 
-        .hidden {
-            display: none !important;
-        }
 
         input[type="text"], input[type="password"] {
             background: #2a2a2a;
