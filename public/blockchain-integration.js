@@ -103,33 +103,34 @@ class BlockchainIntegration {
     const sizeKB = new Blob([content]).size / 1024;
     const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
     
-    let cost = 0;
+    // 1/10,000th of a penny per word = $0.000001 per word
+    const costPerWord = 0.000001;
+    let totalUSD = wordCount * costPerWord;
+
+    // Small adjustments based on protocol
     switch(this.currentProtocol) {
-      case 'b':
-        cost = 0.001;
-        break;
       case 'd':
-        cost = 0.002;
+        totalUSD *= 1.1; // 10% more for D://
         break;
       case 'bcat':
-        cost = Math.ceil(sizeKB / 100) * 0.005;
+        totalUSD *= 1.2; // 20% more for Bcat
         break;
-      case 'uhrp':
-        cost = 0.001;
-        break;
+      // 'b' and default stay at base price
     }
 
-    // Add encryption cost
-    if (this.currentEncryption !== 'none') {
-      cost += 0.0005;
+    // Small cost for access control features
+    const accessControl = document.querySelector('input[name="access"]:checked')?.value || 'public';
+    if (accessControl !== 'public') {
+      totalUSD += wordCount * 0.0000002; // Small extra cost for signing/encryption
     }
 
     // Update UI
     const costElement = document.getElementById('estimatedCost');
     if (costElement) {
-      const usdValue = (cost * 60).toFixed(2); // Using $60/BSV to match other calculations
-      costElement.textContent = `~${cost.toFixed(4)} BSV ($${usdValue})`;
-      costElement.style.color = cost > 0.01 ? '#ff9900' : '#00ff00';
+      // Convert to BSV for display (assuming $60/BSV)
+      const bsvAmount = totalUSD / 60;
+      costElement.textContent = `~${bsvAmount.toFixed(8)} BSV ($${totalUSD.toFixed(6)})`;
+      costElement.style.color = '#00ff00';
     }
 
     // Update document stats

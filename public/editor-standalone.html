@@ -707,6 +707,42 @@
         
         // Make test function available globally
         window.testBlockchainModal = testBlockchainModal;
+
+        // Handle access control selection
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'access') {
+                const accessDetails = document.getElementById('accessDetails');
+                const value = e.target.value;
+                
+                let detailText = '';
+                let isVisible = false;
+                
+                switch(value) {
+                    case 'public':
+                        // No details needed for public
+                        break;
+                    case 'handcash':
+                        detailText = 'Document will be cryptographically signed with your HandCash private key. Only you can prove authorship.';
+                        isVisible = true;
+                        break;
+                    case 'google':
+                        detailText = 'Readers must sign in with Google to access this document. You control the access list.';
+                        isVisible = true;
+                        break;
+                    case 'bitcoin-key':
+                        detailText = 'Document will be encrypted with your Bitcoin wallet\'s public key. Only your private key can decrypt it.';
+                        isVisible = true;
+                        break;
+                }
+                
+                if (isVisible) {
+                    accessDetails.textContent = detailText;
+                    accessDetails.classList.remove('hidden');
+                } else {
+                    accessDetails.classList.add('hidden');
+                }
+            }
+        });
     </script>
 
     <!-- Blockchain Save Modal -->
@@ -738,21 +774,29 @@
                     </div>
                 </div>
 
-                <!-- Encryption Options -->
-                <div class="encryption-section" style="margin-bottom: 20px;">
-                    <h3>Encryption</h3>
-                    <div class="encryption-options">
+                <!-- Access Control -->
+                <div class="access-section" style="margin-bottom: 20px;">
+                    <h3>Access Control</h3>
+                    <div class="access-options">
                         <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="encryption" value="none" checked>
-                            No encryption (public)
+                            <input type="radio" name="access" value="public" checked>
+                            🌍 Public (anyone can read)
                         </label>
                         <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="encryption" value="aes">
-                            Password protection
+                            <input type="radio" name="access" value="handcash">
+                            👤 HandCash signed (your private key)
+                        </label>
+                        <label style="display: block; margin: 8px 0;">
+                            <input type="radio" name="access" value="google">
+                            🔐 Google authenticated (sign in required)
+                        </label>
+                        <label style="display: block; margin: 8px 0;">
+                            <input type="radio" name="access" value="bitcoin-key">
+                            🔑 Bitcoin key signed (your wallet)
                         </label>
                     </div>
-                    <div id="encryptionPassword" class="hidden" style="margin-top: 10px;">
-                        <input type="password" id="encPassword" placeholder="Enter password" style="width: 100%; padding: 8px;">
+                    <div id="accessDetails" class="hidden" style="margin-top: 10px; padding: 10px; background: #2a2a2a; border-radius: 4px; font-size: 12px; color: #aaa;">
+                        <!-- Details will be shown based on selection -->
                     </div>
                 </div>
 

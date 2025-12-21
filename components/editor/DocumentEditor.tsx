@@ -1326,28 +1326,22 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
               setWordCount(words);
               setCharCount(chars);
               
-              // Update price display based on character count for real-time updates
-              if (chars > 0) {
-                // Use character count for more granular pricing
-                // Approximate 1 byte per character for real-time display
-                const bytes = chars;
-                const satsPerByte = 0.05; // From BSVStorageService
-                const minerFeeSats = bytes * satsPerByte;
-                const totalFeeSats = minerFeeSats * 2; // 2x markup
-                const bsvPriceUsd = 60; // From BSVStorageService
-                const satsPerBsv = 100_000_000;
-                const totalUSD = (totalFeeSats / satsPerBsv) * bsvPriceUsd;
+              // Update price display - 1/10,000th of a penny per word
+              if (words > 0) {
+                // 1/10,000th of a penny per word = $0.000001 per word
+                const costPerWord = 0.000001;
+                const totalUSD = words * costPerWord;
                 
                 setEstimatedCost(totalUSD);
                 
-                // Format cost for display in dollars - show 8 decimal places
-                const formattedPrice = `$${totalUSD.toFixed(8)}`;
+                // Format cost for display - show 6 decimal places to see ticking
+                const formattedPrice = `$${totalUSD.toFixed(6)}`;
                 setCurrentPrice(formattedPrice);
-                console.log(`Price updated: ${chars} chars -> ${formattedPrice}`);
+                console.log(`Price updated: ${words} words -> ${formattedPrice}`);
               } else {
-                setCurrentPrice('$0.00000000');
+                setCurrentPrice('$0.000000');
                 setEstimatedCost(0);
-                console.log('Price reset to $0.00000000');
+                console.log('Price reset to $0.000000');
               }
             }}
             placeholder="Start writing your document..."
