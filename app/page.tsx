@@ -76,7 +76,7 @@ export default function Home() {
         background: 'linear-gradient(to bottom, rgba(27, 27, 27, 0.95), rgba(27, 27, 27, 0.85))',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '0.75rem 0',
+        padding: '1.25rem 0',
         zIndex: 1000,
         pointerEvents: 'none' // Allow clicks to pass through to iframe
       }}>
@@ -108,7 +108,7 @@ export default function Home() {
               <span 
                 style={{ 
                   color: '#f7931a', 
-                  fontSize: '1.25rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: '300', // Thin weight
                   letterSpacing: '0.02em',
                   fontFamily: "'SF Pro Display', 'Helvetica Neue', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif"
@@ -118,7 +118,7 @@ export default function Home() {
               </span>
               <span style={{ 
                 color: '#ffffff', 
-                fontSize: '1.25rem', 
+                fontSize: '1.5rem', 
                 fontWeight: '300', // Thin weight
                 marginLeft: '4px',
                 letterSpacing: '0.02em',
