@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './AIChatWindow.css';
-import { AIService } from '../services/AIService';
+import { AIService, LocalStorageAdapter } from '@bitcoin-writer/core/services';
 import { HandCashService } from '../services/HandCashService';
 import AISettingsModal from './modals/AISettingsModal';
 
@@ -33,7 +33,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editedContent, setEditedContent] = useState('');
   const [isMinimized, setIsMinimized] = useState(false);
-  const [aiService] = useState(() => new AIService(new HandCashService()));
+  const [aiService] = useState(() => new AIService(new LocalStorageAdapter()));
   const [showApiKeyInput, setShowApiKeyInput] = useState(false);
   const [apiKey, setApiKey] = useState('');
   const [showSettings, setShowSettings] = useState(false);

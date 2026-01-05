@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AIChatWindow from './AIChatWindow';
-import { AIService } from '../services/AIService';
+import { AIService, LocalStorageAdapter } from '@bitcoin-writer/core/services';
 import { HandCashService } from '../services/HandCashService';
 import './AIChatPopup.css';
 
 // This component renders in the popup window
 const AIChatPopup: React.FC = () => {
   const [selectedProvider, setSelectedProvider] = useState('gemini');
-  const [aiService] = useState(() => new AIService(new HandCashService()));
+  const [aiService] = useState(() => new AIService(new LocalStorageAdapter()));
 
   useEffect(() => {
     // Listen for messages from the parent window

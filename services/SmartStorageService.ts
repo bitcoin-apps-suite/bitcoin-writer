@@ -4,7 +4,7 @@
  * No confusing options - just works!
  */
 
-import { SignatureEncryption } from './SignatureEncryption';
+import { SignatureEncryption } from '@bitcoin-writer/core/services';
 
 export interface SmartStorageOptions {
   encrypt: boolean;

@@ -37,7 +37,7 @@ import dynamic from 'next/dynamic';
 const QuillEditor = dynamic(() => import('./QuillEditorDirect'), { ssr: false });
 import './QuillEditor.css';
 import AIChatWindow from '../AIChatWindow';
-import { AIService } from '../../services/AIService';
+import { AIService, LocalStorageAdapter } from '@bitcoin-writer/core/services';
 import DocumentEditorToolbar from './DocumentEditorToolbar';
 import ImportSourcesModal from '../modals/ImportSourcesModal';
 import { ModernEditorCommands } from '../../utils/modernEditorCommands';
@@ -78,7 +78,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [editorContent, setEditorContent] = useState('');
   const [internalShowAIChat, setInternalShowAIChat] = useState(false);
   const [selectedAIProvider, setSelectedAIProvider] = useState('gemini');
-  const [aiService] = useState(() => new AIService(new HandCashService()));
+  const [aiService] = useState(() => new AIService(new LocalStorageAdapter()));
   
   // Use prop if provided, otherwise use internal state
   const showAIChat = onToggleAIChat ? propShowAIChat : internalShowAIChat;

@@ -1,7 +1,37 @@
+/**
+ * ⚠️ DEPRECATED: BSVStorageService
+ *
+ * This service is deprecated and will be removed in a future version.
+ * Please migrate to the new service architecture:
+ *
+ * Migration Guide:
+ * - For pricing/cost estimation → Use PricingService from @bitcoin-writer/core
+ * - For blockchain storage → Use DocumentProtocolService from @bitcoin-writer/core
+ * - For document persistence → Use DocumentStorageService from @bitcoin-writer/core
+ *
+ * Example:
+ * ```typescript
+ * // OLD (deprecated)
+ * const quote = bsvStorage.calculateStorageCost(wordCount);
+ * const result = await bsvStorage.storeDocument(content, title, author);
+ *
+ * // NEW (recommended)
+ * import { PricingService, DocumentProtocolService } from '@bitcoin-writer/core/services';
+ *
+ * const pricingService = new PricingService();
+ * const quote = await pricingService.calculateStorageCostRealTime(wordCount);
+ *
+ * const protocolService = new DocumentProtocolService(...);
+ * const result = await protocolService.store(content, title);
+ * ```
+ *
+ * @deprecated Use PricingService, DocumentProtocolService, and DocumentStorageService instead
+ */
+
 import { Transaction, Script, PrivateKey, PublicKey, P2PKH } from '@bsv/sdk';
 import CryptoJS from 'crypto-js';
 import { EncryptionService } from '../utils/encryptionUtils';
-import { NoteSVEncryption } from './NoteSVEncryption';
+import { NoteSVEncryption } from '@bitcoin-writer/core/services';
 import { UnlockConditions, BlockchainSaveOptions } from '../components/SaveToBlockchainModal';
 import { HandCashService } from './HandCashService';
 
@@ -90,7 +120,7 @@ export class BSVStorageService {
   constructor(handcashService?: HandCashService) {
     // HandCash handles all key management - no need for local keys
     this.handcashService = handcashService || null;
-    console.log('BSV Storage Service initialized (using HandCash for transactions)');
+    console.warn('⚠️ DEPRECATED: BSVStorageService is deprecated. Please migrate to PricingService, DocumentProtocolService, and DocumentStorageService from @bitcoin-writer/core');
   }
 
   private initializeKeys(): void {

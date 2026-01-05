@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AISettingsModal.css';
-import { AIService } from '../services/AIService';
+import { AIService } from '@bitcoin-writer/core/services';
 import { HandCashService } from '../services/HandCashService';
 
 interface AISettingsModalProps {
