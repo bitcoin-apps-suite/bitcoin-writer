@@ -58,6 +58,24 @@ const ApiPage: React.FC = () => {
               Complete API reference for integrating Bitcoin Writer into your applications
             </p>
             <div className="api-badge">API v1.0</div>
+            <div style={{ marginTop: '14px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <a
+                href="/api-explorer.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#22d3ee', textDecoration: 'none', fontSize: '14px' }}
+              >
+                Open Interactive Explorer
+              </a>
+              <a
+                href="/openapi.yaml"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#22d3ee', textDecoration: 'none', fontSize: '14px' }}
+              >
+                Download OpenAPI YAML
+              </a>
+            </div>
           </section>
 
           {/* API Navigation */}
