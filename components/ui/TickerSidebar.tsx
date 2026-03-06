@@ -29,6 +29,7 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   currentJobToken,
   onCollapsedChange
 }) => {
+  const tickerListId = 'ticker-market-list';
   const [prices, setPrices] = useState<TokenPrice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
@@ -200,7 +201,11 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
   };
 
   return (
-    <div className={`ticker-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+    <div
+      className={`ticker-sidebar ${isCollapsed ? 'collapsed' : ''}`}
+      role="region"
+      aria-label="BWRITER market ticker"
+    >
       <div className="ticker-header">
         <h3>$bWriter Market</h3>
         <div className="ticker-header-controls">
@@ -209,6 +214,9 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
             className="ticker-toggle"
             onClick={handleToggleCollapsed}
             title={isCollapsed ? 'Expand ticker' : 'Collapse ticker'}
+            aria-label={isCollapsed ? 'Expand market ticker' : 'Collapse market ticker'}
+            aria-expanded={!isCollapsed}
+            aria-controls={tickerListId}
           >
             {isCollapsed ? '←' : '→'}
           </button>
@@ -218,9 +226,9 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
       {!isCollapsed && (
         <>
           {isLoading ? (
-            <div className="ticker-loading">Loading prices...</div>
+            <div className="ticker-loading" role="status" aria-live="polite">Loading prices...</div>
           ) : (
-            <div className="ticker-list">
+            <div id={tickerListId} className="ticker-list" aria-live="polite" aria-atomic="false">
               {prices.map((token, index) => {
                 // Add divider after last special token
                 const showDivider = token.isSpecial && 
@@ -287,7 +295,8 @@ const TickerSidebar: React.FC<TickerSidebarProps> = ({
 
           <div className="ticker-footer">
             <div className="ticker-disclaimer">
-              Prices update every 30s
+              Prices update every 30s. Last update:{' '}
+              <time dateTime={lastUpdate.toISOString()}>{formatTime(lastUpdate)}</time>
             </div>
           </div>
         </>
