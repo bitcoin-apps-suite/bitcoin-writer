@@ -102,5 +102,6 @@
     "stream-browserify": "^3.0.0",
     "tailwindcss": "^4.1.17",
     "vm-browserify": "^1.1.2"
-  }
+  },
+  "packageManager": "pnpm@10.28.0"
 }
