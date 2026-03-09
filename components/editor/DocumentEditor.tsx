@@ -37,7 +37,7 @@ import dynamic from 'next/dynamic';
 const QuillEditor = dynamic(() => import('./QuillEditorDirect'), { ssr: false });
 import './QuillEditor.css';
 import AIChatWindow from '../AIChatWindow';
-import { AIService, LocalStorageAdapter } from '@bitcoin-writer/core/services';
+import { AIService, LocalStorageAdapter } from '../../services/AIService';
 import DocumentEditorToolbar from './DocumentEditorToolbar';
 import ImportSourcesModal from '../modals/ImportSourcesModal';
 import { ModernEditorCommands } from '../../utils/modernEditorCommands';

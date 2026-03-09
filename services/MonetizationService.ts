@@ -5,9 +5,15 @@
  */
 
 import CryptoJS from 'crypto-js';
-import type { StorageAdapter } from '@bitcoin-writer/core/services';
 import HandCashNFTService, { NFTMintOptions } from './HandCashNFTService';
-import type { DocumentData, BlockchainDocument } from '@bitcoin-writer/core/types';
+import type { DocumentData, BlockchainDocument } from './BlockchainDocumentService';
+
+// Storage adapter interface for cross-platform persistence
+export interface StorageAdapter {
+  get(key: string): Promise<string | null>;
+  set(key: string, value: string): Promise<void>;
+  remove(key: string): Promise<void>;
+}
 
 export interface NFTMetadata {
   tokenId: string;

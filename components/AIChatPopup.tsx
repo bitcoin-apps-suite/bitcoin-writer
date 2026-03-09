@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AIChatWindow from './AIChatWindow';
-import { AIService, LocalStorageAdapter } from '@bitcoin-writer/core/services';
+import { AIService, LocalStorageAdapter } from '../services/AIService';
 import { HandCashService } from '../services/HandCashService';
 import './AIChatPopup.css';
 

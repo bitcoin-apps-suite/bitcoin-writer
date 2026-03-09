@@ -1,20 +1,22 @@
-  {
-    "manifest_version": 3,
-    "name": "Bitcoin Writer Yellow Orange",
-    "version": "1.0",
-    "theme": {
-      "colors": {
-        "frame": [255, 153, 0],
-        "frame_inactive": [204, 122, 0],
-        "frame_incognito": [179, 107, 0],
-        "frame_incognito_inactive": [153, 92, 0],
-        "toolbar": [26, 26, 26],
-        "tab_background_text": [255, 204, 102],
-        "tab_selected": [51, 51, 51],
-        "tab_text": [255, 255, 255],
-        "bookmark_text": [255, 204, 102],
-        "ntp_background": [10, 10, 10],
-        "ntp_text": [255, 153, 0]
-      }
+{
+  "manifest_version": 3,
+  "name": "Bitcoin Writer Gold",
+  "version": "1.7",
+  "theme": {
+    "colors": {
+      "frame": [255, 179, 0],
+      "frame_inactive": [230, 160, 0],
+      "frame_incognito": [247, 147, 26],
+      "frame_incognito_inactive": [220, 130, 20],
+      "toolbar": [255, 179, 0],
+      "tab_background_text": [26, 26, 26],
+      "tab_selected": [255, 179, 0],
+      "tab_text": [26, 26, 26],
+      "bookmark_text": [26, 26, 26],
+      "ntp_background": [10, 10, 10],
+      "ntp_text": [255, 185, 15],
+      "ntp_link": [255, 179, 0],
+      "button_background": [30, 30, 30]
     }
   }
+}

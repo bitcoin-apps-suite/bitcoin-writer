@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { EncryptionService } from '../utils/encryptionUtils';
-import { NoteSVEncryption } from '@bitcoin-writer/core/services';
+import { NoteSVEncryption } from '../../services/NoteSVEncryption';
 import BSVStorageService from '../services/BSVStorageService';
 import './DocumentUnlock.css';
 
