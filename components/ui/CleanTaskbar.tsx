@@ -312,7 +312,7 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         }},
         { label: 'Export as PDF', action: () => window.print() },
         { divider: true },
-        { label: 'Analytics Dashboard', action: () => console.log('Open analytics') },
+        { label: 'Analytics Dashboard', action: () => { window.location.href = '/analytics'; } },
         { label: 'Create Calendar Event', action: () => console.log('Create event') }
       ]
     },
