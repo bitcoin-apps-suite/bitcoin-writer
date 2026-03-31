@@ -83,11 +83,52 @@ const CENTS_PER_CHARACTER = 0.000001; // 1/100,000th of a penny per character = 
 const SERVICE_MULTIPLIER = 2; // We charge 2x the base cost
 // const BYTES_PER_CHARACTER = 1; // Rough estimate for UTF-8 text - unused
 
-// Get current Bitcoin price (mock - in production, fetch from API)
+// Cache BSV price for 60 seconds to avoid hammering the API
+let cachedBsvPrice: { price: number; fetchedAt: number } | null = null;
+const PRICE_CACHE_TTL_MS = 60_000;
+
+// Get current Bitcoin SV price from CoinGecko (with fallback)
 export const getBitcoinPriceUSD = async (): Promise<number> => {
-  // TODO: Fetch from a real API like CoinGecko
-  // For now, return a mock value
-  return 30000; // $30,000 per BTC
+  // Return cached price if fresh
+  if (cachedBsvPrice && Date.now() - cachedBsvPrice.fetchedAt < PRICE_CACHE_TTL_MS) {
+    return cachedBsvPrice.price;
+  }
+
+  try {
+    const response = await fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin-cash-sv&vs_currencies=usd',
+      { signal: AbortSignal.timeout(5000) }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      const price = data['bitcoin-cash-sv']?.usd;
+      if (typeof price === 'number' && price > 0) {
+        cachedBsvPrice = { price, fetchedAt: Date.now() };
+        return price;
+      }
+    }
+  } catch {
+    // CoinGecko failed, try WhatsOnChain
+  }
+
+  try {
+    const response = await fetch(
+      'https://api.whatsonchain.com/v1/bsv/main/exchangerate',
+      { signal: AbortSignal.timeout(5000) }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      if (typeof data.rate === 'number' && data.rate > 0) {
+        cachedBsvPrice = { price: data.rate, fetchedAt: Date.now() };
+        return data.rate;
+      }
+    }
+  } catch {
+    // WhatsOnChain also failed
+  }
+
+  // Return cached price even if stale, or fallback
+  return cachedBsvPrice?.price ?? 50;
 };
 
 // Calculate the size of a document in bytes

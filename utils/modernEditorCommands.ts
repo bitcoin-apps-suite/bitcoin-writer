@@ -4,20 +4,20 @@
  */
 
 export class ModernEditorCommands {
-  
+
   /**
    * Insert text at current caret position
    */
   static insertText(text: string): void {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0) return;
-    
+
     const range = selection.getRangeAt(0);
     range.deleteContents();
-    
+
     const textNode = document.createTextNode(text);
     range.insertNode(textNode);
-    
+
     // Move cursor to end of inserted text
     range.setStartAfter(textNode);
     range.setEndAfter(textNode);
@@ -26,27 +26,82 @@ export class ModernEditorCommands {
   }
 
   /**
-   * Apply formatting using Selection API
+   * Wrap selected text in a given HTML tag
+   */
+  private static wrapSelection(tagName: string): void {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return;
+
+    const range = selection.getRangeAt(0);
+
+    // Check if already wrapped in this tag — if so, unwrap
+    const parentEl = range.commonAncestorContainer.parentElement;
+    if (parentEl && parentEl.tagName.toLowerCase() === tagName.toLowerCase()) {
+      // Unwrap: replace the element with its text content
+      const text = document.createTextNode(parentEl.textContent || '');
+      parentEl.replaceWith(text);
+
+      const newRange = document.createRange();
+      newRange.selectNodeContents(text);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
+      return;
+    }
+
+    // Wrap selection in the tag
+    const wrapper = document.createElement(tagName);
+    try {
+      range.surroundContents(wrapper);
+    } catch {
+      // surroundContents fails on partial node selections — fall back to extracting
+      const fragment = range.extractContents();
+      wrapper.appendChild(fragment);
+      range.insertNode(wrapper);
+    }
+
+    const newRange = document.createRange();
+    newRange.selectNodeContents(wrapper);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+  }
+
+  /**
+   * Apply formatting using modern Selection API where possible
    */
   static applyFormat(command: string): void {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0) return;
 
     try {
-      // Try modern approach first
       switch (command) {
         case 'bold':
-          document.execCommand('bold', false, undefined);
+          this.wrapSelection('strong');
           break;
         case 'italic':
-          document.execCommand('italic', false, undefined);
+          this.wrapSelection('em');
           break;
         case 'underline':
-          document.execCommand('underline', false, undefined);
+          this.wrapSelection('u');
+          break;
+        case 'strikethrough':
+        case 'strikeThrough':
+          this.wrapSelection('s');
+          break;
+        case 'subscript':
+          this.wrapSelection('sub');
+          break;
+        case 'superscript':
+          this.wrapSelection('sup');
+          break;
+        case 'insertUnorderedList':
+          this.wrapSelection('ul');
+          break;
+        case 'insertOrderedList':
+          this.wrapSelection('ol');
           break;
         default:
-          // For now, fall back to execCommand for complex formatting
-          // TODO: Implement full Selection API alternatives
+          // For less common commands, execCommand is still the best option
+          // (browsers haven't provided modern replacements for all commands)
           document.execCommand(command, false, undefined);
       }
     } catch (error) {
@@ -60,8 +115,7 @@ export class ModernEditorCommands {
   static async copy(): Promise<void> {
     try {
       await navigator.clipboard.writeText(window.getSelection()?.toString() || '');
-    } catch (error) {
-      // Fallback to execCommand
+    } catch {
       document.execCommand('copy');
     }
   }
@@ -71,8 +125,7 @@ export class ModernEditorCommands {
       const text = window.getSelection()?.toString() || '';
       await navigator.clipboard.writeText(text);
       this.deleteSelection();
-    } catch (error) {
-      // Fallback to execCommand
+    } catch {
       document.execCommand('cut');
     }
   }
@@ -81,8 +134,7 @@ export class ModernEditorCommands {
     try {
       const text = await navigator.clipboard.readText();
       this.insertText(text);
-    } catch (error) {
-      // Fallback to execCommand
+    } catch {
       document.execCommand('paste');
     }
   }

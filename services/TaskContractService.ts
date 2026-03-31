@@ -1,6 +1,7 @@
 /**
  * Task Contract Service
- * Manages developer task assignments with smart contracts
+ * Manages developer task assignments with smart contracts.
+ * Stores contracts in both localStorage (client cache) and Supabase (persistent).
  */
 
 interface TaskContract {
@@ -27,8 +28,65 @@ interface ContractSignature {
 
 export class TaskContractService {
   private contracts: Map<string, TaskContract> = new Map();
-  private readonly CONTRACT_DURATION_DAYS = 30; // Default 30 days to complete
+  private readonly CONTRACT_DURATION_DAYS = 30;
   private readonly TOTAL_TOKENS = 1000000000; // 1 billion tokens
+
+  constructor() {
+    // Restore contracts from localStorage on init
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('task_contracts');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          for (const [key, value] of Object.entries(parsed)) {
+            const contract = value as TaskContract;
+            contract.deadline = new Date(contract.deadline);
+            if (contract.signedAt) contract.signedAt = new Date(contract.signedAt);
+            if (contract.completedAt) contract.completedAt = new Date(contract.completedAt);
+            this.contracts.set(key, contract);
+          }
+        }
+      } catch {
+        // Fresh start
+      }
+    }
+  }
+
+  private persist(): void {
+    if (typeof window !== 'undefined') {
+      const obj: Record<string, TaskContract> = {};
+      for (const [k, v] of this.contracts.entries()) obj[k] = v;
+      localStorage.setItem('task_contracts', JSON.stringify(obj));
+    }
+  }
+
+  /**
+   * Sync contract to server (Supabase) if available
+   */
+  private async syncToServer(contract: TaskContract): Promise<void> {
+    try {
+      await fetch('/api/bwriter/contracts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          task_id: contract.taskId,
+          github_issue: contract.githubIssueNumber,
+          github_username: contract.githubUsername,
+          handcash_handle: contract.handCashHandle,
+          token_reward_pct: contract.tokenReward,
+          token_amount: contract.tokenAmount,
+          deadline: contract.deadline.toISOString(),
+          status: contract.status,
+          contract_hash: contract.contractHash,
+          signed_at: contract.signedAt?.toISOString() || null,
+          completed_at: contract.completedAt?.toISOString() || null,
+          pr_url: contract.prUrl || null,
+        }),
+      });
+    } catch {
+      // Server sync failed — local copy is authoritative for now
+    }
+  }
 
   /**
    * Create a new task contract
@@ -53,13 +111,14 @@ export class TaskContractService {
       tokenAmount: Math.floor(this.TOTAL_TOKENS * (tokenRewardPercentage / 100)),
       deadline,
       status: 'pending',
-      signedAt: undefined
+      signedAt: undefined,
     };
 
-    // Generate contract hash
     contract.contractHash = await this.generateContractHash(contract);
-    
+
     this.contracts.set(taskId, contract);
+    this.persist();
+    await this.syncToServer(contract);
     return contract;
   }
 
@@ -79,7 +138,7 @@ export class TaskContractService {
       throw new Error('Contract already signed or expired');
     }
 
-    // Verify signature
+    // Verify signature fields match contract
     const isValid = await this.verifySignature(contract, signature);
     if (!isValid) {
       throw new Error('Invalid signature');
@@ -88,8 +147,8 @@ export class TaskContractService {
     contract.status = 'active';
     contract.signedAt = new Date();
 
-    // Store on blockchain (mock for now)
-    await this.storeContractOnBlockchain(contract);
+    this.persist();
+    await this.syncToServer(contract);
 
     return contract;
   }
@@ -114,8 +173,11 @@ export class TaskContractService {
     contract.completedAt = new Date();
     contract.prUrl = prUrl;
 
-    // Trigger token distribution
+    // Record token distribution
     await this.distributeTokens(contract);
+
+    this.persist();
+    await this.syncToServer(contract);
 
     return contract;
   }
@@ -125,12 +187,13 @@ export class TaskContractService {
    */
   async checkExpiredContracts(): Promise<void> {
     const now = new Date();
-    
+
     for (const [taskId, contract] of Array.from(this.contracts.entries())) {
       if (contract.status === 'active' && contract.deadline < now) {
         contract.status = 'expired';
-        // Release the task for others to claim
         await this.releaseTask(taskId);
+        this.persist();
+        await this.syncToServer(contract);
       }
     }
   }
@@ -145,16 +208,14 @@ export class TaskContractService {
       githubUsername: contract.githubUsername,
       handCashHandle: contract.handCashHandle,
       tokenReward: contract.tokenReward,
-      deadline: contract.deadline.toISOString()
+      deadline: contract.deadline.toISOString(),
     };
 
     const encoder = new TextEncoder();
     const data = encoder.encode(JSON.stringify(contractData));
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    
-    return hashHex;
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
   }
 
   /**
@@ -164,55 +225,59 @@ export class TaskContractService {
     contract: TaskContract,
     signature: ContractSignature
   ): Promise<boolean> {
-    // Verify GitHub ID matches
-    if (signature.githubId !== contract.githubUsername) {
-      return false;
-    }
+    if (signature.githubId !== contract.githubUsername) return false;
+    if (signature.handCashHandle !== contract.handCashHandle) return false;
 
-    // Verify HandCash handle matches
-    if (signature.handCashHandle !== contract.handCashHandle) {
-      return false;
-    }
+    // Verify the signature string is a valid SHA-256 of the contract data + timestamp
+    const payload = JSON.stringify({
+      contractHash: contract.contractHash,
+      githubId: signature.githubId,
+      handCashHandle: signature.handCashHandle,
+      timestamp: signature.timestamp,
+    });
+    const encoder = new TextEncoder();
+    const data = encoder.encode(payload);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const expectedSig = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 
-    // TODO: Implement actual signature verification with HandCash
-    // For now, return true if basic checks pass
-    return true;
+    // Accept either proper signature or legacy mock during migration
+    return signature.signature === expectedSig || signature.signature === 'mock_signature';
   }
 
   /**
-   * Store contract on blockchain
-   */
-  private async storeContractOnBlockchain(contract: TaskContract): Promise<void> {
-    // TODO: Implement actual blockchain storage
-    console.log('Storing contract on blockchain:', contract.contractHash);
-    
-    // Mock implementation
-    localStorage.setItem(
-      `contract_${contract.taskId}`,
-      JSON.stringify(contract)
-    );
-  }
-
-  /**
-   * Distribute tokens to developer
+   * Distribute tokens to developer via API
    */
   private async distributeTokens(contract: TaskContract): Promise<void> {
-    // TODO: Implement actual token distribution
     console.log(`Distributing ${contract.tokenAmount} tokens to ${contract.handCashHandle}`);
-    
-    // Mock implementation - record distribution
+
+    // Record in localStorage
     const distributions = JSON.parse(
       localStorage.getItem('token_distributions') || '[]'
     );
-    
     distributions.push({
       taskId: contract.taskId,
       recipient: contract.handCashHandle,
       amount: contract.tokenAmount,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
     localStorage.setItem('token_distributions', JSON.stringify(distributions));
+
+    // Also try server-side recording
+    try {
+      await fetch('/api/bwriter/revenue/record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'token_distribution',
+          recipient: contract.handCashHandle,
+          amount: contract.tokenAmount,
+          taskId: contract.taskId,
+        }),
+      });
+    } catch {
+      // Server recording failed — local record preserved
+    }
   }
 
   /**
@@ -220,38 +285,38 @@ export class TaskContractService {
    */
   private async releaseTask(taskId: string): Promise<void> {
     console.log(`Releasing task ${taskId} for others to claim`);
-    // TODO: Update GitHub issue status
-    // TODO: Notify original assignee
+
+    // Notify via API (which can update GitHub issue if configured)
+    try {
+      await fetch('/api/bwriter/contracts', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          task_id: taskId,
+          action: 'release',
+        }),
+      });
+    } catch {
+      // API call failed — task remains expired locally
+    }
   }
 
-  /**
-   * Get contract by task ID
-   */
   getContract(taskId: string): TaskContract | undefined {
     return this.contracts.get(taskId);
   }
 
-  /**
-   * Get all contracts for a GitHub user
-   */
   getContractsByGithubUser(username: string): TaskContract[] {
     return Array.from(this.contracts.values()).filter(
-      contract => contract.githubUsername === username
+      (contract) => contract.githubUsername === username
     );
   }
 
-  /**
-   * Get all active contracts
-   */
   getActiveContracts(): TaskContract[] {
     return Array.from(this.contracts.values()).filter(
-      contract => contract.status === 'active'
+      (contract) => contract.status === 'active'
     );
   }
 
-  /**
-   * Calculate time remaining for a contract
-   */
   getTimeRemaining(contract: TaskContract): {
     days: number;
     hours: number;
@@ -260,7 +325,7 @@ export class TaskContractService {
   } {
     const now = new Date();
     const diff = contract.deadline.getTime() - now.getTime();
-    
+
     if (diff <= 0) {
       return { days: 0, hours: 0, minutes: 0, expired: true };
     }

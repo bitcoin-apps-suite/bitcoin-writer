@@ -35,14 +35,13 @@ export default function BwriterDashboard() {
   useEffect(() => {
     async function loadStats() {
       try {
-        // TODO: Create /api/bwriter/stats endpoint
-        // For now, use placeholder values
-        setStats({
-          totalStaked: 45000000,
-          totalUsers: 1250,
-          totalDistributed: 2500000,
-          platformRevenue: 12500000,
-        });
+        const res = await fetch('/api/bwriter/stats');
+        if (res.ok) {
+          const data = await res.json();
+          setStats(data);
+        } else {
+          console.error('Stats API returned', res.status);
+        }
       } catch (error) {
         console.error('Error loading stats:', error);
       } finally {

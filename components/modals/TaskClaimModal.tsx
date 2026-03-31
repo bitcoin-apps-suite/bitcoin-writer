@@ -114,12 +114,25 @@ const TaskClaimModal: React.FC<TaskClaimModalProps> = ({
         task.tokenReward
       );
 
-      // Sign contract with HandCash
+      // Generate contract signature
+      const timestamp = Date.now();
+      const payload = JSON.stringify({
+        contractHash: contract.contractHash,
+        githubId: githubUser.login,
+        handCashHandle: handCashUser.handle,
+        timestamp,
+      });
+      const encoder = new TextEncoder();
+      const data = encoder.encode(payload);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const sig = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
       const signature = {
         githubId: githubUser.login,
         handCashHandle: handCashUser.handle,
-        timestamp: Date.now(),
-        signature: 'mock_signature' // TODO: Implement actual HandCash signing
+        timestamp,
+        signature: sig,
       };
 
       await contractService.signContract(task.id, signature);

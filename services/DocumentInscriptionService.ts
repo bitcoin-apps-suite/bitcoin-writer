@@ -226,11 +226,8 @@ export class DocumentInscriptionService extends EventEmitter {
     totalShares: number,
     pricePerShare: number
   ): Promise<string[]> {
-    // TODO: Implement share token creation as separate inscriptions
-    // Each share would be its own inscription referencing the document
-    
     const shareIds: string[] = [];
-    const symbol = inscription.metadata.shareTokens?.symbol || 
+    const symbol = inscription.metadata.shareTokens?.symbol ||
                   `DOC${inscription.metadata.version}`;
 
     // Update inscription metadata
@@ -241,9 +238,45 @@ export class DocumentInscriptionService extends EventEmitter {
       availableShares: totalShares
     };
 
-    // Generate share token IDs (would be actual inscriptions)
+    // Each share token is a micro-inscription referencing the parent document
+    // For now, generate deterministic IDs based on document inscription + share index
+    // These IDs serve as reservation receipts until on-chain minting occurs
+    const docRef = inscription.inscriptionId || inscription.localId;
     for (let i = 1; i <= totalShares; i++) {
-      shareIds.push(`${symbol}-${i.toString().padStart(6, '0')}`);
+      const shareData = `${docRef}:${symbol}:${i}:${totalShares}`;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(shareData);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const shareHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+      shareIds.push(`${symbol}-${shareHash}`);
+    }
+
+    // If the document is already inscribed, create on-chain share inscriptions
+    if (inscription.inscriptionId) {
+      try {
+        for (let i = 0; i < Math.min(totalShares, 100); i++) {
+          // Batch creation via micro-ordinals — each share references the parent doc
+          const shareContent = JSON.stringify({
+            type: 'share_token',
+            parent: inscription.inscriptionId,
+            symbol,
+            index: i + 1,
+            totalSupply: totalShares,
+            pricePerShare,
+          });
+
+          // Queue inscription (actual broadcast handled by MicroOrdinalsService batch)
+          this.emit('share_created', {
+            shareId: shareIds[i],
+            content: shareContent,
+            index: i + 1,
+          });
+        }
+      } catch (error) {
+        console.error('Share token on-chain creation failed:', error);
+        // IDs are still valid as off-chain reservations
+      }
     }
 
     return shareIds;
