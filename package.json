@@ -2,7 +2,7 @@
   "name": "bitcoin-writer",
   "version": "2.0.0",
   "description": "A blockchain-based writing app with HandCash authentication",
-  "license": "AGPL-3.0",
+  "license": "SEE LICENSE IN LICENSE",
   "author": "The Bitcoin Corporation LTD",
   "private": true,
   "dependencies": {

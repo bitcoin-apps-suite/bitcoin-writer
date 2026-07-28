@@ -1,21 +1,12 @@
 /**
  * Bitcoin Writer - A blockchain-based writing application
- * Copyright (C) 2025 The Bitcoin Corporation LTD
+ * Copyright © 2025 The Bitcoin Corporation LTD
+ * Registered in England and Wales • Company No. 16735102
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
- *
- * For commercial licensing options, please contact The Bitcoin Corporation LTD.
+ * Licensed under the Open BSV License version 5.
+ * The Software and any derivative works may only be used on the
+ * Bitcoin SV blockchains. See the LICENSE file in the project root
+ * for the full license text.
  */
 
 'use client';
