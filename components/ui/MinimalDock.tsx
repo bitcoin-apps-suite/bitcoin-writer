@@ -146,11 +146,25 @@ const MinimalDock: React.FC<MinimalDockProps> = ({ currentApp = 'bitcoin-writer'
     setIsHovered(false);
   };
 
+  const handleDockFocus = () => {
+    handleMouseEnter();
+  };
+
+  const handleDockBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+      handleMouseLeave();
+    }
+  };
+
   return (
     <div 
       className={`minimal-dock ${isHovered ? 'hovered' : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleDockFocus}
+      onBlur={handleDockBlur}
+      role="navigation"
+      aria-label="Bitcoin app dock"
     >
       <div className="minimal-dock-container">
         {/* All apps on the left */}
@@ -164,6 +178,8 @@ const MinimalDock: React.FC<MinimalDockProps> = ({ currentApp = 'bitcoin-writer'
                 onClick={() => handleAppClick(app)}
                 title={app.name}
                 disabled={app.disabled}
+                aria-label={`${app.name}${app.current ? ' (current app)' : ''}`}
+                aria-current={app.current ? 'page' : undefined}
               >
                 {app.id === 'bapps-store' ? (
                   <img src="/bapps-icon.jpg" alt="BAPPS" className="minimal-dock-icon-image" />
@@ -200,6 +216,7 @@ const MinimalDock: React.FC<MinimalDockProps> = ({ currentApp = 'bitcoin-writer'
                   className="minimal-dock-app-mini"
                   onClick={() => handleAppClick(app)}
                   title={app.name}
+                  aria-label={app.name}
                 >
                   {app.id === 'cashboard' ? (
                     <svg className="minimal-dock-icon-mini" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ color: getIconColor(app.color, index) }}>
@@ -227,21 +244,24 @@ const MinimalDock: React.FC<MinimalDockProps> = ({ currentApp = 'bitcoin-writer'
               className="minimal-dock-app-mini" 
               title="Switch to Large Dock" 
               onClick={toggleDockSize}
+              aria-label="Switch to large dock"
             >
               <Maximize2 className="minimal-dock-icon-mini" style={{ color: '#6b7280' }} />
             </button>
           </div>
           
           {/* System status */}
-          <div className="minimal-status-item" title="Connected">
+          <div className="minimal-status-item" title="Connected" role="img" aria-label="Network connected">
             <Wifi className="minimal-status-icon connected" />
           </div>
-          <div className="minimal-status-item" title="Battery: 100%">
+          <div className="minimal-status-item" title="Battery: 100%" role="img" aria-label="Battery 100 percent">
             <Battery className="minimal-status-icon connected" />
           </div>
           <div className="minimal-status-time" title={mounted ? currentTime.toLocaleDateString() : ''}>
             <Clock className="minimal-status-icon" />
-            <span>{mounted ? currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '12:00'}</span>
+            <time dateTime={currentTime.toISOString()}>
+              {mounted ? currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '12:00'}
+            </time>
           </div>
         </div>
       </div>

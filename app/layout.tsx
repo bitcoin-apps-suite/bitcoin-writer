@@ -65,6 +65,7 @@ export default function RootLayout({
         <link rel="alternate icon" type="image/svg+xml" href="/logo.svg" />
       </head>
       <body>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <div className="App">
           {/* Proof of Concept Banner - hide on /write page */}
           {!isWritePage && <ProofOfConceptBanner />}
@@ -84,9 +85,13 @@ export default function RootLayout({
           
           
           {/* Main Content */}
-          <div className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
+          <main
+            id="main-content"
+            className={`main-content ${devSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}
+            tabIndex={-1}
+          >
             {children}
-          </div>
+          </main>
           
           {/* Dock - hide on /write page */}
           {!isWritePage && <DockManager currentApp="bitcoin-writer" />}

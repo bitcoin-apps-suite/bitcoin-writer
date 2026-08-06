@@ -18,6 +18,29 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.skip-link {
+  position: fixed;
+  top: -48px;
+  left: 12px;
+  z-index: 20001;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #f7931a;
+  color: #111;
+  text-decoration: none;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+:where(a, button, input, select, textarea, [role='button'], [tabindex]):focus-visible {
+  outline: 2px solid #f7931a;
+  outline-offset: 2px;
+}
+
 #__next {
   min-height: 100%;
   display: flex;
