@@ -517,6 +517,15 @@
         
         // Create app object if it doesn't exist
         window.app = window.app || {};
+
+        function getEditorWordCount() {
+            const editor = document.getElementById('editor');
+            if (!editor) return 0;
+
+            const rawText = editor.textContent || editor.innerText || '';
+            const text = rawText.trim() === 'Start typing...' ? '' : rawText;
+            return text.trim() ? text.trim().split(/\s+/).length : 0;
+        }
         
         // New Document function - uses documentTabsManager when available
         window.app.newDocument = function() {
@@ -551,18 +560,38 @@
             if (wordEl) wordEl.textContent = '0 words';
             const charEl = document.querySelector('#charCount span');
             if (charEl) charEl.textContent = '0 characters';
+
+            if (window.BitcoinWriterAnalytics) {
+                window.BitcoinWriterAnalytics.syncSessionWordCount(0, { resetStartedAt: true });
+            }
             
             return true;
         };
         
-        // Track editor changes
+        // Track editor changes and analytics
         document.addEventListener('DOMContentLoaded', function() {
             const editor = document.getElementById('editor');
             if (editor) {
+                let analyticsTimeout = null;
+
+                if (window.BitcoinWriterAnalytics) {
+                    window.BitcoinWriterAnalytics.syncSessionWordCount(getEditorWordCount(), { resetStartedAt: true });
+                }
+
                 editor.addEventListener('input', function() {
                     if (window.documentTabsManager && window.documentTabsManager.activeDocumentId) {
                         window.documentTabsManager.markDocumentModified(window.documentTabsManager.activeDocumentId);
                     }
+
+                    if (analyticsTimeout) {
+                        clearTimeout(analyticsTimeout);
+                    }
+
+                    analyticsTimeout = setTimeout(function() {
+                        if (window.BitcoinWriterAnalytics) {
+                            window.BitcoinWriterAnalytics.recordWordCountChange(getEditorWordCount());
+                        }
+                    }, 400);
                 });
             }
         });
@@ -571,6 +600,8 @@
         console.log('Document management initialized, window.app.newDocument:', window.app.newDocument);
     </script>
     
+    <script src="/js/writing-analytics.js"></script>
+
     <!-- Animated Placeholder Script -->
     <script>
         (function() {

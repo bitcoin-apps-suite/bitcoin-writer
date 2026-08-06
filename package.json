@@ -69,7 +69,8 @@
     "api": "API_PORT=3001 node api/server.js",
     "kill:all": "for port in {3000..3010}; do lsof -ti:$port | xargs kill -9 2>/dev/null || true; done",
     "deploy-token": "ts-node scripts/deploy-bwriter-token.ts",
-    "deploy-token:founder": "ts-node scripts/deploy-bwriter-token.ts"
+    "deploy-token:founder": "ts-node scripts/deploy-bwriter-token.ts",
+    "test:analytics": "node --test tests/writing-analytics.test.cjs"
   },
   "eslintConfig": {
     "extends": [
