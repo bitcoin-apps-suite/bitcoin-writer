@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver';
 import AnimatedPlaceholder from './AnimatedPlaceholder';
 import ImportSourcesModal from './ImportSourcesModal';
 import EditorRulers from './EditorRulers';
+import WritingAnalytics from './WritingAnalytics';
 
 interface QuillEditorProps {
   content: string;
@@ -29,6 +30,8 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   const [isReady, setIsReady] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [showRulers, setShowRulers] = useState(true);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [textContent, setTextContent] = useState('');
   const [isEmpty, setIsEmpty] = useState(() => {
     // Check if initial content is empty
     const tempDiv = document.createElement('div');
@@ -103,6 +106,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   const handleChange = (value: string, delta: any, source: string, editor: any) => {
     onChange(value);
     const text = editor.getText();
+    setTextContent(text);
     setIsEmpty(text.trim().length === 0);
     if (onTextChange) {
       onTextChange(text);
@@ -368,6 +372,28 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
           </svg>
           Rulers
         </button>
+
+        <button 
+          onClick={() => setShowAnalytics(!showAnalytics)}
+          className={`analytics-toggle-btn ${showAnalytics ? 'active' : ''}`}
+          title={showAnalytics ? "Hide Analytics" : "Show Analytics"}
+          style={{ 
+            backgroundColor: showAnalytics ? '#444' : '#2a2a2a',
+            color: '#fff',
+            border: '1px solid #555',
+            padding: '6px 12px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            transition: 'all 0.2s',
+            marginLeft: '8px'
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '8px'}}>
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6V12H17V13.5H10.5V6H12Z"/>
+          </svg>
+          Analytics
+        </button>
         
         <div className="word-counter" style={{ fontSize: '11px', color: '#888', marginLeft: '16px', display: 'flex', alignItems: 'center' }}>
           <span>{wordCount} words</span>
@@ -400,6 +426,19 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         />
         <EditorRulers showRulers={showRulers} />
         {isEmpty && <AnimatedPlaceholder />}
+        
+        {showAnalytics && (
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            width: '260px',
+            zIndex: 100,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.4)'
+          }}>
+            <WritingAnalytics text={textContent} />
+          </div>
+        )}
       </div>
     </div>
   );
