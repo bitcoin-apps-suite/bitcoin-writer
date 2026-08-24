@@ -1,387 +1,101 @@
-import { 
-  DocumentInscription, 
-  DocumentInscriptionMetadata, 
-  DocumentVersionChain, 
-  InscriptionConfig, 
-  InscriptionProgress, 
-  InscriptionError 
-} from '../types/DocumentInscription';
-import { EventEmitter } from 'events';
-import { v4 as uuidv4 } from 'uuid';
+import { PrivateKey } from 'bsv';
+import MicroOrdinalsService from './MicroOrdinalsService';
+import BSVStorageService from './BSVStorageService';
 
-import { MicroOrdinalsService } from './MicroOrdinalsService';
-import { HandCashService } from './HandCashService';
+export interface InscriptionResult {
+  inscriptionId: string;
+  txId: string;
+  status: 'pending' | 'confirmed' | 'failed';
+  timestamp: number;
+}
 
-export class DocumentInscriptionService extends EventEmitter {
-  private config: InscriptionConfig;
-  private versionChains: Map<string, DocumentVersionChain> = new Map();
-  private microOrdinalsService: MicroOrdinalsService;
+export interface DocumentMetadata {
+  txId: string;
+  dataSize: number;
+  timestamp: number;
+  network: 'mainnet' | 'testnet';
+  status?: 'pending' | 'confirmed' | 'failed';
+}
 
-  constructor(config: InscriptionConfig, handcashService: HandCashService) {
-    super();
-    this.config = config;
-    this.microOrdinalsService = new MicroOrdinalsService(
-      handcashService, 
-      config.network === 'mainnet' ? 'mainnet' : 'testnet'
-    );
+class DocumentInscriptionService {
+  private static instance: DocumentInscriptionService;
+  private microOrdinals: MicroOrdinalsService;
+  private storage: BSVStorageService;
+
+  private constructor() {
+    this.microOrdinals = new MicroOrdinalsService();
+    this.storage = new BSVStorageService();
   }
 
-  /**
-   * Create a new document inscription from content
-   */
-  async createDocumentInscription(
-    content: string,
-    metadata: Partial<DocumentInscriptionMetadata>,
-    previousVersion?: DocumentInscription
-  ): Promise<DocumentInscription> {
-    
-    // Generate content hash for integrity
-    const contentHash = await this.hashContent(content);
-    
-    // Build complete metadata
-    const completeMetadata: DocumentInscriptionMetadata = {
-      title: metadata.title || 'Untitled Document',
-      author: metadata.author || '',
-      version: previousVersion ? previousVersion.metadata.version + 1 : 1,
-      previousInscriptionId: previousVersion?.inscriptionId,
-      genesisInscriptionId: previousVersion?.metadata.genesisInscriptionId || previousVersion?.inscriptionId,
-      contentType: metadata.contentType || 'text/plain',
-      contentHash,
-      wordCount: this.countWords(content),
-      characterCount: content.length,
-      createdAt: Date.now(),
-      isPublished: false,
-      isPaid: false,
-      ...metadata
-    };
-
-    // Create inscription object
-    const inscription: DocumentInscription = {
-      localId: uuidv4(),
-      content,
-      metadata: completeMetadata,
-      status: 'draft'
-    };
-
-    // Estimate inscription fee
-    inscription.estimatedFee = await this.estimateInscriptionFee(inscription);
-
-    return inscription;
+  public static getInstance(): DocumentInscriptionService {
+    if (!DocumentInscriptionService.instance) {
+      DocumentInscriptionService.instance = new DocumentInscriptionService();
+    }
+    return DocumentInscriptionService.instance;
   }
 
-  /**
-   * Inscribe a document to Bitcoin blockchain
-   */
-  async inscribeDocument(
-    inscription: DocumentInscription,
-    privateKey: string
-  ): Promise<DocumentInscription> {
-    
-    inscription.status = 'pending';
-    this.emit('progress', { 
-      stage: 'preparing', 
-      progress: 0, 
-      message: 'Preparing inscription...' 
-    } as InscriptionProgress);
-
+  public async inscribeDocument(
+    documentData: any, 
+    privateKey: PrivateKey | string, 
+    network: 'mainnet' | 'testnet' = 'mainnet'
+  ): Promise<InscriptionResult> {
     try {
-      // Use actual micro-ordinals implementation
-      const result = await this.performInscription(inscription, privateKey);
+      const pk = typeof privateKey === 'string' ? PrivateKey.fromString(privateKey) : privateKey;
+      const dataBuffer = Buffer.from(JSON.stringify(documentData), 'utf8');
       
-      inscription.inscriptionId = result.inscriptionId;
-      inscription.txId = result.txId;
-      inscription.ordinalNumber = result.ordinalNumber;
-      inscription.satoshiNumber = result.satoshiNumber;
-      inscription.inscriptionFee = result.fee;
-      inscription.metadata.inscribedAt = Date.now();
-      inscription.status = 'inscribed';
-
-      this.emit('progress', { 
-        stage: 'confirmed', 
-        progress: 100, 
-        message: 'Inscription confirmed!',
-        txId: inscription.txId
-      } as InscriptionProgress);
-
-      return inscription;
-
-    } catch (error) {
-      inscription.status = 'failed';
-      this.emit('error', {
-        code: 'NETWORK_ERROR',
-        message: 'Failed to inscribe document',
-        details: error
-      } as InscriptionError);
+      const tx = await this.microOrdinals.createInscriptionTx(dataBuffer, pk, network);
+      const txId = await this.microOrdinals.broadcastTransaction(tx, network);
+      const inscriptionId = `${txId}i0`;
       
+      await this.storage.saveInscriptionMapping(inscriptionId, {
+        txId,
+        dataSize: dataBuffer.length,
+        timestamp: Date.now(),
+        network,
+        status: 'pending'
+      });
+
+      return {
+        inscriptionId,
+        txId,
+        status: 'pending',
+        timestamp: Date.now()
+      };
+    } catch (error: any) {
+      console.error('[DocumentInscriptionService] Inscription failed:', error);
+      if (error.message && error.message.toLowerCase().includes('network')) {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return this.inscribeDocument(documentData, privateKey, network);
+      }
+      throw new Error(`Inscription failed: ${error.message || 'Unknown error'}`);
+    }
+  }
+
+  public async getDocument(inscriptionId: string): Promise<any> {
+    try {
+      const mapping = await this.storage.getInscriptionMapping(inscriptionId);
+      if (!mapping) throw new Error(`Inscription ${inscriptionId} not found.`);
+      const rawData = await this.microOrdinals.extractInscriptionData(mapping.txId, mapping.network);
+      return JSON.parse(rawData.toString('utf8'));
+    } catch (error: any) {
+      console.error(`[DocumentInscriptionService] Failed to retrieve document for ${inscriptionId}:`, error);
       throw error;
     }
   }
 
-  /**
-   * Create or update a version chain for a document
-   */
-  createVersionChain(documentId: string, inscription: DocumentInscription): DocumentVersionChain {
-    let chain = this.versionChains.get(documentId);
-    
-    if (!chain) {
-      // Create new chain
-      chain = {
-        documentId,
-        versions: [],
-        isValid: true,
-        lastVerified: Date.now(),
-        totalVersions: 0,
-        totalWordCount: 0,
-        creationSpan: 0,
-        publishedVersions: []
-      };
-    }
-
-    // Add version to chain
-    chain.versions.push(inscription);
-    
-    // Set genesis if this is the first version
-    if (inscription.metadata.version === 1) {
-      chain.genesisInscription = inscription;
-      chain.versions[0].metadata.genesisInscriptionId = inscription.inscriptionId;
-    }
-
-    // Update aggregated stats
-    chain.totalVersions = chain.versions.length;
-    chain.totalWordCount = chain.versions.reduce((sum, v) => sum + v.metadata.wordCount, 0);
-    
-    if (chain.versions.length > 1) {
-      const first = chain.versions[0];
-      const last = chain.versions[chain.versions.length - 1];
-      chain.creationSpan = last.metadata.createdAt - first.metadata.createdAt;
-    }
-
-    // Update published versions
-    if (inscription.metadata.isPublished) {
-      chain.publishedVersions.push(inscription);
-      chain.latestPublishedVersion = inscription;
-    }
-
-    this.versionChains.set(documentId, chain);
-    return chain;
-  }
-
-  /**
-   * Verify the integrity of a version chain
-   */
-  async verifyVersionChain(chain: DocumentVersionChain): Promise<boolean> {
-    if (chain.versions.length === 0) return false;
-
-    // Verify each version links to the previous one correctly
-    for (let i = 1; i < chain.versions.length; i++) {
-      const current = chain.versions[i];
-      const previous = chain.versions[i - 1];
-
-      // Check version numbering
-      if (current.metadata.version !== previous.metadata.version + 1) {
-        return false;
+  public async getInscriptionStatus(inscriptionId: string): Promise<'pending' | 'confirmed' | 'failed'> {
+    try {
+      const mapping = await this.storage.getInscriptionMapping(inscriptionId);
+      if (!mapping) return 'failed';
+      const status = await this.microOrdinals.getTransactionStatus(mapping.txId, mapping.network);
+      if (status === 'confirmed' && mapping.status !== 'confirmed') {
+        await this.storage.saveInscriptionMapping(inscriptionId, { ...mapping, status: 'confirmed' });
       }
-
-      // Check previous inscription link
-      if (current.metadata.previousInscriptionId !== previous.inscriptionId) {
-        return false;
-      }
-
-      // Check genesis link
-      if (current.metadata.genesisInscriptionId !== chain.genesisInscription?.inscriptionId) {
-        return false;
-      }
-
-      // Verify content hash
-      const computedHash = await this.hashContent(current.content);
-      if (computedHash !== current.metadata.contentHash) {
-        return false;
-      }
+      return status;
+    } catch (error) {
+      return 'failed';
     }
-
-    chain.isValid = true;
-    chain.lastVerified = Date.now();
-    return true;
-  }
-
-  /**
-   * Get version chain for a document
-   */
-  getVersionChain(documentId: string): DocumentVersionChain | undefined {
-    return this.versionChains.get(documentId);
-  }
-
-  /**
-   * Get all version chains
-   */
-  getAllVersionChains(): DocumentVersionChain[] {
-    return Array.from(this.versionChains.values());
-  }
-
-  /**
-   * Create share tokens for a document
-   */
-  async createShareTokens(
-    inscription: DocumentInscription,
-    totalShares: number,
-    pricePerShare: number
-  ): Promise<string[]> {
-    const shareIds: string[] = [];
-    const symbol = inscription.metadata.shareTokens?.symbol ||
-                  `DOC${inscription.metadata.version}`;
-
-    // Update inscription metadata
-    inscription.metadata.shareTokens = {
-      totalSupply: totalShares,
-      symbol,
-      pricePerShare,
-      availableShares: totalShares
-    };
-
-    // Each share token is a micro-inscription referencing the parent document
-    // For now, generate deterministic IDs based on document inscription + share index
-    // These IDs serve as reservation receipts until on-chain minting occurs
-    const docRef = inscription.inscriptionId || inscription.localId;
-    for (let i = 1; i <= totalShares; i++) {
-      const shareData = `${docRef}:${symbol}:${i}:${totalShares}`;
-      const encoder = new TextEncoder();
-      const data = encoder.encode(shareData);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const shareHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
-      shareIds.push(`${symbol}-${shareHash}`);
-    }
-
-    // If the document is already inscribed, create on-chain share inscriptions
-    if (inscription.inscriptionId) {
-      try {
-        for (let i = 0; i < Math.min(totalShares, 100); i++) {
-          // Batch creation via micro-ordinals — each share references the parent doc
-          const shareContent = JSON.stringify({
-            type: 'share_token',
-            parent: inscription.inscriptionId,
-            symbol,
-            index: i + 1,
-            totalSupply: totalShares,
-            pricePerShare,
-          });
-
-          // Queue inscription (actual broadcast handled by MicroOrdinalsService batch)
-          this.emit('share_created', {
-            shareId: shareIds[i],
-            content: shareContent,
-            index: i + 1,
-          });
-        }
-      } catch (error) {
-        console.error('Share token on-chain creation failed:', error);
-        // IDs are still valid as off-chain reservations
-      }
-    }
-
-    return shareIds;
-  }
-
-  /**
-   * Estimate the cost to inscribe content using micro-ordinals
-   */
-  private async estimateInscriptionFee(inscription: DocumentInscription): Promise<number> {
-    const contentSize = new TextEncoder().encode(inscription.content).length;
-    
-    // Use micro-ordinals service for more accurate fee estimation
-    return this.microOrdinalsService.estimateInscriptionFee(contentSize);
-  }
-
-  /**
-   * Perform the actual inscription using micro-ordinals
-   */
-  private async performInscription(
-    inscription: DocumentInscription, 
-    privateKey: string
-  ): Promise<{
-    inscriptionId: string;
-    txId: string;
-    ordinalNumber: number;
-    satoshiNumber: number;
-    fee: number;
-  }> {
-    
-    // Prepare content for inscription
-    const content = inscription.content;
-    const contentType = inscription.metadata.contentType || 'text/plain';
-    
-    // Create inscription using micro-ordinals
-    const result = await this.microOrdinalsService.createInscription(
-      content,
-      {
-        contentType,
-        metadata: {
-          title: inscription.metadata.title,
-          author: inscription.metadata.author,
-          version: inscription.metadata.version,
-          previousInscriptionId: inscription.metadata.previousInscriptionId,
-          genesisInscriptionId: inscription.metadata.genesisInscriptionId,
-          wordCount: inscription.metadata.wordCount,
-          characterCount: inscription.metadata.characterCount,
-          created: inscription.metadata.createdAt
-        },
-        network: this.config.network === 'mainnet' ? 'mainnet' : 'testnet'
-      },
-      // Progress callback to relay to event listeners
-      (progress) => {
-        this.emit('progress', {
-          stage: progress.stage,
-          progress: progress.progress,
-          message: progress.message,
-          txId: progress.txId
-        } as InscriptionProgress);
-      }
-    );
-
-    // Convert micro-ordinals result to expected format
-    return {
-      inscriptionId: result.inscriptionId,
-      txId: result.txId,
-      ordinalNumber: Number(result.ordinalNumber || 0),
-      satoshiNumber: Number(result.satoshiNumber || 0),
-      fee: result.fee
-    };
-  }
-
-  /**
-   * Generate SHA256 hash of content
-   */
-  private async hashContent(content: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(content);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  /**
-   * Count words in content
-   */
-  private countWords(content: string): number {
-    return content.trim().split(/\s+/).filter(word => word.length > 0).length;
-  }
-
-  /**
-   * Export version chain to JSON for backup/sharing
-   */
-  exportVersionChain(documentId: string): string | null {
-    const chain = this.versionChains.get(documentId);
-    if (!chain) return null;
-    
-    return JSON.stringify(chain, null, 2);
-  }
-
-  /**
-   * Import version chain from JSON
-   */
-  importVersionChain(jsonData: string): DocumentVersionChain {
-    const chain = JSON.parse(jsonData) as DocumentVersionChain;
-    this.versionChains.set(chain.documentId, chain);
-    return chain;
   }
 }
+
+export default DocumentInscriptionService.getInstance();
