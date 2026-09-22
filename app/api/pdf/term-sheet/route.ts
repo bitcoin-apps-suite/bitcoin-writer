@@ -2,7 +2,58 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+/**
+ * ⚠⚠ CLOSED 22 SEPTEMBER 2026. DO NOT REOPEN WITHOUT LEGAL ADVICE. ⚠⚠
+ *
+ * This route served, to ANYONE WHO KNEW THE URL AND WITH NO AUTHENTICATION AT ALL, a term
+ * sheet reading:
+ *
+ *     Issuer:            The Bitcoin Corporation LTD (England & Wales, Co. No. 16735102)
+ *     Security Type:     bWriter Shares
+ *     Total Authorized:  1,000,000,000 bWriter shares
+ *     Founder Ownership: 90% (900,000,000 to @b0ase)
+ *     Offering:          10% (100,000,000 bWriter shares) for $10,000
+ *     Post-Money:        $100,000 USD
+ *
+ * A named issuer, a named security, a stated allocation, a price and a valuation, published
+ * to the world. That is an offer of securities to the public. The Bitcoin Corporation Ltd is
+ * a PRIVATE company, and CA 2006 s.755 prohibits a private company offering securities to
+ * the public at all. Publishing it is also very likely a financial promotion under FSMA 2000
+ * s.21, which may only be made or approved by an authorised person unless an exemption
+ * applies — and no exemption reaches an unauthenticated public URL.
+ *
+ * ── WHY GATED AND NOT DELETED ──────────────────────────────────────────────────────────
+ *
+ * The work is not wrong, the AUDIENCE was. The same document, issued to a named person
+ * inside a bit-sign room under a Financial Promotion Order exemption, is an ordinary private
+ * placement. Deleting the route would throw away a term sheet that will be wanted again in
+ * that form. So the code stands and the door is shut.
+ *
+ * ── WHY 404 AND NOT 403 ────────────────────────────────────────────────────────────────
+ *
+ * A 403 confirms the resource exists and tells a reader there is an offering behind it,
+ * which is the very thing that must stop being published. A 404 says nothing.
+ *
+ * ── TO REOPEN ──────────────────────────────────────────────────────────────────────────
+ *
+ * Do NOT simply set the flag. Reopening needs, in this order:
+ *   1. advice on which FPO exemption the recipient falls under (art 43 members/creditors,
+ *      art 48 certified high net worth, art 50A self-certified sophisticated);
+ *   2. authentication AND a recipient-level check on this route — a flag alone restores an
+ *      unauthenticated public offer, which is exactly what was wrong;
+ *   3. the share class to actually exist. There is no "bWriter Share" class in bCorp's
+ *      articles today, so the document describes a security that does not exist.
+ *
+ * See bitcoin-corp/contracts/templates/ENTITLEMENT-DEED-NOTES.md and
+ * bitcoin-writer/TOKEN-STRUCTURE-NOTE.md.
+ */
+const TERM_SHEET_PUBLICATION_APPROVED = process.env.BWRITER_TERM_SHEET_APPROVED === 'true';
+
 export async function GET(request: NextRequest) {
+  if (!TERM_SHEET_PUBLICATION_APPROVED) {
+    // Deliberately indistinguishable from a route that was never written. See above.
+    return new NextResponse(null, { status: 404 });
+  }
   try {
     const pdfPath = path.join(process.cwd(), 'pdf-contracts', 'bitcoin-writer-term-sheet.pdf');
     
