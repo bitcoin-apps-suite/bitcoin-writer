@@ -1,4 +1,9 @@
 /**
+ * DEPRECATED — do not use for new code.
+ * HandCash signatures are non-deterministic, so re-signing the same message yields a different key
+ * and previously encrypted content cannot be decrypted. Documents saved to chain now use AES-256-GCM
+ * keys derived (BRC-42) from the user's HandCash encryption keypair: see lib/writer/keys.ts.
+ *
  * Signature-Based Encryption Service
  * Uses BSV signatures to encrypt/decrypt content without passwords
  * Much more user-friendly than password-based encryption

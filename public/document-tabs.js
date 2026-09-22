@@ -3,6 +3,8 @@
  */
 
 class DocumentTabsManager {
+  static STORAGE_KEY = 'bw-tabs-v1';
+
   constructor() {
     this.documents = new Map();
     this.activeDocumentId = null;
@@ -13,7 +15,55 @@ class DocumentTabsManager {
   init() {
     console.log('Initializing Document Tabs Manager');
     this.createTabsContainer();
-    this.createNewDocument('Document1');
+    if (!this.restore()) {
+      this.createNewDocument('Document1');
+    }
+    // Keep drafts (and their chain HEADs) across reloads.
+    window.addEventListener('beforeunload', () => this.persist());
+    setInterval(() => this.persist(), 5000);
+  }
+
+  persist() {
+    try {
+      this.saveCurrentDocument();
+      const docs = Array.from(this.documents.values()).map(({ id, title, content, isDirty, chain }) => ({
+        id, title, content, isDirty, chain: chain || null
+      }));
+      localStorage.setItem(DocumentTabsManager.STORAGE_KEY, JSON.stringify({
+        activeDocumentId: this.activeDocumentId,
+        documentCounter: this.documentCounter,
+        docs
+      }));
+    } catch (error) {
+      console.warn('Could not persist documents:', error);
+    }
+  }
+
+  restore() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(DocumentTabsManager.STORAGE_KEY) || 'null');
+      if (!saved || !Array.isArray(saved.docs) || saved.docs.length === 0) return false;
+      this.documentCounter = saved.documentCounter || saved.docs.length;
+      saved.docs.forEach((doc) => {
+        this.documents.set(doc.id, { ...doc, created: new Date(), lastModified: new Date() });
+        this.addTab(doc.id, doc.title);
+        if (doc.isDirty) this.markDocumentModified(doc.id, true);
+      });
+      const active = this.documents.has(saved.activeDocumentId) ? saved.activeDocumentId : saved.docs[0].id;
+      this.switchToDocument(active);
+      return true;
+    } catch (error) {
+      console.warn('Could not restore documents:', error);
+      return false;
+    }
+  }
+
+  renameTab(docId, title) {
+    const doc = this.documents.get(docId);
+    if (doc) doc.title = title;
+    const tabTitle = document.querySelector(`.document-tab[data-doc-id="${docId}"] .tab-title`);
+    if (tabTitle) tabTitle.textContent = title;
+    if (docId === this.activeDocumentId) document.title = `${title} - Bitcoin Writer`;
   }
 
   createTabsContainer() {
@@ -166,6 +216,7 @@ class DocumentTabsManager {
     this.updateActiveDocumentIndicator(doc);
     
     this.activeDocumentId = docId;
+    document.dispatchEvent(new CustomEvent('bw:document-switched', { detail: { docId } }));
     console.log('Switched to document:', doc.title);
   }
 
@@ -234,6 +285,7 @@ class DocumentTabsManager {
 
     // Remove from documents
     this.documents.delete(docId);
+    this.persist();
 
     // If this was the active document, switch to another
     if (this.activeDocumentId === docId) {
@@ -271,6 +323,7 @@ class DocumentTabsManager {
       if (docId === this.activeDocumentId) {
         document.title = `${newTitle} - Bitcoin Writer`;
       }
+      this.persist();
     };
 
     input.addEventListener('blur', finishRename);
@@ -291,9 +344,9 @@ class DocumentTabsManager {
   }
 
   // Mark document as modified
-  markDocumentModified(docId) {
+  markDocumentModified(docId, force = false) {
     const doc = this.documents.get(docId);
-    if (doc && !doc.isDirty) {
+    if (doc && (force || !doc.isDirty)) {
       doc.isDirty = true;
       const tab = document.querySelector(`.document-tab[data-doc-id="${docId}"]`);
       if (tab) {

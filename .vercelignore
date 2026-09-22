@@ -60,3 +60,6 @@ temp
 *.md
 LICENSE
 
+
+# Desktop app (built separately with electron-builder)
+desktop

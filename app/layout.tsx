@@ -39,7 +39,9 @@ export default function RootLayout({
   const [devSidebarCollapsed, setDevSidebarCollapsed] = useState(true);
   const [tickerSidebarCollapsed, setTickerSidebarCollapsed] = useState(true);
   const isWritePage = pathname === '/write';
-  
+  // Marketing site and the app itself render without the legacy chrome (banner, taskbar, sidebars, dock).
+  const isBareRoute = pathname === '/' || pathname === '/app';
+
   // Debug: log when state changes
   useEffect(() => {
     console.log('DevSidebar collapsed state changed to:', devSidebarCollapsed);
@@ -65,6 +67,7 @@ export default function RootLayout({
         <link rel="alternate icon" type="image/svg+xml" href="/logo.svg" />
       </head>
       <body>
+        {isBareRoute ? children : (
         <div className="App">
           {/* Proof of Concept Banner - hide on /write page */}
           {!isWritePage && <ProofOfConceptBanner />}
@@ -94,6 +97,7 @@ export default function RootLayout({
           {/* Footer - hide on /write page */}
           {!isWritePage && <Footer />}
         </div>
+        )}
       </body>
     </html>
   )

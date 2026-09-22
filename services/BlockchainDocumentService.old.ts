@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 import { HandCashService, HandCashUser } from './HandCashService';
-import { StorageMethod } from '../components/EnhancedStorageModal';
+import { StorageMethod } from '../components/modals/EnhancedStorageModal';
 import BSVStorageService, { StorageQuote } from './BSVStorageService';
 import HandCashNFTService, { NFTMintOptions } from './HandCashNFTService';
 import { NoteSVEncryption } from './NoteSVEncryption';

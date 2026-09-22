@@ -4,13 +4,13 @@ import 'react-quill/dist/quill.snow.css';
 import mammoth from 'mammoth';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
-import AnimatedPlaceholder from './AnimatedPlaceholder';
-import ImportSourcesModal from './ImportSourcesModal';
+import AnimatedPlaceholder from '../AnimatedPlaceholder';
+import ImportSourcesModal from '../modals/ImportSourcesModal';
 import EditorRulers from './EditorRulers';
 
 // Dynamic import QuillWrapper to avoid SSR and findDOMNode issues
 const QuillWrapper = dynamic(
-  () => import('./QuillWrapper'),
+  () => import('../QuillWrapper'),
   { 
     ssr: false,
     loading: () => <div>Loading editor...</div>

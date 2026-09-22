@@ -192,29 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePricingDisplay(charCount);
   }
 
-  // Real-time pricing calculation - 1/10,000th of a penny per word
-  function updatePricingDisplay(charCount) {
-    const costElement = document.getElementById('estimated-cost');
-    if (!costElement) return;
-    
-    const editor = document.getElementById('editor');
-    const text = editor ? editor.textContent || '' : '';
-    const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-    
-    if (wordCount > 0) {
-      // 1/10,000th of a penny per word = $0.000001 per word
-      const costPerWord = 0.000001;
-      const totalUSD = wordCount * costPerWord;
-      
-      // Format cost for display - show 6 decimal places to see the ticking
-      const formattedPrice = `$${totalUSD.toFixed(6)}`;
-      costElement.textContent = formattedPrice;
-      costElement.style.color = '#00ff00';
-    } else {
-      costElement.textContent = '$0.000000';
-      costElement.style.color = '#00ff00';
-    }
-  }
+  // Publish cost counter is owned by writer-chain.js
+  function updatePricingDisplay() {}
 
   if (editor) {
     editor.addEventListener('input', updateWordCount);

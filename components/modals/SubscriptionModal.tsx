@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import StripePaymentService, { ProSubscription } from '../services/StripePaymentService';
+import StripePaymentService, { ProSubscription } from '../../services/StripePaymentService';
 import './SubscriptionModal.css';
 
 interface SubscriptionModalProps {

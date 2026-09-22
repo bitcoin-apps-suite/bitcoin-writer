@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="word-dark.css">
     <link rel="stylesheet" href="lexical-editor.css">
     <link rel="stylesheet" href="browser-menu.css">
+    <link rel="stylesheet" href="writer-chain.css">
     <style>
         /* Animated Placeholder Styles */
         .animated-placeholder {
@@ -104,34 +105,6 @@
             box-shadow: none !important;
         }
         
-        /* Minimal modal styles to avoid conflicts */
-        .modal.hidden {
-            display: none !important;
-        }
-        
-        #blockchainSaveModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-        
-        #blockchainSaveModal .modal-content {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 0;
-            max-width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
     </style>
     
     <!-- PWA meta tags -->
@@ -152,9 +125,10 @@
                 <span>File</span>
                 <div class="dropdown-menu">
                     <div class="menu-option" onclick="window.app.newDocument()">New Document <span class="shortcut">⌘N</span></div>
-                    <div class="menu-option" onclick="window.app.showOpenDialog()">Open... <span class="shortcut">⌘O</span></div>
+                    <div class="menu-option" onclick="window.app.showOpenDialog()">Open File... <span class="shortcut">⌘O</span></div>
+                    <div class="menu-option" onclick="bitcoinWriter.openFromChain()">Open from Chain...</div>
                     <div class="menu-separator"></div>
-                    <div class="menu-option" onclick="openBlockchainModal()">Save to Blockchain <span class="shortcut">⌘S</span></div>
+                    <div class="menu-option" onclick="bitcoinWriter.openSaveModal()">Save to Chain... <span class="shortcut">⌘S</span></div>
                     <div class="menu-option" onclick="window.app.exportHTML()">Export as HTML...</div>
                     <div class="menu-option" onclick="window.app.exportTXT()">Export as Text...</div>
                     <div class="menu-option" onclick="window.print()">Print... <span class="shortcut">⌘P</span></div>
@@ -197,12 +171,12 @@
                 </div>
             </div>
             <div class="menu-item" data-menu="blockchain">
-                <span>Blockchain</span>
+                <span>History</span>
                 <div class="dropdown-menu">
-                    <div class="menu-option" onclick="openBlockchainModal()">Save to Blockchain <span class="shortcut">⌘⇧B</span></div>
-                    <div class="menu-option" onclick="window.open('https://whatsonchain.com', '_blank')">View on WhatsOnChain</div>
+                    <div class="menu-option" onclick="bitcoinWriter.openSaveModal()">Save to Chain... <span class="shortcut">⌘S</span></div>
+                    <div class="menu-option" onclick="bitcoinWriter.openHistory()">Work Tree <span class="shortcut">⌘⇧H</span></div>
                     <div class="menu-separator"></div>
-                    <div class="menu-option" onclick="window.blockchainIntegration.initializeKVStore()">Connect Wallet</div>
+                    <div class="menu-option" onclick="bitcoinWriter.openFromChain()">Open Save by txid...</div>
                 </div>
             </div>
             <div class="menu-item" data-menu="help">
@@ -232,10 +206,12 @@
         <!-- Quick Access Toolbar -->
         <div class="quick-access-toolbar-wrapper">
             <div class="toolbar-left">
-                <button class="toolbar-btn" onclick="openBlockchainModal()" title="Save to Chain - Hash your writing to Bitcoin blockchain" style="display: flex; align-items: center; gap: 8px;">
-                    <span>💾</span>
+                <button class="toolbar-btn bw-commit-btn" onclick="bitcoinWriter.openSaveModal()" title="Encrypt and save this version to chain (⌘S)">
                     <span>Save to Chain</span>
-                    <span id="estimated-cost" style="font-size: 11px; color: #00ff00; min-width: 85px; text-align: right;">$0.00000000</span>
+                    <span id="estimated-cost" class="bw-counter">—</span>
+                </button>
+                <button class="toolbar-btn" onclick="bitcoinWriter.openHistory()" title="Work Tree (⌘⇧H)">
+                    <span>Work Tree</span>
                 </button>
                 <button class="toolbar-btn" id="undoBtn" title="Undo">
                     <span>↶</span>
@@ -451,7 +427,7 @@
     <!-- App Scripts -->
     <script src="document-tabs.js"></script>
     <script src="app-browser.js"></script>
-    <script src="blockchain-integration.js"></script>
+    <script src="writer-chain.js"></script>
     
     <!-- Simple Document Management -->
     <script>
@@ -576,14 +552,11 @@
         (function() {
             const messages = [
                 "Start writing here...",
-                "Bitcoin Writer auto-hashes your writing to chain whenever you stop typing...",
-                "Each new hash contains the previous hash, creating a chain of value...",
-                "Your document becomes a 'coin' that accretes in value as a UTXO...",
-                "Every word you write is permanently secured on the blockchain...",
-                "Building the future of decentralized publishing, one hash at a time...",
-                "Your thoughts become immutable history on Bitcoin SV...",
-                "Write once, preserved forever on the timechain...",
-                "Oh look, a shiny thing! ✨",
+                "Press ⌘S to encrypt and save this version to chain...",
+                "Each save spends the previous one, so your history is a chain of UTXOs...",
+                "Only your HandCash account can decrypt what you save...",
+                "You pay by the byte, close to the cost of writing to chain...",
+                "Fork a branch from any tip in the Work Tree (⌘⇧H)...",
                 "Start writing here..."
             ];
             
@@ -695,396 +668,5 @@
         })();
     </script>
 
-    <!-- Keyboard Shortcuts for Save to Blockchain -->
-    <script>
-        document.addEventListener('keydown', function(e) {
-            // ⌘S or Ctrl+S - Save to Blockchain
-            if ((e.metaKey || e.ctrlKey) && e.key === 's' && !e.shiftKey) {
-                e.preventDefault();
-                openBlockchainModal();
-                return false;
-            }
-            
-            // ⌘⇧B or Ctrl+Shift+B - Save to Blockchain (alternative)
-            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'B') {
-                e.preventDefault();
-                openBlockchainModal();
-                return false;
-            }
-        });
-
-        // Make sure blockchain integration initializes properly
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize blockchain integration after a delay to ensure all scripts are loaded
-            setTimeout(() => {
-                if (typeof BlockchainIntegration !== 'undefined') {
-                    // Create a mock app object for the blockchain integration
-                    window.app = window.app || {};
-                    window.blockchainIntegration = new BlockchainIntegration(window.app);
-                    console.log('✅ Blockchain integration initialized');
-                } else {
-                    console.log('⚠️ BlockchainIntegration class not found');
-                }
-            }, 1000);
-        });
-
-        // Test function to verify modal works
-        function testBlockchainModal() {
-            console.log('Testing blockchain modal...');
-            openBlockchainModal();
-        }
-        
-        // Make test function available globally
-        window.testBlockchainModal = testBlockchainModal;
-
-        // Handle access control selection
-        document.addEventListener('change', function(e) {
-            if (e.target.name === 'access') {
-                const accessDetails = document.getElementById('accessDetails');
-                const value = e.target.value;
-                
-                let detailText = '';
-                let isVisible = false;
-                
-                switch(value) {
-                    case 'public':
-                        // No details needed for public
-                        break;
-                    case 'handcash':
-                        detailText = 'Document will be cryptographically signed with your HandCash private key. Only you can prove authorship.';
-                        isVisible = true;
-                        break;
-                    case 'google':
-                        detailText = 'Readers must sign in with Google to access this document. You control the access list.';
-                        isVisible = true;
-                        break;
-                    case 'bitcoin-key':
-                        detailText = 'Document will be encrypted with your Bitcoin wallet\'s public key. Only your private key can decrypt it.';
-                        isVisible = true;
-                        break;
-                }
-                
-                if (isVisible) {
-                    accessDetails.textContent = detailText;
-                    accessDetails.classList.remove('hidden');
-                } else {
-                    accessDetails.classList.add('hidden');
-                }
-            }
-        });
-    </script>
-
-    <!-- Blockchain Save Modal -->
-    <div id="blockchainSaveModal" class="modal hidden">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h2>💾 Save to Chain</h2>
-                <button class="close-btn" onclick="closeBlockchainModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <p style="margin-bottom: 20px;">Hash your writing to the Bitcoin blockchain for permanent storage and proof of creation.</p>
-                
-                <!-- Protocol Selection -->
-                <div class="protocol-section" style="margin-bottom: 20px;">
-                    <h3>Storage Protocol</h3>
-                    <div class="protocol-options">
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="protocol" value="b" checked>
-                            B:// Protocol - Standard storage (recommended)
-                        </label>
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="protocol" value="d">
-                            D:// Protocol - Dynamic references
-                        </label>
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="protocol" value="bcat">
-                            Bcat Protocol - Large files
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Access Control -->
-                <div class="access-section" style="margin-bottom: 20px;">
-                    <h3>Access Control</h3>
-                    <div class="access-options">
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="access" value="public" checked>
-                            🌍 Public (anyone can read)
-                        </label>
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="access" value="handcash">
-                            👤 HandCash signed (your private key)
-                        </label>
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="access" value="google">
-                            🔐 Google authenticated (sign in required)
-                        </label>
-                        <label style="display: block; margin: 8px 0;">
-                            <input type="radio" name="access" value="bitcoin-key">
-                            🔑 Bitcoin key signed (your wallet)
-                        </label>
-                    </div>
-                    <div id="accessDetails" class="hidden" style="margin-top: 10px; padding: 10px; background: #2a2a2a; border-radius: 4px; font-size: 12px; color: #aaa;">
-                        <!-- Details will be shown based on selection -->
-                    </div>
-                </div>
-
-                <!-- Cost Estimate -->
-                <div class="cost-section" style="background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                    <h3 style="margin-top: 0;">Estimated Cost</h3>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>Document size: <span id="docSize">0 KB</span></span>
-                        <span>Words: <span id="docWords">0</span></span>
-                    </div>
-                    <div style="margin-top: 10px; font-size: 18px; font-weight: bold;">
-                        Total: <span id="estimatedCost" style="color: #00ff00;">~0.0010 BSV ($0.06)</span>
-                    </div>
-                </div>
-
-                <!-- Version Message -->
-                <div class="version-section" style="margin-bottom: 20px;">
-                    <h3>Version Message (Optional)</h3>
-                    <input type="text" id="versionMessage" placeholder="e.g., 'First draft', 'Final version', etc." style="width: 100%; padding: 8px;">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeBlockchainModal()">Cancel</button>
-                <button class="btn-primary" onclick="saveToBlockchain()">
-                    <span class="spinner hidden"></span>
-                    <span id="saveButtonText">Save to Blockchain</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Styles -->
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal:not(.hidden) {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1e1e1e;
-            border-radius: 12px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid #333;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #333;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            color: #f7931a;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #ccc;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-btn:hover {
-            color: #f7931a;
-        }
-
-        .modal-body {
-            padding: 20px;
-            color: #ccc;
-        }
-
-        .modal-body h3 {
-            color: #f7931a;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid #333;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-primary, .btn-secondary {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: #f7931a;
-            color: #1e1e1e;
-        }
-
-        .btn-primary:hover {
-            background: #e8840f;
-        }
-
-        .btn-secondary {
-            background: #333;
-            color: #ccc;
-        }
-
-        .btn-secondary:hover {
-            background: #444;
-        }
-
-        .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-
-        input[type="text"], input[type="password"] {
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: #ccc;
-            border-radius: 4px;
-        }
-
-        input[type="radio"] {
-            margin-right: 8px;
-        }
-
-        label {
-            color: #ccc;
-            cursor: pointer;
-        }
-
-        label:hover {
-            color: #f7931a;
-        }
-    </style>
-
-    <script>
-        // Modal Functions
-        function openBlockchainModal() {
-            const modal = document.getElementById('blockchainSaveModal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                updateModalCosts();
-            }
-        }
-
-        function closeBlockchainModal() {
-            const modal = document.getElementById('blockchainSaveModal');
-            if (modal) {
-                modal.classList.add('hidden');
-            }
-        }
-
-        function updateModalCosts() {
-            const editor = document.getElementById('editor');
-            if (!editor) return;
-            
-            const text = editor.textContent || editor.innerText || '';
-            const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-            const sizeKB = (new Blob([text]).size / 1024).toFixed(2);
-            
-            // Update modal display elements
-            document.getElementById('docSize').textContent = sizeKB + ' KB';
-            document.getElementById('docWords').textContent = wordCount;
-            
-            // Calculate cost: 1/10,000th penny per word = $0.000001 per word
-            const costPerWord = 0.000001;
-            const totalUSD = wordCount * costPerWord;
-            
-            // Mock BSV price for display (in real app, fetch from API)
-            const bsvPrice = 40.50;
-            const totalBSV = (totalUSD / bsvPrice).toFixed(6);
-            
-            document.getElementById('estimatedCost').textContent = `~${totalBSV} BSV ($${totalUSD.toFixed(6)})`;
-        }
-
-        function saveToBlockchain() {
-            const editor = document.getElementById('editor');
-            if (!editor) return;
-            
-            const content = editor.textContent || editor.innerText || '';
-            if (!content.trim()) {
-                alert('Please write something before saving to blockchain.');
-                return;
-            }
-            
-            // Get selected options
-            const protocol = document.querySelector('input[name="protocol"]:checked')?.value || 'b';
-            const access = document.querySelector('input[name="access"]:checked')?.value || 'public';
-            const versionMessage = document.getElementById('versionMessage')?.value || '';
-            
-            // Show loading state
-            const saveBtn = document.querySelector('#blockchainSaveModal .btn-primary');
-            const btnText = document.getElementById('saveButtonText');
-            const spinner = document.querySelector('#blockchainSaveModal .spinner');
-            
-            if (saveBtn && btnText && spinner) {
-                saveBtn.disabled = true;
-                btnText.textContent = 'Saving...';
-                spinner.classList.remove('hidden');
-            }
-            
-            // Simulate blockchain save (replace with actual blockchain integration)
-            setTimeout(() => {
-                alert(`Document saved to blockchain!\nProtocol: ${protocol.toUpperCase()}://\nAccess: ${access}\nVersion: ${versionMessage || 'Initial version'}`);
-                
-                // Reset button state
-                if (saveBtn && btnText && spinner) {
-                    saveBtn.disabled = false;
-                    btnText.textContent = 'Save to Blockchain';
-                    spinner.classList.add('hidden');
-                }
-                
-                closeBlockchainModal();
-            }, 2000);
-        }
-
-        // Make functions globally available
-        window.openBlockchainModal = openBlockchainModal;
-        window.closeBlockchainModal = closeBlockchainModal;
-        window.saveToBlockchain = saveToBlockchain;
-        window.updateModalCosts = updateModalCosts;
-    </script>
 </body>
 </html>

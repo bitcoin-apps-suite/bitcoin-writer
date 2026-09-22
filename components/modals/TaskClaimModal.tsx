@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { GitHubAuthService, GitHubUser } from '../services/GitHubAuthService';
-import { TaskContractService } from '../services/TaskContractService';
+import { GitHubAuthService, GitHubUser } from '../../services/GitHubAuthService';
+import { TaskContractService } from '../../services/TaskContractService';
 import { HandCashService } from '../services/HandCashService';
 import './TaskClaimModal.css';
 

@@ -32,7 +32,7 @@ import { Transaction, Script, PrivateKey, PublicKey, P2PKH } from '@bsv/sdk';
 import CryptoJS from 'crypto-js';
 import { EncryptionService } from '../utils/encryptionUtils';
 import { NoteSVEncryption } from './NoteSVEncryption';
-import { UnlockConditions, BlockchainSaveOptions } from '../components/SaveToBlockchainModal';
+import { UnlockConditions, BlockchainSaveOptions } from '../components/modals/SaveToBlockchainModal';
 import { HandCashService } from './HandCashService';
 
 export interface AutoSaveBudget {

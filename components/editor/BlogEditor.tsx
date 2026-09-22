@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HandCashService } from '../services/HandCashService';
-import GigQueueView from './GigQueueView';
-import { BlockchainDocumentService } from '../services/BlockchainDocumentService';
+import GigQueueView from '../GigQueueView';
+import { BlockchainDocumentService } from '../../services/BlockchainDocumentService';
 
 interface BlogEditorProps {
   onClose?: () => void;

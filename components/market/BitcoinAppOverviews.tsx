@@ -1,6 +1,6 @@
 import React from 'react';
-import AppOverviewTemplate from './AppOverviewTemplate';
-import { BitcoinAppEvents } from '../utils/appEvents';
+import AppOverviewTemplate from '../AppOverviewTemplate';
+import { BitcoinAppEvents } from '../../utils/appEvents';
 
 interface AppOverviewsProps {
   activeApp: string | null;

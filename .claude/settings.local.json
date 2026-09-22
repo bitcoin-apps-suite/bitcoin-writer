@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install)",
+      "Bash(pnpm list:*)",
+      "Bash(xargs ls:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(git stash push:*)",
+      "Bash(git stash:*)",
+      "Bash(git restore:*)",
+      "Bash(ls:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:core:*)",
+      "Bash(npx tsc:*)",
+      "Bash(for service in BProtocolService DProtocolService BcatProtocolService BicoMediaService UHRPService NoteSVEncryption PriceService)",
+      "Bash(do [ -f \"$service.ts\" ])",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(for service in AIService SignatureEncryption SmartStorageService DocumentInscriptionService)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nPhase 4: Migrate feature services to core and remove duplicates\n\n- Remove 6 duplicate services \\(~1,100 lines\\): BProtocolService, DProtocolService, BcatProtocolService, BicoMediaService, UHRPService, NoteSVEncryption\n- Migrate SignatureEncryption to @bitcoin-writer/core\n- Migrate AIService to @bitcoin-writer/core with StorageAdapter pattern\n- Update 5 components to import SignatureEncryption from core\n- Update AIService imports in 4 components\n- Consolidate BlockchainDocumentService to remove dependency on duplicate services\n- Update BSVStorageService to use core imports\n- Review SmartStorageService - keep as prototype/demo \\(mock implementations\\)\n\nTotal impact: ~1,100 lines removed/migrated to core, all builds passing\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(ssh -i ~/.ssh/hetzner_key root@135.181.103.181 \"psql -U postgres -h localhost -p 54322 -l | grep -E ''bitcoin|Name'' | head -20\")",
+      "Bash(paste:*)",
+      "Bash(ssh:*)",
+      "Bash(./deploy-studios.sh)",
+      "Bash(curl:*)",
+      "Bash(timeout 10 pnpm dev:*)",
+      "Bash(__NEW_LINE__ ls -la /Users/b0ase/Projects/Bitcoin-OS/apps/bitcoin-exchange/)",
+      "Bash(__NEW_LINE__ echo -e \"\\\\n✓ Testing bitcoin-exchange \\(just did this\\)...\")",
+      "Bash(__NEW_LINE__ echo -e \"\\\\n✓ Testing bitcoin-writer-website...\")",
+      "Bash(__NEW_LINE__ echo -e \"\\\\n✓ Testing bitcoin-writer...\")",
+      "Bash(__NEW_LINE__ echo -e \"\\\\n✓ Testing bitcoin-writer-core...\")",
+      "Bash(npm install:*)",
+      "Bash(node --version:*)",
+      "Bash(pnpm dev:*)"
+    ]
+  }
+}

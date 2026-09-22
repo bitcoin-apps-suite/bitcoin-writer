@@ -12,6 +12,7 @@
  */
 
 import { PrivateKey, Transaction, P2PKH } from '@bsv/sdk';
+import { fetchUTXOs, broadcastTransaction, type WocUTXO as UTXO } from './bsv/woc';
 
 interface TransferOutput {
   address: string;
@@ -25,12 +26,6 @@ interface TransferResult {
   timestamp: Date;
 }
 
-interface UTXO {
-  txid: string;
-  vout: number;
-  satoshis: bigint;
-  script: string;
-}
 
 /**
  * Configuration for BSV transfers
@@ -87,69 +82,6 @@ function calculateFee(txSize: number): bigint {
  */
 function isValidBsvAddress(address: string): boolean {
   return /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(address);
-}
-
-/**
- * Fetch UTXOs for an address from WhatsOnChain
- */
-async function fetchUTXOs(address: string): Promise<UTXO[]> {
-  const apiKey = process.env.WHATSONCHAIN_API_KEY;
-  const headers: Record<string, string> = {
-    'Accept': 'application/json',
-  };
-  if (apiKey) {
-    headers['woc-api-key'] = apiKey;
-  }
-
-  const response = await fetch(
-    `${BSV_CONFIG.WOC_API_BASE}/address/${address}/unspent`,
-    { headers }
-  );
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch UTXOs: ${response.status} ${response.statusText}`);
-  }
-
-  const utxos = await response.json();
-
-  return utxos.map((u: any) => ({
-    txid: u.tx_hash,
-    vout: u.tx_pos,
-    satoshis: BigInt(u.value),
-    script: '', // Will be fetched when needed
-  }));
-}
-
-/**
- * Broadcast a raw transaction to the BSV network
- */
-async function broadcastTransaction(rawTxHex: string): Promise<string> {
-  const apiKey = process.env.WHATSONCHAIN_API_KEY;
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
-  if (apiKey) {
-    headers['woc-api-key'] = apiKey;
-  }
-
-  const response = await fetch(
-    `${BSV_CONFIG.WOC_API_BASE}/tx/raw`,
-    {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ txhex: rawTxHex }),
-    }
-  );
-
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`Broadcast failed: ${response.status} - ${errorBody}`);
-  }
-
-  // WoC returns the txid as a plain string
-  const txid = await response.text();
-  return txid.replace(/"/g, '').trim();
 }
 
 /**

@@ -34,6 +34,23 @@ app/
 │   └── auth/            # OAuth callbacks (github, twitter) — Pages Router
 ```
 
+## Site, App & Chain Saves (2026-09)
+
+- `/` — marketing site (`app/page.tsx`, `app/landing.module.css`). No subscription; pay per save.
+- `/app` — gated by the HandCash session cookie (`bw_session`, `lib/writer/session.ts`). `components/writer/AppShell.tsx`
+  embeds `public/editor-standalone.html` and renders the existing `WorkTreeCanvas` as the Work Tree drawer (postMessage bridge).
+- Auth: `/api/auth/handcash/login` → HandCash → `/api/auth/handcash/callback?authToken=` (landing page also forwards `?authToken=`).
+- **Saves implement `UTXO-CHAIN-SPEC.md`** (`lib/writer/chainproof.ts`, `lib/writer/chain.ts`):
+  - Each save spends the previous save's 546-sat chain UTXO (vout 0); forks are 1-in-2-out (vouts 0/1); B:// ciphertext + MAP CHAINPROOF.
+  - Keys (`lib/writer/keys.ts`): chain key, per-save funding key and AES content key are BRC-42 children of the user's
+    HandCash encryption keypair (`getEncryptionKeypair`, DECRYPTION permission) + the document's public `key_id`.
+  - "User pays directly": one HandCash `wallet.pay` sends the exact funding amount to a user-derived funding address plus the
+    service fee (2x miner-fee model) to `PUBLISH_HANDCASH_DESTINATION`; the server then signs and broadcasts (`lib/bsv/woc.ts`).
+  - Spec deviations (encrypted docs): content_hash/prev_hash hash the ciphertext; extra MAP fields key_id, iv, message; genesis has no `genesis` field.
+- Index: `bwriter_commits` (`supabase/migrations/001_bwriter_commits.sql`, not yet applied) + editor localStorage mirror.
+  `/api/writer/verify/[txid]` walks input-0 spends back to genesis.
+- Desktop: `desktop/` Electron app loading `${BW_APP_URL}/app`. `cd desktop && pnpm install && pnpm dev` / `pnpm dist:mac`.
+
 ## Services Layer
 
 | Service | File | Purpose |

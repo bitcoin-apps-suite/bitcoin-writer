@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getArticleUrl } from '../utils/slugUtils';
-import { getAuthorSlugFromName } from '../utils/authorUtils';
-import WeatherWidget from '../components/WeatherWidget';
-import StockTickerCard from '../components/StockTickerCard';
-import AdCard from '../components/AdCard';
+import { getArticleUrl } from '../../utils/slugUtils';
+import { getAuthorSlugFromName } from '../../utils/authorUtils';
+import WeatherWidget from '../../components/WeatherWidget';
+import StockTickerCard from '../../components/StockTickerCard';
+import AdCard from '../../components/AdCard';
 import './MarketBodyPage.css';
 
 interface FeaturedContent {

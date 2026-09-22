@@ -94,3 +94,4 @@ IMPLEMENTATION-*.md
 ROADMAP*.md
 BUSINESS*.md
 REVENUE*.md
+.env*.local
