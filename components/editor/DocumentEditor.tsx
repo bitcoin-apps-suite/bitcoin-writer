@@ -22,7 +22,6 @@ import DocumentVersioningModal from '../modals/DocumentVersioningModal';
 import { StorageOption } from '../../utils/pricingCalculator';
 import BSVStorageService from '../../services/BSVStorageService';
 import { HandCashItemsService } from '../../services/HandCashItemsService';
-import { HandCashService } from '../../services/HandCashService';
 import { LocalDocumentStorage, LocalDocument } from '../../utils/documentStorage';
 import CryptoJS from 'crypto-js';
 // Use direct Quill implementation to avoid React 19 compatibility issues
@@ -30,7 +29,8 @@ import dynamic from 'next/dynamic';
 const QuillEditor = dynamic(() => import('./QuillEditorDirect'), { ssr: false });
 import './QuillEditor.css';
 import AIChatWindow from '../AIChatWindow';
-import { AIService, LocalStorageAdapter } from '../../services/AIService';
+import { AIService } from '../../services/AIService';
+import { HandCashService } from '../../services/HandCashService';
 import DocumentEditorToolbar from './DocumentEditorToolbar';
 import ImportSourcesModal from '../modals/ImportSourcesModal';
 import { ModernEditorCommands } from '../../utils/modernEditorCommands';
@@ -71,7 +71,7 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [editorContent, setEditorContent] = useState('');
   const [internalShowAIChat, setInternalShowAIChat] = useState(false);
   const [selectedAIProvider, setSelectedAIProvider] = useState('gemini');
-  const [aiService] = useState(() => new AIService(new LocalStorageAdapter()));
+  const [aiService] = useState(() => new AIService(new HandCashService()));
   
   // Use prop if provided, otherwise use internal state
   const showAIChat = onToggleAIChat ? propShowAIChat : internalShowAIChat;
@@ -558,7 +558,16 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
 
     } catch (error) {
       console.error('Error saving to blockchain:', error);
-          setErrorMessage('Failed to save to blockchain. Please try again.');
+      /*
+       * ⚠ A CALL TO `setErrorMessage` STOOD HERE AND NOTHING DEFINED IT — not in this
+       * component, not imported, nowhere in the repository. It sat inside a catch block, so
+       * the first time a blockchain save failed it threw ReferenceError ON TOP of the
+       * original failure, replacing "could not save" with "setErrorMessage is not defined"
+       * and skipping the two lines below that actually tell the user.
+       *
+       * Deleted rather than replaced: the status line and the alert immediately following
+       * already report this, twice.
+       */
       setAutoSaveStatus('❌ Failed to save');
       alert('Failed to save to blockchain. Please try again.');
     } finally {

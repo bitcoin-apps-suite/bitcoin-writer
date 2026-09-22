@@ -23,9 +23,19 @@ interface MenuData {
 }
 
 interface TaskbarProps {
-  isAuthenticated: boolean;
-  currentUser: any;
-  onLogout: () => void;
+  /*
+   * ⚠ THESE THREE WERE REQUIRED AND THE ONE CALL SITE PASSED NONE OF THEM.
+   *
+   * `app/layout.tsx` renders `<CleanTaskbar tickerCollapsed isWritePage />` and nothing
+   * else — so `isAuthenticated` was `undefined` (falsy, i.e. "signed out") and `onLogout`
+   * was `undefined`, which would throw if anything ever called it. Marking them optional
+   * describes what the component actually has to cope with today; the alternative is
+   * inventing auth wiring in the layout that nobody asked for, on a guess about where the
+   * session should come from.
+   */
+  isAuthenticated?: boolean;
+  currentUser?: any;
+  onLogout?: () => void;
   onNewDocument?: () => void;
   onSaveDocument?: () => void;
   onOpenTokenizeModal?: () => void;
@@ -1338,11 +1348,15 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
           <UnifiedAuth
             googleUser={googleUser}
             setGoogleUser={setGoogleUser || (() => {})}
-            isHandCashAuthenticated={isAuthenticated}
+            /* ⚠ UnifiedAuth REQUIRES both of these; the taskbar's own copies are optional
+               because `app/layout.tsx` passes neither. Defaulting here keeps the child's
+               contract honest — signed out, and a logout that does nothing — rather than
+               handing it `undefined` and letting it decide. */
+            isHandCashAuthenticated={isAuthenticated ?? false}
             currentHandCashUser={currentUser}
             handcashService={handcashService}
             onHandCashLogin={() => handcashService?.login()}
-            onHandCashLogout={onLogout}
+            onHandCashLogout={onLogout ?? (() => {})}
           />
         </div>
       </div>

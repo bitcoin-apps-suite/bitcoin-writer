@@ -38,7 +38,7 @@ interface StakingError {
  * - Loading states
  */
 export function useBwriterStaking() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, accessToken, isAuthenticated } = useAuth();
   const [status, setStatus] = useState<StakingStatus | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<StakingError | null>(null);
@@ -53,7 +53,7 @@ export function useBwriterStaking() {
 
       const response = await fetch('/api/bwriter/dashboard', {
         headers: {
-          'Authorization': `Bearer ${await user.getIdToken?.()}`,
+          'Authorization': `Bearer ${accessToken ?? ''}`,
         },
       });
 
@@ -70,7 +70,7 @@ export function useBwriterStaking() {
     } finally {
       setIsLoading(false);
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, accessToken]);
 
   // Request to create stake
   const requestStake = useCallback(
@@ -88,7 +88,7 @@ export function useBwriterStaking() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${await user.getIdToken?.()}`,
+            'Authorization': `Bearer ${accessToken ?? ''}`,
           },
           body: JSON.stringify({ amount }),
         });
@@ -131,7 +131,7 @@ export function useBwriterStaking() {
         const response = await fetch(`/api/bwriter/unstake/${stakeId}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${await user.getIdToken?.()}`,
+            'Authorization': `Bearer ${accessToken ?? ''}`,
           },
         });
 
@@ -172,7 +172,7 @@ export function useBwriterStaking() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${await user.getIdToken?.()}`,
+            'Authorization': `Bearer ${accessToken ?? ''}`,
           },
           body: JSON.stringify({ bsvAddress }),
         });

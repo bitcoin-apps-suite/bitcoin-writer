@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     const pdfBuffer = fs.readFileSync(pdfPath);
     
     // Return the PDF with proper headers
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(new Uint8Array(pdfBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename="bitcoin-writer-term-sheet.pdf"',

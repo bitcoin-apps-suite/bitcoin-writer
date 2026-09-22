@@ -28,10 +28,23 @@ async function deployBWRITERToken() {
     const bsvStorage = new BSVStorageService();
     const handCash = new HandCashService();
     const inscription = new DocumentInscriptionService({
+      /*
+       * ⚠ `enableBatching: true` STOOD HERE AND `InscriptionConfig` HAS NO SUCH FIELD, so
+       * nothing was ever batched — the option was simply ignored. The remaining four
+       * fields are required and were all missing; these match the defaults
+       * `IntegratedWorkTreeService` already uses, which is the only other place in the
+       * codebase that constructs this service.
+       */
       network: 'mainnet',
       feeRate: 1,
-      enableBatching: true
-    });
+      compressionEnabled: true,
+      metadataInContent: true,
+      autoCreateShares: false,
+      defaultShareCount: 1000,
+    }, handCash);  // ⚠ DocumentInscriptionService needs the HandCash service too — it
+    // constructs a MicroOrdinalsService from it, so without this the script could
+    // never have inscribed anything.
+
 
     // Initialize token service
     const tokenService = new BWRITERTokenService(

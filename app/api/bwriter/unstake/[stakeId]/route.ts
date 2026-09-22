@@ -41,9 +41,16 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { stakeId: string } }
+  /*
+   * ⚠ A PROMISE SINCE NEXT 15, and this was the last route still declaring it as a plain
+   * object. Next's own generated validator checks every route handler against its expected
+   * shape, which is why this surfaced twice — once from `.next/types` and once from
+   * `.next/dev/types` — as an error about the route module rather than about this line.
+   */
+  { params }: { params: Promise<{ stakeId: string }> }
 ) {
   try {
+    const { stakeId } = await params;
     // 1. Authentication
     const authContext = await getAuthenticatedUser();
     if (!authContext) {
@@ -54,14 +61,14 @@ export async function DELETE(
     const supabase = await createClient();
 
     console.log(
-      `[bwriter/unstake] User ${unifiedUser.id} requesting to unstake ${params.stakeId}`
+      `[bwriter/unstake] User ${unifiedUser.id} requesting to unstake ${stakeId}`
     );
 
     // 2. Get the stake record
     const { data: stake, error: stakeError } = await supabase
       .from('user_bwriter_stakes')
       .select('*')
-      .eq('id', params.stakeId)
+      .eq('id', stakeId)
       .eq('user_id', unifiedUser.id)
       .single();
 
@@ -102,7 +109,7 @@ export async function DELETE(
         status: 'unstaked',
         unstaked_at,
       })
-      .eq('id', params.stakeId);
+      .eq('id', stakeId);
 
     if (updateStakeError) {
       console.error('[bwriter/unstake] Error updating stake status:', updateStakeError);
@@ -118,7 +125,7 @@ export async function DELETE(
       .update({
         status: 'removed',
       })
-      .eq('stake_id', params.stakeId);
+      .eq('stake_id', stakeId);
 
     if (capTableError) {
       console.error('[bwriter/unstake] Error removing from cap table:', capTableError);
@@ -168,7 +175,7 @@ export async function DELETE(
     // 9. Return response
     return NextResponse.json({
       success: true,
-      stakeId: params.stakeId,
+      stakeId: stakeId,
       status: 'unstaked',
       amountUnstaked: stake.amount,
       unstaked_at,
@@ -203,9 +210,11 @@ export async function DELETE(
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { stakeId: string } }
+  // A promise since Next 15, same as DELETE above.
+  { params }: { params: Promise<{ stakeId: string }> }
 ) {
   try {
+    const { stakeId } = await params;
     const authContext = await getAuthenticatedUser();
     if (!authContext) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -217,7 +226,7 @@ export async function GET(
     const { data: stake, error: stakeError } = await supabase
       .from('user_bwriter_stakes')
       .select('*')
-      .eq('id', params.stakeId)
+      .eq('id', stakeId)
       .eq('user_id', unifiedUser.id)
       .single();
 
@@ -232,7 +241,7 @@ export async function GET(
 
     return NextResponse.json({
       canUnstake,
-      stakeId: params.stakeId,
+      stakeId: stakeId,
       status: stake.status,
       amountStaked: stake.amount,
       dividendsAccumulated: stake.dividends_accumulated || 0,

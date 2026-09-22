@@ -86,6 +86,29 @@ export class BWRITERTokenService {
   }
 
   /**
+   * Persist a $BWRITER record on chain and return its transaction id.
+   *
+   * ⚠ ALWAYS PLAINTEXT, ALWAYS IMMEDIATELY READABLE, NEVER FOR SALE. These are ownership
+   * records — a deployment, an allocation, a cap table. Their whole value is that anyone
+   * can read them and check them, so encryption, timelocks and paywalls are all wrong here
+   * by definition, and stating that once means no call site can quietly differ.
+   */
+  private async storeRecord(record: unknown, title: string): Promise<string> {
+    const result = await this.bsvStorage.storeDocumentWithOptions(
+      JSON.stringify(record),
+      {
+        storageMethod: 'direct',
+        encryption: false,
+        unlockConditions: { method: 'immediate' },
+        monetization: { enableAsset: false },
+        metadata: { title, category: 'bwriter-record' },
+      },
+      'bitcoin-writer',
+    );
+    return result.transactionId;
+  }
+
+  /**
    * Deploy the official BWRITER token to BSV blockchain
    */
   async deployBWRITERToken(): Promise<BWRITERToken> {
@@ -130,10 +153,7 @@ export class BWRITERTokenService {
     
     try {
       // Deploy token contract to blockchain
-      const txId = await this.bsvStorage.store(
-        JSON.stringify(deploymentData),
-        'application/json'
-      );
+      const txId = await this.storeRecord(deploymentData, '$BWRITER token deployment');
 
       token.deploymentTxId = txId;
       
@@ -187,10 +207,7 @@ export class BWRITERTokenService {
         }
       };
 
-      const txId = await this.bsvStorage.store(
-        JSON.stringify(allocationData),
-        'application/json'
-      );
+      const txId = await this.storeRecord(allocationData, '$BWRITER allocation');
 
       allocation.txId = txId;
 
@@ -269,10 +286,7 @@ export class BWRITERTokenService {
       entries: capTable
     };
 
-    const txId = await this.bsvStorage.store(
-      JSON.stringify(capTableData),
-      'application/json'
-    );
+    const txId = await this.storeRecord(capTableData, '$BWRITER cap table');
 
     console.log(`📊 Cap table created and stored on blockchain`);
     console.log(`📄 Cap Table TX ID: ${txId}`);
@@ -317,10 +331,7 @@ export class BWRITERTokenService {
         }
       };
 
-      const txId = await this.bsvStorage.store(
-        JSON.stringify(bountyData),
-        'application/json'
-      );
+      const txId = await this.storeRecord(bountyData, '$BWRITER bounty allocation');
 
       allocation.txId = txId;
       this.recordAllocation(allocation);
@@ -392,10 +403,7 @@ export class BWRITERTokenService {
       created_at: new Date().toISOString()
     };
 
-    await this.bsvStorage.store(
-      JSON.stringify(registry),
-      'application/json'
-    );
+    await this.storeRecord(registry, '$BWRITER holder registry');
   }
 
   /**

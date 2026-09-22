@@ -63,10 +63,21 @@ export class MetanetIntegration {
       });
       
       console.log('Document saved to blockchain:', result);
-      return { success: true, txid: result.txid, rawTx: result.rawTx };
+      /*
+       * ⚠ AN ACTION WITHOUT A TXID IS NOT A SUCCESS. The SDK resolves an untyped record;
+       * reading `txid` off it and reporting `success: true` regardless would tell the
+       * caller a document was stored on chain when nothing identifies where. Callers show
+       * that txid to the user and pass it to `onDocumentSaved`.
+       */
+      const txid = typeof result.txid === 'string' ? result.txid : null;
+      const rawTx = typeof result.rawTx === 'string' ? result.rawTx : null;
+      if (!txid) {
+        return { success: false as const, error: new Error('The wallet returned no transaction id.') };
+      }
+      return { success: true as const, txid, rawTx };
     } catch (error) {
       console.error('Failed to save to blockchain:', error);
-      return { success: false, error };
+      return { success: false as const, error };
     }
   }
   

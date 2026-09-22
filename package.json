@@ -56,7 +56,6 @@
     "stripe": "^19.1.0",
     "tokens-topic-manager": "^1.1.5",
     "twitter-api-v2": "^1.27.0",
-    "typescript": "^4.9.0",
     "uuid": "^13.0.0"
   },
   "scripts": {
@@ -101,6 +100,7 @@
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
     "vm-browserify": "^1.1.2"
   },
   "packageManager": "pnpm@10.28.0"

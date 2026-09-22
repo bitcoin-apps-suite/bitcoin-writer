@@ -14,9 +14,9 @@ export class HandCashItemsService {
 
   static async getNftDocuments(authorType: string): Promise<{ success: boolean; documents: NFTItem[] }> {
     try {
-      const items = await this.getService().getUserItems();
+      const { items } = await this.getService().getUserNFTs();
       const filtered = items.filter(
-        (item) => item.customParameters?.documentTitle
+        (item: NFTItem) => item.customParameters?.documentTitle
       );
       return { success: true, documents: filtered };
     } catch (error) {
@@ -27,8 +27,11 @@ export class HandCashItemsService {
 
   static async listItemForSale(itemId: string, price: number, quantity: number) {
     try {
-      const result = await this.getService().listItemForSale(itemId, 'default', price, 'USD', quantity);
-      return { success: result.success, message: result.success ? 'Item listed for sale' : 'Failed to list' };
+      // Resolves an NFTListing (or throws). There is no `success` field to read — the
+      // previous code read one off it, got undefined, and reported failure on every
+      // successful listing.
+      await this.getService().listNFTForSale(itemId, 'default', price, 'USD', quantity);
+      return { success: true, message: 'Item listed for sale' };
     } catch (error) {
       console.error('Failed to list item:', error);
       return { success: false, message: 'Failed to list item for sale' };
@@ -41,8 +44,9 @@ export class HandCashItemsService {
 
   static async transferItem(itemId: string, toHandle: string) {
     try {
-      const result = await this.getService().transferItem(itemId, 'default', toHandle);
-      return { success: result.success, message: result.success ? 'Item transferred' : 'Transfer failed' };
+      // Resolves a plain boolean, not a { success } envelope.
+      const ok = await this.getService().transferNFT(itemId, 'default', toHandle);
+      return { success: ok, message: ok ? 'Item transferred' : 'Transfer failed' };
     } catch (error) {
       console.error('Failed to transfer item:', error);
       return { success: false, message: 'Failed to transfer item' };

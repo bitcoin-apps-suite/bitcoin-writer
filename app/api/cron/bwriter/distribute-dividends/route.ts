@@ -27,6 +27,7 @@
  * Currently stub - assumes revenue is recorded in bwriter_revenue_accumulated
  */
 
+import type { BwriterStakeRow } from '@/types/bwriter-db';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import axios from 'axios';
@@ -113,7 +114,7 @@ async function calculateOwnershipPercentages(
   }
 
   // Calculate total staked
-  const totalStaked = activeStakes.reduce((sum, stake) => sum + stake.amount, 0);
+  const totalStaked = activeStakes.reduce((sum: number, stake: BwriterStakeRow) => sum + stake.amount, 0);
 
   if (totalStaked === 0) {
     console.log('[bwriter/distribute] Total staked is 0 - no dividends to distribute');
@@ -121,7 +122,7 @@ async function calculateOwnershipPercentages(
   }
 
   // Calculate percentage for each
-  const percentages = activeStakes.map((stake) => ({
+  const percentages = activeStakes.map((stake: BwriterStakeRow) => ({
     stakeId: stake.id,
     userId: stake.user_id,
     percentageOfTotal: stake.amount / totalStaked,
@@ -243,7 +244,7 @@ async function updateDividendRecords(
       .select('dividends_accumulated')
       .eq('id', entry.stakeId)
       .single()
-      .then(async ({ data: stake }) => {
+      .then(async ({ data: stake }: { data: Pick<BwriterStakeRow, 'dividends_accumulated'> | null }) => {
         if (!stake) throw new Error('Stake not found');
 
         return supabase

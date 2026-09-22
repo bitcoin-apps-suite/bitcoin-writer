@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
       );
 
       // Look for matching UTXO
-      const matching = deposits.find((d) =>
+      const matching = deposits.find((d: { value: number }) =>
         d.value >= pending.amount_expected - 1000 && // Allow 1000 sat variance
         d.value <= pending.amount_expected + 1000
       );

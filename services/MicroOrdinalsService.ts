@@ -35,12 +35,16 @@ export interface InscriptionProgress {
 
 export class MicroOrdinalsService {
   private handcashService: HandCashService;
-  private network: btc.NetworkType;
+  // `BTC_NETWORK` is not re-exported from the package root, so the type is taken from
+  // the constant that already has it.
+  private network: typeof btc.NETWORK;
   private customScripts: any[];
 
   constructor(handcashService: HandCashService, network: 'mainnet' | 'testnet' = 'mainnet') {
     this.handcashService = handcashService;
-    this.network = network === 'mainnet' ? btc.NETWORK : btc.utils.TEST_NETWORK;
+    // ⚠ TEST_NETWORK is a TOP-LEVEL export in @scure/btc-signer 2.x. Read off `utils` it
+    // was `undefined`, so every testnet inscription was built against no network at all.
+    this.network = network === 'mainnet' ? btc.NETWORK : btc.TEST_NETWORK;
     this.customScripts = [ordinals.OutOrdinalReveal];
   }
 
@@ -93,7 +97,13 @@ export class MicroOrdinalsService {
 
       // Create reveal payment script
       const revealPayment = btc.p2tr(
-        undefined, // internalPubKey
+        /*
+         * ⚠ NOT `undefined`. `p2tr`'s first parameter is `Bytes | string` and has never been
+         * optional, so this matched no overload. TAPROOT_UNSPENDABLE_KEY is what the library
+         * exports for a script-path-only output: a point with no known discrete log, so the
+         * key path provably cannot be spent and only the reveal script can.
+         */
+        btc.TAPROOT_UNSPENDABLE_KEY,
         ordinals.p2tr_ord_reveal(publicKey, [inscription]),
         this.network,
         false, // allowUnknownOutputs
@@ -129,7 +139,7 @@ export class MicroOrdinalsService {
         stage: 'preparing',
         progress: 0,
         message: 'Inscription failed',
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       });
       throw error;
     }
@@ -141,7 +151,8 @@ export class MicroOrdinalsService {
   async parseInscriptions(txHex: string): Promise<ordinals.Inscription[]> {
     try {
       const tx = btc.Transaction.fromRaw(hex.decode(txHex));
-      const inscriptions = ordinals.parseWitness(tx.inputs[0]?.finalScriptWitness || []);
+      // `inputs` is private; `getInput` is the accessor.
+      const inscriptions = ordinals.parseWitness(tx.getInput(0)?.finalScriptWitness || []);
       return inscriptions || [];
     } catch (error) {
       console.error('Failed to parse inscriptions:', error);

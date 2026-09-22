@@ -44,8 +44,20 @@ export const useIntegratedWorkTree = (documentId: string, blockchainService: Blo
             uhrp: { cost: 0, supported: false },
             recommended: 'B' as const
           })
-        } as BlockchainDocumentService;
-        
+          /*
+           * ⚠ A DELIBERATE STUB, AND THE DOUBLE CAST SAYS SO OUT LOUD.
+           *
+           * `BlockchainDocumentService` is a class with roughly fifty members; this object
+           * implements the five the work tree actually calls and throws from the two that
+           * do real work. That is the intent — a null object for when no blockchain service
+           * was supplied — but a single `as` claimed the two types overlapped, which
+           * TypeScript rightly refused (TS2352).
+           *
+           * Going through `unknown` is the honest spelling: it states that this is an
+           * assertion the compiler cannot check, rather than a resemblance it can.
+           */
+        } as unknown as BlockchainDocumentService;
+
         serviceRef.current = new IntegratedWorkTreeService(mockBlockchainService);
       } else {
         serviceRef.current = new IntegratedWorkTreeService(blockchainService);

@@ -18,6 +18,9 @@
  * - Cap table rank (how much of platform they own)
  */
 
+import type {
+    BwriterStakeRow, BwriterCapTableRow, BwriterDepositRow,
+} from '@/types/bwriter-db';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedUser } from '@/lib/investors/auth';
 import { createClient } from '@/lib/supabase/server';
@@ -92,16 +95,20 @@ export async function GET(request: NextRequest) {
       .eq('status', 'waiting');
 
     // Aggregate confirmed stakes
-    const confirmedStakes = allStakes?.filter((s) => s.status === 'confirmed') || [];
-    const totalStaked = confirmedStakes.reduce((sum, s) => sum + s.amount, 0);
+    const confirmedStakes: BwriterStakeRow[] =
+      allStakes?.filter((s: BwriterStakeRow) => s.status === 'confirmed') || [];
+    const totalStaked = confirmedStakes.reduce((sum: number, s: BwriterStakeRow) => sum + s.amount, 0);
     const totalDividendsAccumulated = confirmedStakes.reduce(
-      (sum, s) => sum + (s.dividends_accumulated || 0),
+      (sum: number, s: BwriterStakeRow) => sum + (s.dividends_accumulated || 0),
       0
     );
 
     // Calculate aggregate ownership
     const totalOwnershipPercentage =
-      capTableEntries?.reduce((sum, entry) => sum + (entry.percentage_of_total || 0), 0) || 0;
+      capTableEntries?.reduce(
+        (sum: number, entry: BwriterCapTableRow) => sum + (entry.percentage_of_total || 0),
+        0,
+      ) || 0;
 
     // Determine next steps
     const nextSteps: string[] = [];
@@ -133,21 +140,23 @@ export async function GET(request: NextRequest) {
 
       // Staking Status
       stakes: {
-        confirmed: confirmedStakes.map((s) => ({
+        confirmed: confirmedStakes.map((s: BwriterStakeRow) => ({
           id: s.id,
           amount: s.amount,
           stakedAt: s.staked_at,
           dividendsAccumulated: s.dividends_accumulated || 0,
           status: 'confirmed',
         })),
-        pending: (allStakes?.filter((s) => s.status === 'pending_deposit') || []).map((s) => ({
+        pending: (allStakes?.filter((s: BwriterStakeRow) => s.status === 'pending_deposit') || [])
+          .map((s: BwriterStakeRow) => ({
           id: s.id,
           amount: s.amount,
           status: 'pending_deposit',
           depositDeadline: s.deposit_deadline,
           createdAt: s.created_at,
         })),
-        unstaked: (allStakes?.filter((s) => s.status === 'unstaked') || []).map((s) => ({
+        unstaked: (allStakes?.filter((s: BwriterStakeRow) => s.status === 'unstaked') || [])
+          .map((s: BwriterStakeRow) => ({
           id: s.id,
           amount: s.amount,
           unstakedAt: s.unstaked_at,
@@ -182,13 +191,13 @@ export async function GET(request: NextRequest) {
       },
 
       // Pending Actions
-      pendingDeposits: pendingDeposits?.map((d) => ({
+      pendingDeposits: pendingDeposits?.map((d: BwriterDepositRow) => ({
         id: d.id,
         stakeId: d.stake_id,
         amount: d.amount_expected,
         status: d.status,
         createdAt: d.created_at,
-        depositDeadline: allStakes?.find((s) => s.id === d.stake_id)?.deposit_deadline,
+        depositDeadline: allStakes?.find((s: BwriterStakeRow) => s.id === d.stake_id)?.deposit_deadline,
       })) || [],
 
       // Next Steps for UI

@@ -40,21 +40,22 @@ export async function GET() {
 
     // Calculate totals
     const totalStaked = stakesResult.data?.reduce(
-      (sum, s) => sum + (s.amount || 0),
+      (sum: number, s: { amount: number | null }) => sum + (s.amount || 0),
       0
     ) ?? 0;
 
     const uniqueUsers = new Set(
-      usersResult.data?.map((s) => s.user_id) ?? []
+      usersResult.data?.map((s: { user_id: string }) => s.user_id) ?? []
     ).size;
 
     const totalDistributed = dividendsResult.data?.reduce(
-      (sum, d) => sum + (d.total_distributed_satoshis || 0),
+      (sum: number, d: { total_distributed_satoshis: number | null }) =>
+        sum + (d.total_distributed_satoshis || 0),
       0
     ) ?? 0;
 
     const platformRevenue = revenueResult.data?.reduce(
-      (sum, r) => sum + (r.amount_satoshis || 0),
+      (sum: number, r: { amount_satoshis: number | null }) => sum + (r.amount_satoshis || 0),
       0
     ) ?? 0;
 

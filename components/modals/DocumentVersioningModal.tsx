@@ -94,7 +94,9 @@ const DocumentVersioningModal: React.FC<DocumentVersioningModalProps> = ({
       alert(`✅ Checked out version ${version.metadata.version} - content restored`);
     } catch (error) {
       console.error('🌳 Work Tree: Failed to checkout version:', error);
-      alert(`❌ Failed to checkout version ${version.metadata.version}: ${error.message}`);
+      // `error` is `unknown` in a catch; read a message without asserting a shape.
+      const message = error instanceof Error ? error.message : String(error);
+      alert(`❌ Failed to checkout version ${version.metadata.version}: ${message}`);
     }
   }, [onContentRestore, checkoutVersion, versionChain]);
   const [isCreatingVersion, setIsCreatingVersion] = useState(false);

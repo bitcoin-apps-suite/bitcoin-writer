@@ -27,6 +27,7 @@
  * - message: string
  */
 
+import type { BwriterStakeRow } from '@/types/bwriter-db';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedUser } from '@/lib/investors/auth';
 import { createClient } from '@/lib/supabase/server';
@@ -207,9 +208,9 @@ export async function GET(request: NextRequest) {
 
     const isDividendEligible = confirmedStakes && confirmedStakes.length > 0;
     const totalAmountStaked =
-      confirmedStakes?.reduce((sum, stake) => sum + stake.amount, 0) || 0;
+      confirmedStakes?.reduce((sum: number, stake: BwriterStakeRow) => sum + stake.amount, 0) || 0;
     const totalDividendsAccumulated =
-      confirmedStakes?.reduce((sum, stake) => sum + (stake.dividends_accumulated || 0), 0) ||
+      confirmedStakes?.reduce((sum: number, stake: BwriterStakeRow) => sum + (stake.dividends_accumulated || 0), 0) ||
       0;
 
     return NextResponse.json({

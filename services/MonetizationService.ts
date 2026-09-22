@@ -112,13 +112,13 @@ export class MonetizationService {
       const documentPackage: DocumentPackage = {
         version: '2.0',
         timestamp: Date.now(),
-        author: 'author' in document ? document.author || '' : document.metadata.author,
+        author: 'metadata' in document ? document.metadata.author : document.author || '',
         title: document.title,
         content: content,
         contentHash: CryptoJS.SHA256(content).toString(),
-        encrypted: 'encrypted' in document ? document.encrypted || false : document.metadata.encrypted,
-        wordCount: 'word_count' in document ? document.word_count || 0 : document.metadata.word_count,
-        characterCount: 'character_count' in document ? document.character_count || 0 : document.metadata.character_count
+        encrypted: 'metadata' in document ? document.metadata.encrypted : document.encrypted || false,
+        wordCount: 'metadata' in document ? document.metadata.word_count : document.word_count || 0,
+        characterCount: 'metadata' in document ? document.metadata.character_count : document.character_count || 0
       };
 
       // Configure NFT mint options
@@ -184,7 +184,7 @@ export class MonetizationService {
   ): Promise<FileSharesData> {
     console.log('[MonetizationService] Creating file shares for document:', document.title);
 
-    const author = 'author' in document ? document.author || '' : document.metadata.author;
+    const author = 'metadata' in document ? document.metadata.author : document.author || '';
 
     // Default share configuration
     const shareConfig = {
@@ -345,8 +345,8 @@ export class MonetizationService {
   ): Promise<NFTMetadata> {
     console.log('[MonetizationService] Using NFT fallback for development');
 
-    const author = 'author' in document ? document.author || '' : document.metadata.author;
-    const wordCount = 'word_count' in document ? document.word_count || 0 : document.metadata.word_count;
+    const author = 'metadata' in document ? document.metadata.author : document.author || '';
+    const wordCount = 'metadata' in document ? document.metadata.word_count : document.word_count || 0;
 
     const nftMetadata: NFTMetadata = {
       tokenId: document.id,
