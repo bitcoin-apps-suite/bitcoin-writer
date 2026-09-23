@@ -1,0 +1,790 @@
+openapi: 3.0.3
+info:
+  title: Bitcoin Writer API
+  version: 1.0.0
+  description: |
+    OpenAPI specification for HTTP endpoints implemented in this repository.
+    Includes OAuth flows, market/pricing endpoints, grants APIs, deployment APIs, and legal PDF endpoints.
+servers:
+  - url: https://bitcoin-writer.vercel.app
+    description: Production
+  - url: http://localhost:3000
+    description: Local development
+tags:
+  - name: Auth
+  - name: Prices
+  - name: Market
+  - name: Marketplace
+  - name: Deploy
+  - name: Grants
+  - name: PDFs
+paths:
+  /api/auth/github:
+    get:
+      tags: [Auth]
+      summary: Start GitHub OAuth flow
+      responses:
+        '302':
+          description: Redirect to GitHub authorization URL
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/auth/github/token:
+    post:
+      tags: [Auth]
+      summary: Exchange GitHub authorization code for access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  type: string
+      responses:
+        '200':
+          description: Token exchange successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: bearer
+                  scope:
+                    type: string
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '405':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorWithMessage'
+
+  /api/auth/callback/github:
+    get:
+      tags: [Auth]
+      summary: GitHub OAuth callback
+      parameters:
+        - in: query
+          name: code
+          schema:
+            type: string
+        - in: query
+          name: state
+          schema:
+            type: string
+        - in: query
+          name: error
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirects to UI with login result
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '405':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorWithMessage'
+
+  /api/auth/twitter:
+    get:
+      tags: [Auth]
+      summary: Start Twitter OAuth flow
+      responses:
+        '302':
+          description: Redirect to Twitter OAuth URL
+        '405':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorWithMessage'
+
+  /api/auth/callback/twitter:
+    get:
+      tags: [Auth]
+      summary: Twitter OAuth callback
+      parameters:
+        - in: query
+          name: code
+          schema:
+            type: string
+        - in: query
+          name: state
+          schema:
+            type: string
+        - in: query
+          name: error
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to app on success/failure
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '405':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorWithMessage'
+
+  /api/prices/bsv:
+    get:
+      tags: [Prices]
+      summary: Get BSV USD/BTC price snapshot
+      responses:
+        '200':
+          description: Current BSV pricing payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricePayload'
+
+  /api/prices/bwriter:
+    get:
+      tags: [Prices]
+      summary: Get BWRITER token price snapshot
+      responses:
+        '200':
+          description: Current BWRITER pricing payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricePayload'
+
+  /api/market/bwriter:
+    get:
+      tags: [Market]
+      summary: Get BWRITER market metadata
+      responses:
+        '200':
+          description: Market status and token metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      symbol: { type: string }
+                      deploymentTx: { type: string }
+                      totalSupply: { type: string }
+                      decimals: { type: integer }
+                      price: { type: number }
+                      volume24h: { type: number }
+                      change24h: { type: number }
+                      marketCap: { type: number }
+                      holders: { type: integer }
+                      transactions: { type: integer }
+                  timestamp:
+                    type: string
+                    format: date-time
+                  source:
+                    type: string
+        '500':
+          $ref: '#/components/responses/SuccessFalseError'
+
+  /api/exchange/orderbook/{symbol}:
+    get:
+      tags: [Market]
+      summary: Get order book by symbol
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order book for supported symbols
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  orderbook:
+                    type: object
+                    properties:
+                      symbol: { type: string }
+                      bids:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/OrderBookLevel'
+                      asks:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/OrderBookLevel'
+                      spread:
+                        type: number
+                      last_updated:
+                        type: string
+                        format: date-time
+                  market:
+                    type: string
+                  source:
+                    type: string
+        '400':
+          $ref: '#/components/responses/SuccessFalseError'
+        '404':
+          $ref: '#/components/responses/SuccessFalseError'
+        '500':
+          $ref: '#/components/responses/SuccessFalseError'
+
+  /api/balance/bwriter/{address}:
+    get:
+      tags: [Market]
+      summary: Get BWRITER balance by address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Address token balance
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  address: { type: string }
+                  balance: { type: number }
+                  token: { type: string }
+                  decimals: { type: integer }
+                  last_updated:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/SuccessFalseError'
+        '500':
+          $ref: '#/components/responses/SuccessFalseError'
+
+  /api/marketplace:
+    post:
+      tags: [Marketplace]
+      summary: Marketplace command endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [getNftDocuments]
+                authorType:
+                  type: string
+                  example: human
+      responses:
+        '200':
+          description: Action result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  documents:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+                  error:
+                    type: string
+        '500':
+          $ref: '#/components/responses/SuccessFalseError'
+
+  /api/deploy-bwriter:
+    get:
+      tags: [Deploy]
+      summary: Read deployment service status
+      parameters:
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum: [wallet_status, founder_balance]
+      responses:
+        '200':
+          description: Current deploy-related state
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    type: object
+                    additionalProperties: true
+                  error:
+                    type: string
+        '400':
+          $ref: '#/components/responses/SuccessFalseError'
+        '500':
+          $ref: '#/components/responses/SuccessFalseError'
+    post:
+      tags: [Deploy]
+      summary: Execute deployment service action
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [deploy_and_mint, check_status]
+                txId:
+                  type: string
+      responses:
+        '200':
+          description: Action result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                  data:
+                    type: object
+                    additionalProperties: true
+                  error:
+                    type: string
+        '400':
+          $ref: '#/components/responses/SuccessFalseError'
+        '500':
+          $ref: '#/components/responses/SuccessFalseError'
+
+  /api/grants/list:
+    get:
+      tags: [Grants]
+      summary: List grant applications (public fields)
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [developer, author, publisher]
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [pending, under_review, approved, rejected]
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Paginated grant list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  grants:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        type: { type: string }
+                        title: { type: string }
+                        description: { type: string }
+                        tokenReward: { type: number }
+                        submittedAt:
+                          type: string
+                          format: date-time
+                        status: { type: string }
+                  total: { type: integer }
+                  hasMore: { type: boolean }
+                  pagination:
+                    type: object
+                    additionalProperties: true
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/grants/update:
+    get:
+      tags: [Grants]
+      summary: Get grant details by ID
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Grant detail payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  grant:
+                    type: object
+                    additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '404':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+    put:
+      tags: [Grants]
+      summary: Update grant review status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, status]
+              properties:
+                id:
+                  type: string
+                status:
+                  type: string
+                  enum: [pending, under_review, approved, rejected]
+                reviewNotes:
+                  type: string
+                approvedTokenAmount:
+                  type: number
+      responses:
+        '200':
+          description: Update successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                  grant:
+                    type: object
+                    properties:
+                      id: { type: string }
+                      status: { type: string }
+                      updatedAt:
+                        type: string
+                        format: date-time
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '404':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/grants/developer/submit:
+    get:
+      tags: [Grants]
+      summary: Developer grant endpoint health
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+    post:
+      tags: [Grants]
+      summary: Submit developer grant application
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - projectTitle
+                - description
+                - category
+                - estimatedHours
+                - walletAddress
+                - technicalDetails
+                - timeline
+              properties:
+                projectTitle: { type: string }
+                description: { type: string }
+                category: { type: string }
+                estimatedHours: { type: integer }
+                tokenReward: { type: integer }
+                githubRepo: { type: string }
+                walletAddress: { type: string }
+                teamMembers: { type: string }
+                timeline: { type: string }
+                technicalDetails: { type: string }
+                previousWork: { type: string }
+                file_0:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          $ref: '#/components/responses/GrantSubmitSuccess'
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/grants/author/submit:
+    get:
+      tags: [Grants]
+      summary: Author grant endpoint health
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+    post:
+      tags: [Grants]
+      summary: Submit author grant application
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - projectTitle
+                - description
+                - contentType
+                - targetAudience
+                - estimatedLength
+                - walletAddress
+                - timeline
+                - writingSamples
+                - researchPlan
+              properties:
+                projectTitle: { type: string }
+                description: { type: string }
+                contentType: { type: string }
+                targetAudience: { type: string }
+                estimatedLength: { type: integer }
+                tokenReward: { type: integer }
+                walletAddress: { type: string }
+                timeline: { type: string }
+                writingSamples: { type: string }
+                previousWork: { type: string }
+                researchPlan: { type: string }
+                collaborators: { type: string }
+                file_0:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          $ref: '#/components/responses/GrantSubmitSuccess'
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/grants/publisher/submit:
+    get:
+      tags: [Grants]
+      summary: Publisher grant endpoint health
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+    post:
+      tags: [Grants]
+      summary: Submit publisher grant application
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - platformName
+                - description
+                - platformType
+                - targetAudience
+                - contentTypes
+                - walletAddress
+                - timeline
+                - technicalSpecs
+                - marketingPlan
+              properties:
+                platformName: { type: string }
+                description: { type: string }
+                platformType: { type: string }
+                targetAudience: { type: string }
+                contentTypes: { type: string }
+                expectedTraffic: { type: integer }
+                tokenReward: { type: integer }
+                walletAddress: { type: string }
+                timeline: { type: string }
+                technicalSpecs: { type: string }
+                marketingPlan: { type: string }
+                revenueModel: { type: string }
+                previousPlatforms: { type: string }
+                teamSize: { type: integer }
+                partnerships: { type: string }
+                file_0:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          $ref: '#/components/responses/GrantSubmitSuccess'
+        '400':
+          $ref: '#/components/responses/ErrorMessage'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/pdf/term-sheet:
+    get:
+      tags: [PDFs]
+      summary: Download term sheet PDF
+      responses:
+        '200':
+          $ref: '#/components/responses/PdfFile'
+        '404':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/pdf/subscription-agreement:
+    get:
+      tags: [PDFs]
+      summary: Download subscription agreement PDF
+      responses:
+        '200':
+          $ref: '#/components/responses/PdfFile'
+        '404':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/pdf/shareholder-agreement:
+    get:
+      tags: [PDFs]
+      summary: Download shareholder agreement PDF
+      responses:
+        '200':
+          $ref: '#/components/responses/PdfFile'
+        '404':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/pdf/kyc-compliance:
+    get:
+      tags: [PDFs]
+      summary: Download KYC compliance PDF
+      responses:
+        '200':
+          $ref: '#/components/responses/PdfFile'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+  /api/pdf/aml-compliance:
+    get:
+      tags: [PDFs]
+      summary: Download AML compliance PDF
+      responses:
+        '200':
+          $ref: '#/components/responses/PdfFile'
+        '500':
+          $ref: '#/components/responses/ErrorMessage'
+
+components:
+  schemas:
+    PricePayload:
+      type: object
+      properties:
+        symbol: { type: string }
+        name: { type: string }
+        price: { type: number }
+        price_usd: { type: number }
+        price_btc: { type: number }
+        change_24h: { type: number }
+        change_percent_24h: { type: number }
+        volume_24h: { type: number }
+        market_cap: { type: number }
+        last_updated:
+          type: string
+          format: date-time
+        source:
+          type: string
+    OrderBookLevel:
+      type: object
+      properties:
+        price: { type: number }
+        amount: { type: number }
+        total: { type: number }
+        timestamp: { type: integer }
+  responses:
+    PdfFile:
+      description: PDF document
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    ErrorMessage:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    ErrorWithMessage:
+      description: Error response with optional message
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: { type: string }
+              message: { type: string }
+    SuccessFalseError:
+      description: Success flag + error object
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              error:
+                type: string
+    GrantSubmitSuccess:
+      description: Grant submitted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success: { type: boolean }
+              message: { type: string }
+              applicationId: { type: string }
