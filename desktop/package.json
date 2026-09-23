@@ -1,7 +1,7 @@
 {
   "name": "bitcoin-writer-desktop",
   "productName": "Bitcoin Writer",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "description": "Bitcoin Writer desktop app: encrypted, git-style commits to Bitcoin SV",
   "author": "The Bitcoin Corporation LTD",
   "license": "SEE LICENSE IN ../LICENSE",
@@ -34,10 +34,22 @@
     "mac": {
       "category": "public.app-category.productivity",
       "target": [
-        "dmg",
-        "zip"
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
       ],
-      "icon": "build/icon.icns"
+      "icon": "build/icon.icns",
+      "hardenedRuntime": true,
+      "notarize": false
     },
     "win": {
       "target": [
