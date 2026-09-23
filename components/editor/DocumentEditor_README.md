@@ -31,3 +31,9 @@ This component is dynamically imported in `app/page.tsx` to render the main edit
 ## Notes
 - Due to the component's original size (>1300 lines), it has been refactored into sub-components for maintainability.
 - Ensure import paths are correct after reorganization to avoid build errors.
+
+## Writing Analytics
+- The standalone editor now records analytics in browser storage under `bitcoin_writer_analytics`.
+- Metrics track net new words typed, per-day session counts, seven-day history, and streaks.
+- The analytics dashboard is available at `/analytics` and includes a configurable daily word goal.
+- Session boundaries roll over after five minutes of inactivity to keep productivity data realistic.
