@@ -335,7 +335,6 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
         { label: 'HandCash SDK Docs', href: 'https://docs.handcash.io' },
         { divider: true },
         { label: 'GitHub Repository', href: 'https://github.com/bitcoin-apps-suite/bitcoin-writer' },
-        { label: '$BWRITER Token', action: () => window.location.href = '/token' },
         { label: 'API Documentation', action: () => setShowAPIDoc(true) },
         { divider: true },
         { label: 'Bitcoin Spreadsheet', href: 'https://github.com/bitcoin-apps-suite/bitcoin-spreadsheet' },
@@ -1174,60 +1173,6 @@ const CleanTaskbar: React.FC<TaskbarProps> = ({
           >
             <svg height="16" width="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-            </svg>
-          </a>
-
-          {/* Token Icon */}
-          <a
-            href="/token"
-            style={{
-              color: 'rgba(255, 255, 255, 0.8)',
-              textDecoration: 'none',
-              padding: '4px',
-              borderRadius: '4px',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              fontSize: '16px',
-              fontWeight: 'bold'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-              e.currentTarget.style.color = '#ffffff';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-            }}
-          >
-            ₿
-          </a>
-
-          {/* Investors Icon */}
-          <a
-            href="/investors"
-            style={{
-              color: 'rgba(255, 255, 255, 0.8)',
-              textDecoration: 'none',
-              padding: '4px',
-              borderRadius: '4px',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              fontSize: '12px',
-              fontWeight: '500'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-              e.currentTarget.style.color = '#ffffff';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-            }}
-          >
-            <svg height="16" width="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
             </svg>
           </a>
 

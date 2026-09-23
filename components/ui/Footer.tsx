@@ -59,7 +59,6 @@ const Footer: React.FC = () => {
                 Discord
               </a>
             </li>
-            <li><a href="/token">$BWRITER Token</a></li>
           </ul>
         </div>
 

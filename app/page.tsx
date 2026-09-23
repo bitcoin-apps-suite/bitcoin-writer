@@ -235,7 +235,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
           <span>© The Bitcoin Corporation LTD · Company No. 16735102</span>
           <nav aria-label="Footer">
             <Link href="/docs">Docs</Link>
-            <Link href="/bwriter/dashboard">$bWriter</Link>
             <a href="https://github.com/bitcoin-apps-suite/bitcoin-writer">GitHub</a>
           </nav>
         </div>

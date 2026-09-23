@@ -4,7 +4,6 @@ A writing platform built on Bitcoin SV. Create and edit documents, inscribe them
 on-chain, tokenise them, and earn via micropayments.
 
 **Live:** [bitcoin-writer.vercel.app](https://bitcoin-writer.vercel.app)
-**Token:** $bWriter (BSV-20, 1B supply)
 
 ## License
 
@@ -51,9 +50,8 @@ commit `.env.local`.
 ## Status
 
 Working today: document creation and editing, autosave, HandCash wallet auth,
-BSV inscription with version chains and content hashing, share-token creation,
-the $bWriter staking dashboard, PDF generation for legal agreements, and cron
-jobs for deposit confirmation and dividend distribution.
+BSV inscription with version chains and content hashing, and share-token
+creation for users' own documents.
 
 Known gaps: there is no test suite, `ignoreBuildErrors` is enabled because of
 type errors in legacy code, BRC-100 token deployment still needs proper

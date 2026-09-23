@@ -1,12 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/bwriter/confirm-deposits",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/cron/bwriter/distribute-dividends",
-      "schedule": "0 0 * * *"
-    }
-  ]
-}
+{}

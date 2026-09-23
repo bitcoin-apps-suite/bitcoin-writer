@@ -36,23 +36,6 @@ const ProofOfConceptBanner: React.FC = () => {
         </a>
 
         <span className="poc-banner-separator">•</span>
-
-        {/* $BWRITER Token Link */}
-        <a href="/token" className="poc-banner-link poc-banner-token">
-          ₿Writer
-        </a>
-
-        <span className="poc-banner-separator">•</span>
-
-        {/* Jobs Link */}
-        <a href="http://localhost:2010/contributions#tasks" className="poc-banner-link">
-          <svg height="14" width="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M13.13 22.19l-1.63-3.83c-.11-.27-.4-.46-.7-.46h-1.6c-.3 0-.59.19-.7.46l-1.63 3.83c-.14.33.05.71.4.71h5.46c.35 0 .54-.38.4-.71zM5.64 12.5l-1.39 3.84c-.14.33.05.71.4.71h2.95c.3 0 .59-.19.7-.46l1.63-3.83c.14-.33-.05-.71-.4-.71H5.64zM18.36 12.5h-3.89c-.35 0-.54.38-.4.71l1.63 3.83c.11.27.4.46.7.46h2.95c.35 0 .54-.38.4-.71l-1.39-3.84zM12 2L8.5 8.5h7L12 2z"/>
-          </svg>
-          Jobs
-        </a>
-        
-        <span className="poc-banner-separator">•</span>
         
         {/* GitHub Link */}
         <a

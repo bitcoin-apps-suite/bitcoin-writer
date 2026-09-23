@@ -1,6 +1,6 @@
 /**
  * WhatsOnChain helpers shared by server-side BSV code
- * (dividend transfers in lib/bsv-transfer.ts, document save chains in lib/writer/).
+ * (document save chains in lib/writer/).
  */
 
 export const WOC_API_BASE = 'https://api.whatsonchain.com/v1/bsv/main';

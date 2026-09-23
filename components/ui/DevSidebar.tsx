@@ -64,9 +64,6 @@ const DevSidebar: React.FC<DevSidebarProps> = ({ onCollapsedChange }) => {
     section?: string;
     external?: boolean;
   }> = [
-    // Token & Grants at top
-    { path: '/token', icon: DollarSign, label: '$BWRITER', badge: 'NEW' },
-    { path: '/grants', icon: Flower2, label: 'GRANTS' },
     { path: '/maip', icon: Users, label: 'MAIP', badge: 'EXPERIMENTAL' },
     
     // Authors Section
