@@ -21,6 +21,9 @@ import '../components/MinimalDock.css';
 import '../components/Footer.css';
 import dynamic from 'next/dynamic';
 
+import '../components/mobile/mobile-bwallet.css';
+import MobileShellInit from '../components/mobile/MobileShellInit';
+
 // Dynamic imports for components to avoid SSR issues
 const ProofOfConceptBanner = dynamic(() => import('../components/ProofOfConceptBanner'), { ssr: false });
 const Navigation = dynamic(() => import('../components/Navigation'), { ssr: false });
@@ -67,6 +70,7 @@ export default function RootLayout({
         <link rel="alternate icon" type="image/svg+xml" href="/logo.svg" />
       </head>
       <body>
+        <MobileShellInit />
         {isBareRoute ? children : (
         <div className="App">
           {/* Proof of Concept Banner - hide on /write page */}

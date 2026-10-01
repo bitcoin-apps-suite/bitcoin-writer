@@ -1,0 +1,110 @@
+/*
+ * Mobile / bWallet shell overrides (see MOBILE-BWALLET.md).
+ * Everything is scoped to html.bw-compact or html.bw-inwallet, which are only
+ * set on <=768px viewports or inside bWallet, so desktop is unchanged.
+ */
+
+/* 1. No Bitcoin OS dock, no proof-of-concept banner, no dev sidebar */
+html.bw-compact .poc-banner,
+html.bw-compact .poc-bar,
+html.bw-compact .minimal-dock,
+html.bw-compact .minimal-dock-container,
+html.bw-compact .bitcoin-dock,
+html.bw-compact .dev-sidebar {
+  display: none !important;
+}
+/* Same, without JS (first paint on phones) */
+@media (max-width: 768px) {
+  .poc-banner,
+  .poc-bar,
+  .minimal-dock,
+  .minimal-dock-container,
+  .bitcoin-dock,
+  .dev-sidebar {
+    display: none !important;
+  }
+}
+
+/* 2. Remove the space reserved for the banner / dock */
+html.bw-compact body {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+html.bw-compact .app-with-sidebar {
+  margin-left: 0 !important;
+}
+
+/* 3. No horizontal page scroll (the sheet grid scrolls inside itself) */
+html.bw-compact,
+html.bw-compact body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+html.bw-compact #root {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* 4. Safe areas (notch / home indicator) */
+html.bw-compact .App-header {
+  padding-top: max(8px, env(safe-area-inset-top));
+}
+
+/* 5. Touch targets >= 44px */
+html.bw-compact button,
+html.bw-compact [role='button'],
+html.bw-compact .nav-btn,
+html.bw-compact .connect-badge-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+html.bw-compact input,
+html.bw-compact select,
+html.bw-compact textarea {
+  font-size: 16px; /* stops iOS zoom-on-focus */
+}
+
+/* 6. Compact header: one title row + one Connect control */
+html.bw-compact .App-header {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+html.bw-compact .mobile-header-wrapper {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+html.bw-compact .desktop-header-wrapper,
+html.bw-compact .desktop-user-info {
+  display: none !important;
+}
+html.bw-compact .mobile-header-title h1 {
+  font-size: 18px !important;
+  margin: 0;
+  white-space: nowrap;
+}
+html.bw-compact .mobile-header-title img {
+  width: 28px !important;
+  height: 28px !important;
+  margin-right: 8px !important;
+}
+/* duplicate "Connect" block under the title */
+html.bw-compact .mobile-user-info {
+  display: none !important;
+}
+
+/* 7. Floating AI chat button sits above the bottom toolbar */
+html.bw-compact .claude-chat-button {
+  bottom: calc(150px + env(safe-area-inset-bottom)) !important; /* clears both bottom bars */
+  right: 12px !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+/* Banner offset: taskbars sat at top: 40px below the (now hidden) PoC bar */
+html.bw-compact .taskbar {
+  top: 0 !important;
+}
