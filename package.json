@@ -16,6 +16,7 @@
     "@bsv/spv-wallet-js-client": "^1.0.0-beta.36",
     "@bsv/wallet-toolbox": "^1.6.26",
     "@bsv/wallet-toolbox-client": "^1.6.26",
+    "@bwalletx/connect": "0.4.1",
     "@handcash/handcash-connect": "^0.8.11",
     "@handcash/handcash-sdk": "^0.0.4",
     "@react-oauth/google": "^0.12.2",
@@ -59,8 +60,8 @@
     "uuid": "^13.0.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/build-wallet-client.mjs && next dev",
+    "build": "node scripts/build-wallet-client.mjs && next build",
     "start": "next start",
     "next:build": "next build",
     "next:dev": "next dev",
@@ -68,7 +69,9 @@
     "api": "API_PORT=3001 node api/server.js",
     "kill:all": "for port in {3000..3010}; do lsof -ti:$port | xargs kill -9 2>/dev/null || true; done",
     "deploy-token": "ts-node scripts/deploy-bwriter-token.ts",
-    "deploy-token:founder": "ts-node scripts/deploy-bwriter-token.ts"
+    "deploy-token:founder": "ts-node scripts/deploy-bwriter-token.ts",
+    "build:wallet": "node scripts/build-wallet-client.mjs",
+    "test": "vitest run"
   },
   "eslintConfig": {
     "extends": [
@@ -94,6 +97,7 @@
     "autoprefixer": "^10.4.22",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
+    "esbuild": "^0.28.2",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.5.6",
@@ -101,6 +105,7 @@
     "stream-browserify": "^3.0.0",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
+    "vitest": "^5.0.5",
     "vm-browserify": "^1.1.2"
   },
   "packageManager": "pnpm@10.28.0"

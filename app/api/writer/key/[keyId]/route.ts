@@ -1,7 +1,7 @@
 /** GET — the signed-in user's AES-256-GCM content key for a document (derived from their HandCash keypair). */
 import { NextResponse } from 'next/server';
 import { Utils } from '@bsv/sdk';
-import { getSession } from '@/lib/writer/session';
+import { getSession, isWalletSession } from '@/lib/writer/session';
 import { getUserEncryptionKeys } from '@/lib/writer/handcash';
 import { documentKeys, KEY_ID_PATTERN } from '@/lib/writer/keys';
 import { errorResponse } from '@/lib/writer/route-helpers';
@@ -9,6 +9,9 @@ import { errorResponse } from '@/lib/writer/route-helpers';
 export async function GET(_request: Request, { params }: { params: Promise<{ keyId: string }> }) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Not signed in' }, { status: 401 });
+  if (isWalletSession(session)) {
+    return NextResponse.json({ error: 'This account signs and pays with its BRC-100 wallet; use /api/writer/wallet/*' }, { status: 409 });
+  }
   const { keyId } = await params;
   if (!KEY_ID_PATTERN.test(keyId)) return NextResponse.json({ error: 'Invalid keyId' }, { status: 400 });
   try {

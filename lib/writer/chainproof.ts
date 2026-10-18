@@ -36,7 +36,10 @@ export interface SaveFields {
   branch: string;
   ts: number;
   key_id: string;
-  iv: string;
+  /** AES-GCM iv (HandCash saves). Absent for wallet-encrypted (enc=brc2) saves. */
+  iv?: string;
+  /** Encryption scheme. Absent = AES-256-GCM with the HandCash-derived key (every save before bWalletX). 'brc2' = BRC-2 wallet encrypt, protocol [1,'bitcoin writer'], keyID = key_id. */
+  enc?: string;
   message: string;
 }
 
@@ -249,7 +252,8 @@ export function parseCommitTx(rawHex: string): ParsedCommit | null {
         branch: map.branch || 'main',
         ts: Number(map.ts),
         key_id: map.key_id,
-        iv: map.iv,
+        iv: map.iv || undefined,
+        enc: map.enc || undefined,
         message: map.message || '',
       };
       const parent = fields.version > 1 ? { txid: parentInput.sourceTXID!, vout: parentInput.sourceOutputIndex } : null;

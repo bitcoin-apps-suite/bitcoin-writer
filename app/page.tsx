@@ -9,6 +9,7 @@ import { getSession } from '@/lib/writer/session';
 import { CHAIN_DUST } from '@/lib/writer/chainproof';
 import { getBsvUsdRate, getFeeRate, SERVICE_MARKUP, serviceFee } from '@/lib/writer/pricing';
 import styles from './landing.module.css';
+import WalletSignIn from '@/components/WalletSignIn';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,8 +36,12 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
   if (params.authToken) redirect(`/api/auth/handcash/callback?authToken=${encodeURIComponent(params.authToken)}`);
 
   const [session, rate, feeRate] = await Promise.all([getSession(), getBsvUsdRate(), getFeeRate()]);
-  const primaryHref = session ? '/app' : '/api/auth/handcash/login';
-  const primaryLabel = session ? 'Open Bitcoin Writer' : 'Connect HandCash';
+  const handcashHref = '/api/auth/handcash/login';
+  const accountLabel = session
+    ? session.wallet === 'bwalletx' && session.identityKey
+      ? `bWalletX ${session.identityKey.slice(0, 6)}…${session.identityKey.slice(-4)}`
+      : `@${session.handle}`
+    : 'Sign in';
 
   return (
     <div className={styles.page}>
@@ -50,8 +55,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <a href="#how">How it works</a>
             <a href="#pricing">Pricing</a>
             <a href="#desktop">Desktop</a>
-            <a href={primaryHref} className={styles.navCta}>
-              {session ? `@${session.handle}` : 'Sign in'}
+            <a href={session ? '/app' : '#sign-in'} className={styles.navCta}>
+              {accountLabel}
             </a>
           </nav>
         </div>
@@ -72,8 +77,15 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
               Every save spends the one before it, so your history is an unbroken chain that only you control.
               You pay only for the bytes you write.
             </p>
-            <div className={styles.ctaRow}>
-              <a href={primaryHref} className={styles.btnPrimary}>{primaryLabel}</a>
+            <div className={styles.ctaRow} id="sign-in">
+              {session ? (
+                <a href="/app" className={styles.btnPrimary}>Open Bitcoin Writer</a>
+              ) : (
+                <>
+                  <WalletSignIn className={styles.btnPrimary} />
+                  <a href={handcashHref} className={styles.btnGhost}>Connect HandCash</a>
+                </>
+              )}
               <a href="#desktop" className={styles.btnGhost}>Download for desktop</a>
             </div>
 
@@ -126,13 +138,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <ol className={styles.steps}>
               <li>
                 <span className={styles.stepNum}>01</span>
-                <h3>Connect HandCash</h3>
-                <p>No accounts or passwords. Your HandCash wallet is your sign-in and pays for each save. Your document keys are derived from your HandCash account, so they work on any device.</p>
+                <h3>Connect your wallet</h3>
+                <p>No accounts or passwords. Connect bWalletX (or another BRC-100 wallet, or HandCash) and it is your sign-in and pays for each save. Your document keys are derived from your wallet, so they work on any device with that wallet.</p>
               </li>
               <li>
                 <span className={styles.stepNum}>02</span>
                 <h3>Write, then save to chain</h3>
-                <p>When a draft is worth keeping, save it with a short message. It&apos;s encrypted with AES-256 before it leaves your device, and only your HandCash account can open it.</p>
+                <p>When a draft is worth keeping, save it with a short message. It&apos;s encrypted before it leaves your device, and only the wallet that saved it can open it.</p>
               </li>
               <li>
                 <span className={styles.stepNum}>03</span>
@@ -190,7 +202,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
               <div>
                 <h2 className={styles.h2}>On your desktop, too</h2>
                 <p className={styles.lead}>
-                  The desktop app works the same way as the web app: same editor, same HandCash sign-in, same
+                  The desktop app works the same way as the web app: same editor, same wallet sign-in, same
                   encrypted saves to chain. It adds native menus, keyboard shortcuts and saving to local files.
                 </p>
               </div>
@@ -212,7 +224,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
               </div>
               <div>
                 <dt>What if Bitcoin Writer goes away?</dt>
-                <dd>Your saves stay on the BSV blockchain, and every key can be re-derived from your HandCash account and the document&apos;s key ID stored with each save.</dd>
+                <dd>Your saves stay on the BSV blockchain, and every key can be re-derived from your wallet (or HandCash account) and the document&apos;s key ID stored with each save.</dd>
               </div>
               <div>
                 <dt>Should I put anything sensitive in a save message?</dt>
@@ -225,7 +237,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
         <section className={styles.finalCta}>
           <div className={styles.container}>
             <h2 className={styles.h2}>Make your first save</h2>
-            <a href={primaryHref} className={styles.btnPrimary}>{primaryLabel}</a>
+            <a href={session ? '/app' : '#sign-in'} className={styles.btnPrimary}>{session ? 'Open Bitcoin Writer' : 'Sign in'}</a>
           </div>
         </section>
       </main>

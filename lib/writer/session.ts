@@ -1,5 +1,8 @@
 /**
- * Encrypted session cookie holding the HandCash auth token.
+ * Encrypted session cookie. Two kinds:
+ *   - HandCash: holds the HandCash auth token (server derives keys and pays through HandCash Connect).
+ *   - bWalletX / any BRC-100 wallet: holds only the wallet's identity key. The server never holds a
+ *     key for these users; the wallet encrypts, derives the chain key and signs every save itself.
  * AES-256-GCM sealed with SESSION_SECRET (falls back to a hash of HANDCASH_APP_SECRET).
  */
 
@@ -10,6 +13,11 @@ export const SESSION_COOKIE = 'bw_session';
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 
 export interface WriterSession {
+  /** 'bwalletx' for BRC-100 wallet sessions; absent for HandCash (every session before bWalletX). */
+  wallet?: 'bwalletx';
+  /** BRC-100 identity key (hex). The user id for wallet sessions. */
+  identityKey?: string;
+  /** HandCash auth token. Empty for wallet sessions. */
   authToken: string;
   handle: string;
   paymail?: string;
@@ -59,3 +67,5 @@ export const sessionCookieOptions = {
   path: '/',
   maxAge: MAX_AGE_SECONDS,
 };
+
+export const isWalletSession = (session: WriterSession) => session.wallet === 'bwalletx';
