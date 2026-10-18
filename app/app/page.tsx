@@ -1,5 +1,5 @@
 /**
- * Bitcoin Writer — the gated app. Requires a HandCash session.
+ * Bitcoin Writer — the gated app. Requires a session (HandCash or a BRC-100 wallet).
  */
 
 import { redirect } from 'next/navigation';

@@ -1,9 +1,13 @@
 /**
  * Bitcoin Writer — saves as a UTXO chain-of-proof (UTXO-CHAIN-SPEC.md).
  *
- * Every save spends the previous save's chain UTXO. Content is encrypted here with an AES-256-GCM key
- * derived from the user's HandCash keypair (per document `key_id`); the server builds the transaction,
- * HandCash pays for it, and the history graph (WorkTreeCanvas, rendered by /app) reads the chain index.
+ * Every save spends the previous save's chain UTXO. Two kinds of account:
+ *   - HandCash: content is encrypted here with an AES-256-GCM key derived from the user's HandCash
+ *     keypair (per document `key_id`); the server builds the transaction and HandCash pays for it.
+ *   - BRC-100 wallet (bWalletX first; window.bwWallet from writer-wallet.js): the wallet encrypts
+ *     (BRC-2, protocol [1,'bitcoin writer'], keyID = key_id), pays, and signs the chain input itself
+ *     in one createAction; the server only plans the outputs and indexes the result.
+ * The history graph (WorkTreeCanvas, rendered by /app) reads the chain index for both.
  *
  * Talks to the /app shell via postMessage:
  *   editor → shell: bw:state { doc, dirty }, bw:toggle-history, bw:committed
@@ -15,6 +19,14 @@
   const WOC_TX = 'https://whatsonchain.com/tx/';
 
   const state = { user: null, pricing: null };
+  const isWallet = () => !!(state.user && state.user.wallet === 'bwalletx');
+  const walletName = 'your wallet';
+  function bw() {
+    if (!window.bwWallet) throw new Error('The wallet connector did not load. Reload the page and try again.');
+    return window.bwWallet;
+  }
+  const shortKey = (k) => (k ? `${k.slice(0, 6)}…${k.slice(-4)}` : '');
+  const userLabel = () => (isWallet() ? `bWalletX ${shortKey(state.user.identityKey)}` : `@${state.user.handle}`);
 
   // ---------- utils ----------
 
@@ -138,6 +150,12 @@
   }
 
   async function encryptDoc(keyId, title, html) {
+    if (isWallet()) {
+      const plaintextHash = await sha256Hex(html);
+      const body = enc.encode(JSON.stringify({ v: 1, title, html, sha256: plaintextHash }));
+      const ciphertext = await bw().encrypt(state.user.identityKey, keyId, body);
+      return { enc: 'brc2', ciphertext: b64(ciphertext), bytes: ciphertext.length };
+    }
     const iv = crypto.getRandomValues(new Uint8Array(12));
     const plaintextHash = await sha256Hex(html);
     const body = enc.encode(JSON.stringify({ v: 1, title, html, sha256: plaintextHash }));
@@ -149,8 +167,16 @@
     let commit = await api(`/api/writer/commit/${txid}`);
     // A fork carries no content: open the save it split from.
     if (commit.type === 'chainproof_fork') commit = await api(`/api/writer/commit/${commit.parent.txid}`);
-    const key = await contentKey(commit.fields.key_id);
-    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(commit.fields.iv) }, key, unb64(commit.ciphertext));
+    let plain;
+    if (commit.fields.enc === 'brc2') {
+      if (!isWallet()) throw new Error('This document was saved with a BRC-100 wallet. Sign in with that wallet to open it.');
+      plain = await bw().decrypt(state.user.identityKey, commit.fields.key_id, unb64(commit.ciphertext));
+    } else {
+      // Every document saved before bWalletX: AES-GCM with the HandCash-derived key. Unchanged.
+      if (isWallet()) throw new Error('This document was saved with HandCash. Sign in with HandCash to open it.');
+      const key = await contentKey(commit.fields.key_id);
+      plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(commit.fields.iv) }, key, unb64(commit.ciphertext));
+    }
     const body = JSON.parse(dec.decode(plain));
     return { commit, title: body.title, html: body.html };
   }
@@ -251,6 +277,16 @@
     );
   }
 
+  const payLabel = (kind) => `Pay & ${kind} with ${isWallet() ? 'your wallet' : 'HandCash'}`;
+
+  /** Wallet path: one createAction (the wallet's approval sheet), then index the result. */
+  async function walletCommit(plan) {
+    if (!plan) throw new Error('No price yet — wait for the quote.');
+    const { txid, tx } = await bw().commit(state.user.identityKey, plan);
+    const result = await api('/api/writer/wallet/record', { method: 'POST', body: JSON.stringify({ txid, tx }) });
+    return { ...result, quote: plan.quote };
+  }
+
   // ---------- save ----------
 
   async function openSaveModal() {
@@ -284,12 +320,12 @@
       </label>` : ''}
       <dl class="bw-facts">
         <div><dt>Spends</dt><dd>${isGenesis ? 'Nothing — this save is the genesis' : `<a href="${WOC_TX + chain.head.txid}" target="_blank" rel="noopener">${shortTx(chain.head.txid)}:${chain.head.vout}</a> (${escapeHtml(chain.branch)})`}</dd></div>
-        <div><dt>Encryption</dt><dd>AES-256-GCM · key derived from @${escapeHtml(state.user.handle)}</dd></div>
+        <div><dt>Encryption</dt><dd>${isWallet() ? `BRC-2 · key derived in ${walletName} (${escapeHtml(shortKey(state.user.identityKey))})` : `AES-256-GCM · key derived from @${escapeHtml(state.user.handle)}`}</dd></div>
       </dl>
       <div id="bwQuote"><p class="bw-muted">Encrypting and pricing…</p></div>
       <p class="bw-error" id="bwError" hidden></p>`,
       `<button class="bw-btn" data-close>Cancel</button>
-       <button class="bw-btn bw-btn-primary" id="bwConfirm" disabled>Pay &amp; save with HandCash</button>`
+       <button class="bw-btn bw-btn-primary" id="bwConfirm" disabled>${payLabel('save')}</button>`
     );
     $('#bwMessage', m).focus();
 
@@ -305,6 +341,8 @@
         keyId,
         prev: chain.head || null,
         iv: encrypted.iv,
+        enc: encrypted.enc,
+        chainPublicKey: isWallet() ? await bw().chainPublicKey(state.user.identityKey, keyId) : undefined,
         ciphertext: encrypted.ciphertext,
         wordCount: text.trim() ? text.trim().split(/\s+/).length : 0,
         charCount: text.length,
@@ -331,12 +369,24 @@
       const seq = ++quoteSeq;
       button.disabled = true;
       try {
-        const { quote, fundId } = await api('/api/writer/save', {
-          method: 'POST',
-          body: JSON.stringify({ ...payload, html: undefined, ...fields(), mode: 'quote', fundId: payload.fundId }),
-        });
-        if (seq !== quoteSeq) return;
-        payload.fundId = fundId;
+        let quote;
+        if (isWallet()) {
+          const { plan } = await api('/api/writer/wallet/prepare', {
+            method: 'POST',
+            body: JSON.stringify({ ...payload, html: undefined, ...fields(), kind: 'save' }),
+          });
+          if (seq !== quoteSeq) return;
+          payload.plan = plan;
+          quote = plan.quote;
+        } else {
+          const res = await api('/api/writer/save', {
+            method: 'POST',
+            body: JSON.stringify({ ...payload, html: undefined, ...fields(), mode: 'quote', fundId: payload.fundId }),
+          });
+          if (seq !== quoteSeq) return;
+          payload.fundId = res.fundId;
+          quote = res.quote;
+        }
         $('#bwQuote', m).innerHTML = priceRows(quote);
         errorEl.hidden = true;
         button.disabled = false;
@@ -358,13 +408,15 @@
     const confirm = async () => {
       if (button.disabled) return;
       button.disabled = true;
-      button.textContent = 'Waiting for HandCash…';
+      button.textContent = isWallet() ? 'Approve in your wallet…' : 'Waiting for HandCash…';
       errorEl.hidden = true;
       try {
-        const result = await api('/api/writer/save', {
-          method: 'POST',
-          body: JSON.stringify({ ...payload, html: undefined, ...fields(), mode: 'commit' }),
-        });
+        const result = isWallet()
+          ? await walletCommit(payload.plan)
+          : await api('/api/writer/save', {
+              method: 'POST',
+              body: JSON.stringify({ ...payload, html: undefined, ...fields(), mode: 'commit' }),
+            });
         const c = result.commit;
         doc.chain = {
           keyId,
@@ -381,7 +433,7 @@
         toast(
           result.broadcastError
             ? `Paid and signed, but broadcast is pending: ${escapeHtml(result.broadcastError)}. It will be retried from History.`
-            : `Saved v${c.version} on <em>${escapeHtml(c.branch)}</em> · <a href="${WOC_TX + c.txid}" target="_blank" rel="noopener">${shortTx(c.txid)}</a> · ${formatSats(result.quote.totalSats)}`,
+            : `Saved v${c.version} on <em>${escapeHtml(c.branch)}</em> · <a href="${WOC_TX + c.txid}" target="_blank" rel="noopener">${shortTx(c.txid)}</a>${result.quote ? ` · ${formatSats(result.quote.totalSats)}` : ''}`,
           result.broadcastError ? 'warn' : 'ok',
           8000
         );
@@ -391,7 +443,7 @@
         errorEl.hidden = false;
         errorEl.innerHTML = paymentError(error);
         button.disabled = false;
-        button.textContent = 'Pay & save with HandCash';
+        button.textContent = payLabel('save');
       }
     };
     button.addEventListener('click', confirm);
@@ -421,7 +473,7 @@
       <p class="bw-error" id="bwError" hidden></p>`,
       `<button class="bw-btn" data-close>Cancel</button>
        <button class="bw-btn" id="bwPrice">Get price</button>
-       <button class="bw-btn bw-btn-primary" id="bwConfirm" disabled>Pay &amp; fork with HandCash</button>`
+       <button class="bw-btn bw-btn-primary" id="bwConfirm" disabled>${payLabel('fork')}</button>`
     );
     $('#bwBranchB', m).focus();
     const errorEl = $('#bwError', m);
@@ -433,13 +485,22 @@
       reason: $('#bwReason', m).value.trim(),
     });
     let fundId = null;
+    let plan = null;
 
     $('#bwPrice', m).addEventListener('click', async () => {
       errorEl.hidden = true;
       try {
-        const res = await api('/api/writer/fork', { method: 'POST', body: JSON.stringify({ ...body(), mode: 'quote' }) });
-        fundId = res.fundId;
-        $('#bwQuote', m).innerHTML = priceRows(res.quote);
+        let quote;
+        if (isWallet()) {
+          const chainPublicKey = await bw().chainPublicKey(state.user.identityKey, chain.keyId);
+          plan = (await api('/api/writer/wallet/prepare', { method: 'POST', body: JSON.stringify({ ...body(), kind: 'fork', chainPublicKey }) })).plan;
+          quote = plan.quote;
+        } else {
+          const res = await api('/api/writer/fork', { method: 'POST', body: JSON.stringify({ ...body(), mode: 'quote' }) });
+          fundId = res.fundId;
+          quote = res.quote;
+        }
+        $('#bwQuote', m).innerHTML = priceRows(quote);
         $('#bwConfirm', m).disabled = false;
       } catch (error) {
         errorEl.hidden = false;
@@ -451,10 +512,12 @@
     $('#bwConfirm', m).addEventListener('click', async () => {
       const button = $('#bwConfirm', m);
       button.disabled = true;
-      button.textContent = 'Waiting for HandCash…';
+      button.textContent = isWallet() ? 'Approve in your wallet…' : 'Waiting for HandCash…';
       try {
         const { branchA, branchB } = body();
-        const result = await api('/api/writer/fork', { method: 'POST', body: JSON.stringify({ ...body(), mode: 'commit', fundId }) });
+        const result = isWallet()
+          ? await walletCommit(plan)
+          : await api('/api/writer/fork', { method: 'POST', body: JSON.stringify({ ...body(), mode: 'commit', fundId }) });
         writeMirror(result.commit);
         // Keep editing on the new branch; the other branch's tip is vout 0.
         if (chain.head && chain.head.txid === tip.txid && chain.head.vout === tip.vout) {
@@ -469,7 +532,7 @@
         errorEl.hidden = false;
         errorEl.innerHTML = paymentError(error);
         button.disabled = false;
-        button.textContent = 'Pay & fork with HandCash';
+        button.textContent = payLabel('fork');
       }
     });
   }
@@ -545,7 +608,7 @@
       user.className = 'bw-user';
       user.innerHTML = `
         ${state.user.avatarUrl ? `<img src="${escapeHtml(state.user.avatarUrl)}" alt="" width="18" height="18" />` : ''}
-        <span>@${escapeHtml(state.user.handle)}</span>
+        <span title="${escapeHtml(state.user.identityKey || '')}">${escapeHtml(userLabel())}</span>
         <form method="post" action="/api/auth/logout" target="_top"><button type="submit">Sign out</button></form>`;
       menuBar.appendChild(user);
     }

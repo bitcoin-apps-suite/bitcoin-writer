@@ -74,3 +74,15 @@ export async function fetchFeeRateSatPerByte(fallback = 0.05): Promise<number> {
   }
   return fallback;
 }
+
+/** BEEF (hex) for a transaction, from WhatsOnChain. Null when unavailable (e.g. not indexed yet). */
+export async function fetchBeefHex(txid: string): Promise<string | null> {
+  try {
+    const response = await fetch(`${WOC_API_BASE}/tx/${txid}/beef`, { headers: wocHeaders({ Accept: 'text/plain' }) });
+    if (!response.ok) return null;
+    const text = (await response.text()).trim().replace(/^"|"$/g, '');
+    return /^[0-9a-fA-F]+$/.test(text) ? text.toLowerCase() : null;
+  } catch {
+    return null;
+  }
+}

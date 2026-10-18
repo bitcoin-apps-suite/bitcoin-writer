@@ -3,7 +3,7 @@
  * Body: { mode: 'quote' | 'commit', keyId, prev: {txid,vout} | null, branch?, message, iv, ciphertext, wordCount, charCount, fundId? }
  */
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@/lib/writer/session';
+import { getSession, isWalletSession } from '@/lib/writer/session';
 import { getHandCash, getUserEncryptionKeys } from '@/lib/writer/handcash';
 import { commitPrepared, prepareSave } from '@/lib/writer/chain';
 import { errorResponse } from '@/lib/writer/route-helpers';
@@ -11,6 +11,9 @@ import { errorResponse } from '@/lib/writer/route-helpers';
 export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Not signed in' }, { status: 401 });
+  if (isWalletSession(session)) {
+    return NextResponse.json({ error: 'This account signs and pays with its BRC-100 wallet; use /api/writer/wallet/*' }, { status: 409 });
+  }
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
 
