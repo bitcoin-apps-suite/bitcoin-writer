@@ -95,3 +95,8 @@ ROADMAP*.md
 BUSINESS*.md
 REVENUE*.md
 .env*.local
+
+# Local agent settings and env files never go in git
+.claude/settings.local.json
+.env*
+!.env.example
